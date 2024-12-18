@@ -111,6 +111,7 @@ GEM
       net-http (>= 0.5.0)
     fcntl (1.2.0)
     ffi (1.17.0-x64-mingw-ucrt)
+    ffi (1.17.0-x86_64-linux-gnu)
     fiddle (1.1.6)
     fileutils (1.7.3)
     find (0.2.0)
@@ -165,6 +166,8 @@ GEM
       net-protocol
     nkf (0.2.0)
     nokogiri (1.17.2-x64-mingw-ucrt)
+      racc (~> 1.4)
+    nokogiri (1.17.2-x86_64-linux)
       racc (~> 1.4)
     observer (0.1.2)
     octokit (9.2.0)
@@ -287,7 +290,7 @@ GEM
     time (0.4.1)
       date
     timeout (0.4.2)
-    tmpdir (0.3.0)
+    tmpdir (0.3.1)
       fileutils
     tsort (0.2.0)
     typeprof (0.30.0)
@@ -318,6 +321,7 @@ GEM
 
 PLATFORMS
   x64-mingw-ucrt
+  x86_64-linux
 
 DEPENDENCIES
   abbrev
