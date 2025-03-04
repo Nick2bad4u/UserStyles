@@ -1,12 +1,13 @@
 /* ==UserStyle==
 @name           sportsurge.net - Black Mode [Customizable]
 @namespace      typpi.online
-@version        1.0.1
+@version        1.0.2
 @description    Dark Theme for SportSurge (sportsurge.net) with custom colors
 @author         Nick2bad4u
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@updateURL			https://raw.githubusercontent.com/Nick2bad4u/UserStyles/main/SportSurge-BlackMode.user.css
 
 @var color bs-body-color "Body Color" #212529
 @var color bs-body-bg-dark "Body Background Dark" #000000
