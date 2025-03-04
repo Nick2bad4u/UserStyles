@@ -18,8 +18,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: List files in the repository
         run: |
@@ -33,7 +38,7 @@ jobs:
           fi
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
         with:
           python-version: "3.x"
 
@@ -52,7 +57,7 @@ jobs:
           # For example: pip install requests
 
       - name: Run Generate Repo File List Action
-        uses: nick2bad4u/generate-repo-file-list@main
+        uses: nick2bad4u/generate-repo-file-list@6de1b736f4684d3a8a4260f0bc3aea4ce1493f3f # main
         with:
           log-level: "INFO"
           directory: "."
@@ -85,7 +90,7 @@ jobs:
           root-margin-mobile: "0px 0px 100px 0px"
 
       - name: Update README.md
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
             const fs = require('fs');
@@ -152,7 +157,7 @@ jobs:
             }
 
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5.1.0
         with:
           commit_message: "Update file list in README.md automatically with GitHub Action"
           file_pattern: "README.md file_list.md file_list.html"
