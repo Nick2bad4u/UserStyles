@@ -1,13 +1,12 @@
 /* ==UserStyle==
-@name           sportsurge.net - Black Mode [Customizable]
+@name           SportSurge.net - Black Mode [Customizable]
 @namespace      typpi.online
-@version        1.0.2
-@description    Dark Theme for SportSurge (sportsurge.net) with custom colors
+@version        1.1.0
+@description    Dark Theme for SportSurge (sportsurge.net + others) with custom colors
 @author         Nick2bad4u
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
-@updateURL			https://raw.githubusercontent.com/Nick2bad4u/UserStyles/main/SportSurge-BlackMode.user.css
 
 @var color bs-body-color "Body Color" #212529
 @var color bs-body-bg-dark "Body Background Dark" #000000
@@ -52,7 +51,7 @@
 @var color bs-gradient-start "Gradient Start" #ffffff26
 @var color bs-gradient-end "Gradient End" #ffffff00
 ==/UserStyle== */
-@-moz-document domain("sportsurge.net") {
+@-moz-document domain("sportsurge.net"), domain("sportsurge.club"), domain("sportsurge.to"), regexp(".*sportsurge.*") {
 	:root {
 		--bs-body-color: var(bs-body-color);
 		--bs-body-bg-dark: var(bs-body-bg-dark);
