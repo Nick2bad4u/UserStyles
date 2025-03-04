@@ -102,6 +102,7 @@
 		"@types/vscode": "^1.97.0",
 		"@typescript-eslint/eslint-plugin": "^8.24.0",
 		"@typescript-eslint/parser": "^8.24.0",
+		"canvas": "^3.1.0",
 		"chai": "^5.1.2",
 		"eslint": "^9.19.0",
 		"eslint-plugin-prettier": "^5.2.3",
