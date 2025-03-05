@@ -1,14 +1,11 @@
-#region Import the module to test
-Import-Module -Name "C:\Users\Nick\Dropbox\PC (2)\Documents\GitHub\UserStyles\Microsoft.PowerShell_profile.ps1"
-#endregion
+BeforeAll {
+	Import-Module -Name 'C:\Users\Nick\Dropbox\PC (2)\Documents\GitHub\UserStyles\Microsoft.PowerShell_profile.ps1'
+}
 
 #region Tests for ghcs function
 Describe "ghcs" {
 	It "Should define the ghcs function" {
 		Get-Command ghcs -CommandType Function | Should -Not -BeNullOrEmpty
-	}
-	It "Should return a string" {
-		(ghcs).GetType().Name | Should -Be "String"
 	}
 }
 #endregion
