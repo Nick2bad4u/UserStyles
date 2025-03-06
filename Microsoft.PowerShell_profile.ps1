@@ -179,6 +179,7 @@ function ghcs {
 
                 # Restore GH_* environment variables to their original value
                 $Env:GH_DEBUG = $envGhDebug
+								$Env:GH_HOST = $envGhHost
         }
 }
 

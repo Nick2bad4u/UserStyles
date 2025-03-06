@@ -45,7 +45,7 @@ Describe "Get-IPAddress" {
 		Get-Command Get-IPAddress -CommandType Function | Should -Not -BeNullOrEmpty
 	}
 	It "Should return an IP Address" {
-		 (Get-IPAddress) -match  '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$'
+		(Get-IPAddress) -match '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$' | Should -Be $true
 	}
 }
 #endregion
@@ -350,9 +350,9 @@ Describe "editprofile" {
 #endregion
 
 #region Tests for Notepad++ function
-Describe "Notepad++" {
-	It "Should define the Notepad++ function" {
-		Get-Command "Notepad++" -CommandType Function | Should -Not -BeNullOrEmpty
+Describe "NotepadPlusPlus" {
+	It "Should define the NotepadPlusPlus function" {
+		Get-Command NotepadPlusPlus -CommandType Function | Should -Not -BeNullOrEmpty
 	}
 }
 #endregion
