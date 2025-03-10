@@ -39,373 +39,373 @@ document.addEventListener("DOMContentLoaded", function() {
                     let file_list_html = '';
                     switch(contentId) {
                         case 'file-list-1':
-                            file_list_html = `<ul><h2 style="color: #3af48f;">Repo Root</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.black" style="color: #9e961d;">.black</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.copilot-instructions.md" style="color: #85872e;">.copilot-instructions.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.editorconfig" style="color: #9fb737;">.editorconfig</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.gitignore" style="color: #23f306;">.gitignore</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.gitleaksignore" style="color: #3dda05;">.gitleaksignore</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.hintrc" style="color: #d497b3;">.hintrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.jsbeautifyrc" style="color: #37cabc;">.jsbeautifyrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.jscsrc" style="color: #65ce54;">.jscsrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.npmrc" style="color: #cca1e5;">.npmrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.pre-commit-config.yaml" style="color: #6a964b;">.pre-commit-config.yaml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.pre-commit-hooks.yaml" style="color: #b88674;">.pre-commit-hooks.yaml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierignore" style="color: #fc71b8;">.prettierignore</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc" style="color: #7de439;">.prettierrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc.noplugins" style="color: #c9cf5e;">.prettierrc.noplugins</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc.temp" style="color: #42d85b;">.prettierrc.temp</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.stylelintrc.json" style="color: #88bbd0;">.stylelintrc.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vale.ini" style="color: #afd660;">.vale.ini</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CNAME" style="color: #e2ae54;">CNAME</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CODE_OF_CONDUCT.md" style="color: #f4b02d;">CODE_OF_CONDUCT.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CONTRIBUTING.md" style="color: #61d55a;">CONTRIBUTING.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile" style="color: #86d8d5;">Gemfile</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile.lock" style="color: #29b21f;">Gemfile.lock</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.test.cjs" style="color: #fc76db;">KudoAll-Strava-Garmin.user.test.cjs</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/LICENSE" style="color: #37d8d9;">LICENSE</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.Tests.ps1" style="color: #80c517;">Microsoft.PowerShell_profile.Tests.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.ps1" style="color: #52e058;">Microsoft.PowerShell_profile.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.VSCode_profile.ps1" style="color: #af83b0;">Microsoft.VSCode_profile.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures.html" style="color: #bbc780;">OldRedditNewProfilePictures.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PrettierFormatExcludePreprocessor.ps1" style="color: #53a7b2;">PrettierFormatExcludePreprocessor.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Profile.ps1" style="color: #d895a2;">Profile.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/README.md" style="color: #ab7bfe;">README.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SECURITY.md" style="color: #f981fd;">SECURITY.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-local.html" style="color: #d4846a;">beautify-local.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.html" style="color: #f49736;">beautify.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/convertHexToRgba.html" style="color: #9e92f8;">convertHexToRgba.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/cyclingCalculators.html" style="color: #36e83e;">cyclingCalculators.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/deno.json" style="color: #89b041;">deno.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/deno.lock" style="color: #b6c7d8;">deno.lock</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/eslint.config.mjs" style="color: #d79284;">eslint.config.mjs</a></li></ul>`;
+                            file_list_html = `<ul><h2 style="color: #4aee9f;">Repo Root</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.black" style="color: #7fd012;">.black</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.copilot-instructions.md" style="color: #be926d;">.copilot-instructions.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.editorconfig" style="color: #80c6b5;">.editorconfig</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.gitignore" style="color: #24f83c;">.gitignore</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.gitleaksignore" style="color: #79d4b3;">.gitleaksignore</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.hintrc" style="color: #94a676;">.hintrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.jsbeautifyrc" style="color: #e3abbd;">.jsbeautifyrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.jscsrc" style="color: #abb255;">.jscsrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.npmrc" style="color: #52f14c;">.npmrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.pre-commit-config.yaml" style="color: #f8b2ca;">.pre-commit-config.yaml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.pre-commit-hooks.yaml" style="color: #8ad19b;">.pre-commit-hooks.yaml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierignore" style="color: #c1926f;">.prettierignore</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc" style="color: #50c0c2;">.prettierrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc.noplugins" style="color: #f98026;">.prettierrc.noplugins</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc.temp" style="color: #c093db;">.prettierrc.temp</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.stylelintrc.json" style="color: #66d81c;">.stylelintrc.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vale.ini" style="color: #58f024;">.vale.ini</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CNAME" style="color: #a7a476;">CNAME</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CODE_OF_CONDUCT.md" style="color: #cc7375;">CODE_OF_CONDUCT.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CONTRIBUTING.md" style="color: #66d6cb;">CONTRIBUTING.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile" style="color: #cfb87f;">Gemfile</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile.lock" style="color: #b97598;">Gemfile.lock</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.test.cjs" style="color: #85ad1e;">KudoAll-Strava-Garmin.user.test.cjs</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/LICENSE" style="color: #b169d8;">LICENSE</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.Tests.ps1" style="color: #77b3b7;">Microsoft.PowerShell_profile.Tests.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.ps1" style="color: #f158ea;">Microsoft.PowerShell_profile.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.VSCode_profile.ps1" style="color: #8dc2f5;">Microsoft.VSCode_profile.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures.html" style="color: #de8f84;">OldRedditNewProfilePictures.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PrettierFormatExcludePreprocessor.ps1" style="color: #ba73d9;">PrettierFormatExcludePreprocessor.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Profile.ps1" style="color: #d772ec;">Profile.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/README.md" style="color: #d1cc85;">README.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SECURITY.md" style="color: #db97b2;">SECURITY.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-local.html" style="color: #5cccdd;">beautify-local.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.html" style="color: #e27c32;">beautify.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/convertHexToRgba.html" style="color: #57c6ab;">convertHexToRgba.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/cyclingCalculators.html" style="color: #5be533;">cyclingCalculators.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/deno.json" style="color: #859602;">deno.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/deno.lock" style="color: #44adaa;">deno.lock</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/eslint.config.mjs" style="color: #5b97e1;">eslint.config.mjs</a></li></ul>`;
                             break;
                         case 'file-list-2':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.ico" style="color: #60cd17;">favicon.ico</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.png" style="color: #5aa16f;">favicon.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.html" style="color: #ac9a68;">file_list.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.md" style="color: #d68c9a;">file_list.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/generate_gemfile.rb" style="color: #fbba58;">generate_gemfile.rb</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jsconfig.json" style="color: #5ea6fe;">jsconfig.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package-lock.json" style="color: #9ca27e;">package-lock.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package.json" style="color: #4e9d05;">package.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/requirements.txt" style="color: #6ae76d;">requirements.txt</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/robots.txt" style="color: #48eccb;">robots.txt</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/sitemap.xml" style="color: #6a95da;">sitemap.xml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/useragent-switcher-preferences.json" style="color: #fdad06;">useragent-switcher-preferences.json</a></li>
-<h2 style="color: #cd959f;">Userstyles</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/17track.net-DarkMode.user.css" style="color: #62af15;">17track.net-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ActivityFixDarkMode.user.css" style="color: #abaf49;">ActivityFixDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Archive.orgNightTheme%28Updated%29.user.css" style="color: #2eb316;">Archive.orgNightTheme(Updated).user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Benjdd-dark.user.css" style="color: #5e9e0c;">Benjdd-dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CFG.tf-DarkMode.user.css" style="color: #47de91;">CFG.tf-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CSSGradient-DarkMode.user.css" style="color: #a27e5b;">CSSGradient-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CSSPortal-Dark.user.css" style="color: #ecc017;">CSSPortal-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Copilot-Microsoft-Blackmode.user.css" style="color: #5be733;">Copilot-Microsoft-Blackmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CrystalMathLabs-BlackMode.user.css" style="color: #e19d3a;">CrystalMathLabs-BlackMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DCRainMaker-DarkMode.user.css" style="color: #80bd0d;">DCRainMaker-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Dearrow-RemoveDearrowButton.user.css" style="color: #34e228;">Dearrow-RemoveDearrowButton.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DeepSeek-DarkMode.user.css" style="color: #978f3f;">DeepSeek-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ESPN-DarkMode.user.css" style="color: #a6a9cc;">ESPN-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FandomDark.user.css" style="color: #a5971d;">FandomDark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Favero-DarkMode.user.css" style="color: #b79cf0;">Favero-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Fedex.com-DarkMode.user.css" style="color: #a28a02;">Fedex.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FitFileViewer-DarkTheme.user.css" style="color: #eaa384;">FitFileViewer-DarkTheme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FiveServer-DarkMode.user.css" style="color: #f56672;">FiveServer-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GOTOES.org-DarkMode.user.css" style="color: #5dc9f5;">GOTOES.org-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GTBikeV-DarkMode.user.css" style="color: #ed66f6;">GTBikeV-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminBadges-DarkMode.user.css" style="color: #50ead8;">GarminBadges-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminConnectDark.user.css" style="color: #d1929d;">GarminConnectDark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminRumors-DarkMode.user.css" style="color: #36f31a;">GarminRumors-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GreasyForkDark.user.css" style="color: #92c17a;">GreasyForkDark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gyazo-DarkMode.user.css" style="color: #98a636;">Gyazo-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Black.user.css" style="color: #46b7b1;">Kiwifarms-Black.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Halloween.user.css" style="color: #66ddfe;">Kiwifarms-Halloween.user.css</a></li></ul>`;
+                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.ico" style="color: #ae99c4;">favicon.ico</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.png" style="color: #53f418;">favicon.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.html" style="color: #77beba;">file_list.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.md" style="color: #dc9cf0;">file_list.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/generate_gemfile.rb" style="color: #aec76e;">generate_gemfile.rb</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jsconfig.json" style="color: #82d0f0;">jsconfig.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package-lock.json" style="color: #987abc;">package-lock.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package.json" style="color: #69e353;">package.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/requirements.txt" style="color: #ef77fa;">requirements.txt</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/robots.txt" style="color: #e68258;">robots.txt</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/sitemap.xml" style="color: #3fe783;">sitemap.xml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/useragent-switcher-preferences.json" style="color: #39ab3e;">useragent-switcher-preferences.json</a></li>
+<h2 style="color: #718ca7;">Userstyles</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/17track.net-DarkMode.user.css" style="color: #e39101;">17track.net-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ActivityFixDarkMode.user.css" style="color: #989da3;">ActivityFixDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Archive.orgNightTheme%28Updated%29.user.css" style="color: #81b427;">Archive.orgNightTheme(Updated).user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Benjdd-dark.user.css" style="color: #d1ad02;">Benjdd-dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CFG.tf-DarkMode.user.css" style="color: #ff8eb0;">CFG.tf-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CSSGradient-DarkMode.user.css" style="color: #56f53c;">CSSGradient-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CSSPortal-Dark.user.css" style="color: #80d41d;">CSSPortal-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Copilot-Microsoft-Blackmode.user.css" style="color: #9e94e7;">Copilot-Microsoft-Blackmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CrystalMathLabs-BlackMode.user.css" style="color: #7b8aaa;">CrystalMathLabs-BlackMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DCRainMaker-DarkMode.user.css" style="color: #bd94b9;">DCRainMaker-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Dearrow-RemoveDearrowButton.user.css" style="color: #5ac1e1;">Dearrow-RemoveDearrowButton.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DeepSeek-DarkMode.user.css" style="color: #64c2fa;">DeepSeek-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ESPN-DarkMode.user.css" style="color: #cfc2bf;">ESPN-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FandomDark.user.css" style="color: #5daac4;">FandomDark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Favero-DarkMode.user.css" style="color: #39e488;">Favero-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Fedex.com-DarkMode.user.css" style="color: #ae8a47;">Fedex.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FitFileViewer-DarkTheme.user.css" style="color: #b5d029;">FitFileViewer-DarkTheme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FiveServer-DarkMode.user.css" style="color: #c2bf12;">FiveServer-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GOTOES.org-DarkMode.user.css" style="color: #b48193;">GOTOES.org-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GTBikeV-DarkMode.user.css" style="color: #df729e;">GTBikeV-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminBadges-DarkMode.user.css" style="color: #f26dec;">GarminBadges-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminConnectDark.user.css" style="color: #e5a7aa;">GarminConnectDark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminRumors-DarkMode.user.css" style="color: #7ba921;">GarminRumors-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GreasyForkDark.user.css" style="color: #cd7ac3;">GreasyForkDark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gyazo-DarkMode.user.css" style="color: #c9a28a;">Gyazo-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Black.user.css" style="color: #e5c362;">Kiwifarms-Black.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Halloween.user.css" style="color: #ca74a7;">Kiwifarms-Halloween.user.css</a></li></ul>`;
                             break;
                         case 'file-list-3':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Vaporwave.user.css" style="color: #ffb25b;">Kiwifarms-Vaporwave.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Klimat.app-DarkMode.user.css" style="color: #ce7cd7;">Klimat.app-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MarkdownViewer%2B%2BTheme.user.css" style="color: #a0bcac;">MarkdownViewer++Theme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Medicare-Gov-Dark-Mode.user.css" style="color: #54ce45;">Medicare-Gov-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyBikeTraffic-DarkMode.user.css" style="color: #7d78e9;">MyBikeTraffic-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyWorkoutCompanion-Dark.user.css" style="color: #ea60a8;">MyWorkoutCompanion-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Nascar.com-DarkMode.user.css" style="color: #e89ff6;">Nascar.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/NewYorkerDarkMode.user.css" style="color: #3ae403;">NewYorkerDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/NewYorkerSimpleDarkMode.user.css" style="color: #8bcc2d;">NewYorkerSimpleDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRS-HiScores-BlackMode.user.css" style="color: #cd9ea8;">OSRS-HiScores-BlackMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWorldHeatmap-Dark.user.css" style="color: #48a4b8;">OSRSWorldHeatmap-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OsrsWikiDarkMode.user.css" style="color: #659a18;">OsrsWikiDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Papertrails-DarkMode.user.css" style="color: #9eb7dc;">Papertrails-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PathFinderW3School-Dark.user.css" style="color: #b3a090;">PathFinderW3School-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PowerMeter.cc-DarkMode.user.css" style="color: #3fef61;">PowerMeter.cc-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PromptHero-Dark.user.css" style="color: #68a26d;">PromptHero-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditColoredComments.user.css" style="color: #9f7ffa;">RedditColoredComments.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Scrap.tf-BlackTheme.user.css" style="color: #bd8067;">Scrap.tf-BlackTheme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Skial-CustomTheme.user.css" style="color: #66cee5;">Skial-CustomTheme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SportSurge-BlackMode.user.css" style="color: #4ed7e6;">SportSurge-BlackMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SquadRats-Dark.user.css" style="color: #fa994c;">SquadRats-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Statshunters-Dark.user.css" style="color: #a088db;">Statshunters-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamDB-Black-Mode.user.css" style="color: #7bd750;">SteamDB-Black-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamDB-Dark-Mode.user.css" style="color: #b7d207;">SteamDB-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Brawlhalla.user.css" style="color: #c7744d;">SteamStat.us-Re-Remastered-Brawlhalla.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Christmas-Style.user.css" style="color: #37e1b5;">SteamStat.us-Re-Remastered-Christmas-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Detroit-Lions-Style.user.css" style="color: #69c401;">SteamStat.us-Re-Remastered-Detroit-Lions-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Detroit-Tigers.user.css" style="color: #73bfed;">SteamStat.us-Re-Remastered-Detroit-Tigers.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Easter-Style.user.css" style="color: #7b9600;">SteamStat.us-Re-Remastered-Easter-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Green-BlackStyle.user.css" style="color: #a8b7bc;">SteamStat.us-Re-Remastered-Green-BlackStyle.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Halloween-Style.user.css" style="color: #9ed123;">SteamStat.us-Re-Remastered-Halloween-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Lime%20Green-Purple%20Style.user.css" style="color: #f1cd18;">SteamStat.us-Re-Remastered-Lime Green-Purple Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Miami-Heat.user.css" style="color: #51f201;">SteamStat.us-Re-Remastered-Miami-Heat.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-NASCAR.user.css" style="color: #cb6d8f;">SteamStat.us-Re-Remastered-NASCAR.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Orange-BlackStyle.user.css" style="color: #ff64e4;">SteamStat.us-Re-Remastered-Orange-BlackStyle.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-PCMasterRace.user.css" style="color: #89c54d;">SteamStat.us-Re-Remastered-PCMasterRace.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Pink-BlackStyle.user.css" style="color: #47b82d;">SteamStat.us-Re-Remastered-Pink-BlackStyle.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Purple.user.css" style="color: #659dc2;">SteamStat.us-Re-Remastered-Purple.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-RainbowStyle.user.css" style="color: #2e9d7f;">SteamStat.us-Re-Remastered-RainbowStyle.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-SteamStyle.user.css" style="color: #7ac3a9;">SteamStat.us-Re-Remastered-SteamStyle.user.css</a></li></ul>`;
+                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Vaporwave.user.css" style="color: #4eb779;">Kiwifarms-Vaporwave.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Klimat.app-DarkMode.user.css" style="color: #34dc67;">Klimat.app-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MarkdownViewer%2B%2BTheme.user.css" style="color: #e39273;">MarkdownViewer++Theme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Medicare-Gov-Dark-Mode.user.css" style="color: #3bbf03;">Medicare-Gov-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyBikeTraffic-DarkMode.user.css" style="color: #e99b2d;">MyBikeTraffic-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyWorkoutCompanion-Dark.user.css" style="color: #2ee215;">MyWorkoutCompanion-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Nascar.com-DarkMode.user.css" style="color: #e88146;">Nascar.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/NewYorkerDarkMode.user.css" style="color: #2f93c5;">NewYorkerDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/NewYorkerSimpleDarkMode.user.css" style="color: #28c638;">NewYorkerSimpleDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRS-HiScores-BlackMode.user.css" style="color: #d4b29d;">OSRS-HiScores-BlackMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWorldHeatmap-Dark.user.css" style="color: #be9c2b;">OSRSWorldHeatmap-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OsrsWikiDarkMode.user.css" style="color: #ad7c39;">OsrsWikiDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Papertrails-DarkMode.user.css" style="color: #769c97;">Papertrails-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PathFinderW3School-Dark.user.css" style="color: #e265bb;">PathFinderW3School-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PowerMeter.cc-DarkMode.user.css" style="color: #f879e5;">PowerMeter.cc-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PromptHero-Dark.user.css" style="color: #e78531;">PromptHero-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditColoredComments.user.css" style="color: #e0a317;">RedditColoredComments.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Scrap.tf-BlackTheme.user.css" style="color: #adb584;">Scrap.tf-BlackTheme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Skial-CustomTheme.user.css" style="color: #807cad;">Skial-CustomTheme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SportSurge-BlackMode.user.css" style="color: #e9a1bb;">SportSurge-BlackMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SquadRats-Dark.user.css" style="color: #e0aba8;">SquadRats-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Statshunters-Dark.user.css" style="color: #64b3d5;">Statshunters-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamDB-Black-Mode.user.css" style="color: #7e91f3;">SteamDB-Black-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamDB-Dark-Mode.user.css" style="color: #a9c704;">SteamDB-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Brawlhalla.user.css" style="color: #53a255;">SteamStat.us-Re-Remastered-Brawlhalla.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Christmas-Style.user.css" style="color: #84a663;">SteamStat.us-Re-Remastered-Christmas-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Detroit-Lions-Style.user.css" style="color: #43aaa8;">SteamStat.us-Re-Remastered-Detroit-Lions-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Detroit-Tigers.user.css" style="color: #49a241;">SteamStat.us-Re-Remastered-Detroit-Tigers.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Easter-Style.user.css" style="color: #a0ae83;">SteamStat.us-Re-Remastered-Easter-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Green-BlackStyle.user.css" style="color: #f18c24;">SteamStat.us-Re-Remastered-Green-BlackStyle.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Halloween-Style.user.css" style="color: #3195b0;">SteamStat.us-Re-Remastered-Halloween-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Lime%20Green-Purple%20Style.user.css" style="color: #25aa9f;">SteamStat.us-Re-Remastered-Lime Green-Purple Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Miami-Heat.user.css" style="color: #788ed1;">SteamStat.us-Re-Remastered-Miami-Heat.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-NASCAR.user.css" style="color: #89da00;">SteamStat.us-Re-Remastered-NASCAR.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Orange-BlackStyle.user.css" style="color: #979c3a;">SteamStat.us-Re-Remastered-Orange-BlackStyle.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-PCMasterRace.user.css" style="color: #3dccdc;">SteamStat.us-Re-Remastered-PCMasterRace.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Pink-BlackStyle.user.css" style="color: #b76bf5;">SteamStat.us-Re-Remastered-Pink-BlackStyle.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Purple.user.css" style="color: #d0a7dd;">SteamStat.us-Re-Remastered-Purple.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-RainbowStyle.user.css" style="color: #a5978a;">SteamStat.us-Re-Remastered-RainbowStyle.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-SteamStyle.user.css" style="color: #53b8af;">SteamStat.us-Re-Remastered-SteamStyle.user.css</a></li></ul>`;
                             break;
                         case 'file-list-4':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Sunset-Style.user.css" style="color: #26e7bd;">SteamStat.us-Re-Remastered-Sunset-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TeamFortress2.user.css" style="color: #70ad05;">SteamStat.us-Re-Remastered-TeamFortress2.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css" style="color: #879821;">SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css" style="color: #31dae6;">SteamStat.us-Re-Remastered-TourDeFrance.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-USA-Style.user.css" style="color: #319fae;">SteamStat.us-Re-Remastered-USA-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Windows95.user.css" style="color: #daaf0f;">SteamStat.us-Re-Remastered-Windows95.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Witcher3.user.css" style="color: #31c12d;">SteamStat.us-Re-Remastered-Witcher3.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Wolverines-Style.user.css" style="color: #e3acd1;">SteamStat.us-Re-Remastered-Wolverines-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-WorldOfWarcraft.user.css" style="color: #fd58b4;">SteamStat.us-Re-Remastered-WorldOfWarcraft.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Zwift.user.css" style="color: #e49312;">SteamStat.us-Re-Remastered-Zwift.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered.user.css" style="color: #83cf7c;">SteamStat.us-Re-Remastered.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamTradeMatcher-DarkMode.user.css" style="color: #62d973;">SteamTradeMatcher-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StepSecurityDarkMode.user.css" style="color: #9980dd;">StepSecurityDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaAutoDarkTheme.user.css" style="color: #a26fde;">StravaAutoDarkTheme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaStratTracker-DarkMode.user.css" style="color: #aca7e6;">StravaStratTracker-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StreamingSitesStreamsBlackDarkMode.user.css" style="color: #7cc558;">StreamingSitesStreamsBlackDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Stylus-DarkTheme-Updated.user.css" style="color: #76bec9;">Stylus-DarkTheme-Updated.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StylusEditorChromeDark-Fixed.user.css" style="color: #cdb006;">StylusEditorChromeDark-Fixed.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StylusFluent-Updated.user.css" style="color: #81c777;">StylusFluent-Updated.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TamperMonkey-DarkGreen.user.css" style="color: #2efa5c;">TamperMonkey-DarkGreen.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TamperMonkey-DarkMode.user.css" style="color: #ed9be3;">TamperMonkey-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TeamFortressWIki-Dark.user.css" style="color: #adb4c2;">TeamFortressWIki-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TechPowerUp-DarkMode.user.css" style="color: #9e8d45;">TechPowerUp-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TrainingPeaks-DarkMode.user.css" style="color: #c496b3;">TrainingPeaks-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UPS.com-DarkMode.user.css" style="color: #3dec58;">UPS.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Unroll.me-DarkMode.user.css" style="color: #99a62c;">Unroll.me-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UptimeRobotDark.user.css" style="color: #b7b679;">UptimeRobotDark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserStyle-Root-ColorTemplate.user.css" style="color: #969aa0;">UserStyle-Root-ColorTemplate.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserscriptTemplate.user.css" style="color: #3894cd;">UserscriptTemplate.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserscriptZone-Dark.user.css" style="color: #a4d400;">UserscriptZone-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserstyleWorld-DarkBamaBraves.user.css" style="color: #afdf16;">UserstyleWorld-DarkBamaBraves.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/VisualStudioCode-DarkMode.user.css" style="color: #cbae02;">VisualStudioCode-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WahooFitnessDarkMode.user.css" style="color: #4cf011;">WahooFitnessDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Walmart.com-DarkMode.user.css" style="color: #7acccb;">Walmart.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wanderer-Dark.user.css" style="color: #26ab27;">Wanderer-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Weather.com-DarkMode.user.css" style="color: #65907b;">Weather.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WebHint-Dark.user.css" style="color: #7f913e;">WebHint-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wigle-DarkMode-Beta.user.css" style="color: #b0c7e7;">Wigle-DarkMode-Beta.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wigle-DarkMode.user.css" style="color: #75b053;">Wigle-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wikipedia-OLED-SettingsPage.user.css" style="color: #62cd0c;">Wikipedia-OLED-SettingsPage.user.css</a></li></ul>`;
+                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Sunset-Style.user.css" style="color: #d6b752;">SteamStat.us-Re-Remastered-Sunset-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TeamFortress2.user.css" style="color: #c0a974;">SteamStat.us-Re-Remastered-TeamFortress2.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css" style="color: #d4a930;">SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css" style="color: #6e9681;">SteamStat.us-Re-Remastered-TourDeFrance.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-USA-Style.user.css" style="color: #b5cb33;">SteamStat.us-Re-Remastered-USA-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Windows95.user.css" style="color: #b4c5b0;">SteamStat.us-Re-Remastered-Windows95.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Witcher3.user.css" style="color: #24a3ce;">SteamStat.us-Re-Remastered-Witcher3.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Wolverines-Style.user.css" style="color: #d37b27;">SteamStat.us-Re-Remastered-Wolverines-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-WorldOfWarcraft.user.css" style="color: #9ddd07;">SteamStat.us-Re-Remastered-WorldOfWarcraft.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Zwift.user.css" style="color: #a97cc8;">SteamStat.us-Re-Remastered-Zwift.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered.user.css" style="color: #3bbe98;">SteamStat.us-Re-Remastered.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamTradeMatcher-DarkMode.user.css" style="color: #5795ed;">SteamTradeMatcher-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StepSecurityDarkMode.user.css" style="color: #95913f;">StepSecurityDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaAutoDarkTheme.user.css" style="color: #c4b79b;">StravaAutoDarkTheme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaStratTracker-DarkMode.user.css" style="color: #ee62f0;">StravaStratTracker-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StreamingSitesStreamsBlackDarkMode.user.css" style="color: #faa832;">StreamingSitesStreamsBlackDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Stylus-DarkTheme-Updated.user.css" style="color: #a8c778;">Stylus-DarkTheme-Updated.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StylusEditorChromeDark-Fixed.user.css" style="color: #e36aa0;">StylusEditorChromeDark-Fixed.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StylusFluent-Updated.user.css" style="color: #4bda74;">StylusFluent-Updated.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TamperMonkey-DarkGreen.user.css" style="color: #3ae14e;">TamperMonkey-DarkGreen.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TamperMonkey-DarkMode.user.css" style="color: #2cef33;">TamperMonkey-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TeamFortressWIki-Dark.user.css" style="color: #35b49d;">TeamFortressWIki-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TechPowerUp-DarkMode.user.css" style="color: #28cbbc;">TechPowerUp-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TrainingPeaks-DarkMode.user.css" style="color: #aaa60a;">TrainingPeaks-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UPS.com-DarkMode.user.css" style="color: #fc7117;">UPS.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Unroll.me-DarkMode.user.css" style="color: #6391c1;">Unroll.me-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UptimeRobotDark.user.css" style="color: #a09993;">UptimeRobotDark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserStyle-Root-ColorTemplate.user.css" style="color: #efbd2f;">UserStyle-Root-ColorTemplate.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserscriptTemplate.user.css" style="color: #c0866f;">UserscriptTemplate.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserscriptZone-Dark.user.css" style="color: #cbc811;">UserscriptZone-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserstyleWorld-DarkBamaBraves.user.css" style="color: #67bbd0;">UserstyleWorld-DarkBamaBraves.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/VisualStudioCode-DarkMode.user.css" style="color: #8cb139;">VisualStudioCode-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WahooFitnessDarkMode.user.css" style="color: #7dd32c;">WahooFitnessDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Walmart.com-DarkMode.user.css" style="color: #2fb5be;">Walmart.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wanderer-Dark.user.css" style="color: #6ea250;">Wanderer-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Weather.com-DarkMode.user.css" style="color: #aab440;">Weather.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WebHint-Dark.user.css" style="color: #c59ca7;">WebHint-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wigle-DarkMode-Beta.user.css" style="color: #26b14e;">Wigle-DarkMode-Beta.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wigle-DarkMode.user.css" style="color: #f3606d;">Wigle-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wikipedia-OLED-SettingsPage.user.css" style="color: #8c98a9;">Wikipedia-OLED-SettingsPage.user.css</a></li></ul>`;
                             break;
                         case 'file-list-5':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Windy-DarkMode.user.css" style="color: #2f99ba;">Windy-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YT-Vibra.user.css" style="color: #48a78f;">YT-Vibra.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeRainbowProgress.user.css" style="color: #56ac07;">YoutubeRainbowProgress.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeScrubberColors.user.css" style="color: #2ad323;">YoutubeScrubberColors.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeTV-BlackMode.user.css" style="color: #71994d;">YoutubeTV-BlackMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift.com-Dark-Mode.user.css" style="color: #b39eac;">Zwift.com-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftHacks-DarkMode.user.css" style="color: #4cb86d;">ZwiftHacks-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftInsiderDarkMode.user.css" style="color: #22b677;">ZwiftInsiderDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftPower.comDark%20Mode.user.css" style="color: #bf6aff;">ZwiftPower.comDark Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwiftalizer.com-Darker-Mode.user.css" style="color: #38f847;">Zwiftalizer.com-Darker-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwifterBikesDarkMode.user.css" style="color: #b270bc;">ZwifterBikesDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/abcnews.go.com-DarkMode.user.css" style="color: #e67ff3;">abcnews.go.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/bicycling-DarkMode.user.css" style="color: #de932d;">bicycling-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/detroitmi.gov-DarkMode.user.css" style="color: #5adccb;">detroitmi.gov-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ebay-Dark-Mode.user.css" style="color: #b29f58;">ebay-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/findthatride-darkmode.user.css" style="color: #5bcb3c;">findthatride-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/fitfiletools-darkmode.user.css" style="color: #42b984;">fitfiletools-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/fivethirtyeight.comDarkMode.user.css" style="color: #6a9e71;">fivethirtyeight.comDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jalopnik.com-DarkMode.user.css" style="color: #3af85f;">jalopnik.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/kom.club-darkmode.user.css" style="color: #72974f;">kom.club-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/makinolo.com-Dark-Mode.user.css" style="color: #7fcb33;">makinolo.com-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/michigan.gov-DarkMode.user.css" style="color: #ffa857;">michigan.gov-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/mywindsock-darkmode.user.css" style="color: #52d075;">mywindsock-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/nbcwashington.com-DarkMode.user.css" style="color: #60b881;">nbcwashington.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/nytimes.com-DarkModeSimple.user.css" style="color: #988765;">nytimes.com-DarkModeSimple.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/p337info-tf2.user.css" style="color: #2cd65b;">p337info-tf2.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/runalyze-darkmode.user.css" style="color: #b6d400;">runalyze-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/stravatoolbox-darkmode.user.css" style="color: #76b25e;">stravatoolbox-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/veloviewer-darkmode.user.css" style="color: #25df84;">veloviewer-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/zwifthub.com-darkmode.user.css" style="color: #35e353;">zwifthub.com-darkmode.user.css</a></li>
-<h2 style="color: #fa942b;">Userscripts</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/AscentDescentMetersToFeet.user.js" style="color: #62b525;">AscentDescentMetersToFeet.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/AutoMergeDependabotPRs.user.js" style="color: #d5acd4;">AutoMergeDependabotPRs.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DeleteYoutubePlaylists.user.js" style="color: #62a1d9;">DeleteYoutubePlaylists.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnhanceYouTubeProfilePictures.user.js" style="color: #aba09a;">EnhanceYouTubeProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeKiwifarmsProfilePictures.user.js" style="color: #edbf0c;">EnlargeKiwifarmsProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeYouTubeChatProfilePictures.user.js" style="color: #28f799;">EnlargeYouTubeChatProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeYouTubeCommentSectionProfilePictures.user.js" style="color: #64b8ad;">EnlargeYouTubeCommentSectionProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GOTOESFitFileEditor-AutoClosePopup.user.js" style="color: #78d844;">GOTOESFitFileEditor-AutoClosePopup.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminConnectRemoveGear.user.js" style="color: #729387;">GarminConnectRemoveGear.user.js</a></li></ul>`;
+                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Windy-DarkMode.user.css" style="color: #2bc9ce;">Windy-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YT-Vibra.user.css" style="color: #de6dfc;">YT-Vibra.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeRainbowProgress.user.css" style="color: #dc72f8;">YoutubeRainbowProgress.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeScrubberColors.user.css" style="color: #7882be;">YoutubeScrubberColors.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeTV-BlackMode.user.css" style="color: #b2c095;">YoutubeTV-BlackMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift.com-Dark-Mode.user.css" style="color: #ec7bcd;">Zwift.com-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftHacks-DarkMode.user.css" style="color: #fc6e7b;">ZwiftHacks-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftInsiderDarkMode.user.css" style="color: #96e044;">ZwiftInsiderDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftPower.comDark%20Mode.user.css" style="color: #f276f9;">ZwiftPower.comDark Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwiftalizer.com-Darker-Mode.user.css" style="color: #829dec;">Zwiftalizer.com-Darker-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwifterBikesDarkMode.user.css" style="color: #9dc903;">ZwifterBikesDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/abcnews.go.com-DarkMode.user.css" style="color: #e89d17;">abcnews.go.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/bicycling-DarkMode.user.css" style="color: #d39653;">bicycling-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/detroitmi.gov-DarkMode.user.css" style="color: #8c9ab5;">detroitmi.gov-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ebay-Dark-Mode.user.css" style="color: #dc8639;">ebay-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/findthatride-darkmode.user.css" style="color: #a99e05;">findthatride-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/fitfiletools-darkmode.user.css" style="color: #7b79ea;">fitfiletools-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/fivethirtyeight.comDarkMode.user.css" style="color: #dfb2fe;">fivethirtyeight.comDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jalopnik.com-DarkMode.user.css" style="color: #c5814c;">jalopnik.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/kom.club-darkmode.user.css" style="color: #5a9ebe;">kom.club-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/makinolo.com-Dark-Mode.user.css" style="color: #dc63ca;">makinolo.com-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/michigan.gov-DarkMode.user.css" style="color: #c1bf8c;">michigan.gov-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/mywindsock-darkmode.user.css" style="color: #40a8eb;">mywindsock-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/nbcwashington.com-DarkMode.user.css" style="color: #fb810e;">nbcwashington.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/nytimes.com-DarkModeSimple.user.css" style="color: #4588ef;">nytimes.com-DarkModeSimple.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/p337info-tf2.user.css" style="color: #9e8059;">p337info-tf2.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/runalyze-darkmode.user.css" style="color: #34e10c;">runalyze-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/stravatoolbox-darkmode.user.css" style="color: #c9972f;">stravatoolbox-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/veloviewer-darkmode.user.css" style="color: #8a897a;">veloviewer-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/zwifthub.com-darkmode.user.css" style="color: #92c429;">zwifthub.com-darkmode.user.css</a></li>
+<h2 style="color: #23c1ab;">Userscripts</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/AscentDescentMetersToFeet.user.js" style="color: #588ae8;">AscentDescentMetersToFeet.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/AutoMergeDependabotPRs.user.js" style="color: #c06cc1;">AutoMergeDependabotPRs.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DeleteYoutubePlaylists.user.js" style="color: #cda2e5;">DeleteYoutubePlaylists.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnhanceYouTubeProfilePictures.user.js" style="color: #aacb01;">EnhanceYouTubeProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeKiwifarmsProfilePictures.user.js" style="color: #47e264;">EnlargeKiwifarmsProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeYouTubeChatProfilePictures.user.js" style="color: #f27ae2;">EnlargeYouTubeChatProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeYouTubeCommentSectionProfilePictures.user.js" style="color: #c98ac0;">EnlargeYouTubeCommentSectionProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GOTOESFitFileEditor-AutoClosePopup.user.js" style="color: #28b48c;">GOTOESFitFileEditor-AutoClosePopup.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminConnectRemoveGear.user.js" style="color: #9bceb7;">GarminConnectRemoveGear.user.js</a></li></ul>`;
                             break;
                         case 'file-list-6':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GithubMarkMergedDone.user.js" style="color: #4cbe27;">GithubMarkMergedDone.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GyazoDirectLink.user.js" style="color: #a0c8b7;">GyazoDirectLink.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideChineseUserstyles.user.js" style="color: #3dcde3;">HideChineseUserstyles.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideNon-EnglishUserstyles.user.js" style="color: #9dd60a;">HideNon-EnglishUserstyles.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.js" style="color: #c5a0ad;">KudoAll-Strava-Garmin.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MergeDependabotPRs.user.js" style="color: #3dd31f;">MergeDependabotPRs.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer-SlowMode.user.js" style="color: #92af14;">OSRSWikiAuto-Categorizer-SlowMode.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer.user.js" style="color: #6ecc04;">OSRSWikiAuto-Categorizer.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Navbox-SlowMode.user.js" style="color: #58ad8d;">OSRSWikiAuto-Navbox-SlowMode.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version-Reddit-Only-Version.user.js" style="color: #60bac5;">OldRedditNewProfilePictures-API-Key-Version-Reddit-Only-Version.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version-Reddit-Stream-Version.user.js" style="color: #bd7198;">OldRedditNewProfilePictures-API-Key-Version-Reddit-Stream-Version.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version.user.js" style="color: #53b998;">OldRedditNewProfilePictures-API-Key-Version.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-UniversalVersion.user.js" style="color: #669dd8;">OldRedditNewProfilePictures-UniversalVersion.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures.user.js" style="color: #6ac89c;">OldRedditNewProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.user.js" style="color: #8498d4;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresher.user.js" style="color: #7dbddf;">RedditStreamAutoRefresher.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresherFaster.user.js" style="color: #35af5a;">RedditStreamAutoRefresherFaster.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RightClickEnable.user.js" style="color: #5fae3e;">RightClickEnable.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaAutoAuthorize.user.js" style="color: #c093a6;">StravaAutoAuthorize.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaTextAuto-Selector.user.js" style="color: #67d6fc;">StravaTextAuto-Selector.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SuperchargedLocalDirectoryWebUI.user.js" style="color: #7ac887;">SuperchargedLocalDirectoryWebUI.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserstyleWorld-SyncStyles.user.js" style="color: #48a2dd;">UserstyleWorld-SyncStyles.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTV-Volume-Rememberer.user.js" style="color: #bdc353;">YouTubeTV-Volume-Rememberer.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl.user.js" style="color: #babf95;">YouTubeTVVolumeControl.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl.user.js" style="color: #838b1c;">YouTubeVolumeControl.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeVolumeDisplay.user.js" style="color: #2adccc;">YoutubeVolumeDisplay.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift-Give-RideOns-to-Everyone.user.js" style="color: #ff8b51;">Zwift-Give-RideOns-to-Everyone.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/reddit-stream-Enhancements.user.js" style="color: #93a47b;">reddit-stream-Enhancements.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-Add-Balance-Original.user.js" style="color: #928815;">strava-balance/Strava-Add-Balance-Original.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-Add-Balance-Updated.user.js" style="color: #a2ba2b;">strava-balance/Strava-Add-Balance-Updated.user.js</a></li>
-<h2 style="color: #3ed62b;">CSS</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Discord-Dark%2B-Default-Member-List.css" style="color: #5da12f;">Discord-Dark+-Default-Member-List.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/styles.css" style="color: #e9737b;">YouTubeVolumeControl/styles.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.css" style="color: #ab9ce6;">codemirror.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.min.css" style="color: #abbb90;">codemirror.min.css</a></li>
-<h2 style="color: #e9c10a;">JavaScript</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.eslintrc.js" style="color: #23d08f;">.eslintrc.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/background.js" style="color: #78b05c;">SteamCookieExtractor2/background.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/content.js" style="color: #dc6aaf;">SteamCookieExtractor2/content.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/options.js" style="color: #d3b540;">SteamCookieExtractor2/options.js</a></li></ul>`;
+                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GithubMarkMergedDone.user.js" style="color: #afb04d;">GithubMarkMergedDone.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GyazoDirectLink.user.js" style="color: #2c9f58;">GyazoDirectLink.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideChineseUserstyles.user.js" style="color: #cdbde1;">HideChineseUserstyles.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideNon-EnglishUserstyles.user.js" style="color: #3fbc82;">HideNon-EnglishUserstyles.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.js" style="color: #688ae5;">KudoAll-Strava-Garmin.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MergeDependabotPRs.user.js" style="color: #36f200;">MergeDependabotPRs.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer-SlowMode.user.js" style="color: #a17497;">OSRSWikiAuto-Categorizer-SlowMode.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer.user.js" style="color: #b77ce3;">OSRSWikiAuto-Categorizer.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Navbox-SlowMode.user.js" style="color: #56f633;">OSRSWikiAuto-Navbox-SlowMode.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version-Reddit-Only-Version.user.js" style="color: #2bba1f;">OldRedditNewProfilePictures-API-Key-Version-Reddit-Only-Version.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version-Reddit-Stream-Version.user.js" style="color: #2ba460;">OldRedditNewProfilePictures-API-Key-Version-Reddit-Stream-Version.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version.user.js" style="color: #e3a27d;">OldRedditNewProfilePictures-API-Key-Version.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-UniversalVersion.user.js" style="color: #6ab2fb;">OldRedditNewProfilePictures-UniversalVersion.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures.user.js" style="color: #51bff8;">OldRedditNewProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.user.js" style="color: #6897b9;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresher.user.js" style="color: #8bd243;">RedditStreamAutoRefresher.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresherFaster.user.js" style="color: #7380ed;">RedditStreamAutoRefresherFaster.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RightClickEnable.user.js" style="color: #2cdc06;">RightClickEnable.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaAutoAuthorize.user.js" style="color: #24de93;">StravaAutoAuthorize.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaTextAuto-Selector.user.js" style="color: #73bf95;">StravaTextAuto-Selector.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SuperchargedLocalDirectoryWebUI.user.js" style="color: #2db1bf;">SuperchargedLocalDirectoryWebUI.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserstyleWorld-SyncStyles.user.js" style="color: #a37f60;">UserstyleWorld-SyncStyles.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTV-Volume-Rememberer.user.js" style="color: #cd811a;">YouTubeTV-Volume-Rememberer.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl.user.js" style="color: #7bda86;">YouTubeTVVolumeControl.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl.user.js" style="color: #85b5d1;">YouTubeVolumeControl.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeVolumeDisplay.user.js" style="color: #caa3e2;">YoutubeVolumeDisplay.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift-Give-RideOns-to-Everyone.user.js" style="color: #49aa8e;">Zwift-Give-RideOns-to-Everyone.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/reddit-stream-Enhancements.user.js" style="color: #e4ac8b;">reddit-stream-Enhancements.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-Add-Balance-Original.user.js" style="color: #35d412;">strava-balance/Strava-Add-Balance-Original.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-Add-Balance-Updated.user.js" style="color: #6fde5d;">strava-balance/Strava-Add-Balance-Updated.user.js</a></li>
+<h2 style="color: #f1a8c0;">CSS</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Discord-Dark%2B-Default-Member-List.css" style="color: #749f92;">Discord-Dark+-Default-Member-List.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/styles.css" style="color: #4aa42f;">YouTubeVolumeControl/styles.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.css" style="color: #529cfd;">codemirror.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.min.css" style="color: #abcd8e;">codemirror.min.css</a></li>
+<h2 style="color: #d0a0d1;">JavaScript</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.eslintrc.js" style="color: #98c7a4;">.eslintrc.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/background.js" style="color: #a4a82f;">SteamCookieExtractor2/background.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/content.js" style="color: #a2d0a6;">SteamCookieExtractor2/content.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/options.js" style="color: #6fa181;">SteamCookieExtractor2/options.js</a></li></ul>`;
                             break;
                         case 'file-list-7':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/popup.js" style="color: #75bbdc;">SteamCookieExtractor2/popup.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WIndyPlugin.min.js" style="color: #a2799e;">WIndyPlugin.min.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/background.js" style="color: #f3a8cc;">YouTubeTVVolumeControl/background.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/content.js" style="color: #e48308;">YouTubeTVVolumeControl/content.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/background.js" style="color: #e09a10;">YouTubeVolumeControl/background.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/content.js" style="color: #46cc11;">YouTubeVolumeControl/content.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-css-mod.js" style="color: #51e4a2;">beautify-css-mod.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.js" style="color: #cc866f;">beautify.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.js" style="color: #4ed790;">codemirror.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.min.js" style="color: #bc7af2;">codemirror.min.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/convertHexToRgba.js" style="color: #ab9ec0;">convertHexToRgba.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/css.js" style="color: #ba9e5f;">css.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/css.min.js" style="color: #7def05;">css.min.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/cyclingCalculators.js" style="color: #c6a804;">cyclingCalculators.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-AddBalance-Updated.js" style="color: #8a8920;">strava-balance/Strava-AddBalance-Updated.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-AddBalance.js" style="color: #aeba0b;">strava-balance/Strava-AddBalance.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/binary-Updated.js" style="color: #8cb2c4;">strava-balance/binary-Updated.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/binary.js" style="color: #3bbdc1;">strava-balance/binary.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/base64-js-1.3.1/index.js" style="color: #698ab2;">strava-balance/buffer-5.6.1/base64-js-1.3.1/index.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/ieee754-1.1.13/index.js" style="color: #8ebbf1;">strava-balance/buffer-5.6.1/ieee754-1.1.13/index.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/index.js" style="color: #ebb34d;">strava-balance/buffer-5.6.1/index.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit-parser-Updated.js" style="color: #f0900a;">strava-balance/fit-parser-Updated.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit-parser.js" style="color: #6fc9e0;">strava-balance/fit-parser.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit.js" style="color: #5dc336;">strava-balance/fit.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/messages.js" style="color: #c7b2d0;">strava-balance/messages.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/strava-fit-parser.js" style="color: #849d63;">strava-balance/strava-fit-parser.js</a></li>
-<h2 style="color: #c8aac1;">YAML</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/dependabot.yml" style="color: #e9ab30;">.github/dependabot.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/labeler.yml" style="color: #aeae1e;">.github/labeler.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ActionLint.yml" style="color: #b5aea8;">.github/workflows/ActionLint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/Bandit.yml" style="color: #63d3b5;">.github/workflows/Bandit.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/Snake.yml" style="color: #abd0c1;">.github/workflows/Snake.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/black-formatter.yml" style="color: #e59958;">.github/workflows/black-formatter.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/codeql.yml" style="color: #938ff1;">.github/workflows/codeql.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/defender.yml" style="color: #e5b2b2;">.github/workflows/defender.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/deno.yml" style="color: #e774df;">.github/workflows/deno.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/dependency-review.yml" style="color: #f588f8;">.github/workflows/dependency-review.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/devskim.yml" style="color: #8ca67f;">.github/workflows/devskim.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/eslint.yml" style="color: #c8c780;">.github/workflows/eslint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/generate-file-list.yml" style="color: #a590fe;">.github/workflows/generate-file-list.yml</a></li></ul>`;
+                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/popup.js" style="color: #db7aa5;">SteamCookieExtractor2/popup.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WIndyPlugin.min.js" style="color: #39aac6;">WIndyPlugin.min.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/background.js" style="color: #f882a9;">YouTubeTVVolumeControl/background.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/content.js" style="color: #da8027;">YouTubeTVVolumeControl/content.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/background.js" style="color: #d7cc48;">YouTubeVolumeControl/background.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/content.js" style="color: #bda0d2;">YouTubeVolumeControl/content.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-css-mod.js" style="color: #64d684;">beautify-css-mod.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.js" style="color: #ae80e1;">beautify.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.js" style="color: #34d28a;">codemirror.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.min.js" style="color: #6695dc;">codemirror.min.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/convertHexToRgba.js" style="color: #9a9125;">convertHexToRgba.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/css.js" style="color: #89973a;">css.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/css.min.js" style="color: #34e78e;">css.min.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/cyclingCalculators.js" style="color: #83b430;">cyclingCalculators.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-AddBalance-Updated.js" style="color: #63a55e;">strava-balance/Strava-AddBalance-Updated.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-AddBalance.js" style="color: #d76f6e;">strava-balance/Strava-AddBalance.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/binary-Updated.js" style="color: #8d77f0;">strava-balance/binary-Updated.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/binary.js" style="color: #47a1e3;">strava-balance/binary.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/base64-js-1.3.1/index.js" style="color: #49f047;">strava-balance/buffer-5.6.1/base64-js-1.3.1/index.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/ieee754-1.1.13/index.js" style="color: #81d1e9;">strava-balance/buffer-5.6.1/ieee754-1.1.13/index.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/index.js" style="color: #60f217;">strava-balance/buffer-5.6.1/index.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit-parser-Updated.js" style="color: #66bf85;">strava-balance/fit-parser-Updated.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit-parser.js" style="color: #33e8bc;">strava-balance/fit-parser.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit.js" style="color: #ae7d51;">strava-balance/fit.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/messages.js" style="color: #84b5c5;">strava-balance/messages.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/strava-fit-parser.js" style="color: #fc6a1c;">strava-balance/strava-fit-parser.js</a></li>
+<h2 style="color: #7689c6;">YAML</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/dependabot.yml" style="color: #24cd12;">.github/dependabot.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/labeler.yml" style="color: #bb96bd;">.github/labeler.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ActionLint.yml" style="color: #46cb37;">.github/workflows/ActionLint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/Bandit.yml" style="color: #3ddd92;">.github/workflows/Bandit.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/Snake.yml" style="color: #38d8ae;">.github/workflows/Snake.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/black-formatter.yml" style="color: #e97766;">.github/workflows/black-formatter.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/codeql.yml" style="color: #7981c4;">.github/workflows/codeql.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/defender.yml" style="color: #b1d010;">.github/workflows/defender.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/deno.yml" style="color: #95df02;">.github/workflows/deno.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/dependency-review.yml" style="color: #68a3f7;">.github/workflows/dependency-review.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/devskim.yml" style="color: #3a8afa;">.github/workflows/devskim.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/eslint.yml" style="color: #90ad22;">.github/workflows/eslint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/generate-file-list.yml" style="color: #5aef6c;">.github/workflows/generate-file-list.yml</a></li></ul>`;
                             break;
                         case 'file-list-8':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/greetings.yml" style="color: #38b437;">.github/workflows/greetings.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/label.yml" style="color: #2ddc34;">.github/workflows/label.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ossar.yml" style="color: #cb8a14;">.github/workflows/ossar.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/osv-scanner.yml" style="color: #f96cc3;">.github/workflows/osv-scanner.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/scorecards.yml" style="color: #e284a6;">.github/workflows/scorecards.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/semgrep.yml" style="color: #d9c697;">.github/workflows/semgrep.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sitemap.yml" style="color: #ea9ed4;">.github/workflows/sitemap.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sobelow.yml" style="color: #739ecd;">.github/workflows/sobelow.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/stale.yml" style="color: #e866ca;">.github/workflows/stale.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/static.yml" style="color: #e0c1ac;">.github/workflows/static.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/stylelint.yml" style="color: #4ebf6f;">.github/workflows/stylelint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/super-linter.yml" style="color: #fc925d;">.github/workflows/super-linter.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.markdownlint.yml" style="color: #b0d72f;">.markdownlint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.scss-lint.yml" style="color: #35f370;">.scss-lint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/_config.yml" style="color: #30ed8a;">_config.yml</a></li>
-<h2 style="color: #6bd2a2;">.github/PULL_REQUEST_TEMPLATE</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/pull_request_template.md" style="color: #99c699;">.github/PULL_REQUEST_TEMPLATE/pull_request_template.md</a></li>
-<h2 style="color: #dfbfb7;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/bug_report.md" style="color: #c9d250;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/bug_report.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/feature_request.md" style="color: #9f9f70;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/feature_request.md</a></li>
-<h2 style="color: #d7876e;">.vscode</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/generate_file_list.py" style="color: #bf96c2;">.vscode/generate_file_list.py</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/launch.json" style="color: #f78dbf;">.vscode/launch.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/settings.json" style="color: #a2af52;">.vscode/settings.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/tasks.json" style="color: #35e7fa;">.vscode/tasks.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/test_generate_file_list.py" style="color: #229fef;">.vscode/test_generate_file_list.py</a></li>
-<h2 style="color: #df9f62;">OldRedditNewProfilePictures</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.options.json" style="color: #c59bf3;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.options.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.storage.json" style="color: #7eabe0;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.storage.json</a></li>
-<h2 style="color: #25c66f;">SteamCookieExtractor2</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/manifest.json" style="color: #ea8fa3;">SteamCookieExtractor2/manifest.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/options.html" style="color: #62a360;">SteamCookieExtractor2/options.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/popup.html" style="color: #40b458;">SteamCookieExtractor2/popup.html</a></li>
-<h2 style="color: #b26eda;">SteamCookieExtractor2/icons</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon128.png" style="color: #88a3b2;">SteamCookieExtractor2/icons/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon16.png" style="color: #d77f26;">SteamCookieExtractor2/icons/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon48.png" style="color: #ec805a;">SteamCookieExtractor2/icons/icon48.png</a></li>
-<h2 style="color: #65e194;">SteamCookieExtractor2/icons/images</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon128.png" style="color: #c792af;">SteamCookieExtractor2/icons/images/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon16.png" style="color: #c685f2;">SteamCookieExtractor2/icons/images/icon16.png</a></li></ul>`;
+                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/greetings.yml" style="color: #30ef2b;">.github/workflows/greetings.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/label.yml" style="color: #68ba26;">.github/workflows/label.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ossar.yml" style="color: #a4b53f;">.github/workflows/ossar.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/osv-scanner.yml" style="color: #c6cc38;">.github/workflows/osv-scanner.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/scorecards.yml" style="color: #97d0fd;">.github/workflows/scorecards.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/semgrep.yml" style="color: #eb70b8;">.github/workflows/semgrep.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sitemap.yml" style="color: #9aa963;">.github/workflows/sitemap.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sobelow.yml" style="color: #37b4ef;">.github/workflows/sobelow.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/stale.yml" style="color: #779152;">.github/workflows/stale.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/static.yml" style="color: #7f8bc7;">.github/workflows/static.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/stylelint.yml" style="color: #8da763;">.github/workflows/stylelint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/super-linter.yml" style="color: #43ee29;">.github/workflows/super-linter.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.markdownlint.yml" style="color: #54907d;">.markdownlint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.scss-lint.yml" style="color: #e4b30c;">.scss-lint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/_config.yml" style="color: #75af8f;">_config.yml</a></li>
+<h2 style="color: #e397d6;">.github/PULL_REQUEST_TEMPLATE</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/pull_request_template.md" style="color: #56cf06;">.github/PULL_REQUEST_TEMPLATE/pull_request_template.md</a></li>
+<h2 style="color: #d5b2ea;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/bug_report.md" style="color: #7cbdbb;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/bug_report.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/feature_request.md" style="color: #d496bf;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/feature_request.md</a></li>
+<h2 style="color: #cc746d;">.vscode</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/generate_file_list.py" style="color: #2cc256;">.vscode/generate_file_list.py</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/launch.json" style="color: #26c3bb;">.vscode/launch.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/settings.json" style="color: #84cd78;">.vscode/settings.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/tasks.json" style="color: #9c9480;">.vscode/tasks.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/test_generate_file_list.py" style="color: #d4a7b8;">.vscode/test_generate_file_list.py</a></li>
+<h2 style="color: #73b46c;">OldRedditNewProfilePictures</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.options.json" style="color: #89cd17;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.options.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.storage.json" style="color: #40d756;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.storage.json</a></li>
+<h2 style="color: #d7ad8b;">SteamCookieExtractor2</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/manifest.json" style="color: #f762b9;">SteamCookieExtractor2/manifest.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/options.html" style="color: #fc794b;">SteamCookieExtractor2/options.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/popup.html" style="color: #6fcf9f;">SteamCookieExtractor2/popup.html</a></li>
+<h2 style="color: #34f029;">SteamCookieExtractor2/icons</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon128.png" style="color: #ef9b86;">SteamCookieExtractor2/icons/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon16.png" style="color: #f8a638;">SteamCookieExtractor2/icons/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon48.png" style="color: #eab099;">SteamCookieExtractor2/icons/icon48.png</a></li>
+<h2 style="color: #8d7afa;">SteamCookieExtractor2/icons/images</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon128.png" style="color: #ffc230;">SteamCookieExtractor2/icons/images/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon16.png" style="color: #45d86b;">SteamCookieExtractor2/icons/images/icon16.png</a></li></ul>`;
                             break;
                         case 'file-list-9':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon48.png" style="color: #c1b83e;">SteamCookieExtractor2/icons/images/icon48.png</a></li>
-<h2 style="color: #bd98ec;">YouTubeTVVolumeControl</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon128.png" style="color: #f79748;">YouTubeTVVolumeControl/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon16.png" style="color: #6fe06c;">YouTubeTVVolumeControl/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon48.png" style="color: #28cdd7;">YouTubeTVVolumeControl/icon48.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/manifest.json" style="color: #b7911f;">YouTubeTVVolumeControl/manifest.json</a></li>
-<h2 style="color: #da9f04;">YouTubeVolumeControl</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon128.png" style="color: #3afd50;">YouTubeVolumeControl/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon16.png" style="color: #6ee123;">YouTubeVolumeControl/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon48.png" style="color: #e0953d;">YouTubeVolumeControl/icon48.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/manifest.json" style="color: #4bf745;">YouTubeVolumeControl/manifest.json</a></li>
-<h2 style="color: #61a726;">YouTubeVolumeControl/icons</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon128.png" style="color: #7bae48;">YouTubeVolumeControl/icons/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon16.png" style="color: #febf67;">YouTubeVolumeControl/icons/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon48.png" style="color: #52c25c;">YouTubeVolumeControl/icons/icon48.png</a></li>
-<h2 style="color: #9b80ba;">YouTubeVolumeControl/icons/images</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon128.png" style="color: #f3aa95;">YouTubeVolumeControl/icons/images/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon16.png" style="color: #36df34;">YouTubeVolumeControl/icons/images/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon48.png" style="color: #cfce11;">YouTubeVolumeControl/icons/images/icon48.png</a></li>
-<h2 style="color: #b68d7e;">assets</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-city-background.png" style="color: #83e56f;">assets/kiwi-city-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-default-background.png" style="color: #e1af89;">assets/kiwi-default-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-flower-background.png" style="color: #77a311;">assets/kiwi-flower-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-green-background.png" style="color: #369c4d;">assets/kiwi-green-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-purple-background.png" style="color: #27ab21;">assets/kiwi-purple-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-space-apple-background.png" style="color: #88b823;">assets/kiwi-space-apple-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-swirls-background.png" style="color: #9bab6a;">assets/kiwi-swirls-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-trees-background.png" style="color: #22ee68;">assets/kiwi-trees-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-vaporwave-logo.png" style="color: #f68917;">assets/kiwi-vaporwave-logo.png</a></li>
-<h2 style="color: #d1b2b9;">src</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/src/generate_file_list.py" style="color: #f09f5f;">src/generate_file_list.py</a></li></ul>`;
+                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon48.png" style="color: #2cf718;">SteamCookieExtractor2/icons/images/icon48.png</a></li>
+<h2 style="color: #29a8d3;">YouTubeTVVolumeControl</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon128.png" style="color: #70ea4d;">YouTubeTVVolumeControl/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon16.png" style="color: #7f8c4e;">YouTubeTVVolumeControl/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon48.png" style="color: #2deb22;">YouTubeTVVolumeControl/icon48.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/manifest.json" style="color: #9c7990;">YouTubeTVVolumeControl/manifest.json</a></li>
+<h2 style="color: #da968a;">YouTubeVolumeControl</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon128.png" style="color: #6fa054;">YouTubeVolumeControl/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon16.png" style="color: #fb8852;">YouTubeVolumeControl/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon48.png" style="color: #8dcfc5;">YouTubeVolumeControl/icon48.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/manifest.json" style="color: #d77b18;">YouTubeVolumeControl/manifest.json</a></li>
+<h2 style="color: #cec3a1;">YouTubeVolumeControl/icons</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon128.png" style="color: #78daf4;">YouTubeVolumeControl/icons/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon16.png" style="color: #26e502;">YouTubeVolumeControl/icons/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon48.png" style="color: #73a521;">YouTubeVolumeControl/icons/icon48.png</a></li>
+<h2 style="color: #63959c;">YouTubeVolumeControl/icons/images</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon128.png" style="color: #9199a9;">YouTubeVolumeControl/icons/images/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon16.png" style="color: #93a391;">YouTubeVolumeControl/icons/images/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon48.png" style="color: #a3a93d;">YouTubeVolumeControl/icons/images/icon48.png</a></li>
+<h2 style="color: #3f9872;">assets</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-city-background.png" style="color: #30d8fe;">assets/kiwi-city-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-default-background.png" style="color: #a1a057;">assets/kiwi-default-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-flower-background.png" style="color: #ec8a22;">assets/kiwi-flower-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-green-background.png" style="color: #67d647;">assets/kiwi-green-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-purple-background.png" style="color: #84b046;">assets/kiwi-purple-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-space-apple-background.png" style="color: #98aee7;">assets/kiwi-space-apple-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-swirls-background.png" style="color: #5ea20b;">assets/kiwi-swirls-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-trees-background.png" style="color: #7e9ece;">assets/kiwi-trees-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-vaporwave-logo.png" style="color: #65ae67;">assets/kiwi-vaporwave-logo.png</a></li>
+<h2 style="color: #5fd754;">src</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/src/generate_file_list.py" style="color: #7f8a5f;">src/generate_file_list.py</a></li></ul>`;
                             break;
                     }
                     placeholder.innerHTML = file_list_html;
@@ -425,373 +425,373 @@ document.addEventListener("DOMContentLoaded", function() {
             let file_list_html = '';
             switch(contentId) {
                 case 'file-list-1':
-                    file_list_html = `<ul><h2 style="color: #3af48f;">Repo Root</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.black" style="color: #9e961d;">.black</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.copilot-instructions.md" style="color: #85872e;">.copilot-instructions.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.editorconfig" style="color: #9fb737;">.editorconfig</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.gitignore" style="color: #23f306;">.gitignore</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.gitleaksignore" style="color: #3dda05;">.gitleaksignore</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.hintrc" style="color: #d497b3;">.hintrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.jsbeautifyrc" style="color: #37cabc;">.jsbeautifyrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.jscsrc" style="color: #65ce54;">.jscsrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.npmrc" style="color: #cca1e5;">.npmrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.pre-commit-config.yaml" style="color: #6a964b;">.pre-commit-config.yaml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.pre-commit-hooks.yaml" style="color: #b88674;">.pre-commit-hooks.yaml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierignore" style="color: #fc71b8;">.prettierignore</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc" style="color: #7de439;">.prettierrc</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc.noplugins" style="color: #c9cf5e;">.prettierrc.noplugins</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc.temp" style="color: #42d85b;">.prettierrc.temp</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.stylelintrc.json" style="color: #88bbd0;">.stylelintrc.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vale.ini" style="color: #afd660;">.vale.ini</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CNAME" style="color: #e2ae54;">CNAME</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CODE_OF_CONDUCT.md" style="color: #f4b02d;">CODE_OF_CONDUCT.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CONTRIBUTING.md" style="color: #61d55a;">CONTRIBUTING.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile" style="color: #86d8d5;">Gemfile</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile.lock" style="color: #29b21f;">Gemfile.lock</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.test.cjs" style="color: #fc76db;">KudoAll-Strava-Garmin.user.test.cjs</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/LICENSE" style="color: #37d8d9;">LICENSE</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.Tests.ps1" style="color: #80c517;">Microsoft.PowerShell_profile.Tests.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.ps1" style="color: #52e058;">Microsoft.PowerShell_profile.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.VSCode_profile.ps1" style="color: #af83b0;">Microsoft.VSCode_profile.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures.html" style="color: #bbc780;">OldRedditNewProfilePictures.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PrettierFormatExcludePreprocessor.ps1" style="color: #53a7b2;">PrettierFormatExcludePreprocessor.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Profile.ps1" style="color: #d895a2;">Profile.ps1</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/README.md" style="color: #ab7bfe;">README.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SECURITY.md" style="color: #f981fd;">SECURITY.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-local.html" style="color: #d4846a;">beautify-local.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.html" style="color: #f49736;">beautify.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/convertHexToRgba.html" style="color: #9e92f8;">convertHexToRgba.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/cyclingCalculators.html" style="color: #36e83e;">cyclingCalculators.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/deno.json" style="color: #89b041;">deno.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/deno.lock" style="color: #b6c7d8;">deno.lock</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/eslint.config.mjs" style="color: #d79284;">eslint.config.mjs</a></li></ul>`;
+                    file_list_html = `<ul><h2 style="color: #4aee9f;">Repo Root</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.black" style="color: #7fd012;">.black</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.copilot-instructions.md" style="color: #be926d;">.copilot-instructions.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.editorconfig" style="color: #80c6b5;">.editorconfig</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.gitignore" style="color: #24f83c;">.gitignore</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.gitleaksignore" style="color: #79d4b3;">.gitleaksignore</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.hintrc" style="color: #94a676;">.hintrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.jsbeautifyrc" style="color: #e3abbd;">.jsbeautifyrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.jscsrc" style="color: #abb255;">.jscsrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.npmrc" style="color: #52f14c;">.npmrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.pre-commit-config.yaml" style="color: #f8b2ca;">.pre-commit-config.yaml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.pre-commit-hooks.yaml" style="color: #8ad19b;">.pre-commit-hooks.yaml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierignore" style="color: #c1926f;">.prettierignore</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc" style="color: #50c0c2;">.prettierrc</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc.noplugins" style="color: #f98026;">.prettierrc.noplugins</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.prettierrc.temp" style="color: #c093db;">.prettierrc.temp</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.stylelintrc.json" style="color: #66d81c;">.stylelintrc.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vale.ini" style="color: #58f024;">.vale.ini</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CNAME" style="color: #a7a476;">CNAME</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CODE_OF_CONDUCT.md" style="color: #cc7375;">CODE_OF_CONDUCT.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CONTRIBUTING.md" style="color: #66d6cb;">CONTRIBUTING.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile" style="color: #cfb87f;">Gemfile</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile.lock" style="color: #b97598;">Gemfile.lock</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.test.cjs" style="color: #85ad1e;">KudoAll-Strava-Garmin.user.test.cjs</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/LICENSE" style="color: #b169d8;">LICENSE</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.Tests.ps1" style="color: #77b3b7;">Microsoft.PowerShell_profile.Tests.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.ps1" style="color: #f158ea;">Microsoft.PowerShell_profile.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.VSCode_profile.ps1" style="color: #8dc2f5;">Microsoft.VSCode_profile.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures.html" style="color: #de8f84;">OldRedditNewProfilePictures.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PrettierFormatExcludePreprocessor.ps1" style="color: #ba73d9;">PrettierFormatExcludePreprocessor.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Profile.ps1" style="color: #d772ec;">Profile.ps1</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/README.md" style="color: #d1cc85;">README.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SECURITY.md" style="color: #db97b2;">SECURITY.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-local.html" style="color: #5cccdd;">beautify-local.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.html" style="color: #e27c32;">beautify.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/convertHexToRgba.html" style="color: #57c6ab;">convertHexToRgba.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/cyclingCalculators.html" style="color: #5be533;">cyclingCalculators.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/deno.json" style="color: #859602;">deno.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/deno.lock" style="color: #44adaa;">deno.lock</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/eslint.config.mjs" style="color: #5b97e1;">eslint.config.mjs</a></li></ul>`;
                     break;
                 case 'file-list-2':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.ico" style="color: #60cd17;">favicon.ico</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.png" style="color: #5aa16f;">favicon.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.html" style="color: #ac9a68;">file_list.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.md" style="color: #d68c9a;">file_list.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/generate_gemfile.rb" style="color: #fbba58;">generate_gemfile.rb</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jsconfig.json" style="color: #5ea6fe;">jsconfig.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package-lock.json" style="color: #9ca27e;">package-lock.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package.json" style="color: #4e9d05;">package.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/requirements.txt" style="color: #6ae76d;">requirements.txt</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/robots.txt" style="color: #48eccb;">robots.txt</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/sitemap.xml" style="color: #6a95da;">sitemap.xml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/useragent-switcher-preferences.json" style="color: #fdad06;">useragent-switcher-preferences.json</a></li>
-<h2 style="color: #cd959f;">Userstyles</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/17track.net-DarkMode.user.css" style="color: #62af15;">17track.net-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ActivityFixDarkMode.user.css" style="color: #abaf49;">ActivityFixDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Archive.orgNightTheme%28Updated%29.user.css" style="color: #2eb316;">Archive.orgNightTheme(Updated).user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Benjdd-dark.user.css" style="color: #5e9e0c;">Benjdd-dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CFG.tf-DarkMode.user.css" style="color: #47de91;">CFG.tf-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CSSGradient-DarkMode.user.css" style="color: #a27e5b;">CSSGradient-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CSSPortal-Dark.user.css" style="color: #ecc017;">CSSPortal-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Copilot-Microsoft-Blackmode.user.css" style="color: #5be733;">Copilot-Microsoft-Blackmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CrystalMathLabs-BlackMode.user.css" style="color: #e19d3a;">CrystalMathLabs-BlackMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DCRainMaker-DarkMode.user.css" style="color: #80bd0d;">DCRainMaker-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Dearrow-RemoveDearrowButton.user.css" style="color: #34e228;">Dearrow-RemoveDearrowButton.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DeepSeek-DarkMode.user.css" style="color: #978f3f;">DeepSeek-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ESPN-DarkMode.user.css" style="color: #a6a9cc;">ESPN-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FandomDark.user.css" style="color: #a5971d;">FandomDark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Favero-DarkMode.user.css" style="color: #b79cf0;">Favero-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Fedex.com-DarkMode.user.css" style="color: #a28a02;">Fedex.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FitFileViewer-DarkTheme.user.css" style="color: #eaa384;">FitFileViewer-DarkTheme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FiveServer-DarkMode.user.css" style="color: #f56672;">FiveServer-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GOTOES.org-DarkMode.user.css" style="color: #5dc9f5;">GOTOES.org-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GTBikeV-DarkMode.user.css" style="color: #ed66f6;">GTBikeV-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminBadges-DarkMode.user.css" style="color: #50ead8;">GarminBadges-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminConnectDark.user.css" style="color: #d1929d;">GarminConnectDark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminRumors-DarkMode.user.css" style="color: #36f31a;">GarminRumors-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GreasyForkDark.user.css" style="color: #92c17a;">GreasyForkDark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gyazo-DarkMode.user.css" style="color: #98a636;">Gyazo-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Black.user.css" style="color: #46b7b1;">Kiwifarms-Black.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Halloween.user.css" style="color: #66ddfe;">Kiwifarms-Halloween.user.css</a></li></ul>`;
+                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.ico" style="color: #ae99c4;">favicon.ico</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.png" style="color: #53f418;">favicon.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.html" style="color: #77beba;">file_list.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.md" style="color: #dc9cf0;">file_list.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/generate_gemfile.rb" style="color: #aec76e;">generate_gemfile.rb</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jsconfig.json" style="color: #82d0f0;">jsconfig.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package-lock.json" style="color: #987abc;">package-lock.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package.json" style="color: #69e353;">package.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/requirements.txt" style="color: #ef77fa;">requirements.txt</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/robots.txt" style="color: #e68258;">robots.txt</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/sitemap.xml" style="color: #3fe783;">sitemap.xml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/useragent-switcher-preferences.json" style="color: #39ab3e;">useragent-switcher-preferences.json</a></li>
+<h2 style="color: #718ca7;">Userstyles</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/17track.net-DarkMode.user.css" style="color: #e39101;">17track.net-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ActivityFixDarkMode.user.css" style="color: #989da3;">ActivityFixDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Archive.orgNightTheme%28Updated%29.user.css" style="color: #81b427;">Archive.orgNightTheme(Updated).user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Benjdd-dark.user.css" style="color: #d1ad02;">Benjdd-dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CFG.tf-DarkMode.user.css" style="color: #ff8eb0;">CFG.tf-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CSSGradient-DarkMode.user.css" style="color: #56f53c;">CSSGradient-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CSSPortal-Dark.user.css" style="color: #80d41d;">CSSPortal-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Copilot-Microsoft-Blackmode.user.css" style="color: #9e94e7;">Copilot-Microsoft-Blackmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CrystalMathLabs-BlackMode.user.css" style="color: #7b8aaa;">CrystalMathLabs-BlackMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DCRainMaker-DarkMode.user.css" style="color: #bd94b9;">DCRainMaker-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Dearrow-RemoveDearrowButton.user.css" style="color: #5ac1e1;">Dearrow-RemoveDearrowButton.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DeepSeek-DarkMode.user.css" style="color: #64c2fa;">DeepSeek-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ESPN-DarkMode.user.css" style="color: #cfc2bf;">ESPN-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FandomDark.user.css" style="color: #5daac4;">FandomDark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Favero-DarkMode.user.css" style="color: #39e488;">Favero-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Fedex.com-DarkMode.user.css" style="color: #ae8a47;">Fedex.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FitFileViewer-DarkTheme.user.css" style="color: #b5d029;">FitFileViewer-DarkTheme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/FiveServer-DarkMode.user.css" style="color: #c2bf12;">FiveServer-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GOTOES.org-DarkMode.user.css" style="color: #b48193;">GOTOES.org-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GTBikeV-DarkMode.user.css" style="color: #df729e;">GTBikeV-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminBadges-DarkMode.user.css" style="color: #f26dec;">GarminBadges-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminConnectDark.user.css" style="color: #e5a7aa;">GarminConnectDark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminRumors-DarkMode.user.css" style="color: #7ba921;">GarminRumors-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GreasyForkDark.user.css" style="color: #cd7ac3;">GreasyForkDark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gyazo-DarkMode.user.css" style="color: #c9a28a;">Gyazo-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Black.user.css" style="color: #e5c362;">Kiwifarms-Black.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Halloween.user.css" style="color: #ca74a7;">Kiwifarms-Halloween.user.css</a></li></ul>`;
                     break;
                 case 'file-list-3':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Vaporwave.user.css" style="color: #ffb25b;">Kiwifarms-Vaporwave.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Klimat.app-DarkMode.user.css" style="color: #ce7cd7;">Klimat.app-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MarkdownViewer%2B%2BTheme.user.css" style="color: #a0bcac;">MarkdownViewer++Theme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Medicare-Gov-Dark-Mode.user.css" style="color: #54ce45;">Medicare-Gov-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyBikeTraffic-DarkMode.user.css" style="color: #7d78e9;">MyBikeTraffic-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyWorkoutCompanion-Dark.user.css" style="color: #ea60a8;">MyWorkoutCompanion-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Nascar.com-DarkMode.user.css" style="color: #e89ff6;">Nascar.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/NewYorkerDarkMode.user.css" style="color: #3ae403;">NewYorkerDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/NewYorkerSimpleDarkMode.user.css" style="color: #8bcc2d;">NewYorkerSimpleDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRS-HiScores-BlackMode.user.css" style="color: #cd9ea8;">OSRS-HiScores-BlackMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWorldHeatmap-Dark.user.css" style="color: #48a4b8;">OSRSWorldHeatmap-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OsrsWikiDarkMode.user.css" style="color: #659a18;">OsrsWikiDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Papertrails-DarkMode.user.css" style="color: #9eb7dc;">Papertrails-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PathFinderW3School-Dark.user.css" style="color: #b3a090;">PathFinderW3School-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PowerMeter.cc-DarkMode.user.css" style="color: #3fef61;">PowerMeter.cc-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PromptHero-Dark.user.css" style="color: #68a26d;">PromptHero-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditColoredComments.user.css" style="color: #9f7ffa;">RedditColoredComments.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Scrap.tf-BlackTheme.user.css" style="color: #bd8067;">Scrap.tf-BlackTheme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Skial-CustomTheme.user.css" style="color: #66cee5;">Skial-CustomTheme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SportSurge-BlackMode.user.css" style="color: #4ed7e6;">SportSurge-BlackMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SquadRats-Dark.user.css" style="color: #fa994c;">SquadRats-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Statshunters-Dark.user.css" style="color: #a088db;">Statshunters-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamDB-Black-Mode.user.css" style="color: #7bd750;">SteamDB-Black-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamDB-Dark-Mode.user.css" style="color: #b7d207;">SteamDB-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Brawlhalla.user.css" style="color: #c7744d;">SteamStat.us-Re-Remastered-Brawlhalla.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Christmas-Style.user.css" style="color: #37e1b5;">SteamStat.us-Re-Remastered-Christmas-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Detroit-Lions-Style.user.css" style="color: #69c401;">SteamStat.us-Re-Remastered-Detroit-Lions-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Detroit-Tigers.user.css" style="color: #73bfed;">SteamStat.us-Re-Remastered-Detroit-Tigers.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Easter-Style.user.css" style="color: #7b9600;">SteamStat.us-Re-Remastered-Easter-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Green-BlackStyle.user.css" style="color: #a8b7bc;">SteamStat.us-Re-Remastered-Green-BlackStyle.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Halloween-Style.user.css" style="color: #9ed123;">SteamStat.us-Re-Remastered-Halloween-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Lime%20Green-Purple%20Style.user.css" style="color: #f1cd18;">SteamStat.us-Re-Remastered-Lime Green-Purple Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Miami-Heat.user.css" style="color: #51f201;">SteamStat.us-Re-Remastered-Miami-Heat.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-NASCAR.user.css" style="color: #cb6d8f;">SteamStat.us-Re-Remastered-NASCAR.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Orange-BlackStyle.user.css" style="color: #ff64e4;">SteamStat.us-Re-Remastered-Orange-BlackStyle.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-PCMasterRace.user.css" style="color: #89c54d;">SteamStat.us-Re-Remastered-PCMasterRace.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Pink-BlackStyle.user.css" style="color: #47b82d;">SteamStat.us-Re-Remastered-Pink-BlackStyle.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Purple.user.css" style="color: #659dc2;">SteamStat.us-Re-Remastered-Purple.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-RainbowStyle.user.css" style="color: #2e9d7f;">SteamStat.us-Re-Remastered-RainbowStyle.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-SteamStyle.user.css" style="color: #7ac3a9;">SteamStat.us-Re-Remastered-SteamStyle.user.css</a></li></ul>`;
+                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Vaporwave.user.css" style="color: #4eb779;">Kiwifarms-Vaporwave.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Klimat.app-DarkMode.user.css" style="color: #34dc67;">Klimat.app-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MarkdownViewer%2B%2BTheme.user.css" style="color: #e39273;">MarkdownViewer++Theme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Medicare-Gov-Dark-Mode.user.css" style="color: #3bbf03;">Medicare-Gov-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyBikeTraffic-DarkMode.user.css" style="color: #e99b2d;">MyBikeTraffic-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyWorkoutCompanion-Dark.user.css" style="color: #2ee215;">MyWorkoutCompanion-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Nascar.com-DarkMode.user.css" style="color: #e88146;">Nascar.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/NewYorkerDarkMode.user.css" style="color: #2f93c5;">NewYorkerDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/NewYorkerSimpleDarkMode.user.css" style="color: #28c638;">NewYorkerSimpleDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRS-HiScores-BlackMode.user.css" style="color: #d4b29d;">OSRS-HiScores-BlackMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWorldHeatmap-Dark.user.css" style="color: #be9c2b;">OSRSWorldHeatmap-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OsrsWikiDarkMode.user.css" style="color: #ad7c39;">OsrsWikiDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Papertrails-DarkMode.user.css" style="color: #769c97;">Papertrails-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PathFinderW3School-Dark.user.css" style="color: #e265bb;">PathFinderW3School-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PowerMeter.cc-DarkMode.user.css" style="color: #f879e5;">PowerMeter.cc-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/PromptHero-Dark.user.css" style="color: #e78531;">PromptHero-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditColoredComments.user.css" style="color: #e0a317;">RedditColoredComments.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Scrap.tf-BlackTheme.user.css" style="color: #adb584;">Scrap.tf-BlackTheme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Skial-CustomTheme.user.css" style="color: #807cad;">Skial-CustomTheme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SportSurge-BlackMode.user.css" style="color: #e9a1bb;">SportSurge-BlackMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SquadRats-Dark.user.css" style="color: #e0aba8;">SquadRats-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Statshunters-Dark.user.css" style="color: #64b3d5;">Statshunters-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamDB-Black-Mode.user.css" style="color: #7e91f3;">SteamDB-Black-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamDB-Dark-Mode.user.css" style="color: #a9c704;">SteamDB-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Brawlhalla.user.css" style="color: #53a255;">SteamStat.us-Re-Remastered-Brawlhalla.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Christmas-Style.user.css" style="color: #84a663;">SteamStat.us-Re-Remastered-Christmas-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Detroit-Lions-Style.user.css" style="color: #43aaa8;">SteamStat.us-Re-Remastered-Detroit-Lions-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Detroit-Tigers.user.css" style="color: #49a241;">SteamStat.us-Re-Remastered-Detroit-Tigers.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Easter-Style.user.css" style="color: #a0ae83;">SteamStat.us-Re-Remastered-Easter-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Green-BlackStyle.user.css" style="color: #f18c24;">SteamStat.us-Re-Remastered-Green-BlackStyle.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Halloween-Style.user.css" style="color: #3195b0;">SteamStat.us-Re-Remastered-Halloween-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Lime%20Green-Purple%20Style.user.css" style="color: #25aa9f;">SteamStat.us-Re-Remastered-Lime Green-Purple Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Miami-Heat.user.css" style="color: #788ed1;">SteamStat.us-Re-Remastered-Miami-Heat.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-NASCAR.user.css" style="color: #89da00;">SteamStat.us-Re-Remastered-NASCAR.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Orange-BlackStyle.user.css" style="color: #979c3a;">SteamStat.us-Re-Remastered-Orange-BlackStyle.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-PCMasterRace.user.css" style="color: #3dccdc;">SteamStat.us-Re-Remastered-PCMasterRace.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Pink-BlackStyle.user.css" style="color: #b76bf5;">SteamStat.us-Re-Remastered-Pink-BlackStyle.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Purple.user.css" style="color: #d0a7dd;">SteamStat.us-Re-Remastered-Purple.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-RainbowStyle.user.css" style="color: #a5978a;">SteamStat.us-Re-Remastered-RainbowStyle.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-SteamStyle.user.css" style="color: #53b8af;">SteamStat.us-Re-Remastered-SteamStyle.user.css</a></li></ul>`;
                     break;
                 case 'file-list-4':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Sunset-Style.user.css" style="color: #26e7bd;">SteamStat.us-Re-Remastered-Sunset-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TeamFortress2.user.css" style="color: #70ad05;">SteamStat.us-Re-Remastered-TeamFortress2.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css" style="color: #879821;">SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css" style="color: #31dae6;">SteamStat.us-Re-Remastered-TourDeFrance.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-USA-Style.user.css" style="color: #319fae;">SteamStat.us-Re-Remastered-USA-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Windows95.user.css" style="color: #daaf0f;">SteamStat.us-Re-Remastered-Windows95.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Witcher3.user.css" style="color: #31c12d;">SteamStat.us-Re-Remastered-Witcher3.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Wolverines-Style.user.css" style="color: #e3acd1;">SteamStat.us-Re-Remastered-Wolverines-Style.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-WorldOfWarcraft.user.css" style="color: #fd58b4;">SteamStat.us-Re-Remastered-WorldOfWarcraft.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Zwift.user.css" style="color: #e49312;">SteamStat.us-Re-Remastered-Zwift.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered.user.css" style="color: #83cf7c;">SteamStat.us-Re-Remastered.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamTradeMatcher-DarkMode.user.css" style="color: #62d973;">SteamTradeMatcher-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StepSecurityDarkMode.user.css" style="color: #9980dd;">StepSecurityDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaAutoDarkTheme.user.css" style="color: #a26fde;">StravaAutoDarkTheme.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaStratTracker-DarkMode.user.css" style="color: #aca7e6;">StravaStratTracker-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StreamingSitesStreamsBlackDarkMode.user.css" style="color: #7cc558;">StreamingSitesStreamsBlackDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Stylus-DarkTheme-Updated.user.css" style="color: #76bec9;">Stylus-DarkTheme-Updated.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StylusEditorChromeDark-Fixed.user.css" style="color: #cdb006;">StylusEditorChromeDark-Fixed.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StylusFluent-Updated.user.css" style="color: #81c777;">StylusFluent-Updated.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TamperMonkey-DarkGreen.user.css" style="color: #2efa5c;">TamperMonkey-DarkGreen.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TamperMonkey-DarkMode.user.css" style="color: #ed9be3;">TamperMonkey-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TeamFortressWIki-Dark.user.css" style="color: #adb4c2;">TeamFortressWIki-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TechPowerUp-DarkMode.user.css" style="color: #9e8d45;">TechPowerUp-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TrainingPeaks-DarkMode.user.css" style="color: #c496b3;">TrainingPeaks-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UPS.com-DarkMode.user.css" style="color: #3dec58;">UPS.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Unroll.me-DarkMode.user.css" style="color: #99a62c;">Unroll.me-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UptimeRobotDark.user.css" style="color: #b7b679;">UptimeRobotDark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserStyle-Root-ColorTemplate.user.css" style="color: #969aa0;">UserStyle-Root-ColorTemplate.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserscriptTemplate.user.css" style="color: #3894cd;">UserscriptTemplate.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserscriptZone-Dark.user.css" style="color: #a4d400;">UserscriptZone-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserstyleWorld-DarkBamaBraves.user.css" style="color: #afdf16;">UserstyleWorld-DarkBamaBraves.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/VisualStudioCode-DarkMode.user.css" style="color: #cbae02;">VisualStudioCode-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WahooFitnessDarkMode.user.css" style="color: #4cf011;">WahooFitnessDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Walmart.com-DarkMode.user.css" style="color: #7acccb;">Walmart.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wanderer-Dark.user.css" style="color: #26ab27;">Wanderer-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Weather.com-DarkMode.user.css" style="color: #65907b;">Weather.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WebHint-Dark.user.css" style="color: #7f913e;">WebHint-Dark.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wigle-DarkMode-Beta.user.css" style="color: #b0c7e7;">Wigle-DarkMode-Beta.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wigle-DarkMode.user.css" style="color: #75b053;">Wigle-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wikipedia-OLED-SettingsPage.user.css" style="color: #62cd0c;">Wikipedia-OLED-SettingsPage.user.css</a></li></ul>`;
+                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Sunset-Style.user.css" style="color: #d6b752;">SteamStat.us-Re-Remastered-Sunset-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TeamFortress2.user.css" style="color: #c0a974;">SteamStat.us-Re-Remastered-TeamFortress2.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css" style="color: #d4a930;">SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css" style="color: #6e9681;">SteamStat.us-Re-Remastered-TourDeFrance.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-USA-Style.user.css" style="color: #b5cb33;">SteamStat.us-Re-Remastered-USA-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Windows95.user.css" style="color: #b4c5b0;">SteamStat.us-Re-Remastered-Windows95.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Witcher3.user.css" style="color: #24a3ce;">SteamStat.us-Re-Remastered-Witcher3.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Wolverines-Style.user.css" style="color: #d37b27;">SteamStat.us-Re-Remastered-Wolverines-Style.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-WorldOfWarcraft.user.css" style="color: #9ddd07;">SteamStat.us-Re-Remastered-WorldOfWarcraft.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Zwift.user.css" style="color: #a97cc8;">SteamStat.us-Re-Remastered-Zwift.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered.user.css" style="color: #3bbe98;">SteamStat.us-Re-Remastered.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamTradeMatcher-DarkMode.user.css" style="color: #5795ed;">SteamTradeMatcher-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StepSecurityDarkMode.user.css" style="color: #95913f;">StepSecurityDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaAutoDarkTheme.user.css" style="color: #c4b79b;">StravaAutoDarkTheme.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaStratTracker-DarkMode.user.css" style="color: #ee62f0;">StravaStratTracker-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StreamingSitesStreamsBlackDarkMode.user.css" style="color: #faa832;">StreamingSitesStreamsBlackDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Stylus-DarkTheme-Updated.user.css" style="color: #a8c778;">Stylus-DarkTheme-Updated.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StylusEditorChromeDark-Fixed.user.css" style="color: #e36aa0;">StylusEditorChromeDark-Fixed.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StylusFluent-Updated.user.css" style="color: #4bda74;">StylusFluent-Updated.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TamperMonkey-DarkGreen.user.css" style="color: #3ae14e;">TamperMonkey-DarkGreen.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TamperMonkey-DarkMode.user.css" style="color: #2cef33;">TamperMonkey-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TeamFortressWIki-Dark.user.css" style="color: #35b49d;">TeamFortressWIki-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TechPowerUp-DarkMode.user.css" style="color: #28cbbc;">TechPowerUp-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/TrainingPeaks-DarkMode.user.css" style="color: #aaa60a;">TrainingPeaks-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UPS.com-DarkMode.user.css" style="color: #fc7117;">UPS.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Unroll.me-DarkMode.user.css" style="color: #6391c1;">Unroll.me-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UptimeRobotDark.user.css" style="color: #a09993;">UptimeRobotDark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserStyle-Root-ColorTemplate.user.css" style="color: #efbd2f;">UserStyle-Root-ColorTemplate.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserscriptTemplate.user.css" style="color: #c0866f;">UserscriptTemplate.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserscriptZone-Dark.user.css" style="color: #cbc811;">UserscriptZone-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserstyleWorld-DarkBamaBraves.user.css" style="color: #67bbd0;">UserstyleWorld-DarkBamaBraves.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/VisualStudioCode-DarkMode.user.css" style="color: #8cb139;">VisualStudioCode-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WahooFitnessDarkMode.user.css" style="color: #7dd32c;">WahooFitnessDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Walmart.com-DarkMode.user.css" style="color: #2fb5be;">Walmart.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wanderer-Dark.user.css" style="color: #6ea250;">Wanderer-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Weather.com-DarkMode.user.css" style="color: #aab440;">Weather.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WebHint-Dark.user.css" style="color: #c59ca7;">WebHint-Dark.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wigle-DarkMode-Beta.user.css" style="color: #26b14e;">Wigle-DarkMode-Beta.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wigle-DarkMode.user.css" style="color: #f3606d;">Wigle-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Wikipedia-OLED-SettingsPage.user.css" style="color: #8c98a9;">Wikipedia-OLED-SettingsPage.user.css</a></li></ul>`;
                     break;
                 case 'file-list-5':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Windy-DarkMode.user.css" style="color: #2f99ba;">Windy-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YT-Vibra.user.css" style="color: #48a78f;">YT-Vibra.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeRainbowProgress.user.css" style="color: #56ac07;">YoutubeRainbowProgress.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeScrubberColors.user.css" style="color: #2ad323;">YoutubeScrubberColors.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeTV-BlackMode.user.css" style="color: #71994d;">YoutubeTV-BlackMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift.com-Dark-Mode.user.css" style="color: #b39eac;">Zwift.com-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftHacks-DarkMode.user.css" style="color: #4cb86d;">ZwiftHacks-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftInsiderDarkMode.user.css" style="color: #22b677;">ZwiftInsiderDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftPower.comDark%20Mode.user.css" style="color: #bf6aff;">ZwiftPower.comDark Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwiftalizer.com-Darker-Mode.user.css" style="color: #38f847;">Zwiftalizer.com-Darker-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwifterBikesDarkMode.user.css" style="color: #b270bc;">ZwifterBikesDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/abcnews.go.com-DarkMode.user.css" style="color: #e67ff3;">abcnews.go.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/bicycling-DarkMode.user.css" style="color: #de932d;">bicycling-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/detroitmi.gov-DarkMode.user.css" style="color: #5adccb;">detroitmi.gov-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ebay-Dark-Mode.user.css" style="color: #b29f58;">ebay-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/findthatride-darkmode.user.css" style="color: #5bcb3c;">findthatride-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/fitfiletools-darkmode.user.css" style="color: #42b984;">fitfiletools-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/fivethirtyeight.comDarkMode.user.css" style="color: #6a9e71;">fivethirtyeight.comDarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jalopnik.com-DarkMode.user.css" style="color: #3af85f;">jalopnik.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/kom.club-darkmode.user.css" style="color: #72974f;">kom.club-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/makinolo.com-Dark-Mode.user.css" style="color: #7fcb33;">makinolo.com-Dark-Mode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/michigan.gov-DarkMode.user.css" style="color: #ffa857;">michigan.gov-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/mywindsock-darkmode.user.css" style="color: #52d075;">mywindsock-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/nbcwashington.com-DarkMode.user.css" style="color: #60b881;">nbcwashington.com-DarkMode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/nytimes.com-DarkModeSimple.user.css" style="color: #988765;">nytimes.com-DarkModeSimple.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/p337info-tf2.user.css" style="color: #2cd65b;">p337info-tf2.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/runalyze-darkmode.user.css" style="color: #b6d400;">runalyze-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/stravatoolbox-darkmode.user.css" style="color: #76b25e;">stravatoolbox-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/veloviewer-darkmode.user.css" style="color: #25df84;">veloviewer-darkmode.user.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/zwifthub.com-darkmode.user.css" style="color: #35e353;">zwifthub.com-darkmode.user.css</a></li>
-<h2 style="color: #fa942b;">Userscripts</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/AscentDescentMetersToFeet.user.js" style="color: #62b525;">AscentDescentMetersToFeet.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/AutoMergeDependabotPRs.user.js" style="color: #d5acd4;">AutoMergeDependabotPRs.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DeleteYoutubePlaylists.user.js" style="color: #62a1d9;">DeleteYoutubePlaylists.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnhanceYouTubeProfilePictures.user.js" style="color: #aba09a;">EnhanceYouTubeProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeKiwifarmsProfilePictures.user.js" style="color: #edbf0c;">EnlargeKiwifarmsProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeYouTubeChatProfilePictures.user.js" style="color: #28f799;">EnlargeYouTubeChatProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeYouTubeCommentSectionProfilePictures.user.js" style="color: #64b8ad;">EnlargeYouTubeCommentSectionProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GOTOESFitFileEditor-AutoClosePopup.user.js" style="color: #78d844;">GOTOESFitFileEditor-AutoClosePopup.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminConnectRemoveGear.user.js" style="color: #729387;">GarminConnectRemoveGear.user.js</a></li></ul>`;
+                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Windy-DarkMode.user.css" style="color: #2bc9ce;">Windy-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YT-Vibra.user.css" style="color: #de6dfc;">YT-Vibra.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeRainbowProgress.user.css" style="color: #dc72f8;">YoutubeRainbowProgress.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeScrubberColors.user.css" style="color: #7882be;">YoutubeScrubberColors.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeTV-BlackMode.user.css" style="color: #b2c095;">YoutubeTV-BlackMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift.com-Dark-Mode.user.css" style="color: #ec7bcd;">Zwift.com-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftHacks-DarkMode.user.css" style="color: #fc6e7b;">ZwiftHacks-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftInsiderDarkMode.user.css" style="color: #96e044;">ZwiftInsiderDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftPower.comDark%20Mode.user.css" style="color: #f276f9;">ZwiftPower.comDark Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwiftalizer.com-Darker-Mode.user.css" style="color: #829dec;">Zwiftalizer.com-Darker-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwifterBikesDarkMode.user.css" style="color: #9dc903;">ZwifterBikesDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/abcnews.go.com-DarkMode.user.css" style="color: #e89d17;">abcnews.go.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/bicycling-DarkMode.user.css" style="color: #d39653;">bicycling-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/detroitmi.gov-DarkMode.user.css" style="color: #8c9ab5;">detroitmi.gov-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ebay-Dark-Mode.user.css" style="color: #dc8639;">ebay-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/findthatride-darkmode.user.css" style="color: #a99e05;">findthatride-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/fitfiletools-darkmode.user.css" style="color: #7b79ea;">fitfiletools-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/fivethirtyeight.comDarkMode.user.css" style="color: #dfb2fe;">fivethirtyeight.comDarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jalopnik.com-DarkMode.user.css" style="color: #c5814c;">jalopnik.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/kom.club-darkmode.user.css" style="color: #5a9ebe;">kom.club-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/makinolo.com-Dark-Mode.user.css" style="color: #dc63ca;">makinolo.com-Dark-Mode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/michigan.gov-DarkMode.user.css" style="color: #c1bf8c;">michigan.gov-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/mywindsock-darkmode.user.css" style="color: #40a8eb;">mywindsock-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/nbcwashington.com-DarkMode.user.css" style="color: #fb810e;">nbcwashington.com-DarkMode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/nytimes.com-DarkModeSimple.user.css" style="color: #4588ef;">nytimes.com-DarkModeSimple.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/p337info-tf2.user.css" style="color: #9e8059;">p337info-tf2.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/runalyze-darkmode.user.css" style="color: #34e10c;">runalyze-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/stravatoolbox-darkmode.user.css" style="color: #c9972f;">stravatoolbox-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/veloviewer-darkmode.user.css" style="color: #8a897a;">veloviewer-darkmode.user.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/zwifthub.com-darkmode.user.css" style="color: #92c429;">zwifthub.com-darkmode.user.css</a></li>
+<h2 style="color: #23c1ab;">Userscripts</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/AscentDescentMetersToFeet.user.js" style="color: #588ae8;">AscentDescentMetersToFeet.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/AutoMergeDependabotPRs.user.js" style="color: #c06cc1;">AutoMergeDependabotPRs.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/DeleteYoutubePlaylists.user.js" style="color: #cda2e5;">DeleteYoutubePlaylists.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnhanceYouTubeProfilePictures.user.js" style="color: #aacb01;">EnhanceYouTubeProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeKiwifarmsProfilePictures.user.js" style="color: #47e264;">EnlargeKiwifarmsProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeYouTubeChatProfilePictures.user.js" style="color: #f27ae2;">EnlargeYouTubeChatProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/EnlargeYouTubeCommentSectionProfilePictures.user.js" style="color: #c98ac0;">EnlargeYouTubeCommentSectionProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GOTOESFitFileEditor-AutoClosePopup.user.js" style="color: #28b48c;">GOTOESFitFileEditor-AutoClosePopup.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GarminConnectRemoveGear.user.js" style="color: #9bceb7;">GarminConnectRemoveGear.user.js</a></li></ul>`;
                     break;
                 case 'file-list-6':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GithubMarkMergedDone.user.js" style="color: #4cbe27;">GithubMarkMergedDone.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GyazoDirectLink.user.js" style="color: #a0c8b7;">GyazoDirectLink.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideChineseUserstyles.user.js" style="color: #3dcde3;">HideChineseUserstyles.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideNon-EnglishUserstyles.user.js" style="color: #9dd60a;">HideNon-EnglishUserstyles.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.js" style="color: #c5a0ad;">KudoAll-Strava-Garmin.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MergeDependabotPRs.user.js" style="color: #3dd31f;">MergeDependabotPRs.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer-SlowMode.user.js" style="color: #92af14;">OSRSWikiAuto-Categorizer-SlowMode.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer.user.js" style="color: #6ecc04;">OSRSWikiAuto-Categorizer.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Navbox-SlowMode.user.js" style="color: #58ad8d;">OSRSWikiAuto-Navbox-SlowMode.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version-Reddit-Only-Version.user.js" style="color: #60bac5;">OldRedditNewProfilePictures-API-Key-Version-Reddit-Only-Version.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version-Reddit-Stream-Version.user.js" style="color: #bd7198;">OldRedditNewProfilePictures-API-Key-Version-Reddit-Stream-Version.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version.user.js" style="color: #53b998;">OldRedditNewProfilePictures-API-Key-Version.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-UniversalVersion.user.js" style="color: #669dd8;">OldRedditNewProfilePictures-UniversalVersion.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures.user.js" style="color: #6ac89c;">OldRedditNewProfilePictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.user.js" style="color: #8498d4;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresher.user.js" style="color: #7dbddf;">RedditStreamAutoRefresher.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresherFaster.user.js" style="color: #35af5a;">RedditStreamAutoRefresherFaster.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RightClickEnable.user.js" style="color: #5fae3e;">RightClickEnable.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaAutoAuthorize.user.js" style="color: #c093a6;">StravaAutoAuthorize.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaTextAuto-Selector.user.js" style="color: #67d6fc;">StravaTextAuto-Selector.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SuperchargedLocalDirectoryWebUI.user.js" style="color: #7ac887;">SuperchargedLocalDirectoryWebUI.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserstyleWorld-SyncStyles.user.js" style="color: #48a2dd;">UserstyleWorld-SyncStyles.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTV-Volume-Rememberer.user.js" style="color: #bdc353;">YouTubeTV-Volume-Rememberer.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl.user.js" style="color: #babf95;">YouTubeTVVolumeControl.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl.user.js" style="color: #838b1c;">YouTubeVolumeControl.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeVolumeDisplay.user.js" style="color: #2adccc;">YoutubeVolumeDisplay.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift-Give-RideOns-to-Everyone.user.js" style="color: #ff8b51;">Zwift-Give-RideOns-to-Everyone.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/reddit-stream-Enhancements.user.js" style="color: #93a47b;">reddit-stream-Enhancements.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-Add-Balance-Original.user.js" style="color: #928815;">strava-balance/Strava-Add-Balance-Original.user.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-Add-Balance-Updated.user.js" style="color: #a2ba2b;">strava-balance/Strava-Add-Balance-Updated.user.js</a></li>
-<h2 style="color: #3ed62b;">CSS</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Discord-Dark%2B-Default-Member-List.css" style="color: #5da12f;">Discord-Dark+-Default-Member-List.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/styles.css" style="color: #e9737b;">YouTubeVolumeControl/styles.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.css" style="color: #ab9ce6;">codemirror.css</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.min.css" style="color: #abbb90;">codemirror.min.css</a></li>
-<h2 style="color: #e9c10a;">JavaScript</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.eslintrc.js" style="color: #23d08f;">.eslintrc.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/background.js" style="color: #78b05c;">SteamCookieExtractor2/background.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/content.js" style="color: #dc6aaf;">SteamCookieExtractor2/content.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/options.js" style="color: #d3b540;">SteamCookieExtractor2/options.js</a></li></ul>`;
+                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GithubMarkMergedDone.user.js" style="color: #afb04d;">GithubMarkMergedDone.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GyazoDirectLink.user.js" style="color: #2c9f58;">GyazoDirectLink.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideChineseUserstyles.user.js" style="color: #cdbde1;">HideChineseUserstyles.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideNon-EnglishUserstyles.user.js" style="color: #3fbc82;">HideNon-EnglishUserstyles.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.js" style="color: #688ae5;">KudoAll-Strava-Garmin.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MergeDependabotPRs.user.js" style="color: #36f200;">MergeDependabotPRs.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer-SlowMode.user.js" style="color: #a17497;">OSRSWikiAuto-Categorizer-SlowMode.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer.user.js" style="color: #b77ce3;">OSRSWikiAuto-Categorizer.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Navbox-SlowMode.user.js" style="color: #56f633;">OSRSWikiAuto-Navbox-SlowMode.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version-Reddit-Only-Version.user.js" style="color: #2bba1f;">OldRedditNewProfilePictures-API-Key-Version-Reddit-Only-Version.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version-Reddit-Stream-Version.user.js" style="color: #2ba460;">OldRedditNewProfilePictures-API-Key-Version-Reddit-Stream-Version.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-API-Key-Version.user.js" style="color: #e3a27d;">OldRedditNewProfilePictures-API-Key-Version.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures-UniversalVersion.user.js" style="color: #6ab2fb;">OldRedditNewProfilePictures-UniversalVersion.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures.user.js" style="color: #51bff8;">OldRedditNewProfilePictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.user.js" style="color: #6897b9;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresher.user.js" style="color: #8bd243;">RedditStreamAutoRefresher.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresherFaster.user.js" style="color: #7380ed;">RedditStreamAutoRefresherFaster.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/RightClickEnable.user.js" style="color: #2cdc06;">RightClickEnable.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaAutoAuthorize.user.js" style="color: #24de93;">StravaAutoAuthorize.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/StravaTextAuto-Selector.user.js" style="color: #73bf95;">StravaTextAuto-Selector.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SuperchargedLocalDirectoryWebUI.user.js" style="color: #2db1bf;">SuperchargedLocalDirectoryWebUI.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserstyleWorld-SyncStyles.user.js" style="color: #a37f60;">UserstyleWorld-SyncStyles.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTV-Volume-Rememberer.user.js" style="color: #cd811a;">YouTubeTV-Volume-Rememberer.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl.user.js" style="color: #7bda86;">YouTubeTVVolumeControl.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl.user.js" style="color: #85b5d1;">YouTubeVolumeControl.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeVolumeDisplay.user.js" style="color: #caa3e2;">YoutubeVolumeDisplay.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift-Give-RideOns-to-Everyone.user.js" style="color: #49aa8e;">Zwift-Give-RideOns-to-Everyone.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/reddit-stream-Enhancements.user.js" style="color: #e4ac8b;">reddit-stream-Enhancements.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-Add-Balance-Original.user.js" style="color: #35d412;">strava-balance/Strava-Add-Balance-Original.user.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-Add-Balance-Updated.user.js" style="color: #6fde5d;">strava-balance/Strava-Add-Balance-Updated.user.js</a></li>
+<h2 style="color: #f1a8c0;">CSS</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Discord-Dark%2B-Default-Member-List.css" style="color: #749f92;">Discord-Dark+-Default-Member-List.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/styles.css" style="color: #4aa42f;">YouTubeVolumeControl/styles.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.css" style="color: #529cfd;">codemirror.css</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.min.css" style="color: #abcd8e;">codemirror.min.css</a></li>
+<h2 style="color: #d0a0d1;">JavaScript</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.eslintrc.js" style="color: #98c7a4;">.eslintrc.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/background.js" style="color: #a4a82f;">SteamCookieExtractor2/background.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/content.js" style="color: #a2d0a6;">SteamCookieExtractor2/content.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/options.js" style="color: #6fa181;">SteamCookieExtractor2/options.js</a></li></ul>`;
                     break;
                 case 'file-list-7':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/popup.js" style="color: #75bbdc;">SteamCookieExtractor2/popup.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WIndyPlugin.min.js" style="color: #a2799e;">WIndyPlugin.min.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/background.js" style="color: #f3a8cc;">YouTubeTVVolumeControl/background.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/content.js" style="color: #e48308;">YouTubeTVVolumeControl/content.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/background.js" style="color: #e09a10;">YouTubeVolumeControl/background.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/content.js" style="color: #46cc11;">YouTubeVolumeControl/content.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-css-mod.js" style="color: #51e4a2;">beautify-css-mod.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.js" style="color: #cc866f;">beautify.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.js" style="color: #4ed790;">codemirror.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.min.js" style="color: #bc7af2;">codemirror.min.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/convertHexToRgba.js" style="color: #ab9ec0;">convertHexToRgba.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/css.js" style="color: #ba9e5f;">css.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/css.min.js" style="color: #7def05;">css.min.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/cyclingCalculators.js" style="color: #c6a804;">cyclingCalculators.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-AddBalance-Updated.js" style="color: #8a8920;">strava-balance/Strava-AddBalance-Updated.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-AddBalance.js" style="color: #aeba0b;">strava-balance/Strava-AddBalance.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/binary-Updated.js" style="color: #8cb2c4;">strava-balance/binary-Updated.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/binary.js" style="color: #3bbdc1;">strava-balance/binary.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/base64-js-1.3.1/index.js" style="color: #698ab2;">strava-balance/buffer-5.6.1/base64-js-1.3.1/index.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/ieee754-1.1.13/index.js" style="color: #8ebbf1;">strava-balance/buffer-5.6.1/ieee754-1.1.13/index.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/index.js" style="color: #ebb34d;">strava-balance/buffer-5.6.1/index.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit-parser-Updated.js" style="color: #f0900a;">strava-balance/fit-parser-Updated.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit-parser.js" style="color: #6fc9e0;">strava-balance/fit-parser.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit.js" style="color: #5dc336;">strava-balance/fit.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/messages.js" style="color: #c7b2d0;">strava-balance/messages.js</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/strava-fit-parser.js" style="color: #849d63;">strava-balance/strava-fit-parser.js</a></li>
-<h2 style="color: #c8aac1;">YAML</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/dependabot.yml" style="color: #e9ab30;">.github/dependabot.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/labeler.yml" style="color: #aeae1e;">.github/labeler.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ActionLint.yml" style="color: #b5aea8;">.github/workflows/ActionLint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/Bandit.yml" style="color: #63d3b5;">.github/workflows/Bandit.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/Snake.yml" style="color: #abd0c1;">.github/workflows/Snake.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/black-formatter.yml" style="color: #e59958;">.github/workflows/black-formatter.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/codeql.yml" style="color: #938ff1;">.github/workflows/codeql.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/defender.yml" style="color: #e5b2b2;">.github/workflows/defender.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/deno.yml" style="color: #e774df;">.github/workflows/deno.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/dependency-review.yml" style="color: #f588f8;">.github/workflows/dependency-review.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/devskim.yml" style="color: #8ca67f;">.github/workflows/devskim.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/eslint.yml" style="color: #c8c780;">.github/workflows/eslint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/generate-file-list.yml" style="color: #a590fe;">.github/workflows/generate-file-list.yml</a></li></ul>`;
+                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/popup.js" style="color: #db7aa5;">SteamCookieExtractor2/popup.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WIndyPlugin.min.js" style="color: #39aac6;">WIndyPlugin.min.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/background.js" style="color: #f882a9;">YouTubeTVVolumeControl/background.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/content.js" style="color: #da8027;">YouTubeTVVolumeControl/content.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/background.js" style="color: #d7cc48;">YouTubeVolumeControl/background.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/content.js" style="color: #bda0d2;">YouTubeVolumeControl/content.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-css-mod.js" style="color: #64d684;">beautify-css-mod.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.js" style="color: #ae80e1;">beautify.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.js" style="color: #34d28a;">codemirror.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/codemirror.min.js" style="color: #6695dc;">codemirror.min.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/convertHexToRgba.js" style="color: #9a9125;">convertHexToRgba.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/css.js" style="color: #89973a;">css.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/css.min.js" style="color: #34e78e;">css.min.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/cyclingCalculators.js" style="color: #83b430;">cyclingCalculators.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-AddBalance-Updated.js" style="color: #63a55e;">strava-balance/Strava-AddBalance-Updated.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/Strava-AddBalance.js" style="color: #d76f6e;">strava-balance/Strava-AddBalance.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/binary-Updated.js" style="color: #8d77f0;">strava-balance/binary-Updated.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/binary.js" style="color: #47a1e3;">strava-balance/binary.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/base64-js-1.3.1/index.js" style="color: #49f047;">strava-balance/buffer-5.6.1/base64-js-1.3.1/index.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/ieee754-1.1.13/index.js" style="color: #81d1e9;">strava-balance/buffer-5.6.1/ieee754-1.1.13/index.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/buffer-5.6.1/index.js" style="color: #60f217;">strava-balance/buffer-5.6.1/index.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit-parser-Updated.js" style="color: #66bf85;">strava-balance/fit-parser-Updated.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit-parser.js" style="color: #33e8bc;">strava-balance/fit-parser.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/fit.js" style="color: #ae7d51;">strava-balance/fit.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/messages.js" style="color: #84b5c5;">strava-balance/messages.js</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/strava-balance/strava-fit-parser.js" style="color: #fc6a1c;">strava-balance/strava-fit-parser.js</a></li>
+<h2 style="color: #7689c6;">YAML</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/dependabot.yml" style="color: #24cd12;">.github/dependabot.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/labeler.yml" style="color: #bb96bd;">.github/labeler.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ActionLint.yml" style="color: #46cb37;">.github/workflows/ActionLint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/Bandit.yml" style="color: #3ddd92;">.github/workflows/Bandit.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/Snake.yml" style="color: #38d8ae;">.github/workflows/Snake.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/black-formatter.yml" style="color: #e97766;">.github/workflows/black-formatter.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/codeql.yml" style="color: #7981c4;">.github/workflows/codeql.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/defender.yml" style="color: #b1d010;">.github/workflows/defender.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/deno.yml" style="color: #95df02;">.github/workflows/deno.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/dependency-review.yml" style="color: #68a3f7;">.github/workflows/dependency-review.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/devskim.yml" style="color: #3a8afa;">.github/workflows/devskim.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/eslint.yml" style="color: #90ad22;">.github/workflows/eslint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/generate-file-list.yml" style="color: #5aef6c;">.github/workflows/generate-file-list.yml</a></li></ul>`;
                     break;
                 case 'file-list-8':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/greetings.yml" style="color: #38b437;">.github/workflows/greetings.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/label.yml" style="color: #2ddc34;">.github/workflows/label.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ossar.yml" style="color: #cb8a14;">.github/workflows/ossar.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/osv-scanner.yml" style="color: #f96cc3;">.github/workflows/osv-scanner.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/scorecards.yml" style="color: #e284a6;">.github/workflows/scorecards.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/semgrep.yml" style="color: #d9c697;">.github/workflows/semgrep.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sitemap.yml" style="color: #ea9ed4;">.github/workflows/sitemap.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sobelow.yml" style="color: #739ecd;">.github/workflows/sobelow.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/stale.yml" style="color: #e866ca;">.github/workflows/stale.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/static.yml" style="color: #e0c1ac;">.github/workflows/static.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/stylelint.yml" style="color: #4ebf6f;">.github/workflows/stylelint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/super-linter.yml" style="color: #fc925d;">.github/workflows/super-linter.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.markdownlint.yml" style="color: #b0d72f;">.markdownlint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.scss-lint.yml" style="color: #35f370;">.scss-lint.yml</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/_config.yml" style="color: #30ed8a;">_config.yml</a></li>
-<h2 style="color: #6bd2a2;">.github/PULL_REQUEST_TEMPLATE</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/pull_request_template.md" style="color: #99c699;">.github/PULL_REQUEST_TEMPLATE/pull_request_template.md</a></li>
-<h2 style="color: #dfbfb7;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/bug_report.md" style="color: #c9d250;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/bug_report.md</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/feature_request.md" style="color: #9f9f70;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/feature_request.md</a></li>
-<h2 style="color: #d7876e;">.vscode</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/generate_file_list.py" style="color: #bf96c2;">.vscode/generate_file_list.py</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/launch.json" style="color: #f78dbf;">.vscode/launch.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/settings.json" style="color: #a2af52;">.vscode/settings.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/tasks.json" style="color: #35e7fa;">.vscode/tasks.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/test_generate_file_list.py" style="color: #229fef;">.vscode/test_generate_file_list.py</a></li>
-<h2 style="color: #df9f62;">OldRedditNewProfilePictures</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.options.json" style="color: #c59bf3;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.options.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.storage.json" style="color: #7eabe0;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.storage.json</a></li>
-<h2 style="color: #25c66f;">SteamCookieExtractor2</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/manifest.json" style="color: #ea8fa3;">SteamCookieExtractor2/manifest.json</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/options.html" style="color: #62a360;">SteamCookieExtractor2/options.html</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/popup.html" style="color: #40b458;">SteamCookieExtractor2/popup.html</a></li>
-<h2 style="color: #b26eda;">SteamCookieExtractor2/icons</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon128.png" style="color: #88a3b2;">SteamCookieExtractor2/icons/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon16.png" style="color: #d77f26;">SteamCookieExtractor2/icons/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon48.png" style="color: #ec805a;">SteamCookieExtractor2/icons/icon48.png</a></li>
-<h2 style="color: #65e194;">SteamCookieExtractor2/icons/images</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon128.png" style="color: #c792af;">SteamCookieExtractor2/icons/images/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon16.png" style="color: #c685f2;">SteamCookieExtractor2/icons/images/icon16.png</a></li></ul>`;
+                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/greetings.yml" style="color: #30ef2b;">.github/workflows/greetings.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/label.yml" style="color: #68ba26;">.github/workflows/label.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ossar.yml" style="color: #a4b53f;">.github/workflows/ossar.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/osv-scanner.yml" style="color: #c6cc38;">.github/workflows/osv-scanner.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/scorecards.yml" style="color: #97d0fd;">.github/workflows/scorecards.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/semgrep.yml" style="color: #eb70b8;">.github/workflows/semgrep.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sitemap.yml" style="color: #9aa963;">.github/workflows/sitemap.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sobelow.yml" style="color: #37b4ef;">.github/workflows/sobelow.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/stale.yml" style="color: #779152;">.github/workflows/stale.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/static.yml" style="color: #7f8bc7;">.github/workflows/static.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/stylelint.yml" style="color: #8da763;">.github/workflows/stylelint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/super-linter.yml" style="color: #43ee29;">.github/workflows/super-linter.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.markdownlint.yml" style="color: #54907d;">.markdownlint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.scss-lint.yml" style="color: #e4b30c;">.scss-lint.yml</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/_config.yml" style="color: #75af8f;">_config.yml</a></li>
+<h2 style="color: #e397d6;">.github/PULL_REQUEST_TEMPLATE</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/pull_request_template.md" style="color: #56cf06;">.github/PULL_REQUEST_TEMPLATE/pull_request_template.md</a></li>
+<h2 style="color: #d5b2ea;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/bug_report.md" style="color: #7cbdbb;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/bug_report.md</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/feature_request.md" style="color: #d496bf;">.github/PULL_REQUEST_TEMPLATE/ISSUE_TEMPLATE/feature_request.md</a></li>
+<h2 style="color: #cc746d;">.vscode</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/generate_file_list.py" style="color: #2cc256;">.vscode/generate_file_list.py</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/launch.json" style="color: #26c3bb;">.vscode/launch.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/settings.json" style="color: #84cd78;">.vscode/settings.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/tasks.json" style="color: #9c9480;">.vscode/tasks.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.vscode/test_generate_file_list.py" style="color: #d4a7b8;">.vscode/test_generate_file_list.py</a></li>
+<h2 style="color: #73b46c;">OldRedditNewProfilePictures</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.options.json" style="color: #89cd17;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.options.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.storage.json" style="color: #40d756;">OldRedditNewProfilePictures/Old Reddit with New Profile Pictures.storage.json</a></li>
+<h2 style="color: #d7ad8b;">SteamCookieExtractor2</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/manifest.json" style="color: #f762b9;">SteamCookieExtractor2/manifest.json</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/options.html" style="color: #fc794b;">SteamCookieExtractor2/options.html</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/popup.html" style="color: #6fcf9f;">SteamCookieExtractor2/popup.html</a></li>
+<h2 style="color: #34f029;">SteamCookieExtractor2/icons</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon128.png" style="color: #ef9b86;">SteamCookieExtractor2/icons/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon16.png" style="color: #f8a638;">SteamCookieExtractor2/icons/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/icon48.png" style="color: #eab099;">SteamCookieExtractor2/icons/icon48.png</a></li>
+<h2 style="color: #8d7afa;">SteamCookieExtractor2/icons/images</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon128.png" style="color: #ffc230;">SteamCookieExtractor2/icons/images/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon16.png" style="color: #45d86b;">SteamCookieExtractor2/icons/images/icon16.png</a></li></ul>`;
                     break;
                 case 'file-list-9':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon48.png" style="color: #c1b83e;">SteamCookieExtractor2/icons/images/icon48.png</a></li>
-<h2 style="color: #bd98ec;">YouTubeTVVolumeControl</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon128.png" style="color: #f79748;">YouTubeTVVolumeControl/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon16.png" style="color: #6fe06c;">YouTubeTVVolumeControl/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon48.png" style="color: #28cdd7;">YouTubeTVVolumeControl/icon48.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/manifest.json" style="color: #b7911f;">YouTubeTVVolumeControl/manifest.json</a></li>
-<h2 style="color: #da9f04;">YouTubeVolumeControl</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon128.png" style="color: #3afd50;">YouTubeVolumeControl/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon16.png" style="color: #6ee123;">YouTubeVolumeControl/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon48.png" style="color: #e0953d;">YouTubeVolumeControl/icon48.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/manifest.json" style="color: #4bf745;">YouTubeVolumeControl/manifest.json</a></li>
-<h2 style="color: #61a726;">YouTubeVolumeControl/icons</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon128.png" style="color: #7bae48;">YouTubeVolumeControl/icons/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon16.png" style="color: #febf67;">YouTubeVolumeControl/icons/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon48.png" style="color: #52c25c;">YouTubeVolumeControl/icons/icon48.png</a></li>
-<h2 style="color: #9b80ba;">YouTubeVolumeControl/icons/images</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon128.png" style="color: #f3aa95;">YouTubeVolumeControl/icons/images/icon128.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon16.png" style="color: #36df34;">YouTubeVolumeControl/icons/images/icon16.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon48.png" style="color: #cfce11;">YouTubeVolumeControl/icons/images/icon48.png</a></li>
-<h2 style="color: #b68d7e;">assets</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-city-background.png" style="color: #83e56f;">assets/kiwi-city-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-default-background.png" style="color: #e1af89;">assets/kiwi-default-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-flower-background.png" style="color: #77a311;">assets/kiwi-flower-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-green-background.png" style="color: #369c4d;">assets/kiwi-green-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-purple-background.png" style="color: #27ab21;">assets/kiwi-purple-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-space-apple-background.png" style="color: #88b823;">assets/kiwi-space-apple-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-swirls-background.png" style="color: #9bab6a;">assets/kiwi-swirls-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-trees-background.png" style="color: #22ee68;">assets/kiwi-trees-background.png</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-vaporwave-logo.png" style="color: #f68917;">assets/kiwi-vaporwave-logo.png</a></li>
-<h2 style="color: #d1b2b9;">src</h2>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/src/generate_file_list.py" style="color: #f09f5f;">src/generate_file_list.py</a></li></ul>`;
+                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon48.png" style="color: #2cf718;">SteamCookieExtractor2/icons/images/icon48.png</a></li>
+<h2 style="color: #29a8d3;">YouTubeTVVolumeControl</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon128.png" style="color: #70ea4d;">YouTubeTVVolumeControl/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon16.png" style="color: #7f8c4e;">YouTubeTVVolumeControl/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/icon48.png" style="color: #2deb22;">YouTubeTVVolumeControl/icon48.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/manifest.json" style="color: #9c7990;">YouTubeTVVolumeControl/manifest.json</a></li>
+<h2 style="color: #da968a;">YouTubeVolumeControl</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon128.png" style="color: #6fa054;">YouTubeVolumeControl/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon16.png" style="color: #fb8852;">YouTubeVolumeControl/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icon48.png" style="color: #8dcfc5;">YouTubeVolumeControl/icon48.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/manifest.json" style="color: #d77b18;">YouTubeVolumeControl/manifest.json</a></li>
+<h2 style="color: #cec3a1;">YouTubeVolumeControl/icons</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon128.png" style="color: #78daf4;">YouTubeVolumeControl/icons/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon16.png" style="color: #26e502;">YouTubeVolumeControl/icons/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/icon48.png" style="color: #73a521;">YouTubeVolumeControl/icons/icon48.png</a></li>
+<h2 style="color: #63959c;">YouTubeVolumeControl/icons/images</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon128.png" style="color: #9199a9;">YouTubeVolumeControl/icons/images/icon128.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon16.png" style="color: #93a391;">YouTubeVolumeControl/icons/images/icon16.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/icons/images/icon48.png" style="color: #a3a93d;">YouTubeVolumeControl/icons/images/icon48.png</a></li>
+<h2 style="color: #3f9872;">assets</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-city-background.png" style="color: #30d8fe;">assets/kiwi-city-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-default-background.png" style="color: #a1a057;">assets/kiwi-default-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-flower-background.png" style="color: #ec8a22;">assets/kiwi-flower-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-green-background.png" style="color: #67d647;">assets/kiwi-green-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-purple-background.png" style="color: #84b046;">assets/kiwi-purple-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-space-apple-background.png" style="color: #98aee7;">assets/kiwi-space-apple-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-swirls-background.png" style="color: #5ea20b;">assets/kiwi-swirls-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-trees-background.png" style="color: #7e9ece;">assets/kiwi-trees-background.png</a></li>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-vaporwave-logo.png" style="color: #65ae67;">assets/kiwi-vaporwave-logo.png</a></li>
+<h2 style="color: #5fd754;">src</h2>
+<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/src/generate_file_list.py" style="color: #7f8a5f;">src/generate_file_list.py</a></li></ul>`;
                     break;
             }
             placeholder.innerHTML = file_list_html;
