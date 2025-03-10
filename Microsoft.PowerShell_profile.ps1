@@ -118,6 +118,16 @@ New-Alias editprofilefile editprofile
 # editprofile: Opens the PowerShell profile in Notepad++ for editing.
 # notepad++: Opens Notepad++.
 
+# Import the Chocolatey Profile that contains the necessary code to enable
+# tab-completions to function for `choco`.
+# Be aware that if you are missing these lines from your profile, tab completion
+# for `choco` will not function.
+# See https://ch0.co/tab-completion for details.
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}
+
 function ghcs {
         # Debug support provided by common PowerShell function parameters, which is natively aliased as -d or -db
         # https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_commonparameters?view=powershell-7.4#-debug

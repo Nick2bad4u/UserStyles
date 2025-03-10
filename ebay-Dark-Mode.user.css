@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           eBay.com - Dark Mode
 @namespace      typpi.online
-@version        2.4
+@version        2.5
 @description    eBay.com - Dark Mode
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
@@ -16,14 +16,21 @@ domain("ebaydesc.com") {
 	}
 
 	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video) {
+	:is(
+		html:not([stylus-iframe]),
+		img,
+		svg,
+		video
+	) {
 		filter: invert(1) hue-rotate(180deg) !important;
 		background-color: inherit !important;
 	}
 
 	#gh-eb-Alerts,
 	#gh-minicart-hover,
-	#ifhItem0 {
+	#ifhItem0,
+	.vl-banner-color-block__image-link,
+	.vl-popular-destinations-evo__image {
 		filter: invert(1) hue-rotate(180deg) !important;
 	}
 
@@ -31,11 +38,16 @@ domain("ebaydesc.com") {
 	li:nth-child(n) > div > div > button > svg,
 	#s0-1-0-53-1-2-4-17\[0\[1\]\]-0\[3\]-2-\@match-media-0-\@ebay-carousel-next
 		> svg,
-	.carousel__control.carousel__control--prev > svg,
+	.carousel__control.carousel__control--prev
+		> svg,
 	.carousel__playback > svg,
 	#s0-1-0-53-1-2-4-17\[0\[1\]\]-0\[2\]-2-\@match-media-0-\@ebay-carousel-next
 		> svg,
-	.s-item__image-section > span > button > span > svg,
+	.s-item__image-section
+		> span
+		> button
+		> span
+		> svg,
 	#gh-ac-box2 > svg,
 	.srp-controls__control.follow-widget-wrap
 		> div
@@ -55,7 +67,13 @@ domain("ebaydesc.com") {
 	}
 
 	#ghno,
-	body > div > div > div:nth-child(2) > div > p > img {
+	body
+		> div
+		> div
+		> div:nth-child(2)
+		> div
+		> p
+		> img {
 		filter: invert(1) hue-rotate(180deg) !important;
 		background-color: #fff;
 	}
