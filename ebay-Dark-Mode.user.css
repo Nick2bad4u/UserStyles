@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           eBay.com - Dark Mode
 @namespace      typpi.online
-@version        2.5
+@version        2.6
 @description    eBay.com - Dark Mode
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
@@ -10,7 +10,8 @@
 ==/UserStyle== */
 @-moz-document domain("ebay.com"),
 regexp(".*www.ebay.*"),
-domain("ebaydesc.com") {
+domain("ebaydesc.com"),
+domain("googlesyndication.com") {
 	:root {
 		--dialog-scrim-color-show: #ffffff87;
 	}
@@ -30,7 +31,11 @@ domain("ebaydesc.com") {
 	#gh-minicart-hover,
 	#ifhItem0,
 	.vl-banner-color-block__image-link,
-	.vl-popular-destinations-evo__image {
+	.vl-popular-destinations-evo__image,
+	.vl-ad-row__banner__vl-image,
+	#bg,
+	.vl-text-banner.evo,
+	.img_ad {
 		filter: invert(1) hue-rotate(180deg) !important;
 	}
 
