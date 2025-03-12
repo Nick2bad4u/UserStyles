@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         DeArrow - Remove Dearrow Button
-@version      20250112.23.21
+@version      20250311.23.21
 @namespace    typpi.online
 @description  Dearrow - Remove Button from YouTube Extension Dearrow
 @homepageURL  https://github.com/Nick2bad4u/UserStyles
@@ -28,7 +28,9 @@
 {
 	if hidebutton
 	{
-		#video-title-link > button > img
+		#video-title-link > button > img,
+		.cbShowOriginal img.cbShowOriginalImage,
+		.cbTitleButton svg
 		{
 			display: none;
 		}
