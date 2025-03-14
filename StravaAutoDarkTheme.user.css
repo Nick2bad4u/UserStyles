@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	7.2
+@version      	7.3
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 
@@ -61,14 +61,18 @@ domain("labs.strava.com") {
 	[class*='KudosCommentsAndAchievementsModal-KudosCommentsAndAchievementsModal__footer'],
 	[class^='Header_container__'],
 	[class*='src--noBackground'] nav,
-	.container-wrapper {
+	.container-wrapper,
+	.\------packages-core-feed-feature-feed-src-components-media-Card-Card-module__card--juEyw,
+	.\------packages-global-atomics-ui-src-Card-Card-module__card--mIyuc {
 		background-color: #161616 !important;
 	}
 
 	.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeList--DgbGk
 		.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challenge--jsQPr
 		.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeTitle--Qigmq
-		a {
+		a,
+	.\------packages-core-feed-feature-feed-src-components-media-MediaBody-MediaBody-module__mediaBody--W6BCh
+		span {
 		color: var(--primary-color);
 		text-decoration: none;
 	}
@@ -688,6 +692,12 @@ domain("labs.strava.com") {
 		> button:not(.drop-down-menu.drop-down-xs .selection),
 	.description .btn-link {
 		padding: 3px;
+	}
+	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb,
+	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:focus,
+	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:hover,
+	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:active {
+		padding: 5px;
 	}
 
 	.link-learn-more-cookie-banner,
@@ -1474,7 +1484,10 @@ domain("labs.strava.com") {
 		> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn
 		> button,
 	.src-components-BeesAdpTable-BeesAdpTable-module__adpTable--m7oGI
-		th {
+		th,
+	.------packages-core-feed-feature-feed-src-components-media-MediaBody-MediaBody-module__mediaBody--W6BCh
+		> a
+		> div {
 		color: var(--white) !important;
 	}
 
@@ -2390,7 +2403,8 @@ domain("labs.strava.com") {
 	#similar-activities-section
 		#similar-activities-chart-container
 		#similar-activities-chart
-		.date-tick {
+		.date-tick,
+	.\------packages-core-feed-feature-feed-src-features-Activity-Activity-module__activityIcon--X9LCe {
 		fill: #fc5200ba;
 	}
 
