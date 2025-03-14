@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	7.4
+@version      	7.5
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -46,6 +46,7 @@ domain("labs.strava.com") {
 		--gray5: var(gray5);
 		--gray6: var(gray6);
 	}
+
 	#__next > header,
 	#view > .header,
 	#global-header,
@@ -694,6 +695,7 @@ domain("labs.strava.com") {
 	.description .btn-link {
 		padding: 3px;
 	}
+
 	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb,
 	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:focus,
 	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:hover,
@@ -1488,7 +1490,10 @@ domain("labs.strava.com") {
 		th,
 	.------packages-core-feed-feature-feed-src-components-media-MediaBody-MediaBody-module__mediaBody--W6BCh
 		> a
-		> div {
+		> div,
+	.\------packages-core-feed-feature-feed-src-components-media-EntryHeader-EntryHeader-module__entryHeader--B6Ogy,
+	.\------packages-core-feed-feature-feed-src-components-media-Card-Card-module__card--juEyw
+		a {
 		color: var(--white) !important;
 	}
 
@@ -1503,7 +1508,9 @@ domain("labs.strava.com") {
 	.------packages-feed-ui-src-components-AthleteJoinEntry-AthleteJoinEntry-module__athleteJoinEntryBody--Y3xIM
 		> div
 		> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn
-		> button:hover {
+		> button:hover,
+	.\------packages-core-feed-feature-feed-src-components-media-EntryHeader-EntryHeader-module__entryHeader--B6Ogy
+		a {
 		color: var(--primary-color) !important;
 	}
 
@@ -2035,7 +2042,10 @@ domain("labs.strava.com") {
 	#sauce-performance .btn,
 	.leaflet-map-pane canvas,
 	#compare-outer,
-	#sidebar {
+	#sidebar,
+	.------packages-core-feed-feature-feed-src-components-PromoEntry-PromoEntry-module__entryMediaContainer--Pofl0
+		> div
+		> img {
 		filter: invert(1) hue-rotate(180deg);
 	}
 
