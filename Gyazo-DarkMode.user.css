@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         Gyazo.com - Dark Mode [Customizable]
-@version      4.2
+@version      4.3
 @namespace    typpi.online
 @description  Gyazo Dark Mode (Customizable Color - Defaults to Purple Accents)
 @author       Nick2bad4u
@@ -71,7 +71,7 @@
 
 	.edit-box-component .input-description:focus {
 		box-shadow: 0 0 0 5px var(--primary-color-darker);
-		color: var(-color-white) !important;
+		color: var(--color-white) !important;
 	}
 
 	.add-to-collection-popover
@@ -442,11 +442,11 @@
 		.history-row:hover
 		button.switch-save
 		.kamon {
-		fill: var(-color-white);
+		fill: var(--color-white);
 	}
 
 	.ocr-desc-buttons > div > div > button:hover > svg {
-		fill: var(-color-white) !important;
+		fill: var(--color-white) !important;
 	}
 
 	.new-collection-field > span > span > svg,
@@ -483,7 +483,7 @@
 		> li:nth-child(n)
 		> a
 		> span:hover {
-		color: var(-color-white) !important;
+		color: var(--color-white) !important;
 	}
 
 	.images-show .bottom.interactive-popover > .arrow::after,
@@ -701,8 +701,8 @@
 		mix-blend-mode: multiply;
 		transition: opacity 0.15s;
 		inset: 0;
-		border: 5px solid var(-color-white);
-		border-bottom: 32px solid var(-color-white);
+		border: 5px solid var(--color-white);
+		border-bottom: 32px solid var(--color-white);
 		background: #3a424f66;
 	}
 
@@ -1026,7 +1026,7 @@
 	}
 
 	.dropdown-header {
-		color: var(-color-white);
+		color: var(--color-white);
 	}
 
 	.table > tbody > tr > td,
@@ -1092,7 +1092,7 @@
 
 	[data-hover-visible] .btn-primary:hover {
 		border-color: var(--primary-color);
-		color: var(-color-white);
+		color: var(--color-white);
 	}
 
 	#react-root
@@ -1296,12 +1296,12 @@
 		span {
 		border-top: solid 1px var(--gray-light);
 		border-bottom: solid 1px var(--gray-light);
-		color: var(-color-white) !important;
+		color: var(--color-white) !important;
 		line-height: 30px;
 	}
 
 	.explorer-action-btn-default {
-		--bg-color: var(-color-white);
+		--bg-color: var(--color-white);
 		--font-color: #4d4d4d;
 		--hover-bg-color: #f2f2f2;
 		--active-bg-color: #e6e6e6;
