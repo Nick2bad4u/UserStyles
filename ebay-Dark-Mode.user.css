@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           eBay.com - Dark Mode
 @namespace      typpi.online
-@version        2.8
+@version        2.9
 @description    eBay.com - Dark Mode
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
@@ -9,9 +9,21 @@
 @license        UnLicense
 ==/UserStyle== */
 @-moz-document domain("ebay.com"),
+domain("www.ebay.com"),
+domain("www.ebay.co.uk"),
+domain("www.ebay.de"),
+domain("www.ebay.ca"),
+domain("www.ebay.com.au"),
+domain("www.ebay.fr"),
+domain("www.ebay.it"),
+domain("www.ebay.es"),
+domain("www.ebay.nl"),
+domain("www.ebay.in"),
 regexp(".*www.ebay.*"),
 domain("ebaydesc.com"),
-domain("googlesyndication.com") {
+domain("googlesyndication.com"),
+domain("ebayimg.com"),
+domain("ebaystatic.com") {
 	:root {
 		--dialog-scrim-color-show: #ffffff87;
 	}
