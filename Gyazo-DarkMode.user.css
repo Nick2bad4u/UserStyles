@@ -1245,7 +1245,7 @@
 {
 	article,
 	aside,
-	div:not( #react-root > div: nth-child(n) > div > div > main > div > div > div > div > div:nth-child(2) > section > div:nth-child(n) > a > div,
+	div:not( #react-root > div:nth-child(n) > div > div > main > div > div > div > div > div:nth-child(2) > section > div:nth-child(n) > a > div,
 	.caBpUIyLTfNBwvxfTyDa,
 	div.k3nzGrC3hEubDzXyOg_r,
 	.stickers,
