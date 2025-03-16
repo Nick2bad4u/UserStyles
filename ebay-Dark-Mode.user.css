@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           eBay.com - Dark Mode
 @namespace      typpi.online
-@version        2.7
+@version        2.8
 @description    eBay.com - Dark Mode
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
@@ -17,12 +17,7 @@ domain("googlesyndication.com") {
 	}
 
 	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		img,
-		svg,
-		video
-	) {
+	:is(html:not([stylus-iframe]), img, svg, video) {
 		filter: invert(1) hue-rotate(180deg) !important;
 		background-color: inherit !important;
 	}
@@ -36,8 +31,17 @@ domain("googlesyndication.com") {
 	#bg,
 	.vl-text-banner.evo,
 	.img_ad,
-	.vl-banner-full-bleed__image
-	{
+	.vl-banner-full-bleed__image,
+	.app-msg-inbox-action-bar .action-bar-button-group,
+	#mainContent
+		> div.app-shell.contactui-viewmessage
+		> div.app-river__center
+		> div.msg-container.msg-container--narrow
+		> div.msg-inbox-container.msg-inbox-container--active
+		> div.msg-inbox-head
+		> div,
+	.imageupload__list,
+	.msg-content-view .msg-conversation-item-card {
 		filter: invert(1) hue-rotate(180deg) !important;
 	}
 
@@ -45,16 +49,11 @@ domain("googlesyndication.com") {
 	li:nth-child(n) > div > div > button > svg,
 	#s0-1-0-53-1-2-4-17\[0\[1\]\]-0\[3\]-2-\@match-media-0-\@ebay-carousel-next
 		> svg,
-	.carousel__control.carousel__control--prev
-		> svg,
+	.carousel__control.carousel__control--prev > svg,
 	.carousel__playback > svg,
 	#s0-1-0-53-1-2-4-17\[0\[1\]\]-0\[2\]-2-\@match-media-0-\@ebay-carousel-next
 		> svg,
-	.s-item__image-section
-		> span
-		> button
-		> span
-		> svg,
+	.s-item__image-section > span > button > span > svg,
 	#gh-ac-box2 > svg,
 	.srp-controls__control.follow-widget-wrap
 		> div
@@ -69,19 +68,116 @@ domain("googlesyndication.com") {
 		> button
 		> svg,
 	#imageupload__send--button > svg,
-	svg.icon.icon {
+	svg.icon.icon,
+	.initial-state-module img {
 		filter: invert(0) hue-rotate(180deg) !important;
 	}
 
 	#ghno,
-	body
-		> div
-		> div
-		> div:nth-child(2)
-		> div
-		> p
-		> img {
+	body > div > div > div:nth-child(2) > div > p > img,
+	.messaging,
+	.viewmessage,
+	span.fake-menu,
+	span.menu {
 		filter: invert(1) hue-rotate(180deg) !important;
 		background-color: #fff;
+	}
+
+	.messaging,
+	.viewmessage,
+	.contactui-messaging
+		.app-river__center
+		.message__cards__container
+		.card__content-unread
+		.card__conversation-title
+		span,
+	.contactui-messaging
+		.app-river__center
+		.message__cards__container
+		.card__content-unread
+		.card__username
+		span,
+	.contactui-messaging
+		.app-river__left
+		.message__cards__container
+		.card__content-unread
+		.card__conversation-title
+		span,
+	.contactui-messaging
+		.app-river__left
+		.message__cards__container
+		.card__content-unread
+		.card__username
+		span,
+	.contactui-viewmessage
+		.app-river__center
+		.message__cards__container
+		.card__content-unread
+		.card__conversation-title
+		span,
+	.contactui-viewmessage
+		.app-river__center
+		.message__cards__container
+		.card__content-unread
+		.card__username
+		span,
+	.contactui-viewmessage
+		.app-river__left
+		.message__cards__container
+		.card__content-unread
+		.card__conversation-title
+		span,
+	.contactui-viewmessage
+		.app-river__left
+		.message__cards__container
+		.card__content-unread
+		.card__username
+		span,
+	.msg-content-view
+		.app-conversation__message-bubble__message__content
+		span,
+	.msg-content-view .msg-conversation-head__section span a {
+		color: #fff !important;
+	}
+
+	.contactui-viewmessage
+		.app-river__center
+		.message__cards__container
+		.card__item:hover {
+		background-color: #191919 !important;
+	}
+
+	.msg-content-view
+		.msg-conversation-head__dropdown
+		.menu-button__button {
+		background-color: #000;
+		color: white;
+	}
+
+	.msg-content-view
+		.msg-conversation-head__dropdown
+		.menu-button__button:hover {
+		background-color: #363636 !important;
+	}
+
+	.imageupload__list {
+		color: #000;
+	}
+}
+
+@-moz-document url-prefix("https://www.ebay.com/cnt/ViewMessage")
+{
+	.ghw.ghw #gAC .ui-autocomplete.ghAC_newui,
+	.ghw.ghw .gh-search-input:focus,
+	.ghw.ghw .gh-search-input,
+	.ghw.ghw .gh-search-categories,
+	.ghw.ghw .gh-nav {
+		filter: invert(1) hue-rotate(180deg);
+	}
+
+	.ghw.ghw
+		.gh-search-input__wrap:focus-within
+		svg.gh-search-input__icon {
+		fill: white;
 	}
 }
