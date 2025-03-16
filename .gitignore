@@ -269,4 +269,5 @@ sync.ffs_db
 test
 .vscode/__pycache__/
 __pycache__/
+zwiftbikes/
 *.pyc
