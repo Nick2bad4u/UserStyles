@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	7.5
+@version      	7.6
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -74,7 +74,11 @@ domain("labs.strava.com") {
 		.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeTitle--Qigmq
 		a,
 	.\------packages-core-feed-feature-feed-src-components-media-MediaBody-MediaBody-module__mediaBody--W6BCh
-		span {
+		span,
+	.\------packages-core-dashboard-feature-dashboard-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeList--y4aqb
+		.\------packages-core-dashboard-feature-dashboard-src-components-YourChallenges-ChallengeList-ChallengeList-module__challenge--RZY41
+		.\------packages-core-dashboard-feature-dashboard-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeTitle--y8HM6
+		a {
 		color: var(--primary-color);
 		text-decoration: none;
 	}
