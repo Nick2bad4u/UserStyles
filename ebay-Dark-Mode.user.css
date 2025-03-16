@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           eBay.com - Dark Mode
 @namespace      typpi.online
-@version        2.9
+@version        3.0
 @description    eBay.com - Dark Mode
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
@@ -9,30 +9,34 @@
 @license        UnLicense
 ==/UserStyle== */
 @-moz-document domain("ebay.com"),
-domain("www.ebay.com"),
-domain("www.ebay.co.uk"),
-domain("www.ebay.de"),
-domain("www.ebay.ca"),
-domain("www.ebay.com.au"),
-domain("www.ebay.fr"),
-domain("www.ebay.it"),
-domain("www.ebay.es"),
-domain("www.ebay.nl"),
-domain("www.ebay.in"),
-regexp(".*www.ebay.*"),
+domain("ebay.com"),
+domain("ebay.co.uk"),
+domain("ebay.de"),
+domain("ebay.ca"),
+domain("ebay.com.au"),
+domain("ebay.fr"),
+domain("ebay.it"),
+domain("ebay.es"),
+domain("ebay.nl"),
+domain("ebay.in"),
 domain("ebaydesc.com"),
 domain("googlesyndication.com"),
 domain("ebayimg.com"),
-domain("ebaystatic.com") {
-	:root {
+domain("ebaystatic.com")
+{
+	:root
+	{
 		--dialog-scrim-color-show: #ffffff87;
 	}
 
 	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video) {
+	:is(html:not([stylus-iframe]), img, svg, video)
+	{
 		filter: invert(1) hue-rotate(180deg) !important;
 		background-color: inherit !important;
 	}
+
+
 
 	#gh-eb-Alerts,
 	#gh-minicart-hover,
@@ -45,43 +49,28 @@ domain("ebaystatic.com") {
 	.img_ad,
 	.vl-banner-full-bleed__image,
 	.app-msg-inbox-action-bar .action-bar-button-group,
-	#mainContent
-		> div.app-shell.contactui-viewmessage
-		> div.app-river__center
-		> div.msg-container.msg-container--narrow
-		> div.msg-inbox-container.msg-inbox-container--active
-		> div.msg-inbox-head
-		> div,
+	#mainContent > div.app-shell.contactui-viewmessage > div.app-river__center > div.msg-container.msg-container--narrow > div.msg-inbox-container.msg-inbox-container--active > div.msg-inbox-head > div,
 	.imageupload__list,
-	.msg-content-view .msg-conversation-item-card {
+	.msg-content-view .msg-conversation-item-card,
+	.vl-recommended-sellers__seller-item
+	{
 		filter: invert(1) hue-rotate(180deg) !important;
 	}
 
 	li:nth-child(n) > div > div > button,
 	li:nth-child(n) > div > div > button > svg,
-	#s0-1-0-53-1-2-4-17\[0\[1\]\]-0\[3\]-2-\@match-media-0-\@ebay-carousel-next
-		> svg,
+	#s0-1-0-53-1-2-4-17\[0\[1\]\]-0\[3\]-2-\@match-media-0-\@ebay-carousel-next > svg,
 	.carousel__control.carousel__control--prev > svg,
 	.carousel__playback > svg,
-	#s0-1-0-53-1-2-4-17\[0\[1\]\]-0\[2\]-2-\@match-media-0-\@ebay-carousel-next
-		> svg,
+	#s0-1-0-53-1-2-4-17\[0\[1\]\]-0\[2\]-2-\@match-media-0-\@ebay-carousel-next > svg,
 	.s-item__image-section > span > button > span > svg,
 	#gh-ac-box2 > svg,
-	.srp-controls__control.follow-widget-wrap
-		> div
-		> div
-		> button
-		> span
-		> svg,
-	.action-bar-button-group
-		> span:nth-child(n)
-		> span
-		> span
-		> button
-		> svg,
+	.srp-controls__control.follow-widget-wrap > div > div > button > span > svg,
+	.action-bar-button-group > span:nth-child(n) > span > span > button > svg,
 	#imageupload__send--button > svg,
 	svg.icon.icon,
-	.initial-state-module img {
+	.initial-state-module img
+	{
 		filter: invert(0) hue-rotate(180deg) !important;
 	}
 
@@ -90,90 +79,52 @@ domain("ebaystatic.com") {
 	.messaging,
 	.viewmessage,
 	span.fake-menu,
-	span.menu {
+	span.menu
+	{
 		filter: invert(1) hue-rotate(180deg) !important;
 		background-color: #fff;
 	}
 
 	.messaging,
 	.viewmessage,
-	.contactui-messaging
-		.app-river__center
-		.message__cards__container
-		.card__content-unread
-		.card__conversation-title
-		span,
-	.contactui-messaging
-		.app-river__center
-		.message__cards__container
-		.card__content-unread
-		.card__username
-		span,
-	.contactui-messaging
-		.app-river__left
-		.message__cards__container
-		.card__content-unread
-		.card__conversation-title
-		span,
-	.contactui-messaging
-		.app-river__left
-		.message__cards__container
-		.card__content-unread
-		.card__username
-		span,
-	.contactui-viewmessage
-		.app-river__center
-		.message__cards__container
-		.card__content-unread
-		.card__conversation-title
-		span,
-	.contactui-viewmessage
-		.app-river__center
-		.message__cards__container
-		.card__content-unread
-		.card__username
-		span,
-	.contactui-viewmessage
-		.app-river__left
-		.message__cards__container
-		.card__content-unread
-		.card__conversation-title
-		span,
-	.contactui-viewmessage
-		.app-river__left
-		.message__cards__container
-		.card__content-unread
-		.card__username
-		span,
-	.msg-content-view
-		.app-conversation__message-bubble__message__content
-		span,
-	.msg-content-view .msg-conversation-head__section span a {
+	.contactui-messaging .app-river__center .message__cards__container .card__content-unread .card__conversation-title span,
+	.contactui-messaging .app-river__center .message__cards__container .card__content-unread .card__username span,
+	.contactui-messaging .app-river__left .message__cards__container .card__content-unread .card__conversation-title span,
+	.contactui-messaging .app-river__left .message__cards__container .card__content-unread .card__username span,
+	.contactui-viewmessage .app-river__center .message__cards__container .card__content-unread .card__conversation-title span,
+	.contactui-viewmessage .app-river__center .message__cards__container .card__content-unread .card__username span,
+	.contactui-viewmessage .app-river__left .message__cards__container .card__content-unread .card__conversation-title span,
+	.contactui-viewmessage .app-river__left .message__cards__container .card__content-unread .card__username span,
+	.msg-content-view .app-conversation__message-bubble__message__content span,
+	.msg-content-view .msg-conversation-head__section span a
+	{
 		color: #fff !important;
 	}
 
-	.contactui-viewmessage
-		.app-river__center
-		.message__cards__container
-		.card__item:hover {
+	.contactui-viewmessage .app-river__center .message__cards__container .card__item:hover
+	{
 		background-color: #191919 !important;
 	}
 
-	.msg-content-view
-		.msg-conversation-head__dropdown
-		.menu-button__button {
+	.msg-content-view .msg-conversation-head__dropdown .menu-button__button
+	{
 		background-color: #000;
 		color: white;
 	}
 
-	.msg-content-view
-		.msg-conversation-head__dropdown
-		.menu-button__button:hover {
+	.msg-content-view .msg-conversation-head__dropdown .menu-button__button:hover
+	{
 		background-color: #363636 !important;
 	}
 
-	.imageupload__list {
+	.imageupload__list
+	{
 		color: #000;
+	}
+	.vim.vi-grid.x-evo-middle-river > div > div:nth-child(2),
+	#PicturePanel > div.vim.x-atf-left-bottom-river > div > div:nth-child(2)
+	{
+		display: none;
 	}
 }
 
@@ -183,13 +134,13 @@ domain("ebaystatic.com") {
 	.ghw.ghw .gh-search-input:focus,
 	.ghw.ghw .gh-search-input,
 	.ghw.ghw .gh-search-categories,
-	.ghw.ghw .gh-nav {
+	.ghw.ghw .gh-nav
+	{
 		filter: invert(1) hue-rotate(180deg);
 	}
 
-	.ghw.ghw
-		.gh-search-input__wrap:focus-within
-		svg.gh-search-input__icon {
+	.ghw.ghw .gh-search-input__wrap:focus-within svg.gh-search-input__icon
+	{
 		fill: white;
 	}
 }
