@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           eBay.com - Dark Mode
 @namespace      typpi.online
-@version        3.1
+@version        3.2
 @description    eBay.com - Dark Mode
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
@@ -175,11 +175,16 @@ domain("ebaystatic.com") {
 	.imageupload__list {
 		color: #000;
 	}
+
 	.vim.vi-grid.x-evo-middle-river > div > div:nth-child(2),
 	#PicturePanel
 		> div.vim.x-atf-left-bottom-river
 		> div
-		> div:nth-child(2) {
+		> div:nth-child(n),
+	.main-container
+		.vim.x-vi-evo-main-container.template-evo-avip
+		.x-vi-evo-main-container__bottom-panel
+		.vim.vi-grid.x-evo-middle-river {
 		display: none;
 	}
 
