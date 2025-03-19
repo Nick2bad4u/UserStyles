@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	7.7
+@version      	7.8
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -69,6 +69,21 @@ domain("labs.strava.com") {
 		background-color: #161616 !important;
 	}
 
+	.------packages-global-atomics-ui-src-Button-Button-module__btn--i_Upj:hover {
+		color: var(--primary-color) !important;
+	}
+
+	[class*='__commentReactionContainer']
+		button:hover
+		svg
+		> path,
+	.------packages-core-feed-feature-feed-src-components-ActivityEntryBody-ActivityEntryBody-module__appIconWrapper--MsE0z
+		> svg
+		> path,
+	.\------packages-core-feed-feature-feed-src-features-SharedContents-ActivitySharedContent-ActivitySharedContent-module__activityIcon--SOeDQ {
+		fill: var(--primary-color) !important;
+	}
+
 	.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeList--DgbGk
 		.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challenge--jsQPr
 		.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeTitle--Qigmq
@@ -126,12 +141,18 @@ domain("labs.strava.com") {
 	[class*='KudosCommentsAndAchievementsModal-module__footer'],
 	#chart-container,
 	#open-global-search-button,
-	.src-Notifications-module__navBarButton--jeAZg {
+	.src-Notifications-module__navBarButton--jeAZg,
+	.\------packages-global-atomics-ui-src-Dropdown-Dropdown-module__list--Pipmh {
 		background-color: var(--gray4) !important;
 	}
 
 	.leaderboard .filters .option {
 		background: var(--gray3);
+	}
+
+	[class*='OwnerMetadata-module__iconContainer'],
+	[class*='-HeaderWithOwnerMetadata-module__avatar'] {
+		background-color: #0000 !important;
 	}
 
 	.flow-premium > .content-footer,
@@ -263,8 +284,6 @@ domain("labs.strava.com") {
 	.my-segments > thead th,
 	[class^='LimitedProfileEntry--content--'],
 	[class*='packages-ui-ModalWithTabs-styles__tab-list'],
-	[class*='-HeaderWithOwnerMetadata-module__avatar'],
-	[class*='OwnerMetadata-module__iconContainer'],
 	#elevation-profile,
 	.leaflet-control-attribution,
 	.mapboxgl-ctrl-scale,
@@ -569,7 +588,8 @@ domain("labs.strava.com") {
 	[class*='styles_navItem']
 		> a[class*='Button_default_']:hover,
 	.react-select__option--is-selected,
-	.PopupContents--popup-button-list--OU7Sn > li:first-child{
+	.PopupContents--popup-button-list--OU7Sn
+		> li:first-child {
 		background-color: var(--gray5) !important;
 	}
 
@@ -706,6 +726,18 @@ domain("labs.strava.com") {
 	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:hover,
 	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:active {
 		padding: 5px;
+	}
+
+	.\------packages-core-feed-feature-feed-src-components-KudosAndComments-KudosAndComments-module__kudosAndComments--lFlc9
+		.\------packages-core-feed-feature-feed-src-components-KudosAndComments-KudosAndComments-module__countButton--SyQsL,
+	.\------packages-global-atomics-ui-src-Button-Button-module__default--R_oao,
+	.\------packages-global-atomics-ui-src-Button-Button-module__text--_P3wR:focus,
+	.\------packages-global-atomics-ui-src-Button-Button-module__text--_P3wR:hover,
+	.\------packages-global-atomics-ui-src-Button-Button-module__text--_P3wR:active,
+	.\------packages-global-atomics-ui-src-Button-Button-module__text--_P3wR {
+		width: auto;
+		padding-left: 10px !important;
+		padding-right: 10px !important;
 	}
 
 	.link-learn-more-cookie-banner,
@@ -1618,10 +1650,6 @@ domain("labs.strava.com") {
 	.chart-tooltip-unit,
 	[class*='packages-ui-Button-styles__bt'] > svg,
 	[class*='ui-Modal-Modal-module__closeButton']:hover > svg,
-	[class*='__commentReactionContainer']
-		button:hover
-		svg
-		> path,
 	[class*='Search_searchIcon']:hover > svg,
 	.yAxis > g > g:nth-child(n) > text > tspan,
 	.xAxis > g > g:nth-child(n) > text > tspan {
