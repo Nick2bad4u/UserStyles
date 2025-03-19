@@ -1,16 +1,18 @@
 // ==UserScript==
 // @name        Convert Ascent and Descent to Feet
 // @namespace   typpi.online
-// @version     1.02
+// @version     1.1
 // @description Converts ascent and descent values from meters to feet on the for Strava Sauce users.
 // @author      Nick2bad4u
 // @license     UnLicense
 // @match       https://www.strava.com/activities/*
+// @resource    https://www.google.com/s2/favicons?sz=64&domain=strava.com
 // @icon        https://www.google.com/s2/favicons?sz=64&domain=strava.com
+// @icon64      https://www.google.com/s2/favicons?sz=64&domain=strava.com
 // @grant       none
 // @run-at      document-end
 // @downloadURL https://update.greasyfork.org/scripts/520655/Convert%20Ascent%20and%20Descent%20to%20Feet.user.js
-// @updateURL https://update.greasyfork.org/scripts/520655/Convert%20Ascent%20and%20Descent%20to%20Feet.meta.js
+// @updateURL   https://update.greasyfork.org/scripts/520655/Convert%20Ascent%20and%20Descent%20to%20Feet.meta.js
 // ==/UserScript==
 
 (function () {
@@ -39,17 +41,11 @@
 
 		// Check if the elements exist on the page
 		if (ascentElement && descentElement) {
-			console.log(
-				'Ascent and descent elements found:',
-				ascentElement,
-				descentElement,
-			);
+			console.log('Ascent and descent elements found:', ascentElement, descentElement);
 
 			// Extract the numeric values and convert them to feet
 			const ascentValueInMeters = parseFloat(ascentElement.textContent.trim());
-			const descentValueInMeters = parseFloat(
-				descentElement.textContent.trim(),
-			);
+			const descentValueInMeters = parseFloat(descentElement.textContent.trim());
 
 			// Convert ascent value and check if valid
 			const ascentValueInFeet = metersToFeet(ascentValueInMeters);
