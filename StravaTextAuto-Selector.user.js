@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Strava Text Auto-Selector
 // @namespace    typpi.online
-// @version      1.0.8
+// @version      1.0.9
 // @description  Automatically selects text in specific Strava elements and displays a notification near the cursor. Also allows right-click to copy text.
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -10,8 +10,8 @@
 // @include      *://*.strava.com/activities/*
 // @include      *://*.strava.com/athlete/training
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=strava.com
-// @downloadURL https://update.greasyfork.org/scripts/519370/Strava%20Text%20Auto-Selector.user.js
-// @updateURL https://update.greasyfork.org/scripts/519370/Strava%20Text%20Auto-Selector.meta.js
+// @downloadURL  https://update.greasyfork.org/scripts/519370/Strava%20Text%20Auto-Selector.user.js
+// @updateURL    https://update.greasyfork.org/scripts/519370/Strava%20Text%20Auto-Selector.meta.js
 // ==/UserScript==
 
 (function () {
@@ -37,6 +37,7 @@
 			'#heading > div > div.row.no-margins.activity-summary-container > div.spans8.activity-summary.mt-md.mb-md > div.details-container > div > h1',
 			'.ride .segment-effort-detail .effort-details table, .swim .segment-effort-detail .effort-details table',
 			'.activity-description p:only-child',
+			'.activity-description p:first-child',
 		];
 		const summarySelector = '.summaryGridDataContainer';
 
@@ -84,18 +85,14 @@
 		// Query elements and add event listeners initially for the first three selectors
 		selectors.forEach((selector) => {
 			const elements = document.querySelectorAll(selector);
-			console.log(
-				`Found ${elements.length} elements for selector: ${selector}`,
-			);
+			console.log(`Found ${elements.length} elements for selector: ${selector}`);
 			elements.forEach(addContextMenuListener);
 		});
 
 		// Function to handle the summaryGridDataContainer elements separately
 		function handleSummaryGridDataContainer() {
 			const elements = document.querySelectorAll(summarySelector);
-			console.log(
-				`Found ${elements.length} elements for selector: ${summarySelector}`,
-			);
+			console.log(`Found ${elements.length} elements for selector: ${summarySelector}`);
 			elements.forEach(addContextMenuListener);
 		}
 
@@ -107,9 +104,7 @@
 						if (node.matches(summarySelector)) {
 							addContextMenuListener(node);
 						}
-						node
-							.querySelectorAll(summarySelector)
-							.forEach(addContextMenuListener);
+						node.querySelectorAll(summarySelector).forEach(addContextMenuListener);
 					}
 				});
 			});
@@ -119,9 +114,7 @@
 			childList: true,
 			subtree: true,
 		});
-		console.log(
-			'MutationObserver set up to monitor the DOM for summaryGridDataContainer.',
-		);
+		console.log('MutationObserver set up to monitor the DOM for summaryGridDataContainer.');
 
 		// Handle existing summaryGridDataContainer elements initially
 		handleSummaryGridDataContainer();
