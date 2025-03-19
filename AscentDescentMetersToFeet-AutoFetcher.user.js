@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Strava Button Clicker [For Use Convert Ascent and Descent to Feet][ELevate / Sauce Users]
 // @namespace    typpi.online
-// @version      1.1
+// @version      1.2
 // @description  Clicks the button to fetch the Ascent and Descent values in meters for use with the Convert Ascent and Descent to Feet script.
 // @author       Nick2bad4u
 // @match        https://www.strava.com/activities/*
@@ -14,6 +14,8 @@
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @license      Unlicense
 // @note         This is for use with: https://update.greasyfork.org/scripts/520655/Convert%20Ascent%20and%20Descent%20to%20Feet.user.js
+// @downloadURL  https://update.greasyfork.org/scripts/530304/Strava%20Button%20Clicker%20%5BFor%20Use%20Convert%20Ascent%20and%20Descent%20to%20Feet%5D%5BELevate%20%20Sauce%20Users%5D.user.js
+// @updateURL    https://update.greasyfork.org/scripts/530304/Strava%20Button%20Clicker%20%5BFor%20Use%20Convert%20Ascent%20and%20Descent%20to%20Feet%5D%5BELevate%20%20Sauce%20Users%5D.meta.js
 // ==/UserScript==
 
 (function () {
