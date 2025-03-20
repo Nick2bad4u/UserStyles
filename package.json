@@ -100,8 +100,8 @@
 	"devDependencies": {
 		"@eslint/js": "^9.22.0",
 		"@types/vscode": "^1.98.0",
-		"@typescript-eslint/eslint-plugin": "^8.26.1",
-		"@typescript-eslint/parser": "^8.26.1",
+		"@typescript-eslint/eslint-plugin": "^8.27.0",
+		"@typescript-eslint/parser": "^8.27.0",
 		"canvas": "^3.1.0",
 		"chai": "^5.2.0",
 		"eslint": "^9.22.0",
@@ -115,11 +115,11 @@
 		"prettier-eslint": "^16.3.0",
 		"prettier-plugin-stylus": "^0.1.0",
 		"prettier-plugin-tailwindcss": "^0.6.11",
-		"sinon": "^19.0.2",
+		"sinon": "^19.0.4",
 		"stylelint": "^16.16.0",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.8.2",
-		"typescript-eslint": "^8.26.1"
+		"typescript-eslint": "^8.27.0"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
