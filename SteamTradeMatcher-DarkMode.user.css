@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           steamtradematcher.com - Dark Mode [Customizable]
 @namespace      typpi.online
-@version        1.3.1
+@version        1.3.2
 @description    Darker mode for Steam Trade Matcher
 @author         Nick2bad4u
 @license        UnLicense
@@ -14,6 +14,8 @@
 @var color card-header-background "Card Header Background" #5BA32B61
 @var color text-light-color "Text Light Color" #F8F9FA
 @var color icon-color "Icon Color" #5BA32BB8
+@var color button-color "Button Color" #20C99726
+@var color alert-color "Alert Color" #C00E0E
 ==/UserStyle== */
 @-moz-document domain("steamtradematcher.com")
 {
@@ -29,6 +31,59 @@
 		background: var(--background-color) !important;
 		background-color: var(--background-color) !important;
 		color: var(--text-color) !important;
+	}
+
+	option:nth-child(n)
+	{
+		background: var(--background-color) !important;
+		background-color: var(--background-color) !important;
+		color: var(--text-light-color) !important;
+	}
+
+	.form-control,
+	.form-select
+	{
+		background-color: var(--background-color) !important;
+		color: var(--text-light-color) !important;
+	}
+
+	.form-control:focus,
+	.form-select:focus
+	{
+		background-color: var(--background-color) !important;
+		border-color: var(--background-color) !important;
+		box-shadow: 0 0 0 .25rem var(--card-header-background) !important;
+		color: var(--text-light-color) !important;
+	}
+
+	.btn-gold
+	{
+		--bs-btn-color: #fff;
+		--bs-btn-bg: #060606;
+		--bs-btn-border-color: var(--button-color);
+		--bs-btn-hover-color: #fff;
+		--bs-btn-hover-bg: var(--button-color);
+		--bs-btn-hover-border-color: var(--button-color);
+		--bs-btn-focus-shadow-rgb: 230, 172, 89;
+		--bs-btn-active-color: #fff;
+		--bs-btn-active-bg: var(--button-color);
+		--bs-btn-active-border-color: var(--text-color);
+		--bs-btn-active-shadow: inset 0 3px 5px var(--button-color);
+		--bs-btn-disabled-color: #fff;
+		--bs-btn-disabled-bg: var(--button-color);
+		--bs-btn-disabled-border-color: var(--button-color);
+	}
+
+	.btn-check:focus + .btn,
+	.btn:focus
+	{
+		box-shadow: var(--bs-btn-focus-box-shadow);
+		outline: 0;
+	}
+
+	.btn
+	{
+		--bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--card-header-background), .5) !important;
 	}
 
 	.card-body
@@ -55,9 +110,31 @@
 		color: var(--text-light-color) !important;
 	}
 
-	.fa-classic, .fa-regular, .fa-solid, .far, .fas
+	.fa-classic,
+	.fa-regular,
+	.fa-solid,
+	.far,
+	.fas
 	{
 		color: var(--icon-color) !important;
+	}
+
+	.fa-stack-1x,
+	.fa-stack-2x
+	{
+		color: var(--alert-color);
+	}
+
+	.text-success.fa-stack-1x
+	{
+		color: var(--icon-color) !important;
+	}
+
+	.fa-check-circle::before,
+	.fa-circle-check::before
+	{
+		content: "\f058";
+		color: var(--card-body-background);
 	}
 
 	*,
