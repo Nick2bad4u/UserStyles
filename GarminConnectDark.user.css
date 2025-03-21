@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         Garmin Connect Dark Mode (Updated)
-@version      3.4
+@version      3.5
 @namespace    typpi.online
 @homepageURL  https://github.com/Nick2bad4u/UserStyles
 @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
@@ -47,7 +47,8 @@
 	.modal-wide.metrics-edit-modal.in),
 	.edit-carousel-content .edit-image-div,
 	.Notification_notification__189UW,
-	.connect-map-view .leaflet-container
+	.connect-map-view .leaflet-container,
+	.marTopXS > iframe
 	{
 		-webkit-filter: invert(1) hue-rotate(180deg) !important;
 		filter: invert(1) hue-rotate(180deg) !important;
