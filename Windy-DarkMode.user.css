@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Windy.com - Dark Mode [Customizable]
 @namespace      typpi.online
-@version        2.1
+@version        2.2
 @description    Dark theme for Windy.com with customizable colors
 @author         Nick2bad4u
 @license        UnLicense
@@ -81,6 +81,13 @@
 	.nearby-features.svelte-ckoxom .nearby-feature__text
 	{
 		filter: invert(1) hue-rotate(180deg) !important;
+	}
+
+	.td-wind.height-wind.d-display-table td,
+	.td-gust.height-gust.d-display-table td
+	{
+		color: #000000 !important;
+		font-weight: 700;
 	}
 
 	.detail .forecast-table .td-hour td,
