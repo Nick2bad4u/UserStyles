@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SteamTrade Matcher Bulk Notification Deleter
 // @namespace    typpi.online
-// @version      2.6
+// @version      2.7
 // @description  Select notifications via UI, navigate to each page, fetch token, send POST, and continue sequentially
 // @author       Nick2bad4u
 // @match        *://*.steamtradematcher.com/*
@@ -10,6 +10,10 @@
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=steamtradematcher.com
+// @icon64       https://www.google.com/s2/favicons?sz=64&domain=steamtradematcher.com
+//
+// @downloadURL  https://update.greasyfork.org/scripts/530865/SteamTrade%20Matcher%20Bulk%20Notification%20Deleter.user.js
+// @updateURL    https://update.greasyfork.org/scripts/530865/SteamTrade%20Matcher%20Bulk%20Notification%20Deleter.meta.js
 // ==/UserScript==
 
 (function() {
