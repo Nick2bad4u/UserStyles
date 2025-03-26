@@ -16,9 +16,9 @@
 @var color icon-color "Icon Color" #5BA32BB8
 @var color button-color "Button Color" #20C99726
 @var color alert-color "Alert Color" #C00E0E
+@var color no-alert-color "No Alert Color" #5ba32bb8
 ==/UserStyle== */
-@-moz-document domain("steamtradematcher.com")
-{
+@-moz-document domain("steamtradematcher.com") {
 	html,
 	.m-3,
 	.inside,
@@ -26,38 +26,33 @@
 	body,
 	.bg-dark,
 	:root,
-	#filterToolbar > div
-	{
+	#filterToolbar > div {
 		background: var(--background-color) !important;
 		background-color: var(--background-color) !important;
 		color: var(--text-color) !important;
 	}
 
-	option:nth-child(n)
-	{
+	option:nth-child(n) {
 		background: var(--background-color) !important;
 		background-color: var(--background-color) !important;
 		color: var(--text-light-color) !important;
 	}
 
 	.form-control,
-	.form-select
-	{
+	.form-select {
 		background-color: var(--background-color) !important;
 		color: var(--text-light-color) !important;
 	}
 
 	.form-control:focus,
-	.form-select:focus
-	{
+	.form-select:focus {
 		background-color: var(--background-color) !important;
 		border-color: var(--background-color) !important;
-		box-shadow: 0 0 0 .25rem var(--card-header-background) !important;
+		box-shadow: 0 0 0 0.25rem var(--card-header-background) !important;
 		color: var(--text-light-color) !important;
 	}
 
-	.btn-gold
-	{
+	.btn-gold {
 		--bs-btn-color: #fff;
 		--bs-btn-bg: #060606;
 		--bs-btn-border-color: var(--button-color);
@@ -68,34 +63,36 @@
 		--bs-btn-active-color: #fff;
 		--bs-btn-active-bg: var(--button-color);
 		--bs-btn-active-border-color: var(--text-color);
-		--bs-btn-active-shadow: inset 0 3px 5px var(--button-color);
+		--bs-btn-active-shadow: inset 0 3px 5px
+			var(--button-color);
 		--bs-btn-disabled-color: #fff;
 		--bs-btn-disabled-bg: var(--button-color);
 		--bs-btn-disabled-border-color: var(--button-color);
 	}
 
 	.btn-check:focus + .btn,
-	.btn:focus
-	{
+	.btn:focus {
 		box-shadow: var(--bs-btn-focus-box-shadow);
 		outline: 0;
 	}
 
-	.btn
-	{
-		--bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--card-header-background), .5) !important;
+	.btn {
+		--bs-btn-focus-box-shadow: 0 0 0 0.25rem
+			rgba(var(--card-header-background), 0.5) !important;
 	}
 
-	.card-body
-	{
+	.card-body {
 		background: var(--card-body-background) !important;
-		background-color: var(--card-body-background) !important;
+		background-color: var(
+			--card-body-background
+		) !important;
 	}
 
-	.card-header
-	{
+	.card-header {
 		background: var(--card-header-background) !important;
-		background-color: var(--card-header-background) !important;
+		background-color: var(
+			--card-header-background
+		) !important;
 	}
 
 	.fw-light,
@@ -105,8 +102,7 @@
 	.navbar-nav .show > .nav-link,
 	.dropdown-item,
 	.text-light,
-	#filterToolbar > div
-	{
+	#filterToolbar > div {
 		color: var(--text-light-color) !important;
 	}
 
@@ -114,32 +110,39 @@
 	.fa-regular,
 	.fa-solid,
 	.far,
-	.fas
-	{
+	.fas {
 		color: var(--icon-color) !important;
 	}
 
-	.fa-stack-1x,
-	.fa-stack-2x
-	{
+	.fa-stack-1x {
+		color: var(--no-alert-color);
+	}
+
+	.fa-stack-2x {
 		color: var(--alert-color);
 	}
 
-	.text-success.fa-stack-1x
-	{
+	.text-success.fa-stack-1x {
 		color: var(--icon-color) !important;
 	}
 
 	.fa-check-circle::before,
-	.fa-circle-check::before
-	{
-		content: "\f058";
+	.fa-circle-check::before {
+		content: '\f058';
 		color: var(--card-body-background);
 	}
 
+	.fa-circle.fa-stack-1x.text-dark {
+		color: var(--no-alert-color);
+	}
+
+	.rounded-pill.text-nowrap.text-light > a > span > span {
+		color: var(--text-light-color) !important;
+		background: var(--no-alert-color) !important;
+	}
+
 	*,
-	:root
-	{
+	:root {
 		--bs-blue: #375a7f !important;
 		--bs-indigo: #6610f2 !important;
 		--bs-purple: #6f42c1 !important;
@@ -185,16 +188,22 @@
 		--bs-black-rgb: 0, 0, 0 !important;
 		--bs-body-color-rgb: 255, 255, 255 !important;
 		--bs-body-bg-rgb: 34, 34, 34 !important;
-		--bs-font-sans-serif: lato, -apple-system, blinkmacsystemfont, 'Segoe UI',
-		roboto, 'Helvetica Neue', arial, sans-serif,
-		'Apple Color Emoji', 'Segoe UI Emoji',
-		'Segoe UI Symbol' !important;
-		--bs-font-monospace: sfmono-regular, menlo, monaco, consolas,
-		'Liberation Mono', 'Courier New', monospace !important;
-		--bs-gradient: linear-gradient( 180deg,
-		hsl(0deg 0% 100% / 15%),
-		hsl(0deg 0% 100% / 0%)) !important;
-		--bs-body-font-family: var( --bs-font-sans-serif) !important;
+		--bs-font-sans-serif:
+			lato, -apple-system, blinkmacsystemfont, 'Segoe UI',
+			roboto, 'Helvetica Neue', arial, sans-serif,
+			'Apple Color Emoji', 'Segoe UI Emoji',
+			'Segoe UI Symbol' !important;
+		--bs-font-monospace:
+			sfmono-regular, menlo, monaco, consolas,
+			'Liberation Mono', 'Courier New', monospace !important;
+		--bs-gradient: linear-gradient(
+			180deg,
+			hsl(0deg 0% 100% / 15%),
+			hsl(0deg 0% 100% / 0%)
+		) !important;
+		--bs-body-font-family: var(
+			--bs-font-sans-serif
+		) !important;
 		--bs-body-font-size: 1rem !important;
 		--bs-body-font-weight: 400 !important;
 		--bs-body-line-height: 1.5 !important;
@@ -203,7 +212,9 @@
 		--bs-border-width: 1px !important;
 		--bs-border-style: solid !important;
 		--bs-border-color: #dee2e6 !important;
-		--bs-border-color-translucent: rgb( 0 0 0 / 17.5%) !important;
+		--bs-border-color-translucent: rgb(
+			0 0 0 / 17.5%
+		) !important;
 		--bs-border-radius: 0.375rem !important;
 		--bs-border-radius-sm: 0.25rem !important;
 		--bs-border-radius-lg: 0.5rem !important;
@@ -229,12 +240,16 @@
 		--gpStoreDarkGrey: #2a475e !important;
 		--gpStoreDarkerGrey: #1b2838 !important;
 		--gpStoreDarkestGrey: #000f18 !important;
-		--gpGradient-StoreBackground: linear-gradient( 180deg,
-		var(--gpStoreDarkGrey) 0%,
-		var(--gpStoreDarkerGrey) 80%) !important;
-		--gpGradient-LibraryBackground: radial-gradient( farthest-corner at 40px 40px,
-		#3d4450 0%,
-		#23262e 80%) !important;
+		--gpGradient-StoreBackground: linear-gradient(
+			180deg,
+			var(--gpStoreDarkGrey) 0%,
+			var(--gpStoreDarkerGrey) 80%
+		) !important;
+		--gpGradient-LibraryBackground: radial-gradient(
+			farthest-corner at 40px 40px,
+			#3d4450 0%,
+			#23262e 80%
+		) !important;
 		--gpColor-Blue: #1a9fff !important;
 		--gpColor-BlueHi: #00bbff !important;
 		--gpColor-Green: #5ba32b !important;
@@ -271,26 +286,70 @@
 		--gpSidePanelWidth: 340px !important;
 		--gpGiftingPanelWidth: 280px !important;
 		--gpCommunityRightPanelWidth: 320px !important;
-		--gpVerticalResponsivePadding-Small: calc( (100vw - 854px) / 60) !important;
-		--gpVerticalResponsivePadding-Medium: calc( (100vw - 854px) / 20) !important;
-		--gpVerticalResponsivePadding-Large: calc( (100vw - 854px) / 12) !important;
+		--gpVerticalResponsivePadding-Small: calc(
+			(100vw - 854px) / 60
+		) !important;
+		--gpVerticalResponsivePadding-Medium: calc(
+			(100vw - 854px) / 20
+		) !important;
+		--gpVerticalResponsivePadding-Large: calc(
+			(100vw - 854px) / 12
+		) !important;
 		--screen-width: 100vw !important;
-		--gpWidth-6colcap: calc( ( var(--screen-width) - (5 * var(--gpSpace-Gap)) - (2 * var(--gpSpace-Gutter))) / 6) !important;
-		--gpWidth-5colcap: calc( ( var(--screen-width) - (4 * var(--gpSpace-Gap)) - (2 * var(--gpSpace-Gutter))) / 5) !important;
-		--gpWidth-4colcap: calc( ( var(--screen-width) - (3 * var(--gpSpace-Gap)) - (2 * var(--gpSpace-Gutter))) / 4) !important;
-		--gpWidth-3colcap: calc( ( var(--screen-width) - (2 * var(--gpSpace-Gap)) - (2 * var(--gpSpace-Gutter))) / 3) !important;
-		--gpWidth-2colcap: calc( ( var(--screen-width) - (1 * var(--gpSpace-Gap)) - (2 * var(--gpSpace-Gutter))) / 2) !important;
-		--gpWidth-1colcap: calc( (var(--screen-width) - (2 * var(--gpSpace-Gutter)))) !important;
+		--gpWidth-6colcap: calc(
+			(
+					var(--screen-width) - (5 * var(--gpSpace-Gap)) -
+						(2 * var(--gpSpace-Gutter))
+				) /
+				6
+		) !important;
+		--gpWidth-5colcap: calc(
+			(
+					var(--screen-width) - (4 * var(--gpSpace-Gap)) -
+						(2 * var(--gpSpace-Gutter))
+				) /
+				5
+		) !important;
+		--gpWidth-4colcap: calc(
+			(
+					var(--screen-width) - (3 * var(--gpSpace-Gap)) -
+						(2 * var(--gpSpace-Gutter))
+				) /
+				4
+		) !important;
+		--gpWidth-3colcap: calc(
+			(
+					var(--screen-width) - (2 * var(--gpSpace-Gap)) -
+						(2 * var(--gpSpace-Gutter))
+				) /
+				3
+		) !important;
+		--gpWidth-2colcap: calc(
+			(
+					var(--screen-width) - (1 * var(--gpSpace-Gap)) -
+						(2 * var(--gpSpace-Gutter))
+				) /
+				2
+		) !important;
+		--gpWidth-1colcap: calc(
+			(var(--screen-width) - (2 * var(--gpSpace-Gutter)))
+		) !important;
 		--gpStoreMenuHeight: 58px !important;
 		--gpShadow-Small: 0 2px 2px 0 #0000003d !important;
 		--gpShadow-Medium: 0 3px 6px 0 #0000003d !important;
 		--gpShadow-Large: 0 12px 16px 0 #0000003d !important;
 		--gpShadow-XLarge: 0 24px 32px 0 #0000003d !important;
-		--gpText-HeadingLarge: normal 700 26px/1.4 'Motiva Sans', arial, sans-serif !important;
-		--gpText-HeadingMedium: normal 700 22px/1.4 'Motiva Sans', arial, sans-serif !important;
-		--gpText-HeadingSmall: normal 700 18px/1.4 'Motiva Sans', arial, sans-serif !important;
-		--gpText-BodyLarge: normal 400 16px/1.4 'Motiva Sans', arial, sans-serif !important;
-		--gpText-BodyMedium: normal 400 14px/1.4 'Motiva Sans', arial, sans-serif !important;
-		--gpText-BodySmall: normal 400 12px/1.4 'Motiva Sans', arial, sans-serif !important;
+		--gpText-HeadingLarge:
+			normal 700 26px/1.4 'Motiva Sans', arial, sans-serif !important;
+		--gpText-HeadingMedium:
+			normal 700 22px/1.4 'Motiva Sans', arial, sans-serif !important;
+		--gpText-HeadingSmall:
+			normal 700 18px/1.4 'Motiva Sans', arial, sans-serif !important;
+		--gpText-BodyLarge:
+			normal 400 16px/1.4 'Motiva Sans', arial, sans-serif !important;
+		--gpText-BodyMedium:
+			normal 400 14px/1.4 'Motiva Sans', arial, sans-serif !important;
+		--gpText-BodySmall:
+			normal 400 12px/1.4 'Motiva Sans', arial, sans-serif !important;
 	}
 }
