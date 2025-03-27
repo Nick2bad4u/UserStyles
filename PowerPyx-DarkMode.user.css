@@ -1,0 +1,25 @@
+/* ==UserStyle==
+@name           powerpyx.com - Dark Mode
+@namespace      typpi.online
+@version        1.0.1
+@description    Dark Mode for PowerPyx.com
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+
+==/UserStyle== */
+@-moz-document domain("powerpyx.com")
+{
+	/* Invert colors except images and videos */
+	html,
+	img,
+	svg,
+	video,
+	iframe,
+	.footer-widgets,
+	.site-footer, .site-footer a
+	{
+		filter: invert(1) hue-rotate(180deg) !important;
+	}
+}
