@@ -1,38 +1,42 @@
 // ==UserScript==
-// @name         Auto Click Google Sign-In Button
+// @name         Automatically Select First Google Account to Sign In
 // @namespace    typpi.online
-// @version      1.1
-// @description  Automatically clicks the Google sign-in button on the page
+// @version      1.2
+// @description  Selects the first Google account in the Google account selector page
 // @author       Nick2bad4u
-// @match        https://www.strava.com/login
+// @match        https://accounts.google.com/*
 // @grant        none
 // @license      Unlicense
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=strava.com
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
+// @downloadURL  https://update.greasyfork.org/scripts/531638/Automatically%20Select%20First%20Google%20Account%20to%20Sign%20In.user.js
+// @updateURL    https://update.greasyfork.org/scripts/531638/Automatically%20Select%20First%20Google%20Account%20to%20Sign%20In.meta.js
 // ==/UserScript==
 
 (function() {
 	'use strict';
 
-	// Function to find and click the Google sign-in button
-	const clickGoogleSignIn = () => {
-			const buttons = Array.from(document.querySelectorAll('button, a')); // Get all buttons and links
-			const googleButton = buttons.find(btn => btn.innerText.includes('Sign In With Google'));
-			if (googleButton) {
-					googleButton.click();
+	// Function to select the first account
+	const selectFirstAccount = () => {
+			const firstAccount = document.querySelector('li.aZvCDf');
+			if (firstAccount) {
+					const firstLink = firstAccount.querySelector('div[role="link"]');
+					if (firstLink) {
+							firstLink.click();
+					} else {
+							console.log('First account link not found.');
+					}
 			} else {
-					console.log('Google Sign-In button not found.');
+					console.log('First account not found on the page.');
 			}
 	};
 
-	// Use MutationObserver to wait for the button if the page loads dynamically
+	// Set up a MutationObserver to wait for dynamic content
 	const observer = new MutationObserver(() => {
-			const buttons = Array.from(document.querySelectorAll('button, a'));
-			const googleButton = buttons.find(btn => btn.innerText.includes('Sign In With Google'));
-			if (googleButton) {
-					clickGoogleSignIn();
-					observer.disconnect(); // Stop observing once the button is found and clicked
+			if (document.querySelector('li.aZvCDf')) {
+					selectFirstAccount();
+					observer.disconnect(); // Stop observing once the element is found
 			}
 	});
 
