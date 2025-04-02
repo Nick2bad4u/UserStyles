@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto Click Google Sign-In Button
 // @namespace    typpi.online
-// @version      1.2
+// @version      1.3
 // @description  Automatically clicks the Google sign-in button on the page
 // @author       Nick2bad4u
 // @match        https://www.strava.com/login
@@ -10,8 +10,8 @@
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=strava.com
-// @downloadURL  https://update.greasyfork.org/scripts/531639/Auto%20Click%20Google%20Sign-In%20Button.user.js
-// @updateURL    https://update.greasyfork.org/scripts/531639/Auto%20Click%20Google%20Sign-In%20Button.meta.js
+// @downloadURL  https://update.greasyfork.org/scripts/531638/Auto%20Click%20Google%20Sign-In%20Button.user.js
+// @updateURL    https://update.greasyfork.org/scripts/531638/Auto%20Click%20Google%20Sign-In%20Button.meta.js
 // ==/UserScript==
 
 (function () {
