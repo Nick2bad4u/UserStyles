@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Windy.com - Dark Mode [Customizable]
 @namespace      typpi.online
-@version        2.2
+@version        2.3
 @description    Dark theme for Windy.com with customizable colors
 @author         Nick2bad4u
 @license        UnLicense
@@ -31,6 +31,7 @@
 @var color dark-gray "Dark Gray" #666666
 @var color light-gray "Light Gray" #cccccc
 @var color lighter-gray "Lighter Gray" #e0e0e0
+@var color progress-line "Progress Line" #ADADAD
 ==/UserStyle== */
 @-moz-document domain("windy.com")
 {
@@ -67,6 +68,7 @@
 		--color-border: var(primary-gray) !important;
 		--color-border-selected: var(light-orange) !important;
 		--darken-map-strength: var(darken-map-strength) !important;
+		--progress-line: var(progress-line) !important;
 	}
 
 	#plugin-detail,
@@ -81,6 +83,11 @@
 	.nearby-features.svelte-ckoxom .nearby-feature__text
 	{
 		filter: invert(1) hue-rotate(180deg) !important;
+	}
+
+	.progress-bar .progress-line .avbl
+	{
+		background-color: progress-line
 	}
 
 	.td-wind.height-wind.d-display-table td,
