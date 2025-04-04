@@ -316,7 +316,7 @@
 	 * @namespace GC
 	 * @description Namespace containing functions related to Garmin Connect integration.
 	 * @property {function} getGarminContainer - Retrieves the Garmin container element.
-	 * @property {function} findGarminKudosButtons - Finds all kudos buttons within the Garmin container.
+	 * @property {function} findGarminKudosButtons - Finds Garmin kudos buttons within a specified container or the entire document.
 	 * @property {function} createGarminButton - Creates a new kudos button for Garmin.
 	 * @property {function} garminKudoAllHandler - Handles the "kudo all" action on Garmin.
 	 * @property {function} executeGarmin - Executes the Garmin integration logic.
@@ -412,13 +412,18 @@
 		const icons = findGarminKudosButtons(); // Find all kudos buttons
 		console.log('Garmin: Clicking all kudos buttons, count:', icons.length); // Log the number of kudos buttons
 
+		let likedCount = 0; // Counter for the number of items liked
+
 		icons.forEach((item) => {
 			// Click all kudos buttons
 			if (item) {
-				// If the kudos button exists
 				item.click(); // Click the kudos button
+				likedCount++; // Increment the counter
 			}
 		});
+
+		// Show a popup with the number of items liked
+		showPopup(`You liked ${likedCount} activities!`);
 	}
 
 	/**
@@ -540,6 +545,29 @@
 			console.log('Domain not recognized as Strava or Garmin. No actions will be performed.'); // Log the unrecognized domain
 		}
 	};
+
+	function showPopup(message) {
+		const popup = document.createElement('div');
+		popup.textContent = message;
+		popup.style = `
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			background-color: #2ea44f;
+			color: white;
+			padding: 10px 20px;
+			border-radius: 5px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			z-index: 1000;
+			font-size: 16px;
+		`;
+		document.body.appendChild(popup);
+
+		// Automatically remove the popup after 3 seconds
+		setTimeout(() => {
+			popup.remove();
+		}, 3000);
+	}
 
 	/**
 	 * Function to get localized message
