@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      5.1
+// @version      5.4
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -37,15 +37,15 @@
 	async function initialize() {
 		let token;
 		try {
-			// Attempt to retrieve and decrypt the GitHub token
+			// Attempt to retrieve and decrypt the token
+			// If the token is not found or decryption fails, it will return an empty string
 			token = await retrieveAndDecryptToken();
 		} catch (error) {
 			console.error('Failed to retrieve and decrypt token:', error);
 			alert('Failed to retrieve and decrypt token. Please check the console for more details.');
-			return;
+			throw error; // Stop further execution
 		}
 
-		// Prompt the user for the token if it was not successfully retrieved
 		if (!token) {
 			while (!token) {
 				token = prompt('Please enter your GitHub token:');
@@ -53,22 +53,15 @@
 					alert('GitHub token is required.');
 				}
 			}
-			// Encrypt and store the token if it was provided
-			if (token) {
-				try {
-					await encryptAndStoreToken(token);
-				} catch (error) {
-					console.error('Failed to encrypt and store token:', error);
-					alert('Failed to encrypt and store token. Please check the console for more details.');
-					return;
-				}
-			} else {
-				alert('GitHub token is required.');
-				return;
+			try {
+				await encryptAndStoreToken(token);
+			} catch (error) {
+				console.error('Failed to encrypt and store token:', error);
+				alert('Failed to encrypt and store token. Please check the console for more details.');
+				throw error; // Stop further execution
 			}
 		}
 
-		// Retrieve the GitHub username from storage or prompt the user for it
 		let username = GM_getValue('github_username') || '';
 		while (!username || username.trim() === '') {
 			username = prompt('Please enter your GitHub username:');
@@ -84,51 +77,21 @@
 
 	async function encryptAndStoreToken(token) {
 		try {
-			// Create a new TextEncoder instance to encode the token
 			const textEncoder = new TextEncoder();
 			const encodedToken = textEncoder.encode(token);
 
 			let key;
-			// Retrieve the stored encryption key from storage
 			const storedKey = GM_getValue('encryption_key', null);
 			if (storedKey) {
-				// If a key is already stored, import it for use
-				key = await crypto.subtle.importKey(
-					'jwk',
-					JSON.parse(storedKey),
-					{
-						name: 'AES-GCM',
-					},
-					true,
-					['encrypt', 'decrypt'],
-				);
+				key = await crypto.subtle.importKey('jwk', JSON.parse(storedKey), { name: 'AES-GCM' }, true, ['encrypt', 'decrypt']);
 			} else {
-				// If no key is stored, generate a new one
-				key = await crypto.subtle.generateKey(
-					{
-						name: 'AES-GCM',
-						length: 256,
-					},
-					true,
-					['encrypt', 'decrypt'],
-				);
-				// Store the newly generated key
+				key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
 				GM_setValue('encryption_key', JSON.stringify(await crypto.subtle.exportKey('jwk', key)));
 			}
 
-			// Create a random initialization vector (iv)
 			const iv = crypto.getRandomValues(new Uint8Array(12));
-			// Encrypt the token using the imported or generated key and the iv
-			const encryptedToken = await crypto.subtle.encrypt(
-				{
-					name: 'AES-GCM',
-					iv: iv,
-				},
-				key,
-				encodedToken,
-			);
+			const encryptedToken = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, encodedToken);
 
-			// Store the encrypted token and iv in storage
 			GM_setValue(
 				'github_token',
 				JSON.stringify({
@@ -138,16 +101,16 @@
 			);
 		} catch (error) {
 			console.error('Failed to encrypt and store token:', error);
+			alert('An error occurred while encrypting and storing the token. Please check the console for details.');
+			throw error; // Stop further execution
 		}
 	}
 
 	async function retrieveAndDecryptToken() {
 		try {
-			// Retrieve the stored encrypted token and encryption key from storage
 			const storedData = GM_getValue('github_token', null);
 			if (!storedData) return '';
 
-			// Parse the stored data to extract the initialization vector (iv) and the token
 			const { iv, token } = JSON.parse(storedData);
 			const key = GM_getValue('encryption_key', null);
 
@@ -155,33 +118,16 @@
 				throw new Error('Encryption key is missing.');
 			}
 
-			// Import the encryption key for decryption
-			const importedKey = await crypto.subtle.importKey(
-				'jwk',
-				JSON.parse(key),
-				{
-					name: 'AES-GCM',
-				},
-				true,
-				['decrypt'],
-			);
+			const importedKey = await crypto.subtle.importKey('jwk', JSON.parse(key), { name: 'AES-GCM' }, true, ['decrypt']);
 
-			// Decrypt the token using the imported key and initialization vector
-			const decryptedToken = await crypto.subtle.decrypt(
-				{
-					name: 'AES-GCM',
-					iv: new Uint8Array(iv),
-				},
-				importedKey,
-				new Uint8Array(token),
-			);
+			const decryptedToken = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(iv) }, importedKey, new Uint8Array(token));
 
-			// Decode the decrypted token into a string and return it
 			const textDecoder = new TextDecoder();
 			return textDecoder.decode(decryptedToken);
 		} catch (error) {
 			console.error('Failed to retrieve and decrypt token:', error);
-			return '';
+			alert('An error occurred while retrieving and decrypting the token. Please check the console for details.');
+			return ''; // Return an empty string to indicate failure
 		}
 	}
 
@@ -194,6 +140,7 @@
 					Authorization: `token ${token}`,
 				},
 				onload: function (response) {
+					handleRateLimit(response);
 					if (response.status === 200) {
 						const repos = JSON.parse(response.responseText);
 						resolve(repos);
@@ -217,14 +164,17 @@
 					Authorization: `token ${token}`,
 				},
 				onload: function (response) {
+					handleRateLimit(response);
 					if (response.status === 200) {
 						const pulls = JSON.parse(response.responseText);
 						resolve(pulls);
 					} else {
-						reject(new Error(`Failed to fetch pull requests: ${response.responseText}`));
+						console.error(`Failed to fetch PRs for repo ${repo}:`, response.responseText);
+						reject(new Error(`Failed to fetch PRs for repo ${repo}: ${response.responseText}`));
 					}
 				},
 				onerror: function (error) {
+					console.error(`Error fetching PRs for repo ${repo}:`, error);
 					reject(error);
 				},
 			});
@@ -246,8 +196,9 @@
 					statusContainer.appendChild(messageElement);
 					setTimeout(() => messageElement.remove(), 7000);
 				} catch (error) {
+					console.error(`Error merging PR #${pr.number}:`, error);
 					const messageElement = document.createElement('div');
-					messageElement.innerHTML = `Failed to merge PR #${pr.number}: ${error.message}<br>`;
+					messageElement.innerHTML = `Failed to merge PR #${pr.number}: ${error.message || 'Unknown error'}<br>`;
 					messageElement.id = `merge-status-${pr.number}`;
 					statusContainer.appendChild(messageElement);
 					setTimeout(() => messageElement.remove(), 7000);
@@ -255,15 +206,22 @@
 				index++;
 				setTimeout(processNextPR, delay);
 			} else {
-				// Remove status container after processing all PRs
 				setTimeout(() => statusContainer.remove(), 10000);
 			}
 		}
 
-		processNextPR();
+		try {
+			processNextPR();
+		} catch (error) {
+			console.error(`Error processing PRs for repo ${repo}:`, error);
+			const messageElement = document.createElement('div');
+			messageElement.innerHTML = `Failed to process PRs for repo ${repo}: ${error.message || 'Unknown error'}<br>`;
+			statusContainer.appendChild(messageElement);
+			setTimeout(() => messageElement.remove(), 7000);
+		}
 	}
 
-	function mergePR(pr, username, repo, token) {
+	function mergePR(pr, username, repo, token, retries = 3) {
 		return new Promise((resolve, reject) => {
 			GM_xmlhttpRequest({
 				method: 'PUT',
@@ -277,61 +235,101 @@
 					merge_method: 'merge',
 				}),
 				onload: function (response) {
+					handleRateLimit(response);
 					if (response.status === 200) {
 						resolve();
+					} else if (retries > 0) {
+						console.warn(`Retrying merge for PR #${pr.number}. Retries left: ${retries}`);
+						setTimeout(() => {
+							mergePR(pr, username, repo, token, retries - 1)
+								.then(resolve)
+								.catch(reject);
+						}, 2000); // Retry after 2 seconds
 					} else {
-						reject(new Error(response.responseText));
+						reject(new Error(`Failed to merge PR #${pr.number}: ${response.responseText}`));
 					}
 				},
 				onerror: function (error) {
-					reject(error);
+					if (retries > 0) {
+						console.warn(`Retrying merge for PR #${pr.number} due to error. Retries left: ${retries}`);
+						setTimeout(() => {
+							mergePR(pr, username, repo, token, retries - 1)
+								.then(resolve)
+								.catch(reject);
+						}, 2000); // Retry after 2 seconds
+					} else {
+						reject(error);
+					}
 				},
 			});
 		});
 	}
 
 	function addButton() {
-		const mergeButton = document.createElement('mergebutton');
-		mergeButton.textContent = 'Merge Dependabot PRs';
-		mergeButton.classList.add('merge-button');
-		mergeButton.addEventListener('click', async () => {
-			try {
-				let token = await retrieveAndDecryptToken();
-				if (!token) {
-					alert('Invalid or missing GitHub token. Please check your settings.');
-					return;
-				}
-				const username = GM_getValue('github_username');
-				const statusElement = getStatusElement();
-				updateStatusElement(statusElement, 'Fetching repositories...');
-				const repos = await fetchAllRepositories(username, token);
-
-				let allPRs = [];
-				for (const repo of repos) {
-					if (repo.archived) {
-						updateStatusElement(statusElement, `Skipping archived repo: ${repo.name}`);
-						continue;
+		try {
+			const mergeButton = document.createElement('mergebutton');
+			mergeButton.textContent = 'Merge Dependabot PRs';
+			mergeButton.classList.add('merge-button');
+			mergeButton.addEventListener('click', async () => {
+				try {
+					let token = await retrieveAndDecryptToken();
+					if (!token) {
+						alert('Invalid or missing GitHub token. Please check your settings.');
+						return;
 					}
-					updateStatusElement(statusElement, `Fetching PRs for repo: ${repo.name}`);
-					const prs = await fetchDependabotPRs(username, repo.name, token);
-					allPRs = allPRs.concat(prs.map((pr) => ({ ...pr, repo: repo.name })));
+					const username = GM_getValue('github_username');
+					const statusElement = getStatusElement();
+					updateStatusElement(statusElement, 'Fetching repositories...');
+
+					let repos;
+					try {
+						repos = await fetchAllRepositories(username, token);
+					} catch (error) {
+						console.error('Error fetching repositories:', error);
+						updateStatusElement(statusElement, 'Failed to fetch repositories. Please check the console for details.');
+						return; // Stop further execution
+					}
+
+					let allPRs = [];
+					for (const repo of repos) {
+						if (repo.archived) {
+							updateStatusElement(statusElement, `Skipping archived repo: ${repo.name}`);
+							continue;
+						}
+						updateStatusElement(statusElement, `Fetching PRs for repo: ${repo.name}`);
+						try {
+							const prs = await fetchDependabotPRs(username, repo.name, token);
+							allPRs = allPRs.concat(prs.map((pr) => ({ ...pr, repo: repo.name })));
+						} catch (error) {
+							console.error(`Error fetching PRs for repo ${repo.name}:`, error);
+							updateStatusElement(statusElement, `Failed to fetch PRs for repo: ${repo.name}.`);
+						}
+					}
+
+					if (allPRs.length > 0) {
+						updateStatusElement(statusElement, 'Displaying PR selection...');
+						displayPRSelection(allPRs, username, token);
+					} else {
+						updateStatusElement(statusElement, 'No Dependabot PRs found to merge.');
+						displayNoPRsMessage();
+					}
+					setTimeout(() => {
+						statusElement.innerHTML = '';
+						statusElement.remove();
+					}, 10000);
+				} catch (error) {
+					console.error('Error during merge operation:', error);
+					alert('An unexpected error occurred. Please check the console for details.');
 				}
-				if (allPRs.length > 0) {
-					updateStatusElement(statusElement, 'Displaying PR selection...');
-					displayPRSelection(allPRs, username, token);
-				} else {
-					updateStatusElement(statusElement, 'No Dependabot PRs found to merge.');
-					displayNoPRsMessage();
-				}
-				setTimeout(() => {
-					statusElement.innerHTML = '';
-					statusElement.remove();
-				}, 10000);
-			} catch (error) {
-				console.error('Error during merge operation:', error);
-			}
-		});
-		document.body.appendChild(mergeButton);
+			});
+			document.body.appendChild(mergeButton);
+
+			// Add the cog icon to the merge button
+			addCogToMergeButton();
+		} catch (error) {
+			console.error('Failed to add merge button:', error);
+			alert('An error occurred while adding the merge button. Please check the console for details.');
+		}
 	}
 
 	function getStatusElement() {
@@ -350,63 +348,68 @@
 	}
 
 	function displayPRSelection(prs, username, token) {
-		const container = document.createElement('div');
-		style.textContent += `
-			.pr-selection-container {
-				position: fixed;
-				bottom: 50px;
-				right: 10px;
-				z-index: 1000;
-				background-color: #79e4f2;
-				color: #000000;
-				padding: 10px;
-				border: 1px solid #ccc;
-				max-height: 300px;
-				overflow-y: auto;
-			}
-		`;
-		container.classList.add('pr-selection-container');
-
-		const prList = document.createElement('div');
-		prs.forEach((pr) => {
-			const prItem = document.createElement('div');
-			const checkbox = document.createElement('input');
-			checkbox.type = 'checkbox';
-			checkbox.value = pr.number;
-
-			const label = document.createElement('label');
-			label.textContent = `Repo: ${pr.repo} - PR #${pr.number}: ${pr.title}`;
-			label.style = 'margin-left: 5px;';
-
-			prItem.appendChild(checkbox);
-			prItem.appendChild(label);
-			prList.appendChild(prItem);
-		});
-
-		const mergeSelectedButton = document.createElement('button');
-		mergeSelectedButton.textContent = 'Merge Selected PRs';
-		mergeSelectedButton.addEventListener('click', async () => {
-			const selectedPRs = Array.from(prList.querySelectorAll('input:checked')).map((input) => prs.find((pr) => pr.number == input.value));
-			if (selectedPRs.length > 0) {
-				container.innerHTML = '<div id="merge-status">Merging PRs...<br></div>';
-				const groupedPRs = selectedPRs.reduce((acc, pr) => {
-					if (!acc[pr.repo]) {
-						acc[pr.repo] = [];
-					}
-					acc[pr.repo].push(pr);
-					return acc;
-				}, {});
-				for (const [repo, prs] of Object.entries(groupedPRs)) {
-					await mergeDependabotPRs(prs, username, repo, token);
+		try {
+			const container = document.createElement('div');
+			style.textContent += `
+				.pr-selection-container {
+					position: fixed;
+					bottom: 50px;
+					right: 10px;
+					z-index: 1000;
+					background-color: #79e4f2;
+					color: #000000;
+					padding: 10px;
+					border: 1px solid #ccc;
+					max-height: 300px;
+					overflow-y: auto;
 				}
-			} else {
-				container.innerHTML = 'No PRs selected for merging.';
-			}
-		});
+			`;
+			container.classList.add('pr-selection-container');
 
-		container.appendChild(prList);
-		container.appendChild(mergeSelectedButton);
-		document.body.appendChild(container);
+			const prList = document.createElement('div');
+			prs.forEach((pr) => {
+				const prItem = document.createElement('div');
+				const checkbox = document.createElement('input');
+				checkbox.type = 'checkbox';
+				checkbox.value = pr.number;
+
+				const label = document.createElement('label');
+				label.textContent = `Repo: ${pr.repo} - PR #${pr.number}: ${pr.title}`;
+				label.style = 'margin-left: 5px;';
+
+				prItem.appendChild(checkbox);
+				prItem.appendChild(label);
+				prList.appendChild(prItem);
+			});
+
+			const mergeSelectedButton = document.createElement('button');
+			mergeSelectedButton.textContent = 'Merge Selected PRs';
+			mergeSelectedButton.addEventListener('click', async () => {
+				const selectedPRs = Array.from(prList.querySelectorAll('input:checked')).map((input) => prs.find((pr) => pr.number == input.value));
+				if (selectedPRs.length > 0) {
+					container.innerHTML = '<div id="merge-status">Merging PRs...<br></div>';
+					const groupedPRs = selectedPRs.reduce((acc, pr) => {
+						if (!acc[pr.repo]) {
+							acc[pr.repo] = [];
+						}
+						acc[pr.repo].push(pr);
+						return acc;
+					}, {});
+					for (const [repo, prs] of Object.entries(groupedPRs)) {
+						await mergeDependabotPRs(prs, username, repo, token);
+					}
+				} else {
+					container.innerHTML = 'No PRs selected for merging.';
+				}
+			});
+
+			container.appendChild(prList);
+			container.appendChild(mergeSelectedButton);
+			document.body.appendChild(container);
+		} catch (error) {
+			console.error('Failed to display PR selection:', error);
+			alert('An error occurred while displaying the PR selection. Please check the console for details.');
+		}
 	}
 
 	function displayNoPRsMessage() {
@@ -475,7 +478,77 @@
 				z-index: 1000;
 				padding: 10px;
 				border: 1px solid #cccccc;
+				}
+			.merge-button {
+				transition: background-color 0.3s ease;
 			}
 	`;
 	window.addEventListener('load', addButton);
+
+	function showConfigPanel() {
+		const configPanel = document.createElement('div');
+		configPanel.style = `
+			position: fixed;
+			top: 10%;
+			left: 50%;
+			transform: translate(-50%, -10%);
+			background-color: white;
+			border: 1px solid #ccc;
+			padding: 20px;
+			z-index: 1000;
+		`;
+		configPanel.innerHTML = `
+			<h3>Configuration</h3>
+			<label>GitHub Username: <input id="config-username" type="text" value="${GM_getValue('github_username', '')}" /></label><br>
+			<label>Merge Delay (ms): <input id="config-merge-delay" type="number" value="${GM_getValue('merge_delay', 2000)}" /></label><br>
+			<button id="save-config">Save</button>
+			<button id="close-config">Close</button>
+		`;
+		document.body.appendChild(configPanel);
+
+		document.getElementById('save-config').addEventListener('click', () => {
+			const username = document.getElementById('config-username').value;
+			const mergeDelay = parseInt(document.getElementById('config-merge-delay').value, 10);
+			GM_setValue('github_username', username);
+			GM_setValue('merge_delay', isNaN(mergeDelay) || mergeDelay <= 0 ? 2000 : mergeDelay);
+			alert('Configuration saved!');
+			configPanel.remove();
+		});
+
+		document.getElementById('close-config').addEventListener('click', () => {
+			configPanel.remove();
+		});
+	}
+
+	function addCogToMergeButton() {
+		const mergeButton = document.querySelector('.merge-button');
+		if (mergeButton) {
+			// Create the cog icon
+			const cogIcon = document.createElement('span');
+			cogIcon.textContent = '⚙️';
+			cogIcon.style = `
+				margin-left: 10px;
+				cursor: pointer;
+				font-size: 1.2em;
+			`;
+			cogIcon.title = 'Settings';
+
+			// Attach the click event to open the configuration panel
+			cogIcon.addEventListener('click', (event) => {
+				event.stopPropagation(); // Prevent triggering the merge button click
+				showConfigPanel();
+			});
+
+			// Append the cog icon to the merge button
+			mergeButton.appendChild(cogIcon);
+		}
+	}
+
+	function handleRateLimit(response) {
+		if (response.status === 403 && response.headers['x-ratelimit-remaining'] === '0') {
+			const resetTime = new Date(response.headers['x-ratelimit-reset'] * 1000);
+			alert(`Rate limit exceeded. Please wait until ${resetTime.toLocaleTimeString()} to retry.`);
+			throw new Error('Rate limit exceeded');
+		}
+	}
 })();
