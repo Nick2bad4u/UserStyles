@@ -585,9 +585,17 @@
 		}
 	};
 
+	/**
+	 * Displays a popup message on the page.
+	 *
+	 * @param {string} message - The message to be displayed in the popup.
+	 */
 	function showPopup(message) {
+		// Create a popup element
 		const popup = document.createElement('div');
+		// Set the popup message
 		popup.textContent = message;
+		// Set the popup styles
 		popup.style = `
 			position: fixed;
 			top: 20px;
@@ -600,6 +608,7 @@
 			z-index: 1000;
 			font-size: 16px;
 		`;
+		// Append the popup to the body
 		document.body.appendChild(popup);
 
 		// Automatically remove the popup after 3 seconds
