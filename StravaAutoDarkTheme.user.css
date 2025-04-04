@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	7.8
+@version      	7.9
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -65,7 +65,8 @@ domain("labs.strava.com") {
 	[class*='src--noBackground'] nav,
 	.container-wrapper,
 	.\------packages-core-feed-feature-feed-src-components-media-Card-Card-module__card--juEyw,
-	.\------packages-global-atomics-ui-src-Card-Card-module__card--mIyuc {
+	.\------packages-global-atomics-ui-src-Card-Card-module__card--mIyuc,
+	.CPCcl {
 		background-color: #161616 !important;
 	}
 
@@ -317,7 +318,8 @@ domain("labs.strava.com") {
 	[class*='LeaderboardsTable--paywall-banner'],
 	[class*='DropdownSelect'] > .react-select__control,
 	[id*='listbox'][class*='react-select__menu'],
-	.Popup--contents--Ej052 {
+	.Popup--contents--Ej052,
+	.No9rk {
 		background-color: var(--gray2) !important;
 	}
 
@@ -724,7 +726,9 @@ domain("labs.strava.com") {
 	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb,
 	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:focus,
 	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:hover,
-	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:active {
+	.\------packages-global-atomics-ui-src-Button-Button-module__icon--vbDzb:active,
+	.nh_cp .KvEYc,
+	.lFlc9 .SyQsL {
 		padding: 5px;
 	}
 
@@ -1241,7 +1245,8 @@ domain("labs.strava.com") {
 	.\------packages-feed-ui-src-features-Post-Post-module__entryTitle--qi9Ab,
 	.\------packages-feed-ui-src-features-Post-Post-module__postBody--st353,
 	.KudosCommentsAndAchievementsModal--kudos-and-comments-modal--Y9sxh
-		button {
+		button,
+	.XPe4a {
 		color: #fafafa !important;
 	}
 
@@ -1465,7 +1470,10 @@ domain("labs.strava.com") {
 		.sync-logs
 		header
 		.btn
-		[data-icon][data-prefix='far'] {
+		[data-icon][data-prefix='far'],
+	p,
+	.kwv8L time,
+	.kwv8L .mhLyk {
 		color: var(--gray3) !important;
 	}
 
@@ -1547,7 +1555,10 @@ domain("labs.strava.com") {
 		> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn
 		> button:hover,
 	.\------packages-core-feed-feature-feed-src-components-media-EntryHeader-EntryHeader-module__entryHeader--B6Ogy
-		a {
+		a,
+	.oJVfx .UDqjM a.UDqjM,
+	.juEyw a,
+	.mGV12 .vNsSU {
 		color: var(--primary-color) !important;
 	}
 
@@ -1605,7 +1616,8 @@ domain("labs.strava.com") {
 		> .mention:hover,
 	.src-components-TextWithIcon-TextWithIcon-module__textFields--a2gUr
 		> a
-		> div {
+		> div,
+	.mGV12 .U5UN2 {
 		color: var(--blue) !important;
 	}
 
@@ -1639,7 +1651,8 @@ domain("labs.strava.com") {
 		> tbody:nth-child(5)
 		> tr:nth-child(n)
 		> td:nth-child(2)
-		> a:hover {
+		> a:hover,
+	.No9rk {
 		color: var(--primary-color) !important;
 	}
 
@@ -1873,6 +1886,9 @@ domain("labs.strava.com") {
 		filter: invert(25%) !important;
 	}
 
+	.XPe4a {
+		font-size: 12px;
+	}
 	table.segments tr.selected div.name,
 	.button {
 		font-weight: 300 !important;
@@ -2148,7 +2164,8 @@ domain("labs.strava.com") {
 	.src-components-BeesAdpTable-BeesAdpTable-module__adpTable--m7oGI
 		.src-components-BeesAdpTable-BeesAdpTable-module__highlightedRow--y7wRu,
 	.ui-dialog.sauce-dialog.sauce-sync-athlete-dialog
-		header.title {
+		header.title,
+	.CwlLh {
 		background-color: var(--secondary-color3) !important;
 	}
 
@@ -2211,7 +2228,16 @@ domain("labs.strava.com") {
 		> div
 		> svg,
 	.device-section > div > div.gear.spans8,
-	#cpcurve-options > div {
+	#cpcurve-options > div,
+	#main
+		> div
+		> div
+		> div.SS6mI.WPlJo.dO0y3.Wfz9A.ytzJ_
+		> div
+		> div
+		> div.my5Cp
+		> div
+		> div.mIyuc.kIvVy.undefined.rw0VR.DgS5q {
 		background-color: var(--gray2) !important;
 	}
 
@@ -2448,7 +2474,8 @@ domain("labs.strava.com") {
 		#similar-activities-chart-container
 		#similar-activities-chart
 		.date-tick,
-	.\------packages-core-feed-feature-feed-src-features-Activity-Activity-module__activityIcon--X9LCe {
+	.\------packages-core-feed-feature-feed-src-features-Activity-Activity-module__activityIcon--X9LCe,
+	.nh_cp .xnVnh svg path {
 		fill: #fc5200ba;
 	}
 
@@ -2466,7 +2493,9 @@ domain("labs.strava.com") {
 		> g
 		> g:nth-child(5)
 		> g
-		> text.annotation-pace {
+		> text.annotation-pace,
+	.X9LCe,
+	.nh_cp .xnVnh:hover svg path {
 		fill: var(--primary-color);
 	}
 
