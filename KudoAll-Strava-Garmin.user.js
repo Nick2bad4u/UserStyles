@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Strava and Garmin Kudos All (Working)
 // @namespace    typpi.online
-// @version      2.1.0
+// @version      2.1.1
 // @description  Adds a button to give kudos to all visible activities on Strava and Garmin Connect.
 // @author       Nick2bad4u
 // @license      Unlicense
@@ -38,10 +38,30 @@
 			hi: { kudo_all: 'सभी को कुडोस दें' },
 			bn: { kudo_all: 'সবাইকে কুডোস দিন' },
 			te: { kudo_all: 'అన్నికి కుడోస్ ఇవ్వండి' },
-			ta: { kudo_all: 'அனைத்துக்கும் குடோஸ் கொடுக்கவும்' },
-			ml: { kudo_all: 'എല്ലാവര്‍ക്കും ക,ഡോസ് നല്‍കുക' },
-			th: { kudo_all: 'ให้คุดดอกทุกคน' },
+			ta: { kudo_all: 'அனைவருக்கும் குடோஸ் கொடுக்கவும்' },
+			kn: { kudo_all: 'ಎಲ್ಲರಿಗೂ ಕುದೋಸ್ ನೀಡಿ' },
+			mr: { kudo_all: 'सर्वांना कूडो द्या' },
+			pa: { kudo_all: 'ਸਭ ਨੂੰ ਕੂਡੋ ਦਿਓ' },
+			ml: { kudo_all: 'എല്ലാവരെയും കുഡോസ് നൽകുക' },
+			gu: { kudo_all: 'બધાને કૂડોસ આપો' },
+			ur: { kudo_all: 'سب کو کڈو دیں' },
 			vi: { kudo_all: 'Kudo Tất cả' },
+			zh_tw: { kudo_all: '給所有人Kudos' },
+			zh_hk: { kudo_all: '給所有人Kudos' },
+			af: { kudo_all: 'Gee Kudos aan almal' },
+			zu: { kudo_all: 'Nike Kudos bonke' },
+			xh: { kudo_all: 'Nike Kudos bonke' },
+			yi: { kudo_all: 'געב אַלע קודאָס' },
+			he: { kudo_all: 'תן לכולם קודוס' },
+			id: { kudo_all: 'Berikan Kudos kepada Semua' },
+			ms: { kudo_all: 'Berikan Kudos kepada Semua' },
+			sw: { kudo_all: 'Toa Kudos kwa Wote' },
+			da: { kudo_all: 'Giv Kudos til Alle' },
+			no: { kudo_all: 'Gi Kudos til Alle' },
+			sv: { kudo_all: 'Ge Kudos till Alla' },
+			fi: { kudo_all: 'Anna Kudos kaikille' },
+			is: { kudo_all: 'Gefðu Kudos öllum' },
+			th: { kudo_all: 'ให้คุดดอกทุกคน' },
 			tr: { kudo_all: 'Herkese Kudos Ver' },
 			pl: { kudo_all: 'Pochwal wszystkich' },
 			cs: { kudo_all: 'Pošli Kudos všem' },
@@ -61,6 +81,25 @@
 			hy: { kudo_all: 'Բոլորին տալ Kudos' },
 			ka: { kudo_all: 'ყოფნა Kudos ყველი' },
 			az: { kudo_all: 'Bütün Kudos göndər' },
+			kk: { kudo_all: 'Барлығына Kudos жіберу' },
+			tg_cyrl: { kudo_all: 'Ба ҳама Kudos фиристед' },
+			tg_latn: { kudo_all: 'Ba hamma Kudos firistad' },
+			uz: { kudo_all: 'Barchaga Kudos yuborish' },
+			tg: { kudo_all: 'Ба ҳама Kudos фиристед' },
+			tk: { kudo_all: 'Hemme Kudos iber' },
+			ky: { kudo_all: 'Бардыгына Kudos жөнөтүү' },
+			mn: { kudo_all: 'Бүгдэд Kudos илгээх' },
+			ne: { kudo_all: 'सबैलाई कूडोस दिनुहोस्' },
+			pa_arab: { kudo_all: 'اعطِ كودوس للجميع' },
+			ta_arab: { kudo_all: 'أعطِ كودوس للجميع' },
+			ku: { kudo_all: 'Herkese Kudos Bide' },
+			mi: { kudo_all: 'Ho tuku Kudos ki nga katoa' },
+			yi_he: { kudo_all: 'געב אַלע קודאָס' },
+			af_za: { kudo_all: 'Gee Kudos aan almal' },
+			zu_za: { kudo_all: 'Nike Kudos bonke' },
+			xh_za: { kudo_all: 'Nike Kudos bonke' },
+			yi_ye: { kudo_all: 'געב אַלע קודאָס' },
+			he_il: { kudo_all: 'תן לכולם קודוס' },
 		};
 
 		const userLanguage = (navigator.language || navigator.userLanguage || 'en').split('-')[0]; // Get the user's language
