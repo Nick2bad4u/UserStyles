@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      5.4
+// @version      5.5
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -546,8 +546,13 @@
 
 	function handleRateLimit(response) {
 		if (response.status === 403 && response.headers['x-ratelimit-remaining'] === '0') {
-			const resetTime = new Date(response.headers['x-ratelimit-reset'] * 1000);
-			alert(`Rate limit exceeded. Please wait until ${resetTime.toLocaleTimeString()} to retry.`);
+			const resetTimeHeader = response.headers['x-ratelimit-reset'];
+			if (resetTimeHeader) {
+				const resetTime = new Date(resetTimeHeader * 1000);
+				alert(`Rate limit exceeded. Please wait until ${resetTime.toLocaleTimeString()} to retry.`);
+			} else {
+				alert('Rate limit exceeded. Please wait before retrying.');
+			}
 			throw new Error('Rate limit exceeded');
 		}
 	}
