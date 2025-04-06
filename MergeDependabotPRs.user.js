@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      5.5
+// @version      5.6
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -367,6 +367,8 @@
 			container.classList.add('pr-selection-container');
 
 			const prList = document.createElement('div');
+			let lastChecked = null; // Track the last clicked checkbox
+
 			prs.forEach((pr) => {
 				const prItem = document.createElement('div');
 				const checkbox = document.createElement('input');
@@ -377,6 +379,19 @@
 				label.textContent = `Repo: ${pr.repo} - PR #${pr.number}: ${pr.title}`;
 				label.style = 'margin-left: 5px;';
 
+				// Add event listener for shift-click selection
+				checkbox.addEventListener('click', (event) => {
+					if (event.shiftKey && lastChecked) {
+						const checkboxes = Array.from(prList.querySelectorAll('input[type="checkbox"]'));
+						const start = Math.min(checkboxes.indexOf(lastChecked), checkboxes.indexOf(checkbox));
+						const end = Math.max(checkboxes.indexOf(lastChecked), checkboxes.indexOf(checkbox));
+						for (let i = start; i <= end; i++) {
+							checkboxes[i].checked = lastChecked.checked;
+						}
+					}
+					lastChecked = checkbox; // Update the last clicked checkbox
+				});
+
 				prItem.appendChild(checkbox);
 				prItem.appendChild(label);
 				prList.appendChild(prItem);
@@ -385,7 +400,12 @@
 			const mergeSelectedButton = document.createElement('button');
 			mergeSelectedButton.textContent = 'Merge Selected PRs';
 			mergeSelectedButton.addEventListener('click', async () => {
-				const selectedPRs = Array.from(prList.querySelectorAll('input:checked')).map((input) => prs.find((pr) => pr.number == input.value));
+				// Get all selected checkboxes
+				const selectedCheckboxes = Array.from(prList.querySelectorAll('input[type="checkbox"]:checked'));
+
+				// Map selected checkboxes to their corresponding PRs
+				const selectedPRs = selectedCheckboxes.map((checkbox) => prs.find((pr) => pr.number == checkbox.value));
+
 				if (selectedPRs.length > 0) {
 					container.innerHTML = '<div id="merge-status">Merging PRs...<br></div>';
 					const groupedPRs = selectedPRs.reduce((acc, pr) => {
@@ -395,6 +415,8 @@
 						acc[pr.repo].push(pr);
 						return acc;
 					}, {});
+
+					// Merge PRs grouped by repository
 					for (const [repo, prs] of Object.entries(groupedPRs)) {
 						await mergeDependabotPRs(prs, username, repo, token);
 					}
