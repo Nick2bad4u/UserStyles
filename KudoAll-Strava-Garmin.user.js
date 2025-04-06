@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Strava and Garmin Kudos All (Working)
 // @namespace    typpi.online
-// @version      2.1.1
+// @version      2.2
 // @description  Adds a button to give kudos to all visible activities on Strava and Garmin Connect.
 // @author       Nick2bad4u
 // @license      Unlicense
@@ -301,6 +301,32 @@
 		navItemA.append(navItemText); // Append the text to the button link
 		navItemLi.append(navItemA); // Append the link to the button
 
+		// Add hover effect
+		navItemA.addEventListener('mouseover', () => {
+			navItemA.style.backgroundColor = '#2ea44f'; // Change background color on hover
+			navItemA.style.color = 'white'; // Change text color on hover
+			navItemA.style.transform = 'scale(1.1)'; // Slightly enlarge the button on hover
+			navItemA.style.transition = 'all 0.3s ease'; // Smooth transition for the effects
+			navItemA.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Add a shadow effect
+		});
+
+		navItemA.addEventListener('mouseout', () => {
+			navItemA.style.backgroundColor = ''; // Reset background color
+			navItemA.style.color = ''; // Reset text color
+			navItemA.style.transform = 'scale(1)'; // Reset size
+			navItemA.style.boxShadow = ''; // Remove shadow
+		});
+
+		// Add click effect
+		navItemA.addEventListener('click', () => {
+			navItemA.style.transform = 'scale(0.95)'; // Shrink the button slightly on click
+			navItemA.style.opacity = '0.9'; // Slightly fade the button on click
+			setTimeout(() => {
+				navItemA.style.transform = 'scale(1)'; // Reset size after click effect
+				navItemA.style.opacity = '1'; // Reset opacity after click effect
+			}, 150); // Duration of the click effect
+		});
+
 		return navItemLi; // Return the button element
 	}
 
@@ -317,14 +343,20 @@
 		const icons = getStravaKudosButtons(); // Get the Strava kudos buttons
 		console.log('Strava: Clicking all kudos buttons, count:', icons.length); // Log the number of kudos buttons
 
+		let likedCount = 0; // Counter for the number of items liked
+
 		icons.forEach((item) => {
 			// Click all kudos buttons
 			const parentItem = item?.parentElement; // Get the parent element of the kudos button
 			if (parentItem) {
 				// If the parent element exists
 				parentItem.click(); // Click the parent element
+				likedCount++; // Increment the counter
 			}
 		});
+
+		// Show a popup with the number of items liked
+		showPopup(`You gave kudos 👍 to ${likedCount} activities!`);
 	}
 
 	/**
@@ -427,6 +459,50 @@
 		link.setAttribute('aria-label', label); // Set the button link aria-label
 		link.setAttribute('data-original-title', label); // Set the button link data-original-title
 		link.setAttribute('data-rel', 'tooltip'); // Set the button link data-rel
+
+		// Add hover effect to fill the heart red
+		link.addEventListener('mouseover', () => {
+			link.style.color = 'red'; // Change the heart color to red on hover
+			link.style.transform = 'scale(1.2)'; // Slightly enlarge the heart on hover
+			link.style.transition = 'all 0.3s ease'; // Smooth transition for the effects
+			link.style.boxShadow = '0 4px 8px rgba(255, 0, 0, 0.5)'; // Add a glowing red shadow
+		});
+		link.addEventListener('mouseout', () => {
+			link.style.color = ''; // Reset the heart color when not hovering
+			link.style.transform = 'scale(1)'; // Reset the size when not hovering
+			link.style.boxShadow = ''; // Remove the shadow when not hovering
+		});
+
+		// Add click effect to briefly shrink the heart
+		link.addEventListener('click', () => {
+			link.style.transform = 'scale(0.9)'; // Shrink the heart slightly on click
+			link.style.opacity = '0.8'; // Slightly fade the heart on click
+			setTimeout(() => {
+				link.style.transform = 'scale(1)'; // Reset the size after the click effect
+				link.style.opacity = '1'; // Reset the opacity after the click effect
+			}, 150); // Duration of the click effect
+		});
+
+		// Add a pulsating animation effect
+		const pulsateKeyframes = `
+			@keyframes pulsate {
+				0% { transform: scale(1); }
+				50% { transform: scale(1.1); }
+				100% { transform: scale(1); }
+			}
+		`;
+		const styleSheet = document.createElement('style');
+		styleSheet.type = 'text/css';
+		styleSheet.innerText = pulsateKeyframes;
+		document.head.appendChild(styleSheet);
+
+		link.addEventListener('mouseenter', () => {
+			link.style.animation = 'pulsate 1s infinite'; // Start pulsating on hover
+		});
+		link.addEventListener('mouseleave', () => {
+			link.style.animation = ''; // Stop pulsating when not hovering
+		});
+
 		return link;
 	}
 
@@ -462,7 +538,7 @@
 		});
 
 		// Show a popup with the number of items liked
-		showPopup(`You liked ${likedCount} activities!`);
+		showPopup(`You gave hearts ❤️ to ${likedCount} activities!`);
 	}
 
 	/**
