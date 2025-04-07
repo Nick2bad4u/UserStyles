@@ -34,7 +34,7 @@ GEM
       parser (>= 2.4)
       smart_properties
     bigdecimal (3.1.9)
-    brakeman (7.0.1)
+    brakeman (7.0.2)
       racc
     builder (3.3.0)
     byebug (12.0.0)
@@ -233,7 +233,7 @@ GEM
       rainbow (>= 2.0, < 4.0)
       rexml (~> 3.1)
     regexp_parser (2.10.0)
-    reline (0.6.0)
+    reline (0.6.1)
       io-console (~> 0.5)
     resolv (0.6.0)
     resolv-replace (0.1.1)
@@ -289,7 +289,7 @@ GEM
     syntax_suggest (2.0.2)
     tempfile (0.3.1)
     terminal-table (1.6.0)
-    test-unit (3.6.7)
+    test-unit (3.6.8)
       power_assert
     thor (0.19.4)
     time (0.4.1)
