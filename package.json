@@ -36,7 +36,7 @@
 		"fast-json-stable-stringify": "^2.1.0",
 		"fast-levenshtein": "^3.0.0",
 		"fastq": "^1.19.1",
-		"file-entry-cache": "^10.0.7",
+		"file-entry-cache": "^10.0.8",
 		"fill-range": "^7.1.1",
 		"find-up": "^7.0.0",
 		"flat-cache": "^6.1.7",
@@ -98,13 +98,13 @@
 		"yocto-queue": "^1.2.1"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.23.0",
+		"@eslint/js": "^9.24.0",
 		"@types/vscode": "^1.99.0",
 		"@typescript-eslint/eslint-plugin": "^8.29.0",
 		"@typescript-eslint/parser": "^8.29.0",
 		"canvas": "^3.1.0",
 		"chai": "^5.2.0",
-		"eslint": "^9.23.0",
+		"eslint": "^9.24.0",
 		"eslint-plugin-prettier": "^5.2.6",
 		"eslint-plugin-react": "^7.37.5",
 		"globals": "^16.0.0",
@@ -116,9 +116,9 @@
 		"prettier-plugin-stylus": "^0.1.0",
 		"prettier-plugin-tailwindcss": "^0.6.11",
 		"sinon": "^20.0.0",
-		"stylelint": "^16.17.0",
+		"stylelint": "^16.18.0",
 		"ts-node": "^10.9.2",
-		"typescript": "^5.8.2",
+		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.29.0"
 	},
 	"scripts": {
