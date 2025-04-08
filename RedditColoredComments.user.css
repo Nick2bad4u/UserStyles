@@ -3,7 +3,7 @@
 @namespace typpi.online
 @description Customizable Colored Comments for Reddit. [Updated for RES Users 2025]
 @author vednoc [Updated by Nick2bad4u]
-@version 1.6.3
+@version 1.6.4
 @license MIT
 @homepageURL  https://github.com/Nick2bad4u/UserStyles
 @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
@@ -69,130 +69,129 @@ Original Style made by Vendoc
 
 ==/UserStyle== */
 @-moz-document domain('reddit.com') {
-  // Set line width for the new design
-  if ( lineWidth != 2 ) {
-    .threadline {
-      border-right-width: s( '%spx', lineWidth ) !important;
-    }
-  }
+	// Set line width for the new design
+	if ( lineWidth != 2 ) {
+		.threadline {
+			border-right-width: s( '%spx', lineWidth ) !important;
+		}
+	}
 
-  // Set mode for line style in the new design
-  $mode = '';
+	// Set mode for line style in the new design
+	$mode = '';
 
-  if ( lineStyle ) {
-    $mode = '> div >';
-  }
+	if ( lineStyle ) {
+		$mode = '> div >';
+	}
 
-  // Apply colors and styles to each level up to 20
-  for $i in 1 .. 20 {
-    div[id ^= 't'] > :first-child,
-    div[id ^= 'moreComments'] > :first-child,
-    div[id ^= 'continueThread'] > :first-child {
-      // Create a string for the nth-child selector
-      $nth = s( '%s', $i );
+	// Apply colors and styles to each level up to 20
+	for $i in 1 .. 20 {
+		div[id ^= 't'] > :first-child,
+		div[id ^= 'moreComments'] > :first-child,
+		div[id ^= 'continueThread'] > :first-child {
+			// Create a string for the nth-child selector
+			$nth = s( '%s', $i );
 
-      > :nth-child({$nth}) {
-        $mode;
-      }
+			> :nth-child({$nth}) {
+				$mode;
+			}
 
-      .threadline {
-        border-right-color: color + $i !important;
-      }
+			.threadline {
+				border-right-color: color + $i !important;
+			}
 
-      // Hide previous lines if the option is checked
-      if ( hideLines ) {
-        > :nth-child({$nth}) > .threadline {
-          border-right-color: #0000 !important;
-        }
-      }
-    }
-  }
+			// Hide previous lines if the option is checked
+			if ( hideLines ) {
+				> :nth-child({$nth}) > .threadline {
+					border-right-color: #0000 !important;
+				}
+			}
+		}
+	}
 
-  // Old design specific styles
-  .comment .child,
-  .comment .showreplies,
-  .res-commentBoxes.res-continuity .comment div.child {
-    // Set line width for the old design
-    if ( oldLineWidth != 1 ) {
-      border-left-width: s( '%spx', oldLineWidth ) !important;
-    }
+	// Old design specific styles
+	.comment .child,
+	.comment .showreplies,
+	.res-commentBoxes.res-continuity .comment div.child {
+		// Set line width for the old design
+		if ( oldLineWidth != 1 ) {
+			border-left-width: s( '%spx', oldLineWidth ) !important;
+		}
 
-    // Set line style for the old design
-    if ( oldLineStyle == 0 ) {
-      border-left-style: solid !important;
-    }
-    else {
-      border-left-style: dotted !important;
-    }
-  }
+		// Set line style for the old design
+		if ( oldLineStyle == 0 ) {
+			border-left-style: solid !important;
+		}
+		else {
+			border-left-style: dotted !important;
+		}
+	}
 
-  // Apply colors to nested child elements
-  $str = '.res-commentBoxes.res-continuity .comment div.child ';
+	// Apply colors to nested child elements
+	$str = '.res-commentBoxes.res-continuity .comment div.child ';
 
-  for $i in 1 .. 20 {
-    {$str} {
-      border-left-color: color + $i !important;
-    }
+	for $i in 1 .. 20 {
+		{$str} {
+			border-left-color: color + $i !important;
+		}
 
-    // Increase the nesting level for each iteration
-    $str += '> .sitetable > .comment > .child ';
-  }
+		// Increase the nesting level for each iteration
+		$str += '> .sitetable > .comment > .child ';
+	}
 
-  // Toggle coloring of the area
-  if ( oldMinimizeRainbow == 1 ) {
-    // Apply color to .expand elements within nested child elements
-    $str2 = '.res-commentBoxes.res-continuity .comment div.child ';
+	// Toggle coloring of the area
+	if ( oldMinimizeRainbow == 1 ) {
+		// Apply color to .expand elements within nested child elements
+		$str2 = '.res-commentBoxes.res-continuity .comment div.child ';
 
-    for $i in 1 .. 20 {
-      {$str2} .expand {
-        background-color: color + $i !important;
-      }
+		for $i in 1 .. 20 {
+			{$str2} .expand {
+				background-color: color + $i !important;
+			}
 
-      // Increase the nesting level for each iteration
-      $str2 += '> .sitetable > .comment > .child ';
-    }
-  }
+			// Increase the nesting level for each iteration
+			$str2 += '> .sitetable > .comment > .child ';
+		}
+	}
 
-  if ( oldHoverRainbow == 1 && oldMinimizeRainbow == 1 ) {
-    // Apply hover effect to .expand elements within nested child elements
-    $str5 = '.res-commentBoxes.res-continuity .comment div.child ';
+	if ( oldHoverRainbow == 1 && ( oldMinimizeRainbow == 1 ) ) {
+		// Apply hover effect to .expand elements within nested child elements
+		$str5 = '.res-commentBoxes.res-continuity .comment div.child ';
 
-    for $i in 11 .. 20 {
-      {$str5} .expand:hover {
-        background-color: color + $i !important;
-      }
+		for $i in 11 .. 20 {
+			{$str5} .expand:hover {
+				background-color: color + $i !important;
+			}
 
-      // Increase the nesting level for each iteration
-      $str5 += '> .sitetable > .comment > .child ';
-    }
-  }
+			// Increase the nesting level for each iteration
+			$str5 += '> .sitetable > .comment > .child ';
+		}
+	}
 
+	if ( oldHoverRainbow == 1 && ( oldMinimizeRainbow == 0 ) ) {
+		// Apply hover effect to .expand elements within nested child elements
+		$str5 = '.res-commentBoxes.res-continuity .comment div.child ';
 
-  if ( oldHoverRainbow == 1 && oldMinimizeRainbow == 0 ) {
-    // Apply hover effect to .expand elements within nested child elements
-    $str5 = '.res-commentBoxes.res-continuity .comment div.child ';
+		for $i in 1 .. 20 {
+			{$str5} .expand:hover {
+				background-color: color + $i !important;
+			}
 
-    for $i in 1 .. 20 {
-      {$str5} .expand:hover {
-        background-color: color + $i !important;
-      }
+			// Increase the nesting level for each iteration
+			$str5 += '> .sitetable > .comment > .child ';
+		}
+	}
 
-      // Increase the nesting level for each iteration
-      $str5 += '> .sitetable > .comment > .child ';
-    }
-  }
+	if ( oldMinimizeArea == 1 ) {
+		// Apply a background color to .expand elements in the tagline
+		.commentarea .entry > .tagline > .expand {
+			background-color: oldMinimizeColor !important;
+		}
+	}
 
-  if ( oldMinimizeArea == 1 ) {
-    // Apply a background color to .expand elements in the tagline
-    .commentarea .entry > .tagline > .expand {
-      background-color: oldMinimizeColor !important;
-    }
-  }
-
-  if ( oldHoverArea == 1 ) {
-    // Apply a background color to .expand elements in the tagline
-    .commentarea .entry > .tagline > .expand:hover {
-      background-color: oldHoverColor !important;
-    }
-  }
+	if ( oldHoverArea == 1 ) {
+		// Apply a background color to .expand elements in the tagline
+		.commentarea .entry > .tagline > .expand:hover {
+			background-color: oldHoverColor !important;
+		}
+	}
 }
