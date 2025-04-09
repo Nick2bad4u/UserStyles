@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gyazo Gif and Video Direct Link Button
 // @namespace    typpi.online
-// @version      3.1
+// @version      3.2
 // @description  Adds a link button to redirect to the direct video or gif link on Gyazo
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -125,8 +125,8 @@
 
 				addTooltipListeners(button, tooltip);
 
-				const directLink = extractDirectLink();
 				button.onclick = function () {
+					const directLink = extractDirectLink();
 					console.log('Button clicked, redirecting to', directLink);
 					window.location.href = directLink;
 				};
@@ -175,17 +175,18 @@
 		console.log('Initializing script');
 		handlePageChange();
 
-		const observer = new MutationObserver(() => {
+		// Store the observer globally for cleanup
+		window.scriptObserver = new MutationObserver(() => {
 			const currentUrl = location.href;
-			if (currentUrl !== observer.lastUrl) {
-				console.log('URL changed from', observer.lastUrl, 'to', currentUrl);
-				observer.lastUrl = currentUrl;
+			if (currentUrl !== window.scriptObserver.lastUrl) {
+				console.log('URL changed from', window.scriptObserver.lastUrl, 'to', currentUrl);
+				window.scriptObserver.lastUrl = currentUrl;
 				handlePageChange();
 			}
 		});
 
-		observer.lastUrl = location.href;
-		observer.observe(document.body, {
+		window.scriptObserver.lastUrl = location.href;
+		window.scriptObserver.observe(document.body, {
 			childList: true,
 			subtree: true,
 		});
@@ -195,6 +196,15 @@
 	window.addEventListener('load', initialize);
 	window.addEventListener('popstate', () => {
 		console.log('A soft navigation has been detected:', location.href);
+
+		// Cleanup existing observers and buttons
+		if (window.scriptObserver) {
+			console.log('Disconnecting existing mutation observer');
+			window.scriptObserver.disconnect();
+		}
+		removeRedirectButton();
+
+		// Reinitialize the script
 		initialize();
 	});
 })();
