@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Automatically Select First Google Account to Sign In
 // @namespace    typpi.online
-// @version      1.5
+// @version      1.6
 // @description  Selects the first Google account in the Google account selector page
 // @author       Nick2bad4u
 // @match        https://accounts.google.com/*
@@ -19,22 +19,24 @@
 
 	// Function to select the first account
 	const selectFirstAccount = () => {
-		const firstAccount = Array.from(document.querySelectorAll('li')).find(el => el.textContent.includes('@gmail.com'));
+		const firstAccount = Array.from(document.querySelectorAll('li')).find((el) => el.textContent.includes('@gmail.com'));
 		if (firstAccount) {
 			const firstLink = firstAccount.querySelector('div[role="link"]');
 			if (firstLink) {
 				firstLink.click();
 			} else {
-				console.log('First account link not found. This might be due to changes in the page structure or the account list not being fully loaded.');
+				console.log(
+					'First account link not found. Ensure the page contains a <li> element with a child <div> having role="link". This might be due to changes in the page structure or the account list not being fully loaded.',
+				);
 			}
 		} else {
-			console.log('First account not found on the page. Waiting for the element to load dynamically...');
+			console.log('First account not found on the page. Waiting for the element to load dynamically via MutationObserver...');
 		}
 	};
 
 	// Set up a MutationObserver to wait for dynamic content
 	const observer = new MutationObserver(() => {
-		if (document.querySelector('li.aZvCDf')) {
+		if (Array.from(document.querySelectorAll('li')).some((el) => el.textContent.includes('@gmail.com'))) {
 			selectFirstAccount();
 			observer.disconnect(); // Stop observing once the element is found
 		}
