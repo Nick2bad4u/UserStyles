@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Automatically Select First Google Account to Sign In
 // @namespace    typpi.online
-// @version      1.6
-// @description  Selects the first Google account in the Google account selector page
+// @version      1.7
+// @description  Automatically selects the first Google account in the Google account selector page
 // @author       Nick2bad4u
 // @match        https://accounts.google.com/*
 // @grant        none
@@ -16,6 +16,9 @@
 
 (function () {
 	'use strict';
+
+	// Configurable delay for automatic selection (default: 5000ms)
+	const AUTO_SELECT_DELAY_MS = 5000;
 
 	// Function to select the first account
 	const selectFirstAccount = () => {
@@ -47,6 +50,10 @@
 
 	// Automatically run the function after 5 seconds
 	setTimeout(() => {
-		selectFirstAccount();
-	}, 5000);
+		if (Array.from(document.querySelectorAll('li')).some((el) => el.textContent.includes('@gmail.com'))) {
+			selectFirstAccount();
+		} else {
+			console.log('Account list not loaded within 5 seconds. Skipping automatic selection.');
+		}
+	}, AUTO_SELECT_DELAY_MS);
 })();
