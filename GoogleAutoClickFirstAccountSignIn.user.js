@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Automatically Select First Google Account to Sign In
 // @namespace    typpi.online
-// @version      1.4
+// @version      1.5
 // @description  Selects the first Google account in the Google account selector page
 // @author       Nick2bad4u
 // @match        https://accounts.google.com/*
@@ -19,16 +19,16 @@
 
 	// Function to select the first account
 	const selectFirstAccount = () => {
-		const firstAccount = document.querySelector('li.aZvCDf');
+		const firstAccount = Array.from(document.querySelectorAll('li')).find(el => el.textContent.includes('@gmail.com'));
 		if (firstAccount) {
 			const firstLink = firstAccount.querySelector('div[role="link"]');
 			if (firstLink) {
 				firstLink.click();
 			} else {
-				console.log('First account link not found.');
+				console.log('First account link not found. This might be due to changes in the page structure or the account list not being fully loaded.');
 			}
 		} else {
-			console.log('First account not found on the page.');
+			console.log('First account not found on the page. Waiting for the element to load dynamically...');
 		}
 	};
 
