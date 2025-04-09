@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Automatically Select First Google Account to Sign In
 // @namespace    typpi.online
-// @version      1.3
+// @version      1.4
 // @description  Selects the first Google account in the Google account selector page
 // @author       Nick2bad4u
 // @match        https://accounts.google.com/*
@@ -42,4 +42,9 @@
 
 	// Observe changes in the document body
 	observer.observe(document.body, { childList: true, subtree: true });
+
+	// Automatically run the function after 5 seconds
+	setTimeout(() => {
+		selectFirstAccount();
+	}, 5000);
 })();
