@@ -55,11 +55,18 @@
 			'core-styles-module_show__Nt9eE',
 			'react-tooltip__show',
 		);
-		tooltip.style.cssText = 'z-index: 2147483647; font-size: 14px; padding: 6px 10px; max-width: 250px; display: none; position: absolute;';
+		tooltip.style.zIndex = '2147483647';
+		tooltip.style.fontSize = '14px';
+		tooltip.style.padding = '6px 10px';
+		tooltip.style.maxWidth = '250px';
+		tooltip.style.display = 'none';
+		tooltip.style.position = 'absolute';
 		tooltip.innerHTML =
 			'Direct Link<div class="react-tooltip-arrow core-styles-module_arrow__cvMwQ styles-module_arrow__K0L3T" style="left: 38px; top: -4px;"></div>';
 
-		document.body.appendChild(tooltip);
+		if (!document.getElementById('tooltip-direct-video-link-button')) {
+			document.body.appendChild(tooltip);
+		}
 
 		console.log('Tooltip element created', tooltip);
 		return tooltip;
