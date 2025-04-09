@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gyazo Gif and Video Direct Link Button
 // @namespace    typpi.online
-// @version      3.2
+// @version      3.3
 // @description  Adds a link button to redirect to the direct video or gif link on Gyazo
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -43,6 +43,11 @@
 
 	function createTooltipElement() {
 		console.log('Creating tooltip element');
+		const existingTooltip = document.getElementById('tooltip-direct-video-link-button');
+		if (existingTooltip) {
+			console.log('Existing tooltip found, removing it');
+			existingTooltip.remove();
+		}
 		const tooltip = document.createElement('div');
 		tooltip.id = 'tooltip-direct-video-link-button';
 		tooltip.setAttribute('role', 'tooltip');
@@ -64,9 +69,7 @@
 		tooltip.innerHTML =
 			'Direct Link<div class="react-tooltip-arrow core-styles-module_arrow__cvMwQ styles-module_arrow__K0L3T" style="left: 38px; top: -4px;"></div>';
 
-		if (!document.getElementById('tooltip-direct-video-link-button')) {
-			document.body.appendChild(tooltip);
-		}
+		document.body.appendChild(tooltip);
 
 		console.log('Tooltip element created', tooltip);
 		return tooltip;
@@ -106,14 +109,17 @@
 		return directLink;
 	}
 
+	let isButtonAdded = false; // Global flag to track button addition
+
 	function addRedirectButton() {
-		removeRedirectButton();
-		console.log('Adding redirect button');
-		const existingButton = document.getElementById('direct-video-link-button');
-		if (existingButton) {
-			console.log('Existing button found, removing it');
-			existingButton.remove();
+		// Check if the button already exists or has been added
+		if (isButtonAdded || document.getElementById('direct-video-link-button')) {
+			console.log('Redirect button already exists or has been added, skipping creation');
+			return;
 		}
+
+		console.log('Adding redirect button');
+		isButtonAdded = true; // Set the flag to true to prevent duplicate calls
 
 		let targetElement = null;
 		let attempts = 0;
@@ -153,6 +159,9 @@
 	}
 
 	function removeRedirectButton() {
+		// Reset the global flag when removing the button
+		isButtonAdded = false;
+
 		if (!location.href.includes('https://gyazo.com/captures')) {
 			console.log('Not removing redirect button since not on captures page');
 			return;
