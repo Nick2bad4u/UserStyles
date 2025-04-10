@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Garmin Connect: Select All Participants for Challenges
 // @namespace    typpi.online
-// @version      1.6
+// @version      1.8
 // @description  Adds a button to select all participants in Garmin Connect challenges and logs participant details
 // @author       Nick2bad4u
 // @match        https://connect.garmin.com/modern/challenge/create-challenge
@@ -47,7 +47,26 @@
 		});
 
 		console.log(`Total simulated clicks: ${checkboxes.length}`);
-		alert(`Simulated clicks on ${checkboxes.length} participant checkboxes!`);
+		// Create a popup notification
+		const notification = document.createElement('div');
+		notification.textContent = `Successfully selected ${checkboxes.length} participants!`;
+		notification.style.position = 'absolute';
+		notification.style.top = `${button.offsetTop + button.offsetHeight + 10}px`;
+		notification.style.left = `${button.offsetLeft}px`;
+		notification.style.backgroundColor = '#007bff';
+		notification.style.color = '#fff';
+		notification.style.padding = '10px 20px';
+		notification.style.borderRadius = '5px';
+		notification.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+		notification.style.zIndex = '1000';
+
+		// Append the notification near the button
+		button.parentElement.appendChild(notification);
+
+		// Remove the notification after 3 seconds
+		setTimeout(() => {
+			notification.remove();
+		}, 3000);
 	});
 
 	// Function that looks for the section title element and inserts the button when found
