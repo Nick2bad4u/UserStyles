@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Garmin Connect: Select All Participants for Challenges
 // @namespace    typpi.online
-// @version      1.5
+// @version      1.6
 // @description  Adds a button to select all participants in Garmin Connect challenges and logs participant details
 // @author       Nick2bad4u
 // @match        https://connect.garmin.com/modern/challenge/create-challenge
@@ -10,8 +10,8 @@
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=garmin.com
-// @downloadURL  https://update.greasyfork.org/scripts/531640/Garmin%20Connect%20Select%20All%20Participants%20for%20Challenges.user.js
-// @updateURL    https://update.greasyfork.org/scripts/531640/Garmin%20Connect%20Select%20All%20Participants%20for%20Challenges.meta.js
+// @downloadURL  https://update.greasyfork.org/scripts/532475/Garmin%20Connect%3A%20Select%20All%20Participants%20for%20Challenges.user.js
+// @updateURL    https://update.greasyfork.org/scripts/532475/Garmin%20Connect%3A%20Select%20All%20Participants%20for%20Challenges.meta.js
 // ==/UserScript==
 
 (function () {
