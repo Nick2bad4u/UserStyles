@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	7.9
+@version      	8.0
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -995,7 +995,9 @@ domain("labs.strava.com") {
 		> :not(:last-child),
 	[class*='CollapsibleSection--line'],
 	[class*='Show--top-row'],
-	.MediaUploader--dropzone--sS1mw {
+	.MediaUploader--dropzone--sS1mw,
+	.css-raebcl-control,
+	.css-kow44e-control {
 		border-color: var(--gray) !important;
 	}
 
@@ -1889,6 +1891,7 @@ domain("labs.strava.com") {
 	.XPe4a {
 		font-size: 12px;
 	}
+
 	table.segments tr.selected div.name,
 	.button {
 		font-weight: 300 !important;
@@ -2104,7 +2107,9 @@ domain("labs.strava.com") {
 		select:nth-child(n)
 		> option,
 	.loading-mask > select > option:nth-child(n),
-	.ftue-education-lightbox > div > div.inset {
+	.ftue-education-lightbox > div > div.inset,
+	.css-raebcl-control,
+	.css-kow44e-control {
 		background: var(--black);
 	}
 
@@ -2299,7 +2304,8 @@ domain("labs.strava.com") {
 		white-space: normal;
 	}
 
-	.sidebar .gear td:last-child {
+	.sidebar .gear td:last-child,
+	.css-qc6sy-singleValue {
 		color: var(--primary-color);
 	}
 
@@ -2317,7 +2323,8 @@ domain("labs.strava.com") {
 
 	.------packages-feed-ui-src-components-ActivityEntryBody-ActivityEntryBody-module__appIconWrapper--DEx9Z
 		> svg
-		> path {
+		> path,
+	.y4aqb .RZY41 .y8HM6 a {
 		color: #fff77a;
 	}
 
@@ -2558,5 +2565,11 @@ domain("labs.strava.com") {
 			2px 2px 0 var(--black),
 			0 0 5px var(--black);
 		/* Adjust the last value to make the shadow thicker */
+	}
+
+	.No9rk .eTWeN .aLN__,
+	.q_5si .ip44p,
+	.No9rk .h6o1o {
+		color: var(--white) !important;
 	}
 }
