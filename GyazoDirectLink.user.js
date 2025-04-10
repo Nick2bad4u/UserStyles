@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gyazo Gif and Video Direct Link Button
 // @namespace    typpi.online
-// @version      3.3
+// @version      3.4
 // @description  Adds a link button to redirect to the direct video or gif link on Gyazo
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -109,17 +109,14 @@
 		return directLink;
 	}
 
-	let isButtonAdded = false; // Global flag to track button addition
-
 	function addRedirectButton() {
-		// Check if the button already exists or has been added
-		if (isButtonAdded || document.getElementById('direct-video-link-button')) {
-			console.log('Redirect button already exists or has been added, skipping creation');
+		// Check if the button already exists
+		if (document.getElementById('direct-video-link-button')) {
+			console.log('Redirect button already exists, skipping creation');
 			return;
 		}
 
 		console.log('Adding redirect button');
-		isButtonAdded = true; // Set the flag to true to prevent duplicate calls
 
 		let targetElement = null;
 		let attempts = 0;
@@ -127,6 +124,12 @@
 		const interval = 500;
 
 		const findTargetElement = () => {
+			// Check again for existing button before retrying
+			if (document.getElementById('direct-video-link-button')) {
+				console.log('Redirect button already exists during retry, skipping creation');
+				return;
+			}
+
 			targetElement = document.querySelector(
 				'#react-root > div.header-block.explorer-header-block > div.explorer-action-btn-toolbar > div.explorer-action-btn-group',
 			);
@@ -159,9 +162,6 @@
 	}
 
 	function removeRedirectButton() {
-		// Reset the global flag when removing the button
-		isButtonAdded = false;
-
 		if (!location.href.includes('https://gyazo.com/captures')) {
 			console.log('Not removing redirect button since not on captures page');
 			return;
@@ -189,6 +189,10 @@
 
 	function initialize() {
 		console.log('Initializing script');
+
+		// Remove any existing button to prevent duplicates
+		removeRedirectButton();
+
 		handlePageChange();
 
 		// Store the observer globally for cleanup
@@ -197,6 +201,9 @@
 			if (currentUrl !== window.scriptObserver.lastUrl) {
 				console.log('URL changed from', window.scriptObserver.lastUrl, 'to', currentUrl);
 				window.scriptObserver.lastUrl = currentUrl;
+
+				// Remove any existing button before handling the page change
+				removeRedirectButton();
 				handlePageChange();
 			}
 		});
