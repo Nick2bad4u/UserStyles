@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Allow Right-Click with Tampermonkey Menu Option
 // @namespace    typpi.online
-// @version      1.8
+// @version      1.9
 // @description  Allows right-clicking on websites that prevent it by clicking the menu button in the Tampermonkey extension.
 // @author       Nick2bad4u
 // @match        *://*/*
 // @grant        GM_registerMenuCommand
-// @icon         https://i.gyazo.com/353b60294e0dc77af7119d58ab0aa1ad.png
+// @icon         https://i.gyazo.com/ba5b7116d7140e7a247e176c312b4bd5.png
 // @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/RightClickEnable.user.js
 // @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/RightClickEnable.user.js
 // @license      UnLicense
