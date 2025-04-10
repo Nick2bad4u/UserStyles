@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gyazo Gif and Video Direct Link Button
 // @namespace    typpi.online
-// @version      3.6
+// @version      3.7
 // @description  Adds a link button to redirect to the direct video or gif link on Gyazo
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -11,6 +11,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=gyazo.com
 // @grant        none
 // @tag          gyazo
+// @downloadURL  https://update.greasyfork.org/scripts/521788/Gyazo%20Gif%20and%20Video%20Direct%20Link%20Button.user.js
+// @updateURL    https://update.greasyfork.org/scripts/521788/Gyazo%20Gif%20and%20Video%20Direct%20Link%20Button.meta.js
 // ==/UserScript==
 
 (function () {
