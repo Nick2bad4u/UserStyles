@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gyazo Gif and Video Direct Link Button
 // @namespace    typpi.online
-// @version      3.4
+// @version      3.5
 // @description  Adds a link button to redirect to the direct video or gif link on Gyazo
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -161,19 +161,20 @@
 		findTargetElement();
 	}
 
+	// Removes the redirect button and tooltip from the DOM if they exist
 	function removeRedirectButton() {
-		if (!location.href.includes('https://gyazo.com/captures')) {
-			console.log('Not removing redirect button since not on captures page');
-			return;
-		}
-
-		console.log('Removing redirect button');
+		console.log('Removing redirect button if it exists');
 		const existingButton = document.getElementById('direct-video-link-button');
-		if (existingButton !== null) {
+		if (existingButton) {
 			console.log('Existing button found, removing it');
 			existingButton.remove();
 		}
-		console.log('Redirect button removed');
+		const existingTooltip = document.getElementById('tooltip-direct-video-link-button');
+		if (existingTooltip) {
+			console.log('Existing tooltip found, removing it');
+			existingTooltip.remove();
+		}
+		console.log('Redirect button and tooltip removed');
 	}
 
 	function handlePageChange() {
@@ -190,7 +191,7 @@
 	function initialize() {
 		console.log('Initializing script');
 
-		// Remove any existing button to prevent duplicates
+		// Remove any existing button and tooltip to prevent duplicates
 		removeRedirectButton();
 
 		handlePageChange();
@@ -202,7 +203,7 @@
 				console.log('URL changed from', window.scriptObserver.lastUrl, 'to', currentUrl);
 				window.scriptObserver.lastUrl = currentUrl;
 
-				// Remove any existing button before handling the page change
+				// Remove any existing button and tooltip before handling the page change
 				removeRedirectButton();
 				handlePageChange();
 			}
