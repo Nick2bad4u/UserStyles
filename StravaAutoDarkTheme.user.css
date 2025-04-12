@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	8.0
+@version      	8.1
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -66,7 +66,8 @@ domain("labs.strava.com") {
 	.container-wrapper,
 	.\------packages-core-feed-feature-feed-src-components-media-Card-Card-module__card--juEyw,
 	.\------packages-global-atomics-ui-src-Card-Card-module__card--mIyuc,
-	.CPCcl {
+	.CPCcl,
+	.PostPageContainer_mainContentArea__eq4w4 {
 		background-color: #161616 !important;
 	}
 
@@ -1540,7 +1541,8 @@ domain("labs.strava.com") {
 		> div,
 	.\------packages-core-feed-feature-feed-src-components-media-EntryHeader-EntryHeader-module__entryHeader--B6Ogy,
 	.\------packages-core-feed-feature-feed-src-components-media-Card-Card-module__card--juEyw
-		a {
+		a,
+	.PostContentInput_textarea__boBAa {
 		color: var(--white) !important;
 	}
 
