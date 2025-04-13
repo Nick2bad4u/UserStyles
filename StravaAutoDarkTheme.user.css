@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	8.1
+@version      	8.3
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -47,6 +47,7 @@ domain("labs.strava.com") {
 		--gray6: var(gray6);
 	}
 
+	/* Simplified background color rules */
 	#__next > header,
 	#view > .header,
 	#global-header,
@@ -56,50 +57,44 @@ domain("labs.strava.com") {
 	.section header,
 	.section .header,
 	section footer,
-	section .footer,
 	.section footer,
-	.section .footer,
 	#global-footer,
-	[class*='KudosCommentsAndAchievementsModal-KudosCommentsAndAchievementsModal__footer'],
+	[class*='KudosCommentsAndAchievementsModal__footer'],
 	[class^='Header_container__'],
 	[class*='src--noBackground'] nav,
 	.container-wrapper,
-	.\------packages-core-feed-feature-feed-src-components-media-Card-Card-module__card--juEyw,
-	.\------packages-global-atomics-ui-src-Card-Card-module__card--mIyuc,
+	[class*='Card-module__card'],
 	.CPCcl,
 	.PostPageContainer_mainContentArea__eq4w4 {
 		background-color: #161616 !important;
 	}
 
-	.------packages-global-atomics-ui-src-Button-Button-module__btn--i_Upj:hover {
+	/* Simplified hover color rules */
+	[class*='Button-module__btn']:hover {
 		color: var(--primary-color) !important;
 	}
 
+	/* Simplified fill color rules */
 	[class*='__commentReactionContainer']
 		button:hover
 		svg
 		> path,
-	.------packages-core-feed-feature-feed-src-components-ActivityEntryBody-ActivityEntryBody-module__appIconWrapper--MsE0z
+	[class*='ActivityEntryBody-module__appIconWrapper']
 		> svg
 		> path,
-	.\------packages-core-feed-feature-feed-src-features-SharedContents-ActivitySharedContent-ActivitySharedContent-module__activityIcon--SOeDQ {
+	[class*='ActivitySharedContent-module__activityIcon'] {
 		fill: var(--primary-color) !important;
 	}
 
-	.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeList--DgbGk
-		.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challenge--jsQPr
-		.\------packages-dashboard-ui-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeTitle--Qigmq
-		a,
-	.\------packages-core-feed-feature-feed-src-components-media-MediaBody-MediaBody-module__mediaBody--W6BCh
-		span,
-	.\------packages-core-dashboard-feature-dashboard-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeList--y4aqb
-		.\------packages-core-dashboard-feature-dashboard-src-components-YourChallenges-ChallengeList-ChallengeList-module__challenge--RZY41
-		.\------packages-core-dashboard-feature-dashboard-src-components-YourChallenges-ChallengeList-ChallengeList-module__challengeTitle--y8HM6
-		a {
+	/* Simplified text color rules */
+	[class*='ChallengeList-module__challengeTitle'] a,
+	[class*='MediaBody-module__mediaBody'] span,
+	[class*='ChallengeList-module__challengeTitle'] a {
 		color: var(--primary-color);
 		text-decoration: none;
 	}
 
+	/* Simplified other rules */
 	.segments-list.ride {
 		contain: content;
 	}
@@ -434,80 +429,19 @@ domain("labs.strava.com") {
 				.ui-dialog-buttonpane
 				.ui-dialog-buttonset
 				button,
-			.ui-dialog.sauce-dialog
-				.ui-dialog-buttonpane
-				.ui-dialog-buttonset
-				.btn,
-			[id^='feed-entry-']
-				> div
-				> div.------packages-feed-ui-src-components-media-EntryBody-EntryBody__entryBody--RDiit
-				> div
-				> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn
-				> div
-				> div
-				> div.------packages-feed-ui-src-components-ActivityEntryBody-ActivityEntryBody-module__stat--SvAS3.------packages-feed-ui-src-components-ActivityEntryBody-ActivityEntryBody-module__textRight--A4rwD
-				> div.------packages-feed-ui-src-components-ActivityEntryBody-ActivityEntryBody-module__statText--zlBKv
-				> button,
-			[id^='feed-entry-']
-				> div
-				> div.------packages-feed-ui-src-components-media-EntryFooter-EntryFooter-module__entryFooter--X26JH
-				> div
-				> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn.------packages-feed-ui-src-components-KudosAndComments-KudosAndComments-module__mediaBody--E8jna
-				> div.------packages-feed-ui-src-components-KudosAndComments-KudosAndComments-module__countWrapper--mPWEM
-				> button,
-			[id^='feed-entry-']
-				> div
-				> div.------packages-feed-ui-src-components-media-EntryFooter-EntryFooter-module__entryFooter--X26JH
-				> div:nth-child(n)
-				> div
-				> button,
-			[id^='feed-entry-']
-				> div
-				> div.------packages-feed-ui-src-components-media-EntryFooter-EntryFooter-module__entryFooter--X26JH
-				> div:nth-child(n)
-				> div
-				> ol
-				> li:nth-child(n)
-				> div
-				> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn.------packages-feed-ui-src-components-KudosAndComments-CommentsThread-CommentsThread-module__comment--Qf1Yv
-				> div.------packages-feed-ui-src-shared-KudosCommentsAndAchievements-CommentReaction-CommentReaction-module__commentReactionContainer--nixAS
-				> button,
-			[id^='feed-entry-']
-				> div
-				> div.------packages-feed-ui-src-components-media-EntryFooter-EntryFooter-module__entryFooter--X26JH
-				> div:nth-child(n)
-				> div
-				> ol
-				> li:nth-child(n)
-				> div
-				> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn.------packages-feed-ui-src-components-KudosAndComments-CommentsThread-CommentsThread-module__comment--Qf1Yv
-				> div.------packages-feed-ui-src-shared-KudosCommentsAndAchievements-CommentReaction-CommentReaction-module__commentReactionContainer--nixAS
-				> span
-				> button,
-			#tabs--1--panel--0
-				> div
-				> div
-				> div.------packages-dashboard-ui-src-components-AthleteProgressGoals-RelativeEffort-RelativeEffort-module__head--nI6Px
-				> div:nth-child(n)
-				> div
-				> button,
-			#sauce-kudo-all button.sauce-invoke,
-			#search-results
-				> tbody
-				> tr:nth-child(n)
-				> td.view-col.col-actions
-				> ul
-				> li:nth-child(n)
-				> button,
-			#view > section > div > table > tfoot > tr > td,
-			#feed-entry-null
-				> div
-				> div.------packages-feed-ui-src-components-media-EntryHeader-EntryHeader-module__entryHeader--m1apc
-				> div
-				> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn
-				> button,
-			#cpra-compliance-cta,
-			#__next > div > header > div > button,
+			.ui-dialog.sauce-dialog .ui-dialog-buttonset .btn, /* Shortened */
+			[id^='feed-entry-'] [class*='ActivityEntryBody-module__statText--zlBKv'] > button, /* Shortened */
+			[id^='feed-entry-'] [class*='KudosAndComments-module__countWrapper--mPWEM'] > button, /* Shortened */
+			[id^='feed-entry-'] [class*='EntryFooter-module__entryFooter--X26JH'] button, /* Shortened */
+			[id^='feed-entry-'] [class*='CommentReaction-module__commentReactionContainer--nixAS'] > button, /* Shortened */
+			[id^='feed-entry-'] [class*='CommentReaction-module__commentReactionContainer--nixAS'] span > button, /* Shortened */
+			#tabs--1--panel--0 [class*='RelativeEffort-module__head--nI6Px'] button, /* Shortened */
+			#sauce-kudo-all .sauce-invoke, /* Shortened */
+			#search-results td.col-actions button, /* Shortened */
+			#view section tfoot td, /* Shortened */
+			#feed-entry-null [class*='MediaBody-MediaBody__mediaBody--VKChn'] > button, /* Shortened */
+			#cpra-compliance-cta, /* Cannot shorten ID selectors */
+			#__next > div > header button, /* Shortened */
 			.------packages-ui-Button-Button-module__btn--mQaJJ,
 			#global-search-button,
 			#global-search-cancel,
@@ -761,7 +695,7 @@ domain("labs.strava.com") {
 	.visibility-section,
 	.activity-summary .private-note-container,
 	section header .sharing,
-	[class*='KudosAndComments--'],
+	[class*='KudosCommentsAndAchievements--'],
 	[class*='ModalWithTabs--tab-list'],
 	[class*='KudosCommentsAndAchievementsModal--footer'],
 	[class*='ModalWithTabs--tab-list']
@@ -1513,73 +1447,44 @@ domain("labs.strava.com") {
 		color: var(--white) !important;
 	}
 
-	.------packages-feed-ui-src-shared-KudosCommentsAndAchievements-CommentReaction-CommentReaction-module__commentReactionContainer--nixAS
-		> button {
+	[class*='__commentReactionContainer'] > button {
 		margin-left: -9px;
 		border: unset;
 		padding: 6px 10px !important;
 	}
 
-	.------packages-feed-ui-src-components-media-EntryHeader-EntryHeader-module__entryHeader--m1apc
-		> div,
-	.------packages-feed-ui-src-components-media-EntryHeader-EntryHeader-module__entryHeader--m1apc
+	[class*='EntryHeader-module__entryHeader--m1apc'] > div,
+	[class*='EntryHeader-module__entryHeader--m1apc']
 		> div
 		> a,
-	.------packages-feed-ui-src-components-AthleteJoinEntry-AthleteJoinEntry-module__athleteJoinEntryBody--Y3xIM
-		> div
-		> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn
+	[class*='AthleteJoinEntry-module__athleteJoinEntryBody']
+		[class*='MediaBody__mediaBody']
 		> h3
 		> a,
-	.------packages-feed-ui-src-components-AthleteJoinEntry-AthleteJoinEntry-module__athleteJoinEntryBody--Y3xIM
-		> div
-		> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn
+	[class*='AthleteJoinEntry-module__athleteJoinEntryBody']
+		[class*='MediaBody__mediaBody']
 		> button,
-	.src-components-BeesAdpTable-BeesAdpTable-module__adpTable--m7oGI
-		th,
-	.------packages-core-feed-feature-feed-src-components-media-MediaBody-MediaBody-module__mediaBody--W6BCh
-		> a
-		> div,
-	.\------packages-core-feed-feature-feed-src-components-media-EntryHeader-EntryHeader-module__entryHeader--B6Ogy,
-	.\------packages-core-feed-feature-feed-src-components-media-Card-Card-module__card--juEyw
-		a,
-	.PostContentInput_textarea__boBAa {
+	[class*='BeesAdpTable-module__adpTable'] th,
+	[class*='MediaBody-module__mediaBody--W6BCh'] > a > div,
+	[class*='EntryHeader-module__entryHeader--B6Ogy'],
+	[class*='Card-module__card--juEyw'] a,
+	[class*='PostContentInput_textarea'] {
 		color: var(--white) !important;
 	}
 
-	.------packages-feed-ui-src-components-media-EntryHeader-EntryHeader-module__entryHeader--m1apc
-		> div
-		> a:hover,
-	.------packages-feed-ui-src-components-AthleteJoinEntry-AthleteJoinEntry-module__athleteJoinEntryBody--Y3xIM
-		> div
-		> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn
-		> h3
-		> a:hover,
-	.------packages-feed-ui-src-components-AthleteJoinEntry-AthleteJoinEntry-module__athleteJoinEntryBody--Y3xIM
-		> div
-		> div.------packages-feed-ui-src-components-media-MediaBody-MediaBody__mediaBody--VKChn
-		> button:hover,
-	.\------packages-core-feed-feature-feed-src-components-media-EntryHeader-EntryHeader-module__entryHeader--B6Ogy
-		a,
-	.oJVfx .UDqjM a.UDqjM,
-	.juEyw a,
-	.mGV12 .vNsSU {
+	[class*='EntryHeader-module__entryHeader--m1apc'] > div > a:hover,
+	[class*='AthleteJoinEntry-module__athleteJoinEntryBody'] [class*='MediaBody__mediaBody'] > h3 > a:hover,
+	[class*='AthleteJoinEntry-module__athleteJoinEntryBody'] [class*='MediaBody__mediaBody'] > button:hover,
+	[class*='EntryHeader-module__entryHeader--B6Ogy'] a,
+	[class*='oJVfx'] [class*='UDqjM'] a,
+	[class*='juEyw'] a, /* Assuming 'juEyw' is specific enough */
+	[class*='mGV12'] [class*='vNsSU'] {
 		color: var(--primary-color) !important;
 	}
 
 	table.unstyled td,
 	table.unstyled th,
-	.segment-effort-detail
-		> div
-		> div
-		> div
-		> div.spans7
-		> div
-		> div
-		> div
-		> table
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(n) {
+	.segment-effort-detail td {
 		color: var(--black) !important;
 	}
 
@@ -1908,41 +1813,11 @@ domain("labs.strava.com") {
 	#sauce-infopanel table td .sauce-peak-rank .category {
 		font-size: 8px;
 	}
-
 	.btn-link:hover,
-	#search-results
-		> tbody
-		> tr:nth-child(n)
-		> td.view-col.col-actions
-		> ul
-		> li:nth-child(n)
-		> div
-		> button:hover,
-	#search-results
-		> tbody
-		> tr:nth-child(n)
-		> td.view-col.col-actions
-		> ul
-		> li:nth-child(n)
-		> div
-		> ul
-		> li:nth-child(n)
-		> button:hover,
-	#search-results
-		> tbody
-		> tr:nth-child(n)
-		> td.view-col.col-actions
-		> ul
-		> li:nth-child(n)
-		> div
-		> ul
-		> li:nth-child(n)
-		> a:hover,
-	#search-results
-		> tbody
-		> tr:nth-child(n)
-		> td.view-col.col-title
-		> a:hover,
+	#search-results .col-actions button:hover,
+	#search-results .col-actions ul a:hover,
+	#search-results .col-title a:hover,
+	/* Selector kept specific due to complex structure */
 	body
 		> div.fancybox-overlay.fancybox-overlay-fixed
 		> div
@@ -1954,39 +1829,17 @@ domain("labs.strava.com") {
 		> div:nth-child(2),
 	.elevateExtendedData .gridDataContainer:hover,
 	.elevateExtendedData td:hover,
+	/* Selectors kept specific due to potential reliance on structure */
 	#sauce-performance > nav section row.full > header,
 	#sauce-performance
 		> main
 		section.sauce-panels
 		.sauce-panel
 		> header,
-	.\------packages-ui-Tabs-Tabs-module__tab--gFjuZ
-		svg:hover,
-	#relative-effort
-		> div
-		> div.WeeklySummary--base--YQgHZ
-		> div.WeeklySummary--week-details--7Fo3D
-		> div.WeeklySummary--week-insight--7Xvc7
-		> div
-		> div.text-callout.WeekInsight--title--CitJN,
-	#relative-effort
-		> div
-		> div.WeeklySummary--base--YQgHZ
-		> div:nth-child(n)
-		> table
-		> tbody
-		> tr:nth-child(n)
-		> td.Activities--name--YwPVu
-		> a:hover,
-	#heading
-		> div
-		> div.row.no-margins.activity-summary-container
-		> div.spans8.activity-stats.mt-md.mb-md
-		> div.section.more-stats
-		> table
-		> tbody:nth-child(n)
-		> tr
-		> td:nth-child(n) {
+	[class*='-Tabs-module__tab'] svg:hover,
+	#relative-effort .WeekInsight--title--CitJN,
+	#relative-effort .Activities--name--YwPVu a:hover,
+	#heading .more-stats td {
 		color: var(--primary-color) !important;
 	}
 
@@ -2028,34 +1881,13 @@ domain("labs.strava.com") {
 
 	.summaryGrid .summaryGridTitle,
 	.ActivitySummary--impact--QUNSY,
-	#relative-effort
-		> div
-		> div.WeeklySummary--base--YQgHZ
-		> div.WeeklySummary--week-details--7Fo3D
-		> div.WeeklySummary--week-insight--7Xvc7
-		> div
-		> div.text-caption1.WeekInsight--description--V1GNG {
+	#relative-effort .WeekInsight--description--V1GNG {
+		/* Shortened */
 		color: #b8b8b8;
 	}
 
-	#heading
-		> div
-		> div.row.no-margins.activity-summary-container
-		> div.spans8.activity-stats.mt-md.mb-md
-		> div.section.more-stats
-		> table
-		> tbody:nth-child(n)
-		> tr
-		> th,
-	#heading
-		> div
-		> div.row.no-margins.activity-summary-container
-		> div.spans8.activity-stats.mt-md.mb-md
-		> div.section.more-stats
-		> table
-		> thead
-		> tr
-		> th:nth-child(n) {
+	#heading .more-stats th {
+		/* Shortened */
 		color: #b8b8b8 !important;
 	}
 
@@ -2131,47 +1963,28 @@ domain("labs.strava.com") {
 		z-index: 999;
 	}
 
-	body
-		> div.fancybox-overlay.fancybox-overlay-fixed
-		> div
-		> div
-		> div
-		> div
-		> div
-		> div:nth-child(1)
-		> div:nth-child(3)
-		> a,
-	#container-nav
-		> ul.user-nav.nav-group
-		> li.nav-item.upgrade
-		> a {
+	/* Shortened: Removed body > and intermediate divs */
+	.fancybox-overlay-fixed > div > div > div > div > div > div:nth-child(1) > div:nth-child(3) > a,
+	/* Shortened: Simplified structure */
+	#container-nav .upgrade > a {
 		display: none;
 	}
 
-	body
-		> div.fancybox-overlay.fancybox-overlay-fixed
-		> div
-		> div
-		> div
-		> div
-		> div
-		> h2:nth-child(8),
-	#dated-ftp-contents > div > table > thead > tr {
+	/* Shortened: Removed body > and intermediate divs */
+	.fancybox-overlay-fixed h2:nth-child(8),
+	/* Shortened: Simplified structure */
+	#dated-ftp-contents thead tr {
 		background-color: var(--primary-color) !important;
 	}
 
-	body
-		> div.fancybox-overlay.fancybox-overlay-fixed
-		> div
-		> div
-		> div
-		> div
-		> div
-		> h2:nth-child(10),
-	.src-components-BeesAdpTable-BeesAdpTable-module__adpTable--m7oGI
-		.src-components-BeesAdpTable-BeesAdpTable-module__highlightedRow--y7wRu,
-	.ui-dialog.sauce-dialog.sauce-sync-athlete-dialog
-		header.title,
+	/* Shortened: Removed body > and intermediate divs */
+	.fancybox-overlay-fixed h2:nth-child(10),
+	/* Kept specific due to generated class names */
+	[class*='BeesAdpTable-module__adpTable']
+		[class*='BeesAdpTable-module__highlightedRow'],
+	/* Shortened: Simplified structure */
+	.sauce-sync-athlete-dialog header.title,
+	/* Kept as is */
 	.CwlLh {
 		background-color: var(--secondary-color3) !important;
 	}
@@ -2222,29 +2035,14 @@ domain("labs.strava.com") {
 		background-color: var(--secondary-color3);
 	}
 
-	.------packages-feed-ui-src-components-ActivityEntryBody-ActivityEntryBody-module__stat--SvAS3.------packages-feed-ui-src-components-ActivityEntryBody-ActivityEntryBody-module__textRight--A4rwD
-		> div.------packages-feed-ui-src-components-ActivityEntryBody-ActivityEntryBody-module__statText--zlBKv
+	/* Shortened selectors */
+	[class*='__stat--'][class*='__textRight--']
+		[class*='__statText--']
 		> button,
-	#tabs--1--panel--0
-		> div
-		> div
-		> div:nth-child(2)
-		> div:nth-child(4)
-		> div
-		> div
-		> div
-		> svg,
-	.device-section > div > div.gear.spans8,
+	#tabs--1--panel--0 div:nth-child(2) div:nth-child(4) svg,
+	.device-section .gear.spans8,
 	#cpcurve-options > div,
-	#main
-		> div
-		> div
-		> div.SS6mI.WPlJo.dO0y3.Wfz9A.ytzJ_
-		> div
-		> div
-		> div.my5Cp
-		> div
-		> div.mIyuc.kIvVy.undefined.rw0VR.DgS5q {
+	#main .mIyuc.kIvVy.rw0VR.DgS5q {
 		background-color: var(--gray2) !important;
 	}
 
