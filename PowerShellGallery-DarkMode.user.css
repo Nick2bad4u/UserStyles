@@ -1,0 +1,28 @@
+/* ==UserStyle==
+@name           powershellgallery.com - Dark Mode
+@namespace      typpi.online
+@version        1.0.2
+@description    powershellgallery.com - Dark Mode
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@author         Nick2bad4u
+@license        UnLicense
+==/UserStyle== */
+@-moz-document domain("powershellgallery.com")
+{
+	/* Invert colors except images and videos */
+	html,
+	img,
+	svg,
+	video,
+	iframe,
+	.search-container
+	{
+		filter: invert(1) hue-rotate(180deg) !important;
+	}
+
+	.navbar-inverse
+	{
+		background-color: #0071C9C2
+	}
+}
