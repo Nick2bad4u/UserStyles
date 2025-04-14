@@ -183,9 +183,10 @@ domain("ebaystatic.com") {
 		background: #fff;
 	}
 
-	#PicturePanel > div.vim.x-atf-left-bottom-river > div,
-	.vim.vi-grid.x-evo-middle-river > div > div:nth-child(2) {
-		background: #9e9d9d;
+		#PicturePanel > div.vim.x-atf-left-bottom-river > div,
+	.vim.vi-grid.x-evo-middle-river > div > div:nth-child(2)
+	{
+		background: #9E9D9D;
 	}
 }
 
