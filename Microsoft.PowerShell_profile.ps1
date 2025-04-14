@@ -3,7 +3,36 @@
 Import-Module -Name Microsoft.WinGet.CommandNotFound
 #f45873b3-b655-43a6-b217-97c00aa0db58
 
+# EnvironmentVariables
+$env:NuGetApiKey = "$HIDDEN"
+
+# cmdkey /add:NuGetApiKey /user:NuGet /pass:$HIDDEN
+function Get-NuGetApiKey {
+    $credential = Get-StoredCredential -Target "NuGetApiKey"
+    return $credential.Password
+}
+
+function Publish-ZwiftScript {
+    param (
+        [string]$ScriptPath = "C:\Users\Nick\Dropbox\PC (2)\Documents\GitHub\ZwiftScripts\MonitorZwift-v2.ps1"
+    )
+    if (-not $env:NuGetApiKey) {
+        Write-Host "NuGetApiKey is not set. Please set it as an environment variable." -ForegroundColor Red
+        return
+    }
+    Publish-Script -Path $ScriptPath -NuGetApiKey $env:NuGetApiKey
+}
+
 # Alias section
+New-Alias Publish-ZwiftMonitorScript Publish-ZwiftScript
+New-Alias Publish-ZwiftMonitorV2 Publish-ZwiftScript
+New-Alias Publish-ZwiftPSGallery Publish-ZwiftScript
+New-Alias Publish-ZwiftFile Publish-ZwiftScript
+New-Alias Upload-ZwiftMonitorScript Publish-ZwiftScript
+New-Alias Upload-ZwiftMonitorV2 Publish-ZwiftScript
+New-Alias Upload-ZwiftPSGallery Publish-ZwiftScript
+New-Alias Upload-ZwiftFile Publish-ZwiftScript
+
 New-Alias boottime BootDate
 New-Alias upsince BootDate
 New-Alias starttime BootDate
