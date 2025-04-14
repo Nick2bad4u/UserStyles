@@ -27,7 +27,6 @@
 @var color gray5 							"Gray 5" 						#3c3c3c
 @var color gray6 							"Gray 6" 						#6c6c6c
 @var color gray7 							"Gray 7" 						#161616
-
 ==/UserStyle== */
 @-moz-document regexp("https:\\/\\/(?:www\\.)?strava\\.com.*"),
 domain("labs.strava.com") {
