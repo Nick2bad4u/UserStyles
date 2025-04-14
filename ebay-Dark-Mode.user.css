@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           eBay.com - Dark Mode
 @namespace      typpi.online
-@version        3.3
+@version        3.4
 @description    eBay.com - Dark Mode
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
@@ -90,7 +90,9 @@ domain("ebaystatic.com") {
 	.messaging,
 	.viewmessage,
 	span.fake-menu,
-	span.menu {
+	span.menu,
+	#PicturePanel > div.vim.x-atf-left-bottom-river > div,
+	.vim.vi-grid.x-evo-middle-river > div > div:nth-child(2) {
 		filter: invert(1) hue-rotate(180deg) !important;
 		background-color: #fff;
 	}
@@ -176,21 +178,15 @@ domain("ebaystatic.com") {
 		color: #000;
 	}
 
-	.vim.vi-grid.x-evo-middle-river > div > div:nth-child(2),
-	#PicturePanel
-		> div.vim.x-atf-left-bottom-river
-		> div
-		> div:nth-child(n),
-	.main-container
-		.vim.x-vi-evo-main-container.template-evo-avip
-		.x-vi-evo-main-container__bottom-panel
-		.vim.vi-grid.x-evo-middle-river {
-		display: none;
-	}
-
 	.main1 {
 		color: #000;
 		background: #fff;
+	}
+
+		#PicturePanel > div.vim.x-atf-left-bottom-river > div,
+	.vim.vi-grid.x-evo-middle-river > div > div:nth-child(2)
+	{
+		background: #9E9D9D;
 	}
 }
 
