@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	8.4
+@version      	8.5
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -16,6 +16,7 @@
 @var color visited-links			"Visited Links"			#3c66ad
 @var color grid-units					"Grid Units"				#3c66ac
 @var color white 							"White" 						#ffffff
+@var color white2 						"White 2" 					#fafafa
 @var color black 							"Black" 						#000000
 @var color red 								"Red" 							#ff0000
 @var color blue 							"Blue" 							#4285f4
@@ -26,6 +27,7 @@
 @var color gray5 							"Gray 5" 						#3c3c3c
 @var color gray6 							"Gray 6" 						#6c6c6c
 @var color gray7 							"Gray 7" 						#161616
+
 ==/UserStyle== */
 @-moz-document regexp("https:\\/\\/(?:www\\.)?strava\\.com.*"),
 domain("labs.strava.com") {
@@ -47,6 +49,7 @@ domain("labs.strava.com") {
 		--gray5: var(gray5);
 		--gray6: var(gray6);
 		--gray7: var(gray7);
+		--white2: var(white2);
 	}
 
 	/* Simplified background color rules */
@@ -1188,7 +1191,7 @@ domain("labs.strava.com") {
 	.KudosCommentsAndAchievementsModal--kudos-and-comments-modal--Y9sxh
 		button,
 	.XPe4a {
-		color: #fafafa !important;
+		color: var(--white2) !important;
 	}
 
 	body,
@@ -1579,7 +1582,7 @@ domain("labs.strava.com") {
 	[class*='Search_searchIcon']:hover > svg,
 	.yAxis > g > g:nth-child(n) > text > tspan,
 	.xAxis > g > g:nth-child(n) > text > tspan {
-		fill: #fafafa !important;
+		fill: var(--white2) !important;
 	}
 
 	#progress-goals .bg-circle,
