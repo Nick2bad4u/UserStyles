@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	8.5
+@version      	8.6
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -20,6 +20,7 @@
 @var color black 							"Black" 						#000000
 @var color red 								"Red" 							#ff0000
 @var color blue 							"Blue" 							#4285f4
+@var color teal 							"Teal" 							#5081a5
 @var color gray 							"Gray" 							#4c4c4c
 @var color gray2 							"Gray 2" 						#2c2c2c
 @var color gray3 							"Gray 3" 						#ccc
@@ -27,6 +28,10 @@
 @var color gray5 							"Gray 5" 						#3c3c3c
 @var color gray6 							"Gray 6" 						#6c6c6c
 @var color gray7 							"Gray 7" 						#161616
+@var color gray8 							"Gray 8" 						#b8b8b8
+@var color gray9 							"Gray 9" 						#999
+@var color pink 							"Pink" 			        #f754d9
+@var color orange							"Orange" 				    #f1ad30
 ==/UserStyle== */
 @-moz-document regexp("https:\\/\\/(?:www\\.)?strava\\.com.*"),
 domain("labs.strava.com") {
@@ -38,9 +43,11 @@ domain("labs.strava.com") {
 		--visited-links: var(visited-links);
 		--grid-units: var(grid-units);
 		--white: var(white);
+		--white2: var(white2);
 		--black: var(black);
 		--red: var(red);
 		--blue: var(blue);
+		--teal: var(teal);
 		--gray: var(gray);
 		--gray2: var(gray2);
 		--gray3: var(gray3);
@@ -48,7 +55,10 @@ domain("labs.strava.com") {
 		--gray5: var(gray5);
 		--gray6: var(gray6);
 		--gray7: var(gray7);
-		--white2: var(white2);
+		--gray8: var(gray8);
+		--gray9: var(gray9);
+		--pink: var(pink);
+		--orange: var(orange);
 	}
 
 	/* Simplified background color rules */
@@ -1435,7 +1445,7 @@ domain("labs.strava.com") {
 		):hover {
 		outline: 1px solid var(--white) !important;
 		border: 1px solid var(--white) !important;
-		background-color: #999 !important;
+		background-color: var(--gray9) !important;
 	}
 
 	.ui-dialog.sauce-dialog input:not([type='range']),
@@ -1519,7 +1529,7 @@ domain("labs.strava.com") {
 	.activity-summary-v2 .count-label,
 	.athlete-achievements time,
 	[class*='CommentsThread-module__comment'] time {
-		color: #999 !important;
+		color: var(--gray9) !important;
 	}
 
 	[class*='src-components-media-EntryBody-EntryBody__entry-inset']
@@ -1889,12 +1899,12 @@ domain("labs.strava.com") {
 	.ActivitySummary--impact--QUNSY,
 	#relative-effort .WeekInsight--description--V1GNG {
 		/* Shortened */
-		color: #b8b8b8;
+		color: var(--gray8);
 	}
 
 	#heading .more-stats th {
 		/* Shortened */
-		color: #b8b8b8 !important;
+		color: var(--gray8) !important;
 	}
 
 	.elevateExtendedData .gridTitle {
@@ -2141,7 +2151,7 @@ domain("labs.strava.com") {
 	}
 
 	#fitness-freshness .line-chart-fitness {
-		stroke: #5081a5;
+		stroke: var(--teal);
 	}
 
 	#fitness-freshness .line-chart-fitness-fill {
@@ -2150,18 +2160,18 @@ domain("labs.strava.com") {
 	}
 
 	#fitness-freshness .line-chart-freshness {
-		stroke: #f754d9;
+		stroke: var(--pink);
 	}
 
 	#fitness-freshness .line-chart-form {
-		stroke: #f1ad30;
+		stroke: var(--orange);
 	}
 
 	.fitness-data
 		ul.list-stats
 		li:nth-child(1)
 		.toggle-containers {
-		color: #5081a5;
+		color: var(--teal);
 	}
 
 	.fitness-data
@@ -2169,14 +2179,14 @@ domain("labs.strava.com") {
 		li:nth-child(1)
 		.toggle-containers
 		> p::before {
-		background-color: #5081a5 !important;
+		background-color: var(--teal) !important;
 	}
 
 	.fitness-data
 		ul.list-stats
 		li:nth-child(2)
 		.toggle-containers {
-		color: #f754d9;
+		color: var(--pink);
 	}
 
 	.fitness-data
@@ -2184,14 +2194,14 @@ domain("labs.strava.com") {
 		li:nth-child(2)
 		.toggle-containers
 		> p::before {
-		background-color: #f754d9 !important;
+		background-color: var(--pink) !important;
 	}
 
 	.fitness-data
 		ul.list-stats
 		li:nth-child(3)
 		.toggle-containers {
-		color: #f1ad30;
+		color: var(--orange);
 	}
 
 	.fitness-data
@@ -2199,7 +2209,7 @@ domain("labs.strava.com") {
 		li:nth-child(3)
 		.toggle-containers
 		> p::before {
-		background-color: #f1ad30 !important;
+		background-color: var(--orange) !important;
 	}
 
 	.fancybox-opened .fancybox-skin {
