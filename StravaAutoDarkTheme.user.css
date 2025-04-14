@@ -4,7 +4,7 @@
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @description  	Updated Dark Mode for Strava for users who use Sauce for Strava.
-@version      	8.3
+@version      	8.4
 @author       	ATX (Updated by Nick2bad4u)
 @license      	CC-BY-SA-4.0
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
@@ -25,6 +25,7 @@
 @var color gray4 							"Gray 4" 						#1c1c1c
 @var color gray5 							"Gray 5" 						#3c3c3c
 @var color gray6 							"Gray 6" 						#6c6c6c
+@var color gray7 							"Gray 7" 						#161616
 ==/UserStyle== */
 @-moz-document regexp("https:\\/\\/(?:www\\.)?strava\\.com.*"),
 domain("labs.strava.com") {
@@ -45,6 +46,7 @@ domain("labs.strava.com") {
 		--gray4: var(gray4);
 		--gray5: var(gray5);
 		--gray6: var(gray6);
+		--gray7: var(gray7);
 	}
 
 	/* Simplified background color rules */
@@ -65,8 +67,9 @@ domain("labs.strava.com") {
 	.container-wrapper,
 	[class*='Card-module__card'],
 	.CPCcl,
-	.PostPageContainer_mainContentArea__eq4w4 {
-		background-color: #161616 !important;
+	.PostPageContainer_mainContentArea__eq4w4,
+	.U7AEj .csriM {
+		background-color: var(--gray7) !important;
 	}
 
 	/* Simplified hover color rules */
@@ -315,7 +318,8 @@ domain("labs.strava.com") {
 	[class*='DropdownSelect'] > .react-select__control,
 	[id*='listbox'][class*='react-select__menu'],
 	.Popup--contents--Ej052,
-	.No9rk {
+	.No9rk,
+	.U7AEj a:hover {
 		background-color: var(--gray2) !important;
 	}
 
@@ -991,8 +995,8 @@ domain("labs.strava.com") {
 	}
 
 	[class*='Spinner_spinner'] > [class*='Spinner_graphic'],
-	.PopupContents--popup-button-list--OU7Sn
-		> li:first-child {
+	.PopupContents--popup-button-list--OU7Sn > li:first-child,
+	.U7AEj .csriM {
 		border-color: var(--gray3) var(--gray6) var(--gray6) !important;
 	}
 
