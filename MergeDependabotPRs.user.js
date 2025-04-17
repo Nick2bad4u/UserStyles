@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      5.6
+// @version      5.7
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -362,9 +362,48 @@
 					border: 1px solid #ccc;
 					max-height: 300px;
 					overflow-y: auto;
+					min-width: 350px;
+					box-sizing: border-box;
+					box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+				}
+				.pr-selection-close {
+					position: absolute;
+					top: 2px;
+					right: 6px;
+					cursor: pointer;
+					font-weight: bold;
+					color: #333;
+					background: none;
+					border: none;
+					font-size: 1.2em;
 				}
 			`;
 			container.classList.add('pr-selection-container');
+			container.style.position = 'fixed';
+			container.style.bottom = '50px';
+			container.style.right = '10px';
+			container.style.zIndex = '1000';
+			container.style.backgroundColor = '#79e4f2';
+			container.style.color = '#000000';
+			container.style.padding = '10px';
+			container.style.border = '1px solid #ccc';
+			container.style.maxHeight = '300px';
+			container.style.overflowY = 'auto';
+			container.style.minWidth = '350px';
+			container.style.boxSizing = 'border-box';
+			container.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+
+			// Add close (X) button
+			const closeBtn = document.createElement('button');
+			closeBtn.textContent = '×';
+			closeBtn.className = 'pr-selection-close';
+			closeBtn.title = 'Close';
+			closeBtn.onclick = () => {
+				container.remove();
+				const status = document.getElementById('merge-status');
+				if (status) status.remove();
+			};
+			container.appendChild(closeBtn);
 
 			const prList = document.createElement('div');
 			let lastChecked = null; // Track the last clicked checkbox
@@ -408,6 +447,7 @@
 
 				if (selectedPRs.length > 0) {
 					container.innerHTML = '<div id="merge-status">Merging PRs...<br></div>';
+					// Remove the container after merging is done (with a delay to show status)
 					const groupedPRs = selectedPRs.reduce((acc, pr) => {
 						if (!acc[pr.repo]) {
 							acc[pr.repo] = [];
@@ -419,9 +459,15 @@
 					// Merge PRs grouped by repository
 					for (const [repo, prs] of Object.entries(groupedPRs)) {
 						await mergeDependabotPRs(prs, username, repo, token);
+						setTimeout(() => {
+							const status = document.getElementById('merge-status');
+							if (status) status.remove();
+							container.remove();
+						}, 11000); // Wait for status to finish
 					}
 				} else {
 					container.innerHTML = 'No PRs selected for merging.';
+					setTimeout(() => container.remove(), 2000);
 				}
 			});
 
