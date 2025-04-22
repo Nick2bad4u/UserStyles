@@ -284,7 +284,7 @@ GEM
     simpleidn (0.2.3)
     singleton (0.3.0)
     smart_properties (1.17.0)
-    stringio (3.1.6)
+    stringio (3.1.7)
     strscan (3.1.3)
     syntax_suggest (2.0.2)
     tempfile (0.3.1)
@@ -467,7 +467,7 @@ DEPENDENCIES
   simpleidn
   singleton
   smart_properties
-  stringio (= 3.1.6)
+  stringio (= 3.1.7)
   strscan
   syntax_suggest
   tempfile
