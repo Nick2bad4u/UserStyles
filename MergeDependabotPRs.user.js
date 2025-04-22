@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      6.1
+// @version      6.2
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -344,7 +344,10 @@
 				index++;
 				setTimeout(processNextPR, delay);
 			} else {
-				setTimeout(() => statusContainer.remove(), 10000);
+				setTimeout(() => {
+					statusContainer.remove();
+					removeAllPRSelectionContainers();
+				}, 10000);
 			}
 		}
 
@@ -356,6 +359,7 @@
 			messageElement.innerHTML = `Failed to process PRs for repo ${repo}: ${error.message || 'Unknown error'}<br>`;
 			statusContainer.appendChild(messageElement);
 			setTimeout(() => messageElement.remove(), 7000);
+			removeAllPRSelectionContainers();
 		}
 	}
 
@@ -583,6 +587,7 @@
 				container.remove();
 				const status = document.getElementById('merge-status');
 				if (status) status.remove();
+				removeAllPRSelectionContainers(); // Ensure all are removed
 			};
 			container.appendChild(closeBtn);
 
@@ -639,16 +644,30 @@
 
 					// Merge PRs grouped by repository
 					for (const [repo, prs] of Object.entries(groupedPRs)) {
-						await mergeDependabotPRs(prs, username, repo, token);
+						try {
+							await mergeDependabotPRs(prs, username, repo, token);
+						} catch (error) {
+							console.error(`Error merging PRs for repo ${repo}:`, error);
+							const status = document.getElementById('merge-status');
+							if (status) status.remove();
+							container.remove();
+							removeAllPRSelectionContainers();
+							alert(`Failed to merge PRs for repo ${repo}. Please check the console for details.`);
+							return;
+						}
 						setTimeout(() => {
 							const status = document.getElementById('merge-status');
 							if (status) status.remove();
 							container.remove();
+							removeAllPRSelectionContainers();
 						}, 11000); // Wait for status to finish
 					}
 				} else {
 					container.innerHTML = 'No PRs selected for merging.';
-					setTimeout(() => container.remove(), 2000);
+					setTimeout(() => {
+						container.remove();
+						removeAllPRSelectionContainers();
+					}, 2000);
 				}
 			});
 
@@ -658,6 +677,8 @@
 		} catch (error) {
 			console.error('Failed to display PR selection:', error);
 			removeAllPRSelectionContainers(); // Clean up on error
+			const status = document.getElementById('merge-status');
+			if (status) status.remove();
 			alert('An error occurred while displaying the PR selection. Please check the console for details.');
 		}
 	}
