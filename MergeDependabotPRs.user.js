@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      6.3
+// @version      6.4
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -20,7 +20,7 @@
 // @downloadURL https://update.greasyfork.org/scripts/525498/Auto-Merge%20Dependabot%20PRs.user.js
 // @updateURL   https://update.greasyfork.org/scripts/525498/Auto-Merge%20Dependabot%20PRs.meta.js
 // ==/UserScript==
-/* global GM_getValue, GM_setValue, GM_xmlhttpRequest */
+/* global GM_getValue, GM_setValue, GM_addStyle, GM_xmlhttpRequest */
 // @var          number merge_delay "Delay between merge requests in milliseconds" 2000
 
 (async function () {
@@ -727,9 +727,7 @@
 		}, 5000);
 	}
 
-	const style = document.createElement('style');
-	document.head.appendChild(style);
-	style.textContent = `
+	const mainCSS = `
 			.merge-button, mergebutton, body > div.pr-selection-container > button {
 				position: fixed;
 				bottom: 10px;
@@ -779,8 +777,49 @@
 				}
 			.merge-button {
 				transition: background-color 0.3s ease;
+				}
+			.pr-selection-container {
+				position: fixed;
+				bottom: 50px;
+				right: 10px;
+				z-index: 1000;
+				background-color: #79e4f2;
+				color: #000000;
+				padding: 10px;
+				border: 1px solid #ccc;
+				max-height: 300px;
+				overflow-y: auto;
+				min-width: 350px;
+				box-sizing: border-box;
+				box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+			}
+			.pr-selection-close {
+				display: inline-block;
+				width: 32px;
+				height: 32px;
+				line-height: 32px;
+				text-align: center;
+				position: absolute;
+				top: 2px;
+				right: 6px;
+				cursor: pointer;
+				font-weight: bold;
+				color: #333;
+				background: none;
+				border: none;
+				font-size: 1.2em;
+				padding: 0;
 			}
 	`;
+	if (typeof GM_addStyle === 'function') {
+		GM_addStyle(mainCSS);
+	} else {
+		// fallback for environments without GM_addStyle
+		const fallbackStyle = document.createElement('style');
+		fallbackStyle.textContent = mainCSS;
+		document.head.appendChild(fallbackStyle);
+	}
+
 	window.addEventListener('load', addButton);
 
 	function showConfigPanel() {
