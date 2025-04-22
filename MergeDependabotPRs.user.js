@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      6.0
+// @version      6.1
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -513,8 +513,15 @@
 		element.innerHTML = message;
 	}
 
+	// Utility: Remove all lingering PR selection containers
+	function removeAllPRSelectionContainers() {
+		const containers = document.querySelectorAll('.pr-selection-container');
+		containers.forEach((el) => el.remove());
+	}
+
 	function displayPRSelection(prs, username, token) {
 		try {
+			removeAllPRSelectionContainers(); // Clean up any old containers first
 			const container = document.createElement('div');
 			const prSelectionStyle = document.createElement('style');
 			prSelectionStyle.textContent = `
@@ -534,6 +541,11 @@
 					box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 				}
 				.pr-selection-close {
+					display: inline-block;
+					width: 32px;
+					height: 32px;
+					line-height: 32px;
+					text-align: center;
 					position: absolute;
 					top: 2px;
 					right: 6px;
@@ -543,6 +555,7 @@
 					background: none;
 					border: none;
 					font-size: 1.2em;
+					padding: 0;
 				}
 			`;
 			document.head.appendChild(prSelectionStyle);
@@ -644,11 +657,13 @@
 			document.body.appendChild(container);
 		} catch (error) {
 			console.error('Failed to display PR selection:', error);
+			removeAllPRSelectionContainers(); // Clean up on error
 			alert('An error occurred while displaying the PR selection. Please check the console for details.');
 		}
 	}
 
 	function displayNoPRsMessage() {
+		removeAllPRSelectionContainers(); // Clean up any old containers first
 		const container = document.createElement('div');
 		container.classList.add('pr-container');
 		container.textContent = 'No Dependabot PRs found to merge.';
