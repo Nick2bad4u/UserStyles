@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      6.2
+// @version      6.3
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -34,6 +34,10 @@
 		delay = Number(delay);
 	}
 
+	/**
+	 * Shows a modal dialog for secure GitHub token input.
+	 * @returns {Promise<string>} The entered token.
+	 */
 	async function showSecureTokenInputModal() {
 		return new Promise((resolve) => {
 			let modal = document.getElementById('github-token-modal');
@@ -63,6 +67,7 @@
 
 				document.getElementById('submit-token').addEventListener('click', () => {
 					const tokenInput = document.getElementById('github-token-input').value;
+					console.log('[Auto-Merge Dependabot PRs] Token entered via modal.');
 					modal.remove();
 					resolve(tokenInput);
 				});
@@ -70,14 +75,17 @@
 		});
 	}
 
+	/**
+	 * Initializes the script by ensuring a valid token and username are set.
+	 */
 	async function initialize() {
 		let token;
 		try {
 			// Attempt to retrieve and decrypt the token
-			// If the token is not found or decryption fails, it will return an empty string
 			token = await retrieveAndDecryptToken();
+			console.log('[Auto-Merge Dependabot PRs] Token retrieved and decrypted.');
 		} catch (error) {
-			console.error('Failed to retrieve and decrypt token:', error);
+			console.error('[Auto-Merge Dependabot PRs] Failed to retrieve and decrypt token:', error);
 			alert('Failed to retrieve and decrypt token. Please check the console for more details.');
 			throw error; // Stop further execution
 		}
@@ -91,7 +99,9 @@
 				} else {
 					try {
 						await validateGitHubToken(token);
-					} catch {
+						console.log('[Auto-Merge Dependabot PRs] GitHub token validated.');
+					} catch (e) {
+						console.error('[Auto-Merge Dependabot PRs] Invalid GitHub token:', e);
 						alert('Invalid GitHub token. Please enter a valid token.');
 						token = null;
 					}
@@ -99,8 +109,9 @@
 			}
 			try {
 				await encryptAndStoreToken(token);
+				console.log('[Auto-Merge Dependabot PRs] Token encrypted and stored.');
 			} catch (error) {
-				console.error('Failed to encrypt and store token:', error);
+				console.error('[Auto-Merge Dependabot PRs] Failed to encrypt and store token:', error);
 				alert('Failed to encrypt and store token. Please check the console for more details.');
 				throw error; // Stop further execution
 			}
@@ -116,7 +127,9 @@
 				try {
 					await validateGitHubUsername(username, token);
 					GM_setValue('github_username', username);
-				} catch {
+					console.log('[Auto-Merge Dependabot PRs] GitHub username validated and saved.');
+				} catch (e) {
+					console.error('[Auto-Merge Dependabot PRs] Invalid GitHub username:', e);
 					alert('Invalid GitHub username. Please enter a valid username.');
 					username = '';
 				}
@@ -126,6 +139,10 @@
 		}
 	}
 
+	/**
+	 * Validates the GitHub token by making an authenticated request.
+	 * @param {string} token
+	 */
 	async function validateGitHubToken(token) {
 		return new Promise((resolve, reject) => {
 			GM_xmlhttpRequest({
@@ -138,16 +155,23 @@
 					if (response.status === 200) {
 						resolve();
 					} else {
+						console.warn('[Auto-Merge Dependabot PRs] Token validation failed:', response.responseText);
 						reject(new Error(`Token validation failed: ${response.responseText}`));
 					}
 				},
 				onerror: function (error) {
+					console.error('[Auto-Merge Dependabot PRs] Token validation error:', error);
 					reject(error);
 				},
 			});
 		});
 	}
 
+	/**
+	 * Validates the GitHub username by making an authenticated request.
+	 * @param {string} username
+	 * @param {string} token
+	 */
 	async function validateGitHubUsername(username, token) {
 		return new Promise((resolve, reject) => {
 			GM_xmlhttpRequest({
@@ -160,10 +184,12 @@
 					if (response.status === 200) {
 						resolve();
 					} else {
+						console.warn('[Auto-Merge Dependabot PRs] Username validation failed:', response.responseText);
 						reject(new Error(`GitHub username validation failed: ${response.responseText}`));
 					}
 				},
 				onerror: function (error) {
+					console.error('[Auto-Merge Dependabot PRs] Username validation error:', error);
 					reject(error);
 				},
 			});
