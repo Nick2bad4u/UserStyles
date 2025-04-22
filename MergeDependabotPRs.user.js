@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      6.4
+// @version      6.6
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -23,11 +23,62 @@
 /* global GM_getValue, GM_setValue, GM_addStyle, GM_xmlhttpRequest */
 // @var          number merge_delay "Delay between merge requests in milliseconds" 2000
 
+// Utility wrappers for GM_* APIs with graceful fallback to localStorage
+function safeGM_getValue(key, defaultValue) {
+	if (typeof GM_getValue === 'function') {
+		try {
+			return GM_getValue(key, defaultValue);
+		} catch (e) {
+			console.warn('[Auto-Merge Dependabot PRs] GM_getValue failed, falling back to localStorage:', e);
+		}
+	}
+	try {
+		const val = localStorage.getItem(key);
+		return val !== null ? JSON.parse(val) : defaultValue;
+	} catch (e) {
+		console.error('[Auto-Merge Dependabot PRs] localStorage getItem failed:', e);
+		return defaultValue;
+	}
+}
+
+function safeGM_setValue(key, value) {
+	if (typeof GM_setValue === 'function') {
+		try {
+			return GM_setValue(key, value);
+		} catch (e) {
+			console.warn('[Auto-Merge Dependabot PRs] GM_setValue failed, falling back to localStorage:', e);
+		}
+	}
+	try {
+		localStorage.setItem(key, JSON.stringify(value));
+	} catch (e) {
+		console.error('[Auto-Merge Dependabot PRs] localStorage setItem failed:', e);
+	}
+}
+
+function safeGM_addStyle(css) {
+	if (typeof GM_addStyle === 'function') {
+		try {
+			GM_addStyle(css);
+			return;
+		} catch (e) {
+			console.warn('[Auto-Merge Dependabot PRs] GM_addStyle failed, falling back to <style>:', e);
+		}
+	}
+	try {
+		const fallbackStyle = document.createElement('style');
+		fallbackStyle.textContent = css;
+		document.head.appendChild(fallbackStyle);
+	} catch (e) {
+		console.error('[Auto-Merge Dependabot PRs] Fallback <style> injection failed:', e);
+	}
+}
+
 (async function () {
 	'use strict';
 
-	// Delay between each merge request in milliseconds, configurable via the 'merge_delay' variable stored in GM_getValue (default is 2000ms)
-	let delay = GM_getValue('merge_delay', 2000);
+	// Delay between each merge request in milliseconds, configurable via the 'merge_delay' variable stored in safeGM_getValue (default is 2000ms)
+	let delay = safeGM_getValue('merge_delay', 2000);
 	if (delay <= 0) {
 		delay = 2000; // default value if invalid
 	} else {
@@ -40,10 +91,16 @@
 	 */
 	async function showSecureTokenInputModal() {
 		return new Promise((resolve) => {
-			let modal = document.getElementById('github-token-modal');
+			let modal = document.getElementById('merge-dependabot-token-modal');
 			if (!modal) {
 				modal = document.createElement('div');
-				modal.id = 'github-token-modal';
+				modal.id = 'merge-dependabot-token-modal';
+				modal.setAttribute('role', 'dialog');
+				modal.setAttribute('aria-modal', 'true');
+				modal.setAttribute('aria-labelledby', 'merge-dependabot-token-modal-title');
+				modal.setAttribute('aria-describedby', 'merge-dependabot-token-modal-desc');
+				modal.tabIndex = -1;
+				modal.className = 'merge-dependabot-modal';
 				modal.style = `
 					position: fixed;
 					top: 50%;
@@ -57,19 +114,53 @@
 				`;
 
 				modal.innerHTML = `
-					<h3>Enter GitHub Token</h3>
-					<p>Please enter your GitHub token securely:</p>
-					<input type="password" id="github-token-input" style="width: 100%; padding: 8px; margin-bottom: 10px;" />
-					<button id="submit-token" style="padding: 8px 16px;">Submit</button>
+					<h3 id="merge-dependabot-token-modal-title">Enter GitHub Token</h3>
+					<p id="merge-dependabot-token-modal-desc">Please enter your GitHub token securely:</p>
+					<input type="password" id="merge-dependabot-token-input" style="width: 100%; padding: 8px; margin-bottom: 10px;" aria-label="GitHub token" class="merge-dependabot-token-input" />
+					<button id="merge-dependabot-submit-token" style="padding: 8px 16px;" class="merge-dependabot-btn">Submit</button>
+					<button id="merge-dependabot-close-token-modal" aria-label="Close token modal" style="margin-left:10px;" class="merge-dependabot-btn">Close</button>
 				`;
 
 				document.body.appendChild(modal);
 
-				document.getElementById('submit-token').addEventListener('click', () => {
-					const tokenInput = document.getElementById('github-token-input').value;
+				const input = document.getElementById('merge-dependabot-token-input');
+				const submitBtn = document.getElementById('merge-dependabot-submit-token');
+				const closeBtn = document.getElementById('merge-dependabot-close-token-modal');
+
+				// Focus management
+				setTimeout(() => input.focus(), 0);
+				const focusableEls = [input, submitBtn, closeBtn];
+				let lastFocused = document.activeElement;
+
+				function trapFocus(e) {
+					if (e.key === 'Tab') {
+						const idx = focusableEls.indexOf(document.activeElement);
+						if (e.shiftKey) {
+							if (idx === 0) {
+								e.preventDefault();
+								focusableEls[focusableEls.length - 1].focus();
+							}
+						} else {
+							if (idx === focusableEls.length - 1) {
+								e.preventDefault();
+								focusableEls[0].focus();
+							}
+						}
+					}
+				}
+				modal.addEventListener('keydown', trapFocus);
+
+				submitBtn.addEventListener('click', () => {
+					const tokenInput = input.value;
 					console.log('[Auto-Merge Dependabot PRs] Token entered via modal.');
 					modal.remove();
+					if (lastFocused) lastFocused.focus();
 					resolve(tokenInput);
+				});
+				closeBtn.addEventListener('click', () => {
+					modal.remove();
+					if (lastFocused) lastFocused.focus();
+					resolve('');
 				});
 			}
 		});
@@ -117,7 +208,7 @@
 			}
 		}
 
-		let username = GM_getValue('github_username') || '';
+		let username = safeGM_getValue('github_username') || '';
 		if (typeof username !== 'string' || username.trim() === '' || /[^a-zA-Z0-9-_]/.test(username)) {
 			username = ''; // Reset to empty if invalid
 		}
@@ -126,7 +217,7 @@
 			if (username && username.trim() !== '') {
 				try {
 					await validateGitHubUsername(username, token);
-					GM_setValue('github_username', username);
+					safeGM_setValue('github_username', username);
 					console.log('[Auto-Merge Dependabot PRs] GitHub username validated and saved.');
 				} catch (e) {
 					console.error('[Auto-Merge Dependabot PRs] Invalid GitHub username:', e);
@@ -204,7 +295,7 @@
 			const encodedToken = textEncoder.encode(token);
 
 			let key;
-			const storedKey = GM_getValue('encryption_key', null);
+			const storedKey = safeGM_getValue('encryption_key', null);
 			if (storedKey) {
 				try {
 					key = await crypto.subtle.importKey('jwk', JSON.parse(storedKey), { name: 'AES-GCM' }, true, ['encrypt', 'decrypt']);
@@ -215,13 +306,13 @@
 				}
 			} else {
 				key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
-				GM_setValue('encryption_key', JSON.stringify(await crypto.subtle.exportKey('jwk', key)));
+				safeGM_setValue('encryption_key', JSON.stringify(await crypto.subtle.exportKey('jwk', key)));
 			}
 
 			const iv = crypto.getRandomValues(new Uint8Array(12));
 			const encryptedToken = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, encodedToken);
 
-			GM_setValue(
+			safeGM_setValue(
 				'github_token',
 				JSON.stringify({
 					iv: Array.from(iv),
@@ -237,7 +328,7 @@
 
 	async function retrieveAndDecryptToken() {
 		try {
-			const storedData = GM_getValue('github_token', null);
+			const storedData = safeGM_getValue('github_token', null);
 			if (!storedData) return '';
 
 			let iv, token;
@@ -248,7 +339,7 @@
 				alert('The stored token is corrupted or invalid. Please reset your token.');
 				return ''; // Return an empty string to indicate failure
 			}
-			const key = GM_getValue('encryption_key', null);
+			const key = safeGM_getValue('encryption_key', null);
 
 			if (!key) {
 				throw new Error('Encryption key is missing.');
@@ -307,7 +398,7 @@
 		return [...userRepos, ...orgRepos.flat()];
 	}
 
-	const botUsernames = GM_getValue('dependabot_usernames', ['dependabot[bot]', 'dependabot-preview[bot]'])
+	const botUsernames = safeGM_getValue('dependabot_usernames', ['dependabot[bot]', 'dependabot-preview[bot]'])
 		.map((username) => username.trim())
 		.filter(Boolean);
 
@@ -449,7 +540,8 @@
 		try {
 			const mergeButton = document.createElement('button');
 			mergeButton.textContent = 'Merge Dependabot PRs';
-			mergeButton.classList.add('merge-button');
+			mergeButton.classList.add('merge-dependabot-merge-button', 'merge-button');
+			mergeButton.id = 'merge-dependabot-merge-button';
 			mergeButton.addEventListener('click', async () => {
 				try {
 					let token = await retrieveAndDecryptToken();
@@ -457,8 +549,8 @@
 						alert('Invalid or missing GitHub token. Please check your settings.');
 						return;
 					}
-					const username = GM_getValue('github_username');
-					const orgs = (GM_getValue('github_orgs', '') || '')
+					const username = safeGM_getValue('github_username');
+					const orgs = (safeGM_getValue('github_orgs', '') || '')
 						.split(',')
 						.map((s) => s.trim())
 						.filter(Boolean);
@@ -506,12 +598,13 @@
 					alert('An unexpected error occurred. Please check the console for details.');
 				}
 			});
-			const container = document.getElementById('merge-button-container') || createMergeButtonContainer();
+			const container = document.getElementById('merge-dependabot-merge-button-container') || createMergeButtonContainer();
 			container.appendChild(mergeButton);
 
 			function createMergeButtonContainer() {
 				const container = document.createElement('div');
-				container.id = 'merge-button-container';
+				container.id = 'merge-dependabot-merge-button-container';
+				container.className = 'merge-dependabot-merge-button-container';
 				container.style.position = 'fixed';
 				container.style.bottom = '10px';
 				container.style.right = '10px';
@@ -545,7 +638,7 @@
 
 	// Utility: Remove all lingering PR selection containers
 	function removeAllPRSelectionContainers() {
-		const containers = document.querySelectorAll('.pr-selection-container');
+		const containers = document.querySelectorAll('.merge-dependabot-pr-selection-container');
 		containers.forEach((el) => el.remove());
 	}
 
@@ -553,43 +646,12 @@
 		try {
 			removeAllPRSelectionContainers(); // Clean up any old containers first
 			const container = document.createElement('div');
-			const prSelectionStyle = document.createElement('style');
-			prSelectionStyle.textContent = `
-				.pr-selection-container {
-					position: fixed;
-					bottom: 50px;
-					right: 10px;
-					z-index: 1000;
-					background-color: #79e4f2;
-					color: #000000;
-					padding: 10px;
-					border: 1px solid #ccc;
-					max-height: 300px;
-					overflow-y: auto;
-					min-width: 350px;
-					box-sizing: border-box;
-					box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-				}
-				.pr-selection-close {
-					display: inline-block;
-					width: 32px;
-					height: 32px;
-					line-height: 32px;
-					text-align: center;
-					position: absolute;
-					top: 2px;
-					right: 6px;
-					cursor: pointer;
-					font-weight: bold;
-					color: #333;
-					background: none;
-					border: none;
-					font-size: 1.2em;
-					padding: 0;
-				}
-			`;
-			document.head.appendChild(prSelectionStyle);
-			container.classList.add('pr-selection-container');
+			container.classList.add('merge-dependabot-pr-selection-container');
+			container.setAttribute('role', 'dialog');
+			container.setAttribute('aria-modal', 'true');
+			container.setAttribute('aria-labelledby', 'merge-dependabot-pr-selection-title');
+			container.tabIndex = -1;
+			container.id = 'merge-dependabot-pr-selection-container';
 			container.style.position = 'fixed';
 			container.style.bottom = '50px';
 			container.style.right = '10px';
@@ -607,28 +669,43 @@
 			// Add close (X) button
 			const closeBtn = document.createElement('button');
 			closeBtn.textContent = '×';
-			closeBtn.className = 'pr-selection-close';
+			closeBtn.className = 'merge-dependabot-pr-selection-close';
 			closeBtn.title = 'Close';
+			closeBtn.setAttribute('aria-label', 'Close PR selection dialog');
+			closeBtn.id = 'merge-dependabot-pr-selection-close';
 			closeBtn.onclick = () => {
 				container.remove();
 				const status = document.getElementById('merge-status');
 				if (status) status.remove();
 				removeAllPRSelectionContainers(); // Ensure all are removed
+				if (container.lastFocused) container.lastFocused.focus();
 			};
 			container.appendChild(closeBtn);
 
+			const title = document.createElement('h3');
+			title.id = 'merge-dependabot-pr-selection-title';
+			title.textContent = 'Select Dependabot PRs to Merge';
+			container.appendChild(title);
+
 			const prList = document.createElement('div');
+			prList.className = 'merge-dependabot-pr-list';
+			prList.id = 'merge-dependabot-pr-list';
 			let lastChecked = null; // Track the last clicked checkbox
 
 			prs.forEach((pr) => {
 				const prItem = document.createElement('div');
+				prItem.className = 'merge-dependabot-pr-item';
 				const checkbox = document.createElement('input');
 				checkbox.type = 'checkbox';
 				checkbox.value = pr.number;
+				checkbox.id = `merge-dependabot-pr-checkbox-${pr.repo}-${pr.number}`;
+				checkbox.className = 'merge-dependabot-pr-checkbox';
 
 				const label = document.createElement('label');
 				label.textContent = `Repo: ${pr.repo} - PR #${pr.number}: ${pr.title}`;
 				label.style = 'margin-left: 5px;';
+				label.setAttribute('for', checkbox.id);
+				label.className = 'merge-dependabot-pr-label';
 
 				// Add event listener for shift-click selection
 				checkbox.addEventListener('click', (event) => {
@@ -650,6 +727,9 @@
 
 			const mergeSelectedButton = document.createElement('button');
 			mergeSelectedButton.textContent = 'Merge Selected PRs';
+			mergeSelectedButton.setAttribute('aria-label', 'Merge selected pull requests');
+			mergeSelectedButton.className = 'merge-dependabot-btn';
+			mergeSelectedButton.id = 'merge-dependabot-merge-selected-btn';
 			mergeSelectedButton.addEventListener('click', async () => {
 				// Get all selected checkboxes
 				const selectedCheckboxes = Array.from(prList.querySelectorAll('input[type="checkbox"]:checked'));
@@ -700,6 +780,27 @@
 			container.appendChild(prList);
 			container.appendChild(mergeSelectedButton);
 			document.body.appendChild(container);
+
+			// Focus management for modal
+			const focusableEls = [closeBtn, mergeSelectedButton, ...Array.from(prList.querySelectorAll('input[type="checkbox"]'))];
+			container.lastFocused = document.activeElement;
+			setTimeout(() => mergeSelectedButton.focus(), 0);
+			container.addEventListener('keydown', function (e) {
+				if (e.key === 'Tab') {
+					const idx = focusableEls.indexOf(document.activeElement);
+					if (e.shiftKey) {
+						if (idx === 0) {
+							e.preventDefault();
+							focusableEls[focusableEls.length - 1].focus();
+						}
+					} else {
+						if (idx === focusableEls.length - 1) {
+							e.preventDefault();
+							focusableEls[0].focus();
+						}
+					}
+				}
+			});
 		} catch (error) {
 			console.error('Failed to display PR selection:', error);
 			removeAllPRSelectionContainers(); // Clean up on error
@@ -811,19 +912,18 @@
 				padding: 0;
 			}
 	`;
-	if (typeof GM_addStyle === 'function') {
-		GM_addStyle(mainCSS);
-	} else {
-		// fallback for environments without GM_addStyle
-		const fallbackStyle = document.createElement('style');
-		fallbackStyle.textContent = mainCSS;
-		document.head.appendChild(fallbackStyle);
-	}
+	safeGM_addStyle(mainCSS);
 
 	window.addEventListener('load', addButton);
 
 	function showConfigPanel() {
 		const configPanel = document.createElement('div');
+		configPanel.setAttribute('role', 'dialog');
+		configPanel.setAttribute('aria-modal', 'true');
+		configPanel.setAttribute('aria-labelledby', 'merge-dependabot-config-panel-title');
+		configPanel.tabIndex = -1;
+		configPanel.id = 'merge-dependabot-config-panel';
+		configPanel.className = 'merge-dependabot-modal';
 		configPanel.style = `
 			position: fixed;
 			top: 10%;
@@ -835,48 +935,74 @@
 			z-index: 1000;
 		`;
 		configPanel.innerHTML = `
-			<h3>Configuration</h3>
-			<label>GitHub Username: <input id="config-username" type="text" value="${GM_getValue('github_username', '')}" /></label><br>
-			<label>Organizations (comma separated): <input id="config-orgs" type="text" value="${GM_getValue('github_orgs', '')}" /></label><br>
-			<label>Merge Delay (ms): <input id="config-merge-delay" type="number" value="${GM_getValue('merge_delay', 2000)}" /></label><br>
-			<label>Bot Usernames (comma separated): <input id="config-bot-usernames" type="text" value="${GM_getValue('dependabot_usernames', ['dependabot[bot]', 'dependabot-preview[bot]']).join(', ')}" /></label><br>
-			<button id="save-config">Save</button>
-			<button id="reset-token">Reset Token</button>
-			<button id="close-config">Close</button>
+			<h3 id="merge-dependabot-config-panel-title">Configuration</h3>
+			<label>GitHub Username: <input id="merge-dependabot-config-username" type="text" value="${safeGM_getValue('github_username', '')}" class="merge-dependabot-config-input" /></label><br>
+			<label>Organizations (comma separated): <input id="merge-dependabot-config-orgs" type="text" value="${safeGM_getValue('github_orgs', '')}" class="merge-dependabot-config-input" /></label><br>
+			<label>Merge Delay (ms): <input id="merge-dependabot-config-merge-delay" type="number" value="${safeGM_getValue('merge_delay', 2000)}" class="merge-dependabot-config-input" /></label><br>
+			<label>Bot Usernames (comma separated): <input id="merge-dependabot-config-bot-usernames" type="text" value="${safeGM_getValue('dependabot_usernames', ['dependabot[bot]', 'dependabot-preview[bot]']).join(', ')}" class="merge-dependabot-config-input" /></label><br>
+			<button id="merge-dependabot-save-config" class="merge-dependabot-btn">Save</button>
+			<button id="merge-dependabot-reset-token" class="merge-dependabot-btn">Reset Token</button>
+			<button id="merge-dependabot-close-config" aria-label="Close configuration panel" class="merge-dependabot-btn">Close</button>
 		`;
 		document.body.appendChild(configPanel);
 
-		document.getElementById('save-config').addEventListener('click', () => {
-			const username = document.getElementById('config-username').value;
-			const orgs = document.getElementById('config-orgs').value;
-			const mergeDelay = parseInt(document.getElementById('config-merge-delay').value, 10);
-			GM_setValue('github_username', username);
-			GM_setValue('github_orgs', orgs);
-			GM_setValue('merge_delay', isNaN(mergeDelay) || mergeDelay <= 0 ? 2000 : mergeDelay);
-			const botUsernamesInput = document.getElementById('config-bot-usernames').value;
+		const saveBtn = document.getElementById('merge-dependabot-save-config');
+		const resetBtn = document.getElementById('merge-dependabot-reset-token');
+		const closeBtn = document.getElementById('merge-dependabot-close-config');
+		const focusableEls = [saveBtn, resetBtn, closeBtn];
+		let lastFocused = document.activeElement;
+		setTimeout(() => saveBtn.focus(), 0);
+		configPanel.addEventListener('keydown', function (e) {
+			if (e.key === 'Tab') {
+				const idx = focusableEls.indexOf(document.activeElement);
+				if (e.shiftKey) {
+					if (idx === 0) {
+						e.preventDefault();
+						focusableEls[focusableEls.length - 1].focus();
+					}
+				} else {
+					if (idx === focusableEls.length - 1) {
+						e.preventDefault();
+						focusableEls[0].focus();
+					}
+				}
+			}
+		});
+
+		document.getElementById('merge-dependabot-save-config').addEventListener('click', () => {
+			const username = document.getElementById('merge-dependabot-config-username').value;
+			const orgs = document.getElementById('merge-dependabot-config-orgs').value;
+			const mergeDelay = parseInt(document.getElementById('merge-dependabot-config-merge-delay').value, 10);
+			safeGM_setValue('github_username', username);
+			safeGM_setValue('github_orgs', orgs);
+			safeGM_setValue('merge_delay', isNaN(mergeDelay) || mergeDelay <= 0 ? 2000 : mergeDelay);
+			const botUsernamesInput = document.getElementById('merge-dependabot-config-bot-usernames').value;
 			const botUsernames = botUsernamesInput
 				.split(',')
 				.map((username) => username.trim())
 				.filter(Boolean);
-			GM_setValue('dependabot_usernames', botUsernames);
+			safeGM_setValue('dependabot_usernames', botUsernames);
 			alert('Configuration saved!');
 			configPanel.remove();
+			if (lastFocused) lastFocused.focus();
 		});
 
-		document.getElementById('reset-token').addEventListener('click', () => {
-			GM_setValue('github_token', null);
-			GM_setValue('encryption_key', null);
+		document.getElementById('merge-dependabot-reset-token').addEventListener('click', () => {
+			safeGM_setValue('github_token', null);
+			safeGM_setValue('encryption_key', null);
 			alert('Token and encryption key have been reset. Please reload and re-enter your token.');
 			configPanel.remove();
+			if (lastFocused) lastFocused.focus();
 		});
 
-		document.getElementById('close-config').addEventListener('click', () => {
+		document.getElementById('merge-dependabot-close-config').addEventListener('click', () => {
 			configPanel.remove();
+			if (lastFocused) lastFocused.focus();
 		});
 	}
 
 	function addCogToMergeButton() {
-		const mergeButton = document.querySelector('.merge-button');
+		const mergeButton = document.querySelector('.merge-dependabot-merge-button');
 		if (mergeButton) {
 			// Create the cog icon
 			const cogIcon = document.createElement('span');
