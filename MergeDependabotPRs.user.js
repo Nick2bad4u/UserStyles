@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    typpi.online
-// @version      6.6
+// @version      6.7
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/notifications
@@ -398,7 +398,7 @@ function safeGM_addStyle(css) {
 		return [...userRepos, ...orgRepos.flat()];
 	}
 
-	const botUsernames = safeGM_getValue('dependabot_usernames', ['dependabot[bot]', 'dependabot-preview[bot]'])
+	const botUsernames = safeGM_getValue('dependabot_usernames', ['dependabot[bot]', 'dependabot-preview[bot]', 'github-actions[bot]'])
 		.map((username) => username.trim())
 		.filter(Boolean);
 
@@ -687,6 +687,21 @@ function safeGM_addStyle(css) {
 			title.textContent = 'Select Dependabot PRs to Merge';
 			container.appendChild(title);
 
+			// Add Select All button
+			const selectAllBtn = document.createElement('button');
+			selectAllBtn.textContent = 'Select All';
+			selectAllBtn.className = 'merge-dependabot-btn';
+			selectAllBtn.style.marginBottom = '8px';
+			selectAllBtn.style.marginRight = '8px';
+			let allSelected = false;
+			selectAllBtn.addEventListener('click', () => {
+				const checkboxes = Array.from(prList.querySelectorAll('input[type="checkbox"]'));
+				allSelected = !allSelected;
+				checkboxes.forEach(cb => { cb.checked = allSelected; });
+				selectAllBtn.textContent = allSelected ? 'Deselect All' : 'Select All';
+			});
+			container.appendChild(selectAllBtn);
+
 			const prList = document.createElement('div');
 			prList.className = 'merge-dependabot-pr-list';
 			prList.id = 'merge-dependabot-pr-list';
@@ -738,7 +753,18 @@ function safeGM_addStyle(css) {
 				const selectedPRs = selectedCheckboxes.map((checkbox) => prs.find((pr) => pr.number == checkbox.value));
 
 				if (selectedPRs.length > 0) {
-					container.innerHTML = '<div id="merge-status">Merging PRs...<br></div>';
+					// Remove the PR selection container before merging to avoid blue rectangle
+					container.remove();
+					removeAllPRSelectionContainers();
+					// Show status only
+					let status = document.getElementById('merge-status');
+					if (!status) {
+						status = document.createElement('div');
+						status.id = 'merge-status';
+						status.classList.add('merge-status');
+						document.body.appendChild(status);
+					}
+					status.innerHTML = 'Merging PRs...<br>';
 					// Remove the container after merging is done (with a delay to show status)
 					const groupedPRs = selectedPRs.reduce((acc, pr) => {
 						if (!acc[pr.repo]) {
@@ -756,7 +782,6 @@ function safeGM_addStyle(css) {
 							console.error(`Error merging PRs for repo ${repo}:`, error);
 							const status = document.getElementById('merge-status');
 							if (status) status.remove();
-							container.remove();
 							removeAllPRSelectionContainers();
 							alert(`Failed to merge PRs for repo ${repo}. Please check the console for details.`);
 							return;
@@ -764,7 +789,6 @@ function safeGM_addStyle(css) {
 						setTimeout(() => {
 							const status = document.getElementById('merge-status');
 							if (status) status.remove();
-							container.remove();
 							removeAllPRSelectionContainers();
 						}, 11000); // Wait for status to finish
 					}
@@ -782,7 +806,7 @@ function safeGM_addStyle(css) {
 			document.body.appendChild(container);
 
 			// Focus management for modal
-			const focusableEls = [closeBtn, mergeSelectedButton, ...Array.from(prList.querySelectorAll('input[type="checkbox"]'))];
+			const focusableEls = [closeBtn, selectAllBtn, mergeSelectedButton, ...Array.from(prList.querySelectorAll('input[type="checkbox"]'))];
 			container.lastFocused = document.activeElement;
 			setTimeout(() => mergeSelectedButton.focus(), 0);
 			container.addEventListener('keydown', function (e) {
