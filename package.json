@@ -41,7 +41,7 @@
 		"find-up": "^7.0.0",
 		"flat-cache": "^6.1.7",
 		"flatted": "^3.3.3",
-		"generator-code": "^1.11.8",
+		"generator-code": "^1.11.9",
 		"glob-parent": "^6.0.2",
 		"graphemer": "^1.4.0",
 		"has-flag": "^5.0.1",
