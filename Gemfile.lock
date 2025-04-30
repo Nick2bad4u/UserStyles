@@ -150,7 +150,7 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.5)
-    multi_xml (0.7.1)
+    multi_xml (0.7.2)
       bigdecimal (~> 3.1)
     mutex_m (0.3.0)
     net-ftp (0.3.8)
@@ -206,7 +206,7 @@ GEM
     psych (5.2.3)
       date
       stringio
-    public_suffix (6.0.1)
+    public_suffix (6.0.2)
     racc (1.8.1)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
