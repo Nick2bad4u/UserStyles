@@ -1,0 +1,41 @@
+name: Summarize new issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    concurrency:
+      group: summary-${{ github.ref }}
+      cancel-in-progress: false
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Run AI inference
+        id: inference
+        uses: actions/ai-inference@c7105a4c1e9d7e35f7677b5e6f830f5d631ce76e # v1.0.0
+        with:
+          prompt: |
+            Summarize the following GitHub issue in one paragraph:
+            Title: ${{ github.event.issue.title }}
+            Body: ${{ github.event.issue.body }}
+
+      - name: Comment with AI summary
+        run: |
+          gh issue comment $ISSUE_NUMBER --body '${{ steps.inference.outputs.response }}'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          RESPONSE: ${{ steps.inference.outputs.response }}

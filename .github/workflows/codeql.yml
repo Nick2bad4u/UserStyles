@@ -44,6 +44,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   analyze:
     name: Analyze

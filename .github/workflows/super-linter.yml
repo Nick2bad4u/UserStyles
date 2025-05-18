@@ -38,6 +38,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: super-linter-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   run-lint:
     permissions:

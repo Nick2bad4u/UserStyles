@@ -1,0 +1,29 @@
+name: Spell Check (typos)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: typos-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  typos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run typos (spell checker)
+        uses: crate-ci/typos@v1.32.0
+        with:
+          files: |
+            electron-app
+            tests
+            utils
+            .
+        continue-on-error: true

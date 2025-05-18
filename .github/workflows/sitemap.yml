@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: "0 0 * * 0"
 
+concurrency:
+  group: sitemap-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   sitemap_job:
     runs-on: ubuntu-latest

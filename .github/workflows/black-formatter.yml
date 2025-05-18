@@ -25,6 +25,10 @@ on:
 permissions:
   contents: read # Required to fetch repository contents
 
+concurrency:
+  group: black-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   black-linter:
     # Specify the runner to use (ubuntu-latest)

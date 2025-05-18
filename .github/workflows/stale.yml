@@ -37,6 +37,9 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
+    concurrency:
+      group: stale-${{ github.ref }}
+      cancel-in-progress: false
 
     steps:
       - name: Harden Runner

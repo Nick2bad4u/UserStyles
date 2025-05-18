@@ -32,6 +32,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: snake-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   generate:
     permissions:

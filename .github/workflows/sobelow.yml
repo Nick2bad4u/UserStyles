@@ -40,6 +40,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: sobelow-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   security-scan:
     permissions:

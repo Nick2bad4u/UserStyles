@@ -11,6 +11,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: stylelint-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   linters:
     name: stylelint

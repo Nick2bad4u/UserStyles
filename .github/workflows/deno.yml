@@ -36,6 +36,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: deno-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   test:
     runs-on: ubuntu-latest

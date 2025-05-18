@@ -15,9 +15,16 @@
 #       - Continues on error and sets the ID to action-lint.
 
 name: ActionLint
+concurrency:
+  group: actionlint-${{ github.ref }}
+  cancel-in-progress: false
 on:
   push:
-
+    paths:
+      - ".github/**"
+  pull_request:
+    paths:
+      - ".github/**"
   workflow_dispatch:
 
 permissions:

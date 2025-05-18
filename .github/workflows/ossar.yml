@@ -13,6 +13,10 @@ on:
 permissions:
   contents: read # Required to fetch code using actions/checkout
 
+concurrency:
+  group: ossar-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   OSSAR-Scan:
     # Define permissions for the OSSAR-Scan job

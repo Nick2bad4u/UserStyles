@@ -1,0 +1,43 @@
+name: npm audit
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "releases/*"
+  # schedule:
+  #   - cron: '0 10 * * *'
+
+jobs:
+  scan:
+    name: npm audit
+    runs-on: ubuntu-latest
+    concurrency:
+      group: npm-audit-${{ github.ref }}
+      cancel-in-progress: false
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Cache node modules
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-.-node-modules-${{ hashFiles('./package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-.-node-modules-
+
+      - name: install dependencies
+        run: npm install
+      - uses: oke-py/npm-audit-action@6ec7878c81d7dfe2b3295a63e1a608e9c952f46a # v3.0.0
+        with:
+          audit_level: moderate
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_assignees: oke-py
+          issue_labels: vulnerability,test
+          dedupe_issues: true
+          working_directory: .

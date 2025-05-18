@@ -3,11 +3,15 @@ name: Generate and Update README.MD File List
 on:
   workflow_dispatch: # Allows manual triggering
   schedule:
-    - cron: '0 0 */14 * *' # Run every 2 weeks
+    - cron: "0 0 */14 * *" # Run every 2 weeks
 
 permissions:
   contents: write
   pull-requests: write
+
+concurrency:
+  group: filelist-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:

@@ -39,6 +39,10 @@ on: [pull_request_target]
 permissions:
   contents: read
 
+concurrency:
+  group: labeler-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   label:
     runs-on: ubuntu-latest

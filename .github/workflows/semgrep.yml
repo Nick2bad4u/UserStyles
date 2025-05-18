@@ -33,6 +33,10 @@ permissions:
   # The 'contents: read' permission is required to allow the workflow to read the repository contents.
   contents: read
 
+concurrency:
+  group: semgrep-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   semgrep:
     name: semgrep/ci

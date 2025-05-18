@@ -1,15 +1,3 @@
-# This GitHub Actions workflow is named "DevSkim" and is triggered on pushes and pull requests to the "main" branch,
-# as well as on a scheduled cron job that runs every Tuesday at 2:32 AM.
-#
-# The workflow has read permissions for the contents and includes a single job named "lint" that runs on an Ubuntu 20.04 runner.
-# The job has read permissions for actions and contents, and write permissions for security events.
-#
-# The job consists of the following steps:
-# 1. Harden Runner: Uses the step-security/harden-runner action to harden the runner with specific configurations.
-# 2. Checkout code: Uses the actions/checkout action to check out the repository's code.
-# 3. Run DevSkim scanner: Uses the microsoft/DevSkim-Action to run the DevSkim security scanner.
-# 4. Upload DevSkim scan results to GitHub Security tab: Uses the github/codeql-action/upload-sarif action to upload the DevSkim scan results in SARIF format to the GitHub Security tab.
-#
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
@@ -23,36 +11,55 @@ on:
   pull_request:
     branches: ["main"]
   schedule:
-    - cron: "32 2 * * 2"
+    - cron: "37 1 * * 2"
 
-permissions:
-  contents: write
+concurrency:
+  group: devskim-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   lint:
     name: DevSkim
     runs-on: ubuntu-latest
     permissions:
-      actions: write
-      contents: write
+      actions: read
+      contents: read
       security-events: write
     steps:
-      - name: Harden Runner
+      - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
         with:
-          disable-sudo: true
           egress-policy: audit
-          allowed-endpoints: >
-            api.github.com:443
-            github.com:443
 
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run DevSkim scanner
         uses: microsoft/DevSkim-Action@a6b6966a33b497cd3ae2ebc406edf8f4cc2feec6 # v1.0.15
+        with:
+          directory-to-scan: .
+          should-scan-archives: false
+          output-filename: devskim-results.sarif
+          output-directory: .
+          ignore-globs: "**/.git/**,**/bin/**,**/*.fit,**/*.png,**/*.jpg,**/*.jpeg,**/*.ico,**/*.icns,**/*.svg,**/*.pdf"
+
+      - name: Debug - List files in workspace
+        run: |
+          echo "Listing all files in workspace:"
+          find . -type f | sort
+          echo "Showing first 5 lines of each file (if text):"
+          for f in $(find . -type f); do
+            echo "==== $f ===="
+            head -n 5 "$f" || echo "Binary or unreadable file"
+          done
+
+      - name: Upload DevSkim SARIF as artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: devskim-results
+          path: devskim-results.sarif
 
       - name: Upload DevSkim scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@28deaeda66b76a05916b6923827895f2b14ab387 # v3.28.16
+        uses: github/codeql-action/upload-sarif@60168efe1c415ce0f5521ea06d5c2062adbeed1b # v3.28.17
         with:
           sarif_file: devskim-results.sarif

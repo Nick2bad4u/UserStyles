@@ -39,6 +39,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: bandit-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   bandit:
     permissions:
