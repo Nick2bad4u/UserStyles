@@ -161,6 +161,10 @@
 <lastmod>2025-01-29T19:03:02-05:00</lastmod>
 </url>
 <url>
+<loc>https://userstyles.github.typpi.online/GarminAutoPaste.user.js</loc>
+<lastmod>2025-05-14T19:06:16-04:00</lastmod>
+</url>
+<url>
 <loc>https://userstyles.github.typpi.online/GarminBadges-DarkMode.user.css</loc>
 <lastmod>2025-01-29T19:03:02-05:00</lastmod>
 </url>
@@ -238,7 +242,7 @@
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/MergeDependabotPRs.user.js</loc>
-<lastmod>2025-04-22T11:39:31-04:00</lastmod>
+<lastmod>2025-04-29T12:44:29-04:00</lastmod>
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/MyBikeTraffic-DarkMode.user.css</loc>
@@ -842,11 +846,11 @@
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/package-lock.json</loc>
-<lastmod>2025-05-01T11:32:03+00:00</lastmod>
+<lastmod>2025-05-14T19:05:24-04:00</lastmod>
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/package.json</loc>
-<lastmod>2025-04-30T23:52:04+00:00</lastmod>
+<lastmod>2025-05-14T19:01:27-04:00</lastmod>
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/reddit-stream-Enhancements.user.js</loc>
@@ -866,7 +870,7 @@
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/sitemap.xml</loc>
-<lastmod>2025-05-04T00:17:43+00:00</lastmod>
+<lastmod>2025-05-11T00:16:54+00:00</lastmod>
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/stravatoolbox-darkmode.user.css</loc>
@@ -1162,7 +1166,7 @@
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/.github/workflows/devskim.yml</loc>
-<lastmod>2025-04-24T10:32:40+00:00</lastmod>
+<lastmod>2025-05-14T23:32:55-04:00</lastmod>
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/.github/workflows/eslint.yml</loc>
@@ -1198,7 +1202,7 @@
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/.github/workflows/semgrep.yml</loc>
-<lastmod>2025-04-22T11:01:22+00:00</lastmod>
+<lastmod>2025-05-14T23:32:36-04:00</lastmod>
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/.github/workflows/sitemap.yml</loc>
@@ -1206,7 +1210,7 @@
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/.github/workflows/sobelow.yml</loc>
-<lastmod>2025-04-22T11:01:22+00:00</lastmod>
+<lastmod>2025-05-14T23:34:55-04:00</lastmod>
 </url>
 <url>
 <loc>https://userstyles.github.typpi.online/.github/workflows/stale.yml</loc>
