@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Garmin Connect - Auto-Paste on Right Click
 // @namespace    typpi.online
-// @version      1.6
+// @version      1.7
 // @description  Automatically pastes clipboard content into specific input fields on right-click. Clipboard access requires HTTPS and user permission. Right-clicking on target fields will auto-paste clipboard content. (Note: Clipboard API support may vary by browser.)
 // @author       Nick2bad4u
 // @match        *://connect.garmin.com/*
@@ -36,6 +36,12 @@
 			name: 'youtubeUrl',
 			// Allow more URL-safe characters
 			sanitize: (text) => text.replace(/[^\w\-.:/?=&%#~@!$*'(),]/g, ''),
+		},
+		{
+			selector: 'textarea#activity-description',
+			name: 'activity-description',
+			// Allow most printable characters, but sanitize HTML special chars
+			sanitize: (text) => text.replace(/[<>&"'`]/g, (char) => escapeMap[char] || char),
 		},
 	];
 	const TARGET_INPUT_SELECTOR = FIELD_CONFIG.map((f) => f.selector).join(', ');
@@ -77,8 +83,8 @@
 
 	document.body.addEventListener('contextmenu', async function (event) {
 		const target = event.target;
-		// Type safety: ensure target is an input element
-		if (!(target instanceof HTMLInputElement)) return;
+		// Type safety: ensure target is an input or textarea element
+		if (!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement)) return;
 		// Check if right-clicked element is one of the target input fields
 		const field = FIELD_CONFIG.find((f) => target.matches(f.selector));
 		if (field) {
