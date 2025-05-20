@@ -22,7 +22,6 @@ jobs:
         uses: crate-ci/typos@v1.32.0
         with:
           files: |
-            electron-app
             tests
             utils
             .

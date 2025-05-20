@@ -710,3 +710,7 @@ test
 __pycache__/
 zwiftbikes/
 *.pyc
+
+
+#Ignore vscode AI rules
+.github\copilot-instructions.md

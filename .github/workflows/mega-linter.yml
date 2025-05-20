@@ -16,9 +16,7 @@ concurrency:
 jobs:
   megalinter:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: electron-app
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
