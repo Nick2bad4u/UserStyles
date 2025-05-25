@@ -1,0 +1,23 @@
+name: Scheduled repo analysis with git-sizer
+
+on:
+  schedule:
+    - cron: '44 2 * * 0' # Runs on Sundays at 2:44 AM UTC; https://crontab.guru/#44_2_*_*_0
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  run-git-sizer:
+    name: git-sizer - ${{ github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run git-sizer
+        id: sizer
+        uses: ChrisCarini/github-git-sizer-action@latest
+        with:
+          flags: '--threshold=0'
+
+      - name: Print git-sizer output
+        run: |
+          printf "%s\n" "${{ steps.sizer.outputs.result }}"
