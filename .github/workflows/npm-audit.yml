@@ -37,7 +37,7 @@ jobs:
 
       - uses: oke-py/npm-audit-action@6ec7878c81d7dfe2b3295a63e1a608e9c952f46a # v3.0.0
         with:
-          audit_level: moderate
+          audit_level: severe
           github_token: ${{ secrets.GITHUB_TOKEN }}
           issue_assignees: nick2bad4u
           issue_labels: vulnerability
