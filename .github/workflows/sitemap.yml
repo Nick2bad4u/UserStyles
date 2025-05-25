@@ -1,10 +1,8 @@
 name: GitHub Pages - Generate XML sitemap
 
-# Trigger the workflow manually or on a schedule (every day at midnight)
+# Trigger the workflow manually
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * 0"
 
 concurrency:
   group: sitemap-${{ github.ref }}
