@@ -1,11 +1,13 @@
 /* ==UserStyle==
 @name           asus.com - Dark Mode
 @namespace      typpi.online
-@version        1.0.1
+@version        1.0.2
 @description    Easy Dark mode for Asus
 @author         Nick2bad4u
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
+
+@updateURL      https://userstyles.world/api/style/22508.user.css
 ==/UserStyle== */
 @-moz-document domain("asus.com") {
 	/* Invert colors except images and videos */
