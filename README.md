@@ -27,7 +27,6 @@
 [![GitHub Static Pages](https://github.com/Nick2bad4u/UserStyles/actions/workflows/static.yml/badge.svg)](https://github.com/Nick2bad4u/UserStyles/actions/workflows/static.yml)
 [![GitHub Pages - Generate XML sitemap](https://github.com/Nick2bad4u/UserStyles/actions/workflows/sitemap.yml/badge.svg)](https://github.com/Nick2bad4u/UserStyles/actions/workflows/sitemap.yml)
 [![Labeler Workflow](https://github.com/Nick2bad4u/UserStyles/actions/workflows/label.yml/badge.svg)](https://github.com/Nick2bad4u/UserStyles/actions/workflows/label.yml)
-[![Microsoft Defender](https://github.com/Nick2bad4u/UserStyles/actions/workflows/defender.yml/badge.svg)](https://github.com/Nick2bad4u/UserStyles/actions/workflows/defender.yml)
 [![OSSAR Analysis](https://github.com/Nick2bad4u/UserStyles/actions/workflows/ossar.yml/badge.svg)](https://github.com/Nick2bad4u/UserStyles/actions/workflows/ossar.yml)
 [![OSV Scanner](https://github.com/Nick2bad4u/UserStyles/actions/workflows/osv-scanner.yml/badge.svg)](https://github.com/Nick2bad4u/UserStyles/actions/workflows/osv-scanner.yml)
 [![Semgrep Linter](https://github.com/Nick2bad4u/UserStyles/actions/workflows/semgrep.yml/badge.svg)](https://github.com/Nick2bad4u/UserStyles/actions/workflows/semgrep.yml)
