@@ -1,0 +1,27 @@
+/* ==UserStyle==
+@name           asus.com - Dark Mode
+@namespace      typpi.online
+@version        1.0.1
+@description    Easy Dark mode for Asus
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+==/UserStyle== */
+@-moz-document domain("asus.com") {
+	/* Invert colors except images and videos */
+	html,
+	img,
+	svg,
+	video,
+	iframe,
+	[dir] .Header__headerWrapper__4ipKk,
+	.Footer__footerContainer__4paCr,
+	.mobileMenu.Header__headerMenu__lncT7 {
+		filter: invert(1) hue-rotate(180deg) !important;
+	}
+
+	.Header__header__iNAJ6 *
+	{
+		fill: red !important;
+	}
+}
