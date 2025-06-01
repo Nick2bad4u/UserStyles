@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Run git-sizer
         id: sizer
-        uses: ChrisCarini/github-git-sizer-action@latest
+        uses: ChrisCarini/github-git-sizer-action@09eaa4ae73038a5f0bbdc7e7b964f1bf6114c277 # latest
         with:
           flags: '--threshold=0'
 
