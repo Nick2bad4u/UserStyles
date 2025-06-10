@@ -278,6 +278,14 @@ Explore the collection of user styles and scripts hosted on various platforms, d
     />
 </div>
 
+<div align="center">
+    <img
+      src="https://raw.githubusercontent.com/Nick2bad4u/UserStyles/repo-stats/metrics.repository.svg"
+      alt="Repo Metrics"
+      width="100%"
+    />
+</div>
+
 <!-- FILE_LIST_START -->
 
 <!-- FILE_LIST_END -->
