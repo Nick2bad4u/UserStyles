@@ -10,7 +10,7 @@
 		"ansi-styles": "^6.2.1",
 		"argparse": "^2.0.1",
 		"balanced-match": "^3.0.1",
-		"brace-expansion": "^4.0.0",
+		"brace-expansion": "^4.0.1",
 		"braces": "^3.0.3",
 		"callsites": "^4.2.0",
 		"chalk": "^5.4.1",
