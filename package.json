@@ -121,7 +121,7 @@
 		"prettier-plugin-stylus": "^0.1.0",
 		"prettier-plugin-tailwindcss": "^0.6.13",
 		"sinon": "^21.0.0",
-		"stylelint": "^16.21.0",
+		"stylelint": "^16.21.1",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.35.1"
