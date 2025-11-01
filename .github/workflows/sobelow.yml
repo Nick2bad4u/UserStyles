@@ -66,5 +66,5 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - id: run-action
-        uses: sobelow/action@1afd6d2cae70ae8bd900b58506f54487ed863912
+        uses: sobelow/action@a9bf221c4eef7e7a4486fa1f06257511c9780b46
         continue-on-error: true
