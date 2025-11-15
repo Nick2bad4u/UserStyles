@@ -51,7 +51,7 @@
 		"is-number": "^7.0.0",
 		"isexe": "^3.1.1",
 		"js-beautify": "^1.15.4",
-		"js-yaml": "^4.1.0",
+		"js-yaml": "^4.1.1",
 		"jsdom": "^27.1.0",
 		"json-buffer": "^3.0.1",
 		"json-schema-traverse": "^1.0.0",
