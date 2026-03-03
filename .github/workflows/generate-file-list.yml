@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9 # v2.14.1
+        uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b # v2.15.0
         with:
           egress-policy: audit
 
@@ -55,7 +55,7 @@ jobs:
           # For example: pip install requests
 
       - name: Run Generate Repo File List Action
-        uses: nick2bad4u/generate-repo-file-list@f1342075abdb94a6134398776eafce7931fd1444 # main
+        uses: nick2bad4u/generate-repo-file-list@07b49868e86da4ee6121ea33b3f2beabd87bb87f # main
         with:
           log-level: "INFO"
           directory: "."
