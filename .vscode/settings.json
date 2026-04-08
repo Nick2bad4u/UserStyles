@@ -2,6 +2,7 @@
 	"vs-code-prettier-eslint.prettierLast": false,
 	"codeQL.createQuery.qlPackLocation": "c:\\Users\\Nick\\Dropbox\\PC (2)\\Documents\\GitHub\\UserStyles\\.github",
 	"cSpell.enabled": false,
+	"stylelint.validate": ["css", "stylus"],
 	"python.testing.unittestArgs": ["-v", "-s", ".", "-p", "test_*.py"],
 	"python.testing.pytestEnabled": false,
 	"python.testing.unittestEnabled": true,

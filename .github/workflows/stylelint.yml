@@ -4,9 +4,9 @@ on:
   # Runs on pushes targeting the default branch
   workflow_dispatch:
   push:
-    branches: ["main"]
+    branches: ['main']
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 permissions:
   contents: read
@@ -29,5 +29,14 @@ jobs:
       - name: Checkout Repo Code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Run StyleLint
-        uses: Nick2bad4u/stylelint@bac953a3225dbed8bfafd5e66b274983892d434d # master
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Stylelint
+        run: npm run lint:css

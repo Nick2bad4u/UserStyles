@@ -1,0 +1,11 @@
+# Dependencies / tooling
+node_modules/
+dist/
+build/
+
+# Minified / generated
+**/*.min.css
+**/*.min.*.css
+
+# Vendor bundles / maps
+**/*.map

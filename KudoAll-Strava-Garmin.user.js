@@ -5,11 +5,12 @@
 // @description  Adds a button to give kudos to all visible activities on Strava and Garmin Connect.
 // @author       Nick2bad4u
 // @license      Unlicense
+// @homepage     https://github.com/Nick2bad4u/UserStyles/
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles/
 // @grant        none
 // @run-at       document-end
-// @include      https://www.strava.com/*
-// @include      https://connect.garmin.com/modern/*
+// @match        https://www.strava.com/*
+// @match        https://connect.garmin.com/app/newsfeed
 // @icon         https://i.gyazo.com/e2fabcfc9e9fd6d011e98215764c109c.png
 // @tag          garmin
 // @tag          strava
@@ -505,10 +506,10 @@
 	function garminKudoAllHandler(event) {
 		// Handle the event to give all kudos
 		event.preventDefault(); // Prevent the default event behavior
-		if (window.location.pathname !== '/modern/newsfeed') {
+		if (window.location.pathname !== '/app/newsfeed') {
 			// Check if the current page is the newsfeed
 			console.log('Garmin: Not on the newsfeed page, redirecting'); // Log the redirect message
-			window.location.href = 'https://connect.garmin.com/modern/newsfeed'; // Redirect to the newsfeed page
+			window.location.href = 'https://connect.garmin.com/app/newsfeed'; // Redirect to the newsfeed page
 			return; // Abort the function
 		}
 
