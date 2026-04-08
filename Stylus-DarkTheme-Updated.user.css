@@ -286,7 +286,6 @@ regexp("chrome-extension://clngdbkpkpeebahjckkjfobafhncgmne/.*")
 
 	.cm-searching {
 		border-bottom: 1px solid var(--bottom-border);
-		background: var(--green1);
 		background: var(--green2);
 	}
 }

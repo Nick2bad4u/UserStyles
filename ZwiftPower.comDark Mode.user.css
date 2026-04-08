@@ -93,6 +93,6 @@
 	}
 
 	#rdetails_body > div.panel-body > a:nth-child(8) {
-		word-wrap: break-word;
+		overflow-wrap: break-word;
 	}
 }

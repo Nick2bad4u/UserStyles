@@ -37,7 +37,6 @@
 	.card,
 	.devise-wrapper form:not(.button_to) {
 		background: var(--background-color) !important;
-		background-color: var(--background-color) !important;
 		color: var(--text-color) !important;
 	}
 

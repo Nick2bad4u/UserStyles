@@ -3114,7 +3114,6 @@
 
 	.uk-text-break {
 		overflow-wrap: break-word;
-		word-wrap: break-word;
 	}
 
 	th.uk-text-break,

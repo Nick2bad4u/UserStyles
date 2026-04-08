@@ -50,7 +50,7 @@
 	.input-group .form-control,
 	.container,
 	.alert-dismissible.animated {
-		/*Manipulations stuff*/
+		/* Manipulations stuff */
 		filter: invert(1);
 	}
 
@@ -86,15 +86,15 @@
 	}
 
 	.tooltip-inner {
-		/*Box model stuff*/
+		/* Box model stuff */
 		border: 1px solid var(--dark);
 		background: var(--darker) !important;
-		/*Typography stuff*/
+		/* Typography stuff */
 		color: var(--white);
 	}
 
 	.tooltip.show {
-		/*Manipulations stuff*/
+		/* Manipulations stuff */
 		opacity: 100%;
 	}
 
@@ -112,14 +112,14 @@
 		> div
 		> ul
 		> li:nth-child(8) {
-		/*Display stuff*/
+		/* Display stuff */
 		display: none;
 	}
 
 	.fixed-plugin,
 	.off-canvas-sidebar .sidebar-wrapper,
 	.sidebar .sidebar-wrapper {
-		/*Box model stuff*/
+		/* Box model stuff */
 		background: var(--blue);
 	}
 
@@ -152,10 +152,10 @@
 	}
 
 	table th {
-		/*Box model stuff*/
+		/* Box model stuff */
 		background-color: var(--blue);
 		color: var(--white);
-		/*Typography stuff*/
+		/* Typography stuff */
 		font-weight: 700;
 	}
 

@@ -11,25 +11,25 @@
 @-moz-document domain("copilot.microsoft.com") {
 	/* Invert colors except images and videos */
 	:is([data-theme='dark'] *) {
-		/*Box model stuff*/
+		/* Box model stuff */
 		background-color: var(--color-black) !important;
 		color: var(--color-white);
 	}
 	.backdrop-saturate-200 {
-		/*Box model stuff*/
+		/* Box model stuff */
 		border: outset;
 		border-radius: 5px !important;
 	}
 	.inset-0 {
 		top: 0;
 		right: 0;
-		/*Positioning stuff*/
+		/* Positioning stuff */
 		left: 0;
-		/*Miscellaneous*/
+		/* Miscellaneous */
 		/* bottom: 0; */
 	}
 	.rounded-full {
-		/*Box model stuff*/
+		/* Box model stuff */
 		border-radius: 0;
 	}
 

@@ -58,7 +58,6 @@
 		--dsr-delete-button-bg-hover: rgb(
 			var(--ds-rgb-red-550) / 45%
 		);
-
 		--ds-rgb-neutral-300: var(--light-gray);
 		--ds-rgb-neutral-700: var(--light-gray2);
 		--dsr-bg: var(--black);

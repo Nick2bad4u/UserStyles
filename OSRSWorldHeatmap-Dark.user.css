@@ -332,7 +332,7 @@
 		font-size: 0.75rem;
 		line-height: 1.5;
 		font-family:
-			Helvetica Neue,
+			"Helvetica Neue",
 			Arial,
 			Helvetica,
 			sans-serif;
@@ -403,7 +403,7 @@
 	.leaflet-control-zoom-in,
 	.leaflet-control-zoom-out {
 		font:
-			700 18px Lucida Console,
+			700 18px "Lucida Console",
 			Monaco,
 			monospace;
 		text-indent: 1px;
@@ -483,7 +483,6 @@
 
 	.leaflet-container .leaflet-control-attribution {
 		margin: 0;
-		background: #fff;
 		background: #fffc;
 	}
 
@@ -758,7 +757,7 @@
 		padding: 0 5px;
 		color: #333;
 		font:
-			11px/1.5 Helvetica Neue,
+			11px/1.5 "Helvetica Neue",
 			Arial,
 			Helvetica,
 			sans-serif;

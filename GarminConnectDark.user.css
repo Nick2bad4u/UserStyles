@@ -108,12 +108,12 @@
 	.fade,
 	:not(.help-icon))
 	{
-		/*Manipulations stuff*/
+		/* Manipulations stuff */
 		filter: invert(1) hue-rotate(180deg);
-		/*Box model stuff*/
+		/* Box model stuff */
 		border-color: var(--border);
 		background-color: var(--inverted-background2) !important;
-		/*Typography stuff*/
+		/* Typography stuff */
 		color: var(--primary-text2) !important;
 	}
 

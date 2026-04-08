@@ -24,9 +24,9 @@
 	body,
 	.container,
 	#js-hover {
-		/*Box model stuff*/
+		/* Box model stuff */
 		background-color: var(--black) !important;
-		/*Typography stuff*/
+		/* Typography stuff */
 		color: var(--light-gray) !important;
 	}
 
@@ -487,7 +487,6 @@
 	#loading,
 	#freepackages {
 		background: var(--black) !important;
-		background-color: var(--black) !important;
 	}
 
 	.donate-panel {

@@ -184,7 +184,7 @@
 		margin-bottom: 25px;
 		border-bottom: 1px solid;
 		border-bottom-color: rgb(200 200 200 / 100%);
-		border-bottom-color: rgba(
+		border-bottom-color: rgb(
 			var(--palette-neutral-20, 200, 200, 200),
 			1
 		);
@@ -318,7 +318,7 @@
 		li
 		.api-github-response.bowtie-icon {
 		color: rgb(0 0 0 / 100%);
-		color: rgba(var(--palette-neutral-100, 0, 0, 0), 1);
+		color: rgb(var(--palette-neutral-100, 0, 0, 0), 1);
 	}
 
 	.item-details-control-root
@@ -400,7 +400,7 @@
 
 	.report-abuse-callout .ms-Callout-beak {
 		background-color: rgb(43 136 216 / 100%);
-		background-color: rgba(
+		background-color: rgb(
 			var(--palette-primary-tint-10, 43, 136, 216),
 			1
 		);
@@ -408,7 +408,7 @@
 
 	.report-abuse-callout .callout-container {
 		background-color: rgb(43 136 216 / 100%);
-		background-color: rgba(
+		background-color: rgb(
 			var(--palette-primary-tint-10, 43, 136, 216),
 			1
 		);
@@ -689,7 +689,7 @@
 		border-bottom: 1px solid;
 		border-width: 1px 0;
 		border-bottom-color: rgb(234 234 234 / 100%);
-		border-bottom-color: rgba(
+		border-bottom-color: rgb(
 			var(--palette-neutral-8, 234, 234, 234),
 			1
 		);
@@ -746,7 +746,7 @@
 		.vh-redirection-message-bar-container {
 		margin-bottom: 14px;
 		background-color: rgb(244 244 244 / 100%);
-		background-color: rgba(
+		background-color: rgb(
 			var(--palette-neutral-4, 244, 244, 244),
 			1
 		);
@@ -1056,7 +1056,7 @@
 			.vss-FilterBar--right-items
 			.vss-FilterBar--action
 			button {
-			border-color: Background;
+			border-color: canvas;
 		}
 	}
 
@@ -3070,16 +3070,16 @@
 			'Segoe UI VSS (Regular)',
 			-apple-system,
 			BlinkMacSystemFont,
-			Segoe UI,
+			"Segoe UI",
 			Roboto,
-			Helvetica Neue,
+			"Helvetica Neue",
 			Helvetica,
 			Ubuntu,
 			Arial,
 			sans-serif,
-			Apple Color Emoji,
-			Segoe UI Emoji,
-			Segoe UI Symbol;
+			"Apple Color Emoji",
+			"Segoe UI Emoji",
+			"Segoe UI Symbol";
 	}
 
 	.vss-Hub .vss-HubPivotBar {
@@ -4389,12 +4389,12 @@
 	.price-control .button-class {
 		border: 1px solid;
 		border-color: rgb(200 200 200 / 100%);
-		border-color: rgba(
+		border-color: rgb(
 			var(--palette-neutral-20, 200, 200, 200),
 			1
 		);
 		background: rgb(234 234 234 / 100%);
-		background: rgba(
+		background: rgb(
 			var(--palette-neutral-8, 234, 234, 234),
 			1
 		);
@@ -4414,7 +4414,7 @@
 
 	.price-control .button-class:hover {
 		background: rgb(218 218 218 / 100%);
-		background: rgba(
+		background: rgb(
 			var(--palette-neutral-10, 218, 218, 218),
 			1
 		);
@@ -4422,12 +4422,12 @@
 
 	.price-control .button-class.is-disabled {
 		border-color: rgb(244 244 244 / 100%);
-		border-color: rgba(
+		border-color: rgb(
 			var(--palette-neutral-4, 244, 244, 244),
 			1
 		);
 		background-color: rgb(244 244 244 / 100%);
-		background-color: rgba(
+		background-color: rgb(
 			var(--palette-neutral-4, 244, 244, 244),
 			1
 		);
@@ -4435,7 +4435,7 @@
 
 	.price-control .button-class.is-disabled i {
 		color: rgb(200 200 200 / 100%);
-		color: rgba(
+		color: rgb(
 			var(--palette-neutral-20, 200, 200, 200),
 			1
 		);
@@ -4444,7 +4444,7 @@
 	.qna-top-container .user-reply-top-container {
 		border-top: 1px solid;
 		border-top-color: rgb(234 234 234 / 100%);
-		border-top-color: rgba(
+		border-top-color: rgb(
 			var(--palette-neutral-8, 234, 234, 234),
 			1
 		);
@@ -4569,7 +4569,7 @@
 		border-bottom: 1px solid;
 		border-width: 1px 0;
 		border-bottom-color: rgb(234 234 234 / 100%);
-		border-bottom-color: rgba(
+		border-bottom-color: rgb(
 			var(--palette-neutral-8, 234, 234, 234),
 			1
 		);
@@ -4601,7 +4601,7 @@
 		.qna-redirection-message-bar-container {
 		margin-top: 14px;
 		background-color: rgb(244 244 244 / 100%);
-		background-color: rgba(
+		background-color: rgb(
 			var(--palette-neutral-4, 244, 244, 244),
 			1
 		);
@@ -4631,7 +4631,7 @@
 		border-bottom: 1px solid;
 		border-width: 1px 0;
 		border-bottom-color: rgb(234 234 234 / 100%);
-		border-bottom-color: rgba(
+		border-bottom-color: rgb(
 			var(--palette-neutral-8, 234, 234, 234),
 			1
 		);
@@ -4670,7 +4670,7 @@
 	}
 
 	.read-more-container {
-		word-wrap: break-word;
+		overflow-wrap: break-word;
 	}
 
 	.user-name-div {
@@ -4740,7 +4740,7 @@
 		button.ms-Rating-button:focus {
 		outline: 1px solid rgb(102 102 102 / 100%);
 		outline: 1px solid
-			rgba(var(--palette-neutral-60, 102, 102, 102), 1);
+			rgb(var(--palette-neutral-60, 102, 102, 102), 1);
 	}
 
 	.gallery-dialog
@@ -4804,7 +4804,7 @@
 		margin-top: 10px;
 		border-top: 1px solid;
 		border-top-color: rgb(234 234 234 / 100%);
-		border-top-color: rgba(
+		border-top-color: rgb(
 			var(--palette-neutral-8, 234, 234, 234),
 			1
 		);
@@ -4892,7 +4892,7 @@
 		border-bottom: 1px solid;
 		border-width: 1px 0;
 		border-bottom-color: rgb(234 234 234 / 100%);
-		border-bottom-color: rgba(
+		border-bottom-color: rgb(
 			var(--palette-neutral-8, 234, 234, 234),
 			1
 		);
@@ -5000,7 +5000,7 @@
 		border-bottom: 1px solid;
 		border-width: 1px 0;
 		border-bottom-color: rgb(234 234 234 / 100%);
-		border-bottom-color: rgba(
+		border-bottom-color: rgb(
 			var(--palette-neutral-8, 234, 234, 234),
 			1
 		);
@@ -5136,7 +5136,7 @@
 	}
 
 	.carousel .carousel-item:nth-last-child(1) {
-		/*this is the first one so shift it to the left*/
+		/* this is the first one so shift it to the left */
 		margin-right: 0;
 	}
 
@@ -5238,7 +5238,7 @@
 
 	.flag-control:focus {
 		color: rgb(0 69 120 / 100%);
-		color: rgba(
+		color: rgb(
 			var(--palette-primary-shade-30, 0, 69, 120),
 			1
 		);
@@ -5247,7 +5247,7 @@
 	.flag-control:hover {
 		cursor: pointer;
 		color: rgb(0 69 120 / 100%);
-		color: rgba(
+		color: rgb(
 			var(--palette-primary-shade-30, 0, 69, 120),
 			1
 		);
@@ -5285,7 +5285,7 @@
 		border-width: 1px;
 		border-style: solid;
 		border-color: rgb(200 200 200 / 100%);
-		border-color: rgba(
+		border-color: rgb(
 			var(--palette-neutral-20, 200, 200, 200),
 			1
 		);

@@ -28,13 +28,11 @@
 	:root,
 	#filterToolbar > div {
 		background: var(--background-color) !important;
-		background-color: var(--background-color) !important;
 		color: var(--text-color) !important;
 	}
 
 	option:nth-child(n) {
 		background: var(--background-color) !important;
-		background-color: var(--background-color) !important;
 		color: var(--text-light-color) !important;
 	}
 
@@ -78,7 +76,7 @@
 
 	.btn {
 		--bs-btn-focus-box-shadow: 0 0 0 0.25rem
-			rgba(var(--card-header-background), 0.5) !important;
+			rgb(var(--card-header-background), 0.5) !important;
 	}
 
 	.card-body {

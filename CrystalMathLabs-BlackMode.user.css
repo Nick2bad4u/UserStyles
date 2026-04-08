@@ -52,7 +52,6 @@ Styles:
 	.news,
 	.menubar ul li ul.dropdown {
 		background: var(--background-black) !important;
-		background-color: var(--background-black) !important;
 	}
 
 	.menubar,
@@ -61,7 +60,6 @@ Styles:
 	#footer {
 		border-radius: 20px;
 		background: var(--background-dark) !important;
-		background-color: var(--background-dark) !important;
 		padding-right: 10px;
 		padding-left: 10px;
 	}
@@ -74,7 +72,6 @@ Styles:
 		> a:hover {
 		border-radius: 20px;
 		background: var(--background-dark) !important;
-		background-color: var(--background-dark) !important;
 		padding-left: 20px;
 		color: var(--color-green);
 	}
@@ -93,7 +90,6 @@ Styles:
 	input[type='text' i],
 	#xp-calc-form button {
 		background: var(--background-black) !important;
-		background-color: var(--background-black) !important;
 		color: var(--color-white);
 	}
 }

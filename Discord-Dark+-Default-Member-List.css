@@ -542,7 +542,7 @@ article.embedWrapper_b558d0.embedFlexGrow_b558d0.embedFull_b0068a.embed_b0068a.m
 	background-color: var(--darkplus-bg);
 }
 
-/*.members_cbd271 {
+/* .members_cbd271 {
 height: auto;
 max-height: 100vh;
 }
@@ -592,9 +592,9 @@ justify-content: unset;
 
 .members_cbd271:hover .membersGroup-2YoqY {
 	height: 40px;
-}*/
+} */
 
-/*.membersWrap_cbd271 {
+/* .membersWrap_cbd271 {
   min-width: unset;
 }
 .membersWrap_cbd271 .members_cbd271 {

@@ -42,7 +42,7 @@
 		--color-red: var(red-color);
 	}
 
-	/* stylelint-disable selector-no-vendor-prefix -- Vendor prefixes wanted*/
+	/* stylelint-disable selector-no-vendor-prefix -- Vendor prefixes wanted */
 	.related-info-box-component
 		> div
 		> div.related-images-grid-view.related-info,

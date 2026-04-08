@@ -118,7 +118,7 @@
 		font-weight: lighter;
 		font-size: 16px;
 		font-family:
-			Open Sans,
+			"Open Sans",
 			Helvetica,
 			Arial,
 			sans-serif;
@@ -133,7 +133,7 @@
 		content: attr(data-tooltip);
 		font-size: 0.9em;
 		white-space: pre;
-		word-wrap: break-word;
+		overflow-wrap: break-word;
 		position: absolute;
 		top: 0;
 		left: 2%;

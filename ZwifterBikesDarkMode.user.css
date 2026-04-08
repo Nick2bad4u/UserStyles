@@ -40,6 +40,7 @@
 	*:hover > span.mdc-tab__content > span {
 		color: var(--hover-color) !important;
 		text-decoration: underline;
+
 		--mdc-tab-indicator-active-indicator-color: var(
 			--hover-color
 		) !important;

@@ -138,11 +138,11 @@
 		--bs-border-radius-pill: 50rem;
 		--bs-box-shadow: rgb(116 120 141 / 10%) 0 5px 20px -6px;
 		--bs-box-shadow-sm: 0 0.125rem 0.25rem
-			rgba(var(--bs-body-color-rgb), 0.075);
+			rgb(var(--bs-body-color-rgb), 0.075);
 		--bs-box-shadow-lg: 0 1rem 3rem
-			rgba(var(--bs-body-color-rgb), 0.175);
+			rgb(var(--bs-body-color-rgb), 0.175);
 		--bs-box-shadow-inset: inset 0 1px 2px
-			rgba(var(--bs-body-color-rgb), 0.075);
+			rgb(var(--bs-body-color-rgb), 0.075);
 		--bs-form-control-bg: var(--bs-body-bg);
 		--bs-form-control-disabled-bg: var(--bs-secondary-bg);
 		--bs-highlight-bg: #fcf8e3;

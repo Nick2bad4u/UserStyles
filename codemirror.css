@@ -126,10 +126,7 @@
 
 .CodeMirror-rulers {
 	position: absolute;
-	top: -50px;
-	right: 0;
-	bottom: 0;
-	left: 0;
+	inset: -50px 0 0;
 	overflow: hidden;
 }
 .CodeMirror-ruler {
@@ -246,7 +243,7 @@ div.CodeMirror
 	color: #a22;
 }
 .CodeMirror-matchingtag {
-	background: rgba(255, 150, 0, 0.3);
+	background: rgb(255 150 0 / 30%);
 }
 .CodeMirror-activeline-background {
 	background: #e8f2ff;
@@ -295,14 +292,12 @@ div.CodeMirror
 .CodeMirror-vscrollbar {
 	top: 0;
 	right: 0;
-	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow: hidden scroll;
 }
 .CodeMirror-hscrollbar {
 	bottom: 0;
 	left: 0;
-	overflow-x: scroll;
-	overflow-y: hidden;
+	overflow: scroll hidden;
 }
 .CodeMirror-scrollbar-filler {
 	right: 0;
@@ -367,7 +362,7 @@ div.CodeMirror
 	font-size: inherit;
 	font-family: inherit;
 	white-space: pre;
-	word-wrap: normal;
+	overflow-wrap: normal;
 	position: relative;
 	z-index: 2;
 	overflow: visible;
@@ -379,17 +374,14 @@ div.CodeMirror
 }
 .CodeMirror-wrap pre.CodeMirror-line,
 .CodeMirror-wrap pre.CodeMirror-line-like {
-	word-wrap: break-word;
+	overflow-wrap: break-word;
 	white-space: pre-wrap;
 	word-break: normal;
 }
 
 .CodeMirror-linebackground {
 	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+	inset: 0;
 	z-index: 0;
 }
 
@@ -471,7 +463,7 @@ div.CodeMirror-dragcursors {
 
 .cm-searching {
 	background-color: #ffa;
-	background-color: rgba(255, 255, 0, 0.4);
+	background-color: rgb(255 255 0 / 40%);
 }
 
 /* Used to force a border model for a node */
@@ -487,7 +479,7 @@ div.CodeMirror-dragcursors {
 }
 
 /* See issue #2901 */
-.cm-tab-wrap-hack:after {
+.cm-tab-wrap-hack::after {
 	content: '';
 }
 
