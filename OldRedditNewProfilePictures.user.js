@@ -46,13 +46,8 @@
 		const cacheEntries = Object.keys(profilePictureCache);
 		if (cacheEntries.length > MAX_CACHE_SIZE) {
 			console.log('Cache size exceeded, removing oldest entries');
-			const sortedEntries = cacheEntries.sort(
-				(a, b) => cacheTimestamps[a] - cacheTimestamps[b],
-			);
-			const entriesToRemove = sortedEntries.slice(
-				0,
-				cacheEntries.length - MAX_CACHE_SIZE,
-			);
+			const sortedEntries = cacheEntries.sort((a, b) => cacheTimestamps[a] - cacheTimestamps[b]);
+			const entriesToRemove = sortedEntries.slice(0, cacheEntries.length - MAX_CACHE_SIZE);
 			entriesToRemove.forEach((username) => {
 				delete profilePictureCache[username];
 				delete cacheTimestamps[username];
@@ -65,20 +60,13 @@
 
 	async function fetchProfilePictures(usernames) {
 		console.log('Fetching profile pictures');
-		const uncachedUsernames = usernames.filter(
-			(username) =>
-				!profilePictureCache[username] &&
-				username !== '[deleted]' &&
-				username !== '[removed]',
-		);
+		const uncachedUsernames = usernames.filter((username) => !profilePictureCache[username] && username !== '[deleted]' && username !== '[removed]');
 		if (uncachedUsernames.length === 0) {
 			console.log('All usernames are cached');
 			return usernames.map((username) => profilePictureCache[username]);
 		}
 
-		console.log(
-			`Fetching profile pictures for: ${uncachedUsernames.join(', ')}`,
-		);
+		console.log(`Fetching profile pictures for: ${uncachedUsernames.join(', ')}`);
 		return new Promise((resolve, reject) => {
 			const requests = uncachedUsernames.map((username) => {
 				return new Promise((resolve, reject) => {
@@ -102,10 +90,7 @@
 							}
 						},
 						onerror: (error) => {
-							console.error(
-								`Error fetching profile picture: ${username}`,
-								error,
-							);
+							console.error(`Error fetching profile picture: ${username}`, error);
 							reject(error);
 						},
 					});
@@ -113,7 +98,7 @@
 			});
 
 			Promise.all(requests)
-				.then((results) => {
+				.then((_results) => {
 					console.log('All profile pictures fetched');
 					limitCacheSize();
 					resolve(usernames.map((username) => profilePictureCache[username]));
@@ -129,18 +114,13 @@
 		console.log(`Comments found: ${comments.length}`);
 		const usernames = Array.from(comments)
 			.map((comment) => comment.textContent.trim())
-			.filter(
-				(username) => username !== '[deleted]' && username !== '[removed]',
-			);
+			.filter((username) => username !== '[deleted]' && username !== '[removed]');
 		const profilePictureUrls = await fetchProfilePictures(usernames);
 
 		comments.forEach((comment, index) => {
 			const username = usernames[index];
 			const profilePictureUrl = profilePictureUrls[index];
-			if (
-				profilePictureUrl &&
-				!comment.previousElementSibling?.classList.contains('profile-picture')
-			) {
+			if (profilePictureUrl && !comment.previousElementSibling?.classList.contains('profile-picture')) {
 				console.log(`Injecting profile picture: ${username}`);
 				const img = document.createElement('img');
 				img.src = profilePictureUrl;
@@ -173,7 +153,7 @@
 
 	function setupObserver() {
 		console.log('Setting up observer');
-		const observer = new MutationObserver((mutations) => {
+		const observer = new MutationObserver((_mutations) => {
 			const comments = document.querySelectorAll('.author, .c-username');
 			if (comments.length > 0) {
 				console.log('New comments detected');

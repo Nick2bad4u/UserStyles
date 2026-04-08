@@ -1,18 +1,18 @@
 // ==UserScript==
-// @name        Convert Ascent and Descent to Feet
-// @namespace   typpi.online
-// @version     1.1
-// @description Converts ascent and descent values from meters to feet on the for Strava Sauce users.
-// @author      Nick2bad4u
-// @license     UnLicense
-// @match       https://www.strava.com/activities/*
-// @resource    https://www.google.com/s2/favicons?sz=64&domain=strava.com
-// @icon        https://www.google.com/s2/favicons?sz=64&domain=strava.com
-// @icon64      https://www.google.com/s2/favicons?sz=64&domain=strava.com
-// @grant       none
-// @run-at      document-end
-// @downloadURL https://update.greasyfork.org/scripts/520655/Convert%20Ascent%20and%20Descent%20to%20Feet.user.js
-// @updateURL   https://update.greasyfork.org/scripts/520655/Convert%20Ascent%20and%20Descent%20to%20Feet.meta.js
+// @name         Convert Ascent and Descent to Feet
+// @namespace    typpi.online
+// @version      1.1
+// @description  Converts ascent and descent values from meters to feet on the for Strava Sauce users.
+// @author       Nick2bad4u
+// @license      UnLicense
+// @match        https://www.strava.com/activities/*
+// @resource     https://www.google.com/s2/favicons?sz=64&domain=strava.com
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=strava.com
+// @icon64       https://www.google.com/s2/favicons?sz=64&domain=strava.com
+// @grant        none
+// @run-at       document-end
+// @downloadURL  https://update.greasyfork.org/scripts/520655/Convert%20Ascent%20and%20Descent%20to%20Feet.user.js
+// @updateURL    https://update.greasyfork.org/scripts/520655/Convert%20Ascent%20and%20Descent%20to%20Feet.meta.js
 // ==/UserScript==
 
 (function () {

@@ -11,6 +11,7 @@
 // @grant        none
 // @run-at       document-end
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @downloadURL  https://update.greasyfork.org/scripts/536012/Garmin%20Connect%20-%20Auto-Paste%20on%20Right%20Click.user.js
 // @updateURL    https://update.greasyfork.org/scripts/536012/Garmin%20Connect%20-%20Auto-Paste%20on%20Right%20Click.meta.js

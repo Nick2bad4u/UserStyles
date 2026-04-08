@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         Archive.org - Night Theme (Updated)
 @namespace    typpi.online
 @author       stylish.c0d3d.net / Nick2bad4u (Updated)
@@ -24,6 +24,8 @@
 @var color ia-theme-primary-text-color "IA Theme Primary Text Color" #2C2C2C
 @var color ia-theme-secondary-text-color "IA Theme Secondary Text Color" #666666
 @var color ia-theme-link-color "IA Theme Link Color" #4B64FF
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Archive.orgNightTheme%28Updated%29.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Archive.orgNightTheme%28Updated%29.user.css
 ==/UserStyle== */
 @-moz-document regexp("^(?!.*archive\\.org\\/web\\/\\d+\\/https?\\:\\/\\/).*archive\\.org.*$") {
 	:root {

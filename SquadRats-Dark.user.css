@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           squadrats.com - Dark Mode
 @namespace      typpi.online
 @version        1.0.3
@@ -11,6 +11,8 @@
 @var color background-color "Background Color" #000000
 @var color text-color "Text Color" #ffffff
 @var color input-background-color "Input Background Color" #ddbcff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SquadRats-Dark.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SquadRats-Dark.user.css
 ==/UserStyle== */
 @-moz-document domain("squadrats.com") {
 	:root {

@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         Walmart.com - Dark Mode
 @version      20241114.16.31
 @namespace    typpi.online
@@ -19,6 +19,8 @@
 @var color price-color "Price Color" #ffcc00
 @var color notification-background "Notification Background" #444444
 @var color notification-text "Notification Text" #ffcc00
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Walmart.com-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Walmart.com-DarkMode.user.css
 ==/UserStyle== */
 
 @-moz-document domain("walmart.com") {

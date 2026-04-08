@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           steamtradematcher.com - Dark Mode [Customizable]
 @namespace      typpi.online
 @version        1.3.3
@@ -17,6 +17,8 @@
 @var color button-color "Button Color" #20C99726
 @var color alert-color "Alert Color" #C00E0E
 @var color no-alert-color "No Alert Color" #5ba32bb8
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamTradeMatcher-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamTradeMatcher-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("steamtradematcher.com") {
 	html,

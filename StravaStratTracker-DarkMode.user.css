@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         stattracker.x10host.com - Dark Mode [Customizable]
 @version      1.2.1
 @namespace    typpi.online
@@ -12,6 +12,8 @@
 @var color text-color "Text Color" #fff
 @var color header-background "Header Background" #003000
 @var color odd-row-background "Odd Row Background" #262626
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaStratTracker-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaStratTracker-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("stattracker.x10host.com") {
 	/* Stylus Variables */

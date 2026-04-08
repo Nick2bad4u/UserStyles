@@ -1,5 +1,5 @@
-/* stylelint-disable number-max-precision */
-/* stylelint-disable no-duplicate-selectors */
+/* stylelint-disable number-max-precision -- Long floating-point percentage values from framework CSS */
+/* stylelint-disable no-duplicate-selectors -- Vendor CSS combined with intentional theme overrides */
 /* ==UserStyle==
 @name           osrsworldheatmap.com - Dark Theme
 @namespace      typpi.online

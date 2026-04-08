@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - Re-Remastered - Green/Black Style
 @version      20241115.16.05
 @namespace    typpi.online
@@ -31,6 +31,8 @@
 @var color tooltip-background "Tooltip Background Color" #21222c
 @var color tooltip-color "Tooltip Color" #00ff00
 @var color tooltip-shadow "Tooltip Shadow Color" #000000cc
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Green-BlackStyle.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Green-BlackStyle.user.css
 ==/UserStyle== */
 
 @-moz-document domain("steamstat.us") {

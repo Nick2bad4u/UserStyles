@@ -53,6 +53,7 @@
 			{
 				"severity": "warning",
 				"ignorePseudoClasses": [
+					"input-placeholder",
 					"-webkit-autofill",
 					"-moz-any",
 					"-moz-any-link",
@@ -72,6 +73,8 @@
 			{
 				"severity": "warning",
 				"ignorePseudoElements": [
+					"input-placeholder",
+					"last-child",
 					"-webkit-scrollbar",
 					"-webkit-scrollbar-button",
 					"-webkit-scrollbar-corner",
@@ -83,6 +86,35 @@
 					"-webkit-input-placeholder"
 				]
 			}
-		]
+		],
+		"selector-type-no-unknown": [
+			true,
+			{
+				"severity": "warning",
+				"ignoreTypes": [
+					"z",
+					"png",
+					"row",
+					"basic-analysis",
+					"text-display5",
+					"trk-shared-icon",
+					"ytu-menu-item",
+					"ytu-nav-bar",
+					"ytd-searchbox",
+					"ytd-masthead",
+					"ytd-button-renderer",
+					"ytd-subscribe-button-renderer",
+					"ytd-author-comment-badge-renderer",
+					"ytd-guide-entry-renderer",
+					"ytd-watch",
+					"paper-toggle-button",
+					"paper-button",
+					"yt-icon",
+					"app-drawer",
+					"mat-toolbar"
+				]
+			}
+		],
+		"at-rule-prelude-no-invalid": null
 	}
 }

@@ -10,6 +10,7 @@
 // @version      2.4
 // @grant        none
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @license      Unlicense
 // @downloadURL  https://update.greasyfork.org/scripts/514687/Strava-Auto-Authorize.user.js

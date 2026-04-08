@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         Nascar.com - Dark Mode
 @version      20241114.16.46
 @namespace    typpi.online
@@ -14,6 +14,8 @@
 @var color cardColor "Card Color" #44475a
 @var color footerColor "Footer Color" #282a36
 @var color footerTextColor "Footer Text Color" #6272a4
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Nascar.com-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Nascar.com-DarkMode.user.css
 ==/UserStyle== */
 
 @-moz-document domain("nascar.com") {

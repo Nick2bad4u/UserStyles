@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         MyBikeTraffic.com - Dark Mode
 @version      20241024.15.23
 @namespace    typpi.online
@@ -17,6 +17,8 @@
 @var color row-hover-background-color "Row Hover Background Color" #444
 @var color form-checked-color "Form Checked Color" #bb86fc
 @var color link-hover-color "Link Hover Color" #ff79c6
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/MyBikeTraffic-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/MyBikeTraffic-DarkMode.user.css
 ==/UserStyle== */
 
 @-moz-document domain("mybiketraffic.com") {

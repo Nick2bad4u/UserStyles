@@ -6,12 +6,13 @@
 // @author       Nick2bad4u
 // @license      UnLicense
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @grant        none
 // @run-at       document-idle
-// @include      *://*.zwift.com/feed
+// @match        *://*.zwift.com/feed
 // @icon         https://www.google.com/s2/favicons?sz=256&domain=zwift.com
-// @downloadURL https://update.greasyfork.org/scripts/519908/Give%20%27Ride-ons%27%20to%20everyone%20on%20Zwift%20Feed.user.js
-// @updateURL   https://update.greasyfork.org/scripts/519908/Give%20%27Ride-ons%27%20to%20everyone%20on%20Zwift%20Feed.meta.js
+// @downloadURL  https://update.greasyfork.org/scripts/519908/Give%20%27Ride-ons%27%20to%20everyone%20on%20Zwift%20Feed.user.js
+// @updateURL    https://update.greasyfork.org/scripts/519908/Give%20%27Ride-ons%27%20to%20everyone%20on%20Zwift%20Feed.meta.js
 // ==/UserScript==
 
 (function () {
@@ -51,9 +52,7 @@
 		console.log('Starting the clicking process...');
 
 		intervalId = setInterval(async () => {
-			const buttons = Array.from(
-				document.querySelectorAll('.button.button--rideon:not(.clicked)'),
-			);
+			const buttons = Array.from(document.querySelectorAll('.button.button--rideon:not(.clicked)'));
 			if (buttons.length > 0) {
 				console.log(`Found ${buttons.length} buttons. Clicking...`);
 				await clickButtonsSequentially(buttons, 750); // 750ms delay
@@ -93,8 +92,7 @@
 		}
 
 		const uiContainer = document.createElement('li');
-		uiContainer.className =
-			'PrimaryNav-module__hideNav--2X2zV PrimaryNav-module__lessLinks--2fidO';
+		uiContainer.className = 'PrimaryNav-module__hideNav--2X2zV PrimaryNav-module__lessLinks--2fidO';
 		// Assign to the global variable
 		startStopButton = document.createElement('a');
 		startStopButton.textContent = 'Give Ride-ons';

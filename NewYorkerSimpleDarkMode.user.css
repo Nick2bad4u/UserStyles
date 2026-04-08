@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         New Yorker Simple Dark Mode
 @version      20241106.04.30
 @namespace    typpi.online
@@ -7,20 +7,16 @@
 @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 @author       Nick2bad4u
 @license      UnLicense
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NewYorkerSimpleDarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NewYorkerSimpleDarkMode.user.css
 ==/UserStyle== */
 
 @-moz-document domain("newyorker.com") {
-	/* Invert colors except images and videos */
+	/* Invert colors except images and videos; also prevent background image inversion */
 	:is(html:not([stylus-iframe]), img, svg, video):not(
 			z#z.z[z]
 		) {
 		filter: invert(1) hue-rotate(180deg) !important;
-	}
-
-	/* Ensure background images are not inverted */
-	:is(html:not([stylus-iframe]), img, svg, video):not(
-			z#z.z[z]
-		) {
 		background-color: inherit !important;
 	}
 }

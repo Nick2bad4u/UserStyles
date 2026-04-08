@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           SportSurge.net - Black Mode [Customizable]
 @namespace      typpi.online
 @version        1.1.0
@@ -50,6 +50,8 @@
 @var color bs-body-bg "Body Background" #ffffff
 @var color bs-gradient-start "Gradient Start" #ffffff26
 @var color bs-gradient-end "Gradient End" #ffffff00
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SportSurge-BlackMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SportSurge-BlackMode.user.css
 ==/UserStyle== */
 @-moz-document domain("sportsurge.net"), domain("sportsurge.club"), domain("sportsurge.to"), regexp(".*sportsurge.*") {
 	:root {

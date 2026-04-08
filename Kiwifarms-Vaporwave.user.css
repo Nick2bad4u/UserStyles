@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         kiwifarms - Vaporwave [Customizable]
 @namespace    USO Archive
 @author       Lucifuga / Nick2bad4u
@@ -30,6 +30,8 @@
 @var color border-color2 "Border Color 2" #464646
 @var color hover-background-color "Hover Background Color" #4a4e51
 @var color white "White" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Kiwifarms-Vaporwave.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Kiwifarms-Vaporwave.user.css
 ==/UserStyle== */
 @-moz-document domain("kiwifarms.st"),
 domain("kiwifarms.net"),

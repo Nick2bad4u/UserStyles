@@ -10,6 +10,7 @@
 // @connect      reddit-stream.com
 // @grant        GM_xmlhttpRequest
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @license      Unlicense
 // @resource     https://www.google.com/s2/favicons?sz=64&domain=reddit.com
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=reddit.com

@@ -1,5 +1,5 @@
-/* stylelint-disable declaration-block-no-duplicate-properties */
-/* stylelint-disable no-duplicate-selectors */
+/* stylelint-disable declaration-block-no-duplicate-properties -- Vendor fallback property stacks */
+/* stylelint-disable no-duplicate-selectors -- Bootstrap reset combined with theme overrides */
 /*
  ________  ________  ________  ___  __    ________  ___       ___  ___  ________
 |\   ___ \|\   __  \|\   __  \|\  \|\  \ |\   __  \|\  \     |\  \|\  \|\   ____\
@@ -1207,7 +1207,7 @@ button[aria-label='Send a gift'] {
 	color: var(--darkplus-sec);
 	font-weight: 600;
 	font-size: 14px;
-	font-family: Lato;
+	font-family: Lato, sans-serif;
 }
 
 .wordmark_a934d8 > svg {

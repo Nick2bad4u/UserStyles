@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         DeArrow - Remove Dearrow Button
 @version      20250311.23.27
 @namespace    typpi.online
@@ -23,9 +23,12 @@
     Yellow "Yellow" <<<EOT 200 EOT;
 }
 
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Dearrow-RemoveDearrowButton.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Dearrow-RemoveDearrowButton.user.css
 ==/UserStyle== */
 @-moz-document domain("youtube.com")
 {
+	/* stylelint-disable-next-line selector-type-no-unknown -- Stylus preprocessor conditional block */
 	if hidebutton
 	{
 		#video-title-link > button > img,
@@ -37,6 +40,7 @@
 		}
 	}
 
+	/* stylelint-disable-next-line selector-type-no-unknown -- Stylus preprocessor conditional block */
 	if customdearrowcolor
 	{
 		.cbButton img

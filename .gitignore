@@ -716,3 +716,4 @@ zwiftbikes/
 .github\copilot-instructions.md
 package.json
 .stylelintcache
+.eslintcache

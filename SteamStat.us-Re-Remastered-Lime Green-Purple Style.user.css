@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - Re-Remastered - Lime Green/Purple Style
 @version      20241115.16.05
 @namespace    typpi.online
@@ -34,6 +34,8 @@
 @var color tooltip-background "Tooltip Background Color" #21222c
 @var color tooltip-color "Tooltip Color" #32cd32
 @var color tooltip-shadow "Tooltip Shadow Color" #000000cc
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Lime%20Green-Purple%20Style.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Lime%20Green-Purple%20Style.user.css
 ==/UserStyle== */
 
 @-moz-document domain("steamstat.us") {

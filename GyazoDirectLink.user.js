@@ -6,6 +6,7 @@
 // @author       Nick2bad4u
 // @license      UnLicense
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @match        https://gyazo.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=gyazo.com
@@ -99,7 +100,7 @@
 
 	function extractDirectLink() {
 		console.log('Extracting direct link');
-		let directLink = '';
+		let directLink;
 		const imgElement = document.querySelector('img.image-viewer');
 		if (imgElement) {
 			directLink = imgElement.src;

@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           brawlhalla.com - Dark Mode
 @namespace      typpi.online
 @version        1.1.0
@@ -8,6 +8,8 @@
 
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Brawlhalla-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Brawlhalla-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("brawlhalla.com") {
 	:root {

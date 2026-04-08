@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         kiwifarms - Halloween Theme [Customizable]
 @namespace    typpi.online
 @author       Lucifuga / Nick2bad4u
@@ -32,6 +32,8 @@
 @var color darkGrey "Dark Grey" #292c2e
 @var color white "White" #fff
 
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Kiwifarms-Halloween.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Kiwifarms-Halloween.user.css
 ==/UserStyle== */
 @-moz-document domain("kiwifarms.st"),
 domain("kiwifarms.net"),

@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         UPS.com - Dark Mode
 @version      20241114.23.54
 @namespace    typpi.online
@@ -16,6 +16,8 @@
 @var color text "Text Color" #f8f8f2
 @var color black "Black" #000000
 @var color white "White" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/UPS.com-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/UPS.com-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("ups.com") {
 	:root {

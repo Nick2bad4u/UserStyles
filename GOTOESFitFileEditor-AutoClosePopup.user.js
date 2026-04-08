@@ -8,6 +8,7 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=gotoes.org
 // @grant        none
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GOTOESFitFileEditor-AutoClosePopup.user.jss
 // @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GOTOESFitFileEditor-AutoClosePopup.user.js

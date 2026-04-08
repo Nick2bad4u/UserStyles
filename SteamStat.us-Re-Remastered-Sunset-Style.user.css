@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - Sunset Theme
 @version      20241115.16.06
 @namespace    typpi.online
@@ -32,6 +32,8 @@
 @var color refresh-indicator-shadow-color "Refresh Indicator Shadow Color" #ff4500cc
 @var color box-shadow-color "Box Shadow Color" #00000099
 @var color text-shadow-color-2 "Text Shadow Color 2" #000000cc
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Sunset-Style.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Sunset-Style.user.css
 ==/UserStyle== */
 @-moz-document domain("steamstat.us") {
 	:root {

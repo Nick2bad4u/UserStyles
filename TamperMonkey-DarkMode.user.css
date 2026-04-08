@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           tampermonkey.net - Dark Mode
 @namespace      typpi.online
 @version        1.0.6
@@ -12,6 +12,8 @@
 @var color header-color "Header Color" #1182a7
 @var color changes-fill-color "Changes Fill Color" #cb8a3e
 @var color subnav-text-color "Subnav Text Color" #000000
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/TamperMonkey-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/TamperMonkey-DarkMode.user.css
 ==/UserStyle== */
 
 @-moz-document domain("tampermonkey.net") {

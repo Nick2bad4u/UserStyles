@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           ZwiftPower.com - Dark Mode
 @namespace      typpi.online
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
@@ -11,6 +11,8 @@
 @var color darkColor "Dark Color" #000000
 @var color lightColor "Light Color" #ffffff
 @var color blueColor "Blue Color" #337ab7
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ZwiftPower.comDark%20Mode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ZwiftPower.comDark%20Mode.user.css
 ==/UserStyle== */
 @-moz-document domain("zwiftpower.com") {
 	/* Use the variables for colors */

@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         Wigle.net Dark Mode (Beta)
 @version      20241107.17.37
 @namespace    typpi.online
@@ -15,6 +15,8 @@
 @var color text-color "Text Color" #ffffff
 @var color accent-color "Accent Color" #bb86fc
 @var color page-controls-text-color "Page Controls Text Color" #000000
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Wigle-DarkMode-Beta.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Wigle-DarkMode-Beta.user.css
 ==/UserStyle== */
 @-moz-document domain("wigle.net") {
 	:root {

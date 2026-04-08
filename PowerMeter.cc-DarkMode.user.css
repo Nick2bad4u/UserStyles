@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           power-meter.cc - Dark Mode
 @namespace      typpi.online
 @version        1.1.2
@@ -12,6 +12,8 @@
 @var color footer-background-color "Footer Background Color" #000000
 @var color text-color "Text Color" #ffffff
 @var color text-shadow-color "Text Shadow Color" #000000
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/PowerMeter.cc-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/PowerMeter.cc-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("power-meter.cc") {
 	:root {

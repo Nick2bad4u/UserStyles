@@ -149,7 +149,7 @@
 	}
 
 	// Register the option in the Tampermonkey menu
-	/* eslint-disable no-undef */
+	 
 	GM_registerMenuCommand('Enable Right-Click', enableRightClick);
-	/* eslint-enable no-undef */
+	 
 })();

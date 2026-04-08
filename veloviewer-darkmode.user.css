@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           veloviewer.com - Dark Mode
 @namespace      typpi.online
 @version        1.6.1
@@ -14,6 +14,8 @@
 @var color      table-alternate-row "Table Alternate Row Background Color" #fff
 @var color      background-color "Background Color" black
 @var text       invert-filter    "Invert Filter" "invert(1) hue-rotate(180deg)"
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/veloviewer-darkmode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/veloviewer-darkmode.user.css
 ==/UserStyle== */
 @-moz-document domain("veloviewer.com") {
 	:root {

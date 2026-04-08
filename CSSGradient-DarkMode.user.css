@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           cssgradient.io - Dark Mode
 @namespace      typpi.online
 @version        1.1.1
@@ -10,6 +10,8 @@
 
 @var color backgroundColor "Background Color" #000000
 @var color textColor "Text Color" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/CSSGradient-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/CSSGradient-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("cssgradient.io") {
 	/* Use the variables for colors */

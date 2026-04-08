@@ -15,12 +15,13 @@
 // @tag          github
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 
-// @downloadURL https://update.greasyfork.org/scripts/525498/Auto-Merge%20Dependabot%20PRs.user.js
-// @updateURL   https://update.greasyfork.org/scripts/525498/Auto-Merge%20Dependabot%20PRs.meta.js
+// @downloadURL  https://update.greasyfork.org/scripts/525498/Auto-Merge%20Dependabot%20PRs.user.js
+// @updateURL    https://update.greasyfork.org/scripts/525498/Auto-Merge%20Dependabot%20PRs.meta.js
 // ==/UserScript==
-/* global GM_getValue, GM_setValue, GM_addStyle, GM_xmlhttpRequest */
+
 // @var          number merge_delay "Delay between merge requests in milliseconds" 2000
 
 // Utility wrappers for GM_* APIs with graceful fallback to localStorage
@@ -697,7 +698,9 @@ function safeGM_addStyle(css) {
 			selectAllBtn.addEventListener('click', () => {
 				const checkboxes = Array.from(prList.querySelectorAll('input[type="checkbox"]'));
 				allSelected = !allSelected;
-				checkboxes.forEach(cb => { cb.checked = allSelected; });
+				checkboxes.forEach((cb) => {
+					cb.checked = allSelected;
+				});
 				selectAllBtn.textContent = allSelected ? 'Deselect All' : 'Select All';
 			});
 			container.appendChild(selectAllBtn);

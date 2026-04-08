@@ -6,9 +6,12 @@
 // @author       Nick2bad4u
 // @license      UnLicense
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @match        https://studio.youtube.com/*
 // @grant        none
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
+// @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/DeleteYoutubePlaylists.user.js
+// @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/DeleteYoutubePlaylists.user.js
 // ==/UserScript==
 
 (function () {

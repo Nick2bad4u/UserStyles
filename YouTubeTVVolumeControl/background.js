@@ -8,17 +8,3 @@ chrome.runtime.onInstalled.addListener(() => {
 		},
 	);
 });
-
-// Function to get value
-function getValue(key, callback) {
-	chrome.storage.sync.get(key, (result) => {
-		callback(result[key]);
-	});
-}
-
-// Function to set value
-function setValue(key, value) {
-	chrome.storage.sync.set({
-		[key]: value,
-	});
-}

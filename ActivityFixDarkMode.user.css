@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           activityfix.com - Dark Mode
 @namespace      typpi.online
 @version        1.4
@@ -16,6 +16,8 @@
 @var color border-color-blue "Border Color Blue" #2196f3
 @var color background-color-white "Background Color White" #ffffff
 @var color text-color-black "Text Color Black" #000000
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ActivityFixDarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ActivityFixDarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("activityfix.com") {
 	:root {

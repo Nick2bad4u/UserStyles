@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           Scrap.TF Black Theme [Updated]
 @namespace      typpi.online
 @version        1.0.4
@@ -7,6 +7,8 @@
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Scrap.tf-BlackTheme.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Scrap.tf-BlackTheme.user.css
 ==/UserStyle== */
 @-moz-document url-prefix("https://scrap.tf"),
 url-prefix("https://dev.scrap.tf")
@@ -179,6 +181,7 @@ url-prefix("https://dev.scrap.tf")
 	.open > .dropdown-toggle.btn-default {
 		border-color: #272727;
 		background-color: #2c2c2c;
+		background-image: none;
 		color: #ffffff;
 	}
 
@@ -194,12 +197,6 @@ url-prefix("https://dev.scrap.tf")
 		border-color: #060606;
 		background-color: #1a1a1a;
 		color: #ffffff;
-	}
-
-	.btn-default:active,
-	.btn-default.active,
-	.open > .dropdown-toggle.btn-default {
-		background-image: none;
 	}
 
 	.btn-default.disabled:hover,
@@ -244,6 +241,7 @@ url-prefix("https://dev.scrap.tf")
 	.open > .dropdown-toggle.btn-primary {
 		border-color: #253c54;
 		background-color: #28415b;
+		background-image: none;
 		color: #ffffff;
 	}
 
@@ -259,12 +257,6 @@ url-prefix("https://dev.scrap.tf")
 		border-color: #101b26;
 		background-color: #1d2f43;
 		color: #ffffff;
-	}
-
-	.btn-primary:active,
-	.btn-primary.active,
-	.open > .dropdown-toggle.btn-primary {
-		background-image: none;
 	}
 
 	.btn-primary.disabled:hover,
@@ -309,6 +301,7 @@ url-prefix("https://dev.scrap.tf")
 	.open > .dropdown-toggle.btn-success {
 		border-color: #007f5e;
 		background-color: #008966;
+		background-image: none;
 		color: #ffffff;
 	}
 
@@ -324,12 +317,6 @@ url-prefix("https://dev.scrap.tf")
 		border-color: #003d2d;
 		background-color: #00654b;
 		color: #ffffff;
-	}
-
-	.btn-success:active,
-	.btn-success.active,
-	.open > .dropdown-toggle.btn-success {
-		background-image: none;
 	}
 
 	.btn-success.disabled:hover,
@@ -374,6 +361,7 @@ url-prefix("https://dev.scrap.tf")
 	.open > .dropdown-toggle.btn-info {
 		border-color: #2077b2;
 		background-color: #217dbb;
+		background-image: none;
 		color: #ffffff;
 	}
 
@@ -389,12 +377,6 @@ url-prefix("https://dev.scrap.tf")
 		border-color: #16527a;
 		background-color: #1c699d;
 		color: #ffffff;
-	}
-
-	.btn-info:active,
-	.btn-info.active,
-	.open > .dropdown-toggle.btn-info {
-		background-image: none;
 	}
 
 	.btn-info.disabled:hover,
@@ -439,6 +421,7 @@ url-prefix("https://dev.scrap.tf")
 	.open > .dropdown-toggle.btn-warning {
 		border-color: #be780a;
 		background-color: #c87f0a;
+		background-image: none;
 		color: #ffffff;
 	}
 
@@ -454,12 +437,6 @@ url-prefix("https://dev.scrap.tf")
 		border-color: #7f5006;
 		background-color: #a66908;
 		color: #ffffff;
-	}
-
-	.btn-warning:active,
-	.btn-warning.active,
-	.open > .dropdown-toggle.btn-warning {
-		background-image: none;
 	}
 
 	.btn-warning.disabled:hover,
@@ -504,6 +481,7 @@ url-prefix("https://dev.scrap.tf")
 	.open > .dropdown-toggle.btn-danger {
 		border-color: #cd2a19;
 		background-color: #d62c1a;
+		background-image: none;
 		color: #ffffff;
 	}
 
@@ -519,12 +497,6 @@ url-prefix("https://dev.scrap.tf")
 		border-color: #921e12;
 		background-color: #b62516;
 		color: #ffffff;
-	}
-
-	.btn-danger:active,
-	.btn-danger.active,
-	.open > .dropdown-toggle.btn-danger {
-		background-image: none;
 	}
 
 	.btn-danger.disabled:hover,
@@ -935,6 +907,7 @@ url-prefix("https://dev.scrap.tf")
 	}
 
 	/* For Edge, IE */
+	/* stylelint-disable-next-line no-duplicate-selectors -- IE-only overflow style kept separate from main body rule */
 	body {
 		-ms-overflow-style: -ms-autohiding-scrollbar;
 	}

@@ -8,6 +8,7 @@
 // @grant        none
 // @license      Unlicense
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @downloadURL  https://update.greasyfork.org/scripts/531639/Automatically%20Select%20First%20Google%20Account%20to%20Sign%20In.user.js

@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - Re-Remastered - Rainbow Style
 @version      20241115.16.22
 @namespace    typpi.online
@@ -19,6 +19,8 @@
 @var color border-color "Border Color" #191921
 @var color background-main "Background Main" #000000cc
 @var color text-color "Text Color" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-RainbowStyle.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-RainbowStyle.user.css
 ==/UserStyle== */
 
 @-moz-document url("https://steamstat.us/")

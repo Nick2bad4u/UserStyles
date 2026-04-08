@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - Re-remastered
 @version      20241115.16.2
 @namespace    typpi.online
@@ -25,6 +25,8 @@
 @var color minor-shadow "Minor Status Shadow Color" #005f72
 @var color major-shadow "Major Status Shadow Color" #705c00
 @var color refresh-shadow "Refresh Shadow Color" #a569ff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Purple.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Purple.user.css
 ==/UserStyle== */
 
 @-moz-document url("https://steamstat.us/")

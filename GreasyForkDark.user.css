@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         greasyfork.org - Dark Mode
 @version      2.2
 @namespace    typpi.online
@@ -7,6 +7,8 @@
 @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 @author       Nick2bad4u
 @license      UnLicense
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GreasyForkDark.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GreasyForkDark.user.css
 ==/UserStyle== */
 @-moz-document domain("greasyfork.org") {
 	/* Invert colors except images and videos */

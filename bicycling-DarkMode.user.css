@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           bicycling.com - Dark Mode
 @namespace      typpi.online
 @version        1.2.0
@@ -13,6 +13,8 @@
 @var color color1 "Color 1" #ffa500
 @var color color2 "Color 2" #9370d8
 @var color color3 "Color 3" #a94b17c9
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/bicycling-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/bicycling-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("bicycling.com") {
 	/* Use the variables for colors */

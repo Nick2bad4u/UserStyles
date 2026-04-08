@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         YouTube Rainbow Progress Bar [Updated] [Customizable]
 @namespace    typpi.online
 @author       nick2bad4u
@@ -16,6 +16,8 @@
 @var color color-purple "Purple" #9f00ff
 @var color scrubber-border "Scrubber Border" #000000
 @var color scrubber-background "Scrubber Background" #9f00ff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YoutubeRainbowProgress.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YoutubeRainbowProgress.user.css
 ==/UserStyle== */
 @-moz-document domain("youtube.com") {
 	:root {
@@ -42,16 +44,12 @@
 			var(--color-purple) 100%
 		) !important;
 		height: 12px !important;
+		margin-top: 12px !important;
 	}
 
 	.html5-progress-bar-container,
 	.ytp-progress-bar-container {
 		height: 12px !important;
-	}
-
-	.html5-progress-bar,
-	.ytp-progress-bar {
-		margin-top: 12px !important;
 	}
 
 	.html5-progress-list,

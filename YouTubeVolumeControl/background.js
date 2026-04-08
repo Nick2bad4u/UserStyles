@@ -7,19 +7,12 @@ chrome.runtime.onInstalled.addListener(() => {
 		expiration: Date.now() + 2592000000, // Expires in 30 days
 		creation: Date.now(),
 	};
-	const ytVolumeString = JSON.stringify(
-		ytVolumeObject,
-	);
+	const ytVolumeString = JSON.stringify(ytVolumeObject);
 
 	// Set the yt-player-volume in chrome.storage.local
-	chrome.storage.local.set(
-		{ 'yt-player-volume': ytVolumeString },
-		() => {
-			console.log(
-				'yt-player-volume set in chrome.storage.local',
-			);
-		},
-	);
+	chrome.storage.local.set({ 'yt-player-volume': ytVolumeString }, () => {
+		console.log('yt-player-volume set in chrome.storage.local');
+	});
 
 	// Set the default volume using chrome.storage.sync
 	chrome.storage.sync.set(
@@ -31,17 +24,3 @@ chrome.runtime.onInstalled.addListener(() => {
 		},
 	);
 });
-
-// Function to get value
-function getValue(key, callback) {
-	chrome.storage.sync.get(key, (result) => {
-		callback(result[key]);
-	});
-}
-
-// Function to set value
-function setValue(key, value) {
-	chrome.storage.sync.set({
-		[key]: value,
-	});
-}

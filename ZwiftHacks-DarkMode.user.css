@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           zwifthacks.com - Dark Mode
 @namespace      typpi.online
 @version        1.0.3
@@ -12,6 +12,8 @@
 @var color hover-background-color "Hover Background Color" #eb732f
 @var color border-color "Border Color" #eb732f
 @var color text-color "Text Color" #000000
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ZwiftHacks-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ZwiftHacks-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("zwifthacks.com") {
 	:root {

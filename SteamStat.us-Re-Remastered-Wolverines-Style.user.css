@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - University of Michigan Wolverines
 @version      20241115.16.05
 @namespace    typpi.online
@@ -29,6 +29,8 @@
 @var color tooltip-background "Tooltip Background Color" #ffffff
 @var color tooltip-color "Tooltip Color" #00274c
 @var color tooltip-shadow "Tooltip Shadow Color" #00000066
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Wolverines-Style.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Wolverines-Style.user.css
 ==/UserStyle== */
 
 @-moz-document domain("steamstat.us") {

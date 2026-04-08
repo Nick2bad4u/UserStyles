@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - Re-Remastered Easter Style
 @version      20241115.16.05
 @namespace    typpi.online
@@ -34,6 +34,8 @@
 @var color tooltip-background "Tooltip Background Color" #f0e68c
 @var color tooltip-color "Tooltip Color" #32cd32
 @var color tooltip-shadow "Tooltip Shadow Color" #00000066
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Easter-Style.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Easter-Style.user.css
 ==/UserStyle== */
 
 @-moz-document domain("steamstat.us") {

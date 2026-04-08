@@ -8,6 +8,7 @@
 // @grant        none
 // @license      Unlicense
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=garmin.com
 // @downloadURL  https://update.greasyfork.org/scripts/532475/Garmin%20Connect%3A%20Select%20All%20Participants%20for%20Challenges.user.js

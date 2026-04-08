@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           Uptime Robot Status Page - Dark Mode
 @namespace      typpi.online
 @version        1.0.2
@@ -7,8 +7,11 @@
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/UptimeRobotDark.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/UptimeRobotDark.user.css
 ==/UserStyle== */
 @-moz-document domain("stats.uptimerobot.com") {
+	/* stylelint-disable no-duplicate-selectors -- Combined vendor CSS from normalize.css, UIkit, and Chartist.js with intentional theme overrides */
 	/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
 	html {
 		line-height: 1.15;
@@ -2353,7 +2356,7 @@
 			width: auto;
 		}
 
-		.uk-child-width-expand\@s>: not([class *='uk-width']) {
+		.uk-child-width-expand\@s > :not([class*='uk-width']) {
 			-ms-flex: 1;
 			flex: 1;
 			min-width: 1px;
@@ -2389,7 +2392,7 @@
 			width: auto;
 		}
 
-		.uk-child-width-expand\@m>: not([class *='uk-width']) {
+		.uk-child-width-expand\@m > :not([class*='uk-width']) {
 			-ms-flex: 1;
 			flex: 1;
 			min-width: 1px;
@@ -2425,7 +2428,7 @@
 			width: auto;
 		}
 
-		.uk-child-width-expand\@l>: not([class *='uk-width']) {
+		.uk-child-width-expand\@l > :not([class*='uk-width']) {
 			-ms-flex: 1;
 			flex: 1;
 			min-width: 1px;
@@ -2461,7 +2464,7 @@
 			width: auto;
 		}
 
-		.uk-child-width-expand\@xl>: not([class *='uk-width']) {
+		.uk-child-width-expand\@xl > :not([class*='uk-width']) {
 			-ms-flex: 1;
 			flex: 1;
 			min-width: 1px;
@@ -5204,7 +5207,7 @@
 	.ct-major-second::before {
 		display: block;
 		float: left;
-		padding-bottom: 88.8888888889%;
+		padding-bottom: 88.8889%;
 		width: 0;
 		height: 0;
 		content: '';
@@ -5232,7 +5235,7 @@
 	.ct-minor-third::before {
 		display: block;
 		float: left;
-		padding-bottom: 83.3333333333%;
+		padding-bottom: 83.3333%;
 		width: 0;
 		height: 0;
 		content: '';
@@ -5316,7 +5319,7 @@
 	.ct-perfect-fifth::before {
 		display: block;
 		float: left;
-		padding-bottom: 66.6666666667%;
+		padding-bottom: 66.6667%;
 		width: 0;
 		height: 0;
 		content: '';
@@ -5372,7 +5375,7 @@
 	.ct-golden-section::before {
 		display: block;
 		float: left;
-		padding-bottom: 61.804697157%;
+		padding-bottom: 61.8047%;
 		width: 0;
 		height: 0;
 		content: '';
@@ -5456,7 +5459,7 @@
 	.ct-major-seventh::before {
 		display: block;
 		float: left;
-		padding-bottom: 53.3333333333%;
+		padding-bottom: 53.3333%;
 		width: 0;
 		height: 0;
 		content: '';
@@ -5568,7 +5571,7 @@
 	.ct-major-twelfth::before {
 		display: block;
 		float: left;
-		padding-bottom: 33.3333333333%;
+		padding-bottom: 33.3333%;
 		width: 0;
 		height: 0;
 		content: '';
@@ -5992,7 +5995,7 @@
 	}
 
 	.dot.is-big::after {
-		animation: pulseBig 2s infinite;
+		animation: pulse-big 2s infinite;
 	}
 
 	@media (prefers-reduced-motion) {
@@ -6025,7 +6028,7 @@
 		display: none;
 	}
 
-	@keyframes pulseBig {
+	@keyframes pulse-big {
 		0% {
 			opacity: 50%;
 		}

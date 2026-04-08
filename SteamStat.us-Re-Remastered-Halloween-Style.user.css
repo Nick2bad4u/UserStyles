@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - Re-Remastered Halloween Style
 @version      20241115.16.06
 @namespace    typpi.online
@@ -31,6 +31,8 @@
 @var color tooltip-background "Tooltip Background Color" #2c2c2c
 @var color tooltip-color "Tooltip Color" #ffa500
 @var color tooltip-shadow "Tooltip Shadow Color" #4b0082cc
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Halloween-Style.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Halloween-Style.user.css
 ==/UserStyle== */
 
 @-moz-document domain("steamstat.us") {

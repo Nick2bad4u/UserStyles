@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         Stylus Dark Theme [Fixed 11-24-25]
 @namespace    typpi.online
 @author       Paul Stevenson [Fixed by Nick2bad4u]
@@ -8,6 +8,8 @@
 @homepageURL  https://github.com/Nick2bad4u/UserStyles
 @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 @preprocessor uso
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StylusEditorChromeDark-Fixed.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StylusEditorChromeDark-Fixed.user.css
 ==/UserStyle== */
 @-moz-document regexp("chrome-extension://clngdbkpkpeebahjckkjfobafhncgmne/.*")
 {
@@ -393,6 +395,7 @@
 		background: #0c0c0c;
 	}
 
+	/* stylelint-disable-next-line no-duplicate-selectors -- CodeMirror theme override for dark mode specificity */
 	.CodeMirror {
 		background: #0c0c0c;
 	}
@@ -407,12 +410,6 @@
 
 	.CodeMirror-crosshair {
 		cursor: crosshair;
-	}
-
-	.CodeMirror-line::selection,
-	.CodeMirror-line > span::selection,
-	.CodeMirror-line > span > span::selection {
-		background: #000000;
 	}
 
 	.CodeMirror-line::selection,

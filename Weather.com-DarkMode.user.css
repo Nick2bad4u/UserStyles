@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           weather.com - Dark Mode
 @namespace      typpi.online
 @version        1.0.3
@@ -10,6 +10,8 @@
 
 @var color bgColor "Background Color" #ffd7cb
 @var color textColor "Text Color" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Weather.com-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Weather.com-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("weather.com") {
 	/* Use the variables for colors */

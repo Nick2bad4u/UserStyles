@@ -21,6 +21,7 @@
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @license      Unlicense
 // @resource     https://www.google.com/s2/favicons?sz=64&domain=kiwifarms.st
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=kiwifarms.st
@@ -30,7 +31,7 @@
 // @updateURL    https://update.greasyfork.org/scripts/525997/Kiwifarms%20-%20Expand%20Avatars%20on%20Hover.meta.js
 // ==/UserScript==
 
-/* eslint-disable no-undef */
+ 
 
 (function () {
 	'use strict';

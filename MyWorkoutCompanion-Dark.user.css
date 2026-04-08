@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           myworkoutcompanion.net - Dark Mode [Customizable]
 @namespace      typpi.online
 @version        1.0.3
@@ -16,6 +16,8 @@
 @var color button-bg "Button Background Color" #a9a9a9
 @var color button-text "Button Text Color" #7c3900
 @var color event-bg "Event Background Color" #7c3900
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/MyWorkoutCompanion-Dark.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/MyWorkoutCompanion-Dark.user.css
 ==/UserStyle== */
 @-moz-document domain("myworkoutcompanion.net") {
 	/* Stylus Variables */

@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           Youtube Vibra for New YouTube [Updated DRM Free]
 @namespace      typpi.online
 @version        1.3.1
@@ -24,8 +24,11 @@
     12 "Ocean Green" <<<EOT #007fff, #83e27a EOT;
     13 "Lavender Town" <<<EOT #e6c1f6, #d3beea EOT;
 }
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YT-Vibra.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YT-Vibra.user.css
 ==/UserStyle== */
 @-moz-document domain("www.youtube.com") {
+	/* stylelint-disable no-duplicate-selectors -- USO preprocessor causes rules to repeat for each gradient variant */
 	#container.ytd-masthead {
 			height: 56px;
 			padding: 0 16px;
@@ -99,7 +102,6 @@
 			line-height: 1.6rem;
 	}
 	div#sb-heading {
-			background-color: rgb(255 0 0 / 0%)!important;
 			background: linear-gradient(90deg, /*[[gradient]]*/);
 	}
 	#buttons.ytd-masthead[is-icon-button].ytd-masthead {
@@ -109,7 +111,6 @@
 			color: white!important;
 	}
 	div#ChanOver {
-			background-color: rgb(255 0 0 / 0%)!important;
 			background: linear-gradient(50deg, /*[[gradient]]*/);
 			color: white!important;
 	}
@@ -123,7 +124,6 @@
 			color: white!important;
 	}
 	div#sb-heading {
-			background-color: rgb(255 0 0 / 0%)!important;
 			background: url("https://i.imgur.com/dc7CRrl.png");
 			BACKGROUND-POSITION: center;
 	}
@@ -187,11 +187,9 @@
 	}
 	paper-toggle-button[checked]:not([disabled]) .toggle-bar.paper-toggle-button {
 			opacity: 100%;
-			background-color: #ff000000;
 			background: linear-gradient(90deg, /*[[gradient]]*/);
 	}
 	paper-toggle-button[checked]:not([disabled]) .toggle-button.paper-toggle-button {
-			background-color: #fe3e8f05;
 			background: linear-gradient(90deg, /*[[gradient]]*/);
 	}
 	span.count {
@@ -199,7 +197,6 @@
 			font-weight: lighter!important;
 	}
 	ytd-button-renderer.style-primary[is-paper-button] {
-			background-color: hsl(206deg 79% 53% / 0%);
 			color: hsl(0deg 0% 100%);
 			background: linear-gradient(90deg, /*[[gradient]]*/);
 			border-radius: 100px;
@@ -240,7 +237,6 @@
 			border-color: white;
 	}
 	paper-button.ytd-subscribe-button-renderer {
-			background-color: #ff000005;
 			border-radius: 2px;
 			padding: 10px 16px;
 			margin: auto 4px;
@@ -291,7 +287,7 @@
 	}
 	.vidiq-rating-bar-container .vidiq-rating-bar .vidiq-rating-likes {
 			height: 5px;
-			background: linear-gradient(90deg, /*[[gradient]]*/)​;
+			background: linear-gradient(90deg, /*[[gradient]]*/);
 	}
 	ytd-guide-entry-renderer[active] .guide-icon.ytd-guide-entry-renderer {
 			color: var(--yt-primary-color)!important;
@@ -333,7 +329,7 @@
 	button.vidiq-button {
 			border-radius: 100px;
 			background: linear-gradient(90deg, /*[[gradient]]*/);
-			font-family: Roboto;
+			font-family: Roboto, sans-serif;
 			text-transform: uppercase;
 			border: 0 solid!important;
 	}
@@ -405,7 +401,6 @@
 			-webkit-text-fill-color: black!important;
 	}
 	div#sb-heading {
-			background-color: rgb(255 0 0 / 0%)!important;
 			background: linear-gradient(90deg, /*[[gradient]]*/)!IMPORTANT;
 			BACKGROUND-POSITION: center;
 	}
@@ -455,6 +450,7 @@
 			filter: brightness(100000%)!important;
 	}
 	.vidiq-logo-container {
+		/* Reserved for future ViDIQ styling */
 	}
 	#container.ytd-searchbox {
 			position: relative;
@@ -466,12 +462,12 @@
 			box-shadow: inset 0 1px 2px var(--ytd-searchbox-legacy-border-shadow-color);
 			color: hsl(0deg 0% 0% / 88%);
 			padding: 2px 15px;
-			-ms-flex: 1 1 0.000000001px;
-			-webkit-flex: 1;
-			flex: 1;
-			text-align: center;
-			-webkit-flex-basis: 0.000000001px;
-			flex-basis: 0.000000001px;
+		-ms-flex: 1 1 0.0001px;
+		-webkit-flex: 1;
+		flex: 1;
+		text-align: center;
+		-webkit-flex-basis: 0.0001px;
+		flex-basis: 0.0001px;
 			display: var(--layout-horizontal_-_display);
 			-ms-flex-direction: var(--layout-horizontal_-_-ms-flex-direction);
 			-webkit-flex-direction: var(--layout-horizontal_-_-webkit-flex-direction);
@@ -545,7 +541,6 @@
 			line-height: 1.6rem;
 	}
 	div#sb-heading {
-			background-color: rgb(255 0 0 / 0%)!important;
 			background: -moz-linear-gradient(90deg, /*[[gradient]]*/);
 	}
 	#buttons.ytd-masthead[is-icon-button].ytd-masthead {
@@ -555,7 +550,6 @@
 			color: white!important;
 	}
 	div#ChanOver {
-			background-color: rgb(255 0 0 / 0%)!important;
 			background: -moz-linear-gradient(50deg, /*[[gradient]]*/);
 			color: white!important;
 	}
@@ -569,7 +563,6 @@
 			color: white!important;
 	}
 	div#sb-heading {
-			background-color: rgb(255 0 0 / 0%)!important;
 			background: url("https://i.imgur.com/dc7CRrl.png");
 			BACKGROUND-POSITION: center;
 	}
@@ -626,11 +619,9 @@
 	}
 	paper-toggle-button[checked]:not([disabled]) .toggle-bar.paper-toggle-button {
 			opacity: 100%;
-			background-color: #ff000000;
 			background: -moz-linear-gradient(90deg, /*[[gradient]]*/);
 	}
 	paper-toggle-button[checked]:not([disabled]) .toggle-button.paper-toggle-button {
-			background-color: var(--yt-primary-color)!important;
 			background: -moz-linear-gradient(90deg, /*[[gradient]]*/);
 	}
 	yt-icon.style-scope.ytd-topbar-menu-button-renderer {
@@ -642,7 +633,6 @@
 			font-weight: lighter!important;
 	}
 	ytd-button-renderer.style-primary[is-paper-button] {
-			background-color: hsl(206deg 79% 53% / 0%);
 			color: hsl(0deg 0% 100%);
 			background: -moz-linear-gradient(90deg, /*[[gradient]]*/);
 			border-radius: 100px;
@@ -686,7 +676,6 @@
 			border-color: white;
 	}
 	paper-button.ytd-subscribe-button-renderer {
-			background-color: #ff000005;
 			border-radius: 2px;
 			padding: 10px 16px;
 			margin: auto 4px;
@@ -737,7 +726,7 @@
 	}
 	.vidiq-rating-bar-container .vidiq-rating-bar .vidiq-rating-likes {
 			height: 5px;
-			background: -moz-linear-gradient(90deg, /*[[gradient]]*/)​;
+			background: -moz-linear-gradient(90deg, /*[[gradient]]*/);
 	}
 	ytd-guide-entry-renderer[active] .guide-icon.ytd-guide-entry-renderer {
 			color: var(--yt-primary-color)!important;
@@ -780,7 +769,7 @@
 	button.vidiq-button {
 			border-radius: 100px;
 			background: -moz-linear-gradient(90deg, /*[[gradient]]*/);
-			font-family: Roboto;
+			font-family: Roboto, sans-serif;
 			text-transform: uppercase;
 			border: 0 solid!important;
 	}
@@ -802,10 +791,10 @@
 			-moz-text-fill-color: black!important;
 	}
 	div#sb-heading {
-			background-color: rgb(255 0 0 / 0%)!important;
-			background: moz-linear-gradient(90deg, /*[[gradient]]*/)!IMPORTANT;
+			background: -moz-linear-gradient(90deg, /*[[gradient]]*/)!IMPORTANT;
 			BACKGROUND-POSITION: center;
 	}
+
 	div#sb-heading a {
 			opacity: 100%!important;
 			background: url("https://i.imgur.com/TvIeZZx.png");
@@ -817,7 +806,7 @@
 			background-position: center;
 	}
 	.ytp-scrubber-button.ytp-swatch-background-color {
-			background: moz-linear-gradient(270deg, /*[[gradient]]*/)!important;
+			background: -moz-linear-gradient(270deg, /*[[gradient]]*/)!important;
 	}
 	.ytp-cards-teaser-text {
 			border-radius: 100px;
@@ -907,9 +896,8 @@
 			border-radius: 100px;
 	}
 	div#sb-heading {
-			background-color: rgb(255 0 0 / 0%)!important;
 			border-radius: 8px 8px 0 0;
-			background: moz-linear-gradient(90deg, /*[[gradient]]*/)!IMPORTANT;
+			background: -moz-linear-gradient(90deg, /*[[gradient]]*/)!IMPORTANT;
 			BACKGROUND-POSITION: center;
 	}
 	div#sb-data-pages {

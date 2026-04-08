@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         	Strava Darkest Fusion [Updated for Sauce + Elevate Users]
 @namespace      typpi.online
 @homepageURL  	https://github.com/Nick2bad4u/UserStyles
@@ -32,6 +32,7 @@
 @var color gray9 							"Gray 9" 						#999
 @var color pink 							"Pink" 			        #f754d9
 @var color orange							"Orange" 				    #f1ad30
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaAutoDarkTheme.user.css
 ==/UserStyle== */
 @-moz-document regexp("https:\\/\\/(?:www\\.)?strava\\.com.*"),
 domain("labs.strava.com") {
@@ -103,8 +104,7 @@ domain("labs.strava.com") {
 
 	/* Simplified text color rules */
 	[class*='ChallengeList-module__challengeTitle'] a,
-	[class*='MediaBody-module__mediaBody'] span,
-	[class*='ChallengeList-module__challengeTitle'] a {
+	[class*='MediaBody-module__mediaBody'] span {
 		color: var(--primary-color);
 		text-decoration: none;
 	}
@@ -1326,7 +1326,7 @@ domain("labs.strava.com") {
 	[class^='src-components-NotificationContent-NotificationContent__text-container']
 		p,
 	#__next > header > div ul > li div li *,
-	#__next > header > div nav > ul > l,
+	#__next > header > div nav > ul > li,
 	#__next div > div > div > div > div div,
 	[class*='-Stat-styles__stat-value'],
 	[class*='ActivityEntryBody__achievements-summary--']

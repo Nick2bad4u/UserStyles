@@ -31,6 +31,7 @@
 	white-space: nowrap;
 }
 .CodeMirror-linenumbers {
+	/* placeholder */
 }
 .CodeMirror-linenumber {
 	padding: 0 3px 0 5px;
@@ -89,34 +90,41 @@
 }
 @-moz-keyframes blink {
 	0% {
+		/* placeholder */
 	}
 	50% {
 		background-color: transparent;
 	}
 	100% {
+		/* placeholder */
 	}
 }
 @-webkit-keyframes blink {
 	0% {
+		/* placeholder */
 	}
 	50% {
 		background-color: transparent;
 	}
 	100% {
+		/* placeholder */
 	}
 }
 @keyframes blink {
 	0% {
+		/* placeholder */
 	}
 	50% {
 		background-color: transparent;
 	}
 	100% {
+		/* placeholder */
 	}
 }
 
 /* Can style cursor different in overwrite (non-insert) mode */
 .CodeMirror-overwrite .CodeMirror-cursor {
+	/* placeholder */
 }
 
 .cm-tab {
@@ -180,6 +188,7 @@
 .cm-s-default .cm-punctuation,
 .cm-s-default .cm-property,
 .cm-s-default .cm-operator {
+	/* placeholder */
 }
 .cm-s-default .cm-variable-2 {
 	color: #05a;
@@ -254,6 +263,7 @@ div.CodeMirror
 /* The rest of this file contains styles related to the mechanics of
    the editor. You probably shouldn't touch them. */
 
+/* stylelint-disable-next-line no-duplicate-selectors -- CodeMirror mechanics section re-declares theme selectors */
 .CodeMirror {
 	position: relative;
 	background: white;
@@ -308,6 +318,7 @@ div.CodeMirror
 	left: 0;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- CodeMirror mechanics section re-declares theme selectors */
 .CodeMirror-gutters {
 	position: absolute;
 	top: 0;
@@ -346,10 +357,12 @@ div.CodeMirror
 	background-color: transparent;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- CodeMirror mechanics section re-declares theme selectors */
 .CodeMirror-lines {
 	cursor: text;
 	min-height: 1px; /* prevents collapsing before first draw */
 }
+/* stylelint-disable-next-line no-duplicate-selectors -- CodeMirror mechanics section re-declares theme selectors */
 .CodeMirror pre.CodeMirror-line,
 .CodeMirror pre.CodeMirror-line-like {
 	margin: 0;
@@ -392,6 +405,7 @@ div.CodeMirror
 }
 
 .CodeMirror-widget {
+	/* placeholder */
 }
 
 .CodeMirror-rtl pre {
@@ -420,6 +434,7 @@ div.CodeMirror
 	overflow: hidden;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- CodeMirror mechanics section re-declares theme selectors */
 .CodeMirror-cursor {
 	position: absolute;
 	pointer-events: none;

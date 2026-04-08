@@ -12,8 +12,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=reddit-stream.com
 // @icon64       https://www.google.com/s2/favicons?sz=64&domain=reddit-stream.com
 // @tag          reddit
-// @downloadURL https://update.greasyfork.org/scripts/513483/Scroll%20to%20Bottom%2C%20Stay%20Button%2C%20and%20Auto-Reload%20with%20Persistence%20and%20Icons%20for%20reddit-streamcom.user.js
-// @updateURL https://update.greasyfork.org/scripts/513483/Scroll%20to%20Bottom%2C%20Stay%20Button%2C%20and%20Auto-Reload%20with%20Persistence%20and%20Icons%20for%20reddit-streamcom.meta.js
+// @downloadURL  https://update.greasyfork.org/scripts/513483/Scroll%20to%20Bottom%2C%20Stay%20Button%2C%20and%20Auto-Reload%20with%20Persistence%20and%20Icons%20for%20reddit-streamcom.user.js
+// @updateURL    https://update.greasyfork.org/scripts/513483/Scroll%20to%20Bottom%2C%20Stay%20Button%2C%20and%20Auto-Reload%20with%20Persistence%20and%20Icons%20for%20reddit-streamcom.meta.js
 // ==/UserScript==
 
 (function () {

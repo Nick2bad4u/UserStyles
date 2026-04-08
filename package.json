@@ -22,6 +22,7 @@
 		"debug": "^4.4.3",
 		"deep-is": "^0.1.4",
 		"escape-string-regexp": "^5.0.0",
+		"eslint-plugin-userscripts": "^0.5.6",
 		"eslint-scope": "^9.1.2",
 		"eslint-visitor-keys": "^5.0.1",
 		"espree": "^11.2.0",

@@ -42,7 +42,6 @@
 		--color-red: var(red-color);
 	}
 
-	/* stylelint-disable selector-no-vendor-prefix -- Vendor prefixes wanted */
 	.related-info-box-component
 		> div
 		> div.related-images-grid-view.related-info,
@@ -282,7 +281,7 @@
 		> tr:nth-child(n)
 		> td:nth-child(n)
 		> div
-		> kamon-lp,
+		> kamon-lp, /* stylelint-disable-line selector-type-no-unknown -- Gyazo custom web component */
 	#direct-video-link-button > svg,
 	.metadata-icon.text-center > svg > path,
 	#react-root

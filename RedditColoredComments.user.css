@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name Reddit Colored Comments [Updated for RES Users]
 @namespace typpi.online
 @description Customizable Colored Comments for Reddit. [Updated for RES Users 2025]
@@ -66,6 +66,7 @@ Original Style made by Vendoc
 ------------------------------------------------
 @var text     originalstyle       '● Original Style made by Vendoc'  "'https://userstyles.world/style/4734/reddit-colored-comments'"
 
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/RedditColoredComments.user.css
 ==/UserStyle== */
 @-moz-document domain('reddit.com') {
 	// Set line width for the new design
@@ -75,7 +76,7 @@ Original Style made by Vendoc
 		}
 	}
 
-	// Set mode for line style in the new design
+	/* Set mode for line style in the new design */
 	$mode = '';
 
 	if ( lineStyle ) {

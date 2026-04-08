@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           gtbikev.com - Dark Mode
 @namespace      typpi.online
 @version        1.1.1
@@ -8,6 +8,8 @@
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @var color darkColor "Dark Color" #000000
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GTBikeV-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GTBikeV-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("gtbikev.com") {
 	/* Use the variables for colors */

@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - NASCAR Theme
 @version      20241117.22.08
 @namespace    typpi.online
@@ -18,6 +18,8 @@
 @var color color8 "Color 8" blue
 @var color color9 "Color 9" white
 @var color color10 "Color 10" black
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-NASCAR.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-NASCAR.user.css
 ==/UserStyle== */
 @-moz-document domain("steamstat.us") {
 	:root {

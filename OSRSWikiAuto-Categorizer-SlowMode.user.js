@@ -19,16 +19,15 @@
 
 (function () {
 	'use strict';
-	const versionNumber = '4.6';
+	const _versionNumber = '4.6';
 	let categoryName = '';
 	let pageLinks = [];
 	let selectedLinks = [];
 	let currentIndex = 0;
 	let csrfToken = '';
 	let isCancelled = false;
-	let isRunning = false;
 	let requestInterval = 10000;
-	const maxInterval = 20000;
+	const _maxInterval = 20000;
 	const excludedPrefixes = [
 		'Template:',
 		'File:',
@@ -231,25 +230,26 @@
 			checkbox.addEventListener(
 				'click',
 				function (e) {
+					const target = e.currentTarget;
 					if (e.shiftKey && lastChecked) {
 						let inBetween = false;
 						listContainer
 							.querySelectorAll(
 								'input[type="checkbox"]',
 							)
-							.forEach((checkbox) => {
+							.forEach((cb) => {
 								if (
-									checkbox === this ||
-									checkbox === lastChecked
+									cb === target ||
+									cb === lastChecked
 								) {
 									inBetween = !inBetween;
 								}
 								if (inBetween) {
-									checkbox.checked = this.checked;
+									cb.checked = target.checked;
 								}
 							});
 					}
-					lastChecked = this;
+					lastChecked = target;
 				},
 			);
 		});
@@ -333,7 +333,6 @@
 			'Starting categorization process.',
 		);
 		isCancelled = false;
-		isRunning = true;
 		currentIndex = 0;
 		document.getElementById(
 			'progress-bar-container',
@@ -350,7 +349,6 @@
 				'Categorization ended. Reason:',
 				isCancelled ? 'Cancelled' : 'Completed',
 			);
-			isRunning = false;
 			if (!isCancelled) {
 				displayCompletionSummary(); // Show summary popup
 			}
@@ -600,7 +598,6 @@
 		document.getElementById(
 			'progress-bar-container',
 		).style.display = 'none';
-		isRunning = false;
 	}
 
 	function cancelCategorization() {

@@ -9,7 +9,10 @@
 // @license      UnLicense
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
+// @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/AutoMergeDependabotPRs.user.js
+// @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/AutoMergeDependabotPRs.user.js
 // ==/UserScript==
 
 (function () {

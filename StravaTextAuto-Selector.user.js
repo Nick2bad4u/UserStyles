@@ -6,9 +6,10 @@
 // @author       Nick2bad4u
 // @license      UnLicense
 // @homepageURL  https://github.com/Nick2bad4u/UserScripts
+// @homepage     https://github.com/Nick2bad4u/UserScripts
 // @grant        none
-// @include      *://*.strava.com/activities/*
-// @include      *://*.strava.com/athlete/training
+// @match        *://*.strava.com/activities/*
+// @match        *://*.strava.com/athlete/training
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=strava.com
 // @downloadURL  https://update.greasyfork.org/scripts/519370/Strava%20Text%20Auto-Selector.user.js
 // @updateURL    https://update.greasyfork.org/scripts/519370/Strava%20Text%20Auto-Selector.meta.js

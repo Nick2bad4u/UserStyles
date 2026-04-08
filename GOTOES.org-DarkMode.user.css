@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         GOTOES.org - Dark Mode
 @version      20241116.21.12
 @namespace    typpi.online
@@ -10,6 +10,8 @@
 
 @var color background-color-light "Background Color Light" #ffffff
 @var color background-color-dark "Background Color Dark" #000000
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GOTOES.org-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GOTOES.org-DarkMode.user.css
 ==/UserStyle== */
 
 @-moz-document domain("gotoes.org") {

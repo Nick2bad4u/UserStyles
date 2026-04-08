@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         kiwifarms - Black Theme [Customizable]
 @namespace    typpi.online
 @author       Nick2bad4u
@@ -17,6 +17,7 @@
 @var color border-highlight "Thread Highlight Border" #464646
 @var color hover-background-color "Hover Background Color" #2c2c2c
 @var color white "White" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Kiwifarms-Black.user.css
 ==/UserStyle== */
 @-moz-document domain("kiwifarms.st"),
 domain("kiwifarms.net"),

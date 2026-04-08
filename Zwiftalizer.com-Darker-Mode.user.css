@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           zwiftalizer.com - Darker Mode [Customizable]
 @namespace      typpi.online
 @version        1.0.6
@@ -17,6 +17,8 @@
 @var color gray "Gray Color" #6c757d
 @var color white "White Color" #ffffff
 @var color pink "Pink Color" #f3a4b5
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Zwiftalizer.com-Darker-Mode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Zwiftalizer.com-Darker-Mode.user.css
 ==/UserStyle== */
 @-moz-document domain("zwiftalizer.com") {
 	/* Use the variables for colors */

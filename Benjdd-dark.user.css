@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           benjdd.com - Dark Mode [Customizable]
 @namespace      typpi.online
 @version        1.1.2
@@ -16,6 +16,7 @@
 @var color list-color "List Color" #bd7a4d
 @var color code-color "Code Color" #eaff00
 @var color link-color "Link Color" #0062ff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Benjdd-dark.user.css
 ==/UserStyle== */
 @-moz-document domain("benjdd.com") {
 	:root {
@@ -61,7 +62,6 @@
 		color: var(--code-color);
 	}
 
-	/* stylelint-disable selector-no-vendor-prefix -- Unneeded */
 	a:-webkit-any-link {
 		color: var(--link-color);
 	}

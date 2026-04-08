@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           papertrails.io - Dark Mode
 @namespace      typpi.online
 @version        1.0.4
@@ -11,6 +11,7 @@
 
 @var color background-color "Background Color" #000000
 @var color text-color "Text Color" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Papertrails-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("papertrails.io") {
 	:root {

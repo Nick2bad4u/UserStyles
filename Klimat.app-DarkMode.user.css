@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         klimat.app - Dark Mode
 @version      2.3
 @namespace    klimat.app
@@ -15,6 +15,8 @@
 @var color linkHoverColor "Link Hover Color" #3700b3
 @var color buttonColor "Button Color" #333333
 @var color buttonHoverColor "Button Hover Color" #bb86fc
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Klimat.app-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Klimat.app-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("klimat.app") {
 	/* Use the variables for colors */

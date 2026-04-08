@@ -3,6 +3,9 @@ node_modules/
 dist/
 build/
 
+# Files using Stylus preprocessor syntax with .css extension (cannot be parsed as standard CSS)
+RedditColoredComments.user.css
+
 # Minified / generated
 **/*.min.css
 **/*.min.*.css

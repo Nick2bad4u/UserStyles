@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - Tour de France
 @version      20241115.16.06
 @namespace    typpi.online
@@ -19,6 +19,8 @@
 @var color color9 "Color 9" #ffa500
 @var color color10 "Color 10" #ff0000
 @var color color11 "Color 11" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css
 ==/UserStyle== */
 @-moz-document domain("steamstat.us") {
 	:root {

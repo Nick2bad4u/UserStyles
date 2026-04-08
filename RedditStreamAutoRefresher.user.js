@@ -12,8 +12,8 @@
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @downloadURL  https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresher.user.js
 // @updateURL    https://github.com/Nick2bad4u/UserStyles/blob/main/RedditStreamAutoRefresher.user.js
-// @license CC-BY-SA-3.0; http://creativecommons.org/licenses/by-sa/3.0/
-// @license MIT
+// @license      CC-BY-SA-3.0; http://creativecommons.org/licenses/by-sa/3.0/
+// @license      MIT
 // @tag          reddit
 // ==/UserScript==
 

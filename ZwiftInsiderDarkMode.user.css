@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           zwiftinsider.com - Dark Mode
 @namespace      typpi.online
 @version        1.1.4
@@ -14,6 +14,8 @@
 @var color gradient-middle "Gradient Middle" #ffffff00
 @var color gradient-end "Gradient End" #ffffffb0
 @var color gradient-final "Gradient Final" #000000cc
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ZwiftInsiderDarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ZwiftInsiderDarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("zwiftinsider.com") {
 	:root {

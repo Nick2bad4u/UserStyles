@@ -13,22 +13,21 @@
 // @grant        GM_xmlhttpRequest
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=oldschool.runescape.wiki
 // @license      UnLicense
-// @downloadURL https://update.greasyfork.org/scripts/514515/OSRS%20Wiki%20Auto-Navbox%20with%20UI%2C%20Adaptive%20Speed%2C%20Duplicate%20Checker%20%28Slow%20Version%29.user.js
-// @updateURL https://update.greasyfork.org/scripts/514515/OSRS%20Wiki%20Auto-Navbox%20with%20UI%2C%20Adaptive%20Speed%2C%20Duplicate%20Checker%20%28Slow%20Version%29.meta.js
+// @downloadURL  https://update.greasyfork.org/scripts/514515/OSRS%20Wiki%20Auto-Navbox%20with%20UI%2C%20Adaptive%20Speed%2C%20Duplicate%20Checker%20%28Slow%20Version%29.user.js
+// @updateURL    https://update.greasyfork.org/scripts/514515/OSRS%20Wiki%20Auto-Navbox%20with%20UI%2C%20Adaptive%20Speed%2C%20Duplicate%20Checker%20%28Slow%20Version%29.meta.js
 // ==/UserScript==
 
 (function () {
 	'use strict';
-	const versionNumber = '5.1';
+	const _versionNumber = '5.1';
 	let navboxName = '';
 	let pageLinks = [];
 	let selectedLinks = [];
 	let currentIndex = 0;
 	let csrfToken = '';
 	let isCancelled = false;
-	let isRunning = false;
 	let requestInterval = 10000;
-	const maxInterval = 20000;
+	const _maxInterval = 20000;
 	const excludedPrefixes = [
 		'Template:',
 		'File:',
@@ -230,25 +229,26 @@
 			checkbox.addEventListener(
 				'click',
 				function (e) {
+					const target = e.currentTarget;
 					if (e.shiftKey && lastChecked) {
 						let inBetween = false;
 						listContainer
 							.querySelectorAll(
 								'input[type="checkbox"]',
 							)
-							.forEach((checkbox) => {
+							.forEach((cb) => {
 								if (
-									checkbox === this ||
-									checkbox === lastChecked
+									cb === target ||
+									cb === lastChecked
 								) {
 									inBetween = !inBetween;
 								}
 								if (inBetween) {
-									checkbox.checked = this.checked;
+									cb.checked = target.checked;
 								}
 							});
 					}
-					lastChecked = this;
+					lastChecked = target;
 				},
 			);
 		});
@@ -330,7 +330,6 @@
 	function startNavbox() {
 		console.log('Starting Navbox process.');
 		isCancelled = false;
-		isRunning = true;
 		currentIndex = 0;
 		document.getElementById(
 			'progress-bar-container',
@@ -347,7 +346,6 @@
 				'Navbox ended. Reason:',
 				isCancelled ? 'Cancelled' : 'Completed',
 			);
-			isRunning = false;
 			if (!isCancelled) {
 				displayCompletionSummary(); // Show summary popup
 			}
@@ -561,7 +559,6 @@
 		document.getElementById(
 			'progress-bar-container',
 		).style.display = 'none';
-		isRunning = false;
 	}
 
 	function cancelNavbox() {

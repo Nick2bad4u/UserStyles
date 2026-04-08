@@ -12,10 +12,11 @@
 // @tag          github
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 //
-// @downloadURL https://update.greasyfork.org/scripts/527154/Mark%20All%20Merged%20Notifications%20Done.user.js
-// @updateURL   https://update.greasyfork.org/scripts/527154/Mark%20All%20Merged%20Notifications%20Done.meta.js
+// @downloadURL  https://update.greasyfork.org/scripts/527154/Mark%20All%20Merged%20Notifications%20Done.user.js
+// @updateURL    https://update.greasyfork.org/scripts/527154/Mark%20All%20Merged%20Notifications%20Done.meta.js
 // ==/UserScript==
 
 (function() {

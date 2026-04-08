@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           fitfileviewer.com - Dark Mode
 @namespace      typpi.online
 @version        1.1.2
@@ -13,6 +13,8 @@
 @var color border-color "Border Color" #008b84
 @var color option-background-color "Option Background Color" #454545
 @var color option-text-color "Option Text Color" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/FitFileViewer-DarkTheme.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/FitFileViewer-DarkTheme.user.css
 ==/UserStyle== */
 @-moz-document domain("fitfileviewer.com") {
 	:root {

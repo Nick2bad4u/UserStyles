@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         Wigle.net Dark Mode
 @version      20240926.22.62
 @namespace    wigle.net
@@ -7,6 +7,8 @@
 @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 @author       Nick2bad4u
 @license      UnLicense
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Wigle-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Wigle-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("wigle.net") {
 	:root {

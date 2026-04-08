@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           visualstudio.com - Dark Mode
 @namespace      typpi.online
 @version        1.0.4
@@ -7,6 +7,8 @@
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/VisualStudioCode-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/VisualStudioCode-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("visualstudio.com") {
 	/* Invert colors except images and videos */
@@ -2239,6 +2241,7 @@
 	}
 
 	.vss-Icon.vss-Icon--bowtie {
+		/* stylelint-disable-next-line font-family-no-missing-generic-family-keyword -- Azure DevOps icon font; generic fallback would render broken glyphs */
 		font-family: bowtie;
 	}
 
@@ -3064,6 +3067,7 @@
 		font-family: inherit;
 	}
 
+	/* stylelint-disable-next-line no-duplicate-selectors -- Azure DevOps font stack override after base reset */
 	.vss-Hub.ms-Fabric {
 		font-size: 14px;
 		font-family:
@@ -3136,6 +3140,7 @@
 		padding-left: 12px;
 	}
 
+	/* stylelint-disable-next-line no-duplicate-selectors -- Separate box-shadow rule for shadow-style pivot bar */
 	.vss-Hub
 		.vss-HubPivotBar.shadowStyle
 		> .vss-PivotBar--bar-one-line,
@@ -4881,9 +4886,9 @@
 
 	.rnr-top-container .user-reviews-section-header {
 		display: block;
+		margin: 0;
 		margin-top: 0.83em;
 		margin-bottom: 0.5em;
-		margin: 0;
 		padding-left: 0;
 		font-size: 20px;
 	}

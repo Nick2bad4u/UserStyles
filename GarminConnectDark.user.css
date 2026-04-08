@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         Garmin Connect Dark Mode (Updated)
 @version      3.5
 @namespace    typpi.online
@@ -18,6 +18,8 @@
 @var color border-color "Border Color" #5971c6f0
 @var color scrollbar-thumb-color "Scrollbar Thumb Color" #30acfd
 @var color scrollbar-background-color "Scrollbar Background Color" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GarminConnectDark.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GarminConnectDark.user.css
 ==/UserStyle== */
 @-moz-document domain("connect.garmin.com")
 {
@@ -81,6 +83,7 @@
 		color: var(--primary-text) !important;
 	}
 
+	/* stylelint-disable-next-line selector-type-no-unknown -- Stylus preprocessor conditional block */
 	if dim-video-container
 	{
 		.video-container

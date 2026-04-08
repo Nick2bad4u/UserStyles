@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         Style Editor [Chrome] - Dark Theme [Updated][Customizable]
 @namespace    typpi.online
 @author       Paul Stevenson - [Updated by Nick2bad4u]
@@ -55,6 +55,8 @@
 @var color bottom-border "Bottom Border" #ff9900
 @var color green1 "Green 1" #00ff00
 @var color green2 "Green 2" #00ff0080
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Stylus-DarkTheme-Updated.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Stylus-DarkTheme-Updated.user.css
 ==/UserStyle== */
 @-moz-document regexp("chrome-extension://fjnbnpbmkenffdnngjfgmeleoegfcffe/.*"),
 regexp("chrome-extension://clngdbkpkpeebahjckkjfobafhncgmne/.*")
@@ -278,11 +280,6 @@ regexp("chrome-extension://clngdbkpkpeebahjckkjfobafhncgmne/.*")
 		background: var(--input-bg);
 	}
 
-	.CodeMirror-line::selection,
-	.CodeMirror-line > span::selection,
-	.CodeMirror-line > span > span::selection {
-		background: var(--input-bg);
-	}
 
 	.cm-searching {
 		border-bottom: 1px solid var(--bottom-border);

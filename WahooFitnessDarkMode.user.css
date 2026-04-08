@@ -1,4 +1,4 @@
-/* stylelint-disable declaration-property-value-no-unknown -- Stylus Formatting */
+﻿/* stylelint-disable declaration-property-value-no-unknown -- Stylus Formatting */
 /* stylelint-disable selector-pseudo-class-no-unknown -- Stylus Formatting */
 /* stylelint-disable selector-pseudo-element-no-unknown -- Stylus Formatting */
 /* stylelint-disable no-duplicate-selectors -- Stylus Formatting */
@@ -11,6 +11,8 @@
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/WahooFitnessDarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/WahooFitnessDarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("wahoofitness.com") {
 	/* Invert colors except images and videos */

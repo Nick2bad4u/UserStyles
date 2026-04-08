@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name         SteamStat.us - /r/pcmasterrace Theme
 @version      20241119.00.07
 @namespace    typpi.online
@@ -14,6 +14,8 @@
 @var color color4 "Color 4" #ff4500
 @var color color5 "Color 5" #ffffff
 @var color color6 "Color 6" #ff0000
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-PCMasterRace.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-PCMasterRace.user.css
 ==/UserStyle== */
 @-moz-document domain("steamstat.us") {
 	:root {

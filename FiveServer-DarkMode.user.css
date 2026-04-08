@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           Five Server - Preview Dark Theme
 @namespace      typpi.online
 @version        1.0.4
@@ -9,6 +9,8 @@
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 
 @var color background-color "Background Color" #ffffff
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/FiveServer-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/FiveServer-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document url-prefix("http://192.168.1.223:5500/"),
 url-prefix("https://192.168.1.223:5500/"),

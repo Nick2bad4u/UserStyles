@@ -1,4 +1,4 @@
-/* ==UserStyle==
+﻿/* ==UserStyle==
 @name           dcrainmaker.com - Dark Mode
 @namespace      typpi.online
 @version        1.0.4
@@ -13,6 +13,8 @@
 @var color post-text-color "Post Text Color" #000000
 @var color gradient-start-color "Gradient Start Color" #f15e1d
 @var color gradient-end-color "Gradient End Color" #da1111ab
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/DCRainMaker-DarkMode.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/DCRainMaker-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("dcrainmaker.com") {
 	:root {
