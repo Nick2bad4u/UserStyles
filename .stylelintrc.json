@@ -1,10 +1,6 @@
 {
-	"extends": [
-		"stylelint-config-standard"
-	],
-	"plugins": [
-		"stylelint-stylus"
-	],
+	"extends": ["stylelint-config-standard"],
+	"plugins": ["stylelint-stylus"],
 	"reportDescriptionlessDisables": true,
 	"reportInvalidScopeDisables": true,
 	"reportNeedlessDisables": true,
@@ -17,13 +13,9 @@
 	],
 	"overrides": [
 		{
-			"files": [
-				"**/*.{styl,stylus}"
-			],
+			"files": ["**/*.{styl,stylus}"],
 			"customSyntax": "postcss-styl",
-			"extends": [
-				"stylelint-stylus/standard"
-			]
+			"extends": ["stylelint-stylus/standard"]
 		}
 	],
 	"rules": {
@@ -38,26 +30,22 @@
 		"media-feature-name-no-vendor-prefix": null,
 		"property-no-vendor-prefix": null,
 		"selector-no-vendor-prefix": null,
+		"selector-class-pattern": null,
+		"selector-id-pattern": null,
+		"custom-property-pattern": null,
 		"value-no-vendor-prefix": null,
 		"at-rule-no-unknown": [
 			true,
 			{
 				"severity": "warning",
-				"ignoreAtRules": [
-					"-moz-document",
-					"document"
-				]
+				"ignoreAtRules": ["-moz-document", "document"]
 			}
 		],
 		"function-no-unknown": [
 			true,
 			{
 				"severity": "warning",
-				"ignoreFunctions": [
-					"domain",
-					"regexp",
-					"url-prefix"
-				]
+				"ignoreFunctions": ["domain", "regexp", "url-prefix"]
 			}
 		],
 		"selector-pseudo-class-no-unknown": [

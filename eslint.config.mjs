@@ -12,6 +12,13 @@ export default [
 			'**/*.min.js',
 			'**/*.min.cjs',
 			'**/*.min.mjs',
+			'SuperchargedLocalDirectoryWebUI.user.js',
+			'codemirror.js',
+			'SteamDB-Dark-Mode.user.css',
+			'WahooFitnessDarkMode.user.css',
+			'codemirror.min.js',
+			'ESPN-DarkMode.user.css',
+			'Skial-CustomTheme.user.css',
 		],
 	},
 	{

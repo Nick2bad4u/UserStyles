@@ -9,3 +9,17 @@ build/
 
 # Vendor bundles / maps
 **/*.map
+
+**/node_modules/**
+**/dist/**
+**/build/**
+**/*.min.js
+**/*.min.cjs
+**/*.min.mjs
+SuperchargedLocalDirectoryWebUI.user.js
+codemirror.js
+SteamDB-Dark-Mode.user.css
+WahooFitnessDarkMode.user.css
+codemirror.min.js
+ESPN-DarkMode.user.css
+Skial-CustomTheme.user.css

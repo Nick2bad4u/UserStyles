@@ -715,3 +715,4 @@ zwiftbikes/
 #Ignore vscode AI rules
 .github\copilot-instructions.md
 package.json
+.stylelintcache
