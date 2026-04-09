@@ -2,8 +2,41 @@
 	"name": "userstyles-userscripts-nick2bad4u",
 	"version": "1.0.1",
 	"private": true,
-	"type": "module",
 	"description": "Userscripts and Userstyles created by Nick2bad4u.",
+	"keywords": [
+		"userscript",
+		"userstyles",
+		"youtube",
+		"volume"
+	],
+	"homepage": "https://github.com/Nick2bad4u/UserStyles#readme",
+	"bugs": {
+		"url": "https://github.com/Nick2bad4u/UserStyles/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Nick2bad4u/UserStyles.git"
+	},
+	"license": "UNLICENSED",
+	"author": "nick2bad4u",
+	"type": "module",
+	"scripts": {
+		"compile": "tsc -p ./",
+		"lint": "npm run lint:css && npm run lint:js && npm run lint:prettier",
+		"lint:css": "stylelint --cache --cache-location .stylelintcache \"**/*.{css,styl,stylus}\"",
+		"lint:css:fix": "npm run lint:css -- --fix",
+		"lint:fix": "npm run lint:css:fix && npm run lint:js:fix && npm run lint:prettier:fix",
+		"lint:js": "eslint --cache --cache-location .eslintcache \"**/*.{js,mjs,cjs,ts}\"",
+		"lint:js:fix": "npm run lint:js -- --fix",
+		"lint:prettier": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --check",
+		"lint:prettier:fix": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --write",
+		"test": "jest --config jest.config.cjs",
+		"test:coverage": "jest --config jest.config.cjs --coverage",
+		"test:watch": "jest --config jest.config.cjs --watch",
+		"update-deps": "npx ncu -i --install never && npm install --force",
+		"vscode:prepublish": "npm run compile",
+		"watch": "tsc -watch -p ./"
+	},
 	"dependencies": {
 		"acorn": "^8.16.0",
 		"acorn-jsx": "^5.3.2",
@@ -101,7 +134,7 @@
 		"@actions/cache": "^6.0.0",
 		"@actions/core": "^3.0.0",
 		"@actions/exec": "^3.0.0",
-		"@actions/github": "^9.0.0",
+		"@actions/github": "^9.1.0",
 		"@actions/glob": "^0.6.1",
 		"@actions/http-client": "^4.0.0",
 		"@actions/io": "^3.0.2",
@@ -128,38 +161,5 @@
 		"ts-node": "^10.9.2",
 		"typescript": "^6.0.2",
 		"typescript-eslint": "^8.58.1"
-	},
-	"scripts": {
-		"test": "jest --config jest.config.cjs",
-		"test:coverage": "jest --config jest.config.cjs --coverage",
-		"test:watch": "jest --config jest.config.cjs --watch",
-		"lint": "npm run lint:css && npm run lint:js && npm run lint:prettier",
-		"lint:fix": "npm run lint:css:fix && npm run lint:js:fix && npm run lint:prettier:fix",
-		"lint:css": "stylelint --cache --cache-location .stylelintcache \"**/*.{css,styl,stylus}\"",
-		"lint:css:fix": "npm run lint:css -- --fix",
-		"lint:js": "eslint --cache --cache-location .eslintcache \"**/*.{js,mjs,cjs,ts}\"",
-		"lint:js:fix": "npm run lint:js -- --fix",
-		"lint:prettier": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --check",
-		"lint:prettier:fix": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --write",
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"update-deps": "npx ncu -i --install never && npm install --force",
-		"watch": "tsc -watch -p ./"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Nick2bad4u/UserStyles.git"
-	},
-	"keywords": [
-		"userscript",
-		"userstyles",
-		"youtube",
-		"volume"
-	],
-	"author": "nick2bad4u",
-	"license": "UNLICENSED",
-	"bugs": {
-		"url": "https://github.com/Nick2bad4u/UserStyles/issues"
-	},
-	"homepage": "https://github.com/Nick2bad4u/UserStyles#readme"
+	}
 }
