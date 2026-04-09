@@ -226,7 +226,7 @@
 			if (comments.length > 0) {
 				console.log('New comments detected');
 				observer.disconnect();
-				injectProfilePictures(comments);
+				void injectProfilePictures(comments);
 			}
 		});
 

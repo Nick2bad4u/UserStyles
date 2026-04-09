@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-(async function () {
+void (async function () {
 	'use strict';
 
 	// Check if chrome storage and sync are available
@@ -65,14 +65,19 @@
 			try {
 				chrome.storage.sync.get(keys, (result) => {
 					if (chrome.runtime.lastError) {
-						reject(chrome.runtime.lastError);
+						reject(
+							new Error(
+								chrome.runtime.lastError?.message ??
+									String(chrome.runtime.lastError),
+							),
+						);
 					} else {
 						chromeStorageCache = result;
 						resolve(result);
 					}
 				});
 			} catch (error) {
-				reject(error);
+				reject(error instanceof Error ? error : new Error(String(error)));
 			}
 		});
 	}

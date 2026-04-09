@@ -88,106 +88,45 @@
 		<div class="container">
 			<h1>Steam Store Cookies</h1>
 			<label for="storeSteamLoginSecure">steamLoginSecure:</label>
-			<input
-				type="text"
-				id="storeSteamLoginSecure"
-				readonly
-			/>
+			<input type="text" id="storeSteamLoginSecure" readonly />
 			<label for="storeSessionid">sessionid:</label>
-			<input
-				type="text"
-				id="storeSessionid"
-				readonly
-			/>
+			<input type="text" id="storeSessionid" readonly />
 		</div>
 
 		<div class="container">
 			<h1>Steam Community Cookies</h1>
 			<label for="communitySteamLoginSecure">steamLoginSecure:</label>
-			<input
-				type="text"
-				id="communitySteamLoginSecure"
-				readonly
-			/>
+			<input type="text" id="communitySteamLoginSecure" readonly />
 			<label for="communitySessionid">sessionid:</label>
-			<input
-				type="text"
-				id="communitySessionid"
-				readonly
-			/>
+			<input type="text" id="communitySessionid" readonly />
 		</div>
 
 		<div class="container">
 			<h1>Options</h1>
 			<label>
-				<input
-					type="checkbox"
-					id="disableSteamCommunity"
-				/>
+				<input type="checkbox" id="disableSteamCommunity" />
 				Disable UI on Steam Community
 			</label>
 			<label>
-				<input
-					type="checkbox"
-					id="disableStore"
-				/>
+				<input type="checkbox" id="disableStore" />
 				Disable UI on Steam Store
 			</label>
 			<label>
-				<input
-					type="checkbox"
-					id="disableFetch"
-				/>
+				<input type="checkbox" id="disableFetch" />
 				Disable Background Fetch/Auto-refresh
 			</label>
 			<label for="fetchInterval">Fetch Interval (minutes):</label>
-			<input
-				type="number"
-				id="fetchInterval"
-				min="1"
-				max="1440"
-			/>
+			<input type="number" id="fetchInterval" min="1" max="1440" />
 			<label>
-				<input
-					type="checkbox"
-					id="enableNotifications"
-				/>
+				<input type="checkbox" id="enableNotifications" />
 				Enable Notifications
 			</label>
-			<button
-				class="button"
-				id="clearCookies"
-			>
-				Clear Cookies
-			</button>
-			<button
-				class="button"
-				id="exportCookies"
-			>
-				Export Cookies
-			</button>
-			<button
-				class="button"
-				id="importCookies"
-			>
-				Import Cookies
-			</button>
-			<textarea
-				id="importExportArea"
-				placeholder="Paste cookies here to import or export cookies"
-			></textarea>
-			<div
-				id="saveIndicator"
-				class="save-indicator"
-			>
-				Settings saved
-			</div>
-			<div
-				id="lastFetched"
-				class="last-fetched"
-			>
-				Last fetched: N/A
-			</div>
+			<button class="button" id="clearCookies">Clear Cookies</button>
+			<button class="button" id="exportCookies">Export Cookies</button>
+			<button class="button" id="importCookies">Import Cookies</button>
+			<textarea id="importExportArea" placeholder="Paste cookies here to import or export cookies"></textarea>
+			<div id="saveIndicator" class="save-indicator">Settings saved</div>
+			<div id="lastFetched" class="last-fetched">Last fetched: N/A</div>
 		</div>
 		<!-- External JavaScript file -->
 		<script src="popup.js"></script>

@@ -117,9 +117,7 @@
 
 	// Add event listeners to profile pictures
 	function addEventListeners() {
-		const profilePics = document.querySelectorAll(
-			'.style-scope yt-img-shadow img:not(#avatar-btn > yt-img-shadow img)',
-		);
+		const profilePics = document.querySelectorAll('.style-scope yt-img-shadow img:not(#avatar-btn > yt-img-shadow img)');
 		profilePics.forEach((pic) => {
 			preloadHDImage(pic.src); // Preload HD image
 			pic.addEventListener('mouseover', enlargeProfilePic);

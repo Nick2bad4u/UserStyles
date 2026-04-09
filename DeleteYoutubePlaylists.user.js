@@ -35,9 +35,7 @@
 	// Function to delete playlists
 	function deletePlaylists() {
 		// Get all menu buttons
-		const menuButtons = document.querySelectorAll(
-			'ytcp-icon-button#overflow-menu-button',
-		);
+		const menuButtons = document.querySelectorAll('ytcp-icon-button#overflow-menu-button');
 
 		if (menuButtons.length > 1) {
 			let i = 1;
@@ -47,19 +45,13 @@
 					menuButtons[i].click();
 
 					setTimeout(() => {
-						const deleteButton = Array.from(
-							document.querySelectorAll(
-								'ytcp-text-menu yt-formatted-string.item-text',
-							),
-						).find((el) => el.innerText === 'Delete');
+						const deleteButton = Array.from(document.querySelectorAll('ytcp-text-menu yt-formatted-string.item-text')).find((el) => el.innerText === 'Delete');
 
 						if (deleteButton) {
 							deleteButton.click();
 
 							setTimeout(() => {
-								const confirmButton = document.querySelector(
-									'ytcp-button[id="confirm-button"]',
-								);
+								const confirmButton = document.querySelector('ytcp-button[id="confirm-button"]');
 								if (confirmButton) {
 									confirmButton.click();
 									i++;

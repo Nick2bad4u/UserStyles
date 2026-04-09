@@ -27,30 +27,17 @@
 	function processCard(card) {
 		// Get the text content from relevant child elements and trim whitespace
 		const title = card.querySelector('.name')?.textContent.trim() || '';
-		const description =
-			card.querySelector('.card-body')?.textContent.trim() || '';
-		const ariaLabel =
-			card
-				.querySelector('.card-header.thumbnail')
-				?.getAttribute('aria-label')
-				?.trim() || '';
+		const description = card.querySelector('.card-body')?.textContent.trim() || '';
+		const ariaLabel = card.querySelector('.card-header.thumbnail')?.getAttribute('aria-label')?.trim() || '';
 
 		// Log the content being checked
-		console.log(
-			`Checking card: Title="${title}", Description="${description}", Aria-Label="${ariaLabel}"`,
-		);
+		console.log(`Checking card: Title="${title}", Description="${description}", Aria-Label="${ariaLabel}"`);
 
 		// Check if any of these contain Chinese characters
-		if (
-			containsChineseCharacters(title) ||
-			containsChineseCharacters(description) ||
-			containsChineseCharacters(ariaLabel)
-		) {
+		if (containsChineseCharacters(title) || containsChineseCharacters(description) || containsChineseCharacters(ariaLabel)) {
 			// Hide the card if Chinese characters are found
 			card.style.display = 'none';
-			console.log(
-				`Hiding card: Title="${title}", Description="${description}", Aria-Label="${ariaLabel}"`,
-			);
+			console.log(`Hiding card: Title="${title}", Description="${description}", Aria-Label="${ariaLabel}"`);
 		}
 	}
 

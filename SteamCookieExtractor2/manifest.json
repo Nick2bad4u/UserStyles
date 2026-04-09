@@ -3,7 +3,13 @@
 	"name": "Steam Cookie Extractor",
 	"version": "2.0.15",
 	"description": "Extract steamLoginSecure and sessionid cookies and display them in a UI",
-  "permissions": ["cookies", "activeTab", "storage", "scripting", "notifications"],
+	"permissions": [
+		"cookies",
+		"activeTab",
+		"storage",
+		"scripting",
+		"notifications"
+	],
 	"host_permissions": [
 		"https://steamcommunity.com/*",
 		"https://store.steampowered.com/*"

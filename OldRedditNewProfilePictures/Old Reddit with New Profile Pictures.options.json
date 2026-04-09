@@ -18,10 +18,7 @@
 			"orig_includes": [],
 			"merge_includes": true,
 			"use_matches": [],
-			"orig_matches": [
-				"https://*.reddit.com/*",
-				"https://www.*.reddit.com/*"
-			],
+			"orig_matches": ["https://*.reddit.com/*", "https://www.*.reddit.com/*"],
 			"merge_matches": true,
 			"use_excludes": [],
 			"orig_excludes": [],

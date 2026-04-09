@@ -3,6 +3,9 @@ node_modules/
 dist/
 build/
 
+# Jest coverage output (HTML reporter generates .css files — not our source)
+coverage/
+
 # Files using Stylus preprocessor syntax with .css extension (cannot be parsed as standard CSS)
 RedditColoredComments.user.css
 

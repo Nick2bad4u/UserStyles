@@ -27,9 +27,7 @@
 			// Create an input element to display volume level
 			const volumeDisplay = document.createElement('input');
 			volumeDisplay.type = 'text';
-			volumeDisplay.value = videoPlayer.muted
-				? '0'
-				: Math.round(videoPlayer.volume * 100);
+			volumeDisplay.value = videoPlayer.muted ? '0' : Math.round(videoPlayer.volume * 100);
 			volumeDisplay.readOnly = true;
 
 			// Style the display element
@@ -50,9 +48,7 @@
 
 			// Update display when volume changes
 			videoPlayer.addEventListener('volumechange', () => {
-				volumeDisplay.value = videoPlayer.muted
-					? '0'
-					: Math.round(videoPlayer.volume * 100);
+				volumeDisplay.value = videoPlayer.muted ? '0' : Math.round(videoPlayer.volume * 100);
 			});
 
 			// Insert the display element into the left controls

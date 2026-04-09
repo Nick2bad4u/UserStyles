@@ -14,17 +14,17 @@
 @-moz-document domain("projects.fivethirtyeight.com") {
 	/* Invert colors except images and videos */
 	:is(html:not([stylus-iframe]), img, svg, video):not(
-			z#z.z[z],
-			a.logo > img,
-			a.abclogo > img
-		) {
+		z#z.z[z],
+		a.logo > img,
+		a.abclogo > img
+	) {
 		filter: invert(1) hue-rotate(180deg) !important;
 	}
 
 	/* Ensure background images are not inverted */
 	:is(html:not([stylus-iframe]), img, svg, video):not(
-			z#z.z[z]
-		) {
+		z#z.z[z]
+	) {
 		background-color: inherit !important;
 	}
 }

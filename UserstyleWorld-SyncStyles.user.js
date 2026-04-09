@@ -257,7 +257,7 @@
 					updateStatus(`Syncing from: ${mirrorURL}`);
 					await visitMirrorURL(styleID);
 				});
-				Promise.all(promises).then(() => {
+				void Promise.all(promises).then(() => {
 					updateStatus(`Syncing complete for styles: ${selectedIDs.join(', ')}`);
 				});
 			} else {

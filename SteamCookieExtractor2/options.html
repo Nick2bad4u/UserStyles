@@ -1,89 +1,89 @@
 <!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<title>Steam Cookie Extractor - Options</title>
-	<style>
-		body {
-			background-color: #2c3e50;
-			padding: 20px;
-			width: 400px;
-			height: 1000px;
-			color: #ecf0f1;
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		}
+	<head>
+		<meta charset="UTF-8" />
+		<title>Steam Cookie Extractor - Options</title>
+		<style>
+			body {
+				background-color: #2c3e50;
+				padding: 20px;
+				width: 400px;
+				height: 1000px;
+				color: #ecf0f1;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			}
 
-		h1 {
-			margin-bottom: 20px;
-			font-size: 24px;
-			text-align: center;
-		}
+			h1 {
+				margin-bottom: 20px;
+				font-size: 24px;
+				text-align: center;
+			}
 
-		label {
-			display: block;
-			margin-bottom: 10px;
-		}
+			label {
+				display: block;
+				margin-bottom: 10px;
+			}
 
-		input[type='text'],
-		input[type='number'] {
-			margin-bottom: 10px;
-			border: 1px solid #555555;
-			border-radius: 5px;
-			background-color: #34495e;
-			padding: 10px;
-			width: calc(100% - 22px);
-			color: #ecf0f1;
-		}
+			input[type='text'],
+			input[type='number'] {
+				margin-bottom: 10px;
+				border: 1px solid #555555;
+				border-radius: 5px;
+				background-color: #34495e;
+				padding: 10px;
+				width: calc(100% - 22px);
+				color: #ecf0f1;
+			}
 
-		input[type='checkbox'] {
-			margin-right: 10px;
-		}
+			input[type='checkbox'] {
+				margin-right: 10px;
+			}
 
-		.container {
-			margin-bottom: 20px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-			border-radius: 10px;
-			background-color: #34495e;
-			padding: 20px;
-		}
+			.container {
+				margin-bottom: 20px;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+				border-radius: 10px;
+				background-color: #34495e;
+				padding: 20px;
+			}
 
-		.save-indicator {
-			display: none;
-			margin-top: 10px;
-			color: #27ae60;
-			text-align: center;
-		}
-	</style>
-</head>
+			.save-indicator {
+				display: none;
+				margin-top: 10px;
+				color: #27ae60;
+				text-align: center;
+			}
+		</style>
+	</head>
 
-<body>
-	<div class="container">
-		<h1>Steam Cookies</h1>
-		<label for="steamLoginSecure">steamLoginSecure:</label>
-		<input type="text" id="steamLoginSecure" readonly />
-		<label for="sessionid">sessionid:</label>
-		<input type="text" id="sessionid" readonly />
-	</div>
+	<body>
+		<div class="container">
+			<h1>Steam Cookies</h1>
+			<label for="steamLoginSecure">steamLoginSecure:</label>
+			<input type="text" id="steamLoginSecure" readonly />
+			<label for="sessionid">sessionid:</label>
+			<input type="text" id="sessionid" readonly />
+		</div>
 
-	<div class="container">
-		<h1>Options</h1>
-		<label>
-			<input type="checkbox" id="disableSteamCommunity" />
-			Disable UI on Steam Community
-		</label>
-		<label>
-			<input type="checkbox" id="disableStore" />
-			Disable UI on Steam Store
-		</label>
-		<label>
-			<input type="checkbox" id="disableFetch" />
-			Disable Background Fetch
-		</label>
-		<label for="fetchInterval">Fetch Interval (hours):</label>
-		<input type="number" id="fetchInterval" min="1" max="24" />
-		<div id="saveIndicator" class="save-indicator">Settings saved</div>
-	</div>
-	<!-- External JavaScript file -->
-	<script src="options.js"></script>
-</body>
+		<div class="container">
+			<h1>Options</h1>
+			<label>
+				<input type="checkbox" id="disableSteamCommunity" />
+				Disable UI on Steam Community
+			</label>
+			<label>
+				<input type="checkbox" id="disableStore" />
+				Disable UI on Steam Store
+			</label>
+			<label>
+				<input type="checkbox" id="disableFetch" />
+				Disable Background Fetch
+			</label>
+			<label for="fetchInterval">Fetch Interval (hours):</label>
+			<input type="number" id="fetchInterval" min="1" max="24" />
+			<div id="saveIndicator" class="save-indicator">Settings saved</div>
+		</div>
+		<!-- External JavaScript file -->
+		<script src="options.js"></script>
+	</body>
 </html>

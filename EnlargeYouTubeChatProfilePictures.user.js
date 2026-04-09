@@ -97,9 +97,7 @@
 
 	// Add event listeners to profile pictures
 	function addEventListeners() {
-		const profilePics = document.querySelectorAll(
-			'.h-5.w-5.inline.align-middle.rounded-full.flex-none',
-		);
+		const profilePics = document.querySelectorAll('.h-5.w-5.inline.align-middle.rounded-full.flex-none');
 		profilePics.forEach((pic) => {
 			preloadHDImage(pic.src); // Preload HD image
 			pic.addEventListener('mouseover', enlargeProfilePic);

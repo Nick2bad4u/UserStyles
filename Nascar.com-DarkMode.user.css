@@ -37,10 +37,10 @@
 
 	/* Revert inversion on images and videos */
 	img:not(
-			li:nth-child(2) > a > img,
-			#top-nav-rewards-profile-logo > img,
-			div > a > div > picture > img
-		),
+		li:nth-child(2) > a > img,
+		#top-nav-rewards-profile-logo > img,
+		div > a > div > picture > img
+	),
 	video,
 	svg:not(li.top-nav-button.user-profile-button > a > svg),
 	.video-container,

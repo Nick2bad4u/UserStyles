@@ -21,15 +21,12 @@ async function getZwiftData() {
 
 // Calculate the best bike based on speed and climbing preferences
 async function calculateBestBike() {
-	const { wheels, frames, bikes } =
-		await getZwiftData();
+	const { wheels, frames, bikes } = await getZwiftData();
 	const speedPreference = parseFloat(
-		document.getElementById('speedPreference')
-			.value,
+		document.getElementById('speedPreference').value,
 	);
 	const climbPreference = parseFloat(
-		document.getElementById('climbPreference')
-			.value,
+		document.getElementById('climbPreference').value,
 	);
 
 	let bestBike = '';
@@ -39,12 +36,8 @@ async function calculateBestBike() {
 	let bestBikeImageWheel = '';
 
 	for (const bike of bikes) {
-		const frame = frames.find(
-			(f) => f.frameid === bike.frameid,
-		);
-		const wheel = wheels.find(
-			(w) => w.wheelid === bike.wheelid,
-		);
+		const frame = frames.find((f) => f.frameid === bike.frameid);
+		const wheel = wheels.find((w) => w.wheelid === bike.wheelid);
 
 		if (frame && wheel) {
 			const flatNumber =
@@ -56,14 +49,10 @@ async function calculateBestBike() {
 					parseFloat(wheel.wheelclimbnumber)) /
 				2;
 
-			if (
-				flatNumber >= speedPreference &&
-				climbNumber >= climbPreference
-			) {
+			if (flatNumber >= speedPreference && climbNumber >= climbPreference) {
 				if (
 					flatNumber > bestBikeSpeed ||
-					(flatNumber === bestBikeSpeed &&
-						climbNumber > bestBikeClimb)
+					(flatNumber === bestBikeSpeed && climbNumber > bestBikeClimb)
 				) {
 					bestBike = `Frame: ${frame.framemake} ${frame.framemodel} | Wheel: ${wheel.wheelmake} ${wheel.wheelmodel}`;
 					bestBikeSpeed = flatNumber;
@@ -75,9 +64,7 @@ async function calculateBestBike() {
 		}
 	}
 
-	document.getElementById(
-		'bestBikeResult',
-	).innerHTML = `
+	document.getElementById('bestBikeResult').innerHTML = `
         <p>Best Bike: ${bestBike}</p>
         <div>
             <img src="${bestBikeImageFrame}" alt="Frame Image">
@@ -87,14 +74,8 @@ async function calculateBestBike() {
 }
 
 // Fetch and display the best bike on button click
-document.addEventListener(
-	'DOMContentLoaded',
-	() => {
-		document
-			.querySelector('button')
-			.addEventListener(
-				'click',
-				calculateBestBike,
-			);
-	},
-);
+document.addEventListener('DOMContentLoaded', () => {
+	document.querySelector('button').addEventListener('click', () => {
+		void calculateBestBike();
+	});
+});

@@ -10,21 +10,18 @@
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/PowerShellGallery-DarkMode.user.css
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/PowerShellGallery-DarkMode.user.css
 ==/UserStyle== */
-@-moz-document domain("powershellgallery.com")
-{
+@-moz-document domain("powershellgallery.com") {
 	/* Invert colors except images and videos */
 	html,
 	img,
 	svg,
 	video,
 	iframe,
-	.search-container
-	{
+	.search-container {
 		filter: invert(1) hue-rotate(180deg) !important;
 	}
 
-	.navbar-inverse
-	{
-		background-color: #0071C9C2
+	.navbar-inverse {
+		background-color: #0071c9c2;
 	}
 }

@@ -24,7 +24,7 @@
 #     3. Dependency Review:
 #        - Uses the 'actions/dependency-review-action' (version v4.5.0) to perform a dependency review.
 
-name: "Dependency Review"
+name: 'Dependency Review'
 on: [pull_request]
 
 permissions:
@@ -43,7 +43,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: "Checkout Repository"
+      - name: 'Checkout Repository'
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: "Dependency Review"
+      - name: 'Dependency Review'
         uses: actions/dependency-review-action@05fe4576374b728f0c523d6a13d64c25081e0803 # v4.8.3

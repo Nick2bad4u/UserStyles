@@ -91,7 +91,7 @@
 						},
 						onerror: (error) => {
 							console.error(`Error fetching profile picture: ${username}`, error);
-							reject(error);
+							reject(error instanceof Error ? error : new Error(String(error)));
 						},
 					});
 				});
@@ -105,7 +105,7 @@
 				})
 				.catch((error) => {
 					console.error('Error in fetching profile pictures', error);
-					reject(error);
+					reject(error instanceof Error ? error : new Error(String(error)));
 				});
 		});
 	}
@@ -158,7 +158,7 @@
 			if (comments.length > 0) {
 				console.log('New comments detected');
 				observer.disconnect();
-				injectProfilePictures(comments);
+				void injectProfilePictures(comments);
 			}
 		});
 		observer.observe(document.body, {

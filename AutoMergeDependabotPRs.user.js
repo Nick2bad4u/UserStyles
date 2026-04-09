@@ -79,7 +79,7 @@
 				const mergeSuccess = await mergePR(repoPath, prNumber);
 				if (mergeSuccess) {
 					console.log('PR merged successfully');
-					markAsDone();
+					void markAsDone();
 				} else {
 					console.log('Failed to merge PR');
 				}
@@ -128,7 +128,7 @@
 
 			let doneButton = document.querySelector('button[aria-label="Done"].btn.btn-sm');
 			if (!doneButton) {
-				doneButton = Array.from(document.querySelectorAll('button.btn.btn-sm')).find(button => button.textContent.trim() === 'Done');
+				doneButton = Array.from(document.querySelectorAll('button.btn.btn-sm')).find((button) => button.textContent.trim() === 'Done');
 			}
 			if (doneButton) {
 				console.log('Done button found, clicking it');
@@ -192,7 +192,7 @@
 				childList: true,
 				subtree: true,
 			});
-			checkAndMerge();
+			void checkAndMerge();
 		},
 		false,
 	);

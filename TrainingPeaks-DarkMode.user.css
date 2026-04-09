@@ -20,18 +20,18 @@
 
 	/* Ensure background images are not inverted */
 	:is(
-			html:not([stylus-iframe]),
-			img,
-			svg,
-			video,
-			#workOutQuickView
-				> div.QVHeader
-				> div.QVHeaderItemsContain.cf
-				> div.workoutBarView
-				> div:nth-child(2)
-				> div
-				> div
-		):not(z#z.z[z]) {
+		html:not([stylus-iframe]),
+		img,
+		svg,
+		video,
+		#workOutQuickView
+			> div.QVHeader
+			> div.QVHeaderItemsContain.cf
+			> div.workoutBarView
+			> div:nth-child(2)
+			> div
+			> div
+	):not(z#z.z[z]) {
 		background-color: inherit !important;
 	}
 

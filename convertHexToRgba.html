@@ -2,10 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta
 			name="description"
 			content="Convert hex colors with alpha channels to RGBA format easily. Use this tool to process your CSS files and get the desired output for your projects."
@@ -14,10 +11,7 @@
 			name="keywords"
 			content="Hex to RGBA, Color Conversion, CSS, Web Development, Hex Color, RGBA Color, Converter Tool"
 		/>
-		<meta
-			name="author"
-			content="Nick2bad4u"
-		/>
+		<meta name="author" content="Nick2bad4u" />
 		<title>Hex to RGBA Converter</title>
 		<style>
 			body {
@@ -85,45 +79,15 @@
 	<body>
 		<h1>Hex to RGBA Converter</h1>
 		<label for="fileInput">Upload CSS File:</label>
-		<input
-			type="file"
-			id="fileInput"
-			accept=".css"
-		/>
-		<textarea
-			id="manualInput"
-			placeholder="Or paste your CSS code here..."
-		></textarea>
+		<input type="file" id="fileInput" accept=".css" />
+		<textarea id="manualInput" placeholder="Or paste your CSS code here..."></textarea>
 		<div class="toggle-group">
-			<label
-				><input
-					type="radio"
-					name="opacityFormat"
-					value="decimal"
-					checked
-				/>
-				Decimal (0.1)</label
-			>
-			<label
-				><input
-					type="radio"
-					name="opacityFormat"
-					value="percentage"
-				/>
-				Percentage (10%)</label
-			>
+			<label><input type="radio" name="opacityFormat" value="decimal" checked /> Decimal (0.1)</label>
+			<label><input type="radio" name="opacityFormat" value="percentage" /> Percentage (10%)</label>
 		</div>
 		<button id="convertButton">Convert Colors</button>
-		<button
-			class="copy-button"
-			id="copyButton"
-		>
-			Copy to Clipboard
-		</button>
+		<button class="copy-button" id="copyButton">Copy to Clipboard</button>
 		<pre><code id="output"></code></pre>
-		<script
-			src="convertHexToRgba.js"
-			defer
-		></script>
+		<script src="convertHexToRgba.js" defer></script>
 	</body>
 </html>

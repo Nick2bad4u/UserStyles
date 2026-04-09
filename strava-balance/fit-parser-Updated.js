@@ -26,7 +26,7 @@ class FitParser {
 	 */
 	parse(content, callback) {
 		const blob = new Uint8Array(
-			content instanceof ArrayBuffer ? content : getArrayBuffer(content)
+			content instanceof ArrayBuffer ? content : getArrayBuffer(content),
 		);
 
 		if (blob.length < 12) {
@@ -119,7 +119,11 @@ class FitParser {
 				startDate,
 				pausedTime,
 			);
-			if (nextIndex === undefined || nextIndex === null || nextIndex <= loopIndex) {
+			if (
+				nextIndex === undefined ||
+				nextIndex === null ||
+				nextIndex <= loopIndex
+			) {
 				return callback('Error: nextIndex did not increment', {});
 			}
 			loopIndex = nextIndex;

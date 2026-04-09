@@ -11,51 +11,51 @@ version: 2
 enable-beta-ecosystems: true
 
 multi-ecosystem-groups:
-    dependabot-all:
-        schedule:
-            interval: "monthly"
+  dependabot-all:
+    schedule:
+      interval: 'semiannually'
 
 updates:
-    - package-ecosystem: github-actions
-      directory: /
-      allow:
-          # Allow both direct and indirect updates for all packages
-          - dependency-type: "all"
-      labels:
-          - "github-actions"
-      multi-ecosystem-group: dependabot-all
-      patterns:
-          - "*"
+  - package-ecosystem: github-actions
+    directory: /
+    allow:
+      # Allow both direct and indirect updates for all packages
+      - dependency-type: 'all'
+    labels:
+      - 'github-actions'
+    multi-ecosystem-group: dependabot-all
+    patterns:
+      - '*'
 
-    - package-ecosystem: bundler
-      directory: /
-      allow:
-          # Allow both direct and indirect updates for all packages
-          - dependency-type: "all"
-      labels:
-          - "bundler"
-      multi-ecosystem-group: dependabot-all
-      patterns:
-          - "*"
+  - package-ecosystem: bundler
+    directory: /
+    allow:
+      # Allow both direct and indirect updates for all packages
+      - dependency-type: 'all'
+    labels:
+      - 'bundler'
+    multi-ecosystem-group: dependabot-all
+    patterns:
+      - '*'
 
-    - package-ecosystem: npm
-      directory: /
-      allow:
-          # Allow both direct and indirect updates for all packages
-          - dependency-type: "all"
-      labels:
-          - "npm"
-      multi-ecosystem-group: dependabot-all
-      patterns:
-          - "*"
+  - package-ecosystem: npm
+    directory: /
+    allow:
+      # Allow both direct and indirect updates for all packages
+      - dependency-type: 'all'
+    labels:
+      - 'npm'
+    multi-ecosystem-group: dependabot-all
+    patterns:
+      - '*'
 
-    - package-ecosystem: pip
-      directory: /
-      allow:
-          # Allow both direct and indirect updates for all packages
-          - dependency-type: "all"
-      labels:
-          - "pip"
-      multi-ecosystem-group: dependabot-all
-      patterns:
-          - "*"
+  - package-ecosystem: pip
+    directory: /
+    allow:
+      # Allow both direct and indirect updates for all packages
+      - dependency-type: 'all'
+    labels:
+      - 'pip'
+    multi-ecosystem-group: dependabot-all
+    patterns:
+      - '*'

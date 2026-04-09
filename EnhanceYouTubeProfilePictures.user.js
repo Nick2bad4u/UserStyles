@@ -81,11 +81,7 @@
 			const rect = img.getBoundingClientRect();
 
 			// Set fixed size, position relative to the original image
-			if (
-				img.classList.contains(
-					'h-5.w-5.inline.align-middle.rounded-full.flex-none',
-				)
-			) {
+			if (img.classList.contains('h-5.w-5.inline.align-middle.rounded-full.flex-none')) {
 				img.style.transform = 'scale(6) translateX(20px)';
 				img.style.transition = 'transform 0.2s ease';
 				img.style.border = '1px solid black';
@@ -128,15 +124,9 @@
 
 	// Add event listeners to profile pictures
 	function addEventListeners() {
-		const profilePicsChat = document.querySelectorAll(
-			'.h-5.w-5.inline.align-middle.rounded-full.flex-none',
-		);
-		const profilePicsComments = document.querySelectorAll(
-			'.style-scope yt-img-shadow img:not(#avatar-btn > yt-img-shadow img)',
-		);
-		const heartedThumbnails = document.querySelectorAll(
-			'#creator-heart-button yt-img-shadow img, #creator-heart-button img',
-		);
+		const profilePicsChat = document.querySelectorAll('.h-5.w-5.inline.align-middle.rounded-full.flex-none');
+		const profilePicsComments = document.querySelectorAll('.style-scope yt-img-shadow img:not(#avatar-btn > yt-img-shadow img)');
+		const heartedThumbnails = document.querySelectorAll('#creator-heart-button yt-img-shadow img, #creator-heart-button img');
 
 		profilePicsChat.forEach((pic) => {
 			preloadHDImage(pic.src); // Preload HD image

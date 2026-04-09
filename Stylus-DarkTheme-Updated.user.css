@@ -280,7 +280,6 @@ regexp("chrome-extension://clngdbkpkpeebahjckkjfobafhncgmne/.*")
 		background: var(--input-bg);
 	}
 
-
 	.cm-searching {
 		border-bottom: 1px solid var(--bottom-border);
 		background: var(--green2);

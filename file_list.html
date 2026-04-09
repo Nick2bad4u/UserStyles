@@ -2,44 +2,49 @@
 
 <p># Here is a list of files included in this repository:</p>
 
-<div class="lazyload-placeholder" data-content="file-list-1" style="min-height: 400px;"></div>
-<div class="lazyload-placeholder" data-content="file-list-2" style="min-height: 400px;"></div>
-<div class="lazyload-placeholder" data-content="file-list-3" style="min-height: 400px;"></div>
-<div class="lazyload-placeholder" data-content="file-list-4" style="min-height: 400px;"></div>
-<div class="lazyload-placeholder" data-content="file-list-5" style="min-height: 400px;"></div>
-<div class="lazyload-placeholder" data-content="file-list-6" style="min-height: 400px;"></div>
-<div class="lazyload-placeholder" data-content="file-list-7" style="min-height: 400px;"></div>
-<div class="lazyload-placeholder" data-content="file-list-8" style="min-height: 400px;"></div>
-<div class="lazyload-placeholder" data-content="file-list-9" style="min-height: 400px;"></div>
+<div class="lazyload-placeholder" data-content="file-list-1" style="min-height: 400px"></div>
+<div class="lazyload-placeholder" data-content="file-list-2" style="min-height: 400px"></div>
+<div class="lazyload-placeholder" data-content="file-list-3" style="min-height: 400px"></div>
+<div class="lazyload-placeholder" data-content="file-list-4" style="min-height: 400px"></div>
+<div class="lazyload-placeholder" data-content="file-list-5" style="min-height: 400px"></div>
+<div class="lazyload-placeholder" data-content="file-list-6" style="min-height: 400px"></div>
+<div class="lazyload-placeholder" data-content="file-list-7" style="min-height: 400px"></div>
+<div class="lazyload-placeholder" data-content="file-list-8" style="min-height: 400px"></div>
+<div class="lazyload-placeholder" data-content="file-list-9" style="min-height: 400px"></div>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const lazyLoadElements = document.querySelectorAll('.lazyload-placeholder');
+	document.addEventListener('DOMContentLoaded', function () {
+		const lazyLoadElements = document.querySelectorAll('.lazyload-placeholder');
 
-    if ("IntersectionObserver" in window) {
-        let rootMargin = '0px 0px 400px 0px';
-        let threshold = 0.5;
-        if (window.innerWidth <= 768) {  // Mobile devices
-            rootMargin = '0px 0px 100px 0px';
-            threshold = 0.1;
-        } else if (window.innerWidth <= 1024) {  // Tablets
-            rootMargin = '0px 0px 200px 0px';
-            threshold = 0.3;
-        } else if (window.innerWidth <= 1440) {  // Small desktops
-            rootMargin = '0px 0px 300px 0px';
-            threshold = 0.4;
-        } else {  // Large desktops
-            rootMargin = '0px 0px 400px 0px';
-            threshold = 0.5;
-        }
-        let observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    let placeholder = entry.target;
-                    let contentId = placeholder.dataset.content;
-                    let file_list_html = '';
-                    switch(contentId) {
-                        case 'file-list-1':
-                            file_list_html = `<ul><h2 style="color: #87dda8;">Repo Root</h2>
+		if ('IntersectionObserver' in window) {
+			let rootMargin = '0px 0px 400px 0px';
+			let threshold = 0.5;
+			if (window.innerWidth <= 768) {
+				// Mobile devices
+				rootMargin = '0px 0px 100px 0px';
+				threshold = 0.1;
+			} else if (window.innerWidth <= 1024) {
+				// Tablets
+				rootMargin = '0px 0px 200px 0px';
+				threshold = 0.3;
+			} else if (window.innerWidth <= 1440) {
+				// Small desktops
+				rootMargin = '0px 0px 300px 0px';
+				threshold = 0.4;
+			} else {
+				// Large desktops
+				rootMargin = '0px 0px 400px 0px';
+				threshold = 0.5;
+			}
+			let observer = new IntersectionObserver(
+				(entries, observer) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							let placeholder = entry.target;
+							let contentId = placeholder.dataset.content;
+							let file_list_html = '';
+							switch (contentId) {
+								case 'file-list-1':
+									file_list_html = `<ul><h2 style="color: #87dda8;">Repo Root</h2>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.black" style="color: #fbc151;">.black</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.copilot-instructions.md" style="color: #7ebfe4;">.copilot-instructions.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.editorconfig" style="color: #7f8766;">.editorconfig</a></li>
@@ -79,9 +84,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.ico" style="color: #42ddb1;">favicon.ico</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.png" style="color: #ee8f3e;">favicon.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.html" style="color: #928707;">file_list.html</a></li></ul>`;
-                            break;
-                        case 'file-list-2':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.md" style="color: #5789df;">file_list.md</a></li>
+									break;
+								case 'file-list-2':
+									file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.md" style="color: #5789df;">file_list.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/generate_gemfile.rb" style="color: #c9af62;">generate_gemfile.rb</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jsconfig.json" style="color: #5f9760;">jsconfig.json</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package-lock.json" style="color: #8bd375;">package-lock.json</a></li>
@@ -121,9 +126,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Halloween.user.css" style="color: #a7b7f4;">Kiwifarms-Halloween.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Vaporwave.user.css" style="color: #8ba2e2;">Kiwifarms-Vaporwave.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Klimat.app-DarkMode.user.css" style="color: #3aeb5d;">Klimat.app-DarkMode.user.css</a></li></ul>`;
-                            break;
-                        case 'file-list-3':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MarkdownViewer%2B%2BTheme.user.css" style="color: #a199cc;">MarkdownViewer++Theme.user.css</a></li>
+									break;
+								case 'file-list-3':
+									file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MarkdownViewer%2B%2BTheme.user.css" style="color: #a199cc;">MarkdownViewer++Theme.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Medicare-Gov-Dark-Mode.user.css" style="color: #e18327;">Medicare-Gov-Dark-Mode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyBikeTraffic-DarkMode.user.css" style="color: #79b0f5;">MyBikeTraffic-DarkMode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyWorkoutCompanion-Dark.user.css" style="color: #bcc9a1;">MyWorkoutCompanion-Dark.user.css</a></li>
@@ -163,9 +168,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Sunset-Style.user.css" style="color: #63c7dd;">SteamStat.us-Re-Remastered-Sunset-Style.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TeamFortress2.user.css" style="color: #48c896;">SteamStat.us-Re-Remastered-TeamFortress2.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css" style="color: #ada169;">SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css</a></li></ul>`;
-                            break;
-                        case 'file-list-4':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css" style="color: #5e8d87;">SteamStat.us-Re-Remastered-TourDeFrance.user.css</a></li>
+									break;
+								case 'file-list-4':
+									file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css" style="color: #5e8d87;">SteamStat.us-Re-Remastered-TourDeFrance.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-USA-Style.user.css" style="color: #53a814;">SteamStat.us-Re-Remastered-USA-Style.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Windows95.user.css" style="color: #f389a3;">SteamStat.us-Re-Remastered-Windows95.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Witcher3.user.css" style="color: #64a9db;">SteamStat.us-Re-Remastered-Witcher3.user.css</a></li>
@@ -205,9 +210,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Windy-DarkMode.user.css" style="color: #6acd43;">Windy-DarkMode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YT-Vibra.user.css" style="color: #e39639;">YT-Vibra.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeRainbowProgress.user.css" style="color: #4f9d14;">YoutubeRainbowProgress.user.css</a></li></ul>`;
-                            break;
-                        case 'file-list-5':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeScrubberColors.user.css" style="color: #c284de;">YoutubeScrubberColors.user.css</a></li>
+									break;
+								case 'file-list-5':
+									file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeScrubberColors.user.css" style="color: #c284de;">YoutubeScrubberColors.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift.com-Dark-Mode.user.css" style="color: #b39980;">Zwift.com-Dark-Mode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftHacks-DarkMode.user.css" style="color: #c1c6e4;">ZwiftHacks-DarkMode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftInsiderDarkMode.user.css" style="color: #3c94bf;">ZwiftInsiderDarkMode.user.css</a></li>
@@ -247,9 +252,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GyazoDirectLink.user.js" style="color: #3ac07b;">GyazoDirectLink.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideChineseUserstyles.user.js" style="color: #e8bbc7;">HideChineseUserstyles.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideNon-EnglishUserstyles.user.js" style="color: #d3c6a0;">HideNon-EnglishUserstyles.user.js</a></li></ul>`;
-                            break;
-                        case 'file-list-6':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.js" style="color: #acbdfc;">KudoAll-Strava-Garmin.user.js</a></li>
+									break;
+								case 'file-list-6':
+									file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.js" style="color: #acbdfc;">KudoAll-Strava-Garmin.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MergeDependabotPRs.user.js" style="color: #fdb53a;">MergeDependabotPRs.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer-SlowMode.user.js" style="color: #67c096;">OSRSWikiAuto-Categorizer-SlowMode.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer.user.js" style="color: #2de6f0;">OSRSWikiAuto-Categorizer.user.js</a></li>
@@ -289,9 +294,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WIndyPlugin.min.js" style="color: #30de51;">WIndyPlugin.min.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/background.js" style="color: #3ae7a1;">YouTubeTVVolumeControl/background.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/content.js" style="color: #4bdfad;">YouTubeTVVolumeControl/content.js</a></li></ul>`;
-                            break;
-                        case 'file-list-7':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/background.js" style="color: #36c462;">YouTubeVolumeControl/background.js</a></li>
+									break;
+								case 'file-list-7':
+									file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/background.js" style="color: #36c462;">YouTubeVolumeControl/background.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/content.js" style="color: #8db1e6;">YouTubeVolumeControl/content.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-css-mod.js" style="color: #b0a0bc;">beautify-css-mod.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.js" style="color: #ecaefb;">beautify.js</a></li>
@@ -331,9 +336,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/label.yml" style="color: #eebe33;">.github/workflows/label.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ossar.yml" style="color: #4cc7ec;">.github/workflows/ossar.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/osv-scanner.yml" style="color: #fc5c87;">.github/workflows/osv-scanner.yml</a></li></ul>`;
-                            break;
-                        case 'file-list-8':
-                            file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/scorecards.yml" style="color: #47cb5f;">.github/workflows/scorecards.yml</a></li>
+									break;
+								case 'file-list-8':
+									file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/scorecards.yml" style="color: #47cb5f;">.github/workflows/scorecards.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/semgrep.yml" style="color: #90e204;">.github/workflows/semgrep.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sitemap.yml" style="color: #7399cb;">.github/workflows/sitemap.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sobelow.yml" style="color: #af9f11;">.github/workflows/sobelow.yml</a></li>
@@ -373,9 +378,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon128.png" style="color: #749f65;">SteamCookieExtractor2/icons/images/icon128.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon16.png" style="color: #99b599;">SteamCookieExtractor2/icons/images/icon16.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon48.png" style="color: #22d460;">SteamCookieExtractor2/icons/images/icon48.png</a></li></ul>`;
-                            break;
-                        case 'file-list-9':
-                            file_list_html = `<ul><h2 style="color: #3d94ec;">UserStyles</h2>
+									break;
+								case 'file-list-9':
+									file_list_html = `<ul><h2 style="color: #3d94ec;">UserStyles</h2>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserStyles/Microsoft.PowerShell_profile.ps1" style="color: #9772e0;">UserStyles/Microsoft.PowerShell_profile.ps1</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserStyles/sync.ffs_db" style="color: #d0aab0;">UserStyles/sync.ffs_db</a></li>
 <h2 style="color: #7587b8;">YouTubeTVVolumeControl</h2>
@@ -406,26 +411,28 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-swirls-background.png" style="color: #39ad18;">assets/kiwi-swirls-background.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-trees-background.png" style="color: #4aac51;">assets/kiwi-trees-background.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-vaporwave-logo.png" style="color: #78a078;">assets/kiwi-vaporwave-logo.png</a></li></ul>`;
-                            break;
-                    }
-                    placeholder.innerHTML = file_list_html;
-                    observer.unobserve(placeholder);
-                    console.log(`Loaded content for ${contentId}`);
-                }
-            });
-        }, { rootMargin: rootMargin, threshold: threshold });
+									break;
+							}
+							placeholder.innerHTML = file_list_html;
+							observer.unobserve(placeholder);
+							console.log(`Loaded content for ${contentId}`);
+						}
+					});
+				},
+				{ rootMargin: rootMargin, threshold: threshold },
+			);
 
-        lazyLoadElements.forEach(element => {
-            element.style.marginTop = '-17px';
-            observer.observe(element);
-        });
-    } else {
-        lazyLoadElements.forEach(placeholder => {
-            let contentId = placeholder.dataset.content;
-            let file_list_html = '';
-            switch(contentId) {
-                case 'file-list-1':
-                    file_list_html = `<ul><h2 style="color: #87dda8;">Repo Root</h2>
+			lazyLoadElements.forEach((element) => {
+				element.style.marginTop = '-17px';
+				observer.observe(element);
+			});
+		} else {
+			lazyLoadElements.forEach((placeholder) => {
+				let contentId = placeholder.dataset.content;
+				let file_list_html = '';
+				switch (contentId) {
+					case 'file-list-1':
+						file_list_html = `<ul><h2 style="color: #87dda8;">Repo Root</h2>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.black" style="color: #fbc151;">.black</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.copilot-instructions.md" style="color: #7ebfe4;">.copilot-instructions.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.editorconfig" style="color: #7f8766;">.editorconfig</a></li>
@@ -465,9 +472,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.ico" style="color: #42ddb1;">favicon.ico</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/favicon.png" style="color: #ee8f3e;">favicon.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.html" style="color: #928707;">file_list.html</a></li></ul>`;
-                    break;
-                case 'file-list-2':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.md" style="color: #5789df;">file_list.md</a></li>
+						break;
+					case 'file-list-2':
+						file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/file_list.md" style="color: #5789df;">file_list.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/generate_gemfile.rb" style="color: #c9af62;">generate_gemfile.rb</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/jsconfig.json" style="color: #5f9760;">jsconfig.json</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/package-lock.json" style="color: #8bd375;">package-lock.json</a></li>
@@ -507,9 +514,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Halloween.user.css" style="color: #a7b7f4;">Kiwifarms-Halloween.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Kiwifarms-Vaporwave.user.css" style="color: #8ba2e2;">Kiwifarms-Vaporwave.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Klimat.app-DarkMode.user.css" style="color: #3aeb5d;">Klimat.app-DarkMode.user.css</a></li></ul>`;
-                    break;
-                case 'file-list-3':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MarkdownViewer%2B%2BTheme.user.css" style="color: #a199cc;">MarkdownViewer++Theme.user.css</a></li>
+						break;
+					case 'file-list-3':
+						file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MarkdownViewer%2B%2BTheme.user.css" style="color: #a199cc;">MarkdownViewer++Theme.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Medicare-Gov-Dark-Mode.user.css" style="color: #e18327;">Medicare-Gov-Dark-Mode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyBikeTraffic-DarkMode.user.css" style="color: #79b0f5;">MyBikeTraffic-DarkMode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MyWorkoutCompanion-Dark.user.css" style="color: #bcc9a1;">MyWorkoutCompanion-Dark.user.css</a></li>
@@ -549,9 +556,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Sunset-Style.user.css" style="color: #63c7dd;">SteamStat.us-Re-Remastered-Sunset-Style.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TeamFortress2.user.css" style="color: #48c896;">SteamStat.us-Re-Remastered-TeamFortress2.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css" style="color: #ada169;">SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css</a></li></ul>`;
-                    break;
-                case 'file-list-4':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css" style="color: #5e8d87;">SteamStat.us-Re-Remastered-TourDeFrance.user.css</a></li>
+						break;
+					case 'file-list-4':
+						file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css" style="color: #5e8d87;">SteamStat.us-Re-Remastered-TourDeFrance.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-USA-Style.user.css" style="color: #53a814;">SteamStat.us-Re-Remastered-USA-Style.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Windows95.user.css" style="color: #f389a3;">SteamStat.us-Re-Remastered-Windows95.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamStat.us-Re-Remastered-Witcher3.user.css" style="color: #64a9db;">SteamStat.us-Re-Remastered-Witcher3.user.css</a></li>
@@ -591,9 +598,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Windy-DarkMode.user.css" style="color: #6acd43;">Windy-DarkMode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YT-Vibra.user.css" style="color: #e39639;">YT-Vibra.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeRainbowProgress.user.css" style="color: #4f9d14;">YoutubeRainbowProgress.user.css</a></li></ul>`;
-                    break;
-                case 'file-list-5':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeScrubberColors.user.css" style="color: #c284de;">YoutubeScrubberColors.user.css</a></li>
+						break;
+					case 'file-list-5':
+						file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YoutubeScrubberColors.user.css" style="color: #c284de;">YoutubeScrubberColors.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Zwift.com-Dark-Mode.user.css" style="color: #b39980;">Zwift.com-Dark-Mode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftHacks-DarkMode.user.css" style="color: #c1c6e4;">ZwiftHacks-DarkMode.user.css</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/ZwiftInsiderDarkMode.user.css" style="color: #3c94bf;">ZwiftInsiderDarkMode.user.css</a></li>
@@ -633,9 +640,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/GyazoDirectLink.user.js" style="color: #3ac07b;">GyazoDirectLink.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideChineseUserstyles.user.js" style="color: #e8bbc7;">HideChineseUserstyles.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/HideNon-EnglishUserstyles.user.js" style="color: #d3c6a0;">HideNon-EnglishUserstyles.user.js</a></li></ul>`;
-                    break;
-                case 'file-list-6':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.js" style="color: #acbdfc;">KudoAll-Strava-Garmin.user.js</a></li>
+						break;
+					case 'file-list-6':
+						file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.js" style="color: #acbdfc;">KudoAll-Strava-Garmin.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/MergeDependabotPRs.user.js" style="color: #fdb53a;">MergeDependabotPRs.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer-SlowMode.user.js" style="color: #67c096;">OSRSWikiAuto-Categorizer-SlowMode.user.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/OSRSWikiAuto-Categorizer.user.js" style="color: #2de6f0;">OSRSWikiAuto-Categorizer.user.js</a></li>
@@ -675,9 +682,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/WIndyPlugin.min.js" style="color: #30de51;">WIndyPlugin.min.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/background.js" style="color: #3ae7a1;">YouTubeTVVolumeControl/background.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeTVVolumeControl/content.js" style="color: #4bdfad;">YouTubeTVVolumeControl/content.js</a></li></ul>`;
-                    break;
-                case 'file-list-7':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/background.js" style="color: #36c462;">YouTubeVolumeControl/background.js</a></li>
+						break;
+					case 'file-list-7':
+						file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/background.js" style="color: #36c462;">YouTubeVolumeControl/background.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/YouTubeVolumeControl/content.js" style="color: #8db1e6;">YouTubeVolumeControl/content.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify-css-mod.js" style="color: #b0a0bc;">beautify-css-mod.js</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/beautify.js" style="color: #ecaefb;">beautify.js</a></li>
@@ -717,9 +724,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/label.yml" style="color: #eebe33;">.github/workflows/label.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/ossar.yml" style="color: #4cc7ec;">.github/workflows/ossar.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/osv-scanner.yml" style="color: #fc5c87;">.github/workflows/osv-scanner.yml</a></li></ul>`;
-                    break;
-                case 'file-list-8':
-                    file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/scorecards.yml" style="color: #47cb5f;">.github/workflows/scorecards.yml</a></li>
+						break;
+					case 'file-list-8':
+						file_list_html = `<ul><li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/scorecards.yml" style="color: #47cb5f;">.github/workflows/scorecards.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/semgrep.yml" style="color: #90e204;">.github/workflows/semgrep.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sitemap.yml" style="color: #7399cb;">.github/workflows/sitemap.yml</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.github/workflows/sobelow.yml" style="color: #af9f11;">.github/workflows/sobelow.yml</a></li>
@@ -759,9 +766,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon128.png" style="color: #749f65;">SteamCookieExtractor2/icons/images/icon128.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon16.png" style="color: #99b599;">SteamCookieExtractor2/icons/images/icon16.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/SteamCookieExtractor2/icons/images/icon48.png" style="color: #22d460;">SteamCookieExtractor2/icons/images/icon48.png</a></li></ul>`;
-                    break;
-                case 'file-list-9':
-                    file_list_html = `<ul><h2 style="color: #3d94ec;">UserStyles</h2>
+						break;
+					case 'file-list-9':
+						file_list_html = `<ul><h2 style="color: #3d94ec;">UserStyles</h2>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserStyles/Microsoft.PowerShell_profile.ps1" style="color: #9772e0;">UserStyles/Microsoft.PowerShell_profile.ps1</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/UserStyles/sync.ffs_db" style="color: #d0aab0;">UserStyles/sync.ffs_db</a></li>
 <h2 style="color: #7587b8;">YouTubeTVVolumeControl</h2>
@@ -792,10 +799,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-swirls-background.png" style="color: #39ad18;">assets/kiwi-swirls-background.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-trees-background.png" style="color: #4aac51;">assets/kiwi-trees-background.png</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/assets/kiwi-vaporwave-logo.png" style="color: #78a078;">assets/kiwi-vaporwave-logo.png</a></li></ul>`;
-                    break;
-            }
-            placeholder.innerHTML = file_list_html;
-        });
-    }
-});
+						break;
+				}
+				placeholder.innerHTML = file_list_html;
+			});
+		}
+	});
 </script>

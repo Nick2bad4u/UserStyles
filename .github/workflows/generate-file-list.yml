@@ -38,7 +38,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
-          python-version: "3.x"
+          python-version: '3.x'
 
       - name: Create src directory
         run: mkdir -p src
@@ -57,35 +57,35 @@ jobs:
       - name: Run Generate Repo File List Action
         uses: nick2bad4u/generate-repo-file-list@07b49868e86da4ee6121ea33b3f2beabd87bb87f # main
         with:
-          log-level: "INFO"
-          directory: "."
-          repo-url: "https://github.com/${{ github.repository }}"
-          fallback-repo-url: "https://github.com/${{ github.repository }}"
-          output-format: "markdown"
-          output-file: "file_list.md"
-          color-source: "random"
-          color-list: "#FF0000 #00FF00 #0000FF #FFFF00 #FF00FF #00FFFF"
-          color-range-start: "#000000"
-          color-range-end: "#FFFFFF"
-          max-attempts: "1000000"
-          exclude-blacks-threshold: "#222222"
-          exclude-dark-colors: "false"
-          exclude-bright-colors: "false"
-          exclude-blacks: "false"
-          ensure-readable-colors: "true"
-          repo-root-header: "Repo Root"
-          header-text: "## File List"
-          intro-text: "# Here is a list of files included in this repository:"
-          dark-color-luminance-threshold: "128"
-          bright-color-luminance-threshold: "200"
-          chunk-size: "40"
-          viewport-mobile: "768"
-          viewport-tablet: "1024"
-          viewport-small-desktop: "1440"
-          root-margin-large-desktop: "0px 0px 400px 0px"
-          root-margin-small-desktop: "0px 0px 300px 0px"
-          root-margin-tablet: "0px 0px 200px 0px"
-          root-margin-mobile: "0px 0px 100px 0px"
+          log-level: 'INFO'
+          directory: '.'
+          repo-url: 'https://github.com/${{ github.repository }}'
+          fallback-repo-url: 'https://github.com/${{ github.repository }}'
+          output-format: 'markdown'
+          output-file: 'file_list.md'
+          color-source: 'random'
+          color-list: '#FF0000 #00FF00 #0000FF #FFFF00 #FF00FF #00FFFF'
+          color-range-start: '#000000'
+          color-range-end: '#FFFFFF'
+          max-attempts: '1000000'
+          exclude-blacks-threshold: '#222222'
+          exclude-dark-colors: 'false'
+          exclude-bright-colors: 'false'
+          exclude-blacks: 'false'
+          ensure-readable-colors: 'true'
+          repo-root-header: 'Repo Root'
+          header-text: '## File List'
+          intro-text: '# Here is a list of files included in this repository:'
+          dark-color-luminance-threshold: '128'
+          bright-color-luminance-threshold: '200'
+          chunk-size: '40'
+          viewport-mobile: '768'
+          viewport-tablet: '1024'
+          viewport-small-desktop: '1440'
+          root-margin-large-desktop: '0px 0px 400px 0px'
+          root-margin-small-desktop: '0px 0px 300px 0px'
+          root-margin-tablet: '0px 0px 200px 0px'
+          root-margin-mobile: '0px 0px 100px 0px'
 
       - name: Update README.md
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
@@ -157,5 +157,5 @@ jobs:
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
         with:
-          commit_message: "Update file list in README.md automatically with GitHub Action"
-          file_pattern: "README.md file_list.md file_list.html"
+          commit_message: 'Update file list in README.md automatically with GitHub Action'
+          file_pattern: 'README.md file_list.md file_list.html'

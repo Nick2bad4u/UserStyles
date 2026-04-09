@@ -11,8 +11,7 @@
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/PowerPyx-DarkMode.user.css
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/PowerPyx-DarkMode.user.css
 ==/UserStyle== */
-@-moz-document domain("powerpyx.com")
-{
+@-moz-document domain("powerpyx.com") {
 	/* Invert colors except images and videos */
 	html,
 	img,
@@ -20,8 +19,8 @@
 	video,
 	iframe,
 	.footer-widgets,
-	.site-footer, .site-footer a
-	{
+	.site-footer,
+	.site-footer a {
 		filter: invert(1) hue-rotate(180deg) !important;
 	}
 }

@@ -28,4 +28,6 @@ zwiftbikes/wheels.json
 WahooFitnessDarkMode.user.css
 SuperchargedLocalDirectoryWebUI.user.js
 ESPN-DarkMode.user.css
+# Stylus preprocessor UserCSS — not valid CSS, Prettier can't parse it
+RedditColoredComments.user.css
 Windy-DarkMode.user.css

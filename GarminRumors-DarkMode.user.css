@@ -13,16 +13,16 @@
 @-moz-document domain("garminrumors.com") {
 	/* Invert colors except images and videos */
 	:is(
-			html:not([stylus-iframe]),
-			img,
-			svg,
-			video,
-			#uc_ue_listing_carousel_elementor_1d30439 *
-		):not(
-			.elementor-910
-				.elementor-element.elementor-element-a5979ca
-				img
-		) {
+		html:not([stylus-iframe]),
+		img,
+		svg,
+		video,
+		#uc_ue_listing_carousel_elementor_1d30439 *
+	):not(
+		.elementor-910
+			.elementor-element.elementor-element-a5979ca
+			img
+	) {
 		filter: invert(1) hue-rotate(180deg);
 	}
 }

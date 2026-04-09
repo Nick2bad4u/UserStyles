@@ -24,8 +24,7 @@
 		filter: invert(1) hue-rotate(180deg) !important;
 	}
 
-	.Header__header__iNAJ6 *
-	{
+	.Header__header__iNAJ6 * {
 		fill: red !important;
 	}
 }

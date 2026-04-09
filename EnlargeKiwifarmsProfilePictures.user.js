@@ -31,8 +31,6 @@
 // @updateURL    https://update.greasyfork.org/scripts/525997/Kiwifarms%20-%20Expand%20Avatars%20on%20Hover.meta.js
 // ==/UserScript==
 
- 
-
 (function () {
 	'use strict';
 
@@ -65,67 +63,67 @@
 
 	// Function to show the expanded avatar
 	function showExpandedAvatar(event) {
-			const avatar = event.target;
-			expandedAvatar.src = avatar.src;
-			expandedAvatar.style.left = `${event.pageX + 60}px`;
-			expandedAvatar.style.top = `${event.pageY + 60}px`;
-			expandedAvatar.style.display = 'block';
+		const avatar = event.target;
+		expandedAvatar.src = avatar.src;
+		expandedAvatar.style.left = `${event.pageX + 60}px`;
+		expandedAvatar.style.top = `${event.pageY + 60}px`;
+		expandedAvatar.style.display = 'block';
 	}
 
 	// Function to hide the expanded avatar
 	function hideExpandedAvatar() {
-			expandedAvatar.style.display = 'none';
+		expandedAvatar.style.display = 'none';
 	}
 
 	// Attach event listeners to avatar images
 	document.querySelectorAll('.avatar img').forEach((avatar) => {
-			avatar.addEventListener('mouseover', showExpandedAvatar);
-			avatar.addEventListener('mouseout', hideExpandedAvatar);
+		avatar.addEventListener('mouseover', showExpandedAvatar);
+		avatar.addEventListener('mouseout', hideExpandedAvatar);
 	});
 
 	// Update avatar position on mouse move
 	document.addEventListener('mousemove', (event) => {
-			if (expandedAvatar.style.display === 'block') {
-					expandedAvatar.style.left = `${event.pageX + 60}px`;
-					expandedAvatar.style.top = `${event.pageY + 60}px`;
-			}
+		if (expandedAvatar.style.display === 'block') {
+			expandedAvatar.style.left = `${event.pageX + 60}px`;
+			expandedAvatar.style.top = `${event.pageY + 60}px`;
+		}
 	});
 
 	// Function to set avatar size
 	function setAvatarSize() {
-			const size = prompt('Enter the avatar size (in pixels, max 400):', avatarSize);
-			if (size !== null) {
-					// Check if the input is a valid number and within the limit
-					const parsedSize = parseInt(size, 10);
-					if (!isNaN(parsedSize) && parsedSize > 0 && parsedSize <= 400) {
-							avatarSize = parsedSize;
-							GM_setValue('avatarSize', avatarSize);
-							updateStyle();
-					} else {
-							alert('Please enter a valid positive number up to 400 for avatar size.');
-					}
+		const size = prompt('Enter the avatar size (in pixels, max 400):', avatarSize);
+		if (size !== null) {
+			// Check if the input is a valid number and within the limit
+			const parsedSize = parseInt(size, 10);
+			if (!isNaN(parsedSize) && parsedSize > 0 && parsedSize <= 400) {
+				avatarSize = parsedSize;
+				GM_setValue('avatarSize', avatarSize);
+				updateStyle();
+			} else {
+				alert('Please enter a valid positive number up to 400 for avatar size.');
 			}
+		}
 	}
 
 	// Function to set avatar scale
 	function setAvatarScale() {
-			const scale = prompt('Enter the avatar scale (e.g., 2 for 200%):', avatarScale);
-			if (scale !== null) {
-					// Check if the input is a valid number
-					const parsedScale = parseFloat(scale);
-					if (!isNaN(parsedScale) && parsedScale > 0 && parsedScale <= 2) {
-							avatarScale = parsedScale;
-							GM_setValue('avatarScale', avatarScale);
-							updateStyle();
-					} else {
-							alert('Please enter a valid positive number for avatar scale.');
-					}
+		const scale = prompt('Enter the avatar scale (e.g., 2 for 200%):', avatarScale);
+		if (scale !== null) {
+			// Check if the input is a valid number
+			const parsedScale = parseFloat(scale);
+			if (!isNaN(parsedScale) && parsedScale > 0 && parsedScale <= 2) {
+				avatarScale = parsedScale;
+				GM_setValue('avatarScale', avatarScale);
+				updateStyle();
+			} else {
+				alert('Please enter a valid positive number for avatar scale.');
 			}
+		}
 	}
 
 	// Function to update the custom styles
 	function updateStyle() {
-			style.textContent = `
+		style.textContent = `
 					.expanded-avatar {
 							position: absolute;
 							border: 2px solid #000;

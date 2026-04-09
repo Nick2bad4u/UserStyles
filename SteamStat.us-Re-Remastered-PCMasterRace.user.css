@@ -162,11 +162,7 @@
 		font-weight: 300;
 		font-size: 16px;
 		font-family:
-			"Segoe UI",
-			Tahoma,
-			Geneva,
-			Verdana,
-			sans-serif;
+			'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		text-shadow: 2px 2px 4px rgb(0 0 0 / 70%);
 	}
 	/* Tooltip customization */

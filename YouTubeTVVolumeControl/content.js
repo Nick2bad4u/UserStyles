@@ -6,16 +6,9 @@
 
 	const getValue = (key, defaultValue) => {
 		return new Promise((resolve) => {
-			chrome.storage.local.get(
-				[key],
-				(result) => {
-					resolve(
-						result[key] !== undefined
-							? result[key]
-							: defaultValue,
-					);
-				},
-			);
+			chrome.storage.local.get([key], (result) => {
+				resolve(result[key] !== undefined ? result[key] : defaultValue);
+			});
 		});
 	};
 
@@ -33,25 +26,18 @@
 	};
 
 	const createVolumeUI = async () => {
-		const sliderContainer =
-			document.querySelector(
-				'.ytu-player-controls.style-scope.ypcs-volume-control-slot.ypcs-control .ytu-volume-slider.style-scope.volume-button-slot',
-			);
+		const sliderContainer = document.querySelector(
+			'.ytu-player-controls.style-scope.ypcs-volume-control-slot.ypcs-control .ytu-volume-slider.style-scope.volume-button-slot',
+		);
 		if (!sliderContainer) {
-			console.error(
-				'Volume slider container not found, cannot create UI',
-			);
+			console.error('Volume slider container not found, cannot create UI');
 			return;
 		}
 
-		const savedVolume = await getValue(
-			VOLUME_KEY,
-			DEFAULT_VOLUME,
-		);
+		const savedVolume = await getValue(VOLUME_KEY, DEFAULT_VOLUME);
 
 		// Create input box
-		const volumeInput =
-			document.createElement('input');
+		const volumeInput = document.createElement('input');
 		volumeInput.type = 'number';
 		volumeInput.min = 0;
 		volumeInput.max = 100;
@@ -75,25 +61,19 @@
 
 		// Insert the input box into the correct container
 		wrapper.appendChild(volumeInput);
-		sliderContainer.parentNode.insertBefore(
-			wrapper,
-			sliderContainer,
-		);
+		sliderContainer.parentNode.insertBefore(wrapper, sliderContainer);
 
 		// Prevent key events from propagating while typing
-		volumeInput.addEventListener(
-			'keydown',
-			(e) => {
-				e.stopPropagation();
-			},
-		);
+		volumeInput.addEventListener('keydown', (e) => {
+			e.stopPropagation();
+		});
 
 		// Event listener for manual input changes
 		volumeInput.addEventListener('input', (e) => {
 			let newValue = parseFloat(e.target.value);
 			if (newValue < 0) newValue = 0;
 			if (newValue > 100) newValue = 100;
-			setVolume(newValue);
+			void setVolume(newValue);
 		});
 
 		// Function to update input when slider moves
@@ -101,14 +81,11 @@
 			'tp-yt-paper-slider[role="slider"].ytu-volume-slider',
 		);
 		const updateInput = () => {
-			volumeInput.value =
-				slider.getAttribute('value');
+			volumeInput.value = slider.getAttribute('value');
 		};
 
 		// Observe slider changes
-		const observer = new MutationObserver(
-			updateInput,
-		);
+		const observer = new MutationObserver(updateInput);
 		observer.observe(slider, {
 			attributes: true,
 			attributeFilter: ['value'],
@@ -140,23 +117,18 @@
 	};
 
 	const loadSavedVolume = async () => {
-		const savedVolume = await getValue(
-			VOLUME_KEY,
-			DEFAULT_VOLUME,
-		);
+		const savedVolume = await getValue(VOLUME_KEY, DEFAULT_VOLUME);
 		const slider = document.querySelector(
 			'tp-yt-paper-slider[role="slider"].ytu-volume-slider',
 		);
 		if (slider) {
-			console.log(
-				`Applying saved volume: ${savedVolume}`,
-			);
-			setVolume(savedVolume);
+			console.log(`Applying saved volume: ${savedVolume}`);
+			void setVolume(savedVolume);
 		} else {
-			console.log(
-				'Slider not ready, retrying in 500ms',
-			);
-			setTimeout(loadSavedVolume, 500);
+			console.log('Slider not ready, retrying in 500ms');
+			setTimeout(() => {
+				void loadSavedVolume();
+			}, 500);
 		}
 	};
 
@@ -164,13 +136,12 @@
 		const slider = document.querySelector(
 			'tp-yt-paper-slider[role="slider"].ytu-volume-slider',
 		);
-		const sliderContainer =
-			document.querySelector(
-				'.ytu-player-controls.style-scope.ypcs-volume-control-slot.ypcs-control .ytu-volume-slider.style-scope.volume-button-slot',
-			);
+		const sliderContainer = document.querySelector(
+			'.ytu-player-controls.style-scope.ypcs-volume-control-slot.ypcs-control .ytu-volume-slider.style-scope.volume-button-slot',
+		);
 
 		if (slider && sliderContainer) {
-			loadSavedVolume().then(createVolumeUI);
+			void loadSavedVolume().then(createVolumeUI);
 		} else {
 			console.error(
 				'Volume slider or container not found, retrying in 3 seconds',
@@ -184,46 +155,34 @@
 			'tp-yt-paper-slider[role="slider"].ytu-volume-slider',
 		);
 		if (slider) {
-			console.log(
-				'Observing the volume slider for changes',
-			);
-			const observer = new MutationObserver(
-				async (mutationsList) => {
+			console.log('Observing the volume slider for changes');
+			const observer = new MutationObserver((mutationsList) => {
+				void (async () => {
 					for (const mutation of mutationsList) {
 						if (
 							mutation.type === 'attributes' &&
 							mutation.attributeName === 'value'
 						) {
-							const currentValue =
-								slider.getAttribute('value');
-							console.log(
-								`Current volume changed to: ${currentValue}`,
-							);
-							await setValue(
-								VOLUME_KEY,
-								currentValue,
-							);
+							const currentValue = slider.getAttribute('value');
+							console.log(`Current volume changed to: ${currentValue}`);
+							await setValue(VOLUME_KEY, currentValue);
 							// Update the volume in the UI based on currentValue
 						}
 					}
-				},
-			);
+				})();
+			});
 			observer.observe(slider, {
 				attributes: true,
 				attributeFilter: ['value'],
 			});
 		} else {
-			console.error(
-				'Volume slider not found during initialization',
-			);
+			console.error('Volume slider not found during initialization');
 			setTimeout(observeSliderChanges, 1000);
 		}
 	};
 
 	window.addEventListener('load', () => {
-		console.log(
-			'YouTube TV Volume Rememberer script with UI loaded',
-		);
+		console.log('YouTube TV Volume Rememberer script with UI loaded');
 		setTimeout(() => {
 			tryLoadVolume();
 			observeSliderChanges();
@@ -238,24 +197,12 @@
 
 		const isShiftPressed = event.shiftKey;
 
-		if (
-			isShiftPressed &&
-			event.key === 'ArrowUp'
-		) {
-			const newValue = Math.min(
-				parseFloat(slider.value) + 5,
-				100,
-			);
-			setVolume(newValue);
-		} else if (
-			isShiftPressed &&
-			event.key === 'ArrowDown'
-		) {
-			const newValue = Math.max(
-				parseFloat(slider.value) - 5,
-				0,
-			);
-			setVolume(newValue);
+		if (isShiftPressed && event.key === 'ArrowUp') {
+			const newValue = Math.min(parseFloat(slider.value) + 5, 100);
+			void setVolume(newValue);
+		} else if (isShiftPressed && event.key === 'ArrowDown') {
+			const newValue = Math.max(parseFloat(slider.value) - 5, 0);
+			void setVolume(newValue);
 		}
 	});
 })();

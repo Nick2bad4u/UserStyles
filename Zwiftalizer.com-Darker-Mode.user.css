@@ -241,12 +241,13 @@
 		--breakpoint-md: 768px;
 		--breakpoint-lg: 992px;
 		--breakpoint-xl: 1200px;
-		--font-family-sans-serif: -apple-system,
-			blinkmacsystemfont, 'Segoe UI', roboto,
+		--font-family-sans-serif:
+			-apple-system, blinkmacsystemfont, 'Segoe UI', roboto,
 			'Helvetica Neue', arial, 'Noto Sans', sans-serif,
 			'Apple Color Emoji', 'Segoe UI Emoji',
 			'Segoe UI Symbol', 'Noto Color Emoji';
-		--font-family-monospace: sfmono-regular, menlo, monaco,
-			consolas, 'Liberation Mono', 'Courier New', monospace;
+		--font-family-monospace:
+			sfmono-regular, menlo, monaco, consolas,
+			'Liberation Mono', 'Courier New', monospace;
 	}
 }

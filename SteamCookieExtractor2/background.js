@@ -4,7 +4,7 @@
 chrome.runtime.onInstalled.addListener(() => {
 	console.log('Extension installed');
 	try {
-		initializeFetch();
+		void initializeFetch();
 	} catch (error) {
 		console.error('Error initializing fetch on installation:', error);
 	}
@@ -14,7 +14,7 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onStartup.addListener(() => {
 	console.log('Browser restarted');
 	try {
-		initializeFetch();
+		void initializeFetch();
 	} catch (error) {
 		console.error('Error initializing fetch on startup:', error);
 	}
@@ -53,13 +53,18 @@ function getChromeStorage(keys) {
 		try {
 			chrome.storage.sync.get(keys, (result) => {
 				if (chrome.runtime.lastError) {
-					reject(chrome.runtime.lastError);
+					reject(
+						new Error(
+							chrome.runtime.lastError?.message ??
+								String(chrome.runtime.lastError),
+						),
+					);
 				} else {
 					resolve(result);
 				}
 			});
 		} catch (error) {
-			reject(error);
+			reject(error instanceof Error ? error : new Error(String(error)));
 		}
 	});
 }
@@ -77,7 +82,7 @@ function openPopupWindow() {
 			(window) => {
 				console.log('Popup window created:', window);
 				// Refresh cookies when the popup is opened
-				fetchSteamCookies();
+				void fetchSteamCookies();
 			},
 		);
 	} catch (error) {
@@ -143,13 +148,18 @@ function createTab(url) {
 			try {
 				chrome.tabs.create({ url, active: false }, (tab) => {
 					if (chrome.runtime.lastError) {
-						reject(chrome.runtime.lastError);
+						reject(
+							new Error(
+								chrome.runtime.lastError?.message ??
+									String(chrome.runtime.lastError),
+							),
+						);
 					} else {
 						resolve(tab);
 					}
 				});
 			} catch (error) {
-				reject(error);
+				reject(error instanceof Error ? error : new Error(String(error)));
 			}
 		});
 	} catch (error) {
@@ -192,13 +202,18 @@ function getCookies(domain) {
 			try {
 				chrome.cookies.getAll({ domain }, (cookies) => {
 					if (chrome.runtime.lastError) {
-						reject(chrome.runtime.lastError);
+						reject(
+							new Error(
+								chrome.runtime.lastError?.message ??
+									String(chrome.runtime.lastError),
+							),
+						);
 					} else {
 						resolve(cookies);
 					}
 				});
 			} catch (error) {
-				reject(error);
+				reject(error instanceof Error ? error : new Error(String(error)));
 			}
 		});
 	} catch (error) {
@@ -213,13 +228,18 @@ function closeTab(tabId) {
 		try {
 			chrome.tabs.remove(tabId, () => {
 				if (chrome.runtime.lastError) {
-					reject(chrome.runtime.lastError);
+					reject(
+						new Error(
+							chrome.runtime.lastError?.message ??
+								String(chrome.runtime.lastError),
+						),
+					);
 				} else {
 					resolve();
 				}
 			});
 		} catch (error) {
-			reject(error);
+			reject(error instanceof Error ? error : new Error(String(error)));
 		}
 	});
 }
@@ -227,15 +247,17 @@ function closeTab(tabId) {
 // Function to set the fetch interval
 function setFetchInterval(minutes) {
 	const interval = minutes * 60 * 1000;
-	setInterval(async () => {
-		try {
-			const result = await getChromeStorage(['disableFetch']);
-			if (!result.disableFetch) {
-				await fetchSteamCookies();
+	setInterval(() => {
+		void (async () => {
+			try {
+				const result = await getChromeStorage(['disableFetch']);
+				if (!result.disableFetch) {
+					await fetchSteamCookies();
+				}
+			} catch (error) {
+				console.error('Error in fetch interval:', error);
 			}
-		} catch (error) {
-			console.error('Error in fetch interval:', error);
-		}
+		})();
 	}, interval);
 }
 

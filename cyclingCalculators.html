@@ -2,10 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Cycling Calculators</title>
 		<style>
 			body {
@@ -59,372 +56,166 @@
 		<div class="calculator">
 			<h2>Speed Calculator</h2>
 			<label for="distance">Distance (km):</label>
-			<input
-				type="number"
-				id="distance"
-				step="0.01"
-				placeholder="Enter distance in km"
-			/>
+			<input type="number" id="distance" step="0.01" placeholder="Enter distance in km" />
 			<label for="time">Time (hours):</label>
-			<input
-				type="number"
-				id="time"
-				step="0.01"
-				placeholder="Enter time in hours"
-			/>
+			<input type="number" id="time" step="0.01" placeholder="Enter time in hours" />
 			<button onclick="calculateSpeed()">Calculate Speed</button>
-			<div
-				class="result"
-				id="speedResult"
-			></div>
+			<div class="result" id="speedResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Power Calculator</h2>
 			<label for="weight">Weight (kg):</label>
-			<input
-				type="number"
-				id="weight"
-				step="0.1"
-				placeholder="Enter weight in kg"
-			/>
+			<input type="number" id="weight" step="0.1" placeholder="Enter weight in kg" />
 			<label for="speed">Speed (km/h):</label>
-			<input
-				type="number"
-				id="cyclistSpeed"
-				step="0.1"
-				placeholder="Enter speed in km/h"
-			/>
+			<input type="number" id="cyclistSpeed" step="0.1" placeholder="Enter speed in km/h" />
 			<button onclick="calculatePower()">Calculate Power</button>
-			<div
-				class="result"
-				id="powerResult"
-			></div>
+			<div class="result" id="powerResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Calories Burned Calculator</h2>
 			<label for="weightCalories">Weight (kg):</label>
-			<input
-				type="number"
-				id="weightCalories"
-				step="0.1"
-				placeholder="Enter weight in kg"
-			/>
+			<input type="number" id="weightCalories" step="0.1" placeholder="Enter weight in kg" />
 			<label for="duration">Duration (hours):</label>
-			<input
-				type="number"
-				id="duration"
-				step="0.01"
-				placeholder="Enter duration in hours"
-			/>
+			<input type="number" id="duration" step="0.01" placeholder="Enter duration in hours" />
 			<button onclick="calculateCalories()">Calculate Calories</button>
-			<div
-				class="result"
-				id="caloriesResult"
-			></div>
+			<div class="result" id="caloriesResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Cadence Calculator</h2>
 			<label for="revolutions">Revolutions:</label>
-			<input
-				type="number"
-				id="revolutions"
-				step="1"
-				placeholder="Enter number of revolutions"
-			/>
+			<input type="number" id="revolutions" step="1" placeholder="Enter number of revolutions" />
 			<label for="timeCadence">Time (minutes):</label>
-			<input
-				type="number"
-				id="timeCadence"
-				step="0.01"
-				placeholder="Enter time in minutes"
-			/>
+			<input type="number" id="timeCadence" step="0.01" placeholder="Enter time in minutes" />
 			<button onclick="calculateCadence()">Calculate Cadence</button>
-			<div
-				class="result"
-				id="cadenceResult"
-			></div>
+			<div class="result" id="cadenceResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Distance Calculator</h2>
 			<label for="timeDistance">Time (hours):</label>
-			<input
-				type="number"
-				id="timeDistance"
-				step="0.01"
-				placeholder="Enter time in hours"
-			/>
+			<input type="number" id="timeDistance" step="0.01" placeholder="Enter time in hours" />
 			<label for="speedDistance">Speed (km/h):</label>
-			<input
-				type="number"
-				id="speedDistance"
-				step="0.1"
-				placeholder="Enter speed in km/h"
-			/>
+			<input type="number" id="speedDistance" step="0.1" placeholder="Enter speed in km/h" />
 			<button onclick="calculateDistance()">Calculate Distance</button>
-			<div
-				class="result"
-				id="distanceResult"
-			></div>
+			<div class="result" id="distanceResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>KM to Miles / Miles to KM Calculator</h2>
 			<label for="distanceInput">Distance:</label>
-			<input
-				type="number"
-				id="distanceInput"
-				step="0.01"
-				placeholder="Enter distance"
-			/>
+			<input type="number" id="distanceInput" step="0.01" placeholder="Enter distance" />
 			<label for="conversionType">Conversion Type:</label>
 			<select id="conversionType">
 				<option value="kmToMiles">KM to Miles</option>
 				<option value="milesToKm">Miles to KM</option>
 			</select>
 			<button onclick="convertDistance()">Convert Distance</button>
-			<div
-				class="result"
-				id="conversionResult"
-			></div>
+			<div class="result" id="conversionResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Average Speed Calculator</h2>
 			<label for="totalDistance">Total Distance (km):</label>
-			<input
-				type="number"
-				id="totalDistance"
-				step="0.01"
-				placeholder="Enter total distance in km"
-			/>
+			<input type="number" id="totalDistance" step="0.01" placeholder="Enter total distance in km" />
 			<label for="totalTime">Total Time (hours):</label>
-			<input
-				type="number"
-				id="totalTime"
-				step="0.01"
-				placeholder="Enter total time in hours"
-			/>
+			<input type="number" id="totalTime" step="0.01" placeholder="Enter total time in hours" />
 			<button onclick="calculateAverageSpeed()">Calculate Average Speed</button>
-			<div
-				class="result"
-				id="averageSpeedResult"
-			></div>
+			<div class="result" id="averageSpeedResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Climbing Speed Calculator</h2>
 			<label for="climbDistance">Distance (km):</label>
-			<input
-				type="number"
-				id="climbDistance"
-				step="0.01"
-				placeholder="Enter distance in km"
-			/>
+			<input type="number" id="climbDistance" step="0.01" placeholder="Enter distance in km" />
 			<label for="gradient">Gradient (%):</label>
-			<input
-				type="number"
-				id="gradient"
-				step="0.1"
-				placeholder="Enter gradient in %"
-			/>
+			<input type="number" id="gradient" step="0.1" placeholder="Enter gradient in %" />
 			<label for="powerClimbing">Power (Watts):</label>
-			<input
-				type="number"
-				id="powerClimbing"
-				step="1"
-				placeholder="Enter power in watts"
-			/>
+			<input type="number" id="powerClimbing" step="1" placeholder="Enter power in watts" />
 			<button onclick="calculateClimbingSpeed()">Calculate Climbing Speed</button>
-			<div
-				class="result"
-				id="climbingSpeedResult"
-			></div>
+			<div class="result" id="climbingSpeedResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Gear Ratio Calculator</h2>
 			<label for="chainring">Chainring Teeth:</label>
-			<input
-				type="number"
-				id="chainring"
-				step="1"
-				placeholder="Enter number of chainring teeth"
-			/>
+			<input type="number" id="chainring" step="1" placeholder="Enter number of chainring teeth" />
 			<label for="cog">Cog Teeth:</label>
-			<input
-				type="number"
-				id="cog"
-				step="1"
-				placeholder="Enter number of cog teeth"
-			/>
+			<input type="number" id="cog" step="1" placeholder="Enter number of cog teeth" />
 			<button onclick="calculateGearRatio()">Calculate Gear Ratio</button>
-			<div
-				class="result"
-				id="gearRatioResult"
-			></div>
+			<div class="result" id="gearRatioResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Heart Rate Zones Calculator</h2>
 			<label for="maxHeartRate">Max Heart Rate (bpm):</label>
-			<input
-				type="number"
-				id="maxHeartRate"
-				step="1"
-				placeholder="Enter max heart rate in bpm"
-			/>
+			<input type="number" id="maxHeartRate" step="1" placeholder="Enter max heart rate in bpm" />
 			<button onclick="calculateHeartRateZones()">Calculate Heart Rate Zones</button>
-			<div
-				class="result"
-				id="heartRateZonesResult"
-			></div>
+			<div class="result" id="heartRateZonesResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>VO2 Max Estimator</h2>
 			<label for="vo2MaxWeight">Weight (kg):</label>
-			<input
-				type="number"
-				id="vo2MaxWeight"
-				step="0.1"
-				placeholder="Enter weight in kg"
-			/>
+			<input type="number" id="vo2MaxWeight" step="0.1" placeholder="Enter weight in kg" />
 			<label for="vo2MaxSpeed">Speed (km/h):</label>
-			<input
-				type="number"
-				id="vo2MaxSpeed"
-				step="0.1"
-				placeholder="Enter speed in km/h"
-			/>
+			<input type="number" id="vo2MaxSpeed" step="0.1" placeholder="Enter speed in km/h" />
 			<button onclick="estimateVO2Max()">Estimate VO2 Max</button>
-			<div
-				class="result"
-				id="vo2MaxResult"
-			></div>
+			<div class="result" id="vo2MaxResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Elapsed Time Calculator</h2>
 			<label for="startTime">Start Time (HH:MM):</label>
-			<input
-				type="time"
-				id="startTime"
-				placeholder="Enter start time"
-			/>
+			<input type="time" id="startTime" placeholder="Enter start time" />
 			<label for="endTime">End Time (HH:MM):</label>
-			<input
-				type="time"
-				id="endTime"
-				placeholder="Enter end time"
-			/>
+			<input type="time" id="endTime" placeholder="Enter end time" />
 			<button onclick="calculateElapsedTime()">Calculate Elapsed Time</button>
-			<div
-				class="result"
-				id="elapsedTimeResult"
-			></div>
+			<div class="result" id="elapsedTimeResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Bike Weight Impact Calculator</h2>
 			<label for="riderWeight">Rider Weight (kg):</label>
-			<input
-				type="number"
-				id="riderWeight"
-				step="0.1"
-				placeholder="Enter rider weight in kg"
-			/>
+			<input type="number" id="riderWeight" step="0.1" placeholder="Enter rider weight in kg" />
 			<label for="bikeWeight">Bike Weight (kg):</label>
-			<input
-				type="number"
-				id="bikeWeight"
-				step="0.1"
-				placeholder="Enter bike weight in kg"
-			/>
+			<input type="number" id="bikeWeight" step="0.1" placeholder="Enter bike weight in kg" />
 			<label for="slope">Slope (%):</label>
-			<input
-				type="number"
-				id="slope"
-				step="0.1"
-				placeholder="Enter slope in %"
-			/>
+			<input type="number" id="slope" step="0.1" placeholder="Enter slope in %" />
 			<button onclick="calculateWeightImpact()">Calculate Weight Impact</button>
-			<div
-				class="result"
-				id="weightImpactResult"
-			></div>
+			<div class="result" id="weightImpactResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Wind Resistance Calculator</h2>
 			<label for="windSpeed">Wind Speed (km/h):</label>
-			<input
-				type="number"
-				id="windSpeed"
-				step="0.1"
-				placeholder="Enter wind speed in km/h"
-			/>
+			<input type="number" id="windSpeed" step="0.1" placeholder="Enter wind speed in km/h" />
 			<label for="cyclingSpeed">Cycling Speed (km/h):</label>
-			<input
-				type="number"
-				id="cyclingSpeed"
-				step="0.1"
-				placeholder="Enter cycling speed in km/h"
-			/>
+			<input type="number" id="cyclingSpeed" step="0.1" placeholder="Enter cycling speed in km/h" />
 			<button onclick="calculateWindResistance()">Calculate Wind Resistance</button>
-			<div
-				class="result"
-				id="windResistanceResult"
-			></div>
+			<div class="result" id="windResistanceResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Rolling Resistance Calculator</h2>
 			<label for="rollingCoefficient">Rolling Resistance Coefficient:</label>
-			<input
-				type="number"
-				id="rollingCoefficient"
-				step="0.0001"
-				placeholder="Enter rolling resistance coefficient"
-			/>
+			<input type="number" id="rollingCoefficient" step="0.0001" placeholder="Enter rolling resistance coefficient" />
 			<label for="weightRolling">Total Weight (kg):</label>
-			<input
-				type="number"
-				id="weightRolling"
-				step="0.1"
-				placeholder="Enter total weight in kg"
-			/>
+			<input type="number" id="weightRolling" step="0.1" placeholder="Enter total weight in kg" />
 			<button onclick="calculateRollingResistance()">Calculate Rolling Resistance</button>
-			<div
-				class="result"
-				id="rollingResistanceResult"
-			></div>
+			<div class="result" id="rollingResistanceResult"></div>
 		</div>
 
 		<div class="calculator">
 			<h2>Cadence and Gear Calculator</h2>
 			<label for="cadenceGear">Cadence (RPM):</label>
-			<input
-				type="number"
-				id="cadenceGear"
-				step="1"
-				placeholder="Enter cadence in RPM"
-			/>
+			<input type="number" id="cadenceGear" step="1" placeholder="Enter cadence in RPM" />
 			<label for="wheelDiameter">Wheel Diameter (inches):</label>
-			<input
-				type="number"
-				id="wheelDiameter"
-				step="0.1"
-				placeholder="Enter wheel diameter in inches"
-			/>
+			<input type="number" id="wheelDiameter" step="0.1" placeholder="Enter wheel diameter in inches" />
 			<button onclick="calculateCadenceAndGear()">Calculate Speed and Gear</button>
-			<div
-				class="result"
-				id="cadenceGearResult"
-			></div>
+			<div class="result" id="cadenceGearResult"></div>
 		</div>
 
 		<script src="cyclingCalculators.js"></script>

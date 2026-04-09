@@ -29,13 +29,13 @@
 		html:not([stylus-iframe]),
 		img,
 		svg:not(
-				.leaflet-container .leaflet-overlay-pane svg,
-				.leaflet-container .leaflet-marker-pane img,
-				.leaflet-container .leaflet-shadow-pane img,
-				.leaflet-container .leaflet-tile-pane img,
-				.leaflet-container img.leaflet-image-layer,
-				.leaflet-container .leaflet-tile
-			),
+			.leaflet-container .leaflet-overlay-pane svg,
+			.leaflet-container .leaflet-marker-pane img,
+			.leaflet-container .leaflet-shadow-pane img,
+			.leaflet-container .leaflet-tile-pane img,
+			.leaflet-container img.leaflet-image-layer,
+			.leaflet-container .leaflet-tile
+		),
 		video
 	),
 	.filter-section-select td,

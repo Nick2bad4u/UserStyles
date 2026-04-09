@@ -169,7 +169,6 @@
     White "White" <<<EOT #FFFFFF EOT;
 }
 ==/UserStyle== */
-@-moz-document domain("youtube.com")
-{
+@-moz-document domain("youtube.com") {
 	/* [[bartype]] */
 }

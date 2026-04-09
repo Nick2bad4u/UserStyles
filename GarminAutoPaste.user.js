@@ -82,7 +82,7 @@
 	const observer = new MutationObserver(debounce(addAutoPasteTooltip, 200));
 	observer.observe(document.body, { childList: true, subtree: true });
 
-	document.body.addEventListener('contextmenu', async function (event) {
+	document.body.addEventListener('contextmenu', function (event) {
 		const target = event.target;
 		// Type safety: ensure target is an input or textarea element
 		if (!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement)) return;
@@ -90,28 +90,26 @@
 		const field = FIELD_CONFIG.find((f) => target.matches(f.selector));
 		if (field) {
 			event.preventDefault(); // Prevent default right-click menu
-
-			if (navigator.clipboard && navigator.clipboard.readText) {
-				try {
-					// Use clipboard API to read the text and paste it
-					const clipboardText = await navigator.clipboard.readText();
-					// Sanitize clipboard content to prevent injection of malicious content
-					let sanitizedText = clipboardText.replace(/[<>&"'`]/g, (char) => escapeMap[char] || char);
-					// Use field-specific sanitizer if available
-					if (field.sanitize) sanitizedText = field.sanitize(sanitizedText);
-					target.value = sanitizedText; // Paste sanitized clipboard content into the field
-				} catch (err) {
-					console.error(
-						`Clipboard read error on input field "${target.name}" at URL "${window.location.href}" using browser "${navigator.userAgent}":`,
-						err
-					);
-					alert(
-						'Failed to access clipboard. Clipboard access may require HTTPS and browser permission. Please check your browser settings or use Ctrl+V manually.'
-					);
+			void (async () => {
+				if (navigator.clipboard && navigator.clipboard.readText) {
+					try {
+						// Use clipboard API to read the text and paste it
+						const clipboardText = await navigator.clipboard.readText();
+						// Sanitize clipboard content to prevent injection of malicious content
+						let sanitizedText = clipboardText.replace(/[<>&"'`]/g, (char) => escapeMap[char] || char);
+						// Use field-specific sanitizer if available
+						if (field.sanitize) sanitizedText = field.sanitize(sanitizedText);
+						target.value = sanitizedText; // Paste sanitized clipboard content into the field
+					} catch (err) {
+						console.error(`Clipboard read error on input field "${target.name}" at URL "${window.location.href}" using browser "${navigator.userAgent}":`, err);
+						alert(
+							'Failed to access clipboard. Clipboard access may require HTTPS and browser permission. Please check your browser settings or use Ctrl+V manually.',
+						);
+					}
+				} else {
+					alert('Clipboard API is not supported in this browser or context. Please use Ctrl+V to paste manually.');
 				}
-			} else {
-				alert('Clipboard API is not supported in this browser or context. Please use Ctrl+V to paste manually.');
-			}
+			})();
 		}
 	});
 })();

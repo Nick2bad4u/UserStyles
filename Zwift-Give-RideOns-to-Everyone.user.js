@@ -46,20 +46,22 @@
 	}
 
 	// Main process to find and click buttons, and keep scrolling
-	async function startClickingProcess() {
+	function startClickingProcess() {
 		if (isClicking) return;
 		isClicking = true;
 		console.log('Starting the clicking process...');
 
-		intervalId = setInterval(async () => {
-			const buttons = Array.from(document.querySelectorAll('.button.button--rideon:not(.clicked)'));
-			if (buttons.length > 0) {
-				console.log(`Found ${buttons.length} buttons. Clicking...`);
-				await clickButtonsSequentially(buttons, 750); // 750ms delay
-				buttons.forEach((button) => button.classList.add('clicked'));
-			} else {
-				console.log('No new buttons found at this moment.');
-			}
+		intervalId = setInterval(() => {
+			void (async () => {
+				const buttons = Array.from(document.querySelectorAll('.button.button--rideon:not(.clicked)'));
+				if (buttons.length > 0) {
+					console.log(`Found ${buttons.length} buttons. Clicking...`);
+					await clickButtonsSequentially(buttons, 750); // 750ms delay
+					buttons.forEach((button) => button.classList.add('clicked'));
+				} else {
+					console.log('No new buttons found at this moment.');
+				}
+			})();
 		}, 3000); // Check for new buttons every 3 seconds
 	}
 

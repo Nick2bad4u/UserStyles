@@ -4586,8 +4586,8 @@
 	[class*='uk-transition-slide'] {
 		opacity: 0%;
 		transition: 0.3s ease-out;
-		transition-property: opacity, transform, filter,
-			opacity, transform, filter;
+		transition-property:
+			opacity, transform, filter, opacity, transform, filter;
 		transition-property: opacity, transform, filter;
 	}
 

@@ -21,9 +21,9 @@
 
 	/* Exclude Dark Mode Elements */
 	*:not(
-			[style*='background-color: #121212'],
-			[style*='background-color: black']
-		) {
+		[style*='background-color: #121212'],
+		[style*='background-color: black']
+	) {
 		filter: none !important;
 		/* Reset filter for dark backgrounds */
 	}

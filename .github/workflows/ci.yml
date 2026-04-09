@@ -1,0 +1,74 @@
+# CI — Lint, Test, Coverage
+#
+# Runs on every push and pull-request to main.
+# Steps:
+#   1. Lint CSS (stylelint)
+#   2. Lint JS (ESLint with TypeScript-aware rules)
+#   3. Run Jest unit tests with coverage
+#   4. Upload LCOV report to Codecov
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Lint · Test · Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Security hardening ────────────────────────────────────────────────
+      - name: Harden runner
+        uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b # v2.15.0
+        with:
+          egress-policy: audit
+
+      # ── Source checkout ───────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      # ── Node.js setup ─────────────────────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      # ── Install dependencies ──────────────────────────────────────────────
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      # ── CSS lint ──────────────────────────────────────────────────────────
+      - name: Lint CSS (stylelint)
+        run: npm run lint:css
+
+      # ── JS lint ───────────────────────────────────────────────────────────
+      - name: Lint JS (ESLint)
+        run: npm run lint:js
+
+      # ── Unit tests + coverage ─────────────────────────────────────────────
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      # ── Upload to Codecov ─────────────────────────────────────────────────
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: UserStyles-coverage
+          fail_ci_if_error: false
+          verbose: true

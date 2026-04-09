@@ -21,9 +21,7 @@
 	const playerReady = setInterval(() => {
 		const videoPlayer = document.querySelector('video');
 		const leftControls = document.querySelector('.ytp-left-controls');
-		const volumeSliderHandle = document.querySelector(
-			'.ytp-volume-slider-handle',
-		);
+		const volumeSliderHandle = document.querySelector('.ytp-volume-slider-handle');
 		const volumePanel = document.querySelector('.ytp-volume-panel');
 		const muteButton = document.querySelector('.ytp-mute-button');
 
@@ -70,9 +68,7 @@
 			volumeInput.type = 'number';
 			volumeInput.min = 0;
 			volumeInput.max = 100;
-			volumeInput.value = videoPlayer.muted
-				? 0
-				: Math.round(videoPlayer.volume * 100);
+			volumeInput.value = videoPlayer.muted ? 0 : Math.round(videoPlayer.volume * 100);
 
 			// Style the input field
 			Object.assign(volumeInput.style, {
@@ -96,22 +92,10 @@
 			volumeInput.addEventListener('keydown', (e) => e.stopPropagation());
 
 			// Input focus and hover styling
-			volumeInput.addEventListener(
-				'focus',
-				() => (volumeInput.style.borderColor = 'rgba(255, 255, 255, 0.6)'),
-			);
-			volumeInput.addEventListener(
-				'blur',
-				() => (volumeInput.style.borderColor = 'rgba(255, 255, 255, 0.3)'),
-			);
-			volumeInput.addEventListener(
-				'mouseenter',
-				() => (volumeInput.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'),
-			);
-			volumeInput.addEventListener(
-				'mouseleave',
-				() => (volumeInput.style.backgroundColor = 'rgba(255, 255, 255, 0.0)'),
-			);
+			volumeInput.addEventListener('focus', () => (volumeInput.style.borderColor = 'rgba(255, 255, 255, 0.6)'));
+			volumeInput.addEventListener('blur', () => (volumeInput.style.borderColor = 'rgba(255, 255, 255, 0.3)'));
+			volumeInput.addEventListener('mouseenter', () => (volumeInput.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'));
+			volumeInput.addEventListener('mouseleave', () => (volumeInput.style.backgroundColor = 'rgba(255, 255, 255, 0.0)'));
 
 			// Handle volume change from input
 			let lastSetVolume = videoPlayer.volume;
@@ -161,9 +145,7 @@
 				// Update lastSetVolume if the volume changed and not muted
 				if (!videoPlayer.muted) lastSetVolume = videoPlayer.volume;
 
-				volumeInput.value = videoPlayer.muted
-					? 0
-					: Math.round(videoPlayer.volume * 100);
+				volumeInput.value = videoPlayer.muted ? 0 : Math.round(videoPlayer.volume * 100);
 
 				// Update the slider handle position
 				updateSliderHandle();

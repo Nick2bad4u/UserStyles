@@ -34,7 +34,7 @@ function loadPreferences() {
 	const disableStoreCheckbox = document.getElementById('disableStore');
 	const disableFetchCheckbox = document.getElementById('disableFetch');
 	const fetchIntervalInput = document.getElementById('fetchInterval');
-//	const saveIndicator = document.getElementById('saveIndicator');
+	//	const saveIndicator = document.getElementById('saveIndicator');
 
 	chrome.storage.sync.get(
 		['disableSteamCommunity', 'disableStore', 'disableFetch', 'fetchInterval'],

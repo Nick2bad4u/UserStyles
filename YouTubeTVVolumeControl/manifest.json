@@ -3,11 +3,7 @@
 	"name": "YouTubeTV Volume Control with Memory",
 	"version": "1.1",
 	"description": "Remembers and controls volume levels on YouTube TV with keyboard shortcuts and a UI for manual input",
-	"permissions": [
-		"storage",
-		"activeTab",
-		"scripting"
-	],
+	"permissions": ["storage", "activeTab", "scripting"],
 	"host_permissions": ["*://tv.youtube.com/*"],
 	"icons": {
 		"16": "icon16.png",

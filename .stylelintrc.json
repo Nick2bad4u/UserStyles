@@ -4,10 +4,12 @@
 	"reportDescriptionlessDisables": true,
 	"reportInvalidScopeDisables": true,
 	"reportNeedlessDisables": true,
+	"reportUnscopedDisables": true,
 	"ignoreFiles": [
 		"**/node_modules/**",
 		"**/dist/**",
 		"**/build/**",
+		"**/coverage/**",
 		"**/*.min.css",
 		"**/*.min.*.css"
 	],
@@ -38,6 +40,12 @@
 			true,
 			{
 				"severity": "warning",
+				"ignoreAtRules": ["-moz-document", "document"]
+			}
+		],
+		"at-rule-no-deprecated": [
+			true,
+			{
 				"ignoreAtRules": ["-moz-document", "document"]
 			}
 		],
@@ -115,6 +123,16 @@
 				]
 			}
 		],
-		"at-rule-prelude-no-invalid": null
+		"at-rule-prelude-no-invalid": null,
+		"block-no-redundant-nested-style-rules": true,
+		"declaration-property-value-keyword-no-deprecated": true,
+		"function-url-no-scheme-relative": true,
+		"max-nesting-depth": 4,
+		"media-type-no-deprecated": true,
+		"nesting-selector-no-missing-scoping-root": true,
+		"no-unknown-animations": [true, { "severity": "warning" }],
+		"number-max-precision": 15,
+		"property-no-deprecated": true,
+		"syntax-string-no-invalid": true
 	}
 }

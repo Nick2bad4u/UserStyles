@@ -26,25 +26,23 @@
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Dearrow-RemoveDearrowButton.user.css
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Dearrow-RemoveDearrowButton.user.css
 ==/UserStyle== */
-@-moz-document domain("youtube.com")
-{
+@-moz-document domain("youtube.com") {
 	/* stylelint-disable-next-line selector-type-no-unknown -- Stylus preprocessor conditional block */
-	if hidebutton
-	{
+	if hidebutton {
 		#video-title-link > button > img,
 		.cbShowOriginal img.cbShowOriginalImage,
 		.cbTitleButton svg,
-		.style-scope.ytd-compact-video-renderer > a > h3 > button
-		{
+		.style-scope.ytd-compact-video-renderer
+			> a
+			> h3
+			> button {
 			display: none !important;
 		}
 	}
 
 	/* stylelint-disable-next-line selector-type-no-unknown -- Stylus preprocessor conditional block */
-	if customdearrowcolor
-	{
-		.cbButton img
-		{
+	if customdearrowcolor {
+		.cbButton img {
 			filter: hue-rotate(dearrowcolor deg) saturate(3) !important;
 		}
 	}

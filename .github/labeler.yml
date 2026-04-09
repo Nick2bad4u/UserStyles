@@ -26,12 +26,12 @@
 
 root:
   - changed-files:
-      - any-glob-to-any-file: "*"
+      - any-glob-to-any-file: '*'
 
 # Add 'AnyChange' label to any changes within the entire repository
 AnyChange:
   - changed-files:
-      - any-glob-to-any-file: "**"
+      - any-glob-to-any-file: '**'
 
 # Add 'Actions' label to any changes within '.workflows' folder or any subfolders
 Actions:
@@ -48,60 +48,60 @@ Style:
 
 CSS:
   - changed-files:
-      - any-glob-to-any-file: "**/*.css"
+      - any-glob-to-any-file: '**/*.css'
 
 JavaScript:
   - changed-files:
-      - any-glob-to-any-file: "**/*.js"
+      - any-glob-to-any-file: '**/*.js'
 
 HTML:
   - changed-files:
-      - any-glob-to-any-file: "**/*.html"
+      - any-glob-to-any-file: '**/*.html'
 
 PNG:
   - changed-files:
-      - any-glob-to-any-file: "**/*.png"
+      - any-glob-to-any-file: '**/*.png'
 
 SVG:
   - changed-files:
-      - any-glob-to-any-file: "**/*.svg"
+      - any-glob-to-any-file: '**/*.svg'
 
 JPG:
   - changed-files:
-      - any-glob-to-any-file: "**/*.jpg"
+      - any-glob-to-any-file: '**/*.jpg'
 
 GIF:
   - changed-files:
-      - any-glob-to-any-file: "**/*.gif"
+      - any-glob-to-any-file: '**/*.gif'
 
 JSON:
   - changed-files:
-      - any-glob-to-any-file: "**/*.json"
+      - any-glob-to-any-file: '**/*.json'
 
 XML:
   - changed-files:
-      - any-glob-to-any-file: "**/*.xml"
+      - any-glob-to-any-file: '**/*.xml'
 
 Markdown:
   - changed-files:
-      - any-glob-to-any-file: "**/*.md"
+      - any-glob-to-any-file: '**/*.md'
 
 YAML:
   - changed-files:
-      - any-glob-to-any-file: "**/*.yaml"
+      - any-glob-to-any-file: '**/*.yaml'
 
 TypeScript:
   - changed-files:
-      - any-glob-to-any-file: "**/*.ts"
+      - any-glob-to-any-file: '**/*.ts'
 
 SCSS:
   - changed-files:
-      - any-glob-to-any-file: "**/*.scss"
+      - any-glob-to-any-file: '**/*.scss'
 
 # Add 'feature' label to any PR where the head branch name starts with `feature` or has a `feature` section in the name
 feature:
-  - head-branch: ["^feature", "feature"]
+  - head-branch: ['^feature', 'feature']
 
 # Add 'release' label to any PR that is opened against the `main` branch
 release:
-  - base-branch: "main"
+  - base-branch: 'main'

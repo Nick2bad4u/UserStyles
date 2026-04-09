@@ -16,10 +16,10 @@
 		/*            background-color: black; */
 	}
 	img:not(
-			.mwe-math-fallback-image-display,
-			.mwe-math-fallback-image-inline,
-			img[alt='GPS']
-		) {
+		.mwe-math-fallback-image-display,
+		.mwe-math-fallback-image-inline,
+		img[alt='GPS']
+	) {
 		filter: invert(1);
 	}
 	.mw-logo {

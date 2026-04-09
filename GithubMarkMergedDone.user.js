@@ -19,7 +19,7 @@
 // @updateURL    https://update.greasyfork.org/scripts/527154/Mark%20All%20Merged%20Notifications%20Done.meta.js
 // ==/UserScript==
 
-(function() {
+(function () {
 	'use strict';
 
 	const DONE_BUTTON_SELECTOR = 'button[aria-label="Done"]';
@@ -31,86 +31,88 @@
 	let markAsDoneButton; // Declare the button outside the function
 
 	function addButton() {
-			try {
-					markAsDoneButton = document.createElement('button');
-					markAsDoneButton.textContent = 'Mark All Merged/Closed Done';
-					markAsDoneButton.classList.add('mark-merged-done-button');
-					markAsDoneButton.addEventListener('click', markAllMergedAndClosedAsDone);
-					markAsDoneButton.style.display = 'none'; // Initially hide the button
+		try {
+			markAsDoneButton = document.createElement('button');
+			markAsDoneButton.textContent = 'Mark All Merged/Closed Done';
+			markAsDoneButton.classList.add('mark-merged-done-button');
+			markAsDoneButton.addEventListener('click', () => {
+				void markAllMergedAndClosedAsDone();
+			});
+			markAsDoneButton.style.display = 'none'; // Initially hide the button
 
-					const notificationsToolbar = document.querySelector('.js-socket-channel.js-updatable-content');
-					if (notificationsToolbar) {
-							notificationsToolbar.appendChild(markAsDoneButton);
-							console.log('Mark All Merged/Closed Done button added to notifications toolbar.');
-					} else {
-							console.warn('Could not find notifications toolbar. Button may not be visible.');
-							document.body.appendChild(markAsDoneButton); // Fallback
-							console.log('Mark All Merged/Closed Done button added to document body as fallback.');
-					}
-
-					// Check for relevant notifications and show the button if needed
-					checkForMergedAndClosedNotifications();
-			} catch (error) {
-					console.error('Error in addButton function:', error);
+			const notificationsToolbar = document.querySelector('.js-socket-channel.js-updatable-content');
+			if (notificationsToolbar) {
+				notificationsToolbar.appendChild(markAsDoneButton);
+				console.log('Mark All Merged/Closed Done button added to notifications toolbar.');
+			} else {
+				console.warn('Could not find notifications toolbar. Button may not be visible.');
+				document.body.appendChild(markAsDoneButton); // Fallback
+				console.log('Mark All Merged/Closed Done button added to document body as fallback.');
 			}
+
+			// Check for relevant notifications and show the button if needed
+			checkForMergedAndClosedNotifications();
+		} catch (error) {
+			console.error('Error in addButton function:', error);
+		}
 	}
 
 	function checkForMergedAndClosedNotifications() {
-			try {
-					const notifications = document.querySelectorAll(NOTIFICATION_SELECTOR);
-					let hasRelevantNotifications = false;
+		try {
+			const notifications = document.querySelectorAll(NOTIFICATION_SELECTOR);
+			let hasRelevantNotifications = false;
 
-					for (const notification of notifications) {
-							if (notification.querySelector(MERGED_ICON_SELECTOR) || notification.querySelector(CLOSED_ICON_SELECTOR)) {
-									hasRelevantNotifications = true;
-									break; // No need to continue checking
-							}
-					}
-
-					if (hasRelevantNotifications) {
-							markAsDoneButton.style.display = 'block'; // Show the button
-							console.log('Relevant notifications found. Showing Mark All Merged/Closed Done button.');
-					} else {
-							markAsDoneButton.style.display = 'none'; // Hide the button
-							console.log('No relevant notifications found. Hiding Mark All Merged/Closed Done button.');
-					}
-			} catch (error) {
-					console.error('Error in checkForMergedAndClosedNotifications function:', error);
+			for (const notification of notifications) {
+				if (notification.querySelector(MERGED_ICON_SELECTOR) || notification.querySelector(CLOSED_ICON_SELECTOR)) {
+					hasRelevantNotifications = true;
+					break; // No need to continue checking
+				}
 			}
+
+			if (hasRelevantNotifications) {
+				markAsDoneButton.style.display = 'block'; // Show the button
+				console.log('Relevant notifications found. Showing Mark All Merged/Closed Done button.');
+			} else {
+				markAsDoneButton.style.display = 'none'; // Hide the button
+				console.log('No relevant notifications found. Hiding Mark All Merged/Closed Done button.');
+			}
+		} catch (error) {
+			console.error('Error in checkForMergedAndClosedNotifications function:', error);
+		}
 	}
 
 	async function markAllMergedAndClosedAsDone() {
-			try {
-					const notifications = document.querySelectorAll(NOTIFICATION_SELECTOR);
-					console.log(`Found ${notifications.length} notifications.`);
+		try {
+			const notifications = document.querySelectorAll(NOTIFICATION_SELECTOR);
+			console.log(`Found ${notifications.length} notifications.`);
 
-					for (const notification of notifications) {
-							const isMerged = notification.querySelector(MERGED_ICON_SELECTOR);
-							const isClosed = notification.querySelector(CLOSED_ICON_SELECTOR);
+			for (const notification of notifications) {
+				const isMerged = notification.querySelector(MERGED_ICON_SELECTOR);
+				const isClosed = notification.querySelector(CLOSED_ICON_SELECTOR);
 
-							if (isMerged || isClosed) {
-									console.log(`Marking ${isMerged ? 'merged' : 'closed'} notification as done`);
-									const doneButton = notification.querySelector(DONE_BUTTON_SELECTOR);
+				if (isMerged || isClosed) {
+					console.log(`Marking ${isMerged ? 'merged' : 'closed'} notification as done`);
+					const doneButton = notification.querySelector(DONE_BUTTON_SELECTOR);
 
-									if (doneButton) {
-											doneButton.click();
-											await delay(DELAY_MS); // Wait for the UI to update
-									} else {
-											console.warn('Could not find "Done" button for notification.');
-									}
-							}
+					if (doneButton) {
+						doneButton.click();
+						await delay(DELAY_MS); // Wait for the UI to update
+					} else {
+						console.warn('Could not find "Done" button for notification.');
 					}
-
-					console.log('Finished processing notifications.');
-					checkForMergedAndClosedNotifications(); // Recheck after marking
-			} catch (error) {
-					console.error('Error in markAllMergedAndClosedAsDone function:', error);
+				}
 			}
+
+			console.log('Finished processing notifications.');
+			checkForMergedAndClosedNotifications(); // Recheck after marking
+		} catch (error) {
+			console.error('Error in markAllMergedAndClosedAsDone function:', error);
+		}
 	}
 
 	// Helper function to introduce a delay
 	function delay(ms) {
-			return new Promise(resolve => setTimeout(resolve, ms));
+		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
 
 	const style = document.createElement('style');

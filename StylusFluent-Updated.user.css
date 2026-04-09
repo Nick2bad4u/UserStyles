@@ -14,12 +14,8 @@
 {
 	body {
 		font-family:
-			"Segoe UI Variable Text",
-			"Segoe UI",
-			"Helvetica Neue",
-			Helvetica,
-			Arial,
-			sans-serif;
+			'Segoe UI Variable Text', 'Segoe UI',
+			'Helvetica Neue', Helvetica, Arial, sans-serif;
 	}
 	:root {
 		/* Miscellaneous */
@@ -33,12 +29,8 @@
 	#header #filters summary h2 {
 		font-weight: 600;
 		font-family:
-			"Segoe UI Variable Display",
-			"Segoe UI",
-			"Helvetica Neue",
-			Helvetica,
-			Verdana,
-			sans-serif !important;
+			'Segoe UI Variable Display', 'Segoe UI',
+			'Helvetica Neue', Helvetica, Verdana, sans-serif !important;
 	}
 	button {
 		/* Manipulations stuff */
@@ -93,15 +85,9 @@
 		line-height: 32px;
 		/* Typography stuff */
 		font-family:
-			"Segoe UI Variable Text",
-			"Segoe UI",
-			"Helvetica Neue",
-			Helvetica,
-			Verdana,
-			Tahoma,
-			Geneva,
-			Arial,
-			sans-serif;
+			'Segoe UI Variable Text', 'Segoe UI',
+			'Helvetica Neue', Helvetica, Verdana, Tahoma, Geneva,
+			Arial, sans-serif;
 	}
 	input:not([type]):focus,
 	input[type='text']:focus,
@@ -141,15 +127,9 @@
 		line-height: 32px;
 		/* Typography stuff */
 		font-family:
-			"Segoe UI Variable Text",
-			"Segoe UI",
-			"Helvetica Neue",
-			Helvetica,
-			Verdana,
-			Tahoma,
-			Geneva,
-			Arial,
-			sans-serif;
+			'Segoe UI Variable Text', 'Segoe UI',
+			'Helvetica Neue', Helvetica, Verdana, Tahoma, Geneva,
+			Arial, sans-serif;
 	}
 	input[type='checkbox']:not(.slider),
 	input[type='radio'] {
@@ -256,12 +236,8 @@
 		font-size: 18px;
 		/* Typography stuff */
 		font-family:
-			"Segoe UI Variable Display",
-			"Segoe UI",
-			"Helvetica Neue",
-			Helvetica,
-			Verdana,
-			sans-serif !important;
+			'Segoe UI Variable Display', 'Segoe UI',
+			'Helvetica Neue', Helvetica, Verdana, sans-serif !important;
 	}
 	#message-box-title::before {
 		/* Display stuff */

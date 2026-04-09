@@ -18,9 +18,9 @@
 		/*            background-color: black; */
 	}
 	img:not(
-			.mwe-math-fallback-image-display,
-			.mwe-math-fallback-image-inline
-		) {
+		.mwe-math-fallback-image-display,
+		.mwe-math-fallback-image-inline
+	) {
 		filter: invert(1);
 	}
 	.mw-logo {

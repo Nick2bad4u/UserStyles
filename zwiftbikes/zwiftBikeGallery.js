@@ -15,24 +15,16 @@ async function getZwiftData() {
 
 // Generate bike gallery
 async function generateGallery() {
-	const { wheels, frames, bikes } =
-		await getZwiftData();
-	const gallery = document.getElementById(
-		'bikeGallery',
-	);
+	const { wheels, frames, bikes } = await getZwiftData();
+	const gallery = document.getElementById('bikeGallery');
 	gallery.innerHTML = '';
 
 	for (const bike of bikes) {
-		const frame = frames.find(
-			(f) => f.frameid === bike.frameid,
-		);
-		const wheel = wheels.find(
-			(w) => w.wheelid === bike.wheelid,
-		);
+		const frame = frames.find((f) => f.frameid === bike.frameid);
+		const wheel = wheels.find((w) => w.wheelid === bike.wheelid);
 
 		if (frame && wheel) {
-			const bikeCard =
-				document.createElement('div');
+			const bikeCard = document.createElement('div');
 			bikeCard.className = 'bike-card';
 			bikeCard.innerHTML = `
                 <img src="${frame.frameimg}" alt="${frame.framemake} ${frame.framemodel}">
@@ -75,7 +67,6 @@ async function generateGallery() {
 }
 
 // Generate the gallery on page load
-document.addEventListener(
-	'DOMContentLoaded',
-	generateGallery,
-);
+document.addEventListener('DOMContentLoaded', () => {
+	void generateGallery();
+});

@@ -58,17 +58,13 @@
 	 * Data is persisted in localStorage and parsed from JSON.
 	 * @type {Object.<string, string>} Key-value pairs of username to profile picture URL
 	 */
-	let profilePictureCache = JSON.parse(
-		localStorage.getItem('profilePictureCache') || '{}',
-	);
+	let profilePictureCache = JSON.parse(localStorage.getItem('profilePictureCache') || '{}');
 	/**
 	 * Object storing timestamps for cached items.
 	 * Retrieved from localStorage, defaults to empty object if not found.
 	 * @type {Object.<string, number>}
 	 */
-	let cacheTimestamps = JSON.parse(
-		localStorage.getItem('cacheTimestamps') || '{}',
-	);
+	let cacheTimestamps = JSON.parse(localStorage.getItem('cacheTimestamps') || '{}');
 	/**
 	 * Duration in milliseconds for which profile picture data will be cached.
 	 * Set to 7 days to balance between API rate limits and data freshness.
@@ -121,10 +117,7 @@
 	 * and timestamps are stored under 'cacheTimestamps' key.
 	 */
 	function saveCache() {
-		localStorage.setItem(
-			'profilePictureCache',
-			JSON.stringify(profilePictureCache),
-		);
+		localStorage.setItem('profilePictureCache', JSON.stringify(profilePictureCache));
 		localStorage.setItem('cacheTimestamps', JSON.stringify(cacheTimestamps));
 	}
 
@@ -175,21 +168,14 @@
 		if (cacheEntries.length > MAX_CACHE_SIZE) {
 			console.log(`Current cache size: ${cacheEntries.length} URLs`);
 			console.log('Cache size exceeded, removing oldest entries');
-			const sortedEntries = cacheEntries.sort(
-				(a, b) => cacheTimestamps[a] - cacheTimestamps[b],
-			);
-			const entriesToRemove = sortedEntries.slice(
-				0,
-				cacheEntries.length - MAX_CACHE_SIZE,
-			);
+			const sortedEntries = cacheEntries.sort((a, b) => cacheTimestamps[a] - cacheTimestamps[b]);
+			const entriesToRemove = sortedEntries.slice(0, cacheEntries.length - MAX_CACHE_SIZE);
 			entriesToRemove.forEach((username) => {
 				delete profilePictureCache[username];
 				delete cacheTimestamps[username];
 			});
 			saveCache();
-			console.log(
-				`Cache size limited to ${MAX_CACHE_SIZE.toLocaleString()} URLs`,
-			);
+			console.log(`Cache size limited to ${MAX_CACHE_SIZE.toLocaleString()} URLs`);
 		}
 	}
 
@@ -210,9 +196,7 @@
 
 			// Estimate size of data by serializing to JSON and getting the length
 			totalSize += new TextEncoder().encode(JSON.stringify(pictureData)).length;
-			totalSize += new TextEncoder().encode(
-				JSON.stringify(timestampData),
-			).length;
+			totalSize += new TextEncoder().encode(JSON.stringify(timestampData)).length;
 		});
 
 		return totalSize; // in bytes
@@ -254,17 +238,14 @@
 		console.log('Obtaining access token');
 		const credentials = btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
 		try {
-			const response = await fetch(
-				'https://www.reddit.com/api/v1/access_token',
-				{
-					method: 'POST',
-					headers: {
-						Authorization: `Basic ${credentials}`,
-						'Content-Type': 'application/x-www-form-urlencoded',
-					},
-					body: 'grant_type=client_credentials',
+			const response = await fetch('https://www.reddit.com/api/v1/access_token', {
+				method: 'POST',
+				headers: {
+					Authorization: `Basic ${credentials}`,
+					'Content-Type': 'application/x-www-form-urlencoded',
 				},
-			);
+				body: 'grant_type=client_credentials',
+			});
 			if (!response.ok) {
 				console.error('Failed to obtain access token:', response.statusText);
 				return null;
@@ -300,10 +281,7 @@
 	async function fetchProfilePictures(usernames) {
 		console.log('Fetching profile pictures');
 		const now = Date.now();
-		const tokenExpiration = parseInt(
-			localStorage.getItem('tokenExpiration'),
-			10,
-		);
+		const tokenExpiration = parseInt(localStorage.getItem('tokenExpiration'), 10);
 
 		// Check rate limit
 		if (rateLimitRemaining <= 0 && now < rateLimitResetTime) {
@@ -313,12 +291,8 @@
 			const minutesRemaining = Math.floor(timeRemaining / 60000);
 			const secondsRemaining = Math.floor((timeRemaining % 60000) / 1000);
 
-			console.log(
-				`Rate limit will reset in ${minutesRemaining} minutes and ${secondsRemaining} seconds.`,
-			);
-			await new Promise((resolve) =>
-				setTimeout(resolve, rateLimitResetTime - now),
-			);
+			console.log(`Rate limit will reset in ${minutesRemaining} minutes and ${secondsRemaining} seconds.`);
+			await new Promise((resolve) => setTimeout(resolve, rateLimitResetTime - now));
 		}
 
 		// Refresh access token if expired
@@ -328,12 +302,7 @@
 		}
 
 		// Filter out cached usernames
-		const uncachedUsernames = usernames.filter(
-			(username) =>
-				!profilePictureCache[username] &&
-				username !== '[deleted]' &&
-				username !== '[removed]',
-		);
+		const uncachedUsernames = usernames.filter((username) => !profilePictureCache[username] && username !== '[deleted]' && username !== '[removed]');
 		if (uncachedUsernames.length === 0) {
 			console.log('All usernames are cached');
 			return usernames.map((username) => profilePictureCache[username]);
@@ -355,23 +324,16 @@
 		 */
 		const fetchPromises = uncachedUsernames.map(async (username) => {
 			try {
-				const response = await fetch(
-					`https://oauth.reddit.com/user/${username}/about`,
-					{
-						headers: {
-							Authorization: `Bearer ${accessToken}`,
-							'User-Agent': USER_AGENT,
-						},
+				const response = await fetch(`https://oauth.reddit.com/user/${username}/about`, {
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+						'User-Agent': USER_AGENT,
 					},
-				);
+				});
 
 				// Update rate limit
-				rateLimitRemaining =
-					parseInt(response.headers.get('x-ratelimit-remaining')) ||
-					rateLimitRemaining;
-				rateLimitResetTime =
-					now + parseInt(response.headers.get('x-ratelimit-reset')) * 1000 ||
-					rateLimitResetTime;
+				rateLimitRemaining = parseInt(response.headers.get('x-ratelimit-remaining')) || rateLimitRemaining;
+				rateLimitResetTime = now + parseInt(response.headers.get('x-ratelimit-reset')) * 1000 || rateLimitResetTime;
 
 				// Log rate limit information
 				const timeRemaining = rateLimitResetTime - now;
@@ -383,9 +345,7 @@
 				);
 
 				if (!response.ok) {
-					console.error(
-						`Error fetching profile picture for ${username}: ${response.statusText}`,
-					);
+					console.error(`Error fetching profile picture for ${username}: ${response.statusText}`);
 					return null;
 				}
 				const data = await response.json();
@@ -440,9 +400,7 @@
 		console.log(`Comments found: ${comments.length}`);
 		const usernames = Array.from(comments)
 			.map((comment) => comment.textContent.trim())
-			.filter(
-				(username) => username !== '[deleted]' && username !== '[removed]',
-			);
+			.filter((username) => username !== '[deleted]' && username !== '[removed]');
 		const profilePictureUrls = await fetchProfilePictures(usernames);
 
 		let injectedCount = 0; // Counter for injected profile pictures
@@ -450,10 +408,7 @@
 		comments.forEach((comment, index) => {
 			const username = usernames[index];
 			const profilePictureUrl = profilePictureUrls[index];
-			if (
-				profilePictureUrl &&
-				!comment.previousElementSibling?.classList.contains('profile-picture')
-			) {
+			if (profilePictureUrl && !comment.previousElementSibling?.classList.contains('profile-picture')) {
 				console.log(`Injecting profile picture: ${username}`);
 				const img = document.createElement('img');
 				img.src = profilePictureUrl;
@@ -486,21 +441,15 @@
 
 		console.log(`Profile pictures injected this run: ${injectedCount}`);
 		console.log(`Current cache size: ${cacheEntries.length}`);
-		console.log(
-			`Cache size limited to ${MAX_CACHE_SIZE.toLocaleString()} URLs`,
-		);
+		console.log(`Cache size limited to ${MAX_CACHE_SIZE.toLocaleString()} URLs`);
 		const currentCacheSizeMB = getCacheSizeInMB();
 		const currentCacheSizeKB = getCacheSizeInKB();
-		console.log(
-			`Current cache size: ${currentCacheSizeMB.toFixed(2)} MB or ${currentCacheSizeKB.toFixed(2)} KB`,
-		);
+		console.log(`Current cache size: ${currentCacheSizeMB.toFixed(2)} MB or ${currentCacheSizeKB.toFixed(2)} KB`);
 
 		const timeRemaining = rateLimitResetTime - Date.now();
 		const minutesRemaining = Math.floor(timeRemaining / 60000);
 		const secondsRemaining = Math.floor((timeRemaining % 60000) / 1000);
-		console.log(
-			`Rate Limit Requests Remaining: ${rateLimitRemaining} requests, refresh in ${minutesRemaining} minutes and ${secondsRemaining} seconds`,
-		);
+		console.log(`Rate Limit Requests Remaining: ${rateLimitRemaining} requests, refresh in ${minutesRemaining} minutes and ${secondsRemaining} seconds`);
 	}
 
 	/**
@@ -522,7 +471,7 @@
 			if (comments.length > 0) {
 				console.log('New comments detected');
 				observer.disconnect();
-				injectProfilePictures(comments);
+				void injectProfilePictures(comments);
 			}
 		});
 		observer.observe(document.body, {

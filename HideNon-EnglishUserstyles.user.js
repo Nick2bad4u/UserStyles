@@ -29,31 +29,19 @@
 		// Get the text content from relevant child elements
 		const title = card.querySelector('.name')?.textContent.trim() || '';
 		// Get the title of the userstyle
-		const description =
-			card.querySelector('.card-body')?.textContent.trim() || '';
+		const description = card.querySelector('.card-body')?.textContent.trim() || '';
 		// Get the description of the userstyle
-		const ariaLabel =
-			card
-				.querySelector('.card-header.thumbnail')
-				?.getAttribute('aria-label') || '';
+		const ariaLabel = card.querySelector('.card-header.thumbnail')?.getAttribute('aria-label') || '';
 		// Get the aria-label which may contain a description
 
 		// Log the content being checked
-		console.log(
-			`Checking card: Title="${title}", Description="${description}", Aria-Label="${ariaLabel}"`,
-		);
+		console.log(`Checking card: Title="${title}", Description="${description}", Aria-Label="${ariaLabel}"`);
 
 		// Check if any of these contain non-English characters
-		if (
-			containsNonEnglishCharacters(title) ||
-			containsNonEnglishCharacters(description) ||
-			containsNonEnglishCharacters(ariaLabel)
-		) {
+		if (containsNonEnglishCharacters(title) || containsNonEnglishCharacters(description) || containsNonEnglishCharacters(ariaLabel)) {
 			// Hide the card if non-English characters are found
 			card.style.display = 'none';
-			console.log(
-				`Hiding card: Title="${title}", Description="${description}", Aria-Label="${ariaLabel}"`,
-			);
+			console.log(`Hiding card: Title="${title}", Description="${description}", Aria-Label="${ariaLabel}"`);
 		}
 	});
 })();

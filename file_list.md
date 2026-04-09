@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     switch(contentId) {
                         case 'file-list-1':
                             file_list_html = `<ul><h2 style="color: #828b74;">Repo Root</h2>
+
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.black" style="color: #85c3ed;">.black</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.copilot-instructions.md" style="color: #96d34b;">.copilot-instructions.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.editorconfig" style="color: #808b44;">.editorconfig</a></li>
@@ -429,6 +430,7 @@ document.addEventListener("DOMContentLoaded", function() {
             switch(contentId) {
                 case 'file-list-1':
                     file_list_html = `<ul><h2 style="color: #828b74;">Repo Root</h2>
+
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.black" style="color: #85c3ed;">.black</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.copilot-instructions.md" style="color: #96d34b;">.copilot-instructions.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/.editorconfig" style="color: #808b44;">.editorconfig</a></li>

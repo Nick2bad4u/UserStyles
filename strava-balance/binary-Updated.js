@@ -172,7 +172,7 @@ function isInvalidValue(data, type) {
 		case 'float32':
 			return data === 0xffffffff;
 		case 'float64':
-			return data === BigInt("0xffffffffffffffff");
+			return data === BigInt('0xffffffffffffffff');
 		case 'uint8z':
 			return data === 0x00;
 		case 'uint16z':
@@ -182,9 +182,9 @@ function isInvalidValue(data, type) {
 		case 'byte':
 			return data === 0xff;
 		case 'sint64':
-			return data === BigInt("0x7fffffffffffffff");
+			return data === BigInt('0x7fffffffffffffff');
 		case 'uint64':
-			return data === BigInt("0xffffffffffffffff");
+			return data === BigInt('0xffffffffffffffff');
 		case 'uint64z':
 			return data === 0x0000000000000000;
 		default:

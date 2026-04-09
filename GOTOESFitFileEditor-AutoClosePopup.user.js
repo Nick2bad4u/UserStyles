@@ -20,14 +20,9 @@
 
 	// Function to click the close button
 	function closePopup() {
-		const popupContent = document.querySelector(
-			'a[href="https://gotoes.org/stravatoolsforum/viewtopic.php?f=2&t=115"] h3',
-		);
+		const popupContent = document.querySelector('a[href="https://gotoes.org/stravatoolsforum/viewtopic.php?f=2&t=115"] h3');
 		console.log('closePopup: popupContent', popupContent);
-		if (
-			popupContent &&
-			popupContent.innerHTML.includes('Option 2:<br>Help Others (FREE)')
-		) {
+		if (popupContent && popupContent.innerHTML.includes('Option 2:<br>Help Others (FREE)')) {
 			const closeButton = document.getElementById('cboxClose');
 			console.log('closePopup: closeButton', closeButton);
 			if (closeButton) {
@@ -39,9 +34,7 @@
 
 	// Observe changes in the DOM to detect when the popup appears
 	const observer = new MutationObserver(() => {
-		const popupContent = document.querySelector(
-			'a[href="https://gotoes.org/stravatoolsforum/viewtopic.php?f=2&t=115"] h3',
-		);
+		const popupContent = document.querySelector('a[href="https://gotoes.org/stravatoolsforum/viewtopic.php?f=2&t=115"] h3');
 		console.log('MutationObserver: popupContent', popupContent);
 		if (popupContent) {
 			closePopup();
@@ -53,9 +46,7 @@
 	});
 
 	// Initial check in case the popup is already present
-	const popupContent = document.querySelector(
-		'a[href="https://gotoes.org/stravatoolsforum/viewtopic.php?f=2&t=115"] h3',
-	);
+	const popupContent = document.querySelector('a[href="https://gotoes.org/stravatoolsforum/viewtopic.php?f=2&t=115"] h3');
 	console.log('Initial check: popupContent', popupContent);
 	if (popupContent) {
 		closePopup();

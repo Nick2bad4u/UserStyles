@@ -23,14 +23,14 @@
 
 	/* Invert colors except images and videos */
 	*:not(
-			#classification #neighbours,
-			img,
-			svg,
-			.change-email,
-			select,
-			input,
-			.provider-icons
-		) {
+		#classification #neighbours,
+		img,
+		svg,
+		.change-email,
+		select,
+		input,
+		.provider-icons
+	) {
 		background: var(--background-color) !important;
 		color: var(--text-color) !important;
 	}

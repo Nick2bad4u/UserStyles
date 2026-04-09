@@ -19,9 +19,7 @@
 (function () {
 	'use strict';
 
-	console.log(
-		'Script initialized: Adding floating button, checkboxes, and persistence.',
-	);
+	console.log('Script initialized: Adding floating button, checkboxes, and persistence.');
 
 	// Helper function for hover effect
 	function handleHover(element) {
@@ -74,9 +72,7 @@
 		wrapper.appendChild(label);
 		handleHover(wrapper);
 
-		console.log(
-			`Checkbox wrapper styled with icon: ${iconText} and title: ${titleText}`,
-		);
+		console.log(`Checkbox wrapper styled with icon: ${iconText} and title: ${titleText}`);
 	}
 
 	// Scroll-to-bottom button
@@ -110,22 +106,14 @@
 	const stayAtBottomWrapper = document.createElement('div');
 	stayAtBottomWrapper.style.right = '60px'; // Changed from left to right
 	const stayAtBottomCheckboxId = 'stayAtBottomCheckbox';
-	styleCheckboxWrapper(
-		stayAtBottomWrapper,
-		'🔽',
-		stayAtBottomCheckboxId,
-		'Check to stay at the bottom',
-	);
+	styleCheckboxWrapper(stayAtBottomWrapper, '🔽', stayAtBottomCheckboxId, 'Check to stay at the bottom');
 
 	const stayAtBottomCheckbox = document.createElement('input');
 	stayAtBottomCheckbox.type = 'checkbox';
 	stayAtBottomCheckbox.id = stayAtBottomCheckboxId;
 	stayAtBottomCheckbox.checked = loadCheckboxState('stayAtBottom');
 	stayAtBottomCheckbox.title = 'Check to stay at the bottom';
-	stayAtBottomWrapper.insertBefore(
-		stayAtBottomCheckbox,
-		stayAtBottomWrapper.firstChild,
-	);
+	stayAtBottomWrapper.insertBefore(stayAtBottomCheckbox, stayAtBottomWrapper.firstChild);
 
 	stayAtBottomCheckbox.addEventListener('change', function () {
 		saveCheckboxState('stayAtBottom', stayAtBottomCheckbox.checked);
@@ -135,7 +123,9 @@
 	const debounce = (fn, delay) => {
 		return function () {
 			clearTimeout(scrollTimeout);
-			scrollTimeout = setTimeout(fn, delay);
+			scrollTimeout = setTimeout(() => {
+				fn();
+			}, delay);
 		};
 	};
 
@@ -162,22 +152,14 @@
 	const autoReload10Wrapper = document.createElement('div');
 	autoReload10Wrapper.style.right = '100px'; // Changed from left to right
 	const autoReload10CheckboxId = 'autoReload10Checkbox';
-	styleCheckboxWrapper(
-		autoReload10Wrapper,
-		'10s',
-		autoReload10CheckboxId,
-		'Check to reload every 10 seconds',
-	);
+	styleCheckboxWrapper(autoReload10Wrapper, '10s', autoReload10CheckboxId, 'Check to reload every 10 seconds');
 
 	const autoReload10Checkbox = document.createElement('input');
 	autoReload10Checkbox.type = 'checkbox';
 	autoReload10Checkbox.id = autoReload10CheckboxId;
 	autoReload10Checkbox.checked = loadCheckboxState('autoReload10');
 	autoReload10Checkbox.title = 'Check to reload every 10 seconds';
-	autoReload10Wrapper.insertBefore(
-		autoReload10Checkbox,
-		autoReload10Wrapper.firstChild,
-	);
+	autoReload10Wrapper.insertBefore(autoReload10Checkbox, autoReload10Wrapper.firstChild);
 
 	let reloadInterval10;
 
@@ -204,22 +186,14 @@
 	const autoReload15Wrapper = document.createElement('div');
 	autoReload15Wrapper.style.right = '140px'; // Changed from left to right
 	const autoReload15CheckboxId = 'autoReload15Checkbox';
-	styleCheckboxWrapper(
-		autoReload15Wrapper,
-		'15s',
-		autoReload15CheckboxId,
-		'Check to reload every 15 seconds',
-	);
+	styleCheckboxWrapper(autoReload15Wrapper, '15s', autoReload15CheckboxId, 'Check to reload every 15 seconds');
 
 	const autoReload15Checkbox = document.createElement('input');
 	autoReload15Checkbox.type = 'checkbox';
 	autoReload15Checkbox.id = autoReload15CheckboxId;
 	autoReload15Checkbox.checked = loadCheckboxState('autoReload15');
 	autoReload15Checkbox.title = 'Check to reload every 15 seconds';
-	autoReload15Wrapper.insertBefore(
-		autoReload15Checkbox,
-		autoReload15Wrapper.firstChild,
-	);
+	autoReload15Wrapper.insertBefore(autoReload15Checkbox, autoReload15Wrapper.firstChild);
 
 	let reloadInterval15;
 
@@ -246,22 +220,14 @@
 	const autoReload20Wrapper = document.createElement('div');
 	autoReload20Wrapper.style.right = '180px'; // Changed from left to right
 	const autoReload20CheckboxId = 'autoReload20Checkbox';
-	styleCheckboxWrapper(
-		autoReload20Wrapper,
-		'20s',
-		autoReload20CheckboxId,
-		'Check to reload every 20 seconds',
-	);
+	styleCheckboxWrapper(autoReload20Wrapper, '20s', autoReload20CheckboxId, 'Check to reload every 20 seconds');
 
 	const autoReload20Checkbox = document.createElement('input');
 	autoReload20Checkbox.type = 'checkbox';
 	autoReload20Checkbox.id = autoReload20CheckboxId;
 	autoReload20Checkbox.checked = loadCheckboxState('autoReload20');
 	autoReload20Checkbox.title = 'Check to reload every 20 seconds';
-	autoReload20Wrapper.insertBefore(
-		autoReload20Checkbox,
-		autoReload20Wrapper.firstChild,
-	);
+	autoReload20Wrapper.insertBefore(autoReload20Checkbox, autoReload20Wrapper.firstChild);
 
 	let reloadInterval20;
 
@@ -288,22 +254,14 @@
 	const autoReload30Wrapper = document.createElement('div');
 	autoReload30Wrapper.style.right = '220px'; // Changed from left to right
 	const autoReload30CheckboxId = 'autoReload30Checkbox';
-	styleCheckboxWrapper(
-		autoReload30Wrapper,
-		'30s',
-		autoReload30CheckboxId,
-		'Check to reload every 30 seconds',
-	);
+	styleCheckboxWrapper(autoReload30Wrapper, '30s', autoReload30CheckboxId, 'Check to reload every 30 seconds');
 
 	const autoReload30Checkbox = document.createElement('input');
 	autoReload30Checkbox.type = 'checkbox';
 	autoReload30Checkbox.id = autoReload30CheckboxId;
 	autoReload30Checkbox.checked = loadCheckboxState('autoReload30');
 	autoReload30Checkbox.title = 'Check to reload every 30 seconds';
-	autoReload30Wrapper.insertBefore(
-		autoReload30Checkbox,
-		autoReload30Wrapper.firstChild,
-	);
+	autoReload30Wrapper.insertBefore(autoReload30Checkbox, autoReload30Wrapper.firstChild);
 
 	let reloadInterval30;
 

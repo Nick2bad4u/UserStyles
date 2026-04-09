@@ -27,11 +27,7 @@
 		font-weight: 700;
 		font-size: 2em;
 		font-family:
-			"MS Sans serif",
-			Tahoma,
-			Verdana,
-			Arial,
-			sans-serif;
+			'MS Sans serif', Tahoma, Verdana, Arial, sans-serif;
 		text-align: center;
 	}
 
@@ -52,11 +48,7 @@
 		color: #0000ee; /* Standard link color */
 		font-weight: 400;
 		font-family:
-			"MS Sans serif",
-			Tahoma,
-			Verdana,
-			Arial,
-			sans-serif;
+			'MS Sans serif', Tahoma, Verdana, Arial, sans-serif;
 		text-decoration: underline;
 	}
 
@@ -86,11 +78,7 @@
 		color: black;
 		font-weight: 700;
 		font-family:
-			"MS Sans serif",
-			Tahoma,
-			Verdana,
-			Arial,
-			sans-serif;
+			'MS Sans serif', Tahoma, Verdana, Arial, sans-serif;
 	}
 
 	#js-refresh:active {
@@ -111,11 +99,7 @@
 		padding: 10px;
 		color: black;
 		font-family:
-			"MS Sans serif",
-			Tahoma,
-			Verdana,
-			Arial,
-			sans-serif;
+			'MS Sans serif', Tahoma, Verdana, Arial, sans-serif;
 	}
 
 	/* Body styling */
@@ -123,11 +107,7 @@
 		margin: 0;
 		background-color: #008080; /* Teal background */
 		font-family:
-			"MS Sans serif",
-			Tahoma,
-			Verdana,
-			Arial,
-			sans-serif;
+			'MS Sans serif', Tahoma, Verdana, Arial, sans-serif;
 	}
 
 	/* Tooltip customization */
@@ -146,11 +126,7 @@
 		color: black;
 		font-size: 0.8em;
 		font-family:
-			"MS Sans serif",
-			Tahoma,
-			Verdana,
-			Arial,
-			sans-serif;
+			'MS Sans serif', Tahoma, Verdana, Arial, sans-serif;
 	}
 	[data-tooltip]:hover::before {
 		visibility: visible;
@@ -167,11 +143,7 @@
 		padding: 2px 5px;
 		color: black;
 		font-family:
-			"MS Sans serif",
-			Tahoma,
-			Verdana,
-			Arial,
-			sans-serif;
+			'MS Sans serif', Tahoma, Verdana, Arial, sans-serif;
 	}
 	button:active {
 		border-color: #808080 #ffffff #ffffff #808080;

@@ -119,11 +119,7 @@
 		color: var(--body-color);
 		font-weight: lighter;
 		font-size: 16px;
-		font-family:
-			"Open Sans",
-			Helvetica,
-			Arial,
-			sans-serif;
+		font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 		text-shadow: 2px 2px 6px #000;
 	}
 

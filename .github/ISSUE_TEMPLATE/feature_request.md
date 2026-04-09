@@ -12,7 +12,7 @@ List the name of the UserStyle or UserScript.
 
 ### Provide the Website URL
 
-[https://example.com](https://example.com "https://example.com")
+[https://example.com](https://example.com 'https://example.com')
 
 ### Describe the feature you'd like
 

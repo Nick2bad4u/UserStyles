@@ -1,0 +1,43 @@
+# Codecov configuration for Nick2bad4u/UserStyles
+# https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  # Coverage precision (decimal places shown)
+  precision: 2
+
+  # Round coverage figures this direction when precision is applied
+  round: down
+
+  # Coverage range for the colour indicator (red → yellow → green)
+  range: '70...100'
+
+  status:
+    # Fail the PR check if project coverage drops below this
+    project:
+      default:
+        target: 80%
+        threshold: 2% # allow up to 2 % drop without failing
+
+    # Fail the PR check if patch coverage (changed lines) drops below this
+    patch:
+      default:
+        target: 80%
+        threshold: 5%
+
+# Paths to ignore when computing coverage totals
+ignore:
+  - 'node_modules/**'
+  - '**/__tests__/**'
+  - '**/*.min.js'
+  - 'coverage/**'
+  - '.github/**'
+  - '*.user.js'
+  - '*.user.css'
+
+# Pull-request comment configuration
+comment:
+  layout: 'reach,diff,flags,tree'
+  behavior: default
+  require_changes: true # only comment when coverage changes
+  require_base: false
+  require_head: true

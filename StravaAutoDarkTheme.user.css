@@ -908,9 +908,9 @@ domain("labs.strava.com") {
 	[class*='-Dropdown-module__item'],
 	[class*='-KudosAndComments__comments-form'],
 	[class*='-ui-Button-Button-module__default--jLxgA']:not(
-			.------packages-feed-ui-src-shared-KudosCommentsAndAchievements-CommentReaction-CommentReaction-module__commentReactionContainer--nixAS
-				> button
-		),
+		.------packages-feed-ui-src-shared-KudosCommentsAndAchievements-CommentReaction-CommentReaction-module__commentReactionContainer--nixAS
+			> button
+	),
 	[class*='AvatarWithDataRow--avatar-border'],
 	#roster thead th,
 	.grabber,
@@ -1088,8 +1088,8 @@ domain("labs.strava.com") {
 		.upsell-title,
 	#notifications-drop-down li a,
 	[class*='CardActionsSection--link-with-caret']:not(
-			:active
-		),
+		:active
+	),
 	.leaderboard .leaderboards-upsell .heading,
 	.btn-unstyled:hover,
 	.leaderboard td.athlete a:not(:focus),
@@ -1133,11 +1133,11 @@ domain("labs.strava.com") {
 	body > div#__next header + div > div div label > span,
 	[class*='Stat--sta'],
 	[class*='-AthleteProfile-AthleteName-AthleteName-']:not(
-			:hover
-		),
+		:hover
+	),
 	[class*='-AthleteProfile-AthleteName-AthleteName-']:not(
-			:focus
-		),
+		:focus
+	),
 	[class*='-Stat-module__statLabel'],
 	[class*='-components-YourSuggestedFollows']:not(:hover),
 	[class*='-components-YourSuggestedFollows']:not(:focus),
@@ -1180,8 +1180,8 @@ domain("labs.strava.com") {
 	[class*='src-components-account-Account-module__account-'],
 	[class*='-SuggestedRoutes-SuggestedRoutes-module__title'],
 	[class*='-SuggestedRoutes-module__routeCardTitle']:not(
-			:hover
-		),
+		:hover
+	),
 	[class*='RecentActivities_timestamp'],
 	[class*='-components-media-EntryBody-EntryBody__entryBody'],
 	[class*='CommentsThread-module__athleteName']
@@ -1344,23 +1344,23 @@ domain("labs.strava.com") {
 	[class*='-module__latestActivityLink']:not(:hover),
 	[class*='-module__latestActivityLink']:not(:focus),
 	[class*='-DashboardCardLink-DashboardCardLink-module']:not(
-			:hover
-		),
+		:hover
+	),
 	[class*='-DashboardCardLink-DashboardCardLink-module']:not(
-			:focus
-		),
+		:focus
+	),
 	[class*='-ActivityEntryBody-ActivityEntryBody']:not(
-			:hover
-		),
+		:hover
+	),
 	[class*='-ActivityEntryBody-ActivityEntryBody']:not(
-			:focus
-		),
+		:focus
+	),
 	[class*='s-AthleteProfile-AthleteProfileStat-']:not(
-			:hover
-		),
+		:hover
+	),
 	[class*='s-AthleteProfile-AthleteProfileStat-']:not(
-			:focus
-		),
+		:focus
+	),
 	[class*='packages-ui-Button-styles-module__default'],
 	[class*='-components-Footer-Footer']
 		[class*='css'][class*='-control']
@@ -1409,11 +1409,11 @@ domain("labs.strava.com") {
 	[class*='Legend_overflowString'],
 	[class*='Calendar_bottomContainer'],
 	[class*='-GroupActivity-module__headlineTextBtn']:not(
-			:hover
-		),
+		:hover
+	),
 	[class*='CommentsThread-module__moreCommentsButton']:not(
-			:hover
-		),
+		:hover
+	),
 	[class*='LeaderboardsTable--leaderboard-entry'],
 	[class*='DropdownSelect'] > .react-select__control div,
 	.react-select__option,
@@ -1738,9 +1738,9 @@ domain("labs.strava.com") {
 	#kudos .icon-kudo,
 	#comments .icon-comment,
 	.sprite:not(
-			.connections-list .sprite,
-			.photo-upload .avatar .add
-		),
+		.connections-list .sprite,
+		.photo-upload .avatar .add
+	),
 	.with-sprite::after,
 	[class*='icon-weather-day'],
 	.app-icon.icon-caret-right,

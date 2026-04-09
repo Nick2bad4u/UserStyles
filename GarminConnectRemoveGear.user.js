@@ -20,9 +20,7 @@
 	// Function to click all elements with the specified class with a delay
 	function clickElements() {
 		// Select all elements with the class name ActivityGearStatusView_active__l8MV9
-		var elements = document.querySelectorAll(
-			'.ActivityGearStatusView_active__l8MV9:not(.clicked)',
-		);
+		var elements = document.querySelectorAll('.ActivityGearStatusView_active__l8MV9:not(.clicked)');
 		var delay = 250; // Delay in milliseconds
 
 		elements.forEach(function (element, index) {

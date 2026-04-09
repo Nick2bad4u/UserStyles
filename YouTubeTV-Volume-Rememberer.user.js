@@ -21,9 +21,7 @@
 	const DEFAULT_VOLUME = 100;
 
 	const setVolume = (value) => {
-		const slider = document.querySelector(
-			'tp-yt-paper-slider[role="slider"].ytu-volume-slider',
-		);
+		const slider = document.querySelector('tp-yt-paper-slider[role="slider"].ytu-volume-slider');
 		if (slider) {
 			console.log(`Setting volume to: ${value}`);
 			slider.value = value;
@@ -55,9 +53,7 @@
 	};
 
 	const tryLoadVolume = () => {
-		const slider = document.querySelector(
-			'tp-yt-paper-slider[role="slider"].ytu-volume-slider',
-		);
+		const slider = document.querySelector('tp-yt-paper-slider[role="slider"].ytu-volume-slider');
 		if (slider) {
 			loadSavedVolume();
 		} else {
@@ -67,9 +63,7 @@
 	};
 
 	const observeSliderChanges = () => {
-		const slider = document.querySelector(
-			'tp-yt-paper-slider[role="slider"].ytu-volume-slider',
-		);
+		const slider = document.querySelector('tp-yt-paper-slider[role="slider"].ytu-volume-slider');
 		if (slider) {
 			console.log('Observing the volume slider for changes');
 			const observer = new MutationObserver(() => {
@@ -94,16 +88,12 @@
 	};
 
 	const monitorVolume = () => {
-		const slider = document.querySelector(
-			'tp-yt-paper-slider[role="slider"].ytu-volume-slider',
-		);
+		const slider = document.querySelector('tp-yt-paper-slider[role="slider"].ytu-volume-slider');
 		if (slider) {
 			const currentValue = slider.value;
 			const savedVolume = localStorage.getItem(VOLUME_KEY);
 			if (currentValue === '100' && savedVolume) {
-				console.log(
-					`Monitoring: Resetting volume to saved value: ${savedVolume}`,
-				);
+				console.log(`Monitoring: Resetting volume to saved value: ${savedVolume}`);
 				setVolume(parseFloat(savedVolume));
 			}
 		}
@@ -119,9 +109,7 @@
 	});
 
 	globalThis.addEventListener('keydown', (event) => {
-		const slider = document.querySelector(
-			'tp-yt-paper-slider[role="slider"].ytu-volume-slider',
-		);
+		const slider = document.querySelector('tp-yt-paper-slider[role="slider"].ytu-volume-slider');
 		if (!slider) return;
 
 		// Check if either Shift key is pressed

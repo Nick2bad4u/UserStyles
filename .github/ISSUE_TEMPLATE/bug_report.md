@@ -5,13 +5,14 @@ title: ''
 labels: bug
 assignees: Nick2bad4u
 ---
+
 ### What Userstyle or Script are you opening this for?
 
 List the name of the UserStyle or UserScript.
 
 ### Provide the Website URL
 
-[https://example.com](https://example.com "https://example.com")
+[https://example.com](https://example.com 'https://example.com')
 
 ### Describe the bug
 
@@ -19,14 +20,14 @@ A clear and concise description of what the bug is, as best as you can.
 
 ### Provide the URL to the page the bug is occurring on
 
-[https://example.com/website/webpage](https://example.com/website/webpage "https://example.com/website/webpage")
+[https://example.com/website/webpage](https://example.com/website/webpage 'https://example.com/website/webpage')
 
 ### Steps to Reproduce
 
-1. *Go to '...'*
-2. *Click on '...'*
-3. *Scroll down to '...'*
-4. *See error*
+1. _Go to '...'_
+2. _Click on '...'_
+3. _Scroll down to '...'_
+4. _See error_
 
 ### Expected behavior
 

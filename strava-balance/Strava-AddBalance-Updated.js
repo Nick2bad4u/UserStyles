@@ -115,7 +115,7 @@ async function parseFitFile(arrayBuffer) {
 	return new Promise((resolve, reject) => {
 		myFitParser.parse(arrayBuffer, (error, data) => {
 			if (error) {
-				reject(error);
+				reject(error instanceof Error ? error : new Error(String(error)));
 			} else {
 				resolve(data);
 			}

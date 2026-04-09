@@ -717,3 +717,6 @@ zwiftbikes/
 package.json
 .stylelintcache
 .eslintcache
+
+# Jest coverage output
+coverage/

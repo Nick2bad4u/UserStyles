@@ -72,11 +72,11 @@
 	}
 
 	input:not(
-			[type='image'i],
-			[type='range'i],
-			[type='checkbox'i],
-			[type='radio'i]
-		) {
+		[type='image'i],
+		[type='range'i],
+		[type='checkbox'i],
+		[type='radio'i]
+	) {
 		-webkit-filter: invert(1);
 		filter: invert(1);
 	}

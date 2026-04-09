@@ -10,12 +10,9 @@
 @updateURL		  https://raw.githubusercontent.com/Nick2bad4u/UserStyles/main/YoutubeTV-BlackMode.user.css
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YoutubeTV-BlackMode.user.css
 ==/UserStyle== */
-@-moz-document domain("tv.youtube.com")
-{
-
+@-moz-document domain("tv.youtube.com") {
 	html[dark],
-	[dark]
-	{
+	[dark] {
 		--yt-spec-base-background: #0f0f0f;
 		--yt-spec-raised-background: #212121;
 		--yt-spec-menu-background: #282828;
@@ -36,7 +33,9 @@
 		--yt-spec-icon-active-other: #fff;
 		--yt-spec-icon-inactive: #909090;
 		--yt-spec-icon-disabled: #606060;
-		--yt-spec-button-chip-background-hover: rgb(255 255 255 / 20%);
+		--yt-spec-button-chip-background-hover: rgb(
+			255 255 255 / 20%
+		);
 		--yt-spec-touch-response: #fff;
 		--yt-spec-touch-response-inverse: #000;
 		--yt-spec-brand-icon-active: #fff;
@@ -60,26 +59,50 @@
 		--yt-spec-static-ad-yellow: #fbc02d;
 		--yt-spec-static-grey: #606060;
 		--yt-spec-brand-red-contrast: #f57;
-		--yt-spec-static-overlay-additive-background: rgb(40 40 40 / 60%);
+		--yt-spec-static-overlay-additive-background: rgb(
+			40 40 40 / 60%
+		);
 		--yt-spec-static-overlay-background-solid: #000;
-		--yt-spec-static-overlay-background-heavy: rgb(0 0 0 / 80%);
-		--yt-spec-static-overlay-background-medium: rgb(0 0 0 / 60%);
-		--yt-spec-static-overlay-background-medium-light: rgb(0 0 0 / 30%);
-		--yt-spec-static-overlay-background-light: rgb(0 0 0 / 10%);
+		--yt-spec-static-overlay-background-heavy: rgb(
+			0 0 0 / 80%
+		);
+		--yt-spec-static-overlay-background-medium: rgb(
+			0 0 0 / 60%
+		);
+		--yt-spec-static-overlay-background-medium-light: rgb(
+			0 0 0 / 30%
+		);
+		--yt-spec-static-overlay-background-light: rgb(
+			0 0 0 / 10%
+		);
 		--yt-spec-static-overlay-text-primary: #fff;
 		--yt-spec-static-overlay-text-primary-inverse: #030303;
-		--yt-spec-static-overlay-text-secondary: rgb(255 255 255 / 70%);
-		--yt-spec-static-overlay-text-disabled: rgb(255 255 255 / 30%);
+		--yt-spec-static-overlay-text-secondary: rgb(
+			255 255 255 / 70%
+		);
+		--yt-spec-static-overlay-text-disabled: rgb(
+			255 255 255 / 30%
+		);
 		--yt-spec-static-overlay-call-to-action: #3ea6ff;
 		--yt-spec-static-overlay-call-to-action-hover: #65b8ff;
 		--yt-spec-static-overlay-icon-active-other: #fff;
-		--yt-spec-static-overlay-icon-inactive: rgb(255 255 255 / 70%);
-		--yt-spec-static-overlay-icon-disabled: rgb(255 255 255 / 30%);
-		--yt-spec-static-overlay-button-primary: rgb(255 255 255 / 30%);
-		--yt-spec-static-overlay-button-secondary: rgb(255 255 255 / 10%);
+		--yt-spec-static-overlay-icon-inactive: rgb(
+			255 255 255 / 70%
+		);
+		--yt-spec-static-overlay-icon-disabled: rgb(
+			255 255 255 / 30%
+		);
+		--yt-spec-static-overlay-button-primary: rgb(
+			255 255 255 / 30%
+		);
+		--yt-spec-static-overlay-button-secondary: rgb(
+			255 255 255 / 10%
+		);
 		--yt-spec-static-overlay-touch-response: #fff;
 		--yt-spec-static-overlay-touch-response-inverse: #000;
-		--yt-spec-static-overlay-background-brand: rgb(225 0 45 / 90%);
+		--yt-spec-static-overlay-background-brand: rgb(
+			225 0 45 / 90%
+		);
 		--yt-spec-assistive-feed-themed-gradient-1: #005446;
 		--yt-spec-assistive-feed-themed-gradient-2: #39003f;
 		--yt-spec-assistive-feed-themed-gradient-3: #590000;
@@ -87,10 +110,18 @@
 		--yt-spec-gen-ai-gradient-2: #7f0e7f;
 		--yt-spec-gen-ai-gradient-3: #aa09aa;
 		--yt-spec-gen-ai-gradient-4: #ff4e45;
-		--yt-spec-gen-ai-additive-gradient-1: rgb(0 122 101 / 30%);
-		--yt-spec-gen-ai-additive-gradient-2: rgb(127 14 127 / 30%);
-		--yt-spec-gen-ai-additive-gradient-3: rgb(170 9 170 / 30%);
-		--yt-spec-gen-ai-additive-gradient-4: rgb(255 78 69 / 30%);
+		--yt-spec-gen-ai-additive-gradient-1: rgb(
+			0 122 101 / 30%
+		);
+		--yt-spec-gen-ai-additive-gradient-2: rgb(
+			127 14 127 / 30%
+		);
+		--yt-spec-gen-ai-additive-gradient-3: rgb(
+			170 9 170 / 30%
+		);
+		--yt-spec-gen-ai-additive-gradient-4: rgb(
+			255 78 69 / 30%
+		);
 		--yt-spec-discover-red: #ff4e45;
 		--yt-spec-discover-green: #a4ffa4;
 		--yt-spec-discover-blue: #6ea2ff;
@@ -103,9 +134,11 @@
 		--yt-spec-expressive-trend-50: #bbe900;
 		--yt-spec-expressive-trend-60: #8abb03;
 		--yt-spec-expressive-trend-70: #5c7e00;
-		--yt-spec-brand-background-solid: #0F0F0FCC;
+		--yt-spec-brand-background-solid: #0f0f0fcc;
 		--yt-spec-brand-background-primary: rgb(33 33 33 / 98%);
-		--yt-spec-brand-background-secondary: rgb(33 33 33 / 95%);
+		--yt-spec-brand-background-secondary: rgb(
+			33 33 33 / 95%
+		);
 		--yt-spec-general-background-a: #000;
 		--yt-spec-general-background-b: #0f0f0f;
 		--yt-spec-general-background-c: #030303;
@@ -115,16 +148,24 @@
 		--yt-spec-snackbar-background: #030303;
 		--yt-spec-snackbar-background-updated: #f9f9f9;
 		--yt-spec-badge-chip-background: rgb(48 48 48 / 10%);
-		--yt-spec-badge-chip-background-inverse: rgb(0 0 0 / 5%);
-		--yt-spec-verified-badge-background: rgb(255 255 255 / 25%);
+		--yt-spec-badge-chip-background-inverse: rgb(
+			0 0 0 / 5%
+		);
+		--yt-spec-verified-badge-background: rgb(
+			255 255 255 / 25%
+		);
 		--yt-spec-brand-button-background: #c00;
 		--yt-spec-brand-link-text: #ff4e45;
 		--yt-spec-brand-link-text-faded: rgb(255 78 69 / 30%);
 		--yt-spec-call-to-action-faded: rgb(62 166 255 / 30%);
 		--yt-spec-call-to-action-hover: #6ebcff;
 		--yt-spec-brand-button-background-hover: #990412;
-		--yt-spec-filled-button-focus-outline: rgb(255 255 255 / 70%);
-		--yt-spec-static-overlay-button-hover: rgb(255 255 255 / 50%);
+		--yt-spec-filled-button-focus-outline: rgb(
+			255 255 255 / 70%
+		);
+		--yt-spec-static-overlay-button-hover: rgb(
+			255 255 255 / 50%
+		);
 		--yt-spec-mono-filled-hover: #d9d9d9;
 		--yt-spec-mono-filled-hover-inverse: #272727;
 		--yt-spec-commerce-filled-hover: #65b8ff;
@@ -132,48 +173,46 @@
 		--yt-spec-mono-tonal-hover-inverse: rgb(0 0 0 / 10%);
 		--yt-spec-commerce-tonal-hover: #515561;
 		--yt-spec-static-overlay-filled-hover: #e6e6e6;
-		--yt-spec-static-overlay-tonal-hover: rgb(255 255 255 / 20%);
+		--yt-spec-static-overlay-tonal-hover: rgb(
+			255 255 255 / 20%
+		);
 		--yt-spec-paper-tab-ink: rgb(255 255 255 / 30%);
 		--yt-spec-filled-button-text: #030303;
 		--yt-spec-selected-nav-text: #fff;
 		--scrollbarThumbColor: #171717;
 		--scrollbarTrackColor: #000;
-		scrollbar-color: var(--scrollbarThumbColor) var(--scrollbarTrackColor) !important;
+		scrollbar-color: var(--scrollbarThumbColor)
+			var(--scrollbarTrackColor) !important;
 	}
 
 	.bottom-container.ytu-app,
 	#id-dialog,
-	ytu-menu-item .tp-yt-paper-item.tp-yt-paper-item.ytu-menu-item,
-	ytu-nav-bar.ytu-app
-	{
+	ytu-menu-item
+		.tp-yt-paper-item.tp-yt-paper-item.ytu-menu-item,
+	ytu-nav-bar.ytu-app {
 		background-color: var(--yt-spec-general-background-a);
 	}
-	.buttons-container.ytu-epg-section
-	{
+	.buttons-container.ytu-epg-section {
 		filter: invert(1);
 	}
 
 	/* For WebKit browsers (e.g., Chrome, Safari) */
-	::-webkit-scrollbar
-	{
+	::-webkit-scrollbar {
 		width: 12px;
 	}
 
-	::-webkit-scrollbar-track
-	{
+	::-webkit-scrollbar-track {
 		background: #000000a1;
 	}
 
-	::-webkit-scrollbar-thumb
-	{
+	::-webkit-scrollbar-thumb {
 		border: 3px solid var(--primary-color);
 		border-radius: 6px;
 		background-color: var(--black);
 	}
 
 	/* For Edge, IE */
-	body
-	{
+	body {
 		-ms-overflow-style: -ms-autohiding-scrollbar;
 	}
 }

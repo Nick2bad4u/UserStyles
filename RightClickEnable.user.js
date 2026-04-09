@@ -139,7 +139,8 @@
 			if (isNotificationActive) {
 				clearInterval(colorInterval);
 				isNotificationActive = false; // Mark as inactive
-				if (notification.parentNode) { // Check if notification is still in the DOM
+				if (notification.parentNode) {
+					// Check if notification is still in the DOM
 					notification.style.opacity = '0';
 					notification.style.transform = 'translate(-50%, -10%)';
 					setTimeout(() => notification.remove(), 500); // Remove after fade-out
@@ -149,7 +150,6 @@
 	}
 
 	// Register the option in the Tampermonkey menu
-	 
+
 	GM_registerMenuCommand('Enable Right-Click', enableRightClick);
-	 
 })();

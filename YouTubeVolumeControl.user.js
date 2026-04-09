@@ -14,7 +14,7 @@
 // @tag          youtube
 // ==/UserScript==
 
-(async function () {
+void (async function () {
 	'use strict';
 
 	// Default volume if none is saved
@@ -79,9 +79,7 @@
 			// Set the player volume and save to Tampermonkey storage
 			player.volume = volumeValue / 100;
 			await GM.setValue('youtubeVolume', volumeValue);
-			console.log(
-				`Volume set to ${volumeValue} and saved to Tampermonkey storage.`,
-			);
+			console.log(`Volume set to ${volumeValue} and saved to Tampermonkey storage.`);
 
 			// Sync YouTube's volume slider UI
 			const volumeSlider = document.querySelector('.ytp-volume-slider-handle');
@@ -93,7 +91,9 @@
 	}
 
 	// Event listener for input change (manually changing the volume in the input box)
-	volumeInput.addEventListener('input', () => setVolume(volumeInput.value));
+	volumeInput.addEventListener('input', () => {
+		void setVolume(volumeInput.value);
+	});
 
 	// Function to update the input field when YouTube's player volume is changed
 	async function updateVolumeInput() {
@@ -102,9 +102,7 @@
 			const currentVolume = Math.round(player.volume * 100);
 			volumeInput.value = currentVolume;
 			await GM.setValue('youtubeVolume', currentVolume);
-			console.log(
-				`Volume input updated to ${currentVolume} from video player.`,
-			);
+			console.log(`Volume input updated to ${currentVolume} from video player.`);
 
 			// Show 0 if the video is muted
 			if (player.muted) {
@@ -114,7 +112,7 @@
 	}
 
 	// Function to handle mute changes
-	async function handleMuteChange() {
+	function handleMuteChange() {
 		const player = document.querySelector('video');
 		if (player) {
 			if (player.muted) {
@@ -132,10 +130,12 @@
 		const volumeSliderPanel = document.querySelector('.ytp-volume-panel');
 		if (volumeSliderPanel) {
 			volumeSliderPanel.parentNode.insertBefore(volumeInput, volumeSliderPanel);
-			setVolume(previousVolume); // Set initial volume
+			void setVolume(previousVolume); // Set initial volume
 			const player = document.querySelector('video');
 			if (player) {
-				player.addEventListener('volumechange', updateVolumeInput);
+				player.addEventListener('volumechange', () => {
+					void updateVolumeInput();
+				});
 				player.addEventListener('mute', handleMuteChange);
 				player.addEventListener('unmute', handleMuteChange);
 				console.log('Volume input injected and event listeners attached.');
