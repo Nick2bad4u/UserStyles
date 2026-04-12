@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Old Reddit with New Reddit Profile Pictures - Universal Version
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      7.0.7
 // @description  Injects new Reddit profile pictures into Old Reddit and Reddit-Stream.com next to the username. Caches in localstorage.
 // @author       Nick2bad4u

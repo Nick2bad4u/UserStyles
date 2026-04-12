@@ -1,0 +1,22 @@
+﻿/* ==UserStyle==
+@name         	Strava Simple Dark Theme
+@namespace      nick2bad4u.github.io
+@homepageURL  	https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@description  	A simple dark theme for Strava.com that inverts colors while keeping images and videos unaffected.
+@version      	1.0
+@author       	Nick2bad4u
+@license      	UnLicense
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaSimpleDarkTheme.user.css
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaSimpleDarkTheme.user.css
+==/UserStyle== */
+@-moz-document domain("strava.com") {
+	/* Invert colors except images and videos */
+	html,
+	img,
+	svg,
+	video,
+	iframe {
+		filter: invert(1) hue-rotate(180deg) !important;
+	}
+}

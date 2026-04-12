@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Enlarge YouTube Comment Section Profile Pictures (HD Version with Caching)
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      2.2
 // @description  Enlarges YouTube comment profile pictures on mouse over, shows HD version, Caches HD images for faster display using Tampermonkey caching.
 // @author       Nick2bad4u

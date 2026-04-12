@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Left-Right Balance for Strava [Updated]
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @description  Shows your Left/Right balance under the analysis section on Strava.
 // @version      2.9
 // @match        https://www.strava.com/activities/*

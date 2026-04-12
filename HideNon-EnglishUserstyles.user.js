@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Hide Non-English Userstyles on Userstyles.World
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.10
 // @description  Hide userstyles containing non-English characters on userstyles.world
 // @author       Nick2bad4u

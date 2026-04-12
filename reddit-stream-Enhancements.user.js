@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Scroll to Bottom, Stay Button, and Auto-Reload with Persistence and Icons for reddit-stream.com
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      2.14
 // @description  Adds a floating button to scroll to the bottom, checkboxes to stay at the bottom, and to reload the page every 10, 15, 20, or 30 seconds on reddit-stream.com, with persistent settings and icons for clarity.
 // @author       Nick2bad4u

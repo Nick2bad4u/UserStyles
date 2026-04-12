@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GOTOES Fit File Editor - Auto Close Popup
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      2024.11.06
 // @description  Automatically clicks the close button on popup donation nag
 // @author       Nick2bad4u

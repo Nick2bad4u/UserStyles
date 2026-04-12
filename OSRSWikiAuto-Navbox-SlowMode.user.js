@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         OSRS Wiki Auto-Navbox with UI, Adaptive Speed, Duplicate Checker (Slow Version)
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      5.3
 // @description  Adds listed pages to a Navbox upon request with UI, CSRF token, adaptive speed, duplicate checker, and highlighted links option.
 // @author       Nick2bad4u

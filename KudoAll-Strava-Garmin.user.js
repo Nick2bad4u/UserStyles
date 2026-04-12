@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Strava and Garmin Kudos All (Working)
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      2.2
 // @description  Adds a button to give kudos to all visible activities on Strava and Garmin Connect.
 // @author       Nick2bad4u

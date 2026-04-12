@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Kiwifarms - Expand Avatars on Hover
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.2.1
 // @description  Expand avatars on hover for Kiwifarms Users
 // @author       Nick2bad4u

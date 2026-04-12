@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Mark All Merged/Closed Notifications Done
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.8
 // @description  Marks all merged and closed notifications as "done" on GitHub (client-side) and only shows UI when needed. Includes console logging and error handling.
 // @author       Nick2bad4u

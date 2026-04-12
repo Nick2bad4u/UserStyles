@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Strava Auto Authorize Apps
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @description  Auto allows Strava apps without having to click "authorize" every single time.
 // @author       Nick2bad4u
 // @match        https://www.strava.com/oauth/authorize*

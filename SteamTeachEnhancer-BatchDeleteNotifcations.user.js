@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         SteamTrade Matcher Bulk Notification Deleter
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      2.8
 // @description  Select notifications via UI, navigate to each page, fetch token, send POST, and continue sequentially
 // @author       Nick2bad4u

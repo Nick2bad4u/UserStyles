@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Userstyle World - Auto Sync UserStyles with Selection UI
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      2.0
 // @description  Automatically sync userstyles by visiting the mirror URL with a selection UI
 // @author       Nick2bad4u

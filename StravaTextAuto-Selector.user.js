@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Strava Text Auto-Selector
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.0.9
 // @description  Automatically selects text in specific Strava elements and displays a notification near the cursor. Also allows right-click to copy text.
 // @author       Nick2bad4u

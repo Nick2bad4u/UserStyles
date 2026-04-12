@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTubeTV Volume Control with Memory
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      4.1
 // @description  Remembers and controls volume levels on YouTube TV with keyboard shortcuts and a UI for manual input
 // @author       Nick2bad4u

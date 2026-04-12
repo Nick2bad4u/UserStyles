@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Garmin Connect - Remove all Gear from Activity
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.8
 // @description  Adds a button to remove all gear from Garmin Connect activities.
 // @author       Nick2bad4u

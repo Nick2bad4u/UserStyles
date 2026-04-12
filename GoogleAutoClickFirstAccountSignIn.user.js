@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Automatically Select First Google Account to Sign In
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.7
 // @description  Automatically selects the first Google account in the Google account selector page
 // @author       Nick2bad4u

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      6.7
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u

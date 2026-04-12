@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Hide Chinese Userstyles on Userstyles.World
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.6
 // @description  Hide userstyles containing Chinese characters on userstyles.world
 // @author       Nick2bad4u

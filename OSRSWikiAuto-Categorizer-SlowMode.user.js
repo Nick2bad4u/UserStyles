@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         OSRS Wiki Auto-Categorizer with UI, Adaptive Speed, Duplicate Checker (Slow Version)
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      4.9
 // @description  Adds listed pages to a category upon request with UI, CSRF token, adaptive speed, duplicate checker, and highlighted links option.
 // @author       Nick2bad4u

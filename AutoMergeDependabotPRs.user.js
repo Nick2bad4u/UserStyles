@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Merge Dependabot PRs Automatically on GitHub with UI and Selection Options
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      2.3
 // @description  Automatically clicks the merge button on Dependabot PRs and "Done" button on the notification bar
 // @author       Nick2bad4u

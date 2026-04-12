@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Garmin Connect: Select All Participants for Challenges
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.8
 // @description  Adds a button to select all participants in Garmin Connect challenges and logs participant details
 // @author       Nick2bad4u

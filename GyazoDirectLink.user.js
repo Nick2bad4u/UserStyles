@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Gyazo Gif and Video Direct Link Button
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      3.7
 // @description  Adds a link button to redirect to the direct video or gif link on Gyazo
 // @author       Nick2bad4u

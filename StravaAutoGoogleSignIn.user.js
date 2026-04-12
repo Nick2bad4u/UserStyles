@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto Click Google Sign-In Button
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.3
 // @description  Automatically clicks the Google sign-in button on the page
 // @author       Nick2bad4u

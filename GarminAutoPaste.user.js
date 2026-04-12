@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Garmin Connect - Auto-Paste on Right Click
-// @namespace    typpi.online
+// @namespace    nick2bad4u.github.io
 // @version      1.7
 // @description  Automatically pastes clipboard content into specific input fields on right-click. Clipboard access requires HTTPS and user permission. Right-clicking on target fields will auto-paste clipboard content. (Note: Clipboard API support may vary by browser.)
 // @author       Nick2bad4u
