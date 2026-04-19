@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Strava and Garmin Kudos All (Working)
 // @namespace    nick2bad4u.github.io
-// @version      2.2
+// @version      2.3
 // @description  Adds a button to give kudos to all visible activities on Strava and Garmin Connect.
 // @author       Nick2bad4u
 // @license      Unlicense
@@ -10,7 +10,7 @@
 // @grant        none
 // @run-at       document-end
 // @match        https://www.strava.com/*
-// @match        https://connect.garmin.com/app/newsfeed
+// @match        https://connect.garmin.com/*
 // @icon         https://i.gyazo.com/e2fabcfc9e9fd6d011e98215764c109c.png
 // @tag          garmin
 // @tag          strava
