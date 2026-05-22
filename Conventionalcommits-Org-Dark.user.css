@@ -1,0 +1,28 @@
+/* ==UserStyle==
+@name           conventionalcommits.org - Dark Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.1
+@description    Dark mode for conventionalcommits.org
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Conventionalcommits-Org-Dark.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Conventionalcommits-Org-Dark.user.css
+==/UserStyle== */
+@-moz-document domain("conventionalcommits.org") {
+	/* Invert colors except images and videos */
+	html,
+	img,
+	svg,
+	video,
+	iframe {
+		filter: invert(1) hue-rotate(180deg) !important;
+	}
+
+	body {
+		background: white;
+		color: black;
+	}
+
+}
