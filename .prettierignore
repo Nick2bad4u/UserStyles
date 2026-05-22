@@ -1,33 +1,49 @@
-# Ignore artifacts:
-build
-coverage
-MarkdownViewer++Theme.user.css
-/.github/styles
-zwiftbikes/ZwiftBikeGalleryFull.html
-zwiftbikes/Zwift Bike Gallery.html
-codemirror.css
-codemirror.js
-codemirror.min.css
-codemirror.min.js
-css.js
-css.min.js
-OSRSWikiAuto-Categorizer-SlowMode.user.js
-OSRSWikiAuto-Categorizer.user.js
-OSRSWikiAuto-Navbox-SlowMode.user.js
-#SteamCookieExtractor/background.js
-#SteamCookieExtractor/content.js
-#SteamCookieExtractor/manifest.json
-#SteamCookieExtractor/options.html
-#SteamCookieExtractor/options.js
-#SteamCookieExtractor/popup.html
-#SteamCookieExtractor/popup.js
-SteamDB-Dark-Mode.user.css
-zwiftbikes/bikes.json
-zwiftbikes/frames.json
-zwiftbikes/wheels.json
-WahooFitnessDarkMode.user.css
-SuperchargedLocalDirectoryWebUI.user.js
-ESPN-DarkMode.user.css
-# Stylus preprocessor UserCSS — not valid CSS, Prettier can't parse it
-RedditColoredComments.user.css
-Windy-DarkMode.user.css
+# Ignore libs folder recursively
+libs/
+
+# Ignore node_modules
+node_modules/
+
+# Ignore other common folders that shouldn't be formatted
+build/
+coverage/
+*.min.js
+*.min.css
+dist/
+docs/docusaurus/docs/
+docs/docusaurus/build/
+docs/docusaurus/.docusaurus/
+docs/packages/
+docs/TSDoc/
+docs/Guides/
+
+# MD and MDX files since we use Remark Lint and other tools for those
+**/*.md
+**/*.mdx
+
+# Ignore Change Logs
+**/CHANGELOG.md
+
+# Ignore package in electron-app
+electron-app/package.json
+electron-app/package-lock.json
+
+
+# Ignore specific files
+**/coverage-results.json
+
+# Ignore prompts (Changed " to ' for tools messes up agents)
+**/**.prompt.md
+**/**.prompt-copy.md
+**/**.prompt.**.md
+**/**.chatmode.md
+**/**.agent.md
+
+# Ignore Sonar properties (not compatible with prettier-ini parser)
+sonar-project.properties
+
+# covered by remark lint / remark
+.gitleaks.toml
+.taplo.toml
+cliff.toml
+lychee.toml

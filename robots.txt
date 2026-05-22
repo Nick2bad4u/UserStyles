@@ -1,3 +1,0 @@
-User-agent: *
-Disallow:
-Sitemap: https://userstyles.github.nick2bad4u.github.io/sitemap.xml

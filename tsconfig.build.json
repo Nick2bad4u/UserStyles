@@ -1,0 +1,37 @@
+{
+    "$schema": "https://www.schemastore.org/tsconfig.json",
+    "compilerOptions": {
+        "allowJs": false,
+        "checkJs": false,
+        "composite": false,
+        "declaration": true,
+        "declarationMap": true,
+        "emitDeclarationOnly": false,
+        "isolatedDeclarations": true,
+        "isolatedModules": true,
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "noEmit": false,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "sourceMap": true,
+        "tsBuildInfoFile": "./.cache/tsbuildinfo/tsconfig.build.tsbuildinfo",
+        "types": [
+            "node"
+        ]
+    },
+    "exclude": [
+        ".cache/**",
+        "dist/**",
+        "docs/docusaurus/.docusaurus/**",
+        "docs/docusaurus/build/**",
+        "eslint.config.bundled_*.mjs",
+        "node_modules/**",
+        "test/fixtures/**"
+    ],
+    "extends": "./tsconfig.json",
+    "include": [
+        "src/**/*.d.ts",
+        "src/**/*.ts"
+    ]
+}
