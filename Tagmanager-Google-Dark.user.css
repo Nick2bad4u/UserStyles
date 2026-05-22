@@ -1,0 +1,22 @@
+/* ==UserStyle==
+@name           tagmanager.google.com
+@namespace      typpi.online
+@version        1.0.1
+@description    Description
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Tagmanager-Google-Dark.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Tagmanager-Google-Dark.user.css
+==/UserStyle== */
+@-moz-document domain("tagmanager.google.com") {
+	/* Invert colors except images and videos */
+	html,
+	img,
+	svg,
+	video,
+	iframe {
+		filter: invert(1) hue-rotate(180deg) !important;
+	}
+}
