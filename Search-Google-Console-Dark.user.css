@@ -1,0 +1,22 @@
+/* ==UserStyle==
+@name           Search Console - Dark Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.1
+@description    Dark mode for Google Search Console
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Search-Google-Console-Dark.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Search-Google-Console-Dark.user.css
+==/UserStyle== */
+@-moz-document url-prefix("https://search.google.com/") {
+	/* Invert colors except images and videos */
+	html,
+	img,
+	svg,
+	video,
+	iframe {
+		filter: invert(1) hue-rotate(180deg) !important;
+	}
+}
