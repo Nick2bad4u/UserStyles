@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           favero.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.2
@@ -11,21 +11,14 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Favero-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("favero.com") {
-	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		img,
-		svg,
-		video,
-		.bg-dark-grey,
-		.footer
-	),
-	p.legalese {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video, .bg-dark-grey, .footer),
+    p.legalese {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.header .logo a img,
-	.header .icon-cart {
-		filter: unset !important;
-	}
+    .header .logo a img,
+    .header .icon-cart {
+        filter: unset !important;
+    }
 }

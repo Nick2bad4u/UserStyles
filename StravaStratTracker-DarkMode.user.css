@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         stattracker.x10host.com - Dark Mode [Customizable]
 @version      1.2.1
 @namespace    nick2bad4u.github.io
@@ -16,64 +16,64 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/StravaStratTracker-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("stattracker.x10host.com") {
-	/* Stylus Variables */
-	:root {
-		--background-color: var(background-color);
-		--text-color: var(text-color);
-		--header-background: var(header-background);
-		--odd-row-background: var(odd-row-background);
-	}
+    /* Stylus Variables */
+    :root {
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+        --header-background: var(header-background);
+        --odd-row-background: var(odd-row-background);
+    }
 
-	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		img,
-		svg:not(
-			.leaflet-container .leaflet-overlay-pane svg,
-			.leaflet-container .leaflet-marker-pane img,
-			.leaflet-container .leaflet-shadow-pane img,
-			.leaflet-container .leaflet-tile-pane img,
-			.leaflet-container img.leaflet-image-layer,
-			.leaflet-container .leaflet-tile
-		),
-		video
-	),
-	.filter-section-select td,
-	.check-options-table td,
-	.column-Quick-filters,
-	.dataTable td,
-	.dataTable th,
-	.quick-filters,
-	#scatterGraphGrid td,
-	#progressGraphAxis td,
-	#progressGraphAxis td:nth-child(1) {
-		background: var(--background-color);
-		color: var(--text-color);
-	}
+    /* Invert colors except images and videos */
+    :is(
+        html:not([stylus-iframe]),
+        img,
+        svg:not(
+            .leaflet-container .leaflet-overlay-pane svg,
+            .leaflet-container .leaflet-marker-pane img,
+            .leaflet-container .leaflet-shadow-pane img,
+            .leaflet-container .leaflet-tile-pane img,
+            .leaflet-container img.leaflet-image-layer,
+            .leaflet-container .leaflet-tile
+        ),
+        video
+    ),
+    .filter-section-select td,
+    .check-options-table td,
+    .column-Quick-filters,
+    .dataTable td,
+    .dataTable th,
+    .quick-filters,
+    #scatterGraphGrid td,
+    #progressGraphAxis td,
+    #progressGraphAxis td:nth-child(1) {
+        background: var(--background-color);
+        color: var(--text-color);
+    }
 
-	.dashboardTable tr:nth-child(odd) {
-		background: var(--odd-row-background);
-	}
+    .dashboardTable tr:nth-child(odd) {
+        background: var(--odd-row-background);
+    }
 
-	.dashboardTable th {
-		background: var(--header-background);
-	}
+    .dashboardTable th {
+        background: var(--header-background);
+    }
 
-	body > header > div > div:nth-child(2) > img {
-		filter: invert(1) hue-rotate(180deg);
-		background: unset !important;
-	}
+    body > header > div > div:nth-child(2) > img {
+        background: unset !important;
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.progressSummaryTable tr:nth-child(odd),
-	.logBook-dataDiv {
-		background: unset !important;
-	}
+    .progressSummaryTable tr:nth-child(odd),
+    .logBook-dataDiv {
+        background: unset !important;
+    }
 
-	#mapContainer,
-	.leaflet-container.leaflet-touch-drag,
-	.leaflet-container,
-	#heatmap,
-	#mapHead {
-		background: #fff0 !important;
-	}
+    #mapContainer,
+    .leaflet-container.leaflet-touch-drag,
+    .leaflet-container,
+    #heatmap,
+    #mapHead {
+        background: #ffffff00 !important;
+    }
 }

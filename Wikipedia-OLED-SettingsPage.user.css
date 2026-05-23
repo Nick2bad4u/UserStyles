@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         Black theme for *Settings Page Only*
 @namespace    USO Archive
 @author       GoodDay / Nick2bda4u (Updated)
@@ -13,17 +13,14 @@
 ==/UserStyle== */
 @-moz-document regexp("https://..*wikipedia.org/wiki/Special:Preferences")
 {
-	:root {
-		filter: invert(1);
-		/*            background-color: black; */
-	}
-	img:not(
-		.mwe-math-fallback-image-display,
-		.mwe-math-fallback-image-inline
-	) {
-		filter: invert(1);
-	}
-	.mw-logo {
-		filter: invert(100%);
-	}
+    :root {
+        filter: invert(1);
+        /*            background-color: black; */
+    }
+    img:not(.mwe-math-fallback-image-display, .mwe-math-fallback-image-inline) {
+        filter: invert(1);
+    }
+    .mw-logo {
+        filter: invert(100%);
+    }
 }

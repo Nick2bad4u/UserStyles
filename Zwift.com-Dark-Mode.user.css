@@ -21,147 +21,140 @@
 @var text       invert-filter            "Invert Filter" "invert(1) hue-rotate(180deg)"
 ==/UserStyle== */
 @-moz-document domain("zwift.com") {
-	:root {
-		--primary-color: var(primary-color);
-		--secondary-color: var(secondary-color);
-		--background-color: var(background-color);
-		--text-color: var(text-color);
-		--card-background-color: var(card-background-color);
-		--modal-background-color: var(modal-background-color);
-		--scrollbar-color: var(scrollbar-color);
-		--scrollbar-thumb-color: var(scrollbar-thumb-color);
-		--invert-filter: var(invert-filter);
-	}
+    :root {
+        --primary-color: var(primary-color);
+        --secondary-color: var(secondary-color);
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+        --card-background-color: var(card-background-color);
+        --modal-background-color: var(modal-background-color);
+        --scrollbar-color: var(scrollbar-color);
+        --scrollbar-thumb-color: var(scrollbar-thumb-color);
+        --invert-filter: var(invert-filter);
+    }
 
-	/* Invert colors except images, videos, and footer */
-	html:not([stylus-iframe]),
-	img,
-	svg,
-	video,
-	footer,
-	path,
-	div.CardCarousel-module__cardContainer--1vNvU,
-	.Hero-module__backgroundOverlay--3CFsa.lazy,
-	.footer-module__withOutZCurve--2Wu3z,
-	.Footer-module__logo--mM_i1,
-	.p1z-card-image,
-	.p1z-content-slice,
-	#znv-footer-link-sv,
-	.tile-callout-wrapper.py-6.bg-white
-		> div
-		> div
-		> div
-		> ul
-		> li,
-	.hero-banner-inner,
-	.game-web .modal-title,
-	div.activity__gradient.pos__absolute.w-100.h-100,
-	.MegaNav-module__component--1B_pQ,
-	.bg-retina,
-	.Footer-module__flex--iWjc8,
-	.p1z-content-slice-small {
-		filter: var(--invert-filter);
-	}
+    /* Invert colors except images, videos, and footer */
+    html:not([stylus-iframe]),
+    img,
+    svg,
+    video,
+    footer,
+    path,
+    div.CardCarousel-module__cardContainer--1vNvU,
+    .Hero-module__backgroundOverlay--3CFsa.lazy,
+    .footer-module__withOutZCurve--2Wu3z,
+    .Footer-module__logo--mM_i1,
+    .p1z-card-image,
+    .p1z-content-slice,
+    #znv-footer-link-sv,
+    .tile-callout-wrapper.py-6.bg-white > div > div > div > ul > li,
+    .hero-banner-inner,
+    .game-web .modal-title,
+    div.activity__gradient.pos__absolute.w-100.h-100,
+    .MegaNav-module__component--1B_pQ,
+    .bg-retina,
+    .Footer-module__flex--iWjc8,
+    .p1z-content-slice-small {
+        filter: var(--invert-filter);
+    }
 
-	.game-web
-		.border__radius__responsive--small:not(
-			.w-100,
-			.map_overlay.map_overlay--left.pt-5.pt-md-0
-				> div
-				> div.d-flex.flex-column.mt-3.mt-1440-4
-				> ul
-				> li:nth-child(n)
-				> img,
-			.pos__absolute--right > div,
-			.rideOnGiven
-		),
-	.partner-grid > div:nth-child(8) > img {
-		filter: unset !important;
-	}
+    .game-web
+        .border__radius__responsive--small:not(
+            .w-100,
+            .map_overlay.map_overlay--left.pt-5.pt-md-0
+                > div
+                > div.d-flex.flex-column.mt-3.mt-1440-4
+                > ul
+                > li:nth-child(n)
+                > img,
+            .pos__absolute--right > div,
+            .rideOnGiven
+        ),
+    .partner-grid > div:nth-child(8) > img {
+        filter: unset !important;
+    }
 
-	.game-web .z_background__wrapper {
-		background: var(--background-color);
-		color: var(--text-color) !important;
-	}
+    .game-web .z_background__wrapper {
+        background: var(--background-color);
+        color: var(--text-color) !important;
+    }
 
-	.wrapper--athlete-profile .text-white,
-	.wrapper--athlete-profile .text-white h1 {
-		color: var(--text-color) !important;
-	}
+    .wrapper--athlete-profile .text-white,
+    .wrapper--athlete-profile .text-white h1 {
+        color: var(--text-color) !important;
+    }
 
-	.bg-alabaster,
-	.bg-alabaster .footer__nav-link,
-	.accessibility-info-container:hover .accessibility-info,
-	.accessibility-info-container:focus .accessibility-info,
-	.accessibility-info-container:active .accessibility-info,
-	#navigation-container > div > div > main {
-		background-color: var(
-			--card-background-color
-		) !important;
-		color: var(--text-color);
-	}
+    .bg-alabaster,
+    .bg-alabaster .footer__nav-link,
+    .accessibility-info-container:hover .accessibility-info,
+    .accessibility-info-container:focus .accessibility-info,
+    .accessibility-info-container:active .accessibility-info,
+    #navigation-container > div > div > main {
+        background-color: var(--card-background-color) !important;
+        color: var(--text-color);
+    }
 
-	.footer__nav-item .seperator {
-		opacity: 25%;
-		background-color: var(--text-color);
-	}
+    .footer__nav-item .seperator {
+        background-color: var(--text-color);
+        opacity: 25%;
+    }
 
-	.Locale-module__icon--jjf-9.Locale-module__small--fqr5w,
-	#primaryNavHamburger > svg > :not(rect:nth-child(999)),
-	.game-web .text-shadow,
-	.game-web .button,
-	.truste-consent-content-wrapper {
-		filter: var(--invert-filter) !important;
-	}
+    .Locale-module__icon--jjf-9.Locale-module__small--fqr5w,
+    #primaryNavHamburger > svg > :not(rect:nth-child(999)),
+    .game-web .text-shadow,
+    .game-web .button,
+    .truste-consent-content-wrapper {
+        filter: var(--invert-filter) !important;
+    }
 
-	.modal-open .fade {
-		background-color: var(--modal-background-color);
-	}
+    .modal-open .fade {
+        background-color: var(--modal-background-color);
+    }
 
-	.game-web .modal--screenshot .modal-content {
-		background-color: var(--modal-background-color);
-	}
+    .game-web .modal--screenshot .modal-content {
+        background-color: var(--modal-background-color);
+    }
 
-	.game-web .border__color,
-	.game-web .button.border__color {
-		border-style: solid;
-		border-color: var(--primary-color);
-	}
+    .game-web .border__color,
+    .game-web .button.border__color {
+        border-style: solid;
+        border-color: var(--primary-color);
+    }
 
-	.onscreen-post .row {
-		padding-left: 10px;
-		width: auto;
-	}
+    .onscreen-post .row {
+        width: auto;
+        padding-left: 10px;
+    }
 
-	.Footer-module__platformLinks--1axF9 {
-		filter: unset !important;
-		background: var(--secondary-color);
-	}
+    .Footer-module__platformLinks--1axF9 {
+        background: var(--secondary-color);
+        filter: unset !important;
+    }
 
-	/* For WebKit browsers (e.g., Chrome, Safari) */
-	::-webkit-scrollbar {
-		width: 12px;
-		background: var(--scrollbar-color) !important;
-	}
+    /* For WebKit browsers (e.g., Chrome, Safari) */
+    ::-webkit-scrollbar {
+        width: 12px;
+        background: var(--scrollbar-color) !important;
+    }
 
-	::-webkit-scrollbar-track {
-		border-radius: 0 !important;
-		background: var(--scrollbar-color) !important;
-	}
+    ::-webkit-scrollbar-track {
+        border-radius: 0 !important;
+        background: var(--scrollbar-color) !important;
+    }
 
-	::-webkit-scrollbar-thumb {
-		border: 3px solid var(--scrollbar-thumb-color) !important;
-		border-radius: 6px !important;
-		background-color: var(--scrollbar-color) !important;
-	}
+    ::-webkit-scrollbar-thumb {
+        border: 3px solid var(--scrollbar-thumb-color) !important;
+        border-radius: 6px !important;
+        background-color: var(--scrollbar-color) !important;
+    }
 
-	/* For Edge, IE */
-	body {
-		-ms-overflow-style: -ms-autohiding-scrollbar;
-	}
+    /* For Edge, IE */
+    body {
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
 
-	.default-background {
-		background: var(--card-background-color);
-		background-image: unset;
-	}
+    .default-background {
+        background: var(--card-background-color);
+        background-image: unset;
+    }
 }

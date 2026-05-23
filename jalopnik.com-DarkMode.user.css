@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         jalopnik.com - Dark Mode
 @version      20241115.20.25
 @namespace    nick2bad4u.github.io
@@ -12,8 +12,8 @@
 ==/UserStyle== */
 
 @-moz-document domain("jalopnik.com") {
-	/* Invert colors except images and videos */
-	:is(
+    /* Invert colors except images and videos */
+    :is(
 			html:not([stylus-iframe]),
 			img,
 			svg,
@@ -30,6 +30,6 @@
 			/* Exclude the site footer container */
 			#site-footer-container
 		) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

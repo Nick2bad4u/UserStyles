@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         SteamStat.us - NASCAR Theme
 @version      20241117.22.08
 @namespace    nick2bad4u.github.io
@@ -22,263 +22,407 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-NASCAR.user.css
 ==/UserStyle== */
 @-moz-document domain("steamstat.us") {
-	:root {
-		--color-1: var(color1);
-		--color-2: var(color2);
-		--color-3: var(color3);
-		--color-4: var(color4);
-		--color-5: var(color5);
-		--color-6: var(color6);
-		--color-7: var(color7);
-		--color-8: var(color8);
-		--color-9: var(color9);
-		--color-10: var(color10);
-	}
+    :root {
+        --color-1: var(color1);
+        --color-2: var(color2);
+        --color-3: var(color3);
+        --color-4: var(color4);
+        --color-5: var(color5);
+        --color-6: var(color6);
+        --color-7: var(color7);
+        --color-8: var(color8);
+        --color-9: var(color9);
+        --color-10: var(color10);
+    }
 
-	.title {
-		margin: 10px 0;
-		background: linear-gradient(
-			135deg,
-			var(--color-1) 30%,
-			var(--color-2) 70%
-		);
-		/* var(--color-6) to var(--color-7) gradient */
-		background-clip: text;
-		color: var(--color-3);
-		font-weight: 700;
-		font-size: 2.6em;
-		text-align: center;
-		/* NASCAR var(--color-8) */
-		text-shadow: 2px 2px 4px #00000099;
-		-webkit-text-fill-color: transparent;
-		display: flex;
-		position: relative;
-		justify-content: center;
-		align-items: center;
-		animation: title-animation 2s ease-in-out infinite
-			alternate;
-	}
+    .title {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+        animation: title-animation 2s ease-in-out infinite alternate;
+        background: linear-gradient(
+            135deg,
+            var(--color-1) 30%,
+            var(--color-2) 70%
+        );
+        /* var(--color-6) to var(--color-7) gradient */
+        background-clip: text;
+        color: var(--color-3);
+        font-size: 2.5em;
+        font-weight: 700;
+        text-align: center;
+        -webkit-text-fill-color: transparent;
+        /* NASCAR var(--color-8) */
+        text-shadow: 2px 2px 4px #00000099;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            animation: none;
+            background: linear-gradient(
+                135deg,
+                var(--color-1) 30%,
+                var(--color-2) 70%
+            );
+            /* var(--color-6) to var(--color-7) gradient */
+            background-clip: text;
+            color: var(--color-3);
+            font-size: 2.5em;
+            font-weight: 700;
+            text-align: center;
+            -webkit-text-fill-color: transparent;
+            /* NASCAR var(--color-8) */
+            text-shadow: 2px 2px 4px #00000099;
+        }
+    }
 
-	h1.title::after {
-		filter: invert(1);
-	}
+    h1.title::after {
+        filter: invert(1);
+    }
 
-	/* Animation for the title */
-	@keyframes title-animation {
-		0% {
-			transform: scale(1);
-		}
+    /* Animation for the title */
+    @keyframes title-animation {
+        0% {
+            transform: scale(1);
+        }
 
-		100% {
-			transform: scale(1.05);
-		}
-	}
+        100% {
+            transform: scale(1.05);
+        }
+    }
 
-	/* Logo placeholder (replace with your own logo URL if you have rights) */
-	.title::after {
-		display: inline-block;
-		transition: transform 0.3s ease;
-		margin-left: 10px;
-		background: url('https://upload.wikimedia.org/wikipedia/commons/6/67/NASCAR_logo_2017.svg')
-			no-repeat center;
-		background-size: contain;
-		width: 200px;
-		height: 60px;
-		content: '';
-	}
+    /* Logo placeholder (replace with your own logo URL if you have rights) */
+    .title::after {
+        display: inline-block;
+        width: 200px;
+        height: 60px;
+        margin-left: 10px;
+        background: url("https://upload.wikimedia.org/wikipedia/commons/6/67/NASCAR_logo_2017.svg")
+            no-repeat center;
+        background-size: contain;
+        content: "";
+        transition: transform 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            display: inline-block;
+            width: 200px;
+            height: 60px;
+            margin-left: 10px;
+            background: url("https://upload.wikimedia.org/wikipedia/commons/6/67/NASCAR_logo_2017.svg")
+                no-repeat center;
+            background-size: contain;
+            content: "";
+            transition: none;
+        }
+    }
 
-	.title:hover::after {
-		transform: scale(1.2);
-	}
+    .title:hover::after,
+    .title:focus::after {
+        transform: scale(1.2);
+    }
 
-	/* Link styling with hover effect */
-	a {
-		transition:
-			color 0.3s ease,
-			text-shadow 0.3s ease;
-		color: var(--color-3);
-		font-weight: 700;
-		/* NASCAR var(--color-8) */
-		text-decoration: none;
-		text-shadow: 1px 1px 0 rgb(0 0 0 / 40%);
-	}
+    /* Link styling with hover effect */
+    a {
+        color: var(--color-3);
+        font-weight: 700;
+        /* NASCAR var(--color-8) */
+        text-decoration: none;
+        text-shadow: 1px 1px 0 rgb(0 0 0 / 40%);
+        transition:
+            color 0.3s ease,
+            text-shadow 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-3);
+            font-weight: 700;
+            /* NASCAR var(--color-8) */
+            text-decoration: none;
+            text-shadow: 1px 1px 0 rgb(0 0 0 / 40%);
+            transition: none;
+        }
 
-	a:hover {
-		color: var(--color-1);
-		/* NASCAR var(--color-6) */
-		text-decoration: underline;
-		text-shadow: 1px 1px 3px #00000099;
-	}
+        &:hover,
+        &:focus {
+            color: var(--color-1);
+            /* NASCAR var(--color-6) */
+            text-decoration: underline;
+            text-shadow: 1px 1px 3px #00000099;
+        }
+    }
 
-	/* Status colors with NASCAR theme */
-	.good {
-		transition: color 0.3s ease;
-		color: var(--color-2);
-		/* NASCAR var(--color-7) */
-		text-shadow: 1px 1px 2px #00000099;
-	}
+    /* Status colors with NASCAR theme */
+    .good {
+        color: var(--color-2);
+        /* NASCAR var(--color-7) */
+        text-shadow: 1px 1px 2px #00000099;
+        transition: color 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-2);
+            /* NASCAR var(--color-7) */
+            text-shadow: 1px 1px 2px #00000099;
+            transition: none;
+        }
+    }
 
-	.minor {
-		transition: color 0.3s ease;
-		color: var(--color-4);
-		font-weight: 700;
-		/* var(--color-8) for minor status */
-		text-shadow: 1px 1px 2px #00000099;
-	}
+    .minor {
+        color: var(--color-4);
+        font-weight: 700;
+        /* var(--color-8) for minor status */
+        text-shadow: 1px 1px 2px #00000099;
+        transition: color 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-4);
+            font-weight: 700;
+            /* var(--color-8) for minor status */
+            text-shadow: 1px 1px 2px #00000099;
+            transition: none;
+        }
+    }
 
-	.major {
-		transition: color 0.3s ease;
-		color: var(--color-5);
-		font-weight: 700;
-		/* var(--color-10) for major status */
-		text-shadow: 1px 1px 2px rgb(255 255 255 / 60%);
-	}
+    .major {
+        color: var(--color-5);
+        font-weight: 700;
+        /* var(--color-10) for major status */
+        text-shadow: 1px 1px 2px rgb(255 255 255 / 60%);
+        transition: color 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-5);
+            font-weight: 700;
+            /* var(--color-10) for major status */
+            text-shadow: 1px 1px 2px rgb(255 255 255 / 60%);
+            transition: none;
+        }
+    }
 
-	/* Refresh button styling with hover effect */
-	#js-refresh {
-		transition:
-			color 0.3s ease,
-			transform 0.3s ease;
-		color: var(--color-3);
-		font-weight: bolder;
-		/* NASCAR var(--color-8) */
-		text-shadow: 0 0 2px #000000;
-	}
+    /* Refresh button styling with hover effect */
+    #js-refresh {
+        color: var(--color-3);
+        font-weight: bolder;
+        /* NASCAR var(--color-8) */
+        text-shadow: 0 0 2px #000000;
+        transition:
+            color 0.3s ease,
+            transform 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-3);
+            font-weight: bolder;
+            /* NASCAR var(--color-8) */
+            text-shadow: 0 0 2px #000000;
+            transition: none;
+        }
 
-	#js-refresh:hover {
-		/* NASCAR var(--color-6) */
-		transform: scale(1.1);
-		color: var(--color-1);
-	}
+        &:hover,
+        &:focus {
+            color: var(--color-1);
+            /* NASCAR var(--color-6) */
+            transform: scale(1.1);
+        }
+    }
 
-	/* Container with dark background and bright accents */
-	.services,
-	#psa,
-	noscript {
-		position: relative;
-		/* var(--color-8) text */
-		transition:
-			box-shadow 0.3s ease,
-			background 0.3s ease;
-		box-shadow: 0 4px 8px #00000080;
-		/* var(--color-10) background */
-		border: 1px solid var(--color-2);
-		/* var(--color-7) border */
-		border-radius: 3px;
-		background: #00000080;
-		color: var(--color-4);
-		font-size: 1em;
-		line-height: 1.5;
-		text-shadow: 0 0 1px rgb(255 255 255);
-	}
+    /* Container with dark background and bright accents */
+    .services,
+    #psa,
+    noscript {
+        position: relative;
+        /* var(--color-10) background */
+        border: 1px solid var(--color-2);
+        /* var(--color-7) border */
+        border-radius: 3px;
+        background: #00000080;
+        box-shadow: 0 4px 8px #00000080;
+        color: var(--color-4);
+        font-size: 1em;
+        line-height: 1.5;
+        text-shadow: 0 0 1px rgb(255 255 255);
+        /* var(--color-8) text */
+        transition:
+            box-shadow 0.3s ease,
+            background 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: relative;
+            /* var(--color-10) background */
+            border: 1px solid var(--color-2);
+            /* var(--color-7) border */
+            border-radius: 3px;
+            background: #00000080;
+            box-shadow: 0 4px 8px #00000080;
+            color: var(--color-4);
+            font-size: 1em;
+            line-height: 1.5;
+            text-shadow: 0 0 1px rgb(255 255 255);
+            /* var(--color-8) text */
+            transition: none;
+        }
+    }
 
-	.services:hover,
-	#psa:hover,
-	noscript:hover {
-		box-shadow: 0 4px 12px #000000b3;
-		background: #000000ed;
-	}
+    .services:hover,
+    #psa:hover,
+    noscript:hover,
+    .services:focus,
+    #psa:focus,
+    noscript:focus {
+        background: #000000ed;
+        box-shadow: 0 4px 12px #000000b3;
+    }
 
-	/* Body styling with NASCAR-inspired gradient */
-	body {
-		transition: background 0.3s ease;
-		margin: 0;
-		background: linear-gradient(
-			135deg,
-			var(--color-5) 30%,
-			var(--color-3) 70%
-		);
-		color: var(--color-4);
-		font-weight: 300;
-		font-size: 16px;
-		/* var(--color-8) text */
-		font-family: Roboto, Arial, sans-serif;
-		/* var(--color-10) to var(--color-8) gradient */
-		text-shadow: 1px 1px 3px #000000;
-	}
+    /* Body styling with NASCAR-inspired gradient */
+    body {
+        margin: 0;
+        background: linear-gradient(
+            135deg,
+            var(--color-5) 30%,
+            var(--color-3) 70%
+        );
+        color: var(--color-4);
+        /* var(--color-8) text */
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        /* var(--color-10) to var(--color-8) gradient */
+        text-shadow: 1px 1px 3px #000000;
+        transition: background 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            margin: 0;
+            background: linear-gradient(
+                135deg,
+                var(--color-5) 30%,
+                var(--color-3) 70%
+            );
+            color: var(--color-4);
+            /* var(--color-8) text */
+            font-family: Roboto, Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            /* var(--color-10) to var(--color-8) gradient */
+            text-shadow: 1px 1px 3px #000000;
+            transition: none;
+        }
 
-	body:hover {
-		background: linear-gradient(
-			135deg,
-			var(--color-2) 30%,
-			var(--color-1) 70%
-		);
-		/* var(--color-7) to var(--color-6) gradient */
-	}
+        &:hover,
+        &:focus {
+            background: linear-gradient(
+                135deg,
+                var(--color-2) 30%,
+                var(--color-1) 70%
+            );
+            /* var(--color-7) to var(--color-6) gradient */
+        }
+    }
 
-	/* Tooltip customization with smooth transition */
-	[data-tooltip]::before {
-		position: absolute;
-		top: 0;
-		left: 2%;
-		visibility: hidden;
-		opacity: 0%;
-		z-index: 1;
-		transition:
-			visibility 0s,
-			opacity 0.3s ease-in-out;
-		border-radius: 6px;
-		background: var(--color-5);
-		/* var(--color-7) text */
-		padding: 8px;
-		width: 96%;
-		content: attr(data-tooltip);
-		/* var(--color-10) background */
-		color: var(--color-2);
-		font-style: italic;
-		font-weight: 300;
-		font-size: 0.9em;
-		text-shadow: 1px 1px 3px #00000066;
-	}
+    /* Tooltip customization with smooth transition */
+    [data-tooltip]::before {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 2%;
+        width: 96%;
+        /* var(--color-7) text */
+        padding: 8px;
+        border-radius: 6px;
+        background: var(--color-5);
+        /* var(--color-10) background */
+        color: var(--color-2);
+        content: attr(data-tooltip);
+        font-size: 0.875em;
+        font-style: italic;
+        font-weight: 300;
+        opacity: 0%;
+        text-shadow: 1px 1px 3px #00000066;
+        transition:
+            visibility 0s,
+            opacity 0.3s ease-in-out;
+        visibility: hidden;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 2%;
+            width: 96%;
+            /* var(--color-7) text */
+            padding: 8px;
+            border-radius: 6px;
+            background: var(--color-5);
+            /* var(--color-10) background */
+            color: var(--color-2);
+            content: attr(data-tooltip);
+            font-size: 0.875em;
+            font-style: italic;
+            font-weight: 300;
+            opacity: 0%;
+            text-shadow: 1px 1px 3px #00000066;
+            transition: none;
+            visibility: hidden;
+        }
+    }
 
-	[data-tooltip]:hover::before {
-		visibility: visible;
-		opacity: 100%;
-	}
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus::before {
+        opacity: 100%;
+        visibility: visible;
+    }
 
-	/* Advanced feature: Animated border with NASCAR colors */
-	.gradient-border {
-		position: relative;
-		border-radius: 5px;
-		background-color: var(--color-5);
-		padding: 10px;
-		/* var(--color-10) background */
-		color: var(--color-4);
-		/* var(--color-8) text */
-		font-weight: 700;
-		text-align: center;
-	}
+    /* Advanced feature: Animated border with NASCAR colors */
+    .gradient-border {
+        position: relative;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: var(--color-5);
+        /* var(--color-10) background */
+        color: var(--color-4);
+        /* var(--color-8) text */
+        font-weight: 700;
+        text-align: center;
+    }
 
-	.gradient-border::before {
-		position: absolute;
-		z-index: -1;
-		animation: gradient-border 5s linear infinite;
-		inset: -2px;
-		border-radius: 7px;
-		background: linear-gradient(
-			45deg,
-			var(--color-1),
-			var(--color-2),
-			var(--color-3),
-			var(--color-1)
-		);
-		/* var(--color-6), var(--color-7), var(--color-8) */
-		background-size: 600% 600%;
-		content: '';
-	}
+    .gradient-border::before {
+        position: absolute;
+        z-index: -1;
+        border-radius: 7px;
+        animation: gradient-border 5s linear infinite;
+        background: linear-gradient(
+            45deg,
+            var(--color-1),
+            var(--color-2),
+            var(--color-3),
+            var(--color-1)
+        );
+        /* var(--color-6), var(--color-7), var(--color-8) */
+        background-size: 600% 600%;
+        content: "";
+        inset: -2px;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            z-index: -1;
+            border-radius: 7px;
+            animation: none;
+            background: linear-gradient(
+                45deg,
+                var(--color-1),
+                var(--color-2),
+                var(--color-3),
+                var(--color-1)
+            );
+            /* var(--color-6), var(--color-7), var(--color-8) */
+            background-size: 600% 600%;
+            content: "";
+            inset: -2px;
+        }
+    }
 
-	/* Animation for gradient border */
-	@keyframes gradient-border {
-		0% {
-			background-position: 0% 50%;
-		}
+    /* Animation for gradient border */
+    @keyframes gradient-border {
+        0% {
+            background-position: 0% 50%;
+        }
 
-		50% {
-			background-position: 100% 50%;
-		}
+        50% {
+            background-position: 100% 50%;
+        }
 
-		100% {
-			background-position: 0% 50%;
-		}
-	}
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 }

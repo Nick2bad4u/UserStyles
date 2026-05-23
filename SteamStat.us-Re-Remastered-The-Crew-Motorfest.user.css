@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         SteamStat.us - The Crew: Motorfest
 @version      20241115.16.05
 @namespace    nick2bad4u.github.io
@@ -11,230 +11,349 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-The-Crew-Motorfest.user.css
 ==/UserStyle== */
 @-moz-document domain("steamstat.us") {
-	/* Main title styling with Motorfest colors */
-	.title {
-		margin: 10px 0;
-		background: linear-gradient(
-			135deg,
-			#ff4500 30%,
-			#00ced1 70%
-		);
-		color: #ff4500;
-		font-weight: 700;
-		font-size: 2.6em;
-		text-align: center;
-		/* Motorfest Orange */
-		text-shadow: 3px 3px 5px rgb(0 0 0 / 50%);
-		/* Orange to Teal gradient */
-		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: #000000;
-		background-clip: text;
-		-webkit-text-fill-color: transparent;
-		display: flex;
-		position: relative;
-		justify-content: center;
-		align-items: center;
-		animation: title-animation 3s ease-in-out infinite
-			alternate;
-	}
+    /* Main title styling with Motorfest colors */
+    .title {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+        animation: title-animation 3s ease-in-out infinite alternate;
+        background: linear-gradient(135deg, #ff4500 30%, #00ced1 70%);
+        background-clip: text;
+        color: #ff4500;
+        font-size: 2.5em;
+        font-weight: 700;
+        text-align: center;
+        -webkit-text-fill-color: transparent;
+        /* Motorfest Orange */
+        text-shadow: 3px 3px 5px rgb(0 0 0 / 50%);
+        -webkit-text-stroke-color: #000000;
+        /* Orange to Teal gradient */
+        -webkit-text-stroke-width: 1px;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            animation: none;
+            background: linear-gradient(135deg, #ff4500 30%, #00ced1 70%);
+            background-clip: text;
+            color: #ff4500;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-align: center;
+            -webkit-text-fill-color: transparent;
+            /* Motorfest Orange */
+            text-shadow: 3px 3px 5px rgb(0 0 0 / 50%);
+            -webkit-text-stroke-color: #000000;
+            /* Orange to Teal gradient */
+            -webkit-text-stroke-width: 1px;
+        }
+    }
 
-	/* Animation for the title */
-	@keyframes title-animation {
-		0% {
-			transform: scale(1);
-		}
+    /* Animation for the title */
+    @keyframes title-animation {
+        0% {
+            transform: scale(1);
+        }
 
-		100% {
-			transform: scale(1.08);
-		}
-	}
+        100% {
+            transform: scale(1.08);
+        }
+    }
 
-	/* Logo addition with scaling effect */
-	.title::after {
-		display: inline-block;
-		transition: transform 0.3s ease;
-		margin-left: 10px;
-		background: url('https://i.gyazo.com/f1273792dc6be70cae0d37b490fdd03a.png')
-			no-repeat center;
-		background-size: contain;
-		width: 250px;
-		height: 60px;
-		content: '';
-	}
+    /* Logo addition with scaling effect */
+    .title::after {
+        display: inline-block;
+        width: 250px;
+        height: 60px;
+        margin-left: 10px;
+        background: url("https://i.gyazo.com/f1273792dc6be70cae0d37b490fdd03a.png")
+            no-repeat center;
+        background-size: contain;
+        content: "";
+        transition: transform 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            display: inline-block;
+            width: 250px;
+            height: 60px;
+            margin-left: 10px;
+            background: url("https://i.gyazo.com/f1273792dc6be70cae0d37b490fdd03a.png")
+                no-repeat center;
+            background-size: contain;
+            content: "";
+            transition: none;
+        }
+    }
 
-	.title:hover::after {
-		transform: scale(1.2);
-	}
+    .title:hover::after,
+    .title:focus::after {
+        transform: scale(1.2);
+    }
 
-	/* Link styling with hover effect */
-	a {
-		transition:
-			color 0.3s ease,
-			text-shadow 0.3s ease;
-		color: #ff4500;
-		font-weight: 700;
-		/* Motorfest Orange */
-		text-decoration: none;
-		text-shadow: 1px 1px 2px rgb(0 0 0 / 40%);
-	}
+    /* Link styling with hover effect */
+    a {
+        color: #ff4500;
+        font-weight: 700;
+        /* Motorfest Orange */
+        text-decoration: none;
+        text-shadow: 1px 1px 2px rgb(0 0 0 / 40%);
+        transition:
+            color 0.3s ease,
+            text-shadow 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: #ff4500;
+            font-weight: 700;
+            /* Motorfest Orange */
+            text-decoration: none;
+            text-shadow: 1px 1px 2px rgb(0 0 0 / 40%);
+            transition: none;
+        }
 
-	a:hover {
-		color: #00ced1;
-		/* Motorfest Teal */
-		text-decoration: underline;
-		text-shadow: 2px 2px 6px rgb(0 0 0 / 70%);
-	}
+        &:hover,
+        &:focus {
+            color: #00ced1;
+            /* Motorfest Teal */
+            text-decoration: underline;
+            text-shadow: 2px 2px 6px rgb(0 0 0 / 70%);
+        }
+    }
 
-	/* Status colors with Motorfest theme */
-	.good {
-		transition: color 0.3s ease;
-		color: #00ced1;
-		/* Motorfest Teal */
-		text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
-	}
+    /* Status colors with Motorfest theme */
+    .good {
+        color: #00ced1;
+        /* Motorfest Teal */
+        text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+        transition: color 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: #00ced1;
+            /* Motorfest Teal */
+            text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+            transition: none;
+        }
+    }
 
-	.minor {
-		transition: color 0.3s ease;
-		color: #ffffff;
-		font-weight: 700;
-		/* White for minor status */
-		text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
-	}
+    .minor {
+        color: #ffffff;
+        font-weight: 700;
+        /* White for minor status */
+        text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+        transition: color 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: #ffffff;
+            font-weight: 700;
+            /* White for minor status */
+            text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+            transition: none;
+        }
+    }
 
-	.major {
-		transition: color 0.3s ease;
-		color: #ff4500;
-		font-weight: 700;
-		/* Motorfest Orange */
-		text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
-	}
+    .major {
+        color: #ff4500;
+        font-weight: 700;
+        /* Motorfest Orange */
+        text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+        transition: color 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: #ff4500;
+            font-weight: 700;
+            /* Motorfest Orange */
+            text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+            transition: none;
+        }
+    }
 
-	/* Refresh button styling with hover effect */
-	#js-refresh {
-		transition:
-			color 0.3s ease,
-			transform 0.3s ease;
-		color: #ff4500;
-		font-weight: bolder;
-		text-shadow: 0 0 3px rgb(0 0 0);
-	}
+    /* Refresh button styling with hover effect */
+    #js-refresh {
+        color: #ff4500;
+        font-weight: bolder;
+        text-shadow: 0 0 3px rgb(0 0 0);
+        transition:
+            color 0.3s ease,
+            transform 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: #ff4500;
+            font-weight: bolder;
+            text-shadow: 0 0 3px rgb(0 0 0);
+            transition: none;
+        }
 
-	#js-refresh:hover {
-		transform: scale(1.1);
-		color: #00ced1;
-	}
+        &:hover,
+        &:focus {
+            color: #00ced1;
+            transform: scale(1.1);
+        }
+    }
 
-	/* Container with neon accents */
-	.services,
-	#psa,
-	noscript,
-	footer {
-		position: relative;
-		transition:
-			box-shadow 0.3s ease,
-			background 0.3s ease;
-		box-shadow: 0 4px 12px rgb(0 0 0 / 80%);
-		border: 1px solid #ff4500;
-		border-radius: 4px;
-		background: linear-gradient(
-			135deg,
-			rgb(255 69 0 / 80%) 30%,
-			rgb(0 206 209 / 80%) 70%
-		);
-		color: #ffffff;
-		font-size: 1em;
-		line-height: 1.5;
-		text-shadow: 0 0 4px rgb(0 0 0 / 90%);
-	}
+    /* Container with neon accents */
+    .services,
+    #psa,
+    noscript,
+    footer {
+        position: relative;
+        border: 1px solid #ff4500;
+        border-radius: 4px;
+        background: linear-gradient(
+            135deg,
+            rgb(255 69 0 / 80%) 30%,
+            rgb(0 206 209 / 80%) 70%
+        );
+        box-shadow: 0 4px 12px rgb(0 0 0 / 80%);
+        color: #ffffff;
+        font-size: 1em;
+        line-height: 1.5;
+        text-shadow: 0 0 4px rgb(0 0 0 / 90%);
+        transition:
+            box-shadow 0.3s ease,
+            background 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: relative;
+            border: 1px solid #ff4500;
+            border-radius: 4px;
+            background: linear-gradient(
+                135deg,
+                rgb(255 69 0 / 80%) 30%,
+                rgb(0 206 209 / 80%) 70%
+            );
+            box-shadow: 0 4px 12px rgb(0 0 0 / 80%);
+            color: #ffffff;
+            font-size: 1em;
+            line-height: 1.5;
+            text-shadow: 0 0 4px rgb(0 0 0 / 90%);
+            transition: none;
+        }
+    }
 
-	.services:hover,
-	#psa:hover,
-	noscript:hover,
-	footer:hover {
-		box-shadow: 0 6px 15px rgb(0 0 0 / 90%);
-		background: rgb(0 0 0 / 95%);
-	}
+    .services:hover,
+    #psa:hover,
+    noscript:hover,
+    footer:hover,
+    .services:focus,
+    #psa:focus,
+    noscript:focus,
+    footer:focus {
+        background: rgb(0 0 0 / 95%);
+        box-shadow: 0 6px 15px rgb(0 0 0 / 90%);
+    }
 
-	/* Body styling with vibrant tropical backdrop */
-	body {
-		transition: background 0.3s ease;
-		margin: 0;
-		background: url('https://i.gyazo.com/2107a4c02a92a0a2b651a56eeb87bf64.jpg')
-			no-repeat center center fixed;
-		background-size: cover;
-		background-position-x: 1px;
-		color: #ff4500;
-		font-weight: 300;
-		font-size: 16px;
-		font-family: Roboto, Arial, sans-serif;
-		text-shadow: 2px 2px 4px rgb(0 0 0 / 70%);
-	}
+    /* Body styling with vibrant tropical backdrop */
+    body {
+        margin: 0;
+        background: url("https://i.gyazo.com/2107a4c02a92a0a2b651a56eeb87bf64.jpg")
+            no-repeat center center fixed;
+        background-position-x: 1px;
+        background-size: cover;
+        color: #ff4500;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        text-shadow: 2px 2px 4px rgb(0 0 0 / 70%);
+        transition: background 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            margin: 0;
+            background: url("https://i.gyazo.com/2107a4c02a92a0a2b651a56eeb87bf64.jpg")
+                no-repeat center center fixed;
+            background-position-x: 1px;
+            background-size: cover;
+            color: #ff4500;
+            font-family: Roboto, Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgb(0 0 0 / 70%);
+            transition: none;
+        }
+    }
 
-	/* Tooltip customization */
-	[data-tooltip]::before {
-		position: absolute;
-		top: 0;
-		left: 2%;
-		visibility: hidden;
-		opacity: 0%;
-		z-index: 1;
-		transition:
-			visibility 0s,
-			opacity 0.3s ease-in-out;
-		border-radius: 8px;
-		background: rgb(255 69 0 / 90%);
-		padding: 8px;
-		width: 96%;
-		content: attr(data-tooltip);
-		color: #ffffff;
-		font-size: 0.9em;
-		text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
-	}
+    /* Tooltip customization */
+    [data-tooltip]::before {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 2%;
+        width: 96%;
+        padding: 8px;
+        border-radius: 8px;
+        background: rgb(255 69 0 / 90%);
+        color: #ffffff;
+        content: attr(data-tooltip);
+        font-size: 0.875em;
+        opacity: 0%;
+        text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
+        transition:
+            visibility 0s,
+            opacity 0.3s ease-in-out;
+        visibility: hidden;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 2%;
+            width: 96%;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgb(255 69 0 / 90%);
+            color: #ffffff;
+            content: attr(data-tooltip);
+            font-size: 0.875em;
+            opacity: 0%;
+            text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
+            transition: none;
+            visibility: hidden;
+        }
+    }
 
-	[data-tooltip]:hover::before {
-		visibility: visible;
-		opacity: 100%;
-	}
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus::before {
+        opacity: 100%;
+        visibility: visible;
+    }
 
-	/* Advanced feature: Animated neon border */
-	.gradient-border {
-		position: relative;
-		box-shadow: 0 0 10px rgb(255 69 0 / 80%);
-		border-radius: 6px;
-		background-color: rgb(0 0 0 / 90%);
-		padding: 12px;
-		color: #ffffff;
-		font-weight: 700;
-		text-align: center;
-	}
+    /* Advanced feature: Animated neon border */
+    .gradient-border {
+        position: relative;
+        padding: 12px;
+        border-radius: 6px;
+        background-color: rgb(0 0 0 / 90%);
+        box-shadow: 0 0 10px rgb(255 69 0 / 80%);
+        color: #ffffff;
+        font-weight: 700;
+        text-align: center;
+    }
 
-	.gradient-border::before {
-		position: absolute;
-		z-index: -1;
-		animation: gradient-border 4s linear infinite;
-		inset: 0;
-		border-radius: 6px;
-		background: linear-gradient(
-			45deg,
-			#ff4500,
-			#00ced1,
-			#ff4500
-		);
-		background-size: 300% 300%;
-		content: '';
-	}
+    .gradient-border::before {
+        position: absolute;
+        z-index: -1;
+        border-radius: 6px;
+        animation: gradient-border 4s linear infinite;
+        background: linear-gradient(45deg, #ff4500, #00ced1, #ff4500);
+        background-size: 300% 300%;
+        content: "";
+        inset: 0;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            z-index: -1;
+            border-radius: 6px;
+            animation: none;
+            background: linear-gradient(45deg, #ff4500, #00ced1, #ff4500);
+            background-size: 300% 300%;
+            content: "";
+            inset: 0;
+        }
+    }
 
-	@keyframes gradient-border {
-		0% {
-			background-position: 0% 50%;
-		}
+    @keyframes gradient-border {
+        0% {
+            background-position: 0% 50%;
+        }
 
-		50% {
-			background-position: 100% 50%;
-		}
+        50% {
+            background-position: 100% 50%;
+        }
 
-		100% {
-			background-position: 0% 50%;
-		}
-	}
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 }

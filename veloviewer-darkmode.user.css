@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           veloviewer.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.6.1
@@ -18,202 +18,196 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/veloviewer-darkmode.user.css
 ==/UserStyle== */
 @-moz-document domain("veloviewer.com") {
-	:root {
-		--header-color: var(header-color);
-		--secondary-color: var(secondary-color);
-		--background-color: var(background-color);
-		--table-alternate-row: var(table-alternate-row);
-		--primary-color: var(primary-color);
-		--invert-filter: var(invert-filter);
-	}
+    :root {
+        --header-color: var(header-color);
+        --secondary-color: var(secondary-color);
+        --background-color: var(background-color);
+        --table-alternate-row: var(table-alternate-row);
+        --primary-color: var(primary-color);
+        --invert-filter: var(invert-filter);
+    }
 
-	a:hover,
-	a:focus {
-		color: #3aad7d !important;
-		text-decoration: underline;
-	}
+    a:hover,
+    a:focus {
+        color: #3aad7d !important;
+        text-decoration: underline;
+    }
 
-	a:any-link {
-		cursor: pointer;
-		color: var(--primary-color);
-		text-decoration: underline;
-	}
+    a:any-link {
+        color: var(--primary-color);
+        cursor: pointer;
+        text-decoration: underline;
+    }
 
-	/* Invert colors except images and videos */
-	html:not([stylus-iframe]),
-	img,
-	svg,
-	video,
-	.navbar-fixed-top,
-	.open > .dropdown-menu,
-	.table-bordered caption + thead tr:first-child th,
-	.table-bordered caption + tbody tr:first-child th,
-	.table-bordered caption + tbody tr:first-child td,
-	.table-bordered colgroup + thead tr:first-child th,
-	.table-bordered colgroup + tbody tr:first-child th,
-	.table-bordered colgroup + tbody tr:first-child td,
-	.table-bordered thead:first-child tr:first-child th,
-	.table-bordered tbody:first-child tr:first-child th,
-	.table-bordered tbody:first-child tr:first-child td,
-	header#masthead,
-	#socialPlaceholder,
-	.tab-content,
-	#dataContainer,
-	.accordion-group#mapChartContainer2,
-	#chartsTab > div > .span10,
-	select,
-	.tableWrapper.st,
-	textarea:focus,
-	input[type='text']:focus,
-	input[type='password']:focus,
-	input[type='datetime']:focus,
-	input[type='datetime-local']:focus,
-	input[type='date']:focus,
-	input[type='month']:focus,
-	input[type='time']:focus,
-	input[type='week']:focus,
-	input[type='number']:focus,
-	input[type='email']:focus,
-	input[type='url']:focus,
-	input[type='search']:focus,
-	input[type='tel']:focus,
-	input[type='color']:focus,
-	.uneditable-input:focus,
-	.row-fluid [class*='span']:first-child,
-	#addSplitValue,
-	#summaryTab > div:nth-child(n),
-	.day,
-	#mainContent > div:nth-child(n),
-	#mainContent > div:nth-child(n) > div > div > div > table,
-	#gearSummary > div > div,
-	#charts,
-	#mainContent > .awards > div:nth-child(1) > div,
-	#wheel,
-	#graphic
-		> div:nth-child(2)
-		> div:nth-child(2)
-		> div:nth-child(2),
-	#optionsAcc,
-	.form-search input,
-	.form-inline input,
-	.form-horizontal input,
-	.form-search textarea,
-	.form-inline textarea,
-	.form-horizontal textarea,
-	.form-search select,
-	.form-inline select,
-	.form-horizontal select,
-	.form-search .help-inline,
-	.form-inline .help-inline,
-	.form-horizontal .help-inline,
-	.form-search .uneditable-input,
-	.form-inline .uneditable-input,
-	.form-horizontal .uneditable-input,
-	.form-search .input-prepend,
-	.form-inline .input-prepend,
-	.form-horizontal .input-prepend,
-	.form-search .input-append,
-	.form-inline .input-append,
-	.form-horizontal .input-append,
-	#imageUrl,
-	#linkPageText,
-	#htmlCode,
-	#bbCode,
-	.leaflet-map-pane,
-	#mapContainer2,
-	#activitiesTab > div > div:nth-child(1) > table > thead,
-	#activitiesTab > div > div:nth-child(1) > table > tbody,
-	.table-bordered,
-	.leaflet-container,
-	#stravaEmbed,
-	#filterAcc,
-	#prDiv,
-	#mwsWrapper,
-	#mapChartContainer3,
-	.tab-content .span6 #mapContainer {
-		filter: var(--invert-filter);
-	}
+    /* Invert colors except images and videos */
+    html:not([stylus-iframe]),
+    img,
+    svg,
+    video,
+    .navbar-fixed-top,
+    .open > .dropdown-menu,
+    .table-bordered caption + thead tr:first-child th,
+    .table-bordered caption + tbody tr:first-child th,
+    .table-bordered caption + tbody tr:first-child td,
+    .table-bordered colgroup + thead tr:first-child th,
+    .table-bordered colgroup + tbody tr:first-child th,
+    .table-bordered colgroup + tbody tr:first-child td,
+    .table-bordered thead:first-child tr:first-child th,
+    .table-bordered tbody:first-child tr:first-child th,
+    .table-bordered tbody:first-child tr:first-child td,
+    header#masthead,
+    #socialPlaceholder,
+    .tab-content,
+    #dataContainer,
+    .accordion-group#mapChartContainer2,
+    #chartsTab > div > .span10,
+    select,
+    .tableWrapper.st,
+    textarea:focus,
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="datetime"]:focus,
+    input[type="datetime-local"]:focus,
+    input[type="date"]:focus,
+    input[type="month"]:focus,
+    input[type="time"]:focus,
+    input[type="week"]:focus,
+    input[type="number"]:focus,
+    input[type="email"]:focus,
+    input[type="url"]:focus,
+    input[type="search"]:focus,
+    input[type="tel"]:focus,
+    input[type="color"]:focus,
+    .uneditable-input:focus,
+    .row-fluid [class*="span"]:first-child,
+    #addSplitValue,
+    #summaryTab > div:nth-child(n),
+    .day,
+    #mainContent > div:nth-child(n),
+    #mainContent > div:nth-child(n) > div > div > div > table,
+    #gearSummary > div > div,
+    #charts,
+    #mainContent > .awards > div:nth-child(1) > div,
+    #wheel,
+    #graphic > div:nth-child(2) > div:nth-child(2) > div:nth-child(2),
+    #optionsAcc,
+    .form-search input,
+    .form-inline input,
+    .form-horizontal input,
+    .form-search textarea,
+    .form-inline textarea,
+    .form-horizontal textarea,
+    .form-search select,
+    .form-inline select,
+    .form-horizontal select,
+    .form-search .help-inline,
+    .form-inline .help-inline,
+    .form-horizontal .help-inline,
+    .form-search .uneditable-input,
+    .form-inline .uneditable-input,
+    .form-horizontal .uneditable-input,
+    .form-search .input-prepend,
+    .form-inline .input-prepend,
+    .form-horizontal .input-prepend,
+    .form-search .input-append,
+    .form-inline .input-append,
+    .form-horizontal .input-append,
+    #imageUrl,
+    #linkPageText,
+    #htmlCode,
+    #bbCode,
+    .leaflet-map-pane,
+    #mapContainer2,
+    #activitiesTab > div > div:nth-child(1) > table > thead,
+    #activitiesTab > div > div:nth-child(1) > table > tbody,
+    .table-bordered,
+    .leaflet-container,
+    #stravaEmbed,
+    #filterAcc,
+    #prDiv,
+    #mwsWrapper,
+    #mapChartContainer3,
+    .tab-content .span6 #mapContainer {
+        filter: var(--invert-filter);
+    }
 
-	.nav-tabs .active a,
-	.nav-tabs .active a:hover {
-		color: var(--secondary-color) !important;
-	}
+    .nav-tabs .active a,
+    .nav-tabs .active a:hover,
+    .nav-tabs .active a,
+    .nav-tabs .active a:focus {
+        color: var(--secondary-color) !important;
+    }
 
-	.nvd3 .nv-axis .nv-axisMaxMin text {
-		fill: var(--header-color) !important;
-	}
+    .nvd3 .nv-axis .nv-axisMaxMin text {
+        fill: var(--header-color) !important;
+    }
 
-	.nav > li > a > img,
-	#addFilterSelect,
-	#configSelect,
-	.chartSelect,
-	#typeFlipper,
-	#datum,
-	#calDisplayValue,
-	#actSummaryYBG,
-	#timeDisplayValue,
-	#segStats,
-	#scores,
-	#tableContainer,
-	#monthYear select,
-	#rowCount,
-	#splitsTab
-		> .tableWrapper.st
-		> .st-body.splitsDiv
-		> table,
-	#splitsTab > .tableWrapper.st > .st-head > table,
-	#overview > div > .span8 > h1 > img,
-	#tableWrapper table,
-	.tableWrapper
-		table:not(
-			#breakdownTab
-				> div.tableWrapper.breakdownTotalTable
-				> table
-		) {
-		filter: unset !important;
-	}
+    .nav > li > a > img,
+    #addFilterSelect,
+    #configSelect,
+    .chartSelect,
+    #typeFlipper,
+    #datum,
+    #calDisplayValue,
+    #actSummaryYBG,
+    #timeDisplayValue,
+    #segStats,
+    #scores,
+    #tableContainer,
+    #monthYear select,
+    #rowCount,
+    #splitsTab > .tableWrapper.st > .st-body.splitsDiv > table,
+    #splitsTab > .tableWrapper.st > .st-head > table,
+    #overview > div > .span8 > h1 > img,
+    #tableWrapper table,
+    .tableWrapper
+        table:not(
+            #breakdownTab > div.tableWrapper.breakdownTotalTable > table
+        ) {
+        filter: unset !important;
+    }
 
-	#mainContent > .tab-content,
-	.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom,
-	.tab-content > .active,
-	.pill-content > .active,
-	body > .container-fluid > .tab-content,
-	#completedChallenges > div:nth-child(n),
-	#partChallenges > div:nth-child(n),
-	#otherChallenges > div:nth-child(n) {
-		background: var(--background-color) !important;
-	}
+    #mainContent > .tab-content,
+    .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom,
+    .tab-content > .active,
+    .pill-content > .active,
+    body > .container-fluid > .tab-content,
+    #completedChallenges > div:nth-child(n),
+    #partChallenges > div:nth-child(n),
+    #otherChallenges > div:nth-child(n) {
+        background: var(--background-color) !important;
+    }
 
-	html,
-	#tableContainer,
-	.table td {
-		background: var(--table-alternate-row);
-	}
+    html,
+    #tableContainer,
+    .table td {
+        background: var(--table-alternate-row);
+    }
 
-	.axis text {
-		fill: var(--header-color);
-	}
+    .axis text {
+        fill: var(--header-color);
+    }
 
-	.activityDetails circle {
-		fill: rgb(0 0 0);
-		stroke: var(--header-color);
-		stroke-opacity: 20%;
-		stroke-width: 0.75;
-	}
+    .activityDetails circle {
+        fill: rgb(0 0 0);
+        stroke: var(--header-color);
+        stroke-opacity: 20%;
+        stroke-width: 0.75;
+    }
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	#list > p:nth-child(n),
-	.form-horizontal .control-label {
-		margin: 10px 0;
-		color: var(--header-color);
-		font-weight: 600;
-		line-height: 16px;
-		font-family: inherit;
-		text-rendering: optimizelegibility;
-	}
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    #list > p:nth-child(n),
+    .form-horizontal .control-label {
+        margin: 10px 0;
+        color: var(--header-color);
+        font-family: inherit, system-ui;
+        font-weight: 600;
+        line-height: 16px;
+        text-rendering: optimizelegibility;
+    }
 }

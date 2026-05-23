@@ -13,22 +13,22 @@
 @var color header-color "Header Color" #c797ff
 ==/UserStyle== */
 @-moz-document domain("webhint.io") {
-	/* Stylus Variables */
-	:root {
-		--header-color: var(header-color);
-	}
+    /* Stylus Variables */
+    :root {
+        --header-color: var(header-color);
+    }
 
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe,
-	.highlight {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe,
+    .highlight {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.header {
-		background-color: var(--header-color);
-	}
+    .header {
+        background-color: var(--header-color);
+    }
 }

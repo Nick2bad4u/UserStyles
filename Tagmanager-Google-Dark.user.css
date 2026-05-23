@@ -11,12 +11,12 @@
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Tagmanager-Google-Dark.user.css
 ==/UserStyle== */
 @-moz-document domain("tagmanager.google.com") {
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

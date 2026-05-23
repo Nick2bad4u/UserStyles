@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           UserScript Template
 @namespace      nick2bad4u.github.io
 @version        1.0.3
@@ -11,12 +11,12 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/UserscriptTemplate.user.css
 ==/UserStyle== */
 @-moz-document domain("") {
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

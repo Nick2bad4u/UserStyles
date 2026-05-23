@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           papertrails.io - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.4
@@ -14,28 +14,28 @@
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Papertrails-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("papertrails.io") {
-	:root {
-		--background-color: var(background-color);
-		--text-color: var(text-color);
-	}
+    :root {
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+    }
 
-	html,
-	.kzrxpN .print-container,
-	#root,
-	.kzrxpN .sc-cLQEGU,
-	.kzrxpN .sc-dVhcbM,
-	.kzrxpN .mobile-actions,
-	.kzrxpN .map-actions,
-	.kzrxpN .mobile-actions .sc-dliRfk,
-	.kzrxpN .sc-hMFtBS .inner,
-	button,
-	.maYvJ,
-	article,
-	footer {
-		background: var(--background-color) !important;
-		color: var(--text-color) !important;
-	}
-	button {
-		border-radius: 20px;
-	}
+    html,
+    .kzrxpN .print-container,
+    #root,
+    .kzrxpN .sc-cLQEGU,
+    .kzrxpN .sc-dVhcbM,
+    .kzrxpN .mobile-actions,
+    .kzrxpN .map-actions,
+    .kzrxpN .mobile-actions .sc-dliRfk,
+    .kzrxpN .sc-hMFtBS .inner,
+    button,
+    .maYvJ,
+    article,
+    footer {
+        background: var(--background-color) !important;
+        color: var(--text-color) !important;
+    }
+    button {
+        border-radius: 20px;
+    }
 }

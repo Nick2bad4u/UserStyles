@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         YouTube Rainbow Progress Bar [Updated] [Customizable]
 @namespace    nick2bad4u.github.io
 @author       nick2bad4u
@@ -20,112 +20,114 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YoutubeRainbowProgress.user.css
 ==/UserStyle== */
 @-moz-document domain("youtube.com") {
-	:root {
-		--color-red: var(color-red);
-		--color-orange: var(color-orange);
-		--color-yellow: var(color-yellow);
-		--color-green: var(color-green);
-		--color-blue: var(color-blue);
-		--color-purple: var(color-purple);
-		--scrubber-border: var(scrubber-border);
-		--scrubber-background: var(scrubber-background);
-	}
+    :root {
+        --color-red: var(color-red);
+        --color-orange: var(color-orange);
+        --color-yellow: var(color-yellow);
+        --color-green: var(color-green);
+        --color-blue: var(color-blue);
+        --color-purple: var(color-purple);
+        --scrubber-border: var(scrubber-border);
+        --scrubber-background: var(scrubber-background);
+    }
 
-	.html5-progress-bar,
-	.ytp-progress-bar {
-		border: none !important;
-		background: linear-gradient(
-			90deg,
-			var(--color-red) 0%,
-			var(--color-orange) 20%,
-			var(--color-yellow) 40%,
-			var(--color-green) 60%,
-			var(--color-blue) 80%,
-			var(--color-purple) 100%
-		) !important;
-		height: 12px !important;
-		margin-top: 12px !important;
-	}
+    .html5-progress-bar,
+    .ytp-progress-bar {
+        height: 12px !important;
+        border: none !important;
+        margin-top: 12px !important;
+        background: linear-gradient(
+            90deg,
+            var(--color-red) 0%,
+            var(--color-orange) 20%,
+            var(--color-yellow) 40%,
+            var(--color-green) 60%,
+            var(--color-blue) 80%,
+            var(--color-purple) 100%
+        ) !important;
+    }
 
-	.html5-progress-bar-container,
-	.ytp-progress-bar-container {
-		height: 12px !important;
-	}
+    .html5-progress-bar-container,
+    .ytp-progress-bar-container {
+        height: 12px !important;
+    }
 
-	.html5-progress-list,
-	.ytp-progress-list,
-	.video-ads .html5-progress-list.html5-ad-progress-list,
-	.video-ads .ytp-progress-list.ytp-ad-progress-list {
-		height: 12px !important;
-	}
+    .html5-progress-list,
+    .ytp-progress-list,
+    .video-ads .html5-progress-list.html5-ad-progress-list,
+    .video-ads .ytp-progress-list.ytp-ad-progress-list {
+        height: 12px !important;
+    }
 
-	.ytp-scrubber-button {
-		margin-top: -6px !important;
-		margin-left: 0 !important;
-		border: 1px solid var(--scrubber-border) !important;
-		background-color: var(--scrubber-background) !important;
-		width: 8px !important;
-		height: 32px !important;
-	}
+    .ytp-scrubber-button {
+        width: 8px !important;
+        height: 32px !important;
+        border: 1px solid var(--scrubber-border) !important;
+        margin-top: -6px !important;
+        margin-left: 0 !important;
+        background-color: var(--scrubber-background) !important;
+    }
 
-	.ytp-heat-map-svg {
-		margin-top: 3px !important;
-	}
+    .ytp-heat-map-svg {
+        margin-top: 3px !important;
+    }
 
-	.ytp-heat-map-container {
-		height: 50px !important;
-	}
+    .ytp-heat-map-container {
+        height: 50px !important;
+    }
 
-	.ytp-heat-map-graph {
-		fill-opacity: 50% !important;
-		-webkit-animation: mymove 5s linear infinite;
-		-moz-animation: mymove 5s linear infinite;
-		animation: mymove 5s linear infinite;
-	}
+    .ytp-heat-map-graph {
+        animation: mymove 5s linear infinite;
+        fill-opacity: 50% !important;
+        @media screen and (prefers-reduced-motion: reduce) {
+            animation: none;
+            fill-opacity: 50% !important;
+        }
+    }
 
-	@keyframes mymove {
-		0% {
-			fill: var(--color-red);
-		}
+    @keyframes mymove {
+        0% {
+            fill: var(--color-red);
+        }
 
-		10% {
-			fill: var(--color-orange);
-		}
+        10% {
+            fill: var(--color-orange);
+        }
 
-		20% {
-			fill: var(--color-yellow);
-		}
+        20% {
+            fill: var(--color-yellow);
+        }
 
-		30% {
-			fill: var(--color-green);
-		}
+        30% {
+            fill: var(--color-green);
+        }
 
-		40% {
-			fill: var(--color-blue);
-		}
+        40% {
+            fill: var(--color-blue);
+        }
 
-		50% {
-			fill: var(--color-purple);
-		}
+        50% {
+            fill: var(--color-purple);
+        }
 
-		60% {
-			fill: var(--color-blue);
-		}
+        60% {
+            fill: var(--color-blue);
+        }
 
-		70% {
-			fill: var(--color-green);
-		}
+        70% {
+            fill: var(--color-green);
+        }
 
-		80% {
-			fill: var(--color-yellow);
-		}
+        80% {
+            fill: var(--color-yellow);
+        }
 
-		90% {
-			fill: var(--color-orange);
-		}
+        90% {
+            fill: var(--color-orange);
+        }
 
-		100% {
-			fill: var(--color-red);
-		}
-	}
+        100% {
+            fill: var(--color-red);
+        }
+    }
 }

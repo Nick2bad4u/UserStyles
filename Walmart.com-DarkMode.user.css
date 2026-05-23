@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         Walmart.com - Dark Mode
 @version      20241114.16.31
 @namespace    nick2bad4u.github.io
@@ -24,167 +24,161 @@
 ==/UserStyle== */
 
 @-moz-document domain("walmart.com") {
-	:root {
-		--base-border: var(base-border);
-		--base-background: var(base-background);
-		--base-text: var(base-text);
-		--link-color: var(link-color);
-		--button-border: var(button-border);
-		--button-background: var(button-background);
-		--button-hover-border: var(button-hover-border);
-		--button-hover-background: var(button-hover-background);
-		--price-color: var(price-color);
-		--notification-background: var(notification-background);
-		--notification-text: var(notification-text);
-	}
+    :root {
+        --base-border: var(base-border);
+        --base-background: var(base-background);
+        --base-text: var(base-text);
+        --link-color: var(link-color);
+        --button-border: var(button-border);
+        --button-background: var(button-background);
+        --button-hover-border: var(button-hover-border);
+        --button-hover-background: var(button-hover-background);
+        --price-color: var(price-color);
+        --notification-background: var(notification-background);
+        --notification-text: var(notification-text);
+    }
 
-	/* Base styles */
-	*:not(img, svg, iframe, a, i, span.mr2, span.mh2, p) {
-		border-color: var(--base-border) !important;
-		background-color: var(--base-background) !important;
-		color: var(--base-text) !important;
-	}
+    /* Base styles */
+    *:not(img, svg, iframe, a, i, span.mr2, span.mh2, p) {
+        border-color: var(--base-border) !important;
+        background-color: var(--base-background) !important;
+        color: var(--base-text) !important;
+    }
 
-	a {
-		color: var(--link-color) !important;
-	}
+    a {
+        color: var(--link-color) !important;
+    }
 
-	/* Media elements */
-	img,
-	video {
-		filter: brightness(1) !important;
-	}
+    /* Media elements */
+    img,
+    video {
+        filter: brightness(1) !important;
+    }
 
-	/* Buttons and Input Fields */
-	button,
-	input,
-	select,
-	textarea,
-	div > div.z-2.relative.mt2.w-60 > div > a {
-		border-color: var(--button-border) !important;
-		background-color: var(--button-background) !important;
-		color: var(--base-text) !important;
-	}
+    /* Buttons and Input Fields */
+    button,
+    input,
+    select,
+    textarea,
+    div > div.z-2.relative.mt2.w-60 > div > a {
+        border-color: var(--button-border) !important;
+        background-color: var(--button-background) !important;
+        color: var(--base-text) !important;
+    }
 
-	button:hover,
-	input:focus,
-	select:focus,
-	textarea:focus {
-		border-color: var(--button-hover-border) !important;
-		background-color: var(
-			--button-hover-background
-		) !important;
-	}
+    button:hover,
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-color: var(--button-hover-border) !important;
+        background-color: var(--button-hover-background) !important;
+    }
 
-	/* Header, Navbar, and Footer */
-	header,
-	.header,
-	.footer,
-	nav,
-	.navbar {
-		background-color: var(--base-background) !important;
-		color: var(--base-text) !important;
-	}
+    /* Header, Navbar, and Footer */
+    header,
+    .header,
+    .footer,
+    nav,
+    .navbar {
+        background-color: var(--base-background) !important;
+        color: var(--base-text) !important;
+    }
 
-	header a,
-	.header a,
-	.footer a,
-	nav a,
-	.navbar a {
-		color: var(--link-color) !important;
-	}
+    header a,
+    .header a,
+    .footer a,
+    nav a,
+    .navbar a {
+        color: var(--link-color) !important;
+    }
 
-	/* Product Listings */
-	.product,
-	.product-card,
-	.product-list-item {
-		border-color: var(--base-border) !important;
-		background-color: var(--button-background) !important;
-		color: var(--base-text) !important;
-	}
+    /* Product Listings */
+    .product,
+    .product-card,
+    .product-list-item {
+        border-color: var(--base-border) !important;
+        background-color: var(--button-background) !important;
+        color: var(--base-text) !important;
+    }
 
-	.product-card .price,
-	.product-list-item .price {
-		color: var(--price-color) !important;
-	}
+    .product-card .price,
+    .product-list-item .price {
+        color: var(--price-color) !important;
+    }
 
-	/* Category and Sidebar Menus */
-	.sidebar,
-	.category-menu,
-	.filter-menu {
-		border-color: var(--base-border) !important;
-		background-color: var(--base-background) !important;
-		color: var(--base-text) !important;
-	}
+    /* Category and Sidebar Menus */
+    .sidebar,
+    .category-menu,
+    .filter-menu {
+        border-color: var(--base-border) !important;
+        background-color: var(--base-background) !important;
+        color: var(--base-text) !important;
+    }
 
-	.sidebar a,
-	.category-menu a,
-	.filter-menu a {
-		color: var(--link-color) !important;
-	}
+    .sidebar a,
+    .category-menu a,
+    .filter-menu a {
+        color: var(--link-color) !important;
+    }
 
-	/* Shopping Cart and Checkout */
-	.cart,
-	.checkout,
-	.order-summary,
-	.cart-item {
-		border-color: var(--base-border) !important;
-		background-color: var(--button-background) !important;
-		color: var(--base-text) !important;
-	}
+    /* Shopping Cart and Checkout */
+    .cart,
+    .checkout,
+    .order-summary,
+    .cart-item {
+        border-color: var(--base-border) !important;
+        background-color: var(--button-background) !important;
+        color: var(--base-text) !important;
+    }
 
-	.cart .price,
-	.checkout .price,
-	.order-summary .price {
-		color: var(--price-color) !important;
-	}
+    .cart .price,
+    .checkout .price,
+    .order-summary .price {
+        color: var(--price-color) !important;
+    }
 
-	/* Forms and Popups */
-	.modal,
-	.popup,
-	.form-container {
-		border-color: var(--base-border) !important;
-		background-color: var(--base-background) !important;
-		color: var(--base-text) !important;
-	}
+    /* Forms and Popups */
+    .modal,
+    .popup,
+    .form-container {
+        border-color: var(--base-border) !important;
+        background-color: var(--base-background) !important;
+        color: var(--base-text) !important;
+    }
 
-	.modal button,
-	.popup button,
-	.form-container button {
-		background-color: var(--button-background) !important;
-		color: var(--base-text) !important;
-	}
+    .modal button,
+    .popup button,
+    .form-container button {
+        background-color: var(--button-background) !important;
+        color: var(--base-text) !important;
+    }
 
-	/* Specific UI Adjustments */
-	.breadcrumb,
-	.pagination,
-	.page-navigation {
-		border-color: var(--base-border) !important;
-		background-color: var(--button-background) !important;
-		color: var(--base-text) !important;
-	}
+    /* Specific UI Adjustments */
+    .breadcrumb,
+    .pagination,
+    .page-navigation {
+        border-color: var(--base-border) !important;
+        background-color: var(--button-background) !important;
+        color: var(--base-text) !important;
+    }
 
-	.breadcrumb a,
-	.pagination a,
-	.page-navigation a {
-		color: var(--link-color) !important;
-	}
+    .breadcrumb a,
+    .pagination a,
+    .page-navigation a {
+        color: var(--link-color) !important;
+    }
 
-	.notification,
-	.alert,
-	.badge {
-		background-color: var(
-			--notification-background
-		) !important;
-		color: var(--notification-text) !important;
-	}
+    .notification,
+    .alert,
+    .badge {
+        background-color: var(--notification-background) !important;
+        color: var(--notification-text) !important;
+    }
 
-	/* Tooltip */
-	.tooltip {
-		border-color: var(--button-hover-border) !important;
-		background-color: var(
-			--button-hover-background
-		) !important;
-		color: var(--base-text) !important;
-	}
+    /* Tooltip */
+    .tooltip {
+        border-color: var(--button-hover-border) !important;
+        background-color: var(--button-hover-background) !important;
+        color: var(--base-text) !important;
+    }
 }

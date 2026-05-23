@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           ZwiftPower.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
@@ -15,86 +15,81 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ZwiftPower.comDark%20Mode.user.css
 ==/UserStyle== */
 @-moz-document domain("zwiftpower.com") {
-	/* Use the variables for colors */
-	:root {
-		--darkColor: var(darkColor);
-		--lightColor: var(lightColor);
-		--blueColor: var(blueColor);
-	}
+    /* Use the variables for colors */
+    :root {
+        --darkColor: var(darkColor);
+        --lightColor: var(lightColor);
+        --blueColor: var(blueColor);
+    }
 
-	html,
-	svg,
-	iframe,
-	nav,
-	.img-circle,
-	rect,
-	.text-gray,
-	.text-left.text-nowrap.athlete_col.sorting_1 > div > span,
-	.fix-right-nav > li > ul,
-	#team_list
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(n)
-		> div
-		> span,
-	.highcharts-label.highcharts-tooltip.highcharts-color-0
-		> path,
-	.navbar-nav > li > .dropdown-menu,
-	.label {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    html,
+    svg,
+    iframe,
+    nav,
+    .img-circle,
+    rect,
+    .text-gray,
+    .text-left.text-nowrap.athlete_col.sorting_1 > div > span,
+    .fix-right-nav > li > ul,
+    #team_list > tbody > tr:nth-child(n) > td:nth-child(n) > div > span,
+    .highcharts-label.highcharts-tooltip.highcharts-color-0 > path,
+    .navbar-nav > li > .dropdown-menu,
+    .label {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.btn-group
-		> .btn:not(:first-child, :last-child, .dropdown-toggle),
-	.btn-group > .btn:last-child:not(:first-child) {
-		filter: invert(0) hue-rotate(0deg) !important;
-	}
+    .btn-group > .btn:not(:first-child, :last-child, .dropdown-toggle),
+    .btn-group > .btn:last-child:not(:first-child) {
+        filter: invert(0) hue-rotate(0deg) !important;
+    }
 
-	button:nth-child(n) {
-		color: var(--darkColor) !important;
-	}
+    button:nth-child(n) {
+        color: var(--darkColor) !important;
+    }
 
-	#zp_submenu > ul,
-	#zp_submenu > ul > li:nth-child(n) > a {
-		background: var(--lightColor);
-		color: var(--darkColor) !important;
-		text-shadow: 1px 1px 1px var(--lightColor) !important;
-	}
+    #zp_submenu > ul,
+    #zp_submenu > ul > li:nth-child(n) > a {
+        background: var(--lightColor);
+        color: var(--darkColor) !important;
+        text-shadow: 1px 1px 1px var(--lightColor) !important;
+    }
 
-	#highcharts-ptc6m8e-28 > div > span {
-		border-color: var(--darkColor);
-		background: var(--lightColor);
-	}
+    #highcharts-ptc6m8e-28 > div > span {
+        border-color: var(--darkColor);
+        background: var(--lightColor);
+    }
 
-	#page-footer {
-		border-radius: 50px;
-		background-color: var(--lightColor);
-	}
+    #page-footer {
+        border-radius: 50px;
+        background-color: var(--lightColor);
+    }
 
-	button:nth-child(n):hover,
-	.grey_bg {
-		background-color: var(--blueColor) !important;
-	}
+    button:nth-child(n):hover,
+    .grey_bg,
+    button:nth-child(n):focus,
+    .grey_bg {
+        background-color: var(--blueColor) !important;
+    }
 
-	.panel.panel-grey > div.panel-heading {
-		filter: invert(1) hue-rotate(180deg);
-		border-bottom: 1px solid var(--blueColor);
-		background-color: var(--blueColor);
-		color: var(--darkColor);
-		font-weight: 500;
-		font-size: 20px;
-	}
+    .panel.panel-grey > div.panel-heading {
+        border-bottom: 1px solid var(--blueColor);
+        background-color: var(--blueColor);
+        color: var(--darkColor);
+        filter: invert(1) hue-rotate(180deg);
+        font-size: 20px;
+        font-weight: 500;
+    }
 
-	.highcharts-color-undefined {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    .highcharts-color-undefined {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	#friends_results > thead > tr > th:nth-child(n)::after {
-		opacity: 30%;
-		color: var(--darkColor) !important;
-	}
+    #friends_results > thead > tr > th:nth-child(n)::after {
+        color: var(--darkColor) !important;
+        opacity: 30%;
+    }
 
-	#rdetails_body > div.panel-body > a:nth-child(8) {
-		overflow-wrap: break-word;
-	}
+    #rdetails_body > div.panel-body > a:nth-child(8) {
+        overflow-wrap: break-word;
+    }
 }

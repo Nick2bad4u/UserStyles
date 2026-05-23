@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         SteamStat.us - Re-Remastered Christmas Theme
 @version      20241115.16.08
 @namespace    nick2bad4u.github.io
@@ -41,172 +41,196 @@
 ==/UserStyle== */
 
 @-moz-document domain("steamstat.us") {
-	:root {
-		--title-gradient-start: var(title-gradient-start);
-		--title-gradient-middle: var(title-gradient-middle);
-		--title-gradient-end: var(title-gradient-end);
-		--title-color: var(title-color);
-		--title-shadow: var(title-shadow);
-		--link-color: var(link-color);
-		--link-shadow: var(link-shadow);
-		--link-hover-color: var(link-hover-color);
-		--good-color: var(good-color);
-		--good-shadow: var(good-shadow);
-		--minor-color: var(minor-color);
-		--minor-shadow: var(minor-shadow);
-		--major-color: var(major-color);
-		--major-shadow: var(major-shadow);
-		--refresh-color: var(refresh-color);
-		--refresh-shadow: var(refresh-shadow);
-		--box-shadow: var(box-shadow);
-		--border-color: var(border-color);
-		--background-gradient-start: var(
-			background-gradient-start
-		);
-		--background-gradient-middle: var(
-			background-gradient-middle
-		);
-		--background-gradient-end: var(background-gradient-end);
-		--body-background-start: var(body-background-start);
-		--body-background-end: var(body-background-end);
-		--body-color: var(body-color);
-		--body-shadow: var(body-shadow);
-		--tooltip-background: var(tooltip-background);
-		--tooltip-color: var(tooltip-color);
-		--tooltip-shadow: var(tooltip-shadow);
-	}
+    :root {
+        --title-gradient-start: var(title-gradient-start);
+        --title-gradient-middle: var(title-gradient-middle);
+        --title-gradient-end: var(title-gradient-end);
+        --title-color: var(title-color);
+        --title-shadow: var(title-shadow);
+        --link-color: var(link-color);
+        --link-shadow: var(link-shadow);
+        --link-hover-color: var(link-hover-color);
+        --good-color: var(good-color);
+        --good-shadow: var(good-shadow);
+        --minor-color: var(minor-color);
+        --minor-shadow: var(minor-shadow);
+        --major-color: var(major-color);
+        --major-shadow: var(major-shadow);
+        --refresh-color: var(refresh-color);
+        --refresh-shadow: var(refresh-shadow);
+        --box-shadow: var(box-shadow);
+        --border-color: var(border-color);
+        --background-gradient-start: var(background-gradient-start);
+        --background-gradient-middle: var(background-gradient-middle);
+        --background-gradient-end: var(background-gradient-end);
+        --body-background-start: var(body-background-start);
+        --body-background-end: var(body-background-end);
+        --body-color: var(body-color);
+        --body-shadow: var(body-shadow);
+        --tooltip-background: var(tooltip-background);
+        --tooltip-color: var(tooltip-color);
+        --tooltip-shadow: var(tooltip-shadow);
+    }
 
-	.title {
-		margin: 10px 0;
-		background: linear-gradient(
-			180deg,
-			var(--title-gradient-start),
-			var(--title-gradient-middle),
-			var(--title-gradient-end)
-		); /* Red, White, Green */
-		background-clip: text;
-		color: var(--title-color);
-		font-weight: 300;
-		font-size: 2.6em;
-		/* Christmas-Themed Title */
-		text-align: center;
-		text-shadow: 2px 2px 8px var(--title-shadow);
-		-webkit-text-fill-color: transparent;
-	}
+    .title {
+        margin: 10px 0;
+        background: linear-gradient(
+            180deg,
+            var(--title-gradient-start),
+            var(--title-gradient-middle),
+            var(--title-gradient-end)
+        ); /* Red, White, Green */
+        background-clip: text;
+        color: var(--title-color);
+        font-size: 2.5em;
+        font-weight: 300;
+        /* Christmas-Themed Title */
+        text-align: center;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 8px var(--title-shadow);
+    }
 
-	a {
-		/* Christmas Links */
-		color: var(--link-color); /* Festive Orange-Red */
-		font-weight: 700;
-		text-decoration: none;
-		text-shadow: 1px 1px 4px var(--link-shadow);
-	}
+    a {
+        /* Christmas Links */
+        color: var(--link-color); /* Festive Orange-Red */
+        font-weight: 700;
+        text-decoration: none;
+        text-shadow: 1px 1px 4px var(--link-shadow);
 
-	a:hover {
-		color: var(--link-hover-color); /* Green for Hover */
-		text-decoration: underline;
-	}
+        &:hover,
+        &:focus {
+            color: var(--link-hover-color); /* Green for Hover */
+            text-decoration: underline;
+        }
+    }
 
-	.pull-right,
-	.service .status {
-		float: right;
-		text-align: right;
-	}
+    .pull-right,
+    .service .status {
+        float: right;
+        text-align: right;
+    }
 
-	.good {
-		/* Holly Green */
-		color: var(--good-color);
-		text-shadow: 1px 1px 1px var(--good-shadow);
-	}
+    .good {
+        /* Holly Green */
+        color: var(--good-color);
+        text-shadow: 1px 1px 1px var(--good-shadow);
+    }
 
-	.minor {
-		/* Festive Gold */
-		color: var(--minor-color);
-		font-weight: 700;
-		text-shadow: 1px 1px 1px var(--minor-shadow);
-	}
+    .minor {
+        /* Festive Gold */
+        color: var(--minor-color);
+        font-weight: 700;
+        text-shadow: 1px 1px 1px var(--minor-shadow);
+    }
 
-	.major {
-		/* Bright Christmas Red */
-		color: var(--major-color);
-		font-weight: 700;
-		text-shadow: 1px 1px 1px var(--major-shadow);
-	}
+    .major {
+        /* Bright Christmas Red */
+        color: var(--major-color);
+        font-weight: 700;
+        text-shadow: 1px 1px 1px var(--major-shadow);
+    }
 
-	#js-refresh {
-		/* Refresh Indicator */
-		color: var(--refresh-color);
-		font-weight: bolder;
-		text-shadow: 0 0 1px var(--refresh-shadow);
-	}
+    #js-refresh {
+        /* Refresh Indicator */
+        color: var(--refresh-color);
+        font-weight: bolder;
+        text-shadow: 0 0 1px var(--refresh-shadow);
+    }
 
-	.services,
-	#psa,
-	noscript {
-		position: relative;
-		outline: black;
-		outline-style: auto;
-		box-shadow: 0 4px 12px var(--box-shadow);
-		border: 2px solid var(--border-color); /* Gold Border */
-		border-radius: 6px;
-		background: linear-gradient(
-			180deg,
-			var(--background-gradient-start),
-			var(--background-gradient-middle),
-			var(--background-gradient-end)
-		); /* Candy Cane Stripe Effect */
-		color: #ffffff;
-		font-size: 1em;
-		line-height: 1.5;
-		text-decoration-color: black;
-		text-shadow: 1px 0 3px var(--box-shadow);
-	}
+    .services,
+    #psa,
+    noscript {
+        position: relative;
+        border: 2px solid var(--border-color); /* Gold Border */
+        border-radius: 6px;
+        background: linear-gradient(
+            180deg,
+            var(--background-gradient-start),
+            var(--background-gradient-middle),
+            var(--background-gradient-end)
+        ); /* Candy Cane Stripe Effect */
+        box-shadow: 0 4px 12px var(--box-shadow);
+        color: #ffffff;
+        font-size: 1em;
+        line-height: 1.5;
+        outline: black;
+        outline-style: auto;
+        text-decoration-color: black;
+        text-shadow: 1px 0 3px var(--box-shadow);
+    }
 
-	body {
-		margin: 0;
-		background: linear-gradient(
-			0deg,
-			var(--body-background-start),
-			var(--body-background-end)
-		); /* Christmas Red and Green */
-		color: var(--body-color);
-		font-weight: 300;
-		font-size: 16px;
-		font-family: Roboto, Arial, sans-serif;
-		text-shadow: 1px 1px 4px var(--body-shadow);
-	}
+    body {
+        margin: 0;
+        background: linear-gradient(
+            0deg,
+            var(--body-background-start),
+            var(--body-background-end)
+        ); /* Christmas Red and Green */
+        color: var(--body-color);
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        text-shadow: 1px 1px 4px var(--body-shadow);
+    }
 
-	[data-tooltip]::before {
-		/* Tooltip Box */
-		visibility: hidden;
-		opacity: 0%;
-		overflow: hidden;
-		content: attr(data-tooltip);
-		font-size: 0.9em;
-		white-space: pre;
-		overflow-wrap: break-word;
-		position: absolute;
-		top: 0;
-		left: 2%;
-		z-index: 1;
-		transition:
-			visibility 0s,
-			opacity 0.3s ease-in-out;
-		border-radius: 6px;
-		background: var(
-			--tooltip-background
-		); /* Green Background for Tooltip */
-		padding: 8px;
-		width: 96%;
-		color: var(--tooltip-color); /* Gold Text */
-		font-style: italic;
-		font-weight: 300;
-		text-align: left;
-		text-shadow: 1px 1px 5px var(--tooltip-shadow);
-	}
+    [data-tooltip]::before {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 2%;
+        overflow: hidden;
+        width: 96%;
+        padding: 8px;
+        border-radius: 6px;
+        background: var(
+            --tooltip-background
+        ); /* Green Background for Tooltip */
+        color: var(--tooltip-color); /* Gold Text */
+        content: attr(data-tooltip);
+        font-size: 0.875em;
+        font-style: italic;
+        font-weight: 300;
+        opacity: 0%;
+        overflow-wrap: break-word;
+        text-align: left;
+        text-shadow: 1px 1px 5px var(--tooltip-shadow);
+        transition:
+            visibility 0s,
+            opacity 0.3s ease-in-out;
+        /* Tooltip Box */
+        visibility: hidden;
+        white-space: pre;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 2%;
+            overflow: hidden;
+            width: 96%;
+            padding: 8px;
+            border-radius: 6px;
+            background: var(
+                --tooltip-background
+            ); /* Green Background for Tooltip */
+            color: var(--tooltip-color); /* Gold Text */
+            content: attr(data-tooltip);
+            font-size: 0.875em;
+            font-style: italic;
+            font-weight: 300;
+            opacity: 0%;
+            overflow-wrap: break-word;
+            text-align: left;
+            text-shadow: 1px 1px 5px var(--tooltip-shadow);
+            transition: none;
+            /* Tooltip Box */
+            visibility: hidden;
+            white-space: pre;
+        }
+    }
 
-	[data-tooltip]:hover::before {
-		visibility: visible;
-		opacity: 100%;
-	}
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus::before {
+        opacity: 100%;
+        visibility: visible;
+    }
 }

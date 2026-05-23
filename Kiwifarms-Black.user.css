@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         kiwifarms - Black Theme [Customizable]
 @namespace    nick2bad4u.github.io
 @author       Nick2bad4u
@@ -24,276 +24,276 @@ domain("kiwifarms.net"),
 url-prefix("https://kiwifarms"),
 url-prefix("http://kiwifarms")
 {
-	:root {
-		--primary-color: var(primary-color);
-		--secondary-color: var(secondary-color);
-		--background-color: var(background-color);
-		--border-color: var(border-color);
-		--border-color2: var(border-color2);
-		--border-highlight: var(border-highlight);
-		--hover-background-color: var(hover-background-color);
-		--white: var(white);
-	}
+    :root {
+        --primary-color: var(primary-color);
+        --secondary-color: var(secondary-color);
+        --background-color: var(background-color);
+        --border-color: var(border-color);
+        --border-color2: var(border-color2);
+        --border-highlight: var(border-highlight);
+        --hover-background-color: var(hover-background-color);
+        --white: var(white);
+    }
 
-	body,
-	.p-body,
-	.p-body > div,
-	.p-body-content,
-	.block--messages .block-container *,
-	.p-footer,
-	.block-container *,
-	.block-container button {
-		background-color: var(--background-color) !important;
-	}
+    body,
+    .p-body,
+    .p-body > div,
+    .p-body-content,
+    .block--messages .block-container *,
+    .p-footer,
+    .block-container *,
+    .block-container button {
+        background-color: var(--background-color) !important;
+    }
 
-	.structItem.structItem,
-	.message-inner {
-		border: 1px solid var(--border-color);
-	}
+    .structItem.structItem,
+    .message-inner {
+        border: 1px solid var(--border-color);
+    }
 
-	.block--messages .message.hb-react-threadHighlight {
-		box-shadow:
-			-1px -4px 1px var(--border-highlight),
-			inset 2px 3px 5px #0000004d,
-			inset -2px -3px 5px #ffffff80 !important;
-		border: 2px outset var(--border-highlight);
-	}
+    .block--messages .message.hb-react-threadHighlight {
+        border: 2px outset var(--border-highlight);
+        box-shadow:
+            -1px -4px 1px var(--border-highlight),
+            inset 2px 3px 5px #0000004d,
+            inset -2px -3px 5px #ffffff80 !important;
+    }
 
-	.XenBase :not(.block-header) .button.button--link,
-	.XenBase :not(.block-header) a.button.button--link {
-		background-color: #212428 !important;
-		color: #fff !important;
-	}
+    .XenBase :not(.block-header) .button.button--link,
+    .XenBase :not(.block-header) a.button.button--link {
+        background-color: #212428 !important;
+        color: #ffffff !important;
+    }
 
-	.node-body {
-		border: 1px solid var(--border-color);
-		border-bottom: unset !important;
-	}
+    .node-body {
+        border: 1px solid var(--border-color);
+        border-bottom: unset !important;
+    }
 
-	.structItemContainer > .structItem:first-child,
-	.structItemContainer
-		> .structItemContainer-group:first-child
-		> .structItem:first-child {
-		border-top: 1px solid var(--border-color);
-	}
+    .structItemContainer > .structItem:first-child,
+    .structItemContainer
+        > .structItemContainer-group:first-child
+        > .structItem:first-child {
+        border-top: 1px solid var(--border-color);
+    }
 
-	a {
-		color: var(--primary-color) !important;
-	}
+    a {
+        color: var(--primary-color) !important;
+    }
 
-	.navTabs .navTab.selected .navLink,
-	.PageNav a:focus,
-	.nodeIcon.hasGlyph,
-	.node .subForumList .unread .nodeTitle,
-	.breadcrumb .crust:last-child a.crumb,
-	.AttributionLink,
-	.ugc a:link,
-	.sidebar .visitorPanel .username,
-	.navigationSideBar a:hover,
-	.discussionListItems .unread .title a,
-	.discussionListItems .unread .lastPostInfo .username,
-	.externalLink.ProxyLink,
-	.message .messageMeta .control:hover,
-	.redactor_toolbar li a.redactor_act,
-	.xenOverlay.memberCard .userInfo h3 a,
-	.xenOverlay.memberCard .userLinks,
-	.messageContent .username.poster,
-	.messageMeta .publicControls .LikeLink.item.control.like,
-	a.CommentPoster.item.control.postComment,
-	ul.links a,
-	a.username.primaryText,
-	a.internalLink,
-	h3.title.thread a,
-	h4.minorTitle.forum a,
-	h3.description a,
-	.contactInfo dd a,
-	a.username.StatusTooltip.NoOverlay,
-	h3.ctaFtAuthorTitle a,
-	.chooserColumns .title,
-	.profileContent h3.title a,
-	.uix_postbit_privateControlsMenu:hover,
-	.dark_postrating_list.OverlayTrigger,
-	.bigFooterCol .footerMenu a,
-	.footer a,
-	.navTabs .navLink,
-	.navTabs .SplitCtrl,
-	.sectionFooter a,
-	.concealed,
-	.blockLinksList a,
-	.nodeList .categoryStrip .nodeTitle a,
-	.ctrlUnit.sectionLink dt a,
-	.subHeading,
-	a.secondaryContent,
-	a.primaryContent,
-	abbr.DateTime.muted.lastThreadDate,
-	.discussionListItem .lastPostInfo .username,
-	.discussionListItem .titleText,
-	body .muted a,
-	.textCtrl,
-	.breadcrumb .crust a.crumb,
-	a.PopupItemLink,
-	.profilePage .tabs.mainTabs li a,
-	.searchResult .meta a,
-	.ctaFtAuthorMeta a,
-	.ctaFtAuthorListItem .ctaFtAuthorSnippet a,
-	a.ctaFtReadMoreLink,
-	a.ctaFtThreadTitleLink {
-		color: var(--primary-color) !important;
-	}
+    .navTabs .navTab.selected .navLink,
+    .PageNav a:focus,
+    .nodeIcon.hasGlyph,
+    .node .subForumList .unread .nodeTitle,
+    .breadcrumb .crust:last-child a.crumb,
+    .AttributionLink,
+    .ugc a:link,
+    .sidebar .visitorPanel .username,
+    .navigationSideBar a:hover,
+    .discussionListItems .unread .title a,
+    .discussionListItems .unread .lastPostInfo .username,
+    .externalLink.ProxyLink,
+    .message .messageMeta .control:hover,
+    .redactor_toolbar li a.redactor_act,
+    .xenOverlay.memberCard .userInfo h3 a,
+    .xenOverlay.memberCard .userLinks,
+    .messageContent .username.poster,
+    .messageMeta .publicControls .LikeLink.item.control.like,
+    a.CommentPoster.item.control.postComment,
+    ul.links a,
+    a.username.primaryText,
+    a.internalLink,
+    h3.title.thread a,
+    h4.minorTitle.forum a,
+    h3.description a,
+    .contactInfo dd a,
+    a.username.StatusTooltip.NoOverlay,
+    h3.ctaFtAuthorTitle a,
+    .chooserColumns .title,
+    .profileContent h3.title a,
+    .uix_postbit_privateControlsMenu:hover,
+    .dark_postrating_list.OverlayTrigger,
+    .bigFooterCol .footerMenu a,
+    .footer a,
+    .navTabs .navLink,
+    .navTabs .SplitCtrl,
+    .sectionFooter a,
+    .concealed,
+    .blockLinksList a,
+    .nodeList .categoryStrip .nodeTitle a,
+    .ctrlUnit.sectionLink dt a,
+    .subHeading,
+    a.secondaryContent,
+    a.primaryContent,
+    abbr.DateTime.muted.lastThreadDate,
+    .discussionListItem .lastPostInfo .username,
+    .discussionListItem .titleText,
+    body .muted a,
+    .textCtrl,
+    .breadcrumb .crust a.crumb,
+    a.PopupItemLink,
+    .profilePage .tabs.mainTabs li a,
+    .searchResult .meta a,
+    .ctaFtAuthorMeta a,
+    .ctaFtAuthorListItem .ctaFtAuthorSnippet a,
+    a.ctaFtReadMoreLink,
+    a.ctaFtThreadTitleLink {
+        color: var(--primary-color) !important;
+    }
 
-	.sidebar .avatarList .userTitle,
-	span.nodeIcon.hasGlyph,
-	.messageText,
-	blockquote,
-	.message .editDate,
-	.ctaFtThreadTextAvatar,
-	.sidebar .section .secondaryContent .footnote,
-	.sidebar .section .secondaryContent .minorHeading,
-	.sidebar .section .primaryContent h3,
-	.sidebar .section .secondaryContent h3,
-	.profilePage .mast .section.infoBlock h3,
-	.pairsJustified dd,
-	.pairsJustified dt,
-	#pageDescription,
-	.titleBar h1,
-	.message .dark_postrating.likesSummary,
-	#lolcow-llc,
-	#canary,
-	label,
-	.discussionListItem .subtitle,
-	.memberListItem .member .contentInfo,
-	.ctaFtReplies,
-	.ctaFtFeaturedThreadText,
-	.bigFooterHeader .uix_icon,
-	.bigFooterHeader,
-	.bigFooter .pageContent,
-	.jawsh-randomquote-quote,
-	.Menu .secondaryContent,
-	.Menu .menuHeader .muted,
-	.Menu .menuHeader h3,
-	.PageNav .pageNavHeader,
-	.sectionFooter,
-	.pollBlock .question .questionText,
-	body .muted,
-	.pollBlock .questionMark,
-	.xenOverlay .section .heading,
-	.pairsInline dt,
-	.dark_postrating_header,
-	.dark_postrating_header strong,
-	.button.primary,
-	.ctrlUnit > dt dfn,
-	.ctrlUnit > dd > * > li .hint,
-	.ctrlUnit > dd .explain,
-	.CurrentStatus,
-	.statusEditorCounter,
-	.heading,
-	.node .nodeLastPost .lastThreadTitle,
-	.button,
-	h3.primaryContent,
-	#forumrules,
-	.ctaFtDate,
-	.alertText,
-	.textHeading,
-	.xenOverlay.memberCard,
-	.xenOverlay.memberCard .userInfo h4,
-	.profilePage .primaryUserBlock h1,
-	.pairsInline dd,
-	.likesSummary.secondaryContent,
-	.dark_postrating_neutral,
-	.profilePage .primaryUserBlock .userBlurb,
-	.profilePage .primaryUserBlock .userStatus,
-	.searchResult .meta,
-	.searchResult .contentType,
-	.pairsColumns dt,
-	.pairsColumns dd,
-	.signature,
-	.ctaFtAuthorMeta,
-	.baseHtml.ugc,
-	.event .content .description,
-	.event .content .snippet,
-	.event .content .DateTime,
-	#NoProfilePosts,
-	.bbCodeQuote .attribution,
-	.message .newIndicator,
-	#SignupButton .inner,
-	.messageUserBlock .userTitle {
-		color: var(--secondary-color) !important;
-	}
+    .sidebar .avatarList .userTitle,
+    span.nodeIcon.hasGlyph,
+    .messageText,
+    blockquote,
+    .message .editDate,
+    .ctaFtThreadTextAvatar,
+    .sidebar .section .secondaryContent .footnote,
+    .sidebar .section .secondaryContent .minorHeading,
+    .sidebar .section .primaryContent h3,
+    .sidebar .section .secondaryContent h3,
+    .profilePage .mast .section.infoBlock h3,
+    .pairsJustified dd,
+    .pairsJustified dt,
+    #pageDescription,
+    .titleBar h1,
+    .message .dark_postrating.likesSummary,
+    #lolcow-llc,
+    #canary,
+    label,
+    .discussionListItem .subtitle,
+    .memberListItem .member .contentInfo,
+    .ctaFtReplies,
+    .ctaFtFeaturedThreadText,
+    .bigFooterHeader .uix_icon,
+    .bigFooterHeader,
+    .bigFooter .pageContent,
+    .jawsh-randomquote-quote,
+    .Menu .secondaryContent,
+    .Menu .menuHeader .muted,
+    .Menu .menuHeader h3,
+    .PageNav .pageNavHeader,
+    .sectionFooter,
+    .pollBlock .question .questionText,
+    body .muted,
+    .pollBlock .questionMark,
+    .xenOverlay .section .heading,
+    .pairsInline dt,
+    .dark_postrating_header,
+    .dark_postrating_header strong,
+    .button.primary,
+    .ctrlUnit > dt dfn,
+    .ctrlUnit > dd > * > li .hint,
+    .ctrlUnit > dd .explain,
+    .CurrentStatus,
+    .statusEditorCounter,
+    .heading,
+    .node .nodeLastPost .lastThreadTitle,
+    .button,
+    h3.primaryContent,
+    #forumrules,
+    .ctaFtDate,
+    .alertText,
+    .textHeading,
+    .xenOverlay.memberCard,
+    .xenOverlay.memberCard .userInfo h4,
+    .profilePage .primaryUserBlock h1,
+    .pairsInline dd,
+    .likesSummary.secondaryContent,
+    .dark_postrating_neutral,
+    .profilePage .primaryUserBlock .userBlurb,
+    .profilePage .primaryUserBlock .userStatus,
+    .searchResult .meta,
+    .searchResult .contentType,
+    .pairsColumns dt,
+    .pairsColumns dd,
+    .signature,
+    .ctaFtAuthorMeta,
+    .baseHtml.ugc,
+    .event .content .description,
+    .event .content .snippet,
+    .event .content .DateTime,
+    #NoProfilePosts,
+    .bbCodeQuote .attribution,
+    .message .newIndicator,
+    #SignupButton .inner,
+    .messageUserBlock .userTitle {
+        color: var(--secondary-color) !important;
+    }
 
-	#userBar .navTabs,
-	.navTabs .navTab.Popup.PopupOpen,
-	#QuickSearch .primaryControls .uix_icon,
-	#SignupButton .inner,
-	.message .newIndicator,
-	.button.primary,
-	.heading,
-	.xenForm .formHeader,
-	.userBanner.bannerStaff,
-	#uix_jumpToFixed,
-	.message .publicControls .MultiQuoteControl.active,
-	.pollBlock .buttons .button,
-	.button {
-		background-color: var(--primary-color) !important;
-	}
+    #userBar .navTabs,
+    .navTabs .navTab.Popup.PopupOpen,
+    #QuickSearch .primaryControls .uix_icon,
+    #SignupButton .inner,
+    .message .newIndicator,
+    .button.primary,
+    .heading,
+    .xenForm .formHeader,
+    .userBanner.bannerStaff,
+    #uix_jumpToFixed,
+    .message .publicControls .MultiQuoteControl.active,
+    .pollBlock .buttons .button,
+    .button {
+        background-color: var(--primary-color) !important;
+    }
 
-	a.callToAction span,
-	.PageNav a.currentPage {
-		background-color: var(--primary-color) !important;
-		color: var(--secondary-color) !important;
-	}
+    a.callToAction span,
+    .PageNav a.currentPage {
+        background-color: var(--primary-color) !important;
+        color: var(--secondary-color) !important;
+    }
 
-	.navTabs,
-	.navTabs .navTab.selected .navLink {
-		border-color: var(--border-color);
-		background-color: var(--background-color) !important;
-	}
+    .navTabs,
+    .navTabs .navTab.selected .navLink {
+        border-color: var(--border-color);
+        background-color: var(--background-color) !important;
+    }
 
-	.footer .choosers a:hover {
-		border-color: var(--border-color2) !important;
-		color: var(--secondary-color) !important;
-	}
+    .footer .choosers a:hover,
+    .footer .choosers a:focus {
+        border-color: var(--border-color2) !important;
+        color: var(--secondary-color) !important;
+    }
 
-	.navTabs .navTab.selected.PopupOpen .navLink {
-		background-color: var(--secondary-color) !important;
-		color: var(--white) !important;
-	}
+    .navTabs .navTab.selected.PopupOpen .navLink {
+        background-color: var(--secondary-color) !important;
+        color: var(--white) !important;
+    }
 
-	#uix_wrapper,
-	#content .pageContent,
-	.sidebar .section .secondaryContent,
-	.footer .pageContent,
-	.sectionMain,
-	.DiscussionListOptions {
-		border-color: var(--secondary-color);
-	}
+    #uix_wrapper,
+    #content .pageContent,
+    .sidebar .section .secondaryContent,
+    .footer .pageContent,
+    .sectionMain,
+    .DiscussionListOptions {
+        border-color: var(--secondary-color);
+    }
 
-	.node.level_2 .nodeInfo {
-		border-top-color: var(--secondary-color);
-	}
+    .node.level_2 .nodeInfo {
+        border-top-color: var(--secondary-color);
+    }
 
-	.PageNav a:hover {
-		background-color: #292c2e !important;
-		color: var(--secondary-color) !important;
-	}
+    .PageNav a:hover {
+        background-color: #292c2e !important;
+        color: var(--secondary-color) !important;
+    }
 
-	.button:hover,
-	#SignupButton:hover .inner {
-		background-color: var(
-			--hover-background-color
-		) !important;
-	}
+    .button:hover,
+    #SignupButton:hover .inner,
+    .button:focus,
+    #SignupButton:focus .inner {
+        background-color: var(--hover-background-color) !important;
+    }
 
-	.ugc a:hover,
-	.ugc a:focus {
-		box-shadow: 0 1px 0 var(--secondary-color) !important;
-	}
+    .ugc a:hover,
+    .ugc a:focus {
+        box-shadow: 0 1px 0 var(--secondary-color) !important;
+    }
 
-	#logo img {
-		background: url('http://i.cubeupload.com/Cw1wYQ.png')
-			no-repeat !important;
-		padding-top: 75px !important;
-		padding-left: 200px !important;
-		width: 0 !important;
-		height: 0 !important;
-	}
+    #logo img {
+        width: 0 !important;
+        height: 0 !important;
+        padding-top: 75px !important;
+        padding-left: 200px !important;
+        background: url("http://i.cubeupload.com/Cw1wYQ.png") no-repeat !important;
+    }
 }

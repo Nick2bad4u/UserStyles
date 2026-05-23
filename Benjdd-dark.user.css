@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           benjdd.com - Dark Mode [Customizable]
 @namespace      nick2bad4u.github.io
 @version        1.1.2
@@ -19,50 +19,50 @@
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Benjdd-dark.user.css
 ==/UserStyle== */
 @-moz-document domain("benjdd.com") {
-	:root {
-		--primary-color: var(primary-color);
-		--background-color: var(background-color);
-		--benchmark-background: var(benchmark-background);
-		--header-color: var(header-color);
-		--list-color: var(list-color);
-		--code-color: var(code-color);
-		--link-color: var(link-color);
-	}
+    :root {
+        --primary-color: var(primary-color);
+        --background-color: var(background-color);
+        --benchmark-background: var(benchmark-background);
+        --header-color: var(header-color);
+        --list-color: var(list-color);
+        --code-color: var(code-color);
+        --link-color: var(link-color);
+    }
 
-	html,
-	#main-content,
-	body > header {
-		background: var(--background-color);
-		color: var(--primary-color);
-	}
+    html,
+    #main-content,
+    body > header {
+        background: var(--background-color);
+        color: var(--primary-color);
+    }
 
-	#loops {
-		border: 1px dashed var(--primary-color);
-	}
+    #loops {
+        border: 1px dashed var(--primary-color);
+    }
 
-	#background-1,
-	#latencySVGID > g > g > rect.background {
-		fill: var(--benchmark-background) !important;
-	}
+    #background-1,
+    #latencySVGID > g > g > rect.background {
+        fill: var(--benchmark-background) !important;
+    }
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		color: var(--header-color);
-	}
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--header-color);
+    }
 
-	li {
-		color: var(--list-color);
-	}
+    li {
+        color: var(--list-color);
+    }
 
-	pre {
-		color: var(--code-color);
-	}
+    pre {
+        color: var(--code-color);
+    }
 
-	a:-webkit-any-link {
-		color: var(--link-color);
-	}
+    a:any-link {
+        color: var(--link-color);
+    }
 }

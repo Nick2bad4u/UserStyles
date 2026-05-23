@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           gtbikev.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.1.1
@@ -12,27 +12,27 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GTBikeV-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("gtbikev.com") {
-	/* Use the variables for colors */
-	:root {
-		--darkColor: var(darkColor);
-	}
+    /* Use the variables for colors */
+    :root {
+        --darkColor: var(darkColor);
+    }
 
-	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		img,
-		svg,
-		video,
-		#footer,
-		#socket,
-		.av-masonry-image-container
-	),
-	iframe,
-	#header_main > div > div > span > a {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(
+        html:not([stylus-iframe]),
+        img,
+        svg,
+        video,
+        #footer,
+        #socket,
+        .av-masonry-image-container
+    ),
+    iframe,
+    #header_main > div > div > span > a {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.header_color span {
-		color: var(--darkColor);
-	}
+    .header_color span {
+        color: var(--darkColor);
+    }
 }

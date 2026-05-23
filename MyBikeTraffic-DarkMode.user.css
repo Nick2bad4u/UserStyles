@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         MyBikeTraffic.com - Dark Mode
 @version      20241024.15.23
 @namespace    nick2bad4u.github.io
@@ -22,146 +22,139 @@
 ==/UserStyle== */
 
 @-moz-document domain("mybiketraffic.com") {
-	:root {
-		--background-color-dark: var(background-color-dark);
-		--text-color: var(text-color);
-		--link-color: var(link-color);
-		--border-color-dark: var(border-color-dark);
-		--border-color-light: var(border-color-light);
-		--row-background-color: var(row-background-color);
-		--row-hover-background-color: var(
-			row-hover-background-color
-		);
-		--form-checked-color: var(form-checked-color);
-		--link-hover-color: var(link-hover-color);
-	}
+    :root {
+        --background-color-dark: var(background-color-dark);
+        --text-color: var(text-color);
+        --link-color: var(link-color);
+        --border-color-dark: var(border-color-dark);
+        --border-color-light: var(border-color-light);
+        --row-background-color: var(row-background-color);
+        --row-hover-background-color: var(row-hover-background-color);
+        --form-checked-color: var(form-checked-color);
+        --link-hover-color: var(link-hover-color);
+    }
 
-	body,
-	.navbar,
-	.container,
-	.table,
-	.thead-light,
-	.footer,
-	.terms {
-		background-color: var(
-			--background-color-dark
-		) !important;
-		color: var(--text-color) !important;
-	}
+    body,
+    .navbar,
+    .container,
+    .table,
+    .thead-light,
+    .footer,
+    .terms {
+        background-color: var(--background-color-dark) !important;
+        color: var(--text-color) !important;
+    }
 
-	.nav-link,
-	.nav-item a,
-	.terms a,
-	.footer a {
-		color: var(--link-color) !important;
-	}
+    .nav-link,
+    .nav-item a,
+    .terms a,
+    .footer a {
+        color: var(--link-color) !important;
+    }
 
-	.table th,
-	.table td {
-		border-color: var(--border-color-dark) !important;
-	}
+    .table th,
+    .table td {
+        border-color: var(--border-color-dark) !important;
+    }
 
-	input,
-	select,
-	textarea {
-		border: 1px solid var(--border-color-light) !important;
-		background-color: var(--border-color-dark) !important;
-		color: var(--text-color) !important;
-	}
+    input,
+    select,
+    textarea {
+        border: 1px solid var(--border-color-light) !important;
+        background-color: var(--border-color-dark) !important;
+        color: var(--text-color) !important;
+    }
 
-	.btn,
-	.form-control {
-		border: 1px solid var(--border-color-light) !important;
-		background-color: var(--border-color-dark) !important;
-		color: var(--text-color) !important;
-	}
+    .btn,
+    .form-control {
+        border: 1px solid var(--border-color-light) !important;
+        background-color: var(--border-color-dark) !important;
+        color: var(--text-color) !important;
+    }
 
-	.navbar-toggler {
-		border-color: var(--border-color-dark) !important;
-	}
+    .navbar-toggler {
+        border-color: var(--border-color-dark) !important;
+    }
 
-	.navbar-toggler-icon {
-		filter: invert(1) !important;
-	}
+    .navbar-toggler-icon {
+        filter: invert(1) !important;
+    }
 
-	.table thead th {
-		background-color: var(--border-color-dark) !important;
-	}
+    .table thead th {
+        background-color: var(--border-color-dark) !important;
+    }
 
-	.table tbody tr {
-		background-color: var(
-			--row-background-color
-		) !important;
-	}
+    .table tbody tr {
+        background-color: var(--row-background-color) !important;
 
-	.table tbody tr:hover {
-		background-color: var(
-			--row-hover-background-color
-		) !important;
-	}
+        &:hover,
+        &:focus {
+            background-color: var(--row-hover-background-color) !important;
+        }
 
-	.table tbody tr td {
-		border-color: var(--border-color-dark) !important;
-	}
+        & td {
+            border-color: var(--border-color-dark) !important;
+        }
 
-	.table tbody tr td span,
-	.table tbody tr td span.imperial,
-	.table tbody tr td span.metric {
-		color: var(--link-color) !important;
-	}
+        & td span,
+        & td span.imperial,
+        & td span.metric {
+            color: var(--link-color) !important;
+        }
+    }
 
-	.chart-container {
-		background-color: var(
-			--row-background-color
-		) !important;
-	}
+    .chart-container {
+        background-color: var(--row-background-color) !important;
+    }
 
-	.chart-legend {
-		color: var(--text-color) !important;
-	}
+    .chart-legend {
+        color: var(--text-color) !important;
+    }
 
-	.form-check-input:checked {
-		border-color: var(--form-checked-color) !important;
-		background-color: var(--form-checked-color) !important;
-	}
+    .form-check-input:checked {
+        border-color: var(--form-checked-color) !important;
+        background-color: var(--form-checked-color) !important;
+    }
 
-	.form-check-label {
-		color: var(--text-color) !important;
-	}
+    .form-check-label {
+        color: var(--text-color) !important;
+    }
 
-	.tooltip-inner,
-	.popover-body {
-		background-color: var(--border-color-dark) !important;
-		color: var(--text-color) !important;
-	}
+    .tooltip-inner,
+    .popover-body {
+        background-color: var(--border-color-dark) !important;
+        color: var(--text-color) !important;
+    }
 
-	.arrow::before {
-		border-color: var(--border-color-dark) !important;
-	}
+    .arrow::before {
+        border-color: var(--border-color-dark) !important;
+    }
 
-	.modal-content {
-		background-color: var(
-			--row-background-color
-		) !important;
-		color: var(--text-color) !important;
-	}
+    .modal-content {
+        background-color: var(--row-background-color) !important;
+        color: var(--text-color) !important;
+    }
 
-	.modal-header,
-	.modal-footer {
-		border-color: var(--border-color-dark) !important;
-	}
+    .modal-header,
+    .modal-footer {
+        border-color: var(--border-color-dark) !important;
+    }
 
-	.nav-link:hover,
-	.nav-item a:hover,
-	.terms a:hover,
-	.footer a:hover {
-		color: var(--link-hover-color) !important;
-	}
+    .nav-link:hover,
+    .nav-item a:hover,
+    .terms a:hover,
+    .footer a:hover,
+    .nav-link:focus,
+    .nav-item a:focus,
+    .terms a:focus,
+    .footer a:focus {
+        color: var(--link-hover-color) !important;
+    }
 
-	.btn:hover,
-	.form-control:hover {
-		background-color: var(
-			--row-hover-background-color
-		) !important;
-	}
+    .btn:hover,
+    .form-control:hover,
+    .btn:focus,
+    .form-control:focus {
+        background-color: var(--row-hover-background-color) !important;
+    }
 }

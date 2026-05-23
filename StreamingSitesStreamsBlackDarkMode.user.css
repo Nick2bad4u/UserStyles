@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         Streams Black Night Mode
 @version      20241116.05.47
 @namespace    nick2bad4u.github.io
@@ -12,35 +12,35 @@
 ==/UserStyle== */
 
 @-moz-document domain("streameast.gd"), domain("1stream.eu"), domain("methstreamer.com"), domain("chatango.com"), domain("methstreams.com") {
-	/* General Inversion for Light Backgrounds */
-	*,
-	a {
-		filter: invert(1) hue-rotate(180deg) !important;
-		/* Invert and adjust hue */
-	}
+    /* General Inversion for Light Backgrounds */
+    *,
+    a {
+        filter: invert(1) hue-rotate(180deg) !important;
+        /* Invert and adjust hue */
+    }
 
-	/* Exclude Dark Mode Elements */
-	*:not(
-		[style*='background-color: #121212'],
-		[style*='background-color: black']
-	) {
-		filter: none !important;
-		/* Reset filter for dark backgrounds */
-	}
+    /* Exclude Dark Mode Elements */
+    *:not(
+        [style*="background-color: #121212"],
+        [style*="background-color: black"]
+    ) {
+        filter: none !important;
+        /* Reset filter for dark backgrounds */
+    }
 
-	/* Specific Exclusions */
-	body,
-	#primaryNav,
-	#primaryNav > div > div.primary-links > ul {
-		background-color: #000 !important;
-		/* Ensure body stays dark */
-	}
+    /* Specific Exclusions */
+    body,
+    #primaryNav,
+    #primaryNav > div > div.primary-links > ul {
+        background-color: #000000 !important;
+        /* Ensure body stays dark */
+    }
 
-	.dark-mode,
-	[class*='dark'],
-	[style*='background-color: #121212'],
-	[style*='background-color: black'] {
-		filter: none !important;
-		/* Preserve dark mode elements */
-	}
+    .dark-mode,
+    [class*="dark"],
+    [style*="background-color: #121212"],
+    [style*="background-color: black"] {
+        filter: none !important;
+        /* Preserve dark mode elements */
+    }
 }

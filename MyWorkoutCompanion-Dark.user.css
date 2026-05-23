@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           myworkoutcompanion.net - Dark Mode [Customizable]
 @namespace      nick2bad4u.github.io
 @version        1.0.3
@@ -20,45 +20,45 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/MyWorkoutCompanion-Dark.user.css
 ==/UserStyle== */
 @-moz-document domain("myworkoutcompanion.net") {
-	/* Stylus Variables */
-	:root {
-		--option-bg: var(option-bg);
-		--option-text: var(option-text);
-		--border-focus: var(border-focus);
-		--box-shadow-focus: var(box-shadow-focus);
-		--button-border: var(button-border);
-		--button-bg: var(button-bg);
-		--button-text: var(button-text);
-		--event-bg: var(event-bg);
-	}
+    /* Stylus Variables */
+    :root {
+        --option-bg: var(option-bg);
+        --option-text: var(option-text);
+        --border-focus: var(border-focus);
+        --box-shadow-focus: var(box-shadow-focus);
+        --button-border: var(button-border);
+        --button-bg: var(button-bg);
+        --button-text: var(button-text);
+        --event-bg: var(event-bg);
+    }
 
-	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	option {
-		background: var(--option-bg);
-		color: var(--option-text);
-	}
+    option {
+        background: var(--option-bg);
+        color: var(--option-text);
+    }
 
-	.custom-select:focus,
-	.form-control:focus {
-		outline: 0;
-		box-shadow: 0 0 0 0.2rem var(--box-shadow-focus);
-		border-color: var(--border-focus);
-	}
+    .custom-select:focus,
+    .form-control:focus {
+        border-color: var(--border-focus);
+        box-shadow: 0 0 0 0.2rem var(--box-shadow-focus);
+        outline: 0;
+    }
 
-	.fc .fc-button-primary,
-	.fc .fc-button {
-		opacity: 100% !important;
-		border-color: var(--button-border) !important;
-		background-color: var(--button-bg) !important;
-		color: var(--button-text) !important;
-	}
+    .fc .fc-button-primary,
+    .fc .fc-button {
+        border-color: var(--button-border) !important;
+        background-color: var(--button-bg) !important;
+        color: var(--button-text) !important;
+        opacity: 100% !important;
+    }
 
-	.fc-direction-ltr .fc-daygrid-event.fc-event-end,
-	.fc-direction-rtl .fc-daygrid-event.fc-event-start {
-		background-color: var(--event-bg) !important;
-	}
+    .fc-direction-ltr .fc-daygrid-event.fc-event-end,
+    .fc-direction-rtl .fc-daygrid-event.fc-event-start {
+        background-color: var(--event-bg) !important;
+    }
 }

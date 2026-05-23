@@ -33,92 +33,84 @@
 @var color lighter-gray "Lighter Gray" #e0e0e0
 @var color progress-line "Progress Line" #ADADAD
 ==/UserStyle== */
-@-moz-document domain("windy.com")
-{
-	:root
-	{
-		--color-red: var(primary-red) !important;
-		--color-red-light: var(light-red) !important;
-		--color-orange: var(primary-orange) !important;
-		--color-orange-light: var(light-orange) !important;
-		--color-white: var(primary-white) !important;
-		--color-yellow: var(primary-yellow) !important;
-		--color-transparent: #404040c7;
-		--color-transparent-dark: #d11010a2;
-		--color-black: var(primary-black) !important;
-		--color-error: var(error-red) !important;
-		--color-ok: var(ok-green) !important;
-		--color-warning-moderate: var(moderate-warning) !important;
-		--color-warning-severe: var(severe-warning) !important;
-		--color-warning-extreme: var(extreme-warning) !important;
-		--color-gray: var(primary-gray) !important;
-		--color-gray-dark: var(dark-gray) !important;
-		--color-gray-light: var(light-gray) !important;
-		--color-gray-light2: var(lighter-gray) !important;
-		--color-text-primary: var(light-gray) !important;
-		--color-text-secondary: var(primary-yellow) !important;
-		--color-text-link: var(light-orange) !important;
-		--color-header: var(light-orange) !important;
-		--color-icons: var(light-orange) !important;
-		--color-background-primary: var(primary-black) !important;
-		--color-background-secondary: var(primary-gray) !important;
-		--color-ui-primary: var(primary-red) !important;
-		--color-ui-secondary: var(light-red) !important;
-		--color-ui-background: var(dark-gray) !important;
-		--color-border: var(primary-gray) !important;
-		--color-border-selected: var(light-orange) !important;
-		--darken-map-strength: var(darken-map-strength) !important;
-		--progress-line: var(progress-line) !important;
-	}
+@-moz-document domain("windy.com") {
+    :root {
+        --color-red: var(primary-red) !important;
+        --color-red-light: var(light-red) !important;
+        --color-orange: var(primary-orange) !important;
+        --color-orange-light: var(light-orange) !important;
+        --color-white: var(primary-white) !important;
+        --color-yellow: var(primary-yellow) !important;
+        --color-transparent: #404040c7;
+        --color-transparent-dark: #d11010a2;
+        --color-black: var(primary-black) !important;
+        --color-error: var(error-red) !important;
+        --color-ok: var(ok-green) !important;
+        --color-warning-moderate: var(moderate-warning) !important;
+        --color-warning-severe: var(severe-warning) !important;
+        --color-warning-extreme: var(extreme-warning) !important;
+        --color-gray: var(primary-gray) !important;
+        --color-gray-dark: var(dark-gray) !important;
+        --color-gray-light: var(light-gray) !important;
+        --color-gray-light2: var(lighter-gray) !important;
+        --color-text-primary: var(light-gray) !important;
+        --color-text-secondary: var(primary-yellow) !important;
+        --color-text-link: var(light-orange) !important;
+        --color-header: var(light-orange) !important;
+        --color-icons: var(light-orange) !important;
+        --color-background-primary: var(primary-black) !important;
+        --color-background-secondary: var(primary-gray) !important;
+        --color-ui-primary: var(primary-red) !important;
+        --color-ui-secondary: var(light-red) !important;
+        --color-ui-background: var(dark-gray) !important;
+        --color-border: var(primary-gray) !important;
+        --color-border-selected: var(light-orange) !important;
+        --darken-map-strength: var(darken-map-strength) !important;
+        --progress-line: var(progress-line) !important;
+    }
 
-	#plugin-detail,
-	#device-tablet #plugin-multimodel.open,
-	#device-desktop #plugin-multimodel.open,
-	.detail .forecast-table .td-hour td,
-	.detail .forecast-table td,
-	.detail .legend span,
-	.detail .legend .legend-both,
-	.mm-fullscreen,
-	#search-top-wrapper,
-	.nearby-features.svelte-ckoxom .nearby-feature__text
-	{
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    #plugin-detail,
+    #device-tablet #plugin-multimodel.open,
+    #device-desktop #plugin-multimodel.open,
+    .detail .forecast-table .td-hour td,
+    .detail .forecast-table td,
+    .detail .legend span,
+    .detail .legend .legend-both,
+    .mm-fullscreen,
+    #search-top-wrapper,
+    .nearby-features.svelte-ckoxom .nearby-feature__text {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.progress-bar .progress-line .avbl
-	{
-		background-color: progress-line
-	}
+    .progress-bar .progress-line .avbl {
+        background-color: progress-line;
+    }
 
-	.td-wind.height-wind.d-display-table td,
-	.td-gust.height-gust.d-display-table td
-	{
-		color: #000000 !important;
-		font-weight: 700;
-	}
+    .td-wind.height-wind.d-display-table td,
+    .td-gust.height-gust.d-display-table td {
+        color: #000000 !important;
+        font-weight: 700;
+    }
 
-	.detail .forecast-table .td-hour td,
-	.detail .forecast-table td,
-	.detail .legend span,
-	.detail .legend .legend-both,
-	.mm-fullscreen,
-	.detail .sticky-title,
-	#plugin-search .results-item,
-	.nearby-features.svelte-ckoxom .nearby-feature__text
-	{
-		color: #ffffff9c !important;
-	}
+    .detail .forecast-table .td-hour td,
+    .detail .forecast-table td,
+    .detail .legend span,
+    .detail .legend .legend-both,
+    .mm-fullscreen,
+    .detail .sticky-title,
+    #plugin-search .results-item,
+    .nearby-features.svelte-ckoxom .nearby-feature__text {
+        color: #ffffff9c !important;
+    }
 
-	if ( darken-map)
-	{
-		.leaflet-container .leaflet-marker-pane,
-		.leaflet-container .leaflet-overlay-pane,
-		.leaflet-container .leaflet-shadow-pane,
-		.leaflet-container .leaflet-tile,
-		.leaflet-container .leaflet-tile-pane,
-		.leaflet-container .leaflet-image-layer
-		{
-			background-color: darken-map-strength !important;
-		}
-	}
+    if ( darken-map) {
+        & .leaflet-container .leaflet-marker-pane,
+        & .leaflet-container .leaflet-overlay-pane,
+        & .leaflet-container .leaflet-shadow-pane,
+        & .leaflet-container .leaflet-tile,
+        & .leaflet-container .leaflet-tile-pane,
+        & .leaflet-container .leaflet-image-layer {
+            background-color: darken-map-strength !important;
+        }
+    }
 }

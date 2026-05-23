@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           Strava Toolbox - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.2
@@ -11,22 +11,22 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/stravatoolbox-darkmode.user.css
 ==/UserStyle== */
 @-moz-document domain("marcellobrivio.com") {
-	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		img,
-		svg,
-		video,
-		#main #join.background_10,
-		#footer
-	) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(
+        html:not([stylus-iframe]),
+        img,
+        svg,
+        video,
+        #main #join.background_10,
+        #footer
+    ) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	#main .menu,
-	.button {
-		border: 1px dashed #ff7152;
-		background-color: #fff;
-		color: #000;
-	}
+    #main .menu,
+    .button {
+        border: 1px dashed #ff7152;
+        background-color: #ffffff;
+        color: #000000;
+    }
 }

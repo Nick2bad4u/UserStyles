@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           bicycling.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.2.0
@@ -17,44 +17,44 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/bicycling-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("bicycling.com") {
-	/* Use the variables for colors */
-	:root {
-		--backgroundColor: var(--backgroundColor);
-		--textColor: var(textColor);
-		--color1: var(color1);
-		--color2: var(color2);
-		--color3: var(color3);
-	}
+    /* Use the variables for colors */
+    :root {
+        --backgroundColor: var(--backgroundColor);
+        --textColor: var(textColor);
+        --color1: var(color1);
+        --color2: var(color2);
+        --color3: var(color3);
+    }
 
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe {
-		background: var(--backgroundColor);
-		color: var(--textColor);
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe {
+        background: var(--backgroundColor);
+        color: var(--textColor);
+    }
 
-	.css-1ew0k1 {
-		color: var(--color1);
-	}
+    .css-1ew0k1 {
+        color: var(--color1);
+    }
 
-	.css-1evjo6m {
-		color: var(--color2);
-	}
+    .css-1evjo6m {
+        color: var(--color2);
+    }
 
-	.__resp-container .video-player,
-	[data-embed]:defined {
-		display: none;
-	}
+    .__resp-container .video-player,
+    [data-embed]:defined {
+        display: none;
+    }
 
-	.css-93j5lg {
-		color: var(--color3);
-	}
+    .css-93j5lg {
+        color: var(--color3);
+    }
 
-	.css-79elbk,
-	:host {
-		background: #565656 !important;
-	}
+    .css-79elbk,
+    :host {
+        background: #565656 !important;
+    }
 }

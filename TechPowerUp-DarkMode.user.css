@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           techpowerup.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        20241119.00.13
@@ -11,9 +11,9 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/TechPowerUp-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("techpowerup.com") {
-	/* Invert colors except images and videos; also prevent background image inversion */
-	:is(html:not([stylus-iframe]), img, svg, video) {
-		filter: invert(1) hue-rotate(180deg) !important;
-		background-color: inherit !important;
-	}
+    /* Invert colors except images and videos; also prevent background image inversion */
+    :is(html:not([stylus-iframe]), img, svg, video) {
+        background-color: inherit !important;
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

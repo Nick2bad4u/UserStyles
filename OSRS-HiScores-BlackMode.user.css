@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           OldSchool Runescape HiScores - Black Mode
 @namespace      nick2bad4u.github.io
 @version        1.1.3
@@ -16,96 +16,83 @@
 ==/UserStyle== */
 @-moz-document url-prefix("https://secure.runescape.com/m=hiscore")
 {
-	:root {
-		--background-color: var(background-color);
-		--text-color: var(text-color);
-		--border-color: var(border-color);
-	}
+    :root {
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+        --border-color: var(border-color);
+    }
 
-	#contentHiscores,
-	#footerHiscores,
-	#headerHiscores,
-	#contentCategory,
-	#headerCategory,
-	.personal-hiscores__scroll-arrow,
-	#footerCategory,
-	.smallBox,
-	.largeBox,
-	html,
-	.centerDiv {
-		background: var(--background-color);
-	}
+    #contentHiscores,
+    #footerHiscores,
+    #headerHiscores,
+    #contentCategory,
+    #headerCategory,
+    .personal-hiscores__scroll-arrow,
+    #footerCategory,
+    .smallBox,
+    .largeBox,
+    html,
+    .centerDiv {
+        background: var(--background-color);
+    }
 
-	#contentHiscores a,
-	.personal-hiscores__table td,
-	#contentHiscores caption,
-	#contentHiscores > table > thead > tr > th:nth-child(n),
-	b,
-	th,
-	td {
-		color: var(--text-color);
-	}
+    #contentHiscores a,
+    .personal-hiscores__table td,
+    #contentHiscores caption,
+    #contentHiscores > table > thead > tr > th:nth-child(n),
+    b,
+    th,
+    td {
+        color: var(--text-color);
+    }
 
-	#col2,
-	.smallBox,
-	.largeBox,
-	#contentCategory {
-		border: dashed var(--border-color);
-	}
+    #col2,
+    .smallBox,
+    .largeBox,
+    #contentCategory {
+        border: dashed var(--border-color);
+    }
 
-	.personal-hiscores__side-input,
-	#col1 {
-		margin-top: 25px;
-	}
+    .personal-hiscores__side-input,
+    #col1 {
+        margin-top: 25px;
+    }
 
-	#contentCategory {
-		padding-top: 10px;
-		padding-bottom: 10px;
-		max-height: 600px;
-	}
+    #contentCategory {
+        max-height: 600px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 
-	#headerCategory,
-	.hiscoretitlebground,
-	.titleBackground,
-	#headerHiscores {
-		display: none;
-	}
+    #headerCategory,
+    .hiscoretitlebground,
+    .titleBackground,
+    #headerHiscores {
+        display: none;
+    }
 
-	input:not(
-		[type='image'i],
-		[type='range'i],
-		[type='checkbox'i],
-		[type='radio'i]
-	) {
-		-webkit-filter: invert(1);
-		filter: invert(1);
-	}
+    input:not(
+        [type="image"i],
+        [type="range"i],
+        [type="checkbox"i],
+        [type="radio"i]
+    ) {
+        filter: invert(1);
+    }
 
-	td,
-	b,
-	th {
-		text-align: -webkit-center !important;
-	}
+    td,
+    b,
+    th {
+        text-align: -webkit-center !important;
+    }
 
-	#contentHiscores > table > tbody > tr > td {
-		border-top: 1px var(--border-color) 3d dashed;
-	}
+    #contentHiscores > table > tbody > tr > td {
+        border-top: 1px var(--border-color) dashed;
+    }
 
-	#contentHiscores
-		> table
-		> tbody
-		> tr:nth-child(3)
-		> td:nth-child(n),
-	#contentHiscores
-		> table
-		> tbody
-		> tr:nth-child(2)
-		> td:nth-child(n),
-	#contentHiscores
-		> table
-		> tbody
-		> tr:nth-child(1)
-		> td:nth-child(n) {
-		border-top: unset !important;
-	}
+    #contentHiscores > table > tbody > tr:nth-child(3) > td:nth-child(n),
+    #contentHiscores > table > tbody > tr:nth-child(2) > td:nth-child(n),
+    #contentHiscores > table > tbody > tr:nth-child(1) > td:nth-child(n) {
+        border-top: unset !important;
+    }
 }

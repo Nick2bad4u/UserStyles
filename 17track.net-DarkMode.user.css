@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         17track.net - Dark Mode
 @version      20241115.05.16
 @namespace    nick2bad4u.github.io
@@ -14,32 +14,29 @@
 ==/UserStyle== */
 
 @-moz-document domain("17track.net") {
-	/* Use the variables for colors */
-	:root {
-		--baseColor: var(baseColor);
-	}
+    /* Use the variables for colors */
+    :root {
+        --baseColor: var(baseColor);
+    }
 
-	/* Base dark mode filter */
-	html {
-		filter: invert(1) hue-rotate(180deg) !important;
-		background: var(--baseColor);
-	}
+    /* Base dark mode filter */
+    html {
+        background: var(--baseColor);
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	img,
-	video,
-	trk-shared-icon > svg > use,
-	header > nav {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    img,
+    video,
+    trk-shared-icon > svg > use,
+    header > nav {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.up-deals-img,
-	.up-deals,
-	.tracklist-details
-		> .yqcr-action
-		> .hidden-xs
-		> .up-deals,
-	.chart-gpt-text,
-	.chart-gpt-icon {
-		display: none;
-	}
+    .up-deals-img,
+    .up-deals,
+    .tracklist-details > .yqcr-action > .hidden-xs > .up-deals,
+    .chart-gpt-text,
+    .chart-gpt-icon {
+        display: none;
+    }
 }

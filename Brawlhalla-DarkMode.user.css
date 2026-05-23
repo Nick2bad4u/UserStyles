@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           brawlhalla.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.1.0
@@ -12,31 +12,31 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Brawlhalla-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("brawlhalla.com") {
-	:root {
-		--highlight: #30f1dd;
-		--blue: #073747;
-		--cyan: #0d5268;
-		--blue-cyan: #0a475c;
-		--off-white: #f3f3f3;
-		--orange: #f49b0c;
-		--yellow: #ffed2e;
-		--dark-1: #0b283f;
-	}
+    :root {
+        --highlight: #30f1dd;
+        --blue: #073747;
+        --cyan: #0d5268;
+        --blue-cyan: #0a475c;
+        --off-white: #f3f3f3;
+        --orange: #f49b0c;
+        --yellow: #ffed2e;
+        --dark-1: #0b283f;
+    }
 
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.svelte-xktl6u div.svelte-xktl6u div.svelte-xktl6u {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    .svelte-xktl6u div.svelte-xktl6u div.svelte-xktl6u {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.container.svelte-mdwp6y.svelte-mdwp6y.svelte-mdwp6y.svelte-mdwp6y.svelte-mdwp6y {
-		background: #fff !important;
-	}
+    .container.svelte-mdwp6y.svelte-mdwp6y.svelte-mdwp6y.svelte-mdwp6y.svelte-mdwp6y {
+        background: #ffffff !important;
+    }
 }

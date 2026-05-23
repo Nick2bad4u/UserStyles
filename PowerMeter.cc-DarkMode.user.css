@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           power-meter.cc - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.1.2
@@ -16,44 +16,44 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/PowerMeter.cc-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("power-meter.cc") {
-	:root {
-		--hover-background-color: var(hover-background-color);
-		--footer-background-color: var(footer-background-color);
-		--text-color: var(text-color);
-		--text-shadow-color: var(text-shadow-color);
-	}
+    :root {
+        --hover-background-color: var(hover-background-color);
+        --footer-background-color: var(footer-background-color);
+        --text-color: var(text-color);
+        --text-shadow-color: var(text-shadow-color);
+    }
 
-	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		img:not(#profileDropdown img, #unreadDropdown img),
-		svg,
-		video,
-		.navbar,
-		.navbar-nav .dropdown-menu,
-		#footer,
-		.dropdown-menu,
-		.carousel,
-		#header h1,
-		.lead,
-		#faq
-	) {
-		-webkit-filter: invert(1) hue-rotate(180deg) !important;
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(
+        html:not([stylus-iframe]),
+        img:not(#profileDropdown img, #unreadDropdown img),
+        svg,
+        video,
+        .navbar,
+        .navbar-nav .dropdown-menu,
+        #footer,
+        .dropdown-menu,
+        .carousel,
+        #header h1,
+        .lead,
+        #faq
+    ) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.dropdown-item:hover {
-		background: var(--hover-background-color);
-	}
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        background: var(--hover-background-color);
+    }
 
-	#strava-footer {
-		background: var(--footer-background-color) !important;
-	}
+    #strava-footer {
+        background: var(--footer-background-color) !important;
+    }
 
-	#header h1,
-	.lead,
-	#faq {
-		color: var(--text-color) !important;
-		text-shadow: 2px 1px var(--text-shadow-color);
-	}
+    #header h1,
+    .lead,
+    #faq {
+        color: var(--text-color) !important;
+        text-shadow: 2px 1px var(--text-shadow-color);
+    }
 }

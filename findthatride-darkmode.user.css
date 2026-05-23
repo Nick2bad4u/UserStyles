@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           findthatride.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.2
@@ -11,8 +11,8 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/findthatride-darkmode.user.css
 ==/UserStyle== */
 @-moz-document domain("findthatride.com") {
-	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video, #header) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video, #header) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

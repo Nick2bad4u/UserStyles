@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         Unroll.me Dark Mode
 @version      20241013.22.62
 @namespace    Unroll.me
@@ -11,18 +11,18 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Unroll.me-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("unroll.me") {
-	:root {
-		filter: invert(1);
-		/*            background-color: black; */
-	}
-	img:not(
-		.mwe-math-fallback-image-display,
-		.mwe-math-fallback-image-inline,
-		img[alt='GPS']
-	) {
-		filter: invert(1);
-	}
-	.mw-logo {
-		filter: invert(100%);
-	}
+    :root {
+        filter: invert(1);
+        /*            background-color: black; */
+    }
+    img:not(
+        .mwe-math-fallback-image-display,
+        .mwe-math-fallback-image-inline,
+        img[alt="GPS"]
+    ) {
+        filter: invert(1);
+    }
+    .mw-logo {
+        filter: invert(100%);
+    }
 }

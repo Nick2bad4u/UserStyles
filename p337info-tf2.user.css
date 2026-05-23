@@ -16,44 +16,46 @@
 @var color hover-background-color "Hover Background Color" #a308841f
 ==/UserStyle== */
 @-moz-document domain("p337.info") {
-	:root {
-		--background-color: var(background-color);
-		--border-color: var(border-color);
-		--link-background-color: var(link-background-color);
-		--hover-background-color: var(hover-background-color);
-	}
+    :root {
+        --background-color: var(background-color);
+        --border-color: var(border-color);
+        --link-background-color: var(link-background-color);
+        --hover-background-color: var(hover-background-color);
+    }
 
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe,
-	body,
-	*:not(.rarity, .c_dot) {
-		background: var(--background-color) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe,
+    body,
+    *:not(.rarity, .c_dot) {
+        background: var(--background-color) !important;
+    }
 
-	.warpaint_prev,
-	.warpaint {
-		border: 1px ridge var(--border-color);
-	}
+    .warpaint_prev,
+    .warpaint {
+        border: 1px ridge var(--border-color);
+    }
 
-	.link,
-	#primary_nav_wrap ul ul a {
-		border: 1px dashed var(--border-color);
-		background: var(--link-background-color) !important;
-		padding: 12px;
-	}
+    .link,
+    #primary_nav_wrap ul ul a {
+        padding: 12px;
+        border: 1px dashed var(--border-color);
+        background: var(--link-background-color) !important;
+    }
 
-	.link:hover,
-	#primary_nav_wrap ul ul a:hover {
-		border: 1px dashed var(--border-color);
-		background: var(--hover-background-color) !important;
-		padding: 12px;
-	}
+    .link:hover,
+    #primary_nav_wrap ul ul a:hover,
+    .link:focus,
+    #primary_nav_wrap ul ul a:focus {
+        padding: 12px;
+        border: 1px dashed var(--border-color);
+        background: var(--hover-background-color) !important;
+    }
 
-	.tf2_image {
-		background: unset !important;
-	}
+    .tf2_image {
+        background: unset !important;
+    }
 }

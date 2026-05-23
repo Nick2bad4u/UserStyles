@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           tampermonkey.net - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.6
@@ -17,44 +17,44 @@
 ==/UserStyle== */
 
 @-moz-document domain("tampermonkey.net") {
-	:root {
-		--black-color: var(black-color);
-		--header-color: var(header-color);
-		--changes-fill-color: var(changes-fill-color);
-		--subnav-text-color: var(subnav-text-color);
-	}
+    :root {
+        --black-color: var(black-color);
+        --header-color: var(header-color);
+        --changes-fill-color: var(changes-fill-color);
+        --subnav-text-color: var(subnav-text-color);
+    }
 
-	/* Invert colors except images and videos */
-	:is(
-		html:not(iframe),
-		img,
-		svg,
-		video,
-		.header,
-		.mainnav,
-		.col-full .row h1,
-		.row.md iframe,
-		.toc a,
-		.changelog .changeset .header .version
-	) {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    /* Invert colors except images and videos */
+    :is(
+        html:not(iframe),
+        img,
+        svg,
+        video,
+        .header,
+        .mainnav,
+        .col-full .row h1,
+        .row.md iframe,
+        .toc a,
+        .changelog .changeset .header .version
+    ) {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.header .icon .svg,
-	.tab-label > svg,
-	.changelog .changeset .header .browsers img {
-		filter: unset !important;
-	}
+    .header .icon .svg,
+    .tab-label > svg,
+    .changelog .changeset .header .browsers img {
+        filter: unset !important;
+    }
 
-	.subnav .tab-label span {
-		color: var(--subnav-text-color) !important;
-	}
+    .subnav .tab-label span {
+        color: var(--subnav-text-color) !important;
+    }
 
-	.toc a {
-		color: var(--header-color);
-	}
-	.changelog .changeset .changes .change .fa,
-	.col-full svg {
-		fill: var(--changes-fill-color);
-	}
+    .toc a {
+        color: var(--header-color);
+    }
+    .changelog .changeset .changes .change .fa,
+    .col-full svg {
+        fill: var(--changes-fill-color);
+    }
 }

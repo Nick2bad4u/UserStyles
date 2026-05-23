@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         Style Editor [Chrome] - Dark Theme [Updated][Customizable]
 @namespace    nick2bad4u.github.io
 @author       Paul Stevenson - [Updated by Nick2bad4u]
@@ -61,227 +61,227 @@
 @-moz-document regexp("chrome-extension://fjnbnpbmkenffdnngjfgmeleoegfcffe/.*"),
 regexp("chrome-extension://clngdbkpkpeebahjckkjfobafhncgmne/.*")
 {
-	:root {
-		/* Background Colors */
-		--bg-dark: var(bg-dark);
-		--bg-light: var(bg-light);
-		--bg-accent: var(bg-accent);
-		--bg-popup: var(bg-popup);
+    :root {
+        /* Background Colors */
+        --bg-dark: var(bg-dark);
+        --bg-light: var(bg-light);
+        --bg-accent: var(bg-accent);
+        --bg-popup: var(bg-popup);
 
-		/* Text Colors */
-		--text-primary: var(text-primary);
-		--text-secondary: var(text-secondary);
-		--text-highlight: var(text-highlight);
-		--text-hover: var(text-hover);
-		--text-selected: var(--text-selected);
+        /* Text Colors */
+        --text-primary: var(text-primary);
+        --text-secondary: var(text-secondary);
+        --text-highlight: var(text-highlight);
+        --text-hover: var(text-hover);
+        --text-selected: var(--text-selected);
 
-		/* Input Colors */
-		--input-border: var(input-border);
-		--input-bg: var(input-bg);
-		--input-text: var(input-text);
+        /* Input Colors */
+        --input-border: var(input-border);
+        --input-bg: var(input-bg);
+        --input-text: var(input-text);
 
-		/* Button Colors */
-		--button-border: var(button-border);
-		--button-bg: var(button-bg);
-		--button-text: var(button-text);
-		--button-hover-bg: var(button-hover-bg);
-		--button-hover-text: var(button-hover-text);
+        /* Button Colors */
+        --button-border: var(button-border);
+        --button-bg: var(button-bg);
+        --button-text: var(button-text);
+        --button-hover-bg: var(button-hover-bg);
+        --button-hover-text: var(button-hover-text);
 
-		/* Scrollbar Colors */
-		--scrollbar-thumb: var(scrollbar-thumb);
-		--scrollbar-thumb-inactive: var(
-			scrollbar-thumb-inactive
-		);
-		--scrollbar-track: var(scrollbar-track);
+        /* Scrollbar Colors */
+        --scrollbar-thumb: var(scrollbar-thumb);
+        --scrollbar-thumb-inactive: var(scrollbar-thumb-inactive);
+        --scrollbar-track: var(scrollbar-track);
 
-		/* Gutter Colors */
-		--gutter-border: var(gutter-border);
-		--gutter-bg: var(gutter-bg);
-		--line-number: var(line-number);
+        /* Gutter Colors */
+        --gutter-border: var(gutter-border);
+        --gutter-bg: var(gutter-bg);
+        --line-number: var(line-number);
 
-		/* Cursor and Bracket Colors */
-		--cursor: var(cursor);
-		--secondary-cursor: var(secondary-cursor);
-		--matching-bracket: var(matching-bracket);
-		--nonmatching-bracket: var(nonmatching-bracket);
-		--activeline-bg: var(activeline-bg);
+        /* Cursor and Bracket Colors */
+        --cursor: var(cursor);
+        --secondary-cursor: var(secondary-cursor);
+        --matching-bracket: var(matching-bracket);
+        --nonmatching-bracket: var(nonmatching-bracket);
+        --activeline-bg: var(activeline-bg);
 
-		/* Syntax Highlighting */
-		--keyword: var(keyword);
-		--atom: var(atom);
-		--number: var(number);
-		--definition: var(definition);
-		--variable: var(variable);
-		--variable-2: var(variable-2);
-		--variable-3: var(variable-3);
-		--comment: var(comment);
-		--string: var(string);
-		--string-2: var(string-2);
-		--meta: var(meta);
-		--builtin: var(builtin);
-		--tag: var(tag);
-		--attribute: var(attribute);
-		--error: var(error);
-		--highlight-match: var(highlight-match);
-		--bottom-border: var(bottom-border);
-		--green1: var(green1);
-		--green2: var(green2);
-	}
+        /* Syntax Highlighting */
+        --keyword: var(keyword);
+        --atom: var(atom);
+        --number: var(number);
+        --definition: var(definition);
+        --variable: var(variable);
+        --variable-2: var(variable-2);
+        --variable-3: var(variable-3);
+        --comment: var(comment);
+        --string: var(string);
+        --string-2: var(string-2);
+        --meta: var(meta);
+        --builtin: var(builtin);
+        --tag: var(tag);
+        --attribute: var(attribute);
+        --error: var(error);
+        --highlight-match: var(highlight-match);
+        --bottom-border: var(bottom-border);
+        --green1: var(green1);
+        --green2: var(green2);
+    }
 
-	body {
-		background: var(--bg-dark);
-		color: var(--text-primary);
-	}
+    body {
+        background: var(--bg-dark);
+        color: var(--text-primary);
+    }
 
-	#stylish-popup {
-		background: var(--bg-light);
-		color: var(--input-bg);
-	}
+    #stylish-popup {
+        background: var(--bg-light);
+        color: var(--input-bg);
+    }
 
-	a,
-	a:visited,
-	a:active {
-		color: var(--text-highlight);
-	}
+    a,
+    a:visited,
+    a:active {
+        color: var(--text-highlight);
+    }
 
-	a:hover {
-		color: var(--text-hover);
-	}
+    a:hover,
+    a:focus {
+        color: var(--text-hover);
+    }
 
-	input,
-	#name,
-	.applies-value,
-	select {
-		border-color: var(--input-border);
-		background: var(--input-bg);
-		color: var(--input-text);
-	}
+    input,
+    #name,
+    .applies-value,
+    select {
+        border-color: var(--input-border);
+        background: var(--input-bg);
+        color: var(--input-text);
+    }
 
-	button {
-		border-color: var(--button-border);
-		background: var(--button-bg);
-		color: var(--button-text);
-	}
+    button {
+        border-color: var(--button-border);
+        background: var(--button-bg);
+        color: var(--button-text);
 
-	button:hover {
-		background: var(--button-hover-bg);
-		color: var(--button-hover-text);
-	}
+        &:hover,
+        &:focus {
+            background: var(--button-hover-bg);
+            color: var(--button-hover-text);
+        }
+    }
 
-	::-webkit-scrollbar {
-		width: 10px;
-	}
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
 
-	::-webkit-scrollbar-track {
-		-webkit-box-shadow: inset 0 0 6px var(--scrollbar-track);
-		background: var(--scrollbar-track);
-	}
+    ::-webkit-scrollbar-track {
+        background: var(--scrollbar-track);
+        box-shadow: inset 0 0 6px var(--scrollbar-track);
+    }
 
-	::-webkit-scrollbar-thumb {
-		-webkit-box-shadow: inset 0 0 6px var(--scrollbar-thumb);
-		background: var(--scrollbar-thumb);
-	}
+    ::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-thumb);
+        box-shadow: inset 0 0 6px var(--scrollbar-thumb);
+    }
 
-	::-webkit-scrollbar-thumb:window-inactive {
-		background: var(--scrollbar-thumb-inactive);
-	}
+    ::-webkit-scrollbar-thumb:window-inactive {
+        background: var(--scrollbar-thumb-inactive);
+    }
 }
 
 /* Syntax highlighting with variables */
 @-moz-document regexp("chrome-extension://fjnbnpbmkenffdnngjfgmeleoegfcffe/.*")
 {
-	.cm-s-default .cm-keyword {
-		color: var(--keyword);
-	}
+    .cm-s-default .cm-keyword {
+        color: var(--keyword);
+    }
 
-	.cm-s-default .cm-atom {
-		color: var(--atom);
-	}
+    .cm-s-default .cm-atom {
+        color: var(--atom);
+    }
 
-	.cm-s-default .cm-number {
-		color: var(--number);
-	}
+    .cm-s-default .cm-number {
+        color: var(--number);
+    }
 
-	.cm-s-default .cm-def {
-		color: var(--definition);
-	}
+    .cm-s-default .cm-def {
+        color: var(--definition);
+    }
 
-	.cm-s-default .cm-variable {
-		color: var(--variable);
-	}
+    .cm-s-default .cm-variable {
+        color: var(--variable);
+    }
 
-	.cm-s-default .cm-variable-2 {
-		color: var(--variable-2);
-	}
+    .cm-s-default .cm-variable-2 {
+        color: var(--variable-2);
+    }
 
-	.cm-s-default .cm-variable-3 {
-		color: var(--variable-3);
-	}
+    .cm-s-default .cm-variable-3 {
+        color: var(--variable-3);
+    }
 
-	.cm-s-default .cm-comment {
-		color: var(--comment);
-	}
+    .cm-s-default .cm-comment {
+        color: var(--comment);
+    }
 
-	.cm-s-default .cm-string {
-		color: var(--string);
-	}
+    .cm-s-default .cm-string {
+        color: var(--string);
+    }
 
-	.cm-s-default .cm-string-2 {
-		color: var(--string-2);
-	}
+    .cm-s-default .cm-string-2 {
+        color: var(--string-2);
+    }
 
-	.cm-s-default .cm-meta {
-		color: var(--meta);
-	}
+    .cm-s-default .cm-meta {
+        color: var(--meta);
+    }
 
-	.cm-s-default .cm-builtin {
-		color: var(--builtin);
-	}
+    .cm-s-default .cm-builtin {
+        color: var(--builtin);
+    }
 
-	.cm-s-default .cm-tag {
-		color: var(--tag);
-	}
+    .cm-s-default .cm-tag {
+        color: var(--tag);
+    }
 
-	.cm-s-default .cm-attribute {
-		color: var(--attribute);
-	}
+    .cm-s-default .cm-attribute {
+        color: var(--attribute);
+    }
 
-	.cm-s-default .cm-error {
-		color: var(--error);
-	}
+    .cm-s-default .cm-error {
+        color: var(--error);
+    }
 
-	.CodeMirror-matchingbracket {
-		color: var(--matching-bracket);
-	}
+    .CodeMirror-matchingbracket {
+        color: var(--matching-bracket);
+    }
 
-	.CodeMirror-activeline-background {
-		background: var(--activeline-bg);
-	}
+    .CodeMirror-activeline-background {
+        background: var(--activeline-bg);
+    }
 
-	.CodeMirror {
-		background: var(--activeline-bg);
-	}
+    .CodeMirror {
+        background: var(--activeline-bg);
+    }
 
-	.CodeMirror-selected {
-		background: var(--text-selected);
-	}
+    .CodeMirror-selected {
+        background: var(--text-selected);
 
-	.CodeMirror-focused .CodeMirror-selected {
-		background: var(--text-selected);
-	}
+        .CodeMirror-focused & {
+            background: var(--text-selected);
+        }
+    }
 
-	.CodeMirror-crosshair {
-		cursor: crosshair;
-	}
+    .CodeMirror-crosshair {
+        cursor: crosshair;
+    }
 
-	.CodeMirror-line::selection,
-	.CodeMirror-line > span::selection,
-	.CodeMirror-line > span > span::selection {
-		background: var(--input-bg);
-	}
+    .CodeMirror-line::selection,
+    .CodeMirror-line > span::selection,
+    .CodeMirror-line > span > span::selection {
+        background: var(--input-bg);
+    }
 
-	.cm-searching {
-		border-bottom: 1px solid var(--bottom-border);
-		background: var(--green2);
-	}
+    .cm-searching {
+        border-bottom: 1px solid var(--bottom-border);
+        background: var(--green2);
+    }
 }

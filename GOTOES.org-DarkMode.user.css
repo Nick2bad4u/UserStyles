@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         GOTOES.org - Dark Mode
 @version      20241116.21.12
 @namespace    nick2bad4u.github.io
@@ -15,47 +15,39 @@
 ==/UserStyle== */
 
 @-moz-document domain("gotoes.org") {
-	:root {
-		--background-color-light: var(background-color-light);
-		--background-color-dark: var(background-color-dark);
-	}
+    :root {
+        --background-color-light: var(background-color-light);
+        --background-color-dark: var(background-color-dark);
+    }
 
-	:is(html:not([stylus-iframe])) {
-		filter: invert(1) hue-rotate(180deg) !important;
-		background: var(--background-color-light);
-	}
+    :is(html:not([stylus-iframe])) {
+        background: var(--background-color-light);
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	iframe,
-	#top
-		> section
-		> div:nth-child(n)
-		> div
-		> div
-		> div
-		> div.banners
-		> a:nth-child(n)
-		> img,
-	#leftDashboardPair > div:nth-child(n) > img,
-	#content,
-	#myCanvas,
-	#stuck_container
-		> div
-		> div
-		> div
-		> div
-		> nav
-		> ul
-		> li:nth-child(7)
-		> a {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    iframe,
+    #top
+        > section
+        > div:nth-child(n)
+        > div
+        > div
+        > div
+        > div.banners
+        > a:nth-child(n)
+        > img,
+    #leftDashboardPair > div:nth-child(n) > img,
+    #content,
+    #myCanvas,
+    #stuck_container > div > div > div > div > nav > ul > li:nth-child(7) > a {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	#progressSection {
-		filter: invert(0);
-	}
+    #progressSection {
+        filter: invert(0);
+    }
 
-	#cboxOverlay {
-		filter: invert(1);
-		background: var(--background-color-dark);
-	}
+    #cboxOverlay {
+        background: var(--background-color-dark);
+        filter: invert(1);
+    }
 }

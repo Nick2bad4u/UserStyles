@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         Fandom.com - Dark Mode
 @version      20241116.15.42
 @namespace    nick2bad4u.github.io
@@ -12,40 +12,36 @@
 ==/UserStyle== */
 
 @-moz-document domain("fandom.com") {
-	*:not(
-		body
-			> div.main-container
-			> div.resizable-container
-			> div.page
-			> main
-	) {
-		background: black;
-	}
+    *:not(
+        body > div.main-container > div.resizable-container > div.page > main
+    ) {
+        background: black;
+    }
 
-	img,
-	video,
-	trk-shared-icon > svg > use,
-	header > nav {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    img,
+    video,
+    trk-shared-icon > svg > use,
+    header > nav {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	/* Exclude Dark Mode Elements */
-	*:not(
-		[style*='background-color: #121212'],
-		[style*='background-color: black']
-	) {
-		filter: none !important;
-		/* Reset filter for dark backgrounds */
-	}
+    /* Exclude Dark Mode Elements */
+    *:not(
+        [style*="background-color: #121212"],
+        [style*="background-color: black"]
+    ) {
+        filter: none !important;
+        /* Reset filter for dark backgrounds */
+    }
 
-	/* Specific Exclusions */
-	body,
-	#primaryNav,
-	#primaryNav > div > div.primary-links > ul,
-	#content {
-		background-color: #000 !important;
+    /* Specific Exclusions */
+    body,
+    #primaryNav,
+    #primaryNav > div > div.primary-links > ul,
+    #content {
+        background-color: #000000 !important;
 
-		--theme-page-background-color: #000000 !important;
-		/* Ensure body stays dark */
-	}
+        --theme-page-background-color: #000000 !important;
+        /* Ensure body stays dark */
+    }
 }

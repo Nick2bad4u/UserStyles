@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         UPS.com - Dark Mode
 @version      20241114.23.54
 @namespace    nick2bad4u.github.io
@@ -20,142 +20,133 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/UPS.com-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("ups.com") {
-	:root {
-		--dark-background: var(dark-background);
-		--border: var(border);
-		--button-background: var(button-background);
-		--hover-color: var(hover-color);
-		--input-background: var(input-background);
-		--text: var(text);
-		--black: var(black);
-		--white: var(white);
-	}
+    :root {
+        --dark-background: var(dark-background);
+        --border: var(border);
+        --button-background: var(button-background);
+        --hover-color: var(hover-color);
+        --input-background: var(input-background);
+        --text: var(text);
+        --black: var(black);
+        --white: var(white);
+    }
 
-	/* Base dark mode filter */
-	html {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Base dark mode filter */
+    html {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	/* Specific elements to exclude from inversion */
-	:is(
-		img,
-		svg,
-		video,
-		iframe,
-		[class*='footer'],
-		[id*='footer'],
-		.logo,
-		.button,
-		.btn,
-		.input,
-		.textarea,
-		.card,
-		.panel,
-		.table,
-		.modal,
-		#ups-header_logo > img,
-		.ups-cta.ups-cta-primary.d-none.d-md-block.ups-analytics
-			> span,
-		.ups-socialicon_facebook,
-		.ups-socialicon_google,
-		.brown.arc-container.apps-container.section,
-		#tabs_0_tabContent_0
-			> div
-			> div
-			> div
-			> div
-			> div.package-tracker,
-		#tracking-numbers
-	) {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    /* Specific elements to exclude from inversion */
+    :is(
+        img,
+        svg,
+        video,
+        iframe,
+        [class*="footer"],
+        [id*="footer"],
+        .logo,
+        .button,
+        .btn,
+        .input,
+        .textarea,
+        .card,
+        .panel,
+        .table,
+        .modal,
+        #ups-header_logo > img,
+        .ups-cta.ups-cta-primary.d-none.d-md-block.ups-analytics > span,
+        .ups-socialicon_facebook,
+        .ups-socialicon_google,
+        .brown.arc-container.apps-container.section,
+        #tabs_0_tabContent_0 > div > div > div > div > div.package-tracker,
+        #tracking-numbers
+    ) {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.hero-img > div > picture > img {
-		filter: unset !important;
-	}
+    .hero-img > div > picture > img {
+        filter: unset !important;
+    }
 
-	/* Additional styling for better dark mode experience */
-	a,
-	li:nth-child(n) > a > span.icon.ups-icon-link_newwindow,
-	.icon-new-window > svg,
-	#sublist-ups-companies-2
-		> li:nth-child(n)
-		> a
-		> span
-		> svg
-		> use,
-	#sublist-ups-sites-1 > li:nth-child(n) > a > span > svg,
-	#sublist-this-site-0 > li:nth-child(n) > a > span > svg,
-	.icon-facebook > svg > use,
-	.icon-x > svg > use,
-	.icon-instagram > svg > use,
-	.icon-linkedin > svg > use,
-	.icon-youtube > svg,
-	.toggle-help > span > svg > use {
-		color: var(--black) !important;
-	}
+    /* Additional styling for better dark mode experience */
+    a,
+    li:nth-child(n) > a > span.icon.ups-icon-link_newwindow,
+    .icon-new-window > svg,
+    #sublist-ups-companies-2 > li:nth-child(n) > a > span > svg > use,
+    #sublist-ups-sites-1 > li:nth-child(n) > a > span > svg,
+    #sublist-this-site-0 > li:nth-child(n) > a > span > svg,
+    .icon-facebook > svg > use,
+    .icon-x > svg > use,
+    .icon-instagram > svg > use,
+    .icon-linkedin > svg > use,
+    .icon-youtube > svg,
+    .toggle-help > span > svg > use {
+        color: var(--black) !important;
+    }
 
-	a > span.icon.ups-icon-link_newwindow,
-	#ups-footer_legalLinks > li:nth-child(n) > a,
-	#ups-footer_connectLinks
-		> li:nth-child(n)
-		> a
-		> span.icon.ups-icon-link_newwindow,
-	#sublist-legal-0 > li:nth-child(n) > a,
-	#sublist-ups-companies-2 > li:nth-child(n) > a,
-	#sublist-ups-sites-1 > li:nth-child(n) > a,
-	#sublist-this-site-0 > li:nth-child(n) > a,
-	#sublist-connect-with-us-3 > li:nth-child(n) > a,
-	#tabs_0_tab_2 > h2,
-	#tabs_0_tab_3 > h2,
-	.help-content > p > a,
-	#ups-footer_connectLinks > li:nth-child(n) > a {
-		color: var(--white) !important;
-	}
+    a > span.icon.ups-icon-link_newwindow,
+    #ups-footer_legalLinks > li:nth-child(n) > a,
+    #ups-footer_connectLinks
+        > li:nth-child(n)
+        > a
+        > span.icon.ups-icon-link_newwindow,
+    #sublist-legal-0 > li:nth-child(n) > a,
+    #sublist-ups-companies-2 > li:nth-child(n) > a,
+    #sublist-ups-sites-1 > li:nth-child(n) > a,
+    #sublist-this-site-0 > li:nth-child(n) > a,
+    #sublist-connect-with-us-3 > li:nth-child(n) > a,
+    #tabs_0_tab_2 > h2,
+    #tabs_0_tab_3 > h2,
+    .help-content > p > a,
+    #ups-footer_connectLinks > li:nth-child(n) > a {
+        color: var(--white) !important;
+    }
 
-	.button,
-	.btn {
-		border: none !important;
-		background-color: var(--button-background) !important;
-		color: var(--text) !important;
-	}
+    .button,
+    .btn {
+        border: none !important;
+        background-color: var(--button-background) !important;
+        color: var(--text) !important;
+    }
 
-	.button:hover,
-	.btn:hover {
-		color: var(--hover-color) !important;
-	}
+    .button:hover,
+    .btn:hover,
+    .button:focus,
+    .btn:focus {
+        color: var(--hover-color) !important;
+    }
 
-	.input,
-	.textarea {
-		border: 1px solid var(--border) !important;
-		background-color: var(--input-background) !important;
-		color: var(--text) !important;
-	}
+    .input,
+    .textarea {
+        border: 1px solid var(--border) !important;
+        background-color: var(--input-background) !important;
+        color: var(--text) !important;
+    }
 
-	.input:focus,
-	.textarea:focus {
-		border-color: var(--hover-color) !important;
-	}
+    .input:focus,
+    .textarea:focus {
+        border-color: var(--hover-color) !important;
+    }
 
-	.card,
-	.panel {
-		border: 1px solid var(--border) !important;
-		background-color: var(--input-background) !important;
-		color: var(--text) !important;
-	}
+    .card,
+    .panel {
+        border: 1px solid var(--border) !important;
+        background-color: var(--input-background) !important;
+        color: var(--text) !important;
+    }
 
-	.table {
-		background-color: var(--input-background) !important;
-		color: var(--text) !important;
-	}
+    .table {
+        background-color: var(--input-background) !important;
+        color: var(--text) !important;
 
-	.table th,
-	.table td {
-		border: 1px solid var(--border) !important;
-	}
+        & th,
+        & td {
+            border: 1px solid var(--border) !important;
+        }
+    }
 
-	.modal {
-		background-color: var(--dark-background) !important;
-		color: var(--text) !important;
-	}
+    .modal {
+        background-color: var(--dark-background) !important;
+        color: var(--text) !important;
+    }
 }

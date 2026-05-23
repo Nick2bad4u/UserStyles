@@ -25,1311 +25,1600 @@
 @var color color-red "Red" #ff0000
 ==/UserStyle== */
 @-moz-document domain("gyazo.com") {
-	/* Stylus Variables */
-	:root {
-		--primary-color: var(primary-color);
-		--primary-color-darker: var(primary-color-darker);
-		--secondary-color: var(secondary-color);
-		--placeholder-color: var(placeholder-color);
-		--background-main: var(background-main);
-		--download-button: var(download-button);
-		--gray-dark: var(gray-dark);
-		--gray-light: var(gray-light);
-		--gray-alternate: var(gray-alternate);
-		--gray-darker: var(gray-darker);
-		--color-white: var(color-white);
-		--color-black: var(color-black);
-		--color-red: var(red-color);
-	}
-
-	.related-info-box-component
-		> div
-		> div.related-images-grid-view.related-info,
-	.captured-info-value,
-	.content-block,
-	.edit-box-component,
-	.footer-block,
-	.grid-view,
-	.grid-view-cell,
-	.grid-view-cell-inner-image,
-	.header-block,
-	.image-desc-display.placeholder,
-	.image-infos,
-	.images-grid-view,
-	.main-block-stage,
-	.side-block-items,
-	.sidebar-block {
-		background-color: var(--background-main) !important;
-		color: var(--gray-light) !important;
-	}
-
-	.edit-box-component .image-desc-display {
-		border: 2px solid var(--primary-color);
-	}
-
-	.edit-box-component .input-description:focus {
-		box-shadow: 0 0 0 5px var(--primary-color-darker);
-		color: var(--color-white) !important;
-	}
-
-	.add-to-collection-popover
-		.new-collection-form
-		.form-box
-		input::-moz-placeholder,
-	.input-description::-moz-placeholder {
-		color: var(--primary-color) !important;
-	}
-
-	.add-to-collection-popover
-		.collection-operation-wrap
-		.collection-operation-add,
-	.add-to-collection-popover
-		.new-collection-form
-		.form-box
-		input::placeholder,
-	.input-description::placeholder,
-	.faq.static-page-faq
-		> ul
-		> li.bottom
-		> div.question:hover,
-	.faq.static-page-faq
-		> ul
-		> li:nth-child(n)
-		> div.question:hover,
-	.post > div > div > h2:nth-child(n),
-	.TOTVG659Y6UvGA4WzVD1 > form > input,
-	.card.medium-card,
-	.container-close-date-images.related-info,
-	.images-after-origin,
-	.metadata,
-	.related-info-box-component,
-	.side-block .side-block-items .sub,
-	.testing-swap-image-container .metadata-baseinfo,
-	body > div.content > div:nth-child(2) > h1,
-	body > div.content > div:nth-child(n) > h2,
-	body > div.content > section.faq > div > h2,
-	body
-		> div.content
-		> section.features-table
-		> div
-		> table:nth-child(n)
-		> thead
-		> tr
-		> th
-		> div,
-	.title,
-	.row > div:nth-child(n) > div {
-		color: var(--primary-color) !important;
-	}
-
-	.vtVH6utAExSlC9aN2qwE:focus::-moz-placeholder {
-		color: var(--placeholder-color) !important;
-	}
-
-	.vtVH6utAExSlC9aN2qwE:focus::placeholder {
-		color: var(--placeholder-color) !important;
-	}
-
-	.ocr-desc-buttons > div > button:hover {
-		border: 1px dashed !important;
-		border-color: var(--secondary-color) !important;
-		border-radius: 5px;
-		color: var(--secondary-color) !important;
-	}
-
-	.captured-info
-		> div:nth-child(n)
-		> div.captured-info-value
-		> div:hover {
-		border: 1px var(--primary-color) dashed;
-		border-radius: 5px;
-		padding-right: 15px;
-		padding-left: 15px;
-	}
-
-	.captured-info-key::after,
-	.captured-info,
-	.ocr-icon-block > div::after {
-		content: ':';
-	}
-
-	.image-desc-display.placeholder::after {
-		display: inline-block;
-		animation: cursor-blink 1.5s steps(2) infinite;
-		margin-left: 5px;
-		background: var(--primary-color);
-		width: 6px;
-		height: 18px;
-		content: '';
-	}
-
-	@keyframes cursor-blink {
-		0% {
-			opacity: 0%;
-		}
-	}
-
-	.edit-box-component,
-	.image-box-component.zoomable > a,
-	.image-box-component.zoomable > div,
-	[class*='t30xm'],
-	[class*='t30xm'] > div:nth-child(n),
-	[class*='t30xm'] > div:nth-child(n) > span,
-	[role*='tooltip'],
-	div.image-infos,
-	.image-box-component .image-close-btn-bg,
-	.image-box-component .navigation {
-		border: 4px solid var(--color-black) !important;
-		background-color: var(--color-black) !important;
-		color: var(--primary-color) !important;
-	}
-
-	.content {
-		background: var(--color-black) !important;
-	}
-
-	.image-page.image-page-renewal
-		.metadata
-		.togglable-area.private {
-		display: none;
-	}
-
-	#popover > h3,
-	.header-block.explorer-header-block,
-	a,
-	button,
-	html,
-	img,
-	input,
-	span {
-		background-color: var(--background-main) !important;
-		color: var(--primary-color) !important;
-	}
-
-	#global-dropdown-menu
-		> div.popover-content
-		> ul
-		> li:first-child
-		> a
-		> span.account-item-check
-		> svg,
-	#global-dropdown-menu
-		> div.popover-content
-		> ul
-		> li:nth-child(n)
-		> a
-		> svg
-		> path:nth-child(n),
-	#like > svg,
-	#like > svg > path,
-	#popover > div.popover-content > div > div > div > svg,
-	.reblog-control > a > svg > path:nth-child(n),
-	#react-root
-		> div.header-block.explorer-header-block
-		> div.explorer-action-btn-toolbar
-		> div.explorer-action-btn-group
-		> button.edit-options-button.btn.explorer-action-btn.explorer-action-btn-dark
-		> svg,
-	.explorer-action-btn-toolbar
-		> div.explorer-action-btn-group
-		> button
-		> svg,
-	.explorer-action-btn-toolbar
-		> div.explorer-action-btn-group
-		> div.upload-modal.captures-upload-modal.show
-		> button
-		> svg,
-	#react-root
-		> div.header-block.explorer-header-block
-		> div.search-box
-		> div
-		> div.search-box-panel
-		> div.search-history-list
-		> div
-		> div:nth-child(n)
-		> button.switch-save
-		> svg:hover,
-	.toplevel-item-kamon > svg > path,
-	.new-collection-field > span > span > svg > path,
-	#react-root
-		> div
-		> div
-		> div
-		> div.transform-page-header
-		> div
-		> button
-		> svg,
-	#react-root
-		> div
-		> div
-		> div
-		> div.transform-page-header
-		> div
-		> div
-		> button:nth-child(n)
-		> svg
-		> path,
-	[id^='headlessui-menu-button-'] > svg > path,
-	[id^='headlessui-menu-item-'] > svg,
-	.pro .features h2,
-	body
-		> div.content
-		> section.features-table
-		> div
-		> table:nth-child(n)
-		> tbody:nth-child(3)
-		> tr:nth-child(n)
-		> td:nth-child(n)
-		> div
-		> kamon-lp, /* stylelint-disable-line selector-type-no-unknown -- Gyazo custom web component */
-	#direct-video-link-button > svg,
-	.metadata-icon.text-center > svg > path,
-	#react-root
-		> div:nth-child(2)
-		> div
-		> div
-		> aside
-		> div
-		> div
-		> ul
-		> li.toplevel-item.collection-list
-		> ul:hover
-		> li:nth-child(n)
-		> div
-		> button
-		> svg
-		> path,
-	#react-root
-		> div:nth-child(n)
-		> div
-		> div
-		> div
-		> div.image-box-component.zoomable
-		> div.navigation.next-navigation
-		> svg
-		> path,
-	#react-root
-		> div:nth-child(n)
-		> div
-		> div
-		> div
-		> div.image-box-component.zoomable
-		> div.navigation.prev-navigation
-		> svg
-		> path,
-	.search-history-list
-		.histories
-		.history-row
-		button.switch-save
-		.kamon {
-		fill: var(--primary-color);
-	}
-
-	.ocr-desc-buttons > div > div > button > svg,
-	#like > svg {
-		fill: var(--primary-color) !important;
-	}
-
-	#global-dropdown-menu
-		> div.popover-content
-		> ul
-		> li:first-child
-		> a
-		> span.account-item-check
-		> svg:hover,
-	#global-dropdown-menu
-		> div.popover-content
-		> ul
-		> li:nth-child(13)
-		> button
-		> svg
-		> path,
-	#global-dropdown-menu
-		> div.popover-content
-		> ul
-		> li:nth-child(n)
-		> a
-		> svg
-		> path,
-	#react-root
-		> div.header-block.explorer-header-block
-		> div.explorer-action-btn-toolbar
-		> div.explorer-action-btn-group
-		> button.edit-options-button.btn.explorer-action-btn.explorer-action-btn-dark
-		> svg:hover,
-	#react-root
-		> div.header-block.explorer-header-block
-		> div.explorer-action-btn-toolbar
-		> div.explorer-action-btn-group
-		> button
-		> svg:hover,
-	#react-root
-		> div.header-block.explorer-header-block
-		> div.explorer-action-btn-toolbar
-		> div.explorer-action-btn-group
-		> div.upload-modal.captures-upload-modal.show
-		> button:hover
-		> svg,
-	#react-root
-		> div:nth-child(2)
-		> div
-		> div
-		> aside
-		> div
-		> div
-		> ul
-		> li.toplevel-item.collection-list
-		> ul
-		> li:nth-child(n)
-		> div
-		> button
-		> svg,
-	#react-root
-		> div:nth-child(n)
-		> div
-		> div
-		> aside
-		> div
-		> div
-		> ul
-		> :hover
-		> a
-		> span.toplevel-item-kamon
-		> svg
-		> path,
-	#react-root
-		> div:nth-child(n)
-		> div
-		> div
-		> aside
-		> div
-		> div
-		> ul
-		> li.new-collection-field
-		> span:hover
-		> span
-		> svg
-		> path,
-	#react-root
-		> div
-		> div
-		> div
-		> div.transform-page-header
-		> div
-		> button:hover
-		> svg,
-	#react-root
-		> div
-		> div
-		> div
-		> div.transform-page-header
-		> div
-		> div
-		> button:hover:nth-child(n)
-		> svg
-		> path,
-	[id^='headlessui-menu-button-'] > svg > path:hover,
-	[id^='headlessui-menu-item-'] > svg:hover,
-	.search-history-list
-		.histories
-		.history-row
-		button.switch-save:hover
-		.kamon,
-	.search-history-list
-		.histories
-		.history-row:hover
-		button.switch-save
-		.kamon,
-	.ndEttNyqROYLGO7Ug8wQ a > *:not(:last-child, span),
-	.ndEttNyqROYLGO7Ug8wQ button > *:not(:last-child, span) {
-		fill: var(--color-white);
-	}
-
-	.ocr-desc-buttons > div > div > button:hover > svg {
-		fill: var(--color-white) !important;
-	}
-
-	.new-collection-field > span > span > svg,
-	.tags > a > span.toplevel-item-kamon > svg,
-	.visits > a > span.toplevel-item-kamon > svg,
-	.captures.toplevel-item-active
-		> a
-		> span.toplevel-item-kamon
-		> svg {
-		fill: var(--color-black);
-	}
-
-	#react-root
-		> div.header-block.explorer-header-block
-		> div.explorer-action-btn-toolbar
-		> a {
-		background-color: #1212126b !important;
-	}
-
-	#global-dropdown-menu
-		> div.popover-content
-		> ul
-		> li:nth-child(13)
-		> button
-		> span:hover,
-	#global-dropdown-menu
-		> div.popover-content
-		> ul
-		> li:nth-child(n)
-		> a:hover,
-	#global-dropdown-menu
-		> div.popover-content
-		> ul
-		> li:nth-child(n)
-		> a
-		> span:hover {
-		color: var(--color-white) !important;
-	}
-
-	.images-show .bottom.interactive-popover > .arrow::after,
-	.popover.bottom > .arrow::after {
-		border-bottom-color: var(--primary-color);
-	}
-
-	.explorer-action-btn.dropdown-toggle::after {
-		display: inline-block;
-		margin-right: -8px;
-		background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y2FyZXQtZG93bjwvdGl0bGU+CiAgICA8ZGVmcz4KICAgICAgICA8cGF0aCBkPSJNMTEuNzc3Mzk1MywxNC43MzAzOTUzIEMxMS41MjMzOTUzLDE0LjczMDM5NTMgMTEuMjY5Mzk1MywxNC42MzQzOTUzIDExLjA3NDM5NTMsMTQuNDQxMzk1MyBMNy4yOTczOTUyOSwxMC43MTEzOTUzIEM2LjkwNDM5NTI5LDEwLjMyMzM5NTMgNi45MDAzOTUyOSw5LjY5MDM5NTI5IDcuMjg4Mzk1MjksOS4yOTczOTUyOSBDNy42NzYzOTUyOSw4LjkwNDM5NTI5IDguMzEwMzk1MjksOC45MDAzOTUyOSA4LjcwMjM5NTI5LDkuMjg4Mzk1MjkgTDExLjc3NzM5NTMsMTIuMzI1Mzk1MyBMMTQuODUxMzk1Myw5LjI4ODM5NTI5IEMxNS4yNDUzOTUzLDguOTAwMzk1MjkgMTUuODc4Mzk1Myw4LjkwNDM5NTI5IDE2LjI2NjM5NTMsOS4yOTczOTUyOSBDMTYuNjU0Mzk1Myw5LjY5MDM5NTI5IDE2LjY1MDM5NTMsMTAuMzIzMzk1MyAxNi4yNTczOTUzLDEwLjcxMTM5NTMgTDEyLjQ4MDM5NTMsMTQuNDQxMzk1MyBDMTIuMjg1Mzk1MywxNC42MzQzOTUzIDEyLjAzMTM5NTMsMTQuNzMwMzk1MyAxMS43NzczOTUzLDE0LjczMDM5NTMiIGlkPSJwYXRoLTEiPjwvcGF0aD4KICAgIDwvZGVmcz4KICAgIDxnIGlkPSJjYXJldC1kb3duIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8bWFzayBpZD0ibWFzay0yIiBmaWxsPSIjQkI4NkZDIj4KICAgICAgICAgICAgPHVzZSB4bGluazpocmVmPSIjcGF0aC0xIj48L3VzZT4KICAgICAgICA8L21hc2s+CiAgICAgICAgPHVzZSBpZD0iTWFzayIgZmlsbD0iI0JCOThGQyIgeGxpbms6aHJlZj0iI3BhdGgtMSI+PC91c2U+CiAgICA8L2c+Cjwvc3ZnPg==');
-		width: 24px;
-		height: 24px;
-		content: '';
-	}
-
-	.button,
-	.form-control,
-	.grid-cell,
-	.input,
-	.modal,
-	.modal-content,
-	.popup,
-	.related-images-grid-view.related-info,
-	.tooltip {
-		border: 1px solid var(--gray-dark) !important;
-		background-color: var(--gray-darker) !important;
-		color: var(--gray-light) !important;
-	}
-
-	.header {
-		background: var(--background-main);
-	}
-
-	.query-input {
-		border: 1px var(--primary-color) dashed;
-		border-radius: 5px;
-	}
-
-	.speech-button {
-		border: 1px var(--primary-color) dashed;
-	}
-
-	.speech-button:hover {
-		border: 1px var(--color-red) dashed;
-	}
-
-	.footer-block,
-	.header-block {
-		border-bottom: 1px solid var(--gray-dark) !important;
-	}
-
-	.sidebar-block {
-		border-right: 1px solid var(--gray-dark) !important;
-	}
-
-	.card.medium-card {
-		border: 1px solid var(--gray-dark) !important;
-		background-color: var(--gray-darker) !important;
-	}
-
-	.metadata-description {
-		padding: 10px;
-	}
-
-	.captured-info,
-	.ocr-icon-block > div,
-	.related-info > div > div > span > span:first-child,
-	.section-headline > a > span > span:first-child {
-		margin-left: 10px;
-	}
-
-	article,
-	aside,
-	div:not(
-		#react-root
-			> div:nth-child(n)
-			> div
-			> div
-			> main
-			> div
-			> div
-			> div
-			> div
-			> div:nth-child(2)
-			> section
-			> div:nth-child(n)
-			> a
-			> div,
-		.caBpUIyLTfNBwvxfTyDa,
-		div.k3nzGrC3hEubDzXyOg_r
-	),
-	footer,
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	header,
-	li,
-	main,
-	nav,
-	p,
-	section,
-	table,
-	td,
-	th,
-	ul {
-		background-color: var(--background-main);
-		color: var(--gray-light);
-	}
-
-	#react-root
-		> div:nth-child(n)
-		> div
-		> div
-		> main
-		> div
-		> div
-		> div
-		> div
-		> div:nth-child(n)
-		> section
-		> div:nth-child(n)
-		> div {
-		background: #0000 !important;
-	}
-
-	.k3nzGrC3hEubDzXyOg_r {
-		overflow: unset;
-	}
-
-	option,
-	select {
-		background-color: var(--gray-darker) !important;
-		color: var(--gray-light) !important;
-	}
-
-	#react-root
-		> div:nth-child(n)
-		> div
-		> div
-		> main
-		> div
-		> div:nth-child(n)
-		> div
-		> div
-		> div:nth-child(n)
-		> div
-		> div
-		> div.hover-layer {
-		display: initial !important;
-	}
-
-	#react-root
-		> div:nth-child(2)
-		> div
-		> div
-		> div
-		> div.image-infos
-		> div.related-info-box-component
-		> div,
-	.next-navigation,
-	.prev-navigation,
-	.edit-box-component > div > div > div,
-	.container-close-date-images.related-info,
-	.related-images-grid-view.related-info,
-	#react-root
-		> div:nth-child(n)
-		> div
-		> div
-		> main
-		> div
-		> div:nth-child(n)
-		> div
-		> div
-		> div:nth-child(n)
-		> div
-		> .card.medium-card.checkable:hover,
-	body.download .hero .download-btn {
-		opacity: 100%;
-		box-shadow:
-			0 0 1px 1px var(--primary-color),
-			0 0 1px var(--primary-color);
-	}
-
-	body.download .hero .download-btn:hover {
-		opacity: 100%;
-		box-shadow:
-			0 0 1px 1px var(--download-button),
-			0 0 1px var(--download-button) !important;
-		background-color: var(--download-button) !important;
-		color: var(--color-black) !important;
-	}
-
-	#react-root
-		> div:nth-child(n)
-		> div
-		> div
-		> main
-		> div
-		> div:nth-child(n)
-		> div
-		> div
-		> div:nth-child(n)
-		> div
-		> div {
-		box-shadow: 0 1px 0 0 var(--primary-color);
-	}
-
-	.grid-view .card.medium-card .hover-layer:hover,
-	.grid-view .card.small-card .hover .hover-layer,
-	.grid-view .card.small-card:hover .hover-layer,
-	.grid-view .card.large-card .hover .hover-layer,
-	.grid-view .card.large-card:focus-within .hover-layer,
-	.grid-view .card.large-card:hover .hover-layer {
-		position: absolute;
-		opacity: 0%;
-		mix-blend-mode: multiply;
-		transition: opacity 0.15s;
-		inset: 0;
-		border: 5px solid var(--color-white);
-		border-bottom: 32px solid var(--color-white);
-		background: #3a424f66;
-	}
-
-	#metadata-is-public-dropdown,
-	#metadata-is-public-dropdown > span,
-	textarea {
-		border: none;
-		background-color: var(--color-black) !important;
-		color: var(--primary-color);
-	}
-
-	#search-box-input:hover {
-		border-bottom: 1px solid var(--color-black);
-	}
-
-	#popover > h3 {
-		border-bottom: 3px solid var(--color-black);
-	}
-
-	.faq-list .faq-list-title {
-		background: linear-gradient(
-			to bottom,
-			var(--background-main) calc(100% - 3px),
-			#ffffff00 100%
-		);
-		color: var(--primary-color) !important;
-	}
-
-	#search-box-input::-moz-placeholder,
-	input[name='new-tag']::-moz-placeholder {
-		color: var(--primary-color);
-	}
-
-	#conclusion > div > div > h2,
-	#faq
-		> div
-		> div.faq.static-page-faq
-		> ul
-		> li:nth-child(n)
-		> div.expand
-		> i,
-	#features-ai,
-	#features-clean-share,
-	#features-edit,
-	#features-unlimited,
-	#features-video-message,
-	#react-root
-		> div.header-block.explorer-header-block
-		> div.search-box
-		> div
-		> div.search-box-panel
-		> div.search-history-list
-		> div
-		> div:nth-child(n)
-		> a
-		> div,
-	#search-box-input::placeholder,
-	#section-features
-		> div
-		> div
-		> div:nth-child(n)
-		> div
-		> i,
-	#section-features > div > h2,
-	.closing > div > h2,
-	.faq > div > div > ul > li:nth-child(n) > div.expand > i,
-	.pricing > div > h2,
-	.testimonials
-		> div
-		> div
-		> div
-		> div:nth-child(n)
-		> blockquote
-		> p,
-	.testimonials
-		> div
-		> div
-		> div
-		> div:nth-child(n)
-		> div
-		> h5,
-	.testimonials > div > div > h2,
-	.tutorial > div > h3,
-	.usecases > div > div:nth-child(n) > h3,
-	.usecases > div > h2,
-	input[name='new-tag']::placeholder {
-		color: var(--primary-color);
-	}
-
-	.testimonials .card-footer::before,
-	body
-		> div.content
-		> section.testimonials
-		> div
-		> div
-		> div
-		> div:nth-child(n)
-		> div
-		> div,
-	.page-content .indent-mark .dot {
-		background-color: var(--primary-color) !important;
-		color: var(--primary-color) !important;
-	}
-
-	a:-moz-any-link {
-		cursor: pointer !important;
-		color: -webkit-link !important;
-		color: var(--secondary-color) !important;
-		text-decoration: underline !important;
-	}
-
-	a:any-link {
-		cursor: pointer !important;
-		color: -webkit-link !important;
-		color: var(--secondary-color) !important;
-		text-decoration: underline !important;
-	}
-
-	#conclusion > div > button,
-	.transform-page-header > div > button,
-	.transform-page-header > div > div > button:nth-child(n),
-	.Xpov4pPcafwfUVkzW7Gw,
-	.pricing-box-default,
-	.box.small-team {
-		border: 1px solid var(--primary-color);
-	}
-
-	.faq-list .faq-list-bottom {
-		background: #f000;
-	}
-
-	#global-dropdown-menu
-		> div.popover-content
-		> ul
-		> li:nth-child(13)
-		> button
-		> svg
-		> path:nth-child(n) {
-		fill: var(--color-red);
-	}
-
-	.saved-search-header {
-		color: var(--primary-color);
-		font-size: 16px;
-		text-decoration: underline;
-	}
-
-	::-webkit-scrollbar {
-		width: 12px;
-	}
-
-	::-webkit-scrollbar-track {
-		background: var(--primary-color);
-	}
-
-	::-webkit-scrollbar-thumb {
-		border: 3px solid var(--background-main);
-		border-radius: 10px;
-		background-color: var(--background-main);
-	}
-
-	* {
-		scrollbar-color: var(--primary-color) var(--color-black);
-		scrollbar-width: thin;
-	}
-
-	.global-dropdown-menu-divider {
-		background-color: var(--color-black);
-	}
-
-	#conclusion,
-	#faq,
-	#faq
-		> div
-		> div.faq.static-page-faq
-		> ul
-		> li:nth-child(n):hover,
-	body
-		> div.content
-		> div.static-page-nav-container.light
-		> nav,
-	body > div.content > section.testimonials,
-	body.pricing .users,
-	body {
-		background-color: var(--background-main);
-	}
-
-	.images-after-origin > section {
-		background-color: var(--background-main) !important;
-	}
-
-	body
-		> div.content
-		> div.static-page-nav-container.light
-		> nav
-		> div
-		> div
-		> a
-		> div {
-		background-image: url('https://i.gyazo.com/3b48aa49e16ccde7bf0f4903269a9bc0.png');
-		width: 48px;
-		height: 48px;
-		color: var(--color-red) !important;
-	}
-
-	body > div.content > section.faq,
-	body > div.content > section.hero-header.hidden-xs,
-	body > div.content > section.hero.hidden-xs,
-	body > div.content > section.testimonials {
-		background-image: linear-gradient(
-			80deg,
-			var(--color-black) 2%,
-			var(--primary-color) 30%,
-			var(--background-main)
-		);
-	}
-
-	.dark > nav > div,
-	.dark > nav > div > div,
-	.container {
-		border-radius: 20px;
-		border-bottom-right-radius: 0 !important;
-		border-bottom-left-radius: 0 !important;
-	}
-
-	#conclusion > div,
-	.faq > div,
-	.hero-header.hidden-xs > div,
-	.hero-header.hidden-xs > div > div,
-	.testimonials > div,
-	.usecase > div {
-		border-radius: 20px !important;
-	}
-
-	#faq
-		> div
-		> div.faq.static-page-faq
-		> ul
-		> li:nth-child(n)
-		> div.expand,
-	.pricing-table-box-pro,
-	body
-		> div.content
-		> section.faq
-		> div
-		> div
-		> ul
-		> li:nth-child(n)
-		> div.expand {
-		border: 3px solid var(--primary-color);
-	}
-
-	#faq
-		> div
-		> div.faq.static-page-faq
-		> ul
-		> li:nth-child(n),
-	#react-root
-		> div:nth-child(n)
-		> div
-		> div
-		> div
-		> div.image-infos
-		> div.related-info-box-component
-		> div
-		> div.related-images-grid-view.related-info
-		> div
-		> section
-		> div:nth-child(n)
-		> a,
-	body
-		> div.content
-		> section.faq
-		> div
-		> div
-		> ul
-		> li:nth-child(n) {
-		border-top: 1px solid var(--primary-color);
-	}
-
-	.btn-default:hover,
-	.btn-primary:hover,
-	.btn-secondary:hover,
-	.hero-header-text > p:nth-child(n) > a:hover,
-	.enterprise-plan,
-	.small-team,
-	.teams-pricing > div > div:nth-child(2) > div {
-		border-color: var(--primary-color);
-	}
-
-	.btn-primary,
-	.btn-secondary {
-		border-color: var(--primary-color-darker);
-	}
-
-	.teams-pricing .pricing-toggle-switch-container {
-		display: inline-block;
-		position: relative;
-		cursor: pointer;
-		margin-top: 38px;
-		border: 1px solid var(--gray-alternate);
-		border-radius: 10px;
-		width: 300px;
-		height: 60px;
-		text-align: center;
-	}
-
-	.search-box .search-box-input-wrap input:focus,
-	.static-page-faq .bottom {
-		border-bottom: 1px solid var(--primary-color);
-	}
-
-	.static-page-faq li:hover {
-		cursor: pointer;
-		background: var(--primary-color-darker);
-	}
-
-	.dropdown-menu,
-	.like_toggle {
-		background-color: var(--primary-color);
-	}
-
-	.dropdown-header {
-		color: var(--color-white);
-	}
-
-	.table > tbody > tr > td,
-	.table > tbody > tr > th,
-	.table > tfoot > tr > td,
-	.table > tfoot > tr > th,
-	.table > thead > tr > td,
-	.table > thead > tr > th {
-		vertical-align: top;
-		border-top: 1px solid var(--primary-color);
-		padding: 8px;
-		line-height: 1.75;
-	}
-
-	.table > tbody + tbody {
-		border-top: 2px solid var(--primary-color);
-	}
-
-	.table > thead > tr > th {
-		vertical-align: bottom;
-		border-bottom: 2px solid var(--primary-color);
-	}
-
-	.side-block .side-block-items .toplevel-item-active {
-		background: var(--background-main);
-		pointer-events: none;
-	}
-
-	.side-block-items .collection-item .file-thumb,
-	.side-block-items .collection-item .thumb {
-		box-shadow: 0 0 0 1px var(--primary-color);
-		border: 1px solid var(--primary-color);
-	}
-
-	.side-block-items .collection-item > a {
-		border-radius: 5px;
-	}
-
-	.side-block-items .collection-item:focus-within,
-	.side-block-items .collection-item:hover {
-		background: var(--primary-color);
-	}
-
-	#react-root > div.header-block.explorer-header-block > a {
-		border-bottom: 10px;
-		background-color: #12121200 !important;
-	}
-
-	#popover
-		> div.popover-content
-		> ul
-		> li:nth-child(n):hover,
-	.global-logo-icon:hover {
-		opacity: 50%;
-	}
-
-	.form-control:focus,
-	.global-header-search.global-header-search input:focus {
-		outline: 0;
-		box-shadow: 0 0 0 3px var(--primary-color-darker);
-		border-color: var(--primary-color) !important;
-	}
-
-	[data-hover-visible] .btn-primary:hover {
-		border-color: var(--primary-color);
-		color: var(--color-white);
-	}
-
-	#react-root
-		> div.header-block.explorer-header-block
-		> div.explorer-action-btn-toolbar
-		> div.explorer-action-btn-group
-		> div.upload-modal.captures-upload-modal.show
-		> div
-		> h1:nth-child(2) {
-		color: var(--gray-alternate);
-	}
-
-	.related-images .related-info {
-		padding-top: 3px;
-		padding-bottom: 33px;
-	}
-
-	.B9QQGIFrwoa05qnyZvI5 {
-		gap: 1px 0 !important;
-		background-color: var(--primary-color) !important;
-	}
-
-	.related-pages .related-pages-body ul > li > a .icon {
-		background-image: url('https://i.gyazo.com/03452dc72b4111fa1641b9fe7c53ef39.png') !important;
-		/* fill: white !important; */
-	}
-
-	#react-root
-		> div:nth-child(2)
-		> div
-		> div
-		> div
-		> div.image-infos
-		> div.related-info-box-component
-		> div,
-	.image-page .related-info:last-of-type {
-		padding-bottom: 1px;
-	}
-
-	.image-page hr {
-		border-top: 0 solid #ffffff26;
-	}
-
-	#react-root
-		> div:nth-child(2)
-		> div
-		> div
-		> div
-		> div.image-infos
-		> div.related-info-box-component
-		> div
-		> div.related-images-grid-view.related-info {
-		border-top: 5px solid var(--primary-color) !important;
-		padding-top: 15px !important;
-	}
-
-	.ocr-desc-buttons > div > button,
-	.ocr-desc-buttons > div > div > button,
-	.pjZHyYN8MthPpYWZDS0d,
-	.vtVH6utAExSlC9aN2qwE {
-		margin-right: 3px;
-		border: 1px dashed var(--primary-color) !important;
-	}
-
-	#headlessui-dialog-overlay-5,
-	#react-root
-		> div.header-block.explorer-header-block
-		> div.explorer-action-btn-toolbar
-		> div.explorer-action-btn-group
-		> a,
-	.W9K8hRc2gk7SniSQJYi1,
-	.kuJ39tkCjATBXUZiuSKB {
-		position: fixed;
-		inset: 0;
-		background-color: #ffffff17 !important;
-	}
-
-	#react-root
-		> div
-		> div
-		> div
-		> div.transform-page-header
-		> div
-		> div
-		> button:nth-child(n)
-		> span {
-		border-top: 1px solid var(--primary-color) !important;
-		border-bottom: 1px solid var(--primary-color) !important;
-		line-height: 30px !important;
-	}
-
-	.image-box-component .image-viewer {
-		background: #31313170 !important;
-	}
-
-	.image-box-component .image-viewer:hover {
-		background: #31313100 !important;
-	}
-
-	.vknCRY3MsirgC3PJ9Zb8:hover,
-	.vknCRY3MsirgC3PJ9Zb8,
-	.JqijY3DG4HT1E5WfPcsL:hover,
-	.JqijY3DG4HT1E5WfPcsL,
-	.a5h6q3HOqElFBixS3dB_ {
-		opacity: 100% !important;
-		transition: opacity ease-in-out 0.2s !important;
-		background: #00000000 !important;
-	}
-
-	.faq-list ul > li > a .icon {
-		position: relative;
-		visibility: hidden;
-	}
-
-	.faq-list ul > li > a .icon::after {
-		display: block !important;
-		position: absolute !important;
-		top: 0 !important;
-		left: 0 !important;
-		visibility: visible !important;
-		background-image: url('https://i.gyazo.com/4b32d726c89e4fd17dcf36871cc34b4f.png') !important;
-		background-position: center !important;
-		background-size: contain !important;
-		background-repeat: no-repeat !important;
-		width: 100% !important;
-		height: 100% !important;
-		content: '' !important;
-	}
-
-	#feedback-good-button > img {
-		border-radius: 20px;
-		background-color: #00800069 !important;
-		padding: 9px;
-	}
-
-	#feedback-bad-button > img {
-		border-radius: 20px;
-		background-color: #80000069 !important;
-		padding: 9px;
-	}
+    /* Stylus Variables */
+    :root {
+        --primary-color: var(primary-color);
+        --primary-color-darker: var(primary-color-darker);
+        --secondary-color: var(secondary-color);
+        --placeholder-color: var(placeholder-color);
+        --background-main: var(background-main);
+        --download-button: var(download-button);
+        --gray-dark: var(gray-dark);
+        --gray-light: var(gray-light);
+        --gray-alternate: var(gray-alternate);
+        --gray-darker: var(gray-darker);
+        --color-white: var(color-white);
+        --color-black: var(color-black);
+        --color-red: var(red-color);
+    }
+
+    .related-info-box-component
+        > div
+        > div.related-images-grid-view.related-info,
+    .captured-info-value,
+    .content-block,
+    .edit-box-component,
+    .footer-block,
+    .grid-view,
+    .grid-view-cell,
+    .grid-view-cell-inner-image,
+    .header-block,
+    .image-desc-display.placeholder,
+    .image-infos,
+    .images-grid-view,
+    .main-block-stage,
+    .side-block-items,
+    .sidebar-block {
+        background-color: var(--background-main) !important;
+        color: var(--gray-light) !important;
+    }
+
+    .edit-box-component .image-desc-display {
+        border: 2px solid var(--primary-color);
+    }
+
+    .edit-box-component .input-description:focus {
+        box-shadow: 0 0 0 5px var(--primary-color-darker);
+        color: var(--color-white) !important;
+    }
+
+    .add-to-collection-popover
+        .new-collection-form
+        .form-box
+        input::placeholder,
+    .input-description::placeholder {
+        color: var(--primary-color) !important;
+    }
+
+    .add-to-collection-popover
+        .collection-operation-wrap
+        .collection-operation-add,
+    .add-to-collection-popover
+        .new-collection-form
+        .form-box
+        input::placeholder,
+    .input-description::placeholder,
+    .faq.static-page-faq > ul > li.bottom > div.question:hover,
+    .faq.static-page-faq > ul > li:nth-child(n) > div.question:hover,
+    .post > div > div > h2:nth-child(n),
+    .TOTVG659Y6UvGA4WzVD1 > form > input,
+    .card.medium-card,
+    .container-close-date-images.related-info,
+    .images-after-origin,
+    .metadata,
+    .related-info-box-component,
+    .side-block .side-block-items .sub,
+    .testing-swap-image-container .metadata-baseinfo,
+    body > div.content > div:nth-child(2) > h1,
+    body > div.content > div:nth-child(n) > h2,
+    body > div.content > section.faq > div > h2,
+    body
+        > div.content
+        > section.features-table
+        > div
+        > table:nth-child(n)
+        > thead
+        > tr
+        > th
+        > div,
+    .title,
+    .row > div:nth-child(n) > div,
+    .add-to-collection-popover
+        .collection-operation-wrap
+        .collection-operation-add,
+    .add-to-collection-popover
+        .new-collection-form
+        .form-box
+        input::placeholder,
+    .input-description::placeholder,
+    .faq.static-page-faq > ul > li.bottom > div.question:focus,
+    .faq.static-page-faq > ul > li:nth-child(n) > div.question:focus,
+    .post > div > div > h2:nth-child(n),
+    .TOTVG659Y6UvGA4WzVD1 > form > input,
+    .card.medium-card,
+    .container-close-date-images.related-info,
+    .images-after-origin,
+    .metadata,
+    .related-info-box-component,
+    .side-block .side-block-items .sub,
+    .testing-swap-image-container .metadata-baseinfo,
+    body > div.content > div:nth-child(2) > h1,
+    body > div.content > div:nth-child(n) > h2,
+    body > div.content > section.faq > div > h2,
+    body
+        > div.content
+        > section.features-table
+        > div
+        > table:nth-child(n)
+        > thead
+        > tr
+        > th
+        > div,
+    .title,
+    .row > div:nth-child(n) > div {
+        color: var(--primary-color) !important;
+    }
+
+    .vtVH6utAExSlC9aN2qwE:focus::placeholder {
+        color: var(--placeholder-color) !important;
+    }
+
+    .vtVH6utAExSlC9aN2qwE:focus::placeholder {
+        color: var(--placeholder-color) !important;
+    }
+
+    .ocr-desc-buttons > div > button:hover,
+    .ocr-desc-buttons > div > button:focus {
+        border: 1px dashed !important;
+        border-color: var(--secondary-color) !important;
+        border-radius: 5px;
+        color: var(--secondary-color) !important;
+    }
+
+    .captured-info > div:nth-child(n) > div.captured-info-value > div:hover,
+    .captured-info > div:nth-child(n) > div.captured-info-value > div:focus {
+        padding-right: 15px;
+        padding-left: 15px;
+        border: 1px var(--primary-color) dashed;
+        border-radius: 5px;
+    }
+
+    .captured-info-key::after,
+    .captured-info,
+    .ocr-icon-block > div::after {
+        content: ":";
+    }
+
+    .image-desc-display.placeholder::after {
+        display: inline-block;
+        width: 6px;
+        height: 18px;
+        margin-left: 5px;
+        animation: cursor-blink 1.5s steps(2) infinite;
+        background: var(--primary-color);
+        content: "";
+        @media screen and (prefers-reduced-motion: reduce) {
+            display: inline-block;
+            width: 6px;
+            height: 18px;
+            margin-left: 5px;
+            animation: none;
+            background: var(--primary-color);
+            content: "";
+        }
+    }
+
+    @keyframes cursor-blink {
+        0% {
+            opacity: 0%;
+        }
+    }
+
+    .edit-box-component,
+    .image-box-component.zoomable > a,
+    .image-box-component.zoomable > div,
+    [class*="t30xm"],
+    [class*="t30xm"] > div:nth-child(n),
+    [class*="t30xm"] > div:nth-child(n) > span,
+    [role*="tooltip"],
+    div.image-infos,
+    .image-box-component .image-close-btn-bg,
+    .image-box-component .navigation {
+        border: 4px solid var(--color-black) !important;
+        background-color: var(--color-black) !important;
+        color: var(--primary-color) !important;
+    }
+
+    .content {
+        background: var(--color-black) !important;
+    }
+
+    .image-page.image-page-renewal .metadata .togglable-area.private {
+        display: none;
+    }
+
+    #popover > h3,
+    .header-block.explorer-header-block,
+    a,
+    button,
+    html,
+    img,
+    input,
+    span {
+        background-color: var(--background-main) !important;
+        color: var(--primary-color) !important;
+    }
+
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:first-child
+        > a
+        > span.account-item-check
+        > svg,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(n)
+        > a
+        > svg
+        > path:nth-child(n),
+    #like > svg,
+    #like > svg > path,
+    #popover > div.popover-content > div > div > div > svg,
+    .reblog-control > a > svg > path:nth-child(n),
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > button.edit-options-button.btn.explorer-action-btn.explorer-action-btn-dark
+        > svg,
+    .explorer-action-btn-toolbar > div.explorer-action-btn-group > button > svg,
+    .explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > div.upload-modal.captures-upload-modal.show
+        > button
+        > svg,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.search-box
+        > div
+        > div.search-box-panel
+        > div.search-history-list
+        > div
+        > div:nth-child(n)
+        > button.switch-save
+        > svg:hover,
+    .toplevel-item-kamon > svg > path,
+    .new-collection-field > span > span > svg > path,
+    #react-root
+        > div
+        > div
+        > div
+        > div.transform-page-header
+        > div
+        > button
+        > svg,
+    #react-root
+        > div
+        > div
+        > div
+        > div.transform-page-header
+        > div
+        > div
+        > button:nth-child(n)
+        > svg
+        > path,
+    [id^="headlessui-menu-button-"] > svg > path,
+    [id^="headlessui-menu-item-"] > svg,
+    .pro .features h2,
+    body
+        > div.content
+        > section.features-table
+        > div
+        > table:nth-child(n)
+        > tbody:nth-child(3)
+        > tr:nth-child(n)
+        > td:nth-child(n)
+        > div
+        > kamon-lp,
+    #direct-video-link-button > svg,
+    .metadata-icon.text-center > svg > path,
+    #react-root
+        > div:nth-child(2)
+        > div
+        > div
+        > aside
+        > div
+        > div
+        > ul
+        > li.toplevel-item.collection-list
+        > ul:hover
+        > li:nth-child(n)
+        > div
+        > button
+        > svg
+        > path,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > div
+        > div.image-box-component.zoomable
+        > div.navigation.next-navigation
+        > svg
+        > path,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > div
+        > div.image-box-component.zoomable
+        > div.navigation.prev-navigation
+        > svg
+        > path,
+    .search-history-list .histories .history-row button.switch-save .kamon,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:first-child
+        > a
+        > span.account-item-check
+        > svg,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(n)
+        > a
+        > svg
+        > path:nth-child(n),
+    #like > svg,
+    #like > svg > path,
+    #popover > div.popover-content > div > div > div > svg,
+    .reblog-control > a > svg > path:nth-child(n),
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > button.edit-options-button.btn.explorer-action-btn.explorer-action-btn-dark
+        > svg,
+    .explorer-action-btn-toolbar > div.explorer-action-btn-group > button > svg,
+    .explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > div.upload-modal.captures-upload-modal.show
+        > button
+        > svg,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.search-box
+        > div
+        > div.search-box-panel
+        > div.search-history-list
+        > div
+        > div:nth-child(n)
+        > button.switch-save
+        > svg:focus,
+    .toplevel-item-kamon > svg > path,
+    .new-collection-field > span > span > svg > path,
+    #react-root
+        > div
+        > div
+        > div
+        > div.transform-page-header
+        > div
+        > button
+        > svg,
+    #react-root
+        > div
+        > div
+        > div
+        > div.transform-page-header
+        > div
+        > div
+        > button:nth-child(n)
+        > svg
+        > path,
+    [id^="headlessui-menu-button-"] > svg > path,
+    [id^="headlessui-menu-item-"] > svg,
+    .pro .features h2,
+    body
+        > div.content
+        > section.features-table
+        > div
+        > table:nth-child(n)
+        > tbody:nth-child(3)
+        > tr:nth-child(n)
+        > td:nth-child(n)
+        > div
+        > kamon-lp,
+    #direct-video-link-button > svg,
+    .metadata-icon.text-center > svg > path,
+    #react-root
+        > div:nth-child(2)
+        > div
+        > div
+        > aside
+        > div
+        > div
+        > ul
+        > li.toplevel-item.collection-list
+        > ul:focus
+        > li:nth-child(n)
+        > div
+        > button
+        > svg
+        > path,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > div
+        > div.image-box-component.zoomable
+        > div.navigation.next-navigation
+        > svg
+        > path,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > div
+        > div.image-box-component.zoomable
+        > div.navigation.prev-navigation
+        > svg
+        > path,
+    .search-history-list .histories .history-row button.switch-save .kamon {
+        fill: var(--primary-color);
+    }
+
+    .ocr-desc-buttons > div > div > button > svg,
+    #like > svg {
+        fill: var(--primary-color) !important;
+    }
+
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:first-child
+        > a
+        > span.account-item-check
+        > svg:hover,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(13)
+        > button
+        > svg
+        > path,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(n)
+        > a
+        > svg
+        > path,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > button.edit-options-button.btn.explorer-action-btn.explorer-action-btn-dark
+        > svg:hover,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > button
+        > svg:hover,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > div.upload-modal.captures-upload-modal.show
+        > button:hover
+        > svg,
+    #react-root
+        > div:nth-child(2)
+        > div
+        > div
+        > aside
+        > div
+        > div
+        > ul
+        > li.toplevel-item.collection-list
+        > ul
+        > li:nth-child(n)
+        > div
+        > button
+        > svg,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > aside
+        > div
+        > div
+        > ul
+        > :hover
+        > a
+        > span.toplevel-item-kamon
+        > svg
+        > path,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > aside
+        > div
+        > div
+        > ul
+        > li.new-collection-field
+        > span:hover
+        > span
+        > svg
+        > path,
+    #react-root
+        > div
+        > div
+        > div
+        > div.transform-page-header
+        > div
+        > button:hover
+        > svg,
+    #react-root
+        > div
+        > div
+        > div
+        > div.transform-page-header
+        > div
+        > div
+        > button:hover:nth-child(n)
+        > svg
+        > path,
+    [id^="headlessui-menu-button-"] > svg > path:hover,
+    [id^="headlessui-menu-item-"] > svg:hover,
+    .search-history-list
+        .histories
+        .history-row
+        button.switch-save:hover
+        .kamon,
+    .search-history-list
+        .histories
+        .history-row:hover
+        button.switch-save
+        .kamon,
+    .ndEttNyqROYLGO7Ug8wQ a > *:not(:last-child, span),
+    .ndEttNyqROYLGO7Ug8wQ button > *:not(:last-child, span),
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:first-child
+        > a
+        > span.account-item-check
+        > svg:focus,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(13)
+        > button
+        > svg
+        > path,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(n)
+        > a
+        > svg
+        > path,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > button.edit-options-button.btn.explorer-action-btn.explorer-action-btn-dark
+        > svg:focus,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > button
+        > svg:focus,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > div.upload-modal.captures-upload-modal.show
+        > button:focus
+        > svg,
+    #react-root
+        > div:nth-child(2)
+        > div
+        > div
+        > aside
+        > div
+        > div
+        > ul
+        > li.toplevel-item.collection-list
+        > ul
+        > li:nth-child(n)
+        > div
+        > button
+        > svg,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > aside
+        > div
+        > div
+        > ul
+        > :focus
+        > a
+        > span.toplevel-item-kamon
+        > svg
+        > path,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > aside
+        > div
+        > div
+        > ul
+        > li.new-collection-field
+        > span:focus
+        > span
+        > svg
+        > path,
+    #react-root
+        > div
+        > div
+        > div
+        > div.transform-page-header
+        > div
+        > button:focus
+        > svg,
+    #react-root
+        > div
+        > div
+        > div
+        > div.transform-page-header
+        > div
+        > div
+        > button:focus:nth-child(n)
+        > svg
+        > path,
+    [id^="headlessui-menu-button-"] > svg > path:focus,
+    [id^="headlessui-menu-item-"] > svg:focus,
+    .search-history-list
+        .histories
+        .history-row
+        button.switch-save:focus
+        .kamon,
+    .search-history-list
+        .histories
+        .history-row:focus
+        button.switch-save
+        .kamon,
+    .ndEttNyqROYLGO7Ug8wQ a > *:not(:last-child, span),
+    .ndEttNyqROYLGO7Ug8wQ button > *:not(:last-child, span) {
+        fill: var(--color-white);
+    }
+
+    .ocr-desc-buttons > div > div > button:hover > svg,
+    .ocr-desc-buttons > div > div > button:focus > svg {
+        fill: var(--color-white) !important;
+    }
+
+    .new-collection-field > span > span > svg,
+    .tags > a > span.toplevel-item-kamon > svg,
+    .visits > a > span.toplevel-item-kamon > svg,
+    .captures.toplevel-item-active > a > span.toplevel-item-kamon > svg {
+        fill: var(--color-black);
+    }
+
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > a {
+        background-color: #1212126b !important;
+    }
+
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(13)
+        > button
+        > span:hover,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(n)
+        > a:hover,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(n)
+        > a
+        > span:hover,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(13)
+        > button
+        > span:focus,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(n)
+        > a:focus,
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(n)
+        > a
+        > span:focus {
+        color: var(--color-white) !important;
+    }
+
+    .images-show .bottom.interactive-popover > .arrow::after,
+    .popover.bottom > .arrow::after {
+        border-bottom-color: var(--primary-color);
+    }
+
+    .explorer-action-btn.dropdown-toggle::after {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: -8px;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y2FyZXQtZG93bjwvdGl0bGU+CiAgICA8ZGVmcz4KICAgICAgICA8cGF0aCBkPSJNMTEuNzc3Mzk1MywxNC43MzAzOTUzIEMxMS41MjMzOTUzLDE0LjczMDM5NTMgMTEuMjY5Mzk1MywxNC42MzQzOTUzIDExLjA3NDM5NTMsMTQuNDQxMzk1MyBMNy4yOTczOTUyOSwxMC43MTEzOTUzIEM2LjkwNDM5NTI5LDEwLjMyMzM5NTMgNi45MDAzOTUyOSw5LjY5MDM5NTI5IDcuMjg4Mzk1MjksOS4yOTczOTUyOSBDNy42NzYzOTUyOSw4LjkwNDM5NTI5IDguMzEwMzk1MjksOC45MDAzOTUyOSA4LjcwMjM5NTI5LDkuMjg4Mzk1MjkgTDExLjc3NzM5NTMsMTIuMzI1Mzk1MyBMMTQuODUxMzk1Myw5LjI4ODM5NTI5IEMxNS4yNDUzOTUzLDguOTAwMzk1MjkgMTUuODc4Mzk1Myw4LjkwNDM5NTI5IDE2LjI2NjM5NTMsOS4yOTczOTUyOSBDMTYuNjU0Mzk1Myw5LjY5MDM5NTI5IDE2LjY1MDM5NTMsMTAuMzIzMzk1MyAxNi4yNTczOTUzLDEwLjcxMTM5NTMgTDEyLjQ4MDM5NTMsMTQuNDQxMzk1MyBDMTIuMjg1Mzk1MywxNC42MzQzOTUzIDEyLjAzMTM5NTMsMTQuNzMwMzk1MyAxMS43NzczOTUzLDE0LjczMDM5NTMiIGlkPSJwYXRoLTEiPjwvcGF0aD4KICAgIDwvZGVmcz4KICAgIDxnIGlkPSJjYXJldC1kb3duIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8bWFzayBpZD0ibWFzay0yIiBmaWxsPSIjQkI4NkZDIj4KICAgICAgICAgICAgPHVzZSB4bGluazpocmVmPSIjcGF0aC0xIj48L3VzZT4KICAgICAgICA8L21hc2s+CiAgICAgICAgPHVzZSBpZD0iTWFzayIgZmlsbD0iI0JCOThGQyIgeGxpbms6aHJlZj0iI3BhdGgtMSI+PC91c2U+CiAgICA8L2c+Cjwvc3ZnPg==");
+        content: "";
+    }
+
+    .button,
+    .form-control,
+    .grid-cell,
+    .input,
+    .modal,
+    .modal-content,
+    .popup,
+    .related-images-grid-view.related-info,
+    .tooltip {
+        border: 1px solid var(--gray-dark) !important;
+        background-color: var(--gray-darker) !important;
+        color: var(--gray-light) !important;
+    }
+
+    .header {
+        background: var(--background-main);
+    }
+
+    .query-input {
+        border: 1px var(--primary-color) dashed;
+        border-radius: 5px;
+    }
+
+    .speech-button {
+        border: 1px var(--primary-color) dashed;
+
+        &:hover,
+        &:focus {
+            border: 1px var(--color-red) dashed;
+        }
+    }
+
+    .footer-block,
+    .header-block {
+        border-bottom: 1px solid var(--gray-dark) !important;
+    }
+
+    .sidebar-block {
+        border-right: 1px solid var(--gray-dark) !important;
+    }
+
+    .card.medium-card {
+        border: 1px solid var(--gray-dark) !important;
+        background-color: var(--gray-darker) !important;
+    }
+
+    .metadata-description {
+        padding: 10px;
+    }
+
+    .captured-info,
+    .ocr-icon-block > div,
+    .related-info > div > div > span > span:first-child,
+    .section-headline > a > span > span:first-child {
+        margin-left: 10px;
+    }
+
+    article,
+    aside,
+    div:not(
+        #react-root
+            > div:nth-child(n)
+            > div
+            > div
+            > main
+            > div
+            > div
+            > div
+            > div
+            > div:nth-child(2)
+            > section
+            > div:nth-child(n)
+            > a
+            > div,
+        .caBpUIyLTfNBwvxfTyDa,
+        div.k3nzGrC3hEubDzXyOg_r
+    ),
+    footer,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    header,
+    li,
+    main,
+    nav,
+    p,
+    section,
+    table,
+    td,
+    th,
+    ul {
+        background-color: var(--background-main);
+        color: var(--gray-light);
+    }
+
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > main
+        > div
+        > div
+        > div
+        > div
+        > div:nth-child(n)
+        > section
+        > div:nth-child(n)
+        > div {
+        background: #00000000 !important;
+    }
+
+    .k3nzGrC3hEubDzXyOg_r {
+        overflow: unset;
+    }
+
+    option,
+    select {
+        background-color: var(--gray-darker) !important;
+        color: var(--gray-light) !important;
+    }
+
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > main
+        > div
+        > div:nth-child(n)
+        > div
+        > div
+        > div:nth-child(n)
+        > div
+        > div
+        > div.hover-layer {
+        display: initial !important;
+    }
+
+    #react-root
+        > div:nth-child(2)
+        > div
+        > div
+        > div
+        > div.image-infos
+        > div.related-info-box-component
+        > div,
+    .next-navigation,
+    .prev-navigation,
+    .edit-box-component > div > div > div,
+    .container-close-date-images.related-info,
+    .related-images-grid-view.related-info,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > main
+        > div
+        > div:nth-child(n)
+        > div
+        > div
+        > div:nth-child(n)
+        > div
+        > .card.medium-card.checkable:hover,
+    body.download .hero .download-btn,
+    #react-root
+        > div:nth-child(2)
+        > div
+        > div
+        > div
+        > div.image-infos
+        > div.related-info-box-component
+        > div,
+    .next-navigation,
+    .prev-navigation,
+    .edit-box-component > div > div > div,
+    .container-close-date-images.related-info,
+    .related-images-grid-view.related-info,
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > main
+        > div
+        > div:nth-child(n)
+        > div
+        > div
+        > div:nth-child(n)
+        > div
+        > .card.medium-card.checkable:focus,
+    body.download .hero .download-btn {
+        box-shadow:
+            0 0 1px 1px var(--primary-color),
+            0 0 1px var(--primary-color);
+        opacity: 100%;
+    }
+
+    body.download .hero .download-btn:hover,
+    body.download .hero .download-btn:focus {
+        background-color: var(--download-button) !important;
+        box-shadow:
+            0 0 1px 1px var(--download-button),
+            0 0 1px var(--download-button) !important;
+        color: var(--color-black) !important;
+        opacity: 100%;
+    }
+
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > main
+        > div
+        > div:nth-child(n)
+        > div
+        > div
+        > div:nth-child(n)
+        > div
+        > div {
+        box-shadow: 0 1px 0 0 var(--primary-color);
+    }
+
+    .grid-view .card.medium-card .hover-layer:hover,
+    .grid-view .card.small-card .hover .hover-layer,
+    .grid-view .card.small-card:hover .hover-layer,
+    .grid-view .card.large-card .hover .hover-layer,
+    .grid-view .card.large-card:focus-within .hover-layer,
+    .grid-view .card.large-card:hover .hover-layer {
+        position: absolute;
+        border: 5px solid var(--color-white);
+        border-bottom: 32px solid var(--color-white);
+        background: #3a424f66;
+        inset: 0;
+        mix-blend-mode: multiply;
+        opacity: 0%;
+        transition: opacity 0.15s;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            border: 5px solid var(--color-white);
+            border-bottom: 32px solid var(--color-white);
+            background: #3a424f66;
+            inset: 0;
+            mix-blend-mode: multiply;
+            opacity: 0%;
+            transition: none;
+        }
+    }
+
+    #metadata-is-public-dropdown,
+    #metadata-is-public-dropdown > span,
+    textarea {
+        border: none;
+        background-color: var(--color-black) !important;
+        color: var(--primary-color);
+    }
+
+    #search-box-input:hover,
+    #search-box-input:focus {
+        border-bottom: 1px solid var(--color-black);
+    }
+
+    #popover > h3 {
+        border-bottom: 3px solid var(--color-black);
+    }
+
+    .faq-list .faq-list-title {
+        background: linear-gradient(
+            to bottom,
+            var(--background-main) calc(100% - 3px),
+            #ffffff00 100%
+        );
+        color: var(--primary-color) !important;
+    }
+
+    #search-box-input::placeholder,
+    input[name="new-tag"]::placeholder {
+        color: var(--primary-color);
+    }
+
+    #conclusion > div > div > h2,
+    #faq
+        > div
+        > div.faq.static-page-faq
+        > ul
+        > li:nth-child(n)
+        > div.expand
+        > i,
+    #features-ai,
+    #features-clean-share,
+    #features-edit,
+    #features-unlimited,
+    #features-video-message,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.search-box
+        > div
+        > div.search-box-panel
+        > div.search-history-list
+        > div
+        > div:nth-child(n)
+        > a
+        > div,
+    #search-box-input::placeholder,
+    #section-features > div > div > div:nth-child(n) > div > i,
+    #section-features > div > h2,
+    .closing > div > h2,
+    .faq > div > div > ul > li:nth-child(n) > div.expand > i,
+    .pricing > div > h2,
+    .testimonials > div > div > div > div:nth-child(n) > blockquote > p,
+    .testimonials > div > div > div > div:nth-child(n) > div > h5,
+    .testimonials > div > div > h2,
+    .tutorial > div > h3,
+    .usecases > div > div:nth-child(n) > h3,
+    .usecases > div > h2,
+    input[name="new-tag"]::placeholder {
+        color: var(--primary-color);
+    }
+
+    .testimonials .card-footer::before,
+    body
+        > div.content
+        > section.testimonials
+        > div
+        > div
+        > div
+        > div:nth-child(n)
+        > div
+        > div,
+    .page-content .indent-mark .dot {
+        background-color: var(--primary-color) !important;
+        color: var(--primary-color) !important;
+    }
+
+    a:any-link {
+        color: -webkit-link !important;
+        color: var(--secondary-color) !important;
+        cursor: pointer !important;
+        text-decoration: underline !important;
+    }
+
+    a:any-link {
+        color: -webkit-link !important;
+        color: var(--secondary-color) !important;
+        cursor: pointer !important;
+        text-decoration: underline !important;
+    }
+
+    #conclusion > div > button,
+    .transform-page-header > div > button,
+    .transform-page-header > div > div > button:nth-child(n),
+    .Xpov4pPcafwfUVkzW7Gw,
+    .pricing-box-default,
+    .box.small-team {
+        border: 1px solid var(--primary-color);
+    }
+
+    .faq-list .faq-list-bottom {
+        background: #ff000000;
+    }
+
+    #global-dropdown-menu
+        > div.popover-content
+        > ul
+        > li:nth-child(13)
+        > button
+        > svg
+        > path:nth-child(n) {
+        fill: var(--color-red);
+    }
+
+    .saved-search-header {
+        color: var(--primary-color);
+        font-size: 16px;
+        text-decoration: underline;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--primary-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border: 3px solid var(--background-main);
+        border-radius: 10px;
+        background-color: var(--background-main);
+    }
+
+    * {
+        scrollbar-color: var(--primary-color) var(--color-black);
+        scrollbar-width: thin;
+    }
+
+    .global-dropdown-menu-divider {
+        background-color: var(--color-black);
+    }
+
+    #conclusion,
+    #faq,
+    #faq > div > div.faq.static-page-faq > ul > li:nth-child(n):hover,
+    body > div.content > div.static-page-nav-container.light > nav,
+    body > div.content > section.testimonials,
+    body.pricing .users,
+    body,
+    #conclusion,
+    #faq,
+    #faq > div > div.faq.static-page-faq > ul > li:nth-child(n):focus,
+    body > div.content > div.static-page-nav-container.light > nav,
+    body > div.content > section.testimonials,
+    body.pricing .users,
+    body {
+        background-color: var(--background-main);
+    }
+
+    .images-after-origin > section {
+        background-color: var(--background-main) !important;
+    }
+
+    body
+        > div.content
+        > div.static-page-nav-container.light
+        > nav
+        > div
+        > div
+        > a
+        > div {
+        width: 48px;
+        height: 48px;
+        background-image: url("https://i.gyazo.com/3b48aa49e16ccde7bf0f4903269a9bc0.png");
+        color: var(--color-red) !important;
+    }
+
+    body > div.content > section.faq,
+    body > div.content > section.hero-header.hidden-xs,
+    body > div.content > section.hero.hidden-xs,
+    body > div.content > section.testimonials {
+        background-image: linear-gradient(
+            80deg,
+            var(--color-black) 2%,
+            var(--primary-color) 30%,
+            var(--background-main)
+        );
+    }
+
+    .dark > nav > div,
+    .dark > nav > div > div,
+    .container {
+        border-radius: 20px;
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    #conclusion > div,
+    .faq > div,
+    .hero-header.hidden-xs > div,
+    .hero-header.hidden-xs > div > div,
+    .testimonials > div,
+    .usecase > div {
+        border-radius: 20px !important;
+    }
+
+    #faq > div > div.faq.static-page-faq > ul > li:nth-child(n) > div.expand,
+    .pricing-table-box-pro,
+    body
+        > div.content
+        > section.faq
+        > div
+        > div
+        > ul
+        > li:nth-child(n)
+        > div.expand {
+        border: 3px solid var(--primary-color);
+    }
+
+    #faq > div > div.faq.static-page-faq > ul > li:nth-child(n),
+    #react-root
+        > div:nth-child(n)
+        > div
+        > div
+        > div
+        > div.image-infos
+        > div.related-info-box-component
+        > div
+        > div.related-images-grid-view.related-info
+        > div
+        > section
+        > div:nth-child(n)
+        > a,
+    body > div.content > section.faq > div > div > ul > li:nth-child(n) {
+        border-top: 1px solid var(--primary-color);
+    }
+
+    .btn-default:hover,
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .hero-header-text > p:nth-child(n) > a:hover,
+    .enterprise-plan,
+    .small-team,
+    .teams-pricing > div > div:nth-child(2) > div,
+    .btn-default:focus,
+    .btn-primary:focus,
+    .btn-secondary:focus,
+    .hero-header-text > p:nth-child(n) > a:focus,
+    .enterprise-plan,
+    .small-team,
+    .teams-pricing > div > div:nth-child(2) > div {
+        border-color: var(--primary-color);
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        border-color: var(--primary-color-darker);
+    }
+
+    .teams-pricing .pricing-toggle-switch-container {
+        position: relative;
+        display: inline-block;
+        width: 300px;
+        height: 60px;
+        border: 1px solid var(--gray-alternate);
+        border-radius: 10px;
+        margin-top: 38px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .search-box .search-box-input-wrap input:focus,
+    .static-page-faq .bottom {
+        border-bottom: 1px solid var(--primary-color);
+    }
+
+    .static-page-faq li:hover,
+    .static-page-faq li:focus {
+        background: var(--primary-color-darker);
+        cursor: pointer;
+    }
+
+    .dropdown-menu,
+    .like_toggle {
+        background-color: var(--primary-color);
+    }
+
+    .dropdown-header {
+        color: var(--color-white);
+    }
+
+    .table > tbody > tr > td,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > td,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > thead > tr > th {
+        padding: 8px;
+        border-top: 1px solid var(--primary-color);
+        line-height: 1.75;
+        vertical-align: top;
+    }
+
+    .table > tbody + tbody {
+        border-top: 2px solid var(--primary-color);
+    }
+
+    .table > thead > tr > th {
+        border-bottom: 2px solid var(--primary-color);
+        vertical-align: bottom;
+    }
+
+    .side-block .side-block-items .toplevel-item-active {
+        background: var(--background-main);
+        pointer-events: none;
+    }
+
+    .side-block-items .collection-item .file-thumb,
+    .side-block-items .collection-item .thumb {
+        border: 1px solid var(--primary-color);
+        box-shadow: 0 0 0 1px var(--primary-color);
+    }
+
+    .side-block-items .collection-item > a {
+        border-radius: 5px;
+    }
+
+    .side-block-items .collection-item:focus-within,
+    .side-block-items .collection-item:hover {
+        background: var(--primary-color);
+    }
+
+    #react-root > div.header-block.explorer-header-block > a {
+        border-bottom: 10px;
+        background-color: #12121200 !important;
+    }
+
+    #popover > div.popover-content > ul > li:nth-child(n):hover,
+    .global-logo-icon:hover,
+    #popover > div.popover-content > ul > li:nth-child(n):focus,
+    .global-logo-icon:focus {
+        opacity: 50%;
+    }
+
+    .form-control:focus,
+    .global-header-search.global-header-search input:focus {
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 3px var(--primary-color-darker);
+        outline: 0;
+    }
+
+    [data-hover-visible] .btn-primary:hover,
+    [data-hover-visible] .btn-primary:focus {
+        border-color: var(--primary-color);
+        color: var(--color-white);
+    }
+
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > div.upload-modal.captures-upload-modal.show
+        > div
+        > h1:nth-child(2) {
+        color: var(--gray-alternate);
+    }
+
+    .related-images .related-info {
+        padding-top: 3px;
+        padding-bottom: 33px;
+    }
+
+    .B9QQGIFrwoa05qnyZvI5 {
+        background-color: var(--primary-color) !important;
+        gap: 1px 0 !important;
+    }
+
+    .related-pages .related-pages-body ul > li > a .icon {
+        background-image: url("https://i.gyazo.com/03452dc72b4111fa1641b9fe7c53ef39.png") !important;
+        /* fill: white !important; */
+    }
+
+    #react-root
+        > div:nth-child(2)
+        > div
+        > div
+        > div
+        > div.image-infos
+        > div.related-info-box-component
+        > div,
+    .image-page .related-info:last-of-type {
+        padding-bottom: 1px;
+    }
+
+    .image-page hr {
+        border-top: 0 solid #ffffff26;
+    }
+
+    #react-root
+        > div:nth-child(2)
+        > div
+        > div
+        > div
+        > div.image-infos
+        > div.related-info-box-component
+        > div
+        > div.related-images-grid-view.related-info {
+        padding-top: 15px !important;
+        border-top: 5px solid var(--primary-color) !important;
+    }
+
+    .ocr-desc-buttons > div > button,
+    .ocr-desc-buttons > div > div > button,
+    .pjZHyYN8MthPpYWZDS0d,
+    .vtVH6utAExSlC9aN2qwE {
+        border: 1px dashed var(--primary-color) !important;
+        margin-right: 3px;
+    }
+
+    #headlessui-dialog-overlay-5,
+    #react-root
+        > div.header-block.explorer-header-block
+        > div.explorer-action-btn-toolbar
+        > div.explorer-action-btn-group
+        > a,
+    .W9K8hRc2gk7SniSQJYi1,
+    .kuJ39tkCjATBXUZiuSKB {
+        position: fixed;
+        background-color: #ffffff17 !important;
+        inset: 0;
+    }
+
+    #react-root
+        > div
+        > div
+        > div
+        > div.transform-page-header
+        > div
+        > div
+        > button:nth-child(n)
+        > span {
+        border-top: 1px solid var(--primary-color) !important;
+        border-bottom: 1px solid var(--primary-color) !important;
+        line-height: 30px !important;
+    }
+
+    .image-box-component .image-viewer {
+        background: #31313170 !important;
+
+        &:hover,
+        &:focus {
+            background: #31313100 !important;
+        }
+    }
+
+    .vknCRY3MsirgC3PJ9Zb8:hover,
+    .vknCRY3MsirgC3PJ9Zb8,
+    .JqijY3DG4HT1E5WfPcsL:hover,
+    .JqijY3DG4HT1E5WfPcsL,
+    .a5h6q3HOqElFBixS3dB_,
+    .vknCRY3MsirgC3PJ9Zb8:focus,
+    .vknCRY3MsirgC3PJ9Zb8,
+    .JqijY3DG4HT1E5WfPcsL:focus,
+    .JqijY3DG4HT1E5WfPcsL,
+    .a5h6q3HOqElFBixS3dB_ {
+        background: #00000000 !important;
+        opacity: 100% !important;
+        transition: opacity ease-in-out 0.2s !important;
+        @media screen and (prefers-reduced-motion: reduce) {
+            background: #00000000 !important;
+            opacity: 100% !important;
+            transition: none !important;
+        }
+    }
+
+    .faq-list ul > li > a .icon {
+        position: relative;
+        visibility: hidden;
+    }
+
+    .faq-list ul > li > a .icon::after {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        background-image: url("https://i.gyazo.com/4b32d726c89e4fd17dcf36871cc34b4f.png") !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        background-size: contain !important;
+        content: "" !important;
+        visibility: visible !important;
+    }
+
+    #feedback-good-button > img {
+        padding: 9px;
+        border-radius: 20px;
+        background-color: #00800069 !important;
+    }
+
+    #feedback-bad-button > img {
+        padding: 9px;
+        border-radius: 20px;
+        background-color: #80000069 !important;
+    }
 }
 
 @-moz-document regexp("^https://(www\\.)?gyazo\\.com/.*/draw.*")
 {
-	article,
-	aside,
-	div:not(
-		#react-root
-			> div:nth-child(n)
-			> div
-			> div
-			> main
-			> div
-			> div
-			> div
-			> div
-			> div:nth-child(2)
-			> section
-			> div:nth-child(n)
-			> a
-			> div,
-		.caBpUIyLTfNBwvxfTyDa,
-		div.k3nzGrC3hEubDzXyOg_r,
-		.stickers,
-		.colorset,
-		.btn-group.btn-group-xs > button:nth-child(n) > div,
-		.color-display,
-		[role*='tooltip'],
-		.stamp-select,
-		.HTsz6WzMsfIq0uJedGbz
-	),
-	footer,
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	header,
-	li,
-	main,
-	nav,
-	p,
-	section,
-	table,
-	td,
-	th,
-	ul {
-		background-color: #00000000 !important;
-		/* Example style */
-	}
+    article,
+    aside,
+    div:not(
+        #react-root
+            > div:nth-child(n)
+            > div
+            > div
+            > main
+            > div
+            > div
+            > div
+            > div
+            > div:nth-child(2)
+            > section
+            > div:nth-child(n)
+            > a
+            > div,
+        .caBpUIyLTfNBwvxfTyDa,
+        div.k3nzGrC3hEubDzXyOg_r,
+        .stickers,
+        .colorset,
+        .btn-group.btn-group-xs > button:nth-child(n) > div,
+        .color-display,
+        [role*="tooltip"],
+        .stamp-select,
+        .HTsz6WzMsfIq0uJedGbz
+    ),
+    footer,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    header,
+    li,
+    main,
+    nav,
+    p,
+    section,
+    table,
+    td,
+    th,
+    ul {
+        background-color: #00000000 !important;
+        /* Example style */
+    }
 
-	.image-page-renewal .draw-toolbar-operation-btn span {
-		border-top: solid 1px var(--primary-color);
-		border-bottom: solid 1px var(--primary-color);
-		line-height: 30px;
-	}
+    .image-page-renewal .draw-toolbar-operation-btn span {
+        border-top: solid 1px var(--primary-color);
+        border-bottom: solid 1px var(--primary-color);
+        line-height: 30px;
+    }
 
-	.image-page-renewal
-		.draw-toolbar-operation-btn:hover
-		span {
-		border-top: solid 1px var(--gray-light);
-		border-bottom: solid 1px var(--gray-light);
-		color: var(--color-white) !important;
-		line-height: 30px;
-	}
+    .image-page-renewal .draw-toolbar-operation-btn:hover span,
+    .image-page-renewal .draw-toolbar-operation-btn:focus span {
+        border-top: solid 1px var(--gray-light);
+        border-bottom: solid 1px var(--gray-light);
+        color: var(--color-white) !important;
+        line-height: 30px;
+    }
 
-	.explorer-action-btn-default {
-		--bg-color: var(--color-white);
-		--font-color: #4d4d4d;
-		--hover-bg-color: #f2f2f2;
-		--active-bg-color: #e6e6e6;
-		--border-color: var(--primary-color);
-		--hover-border-color: #d9d9d9;
-		--divider-color: var(--primary-color);
-	}
+    .explorer-action-btn-default {
+        --bg-color: var(--color-white);
+        --font-color: #4d4d4d;
+        --hover-bg-color: #f2f2f2;
+        --active-bg-color: #e6e6e6;
+        --border-color: var(--primary-color);
+        --hover-border-color: #d9d9d9;
+        --divider-color: var(--primary-color);
+    }
 
-	svg:not(:root),
-	.ndEttNyqROYLGO7Ug8wQ a > *:not(:last-child, span):hover,
-	.ndEttNyqROYLGO7Ug8wQ
-		button
-		> *:not(:last-child, span):hover {
-		fill: var(--primary-color) !important;
-	}
+    svg:not(:root),
+    .ndEttNyqROYLGO7Ug8wQ a > *:not(:last-child, span):hover,
+    .ndEttNyqROYLGO7Ug8wQ button > *:not(:last-child, span):hover,
+    svg:not(:root),
+    .ndEttNyqROYLGO7Ug8wQ a > *:not(:last-child, span):focus,
+    .ndEttNyqROYLGO7Ug8wQ button > *:not(:last-child, span):focus {
+        fill: var(--primary-color) !important;
+    }
 
-	*:hover > svg:not(:root) {
-		fill: var(--gray-alternate) !important;
-	}
+    *:hover > svg:not(:root),
+    *:focus > svg:not(:root) {
+        fill: var(--gray-alternate) !important;
+    }
 
-	[role*='tooltip'],
-	.HTsz6WzMsfIq0uJedGbz {
-		box-shadow: 0 0 5px 5px var(--primary-color);
-		border-radius: 8px;
-	}
+    [role*="tooltip"],
+    .HTsz6WzMsfIq0uJedGbz {
+        border-radius: 8px;
+        box-shadow: 0 0 5px 5px var(--primary-color);
+    }
 }

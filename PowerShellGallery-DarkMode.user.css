@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           powershellgallery.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.2
@@ -11,17 +11,17 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/PowerShellGallery-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("powershellgallery.com") {
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe,
-	.search-container {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe,
+    .search-container {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.navbar-inverse {
-		background-color: #0071c9c2;
-	}
+    .navbar-inverse {
+        background-color: #0071c9c2;
+    }
 }

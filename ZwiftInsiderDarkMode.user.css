@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           zwiftinsider.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.1.4
@@ -18,80 +18,78 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ZwiftInsiderDarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("zwiftinsider.com") {
-	:root {
-		--background-color: var(background-color);
-		--text-color: var(text-color);
-		--gradient-start: var(gradient-start);
-		--gradient-middle: var(gradient-middle);
-		--gradient-end: var(gradient-end);
-		--gradient-final: var(gradient-final);
-	}
+    :root {
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+        --gradient-start: var(gradient-start);
+        --gradient-middle: var(gradient-middle);
+        --gradient-end: var(gradient-end);
+        --gradient-final: var(gradient-final);
+    }
 
-	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		iframe,
-		img,
-		svg,
-		video,
-		.tdb_single_bg_featured_image,
-		body.td-animation-stack-type0
-			.post
-			img:not(.woocommerce-product-gallery img, .rs-pzimg),
-		body.td-animation-stack-type0
-			.td-animation-stack
-			.td-lazy-img,
-		.tdi_59,
-		.wp-block-toolset-blocks-container.tb-container,
-		#tdi_82,
-		.tdi_56,
-		.td-image-wrap,
-		.tdi_98,
-		.tdm-title,
-		.tds-title,
-		.tdi_23 .tdb-menu > li > a .tdb-sub-menu-icon,
-		.tdi_23 .td-subcat-more .tdb-menu-more-subicon,
-		.tdb_loop .td-load-more-wrap,
-		.tdb_loop .td-next-prev-wrap,
-		.tdb-featured-image-bg,
-		.ql-snow,
-		#wpdcom .wpd-form-row .wpd-field
-	) {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    /* Invert colors except images and videos */
+    :is(
+        html:not([stylus-iframe]),
+        iframe,
+        img,
+        svg,
+        video,
+        .tdb_single_bg_featured_image,
+        body.td-animation-stack-type0
+            .post
+            img:not(.woocommerce-product-gallery img, .rs-pzimg),
+        body.td-animation-stack-type0 .td-animation-stack .td-lazy-img,
+        .tdi_59,
+        .wp-block-toolset-blocks-container.tb-container,
+        #tdi_82,
+        .tdi_56,
+        .td-image-wrap,
+        .tdi_98,
+        .tdm-title,
+        .tds-title,
+        .tdi_23 .tdb-menu > li > a .tdb-sub-menu-icon,
+        .tdi_23 .td-subcat-more .tdb-menu-more-subicon,
+        .tdb_loop .td-load-more-wrap,
+        .tdb_loop .td-next-prev-wrap,
+        .tdb-featured-image-bg,
+        .ql-snow,
+        #wpdcom .wpd-form-row .wpd-field
+    ) {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.tdb_single_bg_featured_image::after {
-		background: linear-gradient(
-			180deg,
-			var(--gradient-start),
-			var(--gradient-middle) 0%,
-			var(--gradient-end) 100%,
-			var(--gradient-final)
-		);
-	}
+    .tdb_single_bg_featured_image::after {
+        background: linear-gradient(
+            180deg,
+            var(--gradient-start),
+            var(--gradient-middle) 0%,
+            var(--gradient-end) 100%,
+            var(--gradient-final)
+        );
+    }
 
-	body {
-		background: var(--background-color) !important;
-		color: var(--text-color) !important;
-	}
+    body {
+        background: var(--background-color) !important;
+        color: var(--text-color) !important;
+    }
 
-	.td_module_flex_1 .td-thumb-css,
-	.td_module_flex_3 .td-thumb-css,
-	.td_module_flex_4 .td-thumb-css,
-	.td_module_flex_5 .td-thumb-css,
-	.tdi_110 .td-image-wrap,
-	.td_block_template_1 {
-		filter: unset !important;
-	}
+    .td_module_flex_1 .td-thumb-css,
+    .td_module_flex_3 .td-thumb-css,
+    .td_module_flex_4 .td-thumb-css,
+    .td_module_flex_5 .td-thumb-css,
+    .tdi_110 .td-image-wrap,
+    .td_block_template_1 {
+        filter: unset !important;
+    }
 
-	.tdi_43 .tdb-title-text,
-	.tdi_59 .tdm-descr,
-	.tdb_header_menu .tdb-menu > li > a .tdb-menu-item-text,
-	.tdb_header_menu .tdb-menu > li > a span {
-		color: var(--text-color);
-	}
+    .tdi_43 .tdb-title-text,
+    .tdi_59 .tdm-descr,
+    .tdb_header_menu .tdb-menu > li > a .tdb-menu-item-text,
+    .tdb_header_menu .tdb-menu > li > a span {
+        color: var(--text-color);
+    }
 
-	.td-big-grid-flex .td-module-title a {
-		color: var(--text-color) !important;
-	}
+    .td-big-grid-flex .td-module-title a {
+        color: var(--text-color) !important;
+    }
 }

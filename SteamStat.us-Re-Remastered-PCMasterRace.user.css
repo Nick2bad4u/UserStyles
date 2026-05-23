@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         SteamStat.us - /r/pcmasterrace Theme
 @version      20241119.00.07
 @namespace    nick2bad4u.github.io
@@ -18,212 +18,341 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-PCMasterRace.user.css
 ==/UserStyle== */
 @-moz-document domain("steamstat.us") {
-	:root {
-		--color-1: var(color1);
-		--color-2: var(color2);
-		--color-3: var(color3);
-		--color-4: var(color4);
-		--color-5: var(color5);
-		--color-6: var(color6);
-	}
+    :root {
+        --color-1: var(color1);
+        --color-2: var(color2);
+        --color-3: var(color3);
+        --color-4: var(color4);
+        --color-5: var(color5);
+        --color-6: var(color6);
+    }
 
-	/* Main title styling with /r/pcmasterrace colors */
-	.title {
-		margin: 10px 0;
-		background: linear-gradient(
-			135deg,
-			var(--color-1) 30%,
-			var(--color-2) 70%
-		); /* var(--color-8) to Gold */
-		color: var(--color-2); /* Gold */
-		font-weight: 700;
-		font-size: 2.6em;
-		text-align: center;
-		text-shadow: 2px 2px 5px rgb(0 0 0 / 60%);
-		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: var(--color-3);
-		background-clip: text;
-		-webkit-text-fill-color: transparent;
-		display: flex;
-		position: relative;
-		justify-content: center;
-		align-items: center;
-		animation: title-animation 3s ease-in-out infinite
-			alternate;
-	}
-	/* Animation for the title */
-	@keyframes title-animation {
-		0% {
-			transform: scale(1);
-		}
-		100% {
-			transform: scale(1.08);
-		}
-	}
-	/* Logo addition with /r/pcmasterrace emblem */
-	.title::after {
-		display: inline-block;
-		transition: transform 0.3s ease;
-		margin-left: 10px;
-		background: url('https://i.gyazo.com/ad80b30c1872cee5a8f4da207d06917d.png')
-			no-repeat center; /* Replace with /r/pcmasterrace logo URL */
-		background-size: auto 100%;
-		width: 200px;
-		height: 60px;
-		content: '';
-	}
-	.title:hover::after {
-		transform: scale(1.5);
-	}
-	/* Link styling with hover effect */
-	a {
-		transition:
-			color 0.3s ease,
-			text-shadow 0.3s ease;
-		color: var(--color-2); /* Gold */
-		font-weight: 700;
-		text-decoration: none;
-		text-shadow: 1px 1px 2px rgb(0 0 0 / 40%);
-	}
-	a:hover {
-		color: var(--color-1); /* var(--color-8) */
-		text-decoration: underline;
-		text-shadow: 2px 2px 6px rgb(0 0 0 / 70%);
-	}
-	/* Status colors with /r/pcmasterrace theme */
-	.good {
-		transition: color 0.3s ease;
-		color: var(--color-1); /* var(--color-8) */
-		text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
-	}
-	.minor {
-		transition: color 0.3s ease;
-		color: var(--color-2); /* Gold */
-		font-weight: 700;
-		text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
-	}
-	.major {
-		transition: color 0.3s ease;
-		color: var(--color-4); /* Bright var(--color-6) */
-		font-weight: 700;
-		text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
-	}
-	/* Refresh button styling */
-	#js-refresh {
-		transition:
-			color 0.3s ease,
-			transform 0.3s ease;
-		color: var(--color-2); /* Gold */
-		font-weight: bolder;
-		text-shadow: 0 0 3px rgb(0 0 0 / 80%);
-	}
-	#js-refresh:hover {
-		transform: scale(1.1);
-		color: var(--color-1); /* var(--color-8) */
-	}
-	/* Container with /r/pcmasterrace-inspired accents */
-	.services,
-	#psa,
-	noscript,
-	footer {
-		position: relative;
-		transition:
-			box-shadow 0.3s ease,
-			background 0.3s ease;
-		box-shadow: 0 4px 12px rgb(0 0 0 / 80%);
-		border: 1px solid var(--color-2);
-		border-radius: 4px;
-		background: linear-gradient(
-			135deg,
-			rgb(255 215 0 / 80%) 30%,
-			rgb(255 255 255 / 80%) 70%
-		);
-		color: var(--color-3);
-		font-size: 1em;
-		line-height: 1.5;
-		text-shadow: 0 0 4px rgb(0 0 0 / 90%);
-	}
-	.services:hover,
-	#psa:hover,
-	noscript:hover,
-	footer:hover {
-		box-shadow: 0 6px 15px rgb(0 0 0 / 90%);
-		background: rgb(0 0 0 / 95%);
-		color: var(--color-1);
-	}
-	/* Body styling with /r/pcmasterrace backdrop */
-	body {
-		transition: background 0.3s ease;
-		margin: 0;
-		background: url('https://i.gyazo.com/144fb81227c6f8e81bc6b9eaada78fc2.jpg')
-			no-repeat center center fixed; /* Replace with /r/pcmasterrace background URL */
-		background-size: cover;
-		color: var(--color-2); /* Gold */
-		font-weight: 300;
-		font-size: 16px;
-		font-family:
-			'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		text-shadow: 2px 2px 4px rgb(0 0 0 / 70%);
-	}
-	/* Tooltip customization */
-	[data-tooltip]::before {
-		position: absolute;
-		top: 0;
-		left: 2%;
-		visibility: hidden;
-		opacity: 0%;
-		z-index: 1;
-		transition:
-			visibility 0s,
-			opacity 0.3s ease-in-out;
-		border-radius: 8px;
-		background: rgb(255 215 0 / 90%); /* Gold */
-		padding: 8px;
-		width: 96%;
-		content: attr(data-tooltip);
-		color: var(--color-3);
-		font-size: 0.9em;
-		text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
-	}
-	[data-tooltip]:hover::before {
-		visibility: visible;
-		opacity: 100%;
-	}
-	/* Advanced feature: Animated gold border */
-	.gradient-border {
-		position: relative;
-		box-shadow: 0 0 10px rgb(255 215 0 / 80%);
-		border-radius: 6px;
-		background-color: rgb(0 0 0 / 90%);
-		padding: 12px;
-		color: var(--color-1);
-		font-weight: 700;
-		text-align: center;
-	}
-	.gradient-border::before {
-		position: absolute;
-		z-index: -1;
-		animation: gradient-border 4s linear infinite;
-		inset: 0;
-		border-radius: 6px;
-		background: linear-gradient(
-			45deg,
-			var(--color-2),
-			var(--color-1),
-			var(--color-2)
-		); /* Gold to var(--color-8) */
-		background-size: 300% 300%;
-		content: '';
-	}
-	@keyframes gradient-border {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
-	}
+    /* Main title styling with /r/pcmasterrace colors */
+    .title {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+        animation: title-animation 3s ease-in-out infinite alternate;
+        background: linear-gradient(
+            135deg,
+            var(--color-1) 30%,
+            var(--color-2) 70%
+        ); /* var(--color-8) to Gold */
+        background-clip: text;
+        color: var(--color-2); /* Gold */
+        font-size: 2.5em;
+        font-weight: 700;
+        text-align: center;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 5px rgb(0 0 0 / 60%);
+        -webkit-text-stroke-color: var(--color-3);
+        -webkit-text-stroke-width: 1px;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            animation: none;
+            background: linear-gradient(
+                135deg,
+                var(--color-1) 30%,
+                var(--color-2) 70%
+            ); /* var(--color-8) to Gold */
+            background-clip: text;
+            color: var(--color-2); /* Gold */
+            font-size: 2.5em;
+            font-weight: 700;
+            text-align: center;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 5px rgb(0 0 0 / 60%);
+            -webkit-text-stroke-color: var(--color-3);
+            -webkit-text-stroke-width: 1px;
+        }
+    }
+    /* Animation for the title */
+    @keyframes title-animation {
+        0% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(1.08);
+        }
+    }
+    /* Logo addition with /r/pcmasterrace emblem */
+    .title::after {
+        display: inline-block;
+        width: 200px;
+        height: 60px;
+        margin-left: 10px;
+        background: url("https://i.gyazo.com/ad80b30c1872cee5a8f4da207d06917d.png")
+            no-repeat center; /* Replace with /r/pcmasterrace logo URL */
+        background-size: auto 100%;
+        content: "";
+        transition: transform 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            display: inline-block;
+            width: 200px;
+            height: 60px;
+            margin-left: 10px;
+            background: url("https://i.gyazo.com/ad80b30c1872cee5a8f4da207d06917d.png")
+                no-repeat center; /* Replace with /r/pcmasterrace logo URL */
+            background-size: auto 100%;
+            content: "";
+            transition: none;
+        }
+    }
+    .title:hover::after,
+    .title:focus::after {
+        transform: scale(1.5);
+    }
+    /* Link styling with hover effect */
+    a {
+        color: var(--color-2); /* Gold */
+        font-weight: 700;
+        text-decoration: none;
+        text-shadow: 1px 1px 2px rgb(0 0 0 / 40%);
+        transition:
+            color 0.3s ease,
+            text-shadow 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-2); /* Gold */
+            font-weight: 700;
+            text-decoration: none;
+            text-shadow: 1px 1px 2px rgb(0 0 0 / 40%);
+            transition: none;
+        }
+        &:hover,
+        &:focus {
+            color: var(--color-1); /* var(--color-8) */
+            text-decoration: underline;
+            text-shadow: 2px 2px 6px rgb(0 0 0 / 70%);
+        }
+    }
+    /* Status colors with /r/pcmasterrace theme */
+    .good {
+        color: var(--color-1); /* var(--color-8) */
+        text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+        transition: color 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-1); /* var(--color-8) */
+            text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+            transition: none;
+        }
+    }
+    .minor {
+        color: var(--color-2); /* Gold */
+        font-weight: 700;
+        text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+        transition: color 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-2); /* Gold */
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+            transition: none;
+        }
+    }
+    .major {
+        color: var(--color-4); /* Bright var(--color-6) */
+        font-weight: 700;
+        text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+        transition: color 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-4); /* Bright var(--color-6) */
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+            transition: none;
+        }
+    }
+    /* Refresh button styling */
+    #js-refresh {
+        color: var(--color-2); /* Gold */
+        font-weight: bolder;
+        text-shadow: 0 0 3px rgb(0 0 0 / 80%);
+        transition:
+            color 0.3s ease,
+            transform 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color-2); /* Gold */
+            font-weight: bolder;
+            text-shadow: 0 0 3px rgb(0 0 0 / 80%);
+            transition: none;
+        }
+        &:hover,
+        &:focus {
+            color: var(--color-1); /* var(--color-8) */
+            transform: scale(1.1);
+        }
+    }
+    /* Container with /r/pcmasterrace-inspired accents */
+    .services,
+    #psa,
+    noscript,
+    footer {
+        position: relative;
+        border: 1px solid var(--color-2);
+        border-radius: 4px;
+        background: linear-gradient(
+            135deg,
+            rgb(255 215 0 / 80%) 30%,
+            rgb(255 255 255 / 80%) 70%
+        );
+        box-shadow: 0 4px 12px rgb(0 0 0 / 80%);
+        color: var(--color-3);
+        font-size: 1em;
+        line-height: 1.5;
+        text-shadow: 0 0 4px rgb(0 0 0 / 90%);
+        transition:
+            box-shadow 0.3s ease,
+            background 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: relative;
+            border: 1px solid var(--color-2);
+            border-radius: 4px;
+            background: linear-gradient(
+                135deg,
+                rgb(255 215 0 / 80%) 30%,
+                rgb(255 255 255 / 80%) 70%
+            );
+            box-shadow: 0 4px 12px rgb(0 0 0 / 80%);
+            color: var(--color-3);
+            font-size: 1em;
+            line-height: 1.5;
+            text-shadow: 0 0 4px rgb(0 0 0 / 90%);
+            transition: none;
+        }
+    }
+    .services:hover,
+    #psa:hover,
+    noscript:hover,
+    footer:hover,
+    .services:focus,
+    #psa:focus,
+    noscript:focus,
+    footer:focus {
+        background: rgb(0 0 0 / 95%);
+        box-shadow: 0 6px 15px rgb(0 0 0 / 90%);
+        color: var(--color-1);
+    }
+    /* Body styling with /r/pcmasterrace backdrop */
+    body {
+        margin: 0;
+        background: url("https://i.gyazo.com/144fb81227c6f8e81bc6b9eaada78fc2.jpg")
+            no-repeat center center fixed; /* Replace with /r/pcmasterrace background URL */
+        background-size: cover;
+        color: var(--color-2); /* Gold */
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        text-shadow: 2px 2px 4px rgb(0 0 0 / 70%);
+        transition: background 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            margin: 0;
+            background: url("https://i.gyazo.com/144fb81227c6f8e81bc6b9eaada78fc2.jpg")
+                no-repeat center center fixed; /* Replace with /r/pcmasterrace background URL */
+            background-size: cover;
+            color: var(--color-2); /* Gold */
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgb(0 0 0 / 70%);
+            transition: none;
+        }
+    }
+    /* Tooltip customization */
+    [data-tooltip]::before {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 2%;
+        width: 96%;
+        padding: 8px;
+        border-radius: 8px;
+        background: rgb(255 215 0 / 90%); /* Gold */
+        color: var(--color-3);
+        content: attr(data-tooltip);
+        font-size: 0.875em;
+        opacity: 0%;
+        text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
+        transition:
+            visibility 0s,
+            opacity 0.3s ease-in-out;
+        visibility: hidden;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 2%;
+            width: 96%;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgb(255 215 0 / 90%); /* Gold */
+            color: var(--color-3);
+            content: attr(data-tooltip);
+            font-size: 0.875em;
+            opacity: 0%;
+            text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
+            transition: none;
+            visibility: hidden;
+        }
+    }
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus::before {
+        opacity: 100%;
+        visibility: visible;
+    }
+    /* Advanced feature: Animated gold border */
+    .gradient-border {
+        position: relative;
+        padding: 12px;
+        border-radius: 6px;
+        background-color: rgb(0 0 0 / 90%);
+        box-shadow: 0 0 10px rgb(255 215 0 / 80%);
+        color: var(--color-1);
+        font-weight: 700;
+        text-align: center;
+    }
+    .gradient-border::before {
+        position: absolute;
+        z-index: -1;
+        border-radius: 6px;
+        animation: gradient-border 4s linear infinite;
+        background: linear-gradient(
+            45deg,
+            var(--color-2),
+            var(--color-1),
+            var(--color-2)
+        ); /* Gold to var(--color-8) */
+        background-size: 300% 300%;
+        content: "";
+        inset: 0;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            z-index: -1;
+            border-radius: 6px;
+            animation: none;
+            background: linear-gradient(
+                45deg,
+                var(--color-2),
+                var(--color-1),
+                var(--color-2)
+            ); /* Gold to var(--color-8) */
+            background-size: 300% 300%;
+            content: "";
+            inset: 0;
+        }
+    }
+    @keyframes gradient-border {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 }

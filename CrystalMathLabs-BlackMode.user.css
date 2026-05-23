@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           crystalmathlabs.com - Black Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.5
@@ -37,61 +37,57 @@ Styles:
 	- Styles input fields and buttons with dark backgrounds and white text.
 */
 @-moz-document domain("crystalmathlabs.com") {
-	:root {
-		--background-black: var(background-black);
-		--background-dark: var(background-dark);
-		--color-green: var(color-green);
-		--background-banner: var(background-banner);
-		--color-white: var(color-white);
-		--color-pink: var(color-pink);
-	}
+    :root {
+        --background-black: var(background-black);
+        --background-dark: var(background-dark);
+        --color-green: var(color-green);
+        --background-banner: var(background-banner);
+        --color-white: var(color-white);
+        --color-pink: var(color-pink);
+    }
 
-	/* Invert colors except images and videos */
-	html,
-	body,
-	#wrap,
-	#contentwrap,
-	.news,
-	.menubar ul li ul.dropdown {
-		background: var(--background-black) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    body,
+    #wrap,
+    #contentwrap,
+    .news,
+    .menubar ul li ul.dropdown {
+        background: var(--background-black) !important;
+    }
 
-	.menubar,
-	.hint,
-	.xp-table > div:first-child,
-	#footer {
-		border-radius: 20px;
-		background: var(--background-dark) !important;
-		padding-right: 10px;
-		padding-left: 10px;
-	}
+    .menubar,
+    .hint,
+    .xp-table > div:first-child,
+    #footer {
+        padding-right: 10px;
+        padding-left: 10px;
+        border-radius: 20px;
+        background: var(--background-dark) !important;
+    }
 
-	#menu
-		> ul
-		> li:nth-child(n)
-		> ul
-		> li:nth-child(n)
-		> a:hover {
-		border-radius: 20px;
-		background: var(--background-dark) !important;
-		padding-left: 20px;
-		color: var(--color-green);
-	}
+    #menu > ul > li:nth-child(n) > ul > li:nth-child(n) > a:hover,
+    #menu > ul > li:nth-child(n) > ul > li:nth-child(n) > a:focus {
+        padding-left: 20px;
+        border-radius: 20px;
+        background: var(--background-dark) !important;
+        color: var(--color-green);
+    }
 
-	#global-banner {
-		background: var(--background-banner);
-		color: var(--color-white);
-	}
+    #global-banner {
+        background: var(--background-banner);
+        color: var(--color-white);
 
-	#global-banner a {
-		color: var(--color-pink);
-	}
+        & a {
+            color: var(--color-pink);
+        }
+    }
 
-	input:nth-child(1),
-	input:nth-child(2),
-	input[type='text' i],
-	#xp-calc-form button {
-		background: var(--background-black) !important;
-		color: var(--color-white);
-	}
+    input:nth-child(1),
+    input:nth-child(2),
+    input[type="text" i],
+    #xp-calc-form button {
+        background: var(--background-black) !important;
+        color: var(--color-white);
+    }
 }

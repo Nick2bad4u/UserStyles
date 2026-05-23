@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           asus.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.2
@@ -12,19 +12,19 @@
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Asus-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("asus.com") {
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe,
-	[dir] .Header__headerWrapper__4ipKk,
-	.Footer__footerContainer__4paCr,
-	.mobileMenu.Header__headerMenu__lncT7 {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe,
+    [dir] .Header__headerWrapper__4ipKk,
+    .Footer__footerContainer__4paCr,
+    .mobileMenu.Header__headerMenu__lncT7 {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.Header__header__iNAJ6 * {
-		fill: red !important;
-	}
+    .Header__header__iNAJ6 * {
+        fill: red !important;
+    }
 }

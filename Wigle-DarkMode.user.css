@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         Wigle.net Dark Mode
 @version      20240926.22.62
 @namespace    wigle.net
@@ -11,21 +11,21 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Wigle-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("wigle.net") {
-	:root {
-		filter: invert(1);
-		/*            background-color: black; */
-	}
-	img:not(
-		.mwe-math-fallback-image-display,
-		.mwe-math-fallback-image-inline,
-		img[alt='GPS'],
-		img[alt='Cell'],
-		img[alt='WiFi'],
-		img[alt='BT']
-	) {
-		filter: invert(1);
-	}
-	.mw-logo {
-		filter: invert(100%);
-	}
+    :root {
+        filter: invert(1);
+        /*            background-color: black; */
+    }
+    img:not(
+        .mwe-math-fallback-image-display,
+        .mwe-math-fallback-image-inline,
+        img[alt="GPS"],
+        img[alt="Cell"],
+        img[alt="WiFi"],
+        img[alt="BT"]
+    ) {
+        filter: invert(1);
+    }
+    .mw-logo {
+        filter: invert(100%);
+    }
 }

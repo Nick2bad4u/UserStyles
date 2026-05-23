@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         SteamStat.us - Re-remastered
 @version      20241115.16.2
 @namespace    nick2bad4u.github.io
@@ -31,119 +31,119 @@
 
 @-moz-document url("https://steamstat.us/")
 {
-	:root {
-		--title-color: var(title-color);
-		--link-color: var(link-color);
-		--good-color: var(good-color);
-		--minor-color: var(minor-color);
-		--major-color: var(major-color);
-		--refresh-color: var(refresh-color);
-		--border-color: var(border-color);
-		--background-color: var(background-color);
-		--body-color: var(body-color);
-		--tooltip-background: var(tooltip-background);
-		--tooltip-text: var(tooltip-text);
-		--title-shadow: var(title-shadow);
-		--link-shadow: var(link-shadow);
-		--good-shadow: var(good-shadow);
-		--minor-shadow: var(minor-shadow);
-		--major-shadow: var(major-shadow);
-		--refresh-shadow: var(refresh-shadow);
-	}
+    :root {
+        --title-color: var(title-color);
+        --link-color: var(link-color);
+        --good-color: var(good-color);
+        --minor-color: var(minor-color);
+        --major-color: var(major-color);
+        --refresh-color: var(refresh-color);
+        --border-color: var(border-color);
+        --background-color: var(background-color);
+        --body-color: var(body-color);
+        --tooltip-background: var(tooltip-background);
+        --tooltip-text: var(tooltip-text);
+        --title-shadow: var(title-shadow);
+        --link-shadow: var(link-shadow);
+        --good-shadow: var(good-shadow);
+        --minor-shadow: var(minor-shadow);
+        --major-shadow: var(major-shadow);
+        --refresh-shadow: var(refresh-shadow);
+    }
 
-	.title {
-		margin: 10px 0;
-		color: var(--title-color);
-		font-weight: 300;
-		font-size: 2.6em;
-		/* Steam Status Title */
-		text-align: center;
-		text-shadow: 2px 2px 8px var(--title-shadow);
-	}
+    .title {
+        margin: 10px 0;
+        color: var(--title-color);
+        font-size: 2.5em;
+        font-weight: 300;
+        /* Steam Status Title */
+        text-align: center;
+        text-shadow: 2px 2px 8px var(--title-shadow);
+    }
 
-	a {
-		color: var(--link-color);
-		font-weight: 700;
-		text-decoration: none;
-		text-shadow: 2px 2px 6px var(--link-shadow);
-	}
+    a {
+        color: var(--link-color);
+        font-weight: 700;
+        text-decoration: none;
+        text-shadow: 2px 2px 6px var(--link-shadow);
+    }
 
-	.pull-right,
-	.service .status {
-		float: right;
-		text-align: right;
-	}
+    .pull-right,
+    .service .status {
+        float: right;
+        text-align: right;
+    }
 
-	.good {
-		/* Soft Green */
-		color: var(--good-color);
-		text-shadow: 2px 2px 6px var(--good-shadow);
-	}
+    .good {
+        /* Soft Green */
+        color: var(--good-color);
+        text-shadow: 2px 2px 6px var(--good-shadow);
+    }
 
-	.minor {
-		/* Soft Teal */
-		color: var(--minor-color);
-		font-weight: 700;
-		text-shadow: 2px 2px 6px var(--minor-shadow);
-	}
+    .minor {
+        /* Soft Teal */
+        color: var(--minor-color);
+        font-weight: 700;
+        text-shadow: 2px 2px 6px var(--minor-shadow);
+    }
 
-	.major {
-		/* Soft Yellow */
-		color: var(--major-color);
-		font-weight: 700;
-		text-shadow: 2px 2px 6px var(--major-shadow);
-	}
+    .major {
+        /* Soft Yellow */
+        color: var(--major-color);
+        font-weight: 700;
+        text-shadow: 2px 2px 6px var(--major-shadow);
+    }
 
-	#js-refresh {
-		/* Refreshing in idk seconds */
-		color: var(--refresh-color);
-		font-weight: bolder;
-		text-shadow: 0 0 8px var(--refresh-shadow);
-	}
+    #js-refresh {
+        /* Refreshing in idk seconds */
+        color: var(--refresh-color);
+        font-weight: bolder;
+        text-shadow: 0 0 8px var(--refresh-shadow);
+    }
 
-	.services,
-	#psa,
-	noscript {
-		position: relative;
-		border: 1px solid var(--border-color);
-		border-radius: 6px;
-		background-color: var(--background-color);
-		font-size: 1em;
-		line-height: 1.5;
-		text-shadow: 0 0 6px #000;
-	}
+    .services,
+    #psa,
+    noscript {
+        position: relative;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background-color: var(--background-color);
+        font-size: 1em;
+        line-height: 1.5;
+        text-shadow: 0 0 6px #000000;
+    }
 
-	body {
-		margin: 0;
-		background: #000;
-		color: var(--body-color);
-		font-weight: lighter;
-		font-size: 16px;
-		font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-		text-shadow: 2px 2px 6px #000;
-	}
+    body {
+        margin: 0;
+        background: #000000;
+        color: var(--body-color);
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: lighter;
+        text-shadow: 2px 2px 6px #000000;
+    }
 
-	[data-tooltip]::before {
-		/* Time since last status change Box */
-		visibility: hidden;
-		opacity: 0%;
-		overflow: hidden;
-		content: attr(data-tooltip);
-		font-size: 0.9em;
-		white-space: pre;
-		overflow-wrap: break-word;
-		position: absolute;
-		top: 0;
-		left: 2%;
-		z-index: 1;
-		border-radius: 6px;
-		background: var(--tooltip-background);
-		padding: 8px;
-		width: 97%;
-		color: var(--tooltip-text);
-		font-style: italic;
-		font-weight: lighter;
-		text-align: left;
-		text-shadow: 1px 1px 10px #000;
-	}
+    [data-tooltip]::before {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 2%;
+        overflow: hidden;
+        width: 97%;
+        padding: 8px;
+        border-radius: 6px;
+        background: var(--tooltip-background);
+        color: var(--tooltip-text);
+        content: attr(data-tooltip);
+        font-size: 0.875em;
+        font-style: italic;
+        font-weight: lighter;
+        opacity: 0%;
+        overflow-wrap: break-word;
+        text-align: left;
+        text-shadow: 1px 1px 10px #000000;
+        /* Time since last status change Box */
+        visibility: hidden;
+        white-space: pre;
+    }
 }

@@ -10,158 +10,165 @@
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Ollama-Black.user.css
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Ollama-Black.user.css
 ==/UserStyle== */
-@-moz-document url-prefix("https://ollama.com/") {
+@-moz-document url-prefix("https://ollama.com/")
+{
+    body,
+    main,
+    nav,
+    header {
+        background-color: #000000;
+    }
 
-	body,
-	main,
-	nav,
-	header,
-	div {
-		background-color: #000;
-	}
+    div {
+        background-color: #000000;
+    }
+    h1,
+    h2,
+    p,
+    span {
+        color: #ffffff !important;
+    }
 
-	img.w-4.h-4,
-	img:not(#headerProfileImg, #profileImg) {
-		filter: invert(1);
-	}
+    a,
+    input,
+    select,
+    strong {
+        color: #ffffff !important;
+    }
 
-	h1,
-	h2,
-	p,
-	span,
-	a,
-	input,
-	select,
-	strong,
-	th,
-	td,
-	li,
-	button,
-	#popup {
-		color: #fff !important;
-	}
+    th,
+    td,
+    li,
+    button {
+        color: #ffffff !important;
+    }
 
-	h3,
-	#text-xs,
-	div.text-neutral-500 {
-		color: #aaa !important;
-	}
+    #popup {
+        color: #ffffff !important;
+    }
 
-	footer,
-	input#search,
-	select,
-	a {
-		background: #000 !important;
-	}
+    a,
+    input,
+    label,
+    textarea {
+        background: #000000 !important;
+        color: #ffffff !important;
+    }
 
-	button {
-		background: transparent !important;
-	}
+    label img {
+        background: transparent !important;
+    }
 
-	input[type='submit'] {
-		background: #fff !important;
-		color: #000 !important;
-	}
+    h3,
+    #text-xs,
+    div.text-neutral-500 {
+        color: #aaaaaa !important;
+    }
 
-	a[href='/download'] {
-		transition: 0.5s ease-in-out;
-		background-color: #222 !important;
-		color: #fff !important;
-	}
+    footer,
+    input#search,
+    select,
+    a {
+        background: #000000 !important;
+    }
 
-	a[href='/download']:hover {
-		background-color: #fff !important;
-		color: #000 !important;
-	}
+    button {
+        background: transparent !important;
+    }
 
-	span[x-test-capability],
-	span.bg-indigo-50 {
-		background-color: rgb(79 70 229);
-		color: rgb(238 242 255);
-	}
+    input[type="submit"] {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
 
-	span[x-test-size] {
-		background-color: rgb(37 99 235);
-		color: rgb(221 244 255);
-	}
+    a[href="/download"] {
+        background-color: #222222 !important;
+        color: #ffffff !important;
 
-	.bg-neutral-50 {
-		background-color: rgb(38 38 38);
-	}
+        &:hover,
+        &:focus {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+    }
 
-	.bg-slate-100 {
-		background-color: rgb(71 72 73);
-	}
+    span[x-test-capability],
+    span.bg-indigo-50 {
+        background-color: rgb(79 70 229);
+        color: rgb(238 242 255);
+    }
 
-	.peer:checked ~ .peer-checked\:bg-neutral-100 {
-		background: rgb(59 59 59) !important;
-	}
+    span[x-test-size] {
+        background-color: rgb(37 99 235);
+        color: rgb(221 244 255);
+    }
 
-	code,
-	pre {
-		background-color: #222 !important;
-		color: #fff !important;
-		font-family: monospace;
-	}
+    .bg-neutral-50 {
+        background-color: rgb(38 38 38);
+    }
 
-	li::marker {
-		color: #fff !important;
-	}
+    .bg-slate-100 {
+        background-color: rgb(71 72 73);
+    }
 
-	.mt-2 {
-		margin-top: 0;
-		padding-top: 0.5rem;
-		background-color: #000;
-	}
+    .peer:checked ~ .peer-checked\:bg-neutral-100 {
+        background: rgb(59 59 59) !important;
+    }
 
-	.text-neutral-900 {
-		color: #fff;
-	}
+    code,
+    pre {
+        background-color: #222222 !important;
+        color: #ffffff !important;
+        font-family: monospace;
+    }
 
-	div.px-4.py-3.bg-neutral-50.flex.justify-between.items-center.text-xs.text-neutral-900 {
-		background: #0a0a0a;
-	}
+    li::marker {
+        color: #ffffff !important;
+    }
 
-	.space-y-1 {
-		visibility: hidden;
-	}
+    .mt-2 {
+        background-color: #000000;
+        margin-block-start: 0;
+        padding-block-start: 0.5rem;
+    }
 
-	div.mt-2 {
-		border-radius: 0;
-	}
+    .text-neutral-900 {
+        color: #ffffff;
+    }
 
-	label,
-	textarea,
-	input {
-		background: #000 !important;
-		color: #fff !important;
-	}
+    div.px-4.py-3.bg-neutral-50.flex.justify-between.items-center.text-xs.text-neutral-900 {
+        background: #0a0a0a;
+    }
 
-	label img {
-		background: transparent !important;
-	}
+    .space-y-1 {
+        visibility: hidden;
+    }
 
-	div.my-2 {
-		background: #000 !important;
-	}
+    div.mt-2 {
+        border-radius: 0;
+    }
 
-	.text-cyan-500 {
-		background: #75038f !important;
-	}
+    div.my-2 {
+        background: #000000 !important;
+    }
 
-	div.py-2.px-4.space-y-2 {
-		background: transparent;
-	}
+    .text-cyan-500 {
+        background: #75038f !important;
+    }
 
-	div.font-medium.text-neutral-800.text-sm.truncate {
-		color: #fff;
-	}
+    div.py-2.px-4.space-y-2 {
+        background: transparent;
+    }
 
-	a.group.text-neutral-700.flex.px-4.py-2.text-sm.items-center.space-x-2.justify-between.w-full.bg-neutral-100 {
-		background-color: #eee1 !important;
-	}
+    div.font-medium.text-neutral-800.text-sm.truncate {
+        color: #ffffff;
+    }
 
-	a.group.text-neutral-700.flex.px-4.py-2.text-sm.items-center.space-x-2.justify-between.w-full.bg-neutral-100 div {
-		background-color: transparent;
-	}
+    a.group.text-neutral-700.flex.px-4.py-2.text-sm.items-center.space-x-2.justify-between.w-full.bg-neutral-100 {
+        background-color: #eeeeee11 !important;
+
+        & div {
+            background-color: transparent;
+        }
+    }
 }

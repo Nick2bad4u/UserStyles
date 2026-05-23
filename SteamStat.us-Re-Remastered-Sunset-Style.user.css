@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         SteamStat.us - Sunset Theme
 @version      20241115.16.06
 @namespace    nick2bad4u.github.io
@@ -36,190 +36,207 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-Sunset-Style.user.css
 ==/UserStyle== */
 @-moz-document domain("steamstat.us") {
-	:root {
-		--gradient-color-1: var(gradient-color-1);
-		--gradient-color-2: var(gradient-color-2);
-		--gradient-color-3: var(gradient-color-3);
-		--title-text-color: var(title-text-color);
-		--link-color: var(link-color);
-		--link-hover-color: var(link-hover-color);
-		--good-status-color: var(good-status-color);
-		--minor-status-color: var(minor-status-color);
-		--major-status-color: var(major-status-color);
-		--refresh-indicator-color: var(refresh-indicator-color);
-		--services-background-gradient-color-1: var(
-			services-background-gradient-color-1
-		);
-		--services-background-gradient-color-2: var(
-			services-background-gradient-color-2
-		);
-		--body-background-gradient-color-1: var(
-			body-background-gradient-color-1
-		);
-		--body-background-gradient-color-2: var(
-			body-background-gradient-color-2
-		);
-		--tooltip-background-gradient-color-1: var(
-			tooltip-background-gradient-color-1
-		);
-		--tooltip-background-gradient-color-2: var(
-			tooltip-background-gradient-color-2
-		);
-		--text-shadow-color: var(text-shadow-color);
-		--vibrant-link-shadow-color: var(
-			vibrant-link-shadow-color
-		);
-		--good-status-shadow-color: var(
-			good-status-shadow-color
-		);
-		--minor-status-shadow-color: var(
-			minor-status-shadow-color
-		);
-		--major-status-shadow-color: var(
-			major-status-shadow-color
-		);
-		--refresh-indicator-shadow-color: var(
-			refresh-indicator-shadow-color
-		);
-		--box-shadow-color: var(box-shadow-color);
-		--text-shadow-color-2: var(text-shadow-color-2);
-	}
+    :root {
+        --gradient-color-1: var(gradient-color-1);
+        --gradient-color-2: var(gradient-color-2);
+        --gradient-color-3: var(gradient-color-3);
+        --title-text-color: var(title-text-color);
+        --link-color: var(link-color);
+        --link-hover-color: var(link-hover-color);
+        --good-status-color: var(good-status-color);
+        --minor-status-color: var(minor-status-color);
+        --major-status-color: var(major-status-color);
+        --refresh-indicator-color: var(refresh-indicator-color);
+        --services-background-gradient-color-1: var(
+            services-background-gradient-color-1
+        );
+        --services-background-gradient-color-2: var(
+            services-background-gradient-color-2
+        );
+        --body-background-gradient-color-1: var(
+            body-background-gradient-color-1
+        );
+        --body-background-gradient-color-2: var(
+            body-background-gradient-color-2
+        );
+        --tooltip-background-gradient-color-1: var(
+            tooltip-background-gradient-color-1
+        );
+        --tooltip-background-gradient-color-2: var(
+            tooltip-background-gradient-color-2
+        );
+        --text-shadow-color: var(text-shadow-color);
+        --vibrant-link-shadow-color: var(vibrant-link-shadow-color);
+        --good-status-shadow-color: var(good-status-shadow-color);
+        --minor-status-shadow-color: var(minor-status-shadow-color);
+        --major-status-shadow-color: var(major-status-shadow-color);
+        --refresh-indicator-shadow-color: var(refresh-indicator-shadow-color);
+        --box-shadow-color: var(box-shadow-color);
+        --text-shadow-color-2: var(text-shadow-color-2);
+    }
 
-	.title {
-		margin: 10px 0;
-		background: linear-gradient(
-			145deg,
-			var(--gradient-color-1),
-			var(--gradient-color-2),
-			var(--gradient-color-3)
-		);
-		background-clip: text;
-		color: var(--title-text-color);
-		font-weight: 300;
-		font-size: 2.6em;
-		/* Bright Gradient Title */
-		text-align: center;
-		text-shadow: 2px 2px 8px var(--text-shadow-color);
-		-webkit-text-fill-color: transparent;
-	}
+    .title {
+        margin: 10px 0;
+        background: linear-gradient(
+            145deg,
+            var(--gradient-color-1),
+            var(--gradient-color-2),
+            var(--gradient-color-3)
+        );
+        background-clip: text;
+        color: var(--title-text-color);
+        font-size: 2.5em;
+        font-weight: 300;
+        /* Bright Gradient Title */
+        text-align: center;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 8px var(--text-shadow-color);
+    }
 
-	a {
-		/* Vibrant Links */
-		color: var(--link-color);
-		font-weight: 700;
-		text-decoration: none;
-		text-shadow: 1px 1px 4px
-			var(--vibrant-link-shadow-color);
-	}
+    a {
+        /* Vibrant Links */
+        color: var(--link-color);
+        font-weight: 700;
+        text-decoration: none;
+        text-shadow: 1px 1px 4px var(--vibrant-link-shadow-color);
 
-	a:hover {
-		color: var(--link-hover-color);
-		text-decoration: underline;
-	}
+        &:hover,
+        &:focus {
+            color: var(--link-hover-color);
+            text-decoration: underline;
+        }
+    }
 
-	.pull-right,
-	.service .status {
-		float: right;
-		text-align: right;
-	}
+    .pull-right,
+    .service .status {
+        float: right;
+        text-align: right;
+    }
 
-	.good {
-		/* Bright Lime Green */
-		color: var(--good-status-color);
-		text-shadow: 1px 1px 5px var(--good-status-shadow-color);
-	}
+    .good {
+        /* Bright Lime Green */
+        color: var(--good-status-color);
+        text-shadow: 1px 1px 5px var(--good-status-shadow-color);
+    }
 
-	.minor {
-		/* Electric Purple */
-		color: var(--minor-status-color);
-		font-weight: 700;
-		text-shadow: 1px 1px 5px
-			var(--minor-status-shadow-color);
-	}
+    .minor {
+        /* Electric Purple */
+        color: var(--minor-status-color);
+        font-weight: 700;
+        text-shadow: 1px 1px 5px var(--minor-status-shadow-color);
+    }
 
-	.major {
-		/* Bright Gold */
-		color: var(--major-status-color);
-		font-weight: 700;
-		text-shadow: 1px 1px 5px
-			var(--major-status-shadow-color);
-	}
+    .major {
+        /* Bright Gold */
+        color: var(--major-status-color);
+        font-weight: 700;
+        text-shadow: 1px 1px 5px var(--major-status-shadow-color);
+    }
 
-	#js-refresh {
-		/* Refresh Indicator */
-		color: var(--refresh-indicator-color);
-		font-weight: bolder;
-		text-shadow: 0 0 8px
-			var(--refresh-indicator-shadow-color);
-	}
+    #js-refresh {
+        /* Refresh Indicator */
+        color: var(--refresh-indicator-color);
+        font-weight: bolder;
+        text-shadow: 0 0 8px var(--refresh-indicator-shadow-color);
+    }
 
-	.services,
-	#psa,
-	noscript {
-		position: relative;
-		box-shadow: 0 4px 12px var(--box-shadow-color);
-		border: 2px solid var(--gradient-color-3);
-		border-radius: 6px;
-		background: linear-gradient(
-			145deg,
-			var(--services-background-gradient-color-1),
-			var(--services-background-gradient-color-2)
-		);
-		color: #ffffff;
-		font-size: 1em;
-		line-height: 1.5;
-		text-shadow: 0 0 6px var(--text-shadow-color-2);
-	}
+    .services,
+    #psa,
+    noscript {
+        position: relative;
+        border: 2px solid var(--gradient-color-3);
+        border-radius: 6px;
+        background: linear-gradient(
+            145deg,
+            var(--services-background-gradient-color-1),
+            var(--services-background-gradient-color-2)
+        );
+        box-shadow: 0 4px 12px var(--box-shadow-color);
+        color: #ffffff;
+        font-size: 1em;
+        line-height: 1.5;
+        text-shadow: 0 0 6px var(--text-shadow-color-2);
+    }
 
-	body {
-		margin: 0;
-		background: linear-gradient(
-			145deg,
-			var(--body-background-gradient-color-1),
-			var(--body-background-gradient-color-2),
-			var(--gradient-color-3)
-		);
-		color: #ffffff;
-		font-weight: 300;
-		font-size: 16px;
-		font-family: Roboto, Arial, sans-serif;
-		text-shadow: 1px 1px 4px var(--text-shadow-color-2);
-	}
+    body {
+        margin: 0;
+        background: linear-gradient(
+            145deg,
+            var(--body-background-gradient-color-1),
+            var(--body-background-gradient-color-2),
+            var(--gradient-color-3)
+        );
+        color: #ffffff;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        text-shadow: 1px 1px 4px var(--text-shadow-color-2);
+    }
 
-	[data-tooltip]::before {
-		/* Tooltip Box */
-		visibility: hidden;
-		opacity: 0%;
-		overflow: hidden;
-		content: attr(data-tooltip);
-		font-size: 0.9em;
-		white-space: pre;
-		overflow-wrap: break-word;
-		position: absolute;
-		top: 0;
-		left: 2%;
-		z-index: 1;
-		transition:
-			visibility 0s,
-			opacity 0.3s ease-in-out;
-		border-radius: 6px;
-		background: linear-gradient(
-			145deg,
-			var(--tooltip-background-gradient-color-1),
-			var(--tooltip-background-gradient-color-2),
-			var(--gradient-color-2)
-		);
-		padding: 8px;
-		width: 96%;
-		color: #ffffff;
-		font-style: italic;
-		font-weight: 300;
-		text-align: left;
-		text-shadow: 1px 1px 5px var(--text-shadow-color-2);
-	}
+    [data-tooltip]::before {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 2%;
+        overflow: hidden;
+        width: 96%;
+        padding: 8px;
+        border-radius: 6px;
+        background: linear-gradient(
+            145deg,
+            var(--tooltip-background-gradient-color-1),
+            var(--tooltip-background-gradient-color-2),
+            var(--gradient-color-2)
+        );
+        color: #ffffff;
+        content: attr(data-tooltip);
+        font-size: 0.875em;
+        font-style: italic;
+        font-weight: 300;
+        opacity: 0%;
+        overflow-wrap: break-word;
+        text-align: left;
+        text-shadow: 1px 1px 5px var(--text-shadow-color-2);
+        transition:
+            visibility 0s,
+            opacity 0.3s ease-in-out;
+        /* Tooltip Box */
+        visibility: hidden;
+        white-space: pre;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 2%;
+            overflow: hidden;
+            width: 96%;
+            padding: 8px;
+            border-radius: 6px;
+            background: linear-gradient(
+                145deg,
+                var(--tooltip-background-gradient-color-1),
+                var(--tooltip-background-gradient-color-2),
+                var(--gradient-color-2)
+            );
+            color: #ffffff;
+            content: attr(data-tooltip);
+            font-size: 0.875em;
+            font-style: italic;
+            font-weight: 300;
+            opacity: 0%;
+            overflow-wrap: break-word;
+            text-align: left;
+            text-shadow: 1px 1px 5px var(--text-shadow-color-2);
+            transition: none;
+            /* Tooltip Box */
+            visibility: hidden;
+            white-space: pre;
+        }
+    }
 
-	[data-tooltip]:hover::before {
-		visibility: visible;
-		opacity: 100%;
-	}
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus::before {
+        opacity: 100%;
+        visibility: visible;
+    }
 }

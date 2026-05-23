@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           squadrats.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.3
@@ -15,43 +15,41 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SquadRats-Dark.user.css
 ==/UserStyle== */
 @-moz-document domain("squadrats.com") {
-	:root {
-		--background-color: var(background-color);
-		--text-color: var(text-color);
-		--input-background-color: var(input-background-color);
-	}
+    :root {
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+        --input-background-color: var(input-background-color);
+    }
 
-	/* Invert colors except images and videos */
-	*:not(
-		#classification #neighbours,
-		img,
-		svg,
-		.change-email,
-		select,
-		input,
-		.provider-icons
-	) {
-		background: var(--background-color) !important;
-		color: var(--text-color) !important;
-	}
+    /* Invert colors except images and videos */
+    *:not(
+        #classification #neighbours,
+        img,
+        svg,
+        .change-email,
+        select,
+        input,
+        .provider-icons
+    ) {
+        background: var(--background-color) !important;
+        color: var(--text-color) !important;
+    }
 
-	.mapboxgl-canvas.maplibregl-canvas,
-	.leader-map,
-	.activity-image {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    .mapboxgl-canvas.maplibregl-canvas,
+    .leader-map,
+    .activity-image {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	select,
-	input {
-		background-position:
-			right 0.7em top 50%,
-			0 0 !important;
-		background-size:
-			0.65em auto,
-			100% !important;
-		background-repeat: no-repeat, repeat !important;
-		background-color: var(
-			--input-background-color
-		) !important;
-	}
+    select,
+    input {
+        background-color: var(--input-background-color) !important;
+        background-position:
+            right 0.7em top 50%,
+            0 0 !important;
+        background-repeat: no-repeat, repeat !important;
+        background-size:
+            0.65em auto,
+            100% !important;
+    }
 }

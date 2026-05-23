@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         klimat.app - Dark Mode
 @version      2.3
 @namespace    klimat.app
@@ -19,87 +19,92 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Klimat.app-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("klimat.app") {
-	/* Use the variables for colors */
-	:root {
-		--backgroundColor: var(backgroundColor);
-		--textColor: var(textColor);
-		--headerFooterColor: var(headerFooterColor);
-		--linkColor: var(linkColor);
-		--linkHoverColor: var(linkHoverColor);
-		--buttonColor: var(buttonColor);
-		--buttonHoverColor: var(buttonHoverColor);
-	}
+    /* Use the variables for colors */
+    :root {
+        --backgroundColor: var(backgroundColor);
+        --textColor: var(textColor);
+        --headerFooterColor: var(headerFooterColor);
+        --linkColor: var(linkColor);
+        --linkHoverColor: var(linkHoverColor);
+        --buttonColor: var(buttonColor);
+        --buttonHoverColor: var(buttonHoverColor);
+    }
 
-	body {
-		background-color: var(--backgroundColor);
-		color: var(--textColor);
-	}
+    body {
+        background-color: var(--backgroundColor);
+        color: var(--textColor);
+    }
 
-	header,
-	footer,
-	.sidebar,
-	.content {
-		background-color: var(--headerFooterColor);
-		color: var(--textColor);
-	}
+    header,
+    footer,
+    .sidebar,
+    .content {
+        background-color: var(--headerFooterColor);
+        color: var(--textColor);
+    }
 
-	a,
-	.mbn {
-		color: var(--linkColor);
-	}
+    a,
+    .mbn {
+        color: var(--linkColor);
+    }
 
-	a:hover {
-		color: var(--linkHoverColor);
-	}
+    a:hover,
+    a:focus {
+        color: var(--linkHoverColor);
+    }
 
-	table {
-		background-color: var(--headerFooterColor);
-		color: var(--textColor);
-	}
+    table {
+        background-color: var(--headerFooterColor);
+        color: var(--textColor);
 
-	table th,
-	table td {
-		border: 1px solid #333;
-	}
+        & th,
+        & td {
+            border: 1px solid #333333;
+        }
+    }
 
-	button,
-	input,
-	select,
-	textarea {
-		border: 1px solid #444;
-		background-color: var(--buttonColor);
-		color: var(--textColor);
-	}
+    button,
+    input,
+    select,
+    textarea {
+        border: 1px solid #444444;
+        background-color: var(--buttonColor);
+        color: var(--textColor);
+    }
 
-	button:hover,
-	input:hover,
-	select:hover,
-	textarea:hover {
-		border-radius: 5px;
-		background-color: var(--buttonHoverColor);
-	}
+    button:hover,
+    input:hover,
+    select:hover,
+    textarea:hover,
+    button:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-radius: 5px;
+        background-color: var(--buttonHoverColor);
+    }
 
-	::selection {
-		background-color: var(--buttonHoverColor);
-		color: var(--backgroundColor);
-	}
+    ::selection {
+        background-color: var(--buttonHoverColor);
+        color: var(--backgroundColor);
+    }
 
-	span {
-		color: var(--linkColor);
-	}
+    span {
+        color: var(--linkColor);
+    }
 
-	.information__left__blk {
-		border-color: var(--linkColor);
-	}
+    .information__left__blk {
+        border-color: var(--linkColor);
+    }
 
-	#content_wrapper,
-	.form-actions,
-	#fieldDetails > tbody {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    #content_wrapper,
+    .form-actions,
+    #fieldDetails > tbody {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.modal-backdrop.fade {
-		display: none;
-		opacity: 0%;
-	}
+    .modal-backdrop.fade {
+        display: none;
+        opacity: 0%;
+    }
 }

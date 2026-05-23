@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           statshunters.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.3
@@ -14,28 +14,28 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Statshunters-Dark.user.css
 ==/UserStyle== */
 @-moz-document domain("statshunters.com") {
-	:root {
-		--background-color: var(background-color);
-		--text-color: var(text-color);
-	}
+    :root {
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+    }
 
-	/* Invert colors except images and videos */
-	:is(.leaflet-container.leaflet-touch-drag) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(.leaflet-container.leaflet-touch-drag) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.ui-button--type-primary.ui-button--color-default {
-		background: var(--background-color);
-		color: var(--text-color);
-	}
-	.ui-menu-option:not(.is-divider),
-	.ui-menu-option__icon {
-		overflow: auto;
-		font-size: small;
-	}
+    .ui-button--type-primary.ui-button--color-default {
+        background: var(--background-color);
+        color: var(--text-color);
+    }
+    .ui-menu-option:not(.is-divider),
+    .ui-menu-option__icon {
+        overflow: auto;
+        font-size: small;
+    }
 
-	.ui-menu-option__icon,
-	.ui-icon {
-		display: none;
-	}
+    .ui-menu-option__icon,
+    .ui-icon {
+        display: none;
+    }
 }

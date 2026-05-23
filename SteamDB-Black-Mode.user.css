@@ -15,481 +15,491 @@
 @var color light-gray "Light Gray" #e0e0e0
 ==/UserStyle== */
 @-moz-document domain("steamdb.info") {
-	:root {
-		--primary-color: var(primary-color);
-		--black: var(black);
-		--light-gray: var(light-gray);
-	}
-	/* Dark Mode for SteamDB Free Packages */
-	body,
-	.container,
-	#js-hover {
-		/* Box model stuff */
-		background-color: var(--black) !important;
-		/* Typography stuff */
-		color: var(--light-gray) !important;
-	}
+    :root {
+        --primary-color: var(primary-color);
+        --black: var(black);
+        --light-gray: var(light-gray);
+    }
+    /* Dark Mode for SteamDB Free Packages */
+    body,
+    .container,
+    #js-hover {
+        /* Box model stuff */
+        background-color: var(--black) !important;
+        /* Typography stuff */
+        color: var(--light-gray) !important;
+    }
 
-	.container-hello.container,
-	#main
-		> div.container.container-products
-		> div:nth-child(1)
-		> div:nth-child(n),
-	#main
-		> div.container.container-products
-		> div:nth-child(2)
-		> div:nth-child(n),
-	#events,
-	#news-popups,
-	#main > div:nth-child(8),
-	.container-stats,
-	#freepackages {
-		border-width: 3px;
-		border-style: dashed;
-		border-color: var(--primary-color);
-		border-radius: 20px;
-	}
+    .container-hello.container,
+    #main
+        > div.container.container-products
+        > div:nth-child(1)
+        > div:nth-child(n),
+    #main
+        > div.container.container-products
+        > div:nth-child(2)
+        > div:nth-child(n),
+    #events,
+    #news-popups,
+    #main > div:nth-child(8),
+    .container-stats,
+    #freepackages {
+        border-width: 3px;
+        border-style: dashed;
+        border-color: var(--primary-color);
+        border-radius: 20px;
+    }
 
-	.muted,
-	.muted > a {
-		margin-bottom: 0;
-		border: 1px solid #00406b;
-		border-radius: 6px;
-		padding: 8px;
-	}
+    .muted,
+    .muted > a {
+        padding: 8px;
+        border: 1px solid #00406b;
+        border-radius: 6px;
+        margin-bottom: 0;
+    }
 
-	#main > div.container.container-products {
-		border-radius: 20px !important;
-	}
+    #main > div.container.container-products {
+        border-radius: 20px !important;
+    }
 
-	#main > div > div.header-wrapper > div,
-	#main > div > div.container {
-		border-radius: 10px;
-	}
+    #main > div > div.header-wrapper > div,
+    #main > div > div.container {
+        border-radius: 10px;
+    }
 
-	.navbar,
-	.footer,
-	.navbar-inverse {
-		background-color: var(--black) !important;
-		color: var(--light-gray) !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    .navbar,
+    .footer,
+    .navbar-inverse {
+        background-color: var(--black) !important;
+        color: var(--light-gray) !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	.table,
-	.dropdown-menu,
-	.modal-content,
-	.card,
-	.panel {
-		background-color: var(--black) !important;
-		color: var(--light-gray) !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    .table,
+    .dropdown-menu,
+    .modal-content,
+    .card,
+    .panel {
+        background-color: var(--black) !important;
+        color: var(--light-gray) !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	.table th,
-	.table td,
-	.dropdown-item,
-	.modal-header,
-	.modal-body,
-	.modal-footer,
-	.card-header,
-	.card-body,
-	.panel-heading,
-	.panel-body {
-		border-color: #333333 !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    .table th,
+    .table td,
+    .dropdown-item,
+    .modal-header,
+    .modal-body,
+    .modal-footer,
+    .card-header,
+    .card-body,
+    .panel-heading,
+    .panel-body {
+        border-color: #333333 !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	a,
-	span > ins,
-	#main
-		> div
-		> div.header-wrapper
-		> div
-		> div.row.app-row
-		> div.span8
-		> table
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(1)
-		> span
-		> svg,
-	.octicon-steamdeck_playable > path,
-	.row-app-charts
-		> div:nth-child(n)
-		> ul
-		> li:nth-child(odd),
-	#chart-month-table > thead > tr > th,
-	#chart-month-table
-		> tbody
-		> tr:nth-child(even)
-		> td:nth-child(n),
-	#js-header-hamburger {
-		color: var(--primary-color) !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    a,
+    span > ins,
+    #main
+        > div
+        > div.header-wrapper
+        > div
+        > div.row.app-row
+        > div.span8
+        > table
+        > tbody
+        > tr:nth-child(n)
+        > td:nth-child(1)
+        > span
+        > svg,
+    .octicon-steamdeck_playable > path,
+    .row-app-charts > div:nth-child(n) > ul > li:nth-child(odd),
+    #chart-month-table > thead > tr > th,
+    #chart-month-table > tbody > tr:nth-child(even) > td:nth-child(n),
+    #js-header-hamburger {
+        color: var(--primary-color) !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	#charts
-		> div.row.row-app-charts
-		> div:nth-child(n)
-		> ul
-		> li:nth-child(even) {
-		color: #eb92e5 !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    #charts
+        > div.row.row-app-charts
+        > div:nth-child(n)
+        > ul
+        > li:nth-child(even) {
+        color: #eb92e5 !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	a:hover,
-	span > ins:hover,
-	.span8
-		> table
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(1)
-		> span
-		> svg:hover,
-	.octicon-steamdeck_playable > path:hover,
-	.row-app-charts
-		> div:nth-child(n)
-		> ul
-		> li:nth-child(odd):hover,
-	.row-app-charts
-		> div:nth-child(n)
-		> ul
-		> li:nth-child(even):hover,
-	.row-app-charts
-		> div:nth-child(n)
-		> ul
-		> li:nth-child(odd),
-	#chart-month-table > thead > tr > th:hover {
-		color: #8251f2 !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    a:hover,
+    span > ins:hover,
+    .span8
+        > table
+        > tbody
+        > tr:nth-child(n)
+        > td:nth-child(1)
+        > span
+        > svg:hover,
+    .octicon-steamdeck_playable > path:hover,
+    .row-app-charts > div:nth-child(n) > ul > li:nth-child(odd):hover,
+    .row-app-charts > div:nth-child(n) > ul > li:nth-child(even):hover,
+    .row-app-charts > div:nth-child(n) > ul > li:nth-child(odd),
+    #chart-month-table > thead > tr > th:hover,
+    a:focus,
+    span > ins:focus,
+    .span8
+        > table
+        > tbody
+        > tr:nth-child(n)
+        > td:nth-child(1)
+        > span
+        > svg:focus,
+    .octicon-steamdeck_playable > path:focus,
+    .row-app-charts > div:nth-child(n) > ul > li:nth-child(odd):focus,
+    .row-app-charts > div:nth-child(n) > ul > li:nth-child(even):focus,
+    .row-app-charts > div:nth-child(n) > ul > li:nth-child(odd),
+    #chart-month-table > thead > tr > th:focus {
+        color: #8251f2 !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	.text-center.tabular-nums.green,
-	.text-center.green,
-	.table-responsive
-		> table
-		> tbody
-		> tr:nth-child(odd)
-		> td:nth-child(n) {
-		color: #08c9b9 !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    .text-center.tabular-nums.green,
+    .text-center.green,
+    .table-responsive > table > tbody > tr:nth-child(odd) > td:nth-child(n) {
+        color: #08c9b9 !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	.text-center.tabular-nums.green:hover,
-	.text-center.green:hover,
-	.text-center.green,
-	.table-responsive
-		> table
-		> tbody
-		> tr:nth-child(odd)
-		> td:nth-child(n):hover,
-	.table-responsive
-		> table
-		> tbody
-		> tr:nth-child(even)
-		> td:nth-child(n):hover {
-		color: #f29fee !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    .text-center.tabular-nums.green:hover,
+    .text-center.green:hover,
+    .text-center.green,
+    .table-responsive
+        > table
+        > tbody
+        > tr:nth-child(odd)
+        > td:nth-child(n):hover,
+    .table-responsive
+        > table
+        > tbody
+        > tr:nth-child(even)
+        > td:nth-child(n):hover,
+    .text-center.tabular-nums.green:focus,
+    .text-center.green:focus,
+    .text-center.green,
+    .table-responsive
+        > table
+        > tbody
+        > tr:nth-child(odd)
+        > td:nth-child(n):focus,
+    .table-responsive
+        > table
+        > tbody
+        > tr:nth-child(even)
+        > td:nth-child(n):focus {
+        color: #f29fee !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	.table-responsive
-		> table
-		> tbody
-		> tr:nth-child(even)
-		> td:nth-child(n) {
-		color: #58a5dc !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    .table-responsive > table > tbody > tr:nth-child(even) > td:nth-child(n) {
+        color: #58a5dc !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	h2,
-	.navigation-heading,
-	.container-products
-		> div:nth-child(n)
-		> div:nth-child(n)
-		> table
-		> thead
-		> tr
-		> .text-center {
-		color: #5ed443 !important;
-		text-decoration: underline;
-		text-decoration-style: solid;
-		text-decoration-color: #3bd8264a;
-		text-shadow: 1px 1px var(--black);
-	}
+    h2,
+    .navigation-heading,
+    .container-products
+        > div:nth-child(n)
+        > div:nth-child(n)
+        > table
+        > thead
+        > tr
+        > .text-center {
+        color: #5ed443 !important;
+        text-decoration: underline;
+        text-decoration-color: #3bd8264a;
+        text-decoration-style: solid;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	h2:hover,
-	li.navigation-heading:hover,
-	#main
-		> div.container.container-products
-		> div:nth-child(n)
-		> div:nth-child(n)
-		> table
-		> thead
-		> tr
-		> .text-center:hover,
-	#chart-month-table
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(n):hover {
-		color: #8251f2 !important;
-		text-decoration: underline;
-		text-decoration-style: solid;
-		text-decoration-color: #ffffff4a;
-		text-shadow: 1px 1px var(--black);
-	}
+    h2:hover,
+    li.navigation-heading:hover,
+    #main
+        > div.container.container-products
+        > div:nth-child(n)
+        > div:nth-child(n)
+        > table
+        > thead
+        > tr
+        > .text-center:hover,
+    #chart-month-table > tbody > tr:nth-child(n) > td:nth-child(n):hover,
+    h2:focus,
+    li.navigation-heading:focus,
+    #main
+        > div.container.container-products
+        > div:nth-child(n)
+        > div:nth-child(n)
+        > table
+        > thead
+        > tr
+        > .text-center:focus,
+    #chart-month-table > tbody > tr:nth-child(n) > td:nth-child(n):focus {
+        color: #8251f2 !important;
+        text-decoration: underline;
+        text-decoration-color: #ffffff4a;
+        text-decoration-style: solid;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	span.app-history-action > del {
-		color: #830751;
-		text-decoration: underline;
-		text-decoration-style: dotted;
-		text-decoration-color: #ff0000;
-		text-shadow: 1px 1px var(--black);
-	}
+    span.app-history-action > del {
+        color: #830751;
+        text-decoration: underline;
+        text-decoration-color: #ff0000;
+        text-decoration-style: dotted;
+        text-shadow: 1px 1px var(--black);
 
-	span.app-history-action > del:hover {
-		color: #ff0000;
-		text-decoration: underline;
-		text-decoration-style: dotted;
-		text-decoration-color: #9dff00;
-		text-shadow: 1px 1px var(--black);
-	}
+        &:hover,
+        &:focus {
+            color: #ff0000;
+            text-decoration: underline;
+            text-decoration-color: #9dff00;
+            text-decoration-style: dotted;
+            text-shadow: 1px 1px var(--black);
+        }
+    }
 
-	.app-chart > svg > path {
-		filter: invert(1) hue-rotate(0);
-	}
+    .app-chart > svg > path {
+        filter: invert(1) hue-rotate(0);
+    }
 
-	#main
-		> div.container.container-products
-		> div:nth-child(1)
-		> div:nth-child(n)
-		> table
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(n) {
-		color: #e37575;
-		text-shadow: 1px 1px var(--black);
-	}
+    #main
+        > div.container.container-products
+        > div:nth-child(1)
+        > div:nth-child(n)
+        > table
+        > tbody
+        > tr:nth-child(n)
+        > td:nth-child(n) {
+        color: #e37575;
+        text-shadow: 1px 1px var(--black);
 
-	#main
-		> div.container.container-products
-		> div:nth-child(1)
-		> div:nth-child(n)
-		> table
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(n):hover {
-		color: #ff0000;
-		text-shadow: 1px 1px var(--black);
-	}
+        &:hover,
+        &:focus {
+            color: #ff0000;
+            text-shadow: 1px 1px var(--black);
+        }
+    }
 
-	#main
-		> div.container.container-products
-		> div:nth-child(2)
-		> div:nth-child(2)
-		> table
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(n) {
-		color: #e8ca84;
-		text-shadow: 1px 1px var(--black);
-	}
+    #main
+        > div.container.container-products
+        > div:nth-child(2)
+        > div:nth-child(2)
+        > table
+        > tbody
+        > tr:nth-child(n)
+        > td:nth-child(n) {
+        color: #e8ca84;
+        text-shadow: 1px 1px var(--black);
 
-	#main
-		> div.container.container-products
-		> div:nth-child(2)
-		> div:nth-child(2)
-		> table
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(n):hover {
-		color: #7491f2;
-		text-shadow: 1px 1px var(--black);
-	}
+        &:hover,
+        &:focus {
+            color: #7491f2;
+            text-shadow: 1px 1px var(--black);
+        }
+    }
 
-	#main
-		> div
-		> div.header-wrapper
-		> div
-		> div.row.app-row
-		> div.span8
-		> table
-		> tbody
-		> tr:nth-child(odd)
-		> td:nth-child(1),
-	#charts
-		> div.table-responsive
-		> table
-		> tbody
-		> tr:nth-child(odd)
-		> td:nth-child(1) {
-		background: var(--black);
-		text-align: right;
-		text-shadow: 1px 1px var(--black);
-	}
+    #main
+        > div
+        > div.header-wrapper
+        > div
+        > div.row.app-row
+        > div.span8
+        > table
+        > tbody
+        > tr:nth-child(odd)
+        > td:nth-child(1),
+    #charts
+        > div.table-responsive
+        > table
+        > tbody
+        > tr:nth-child(odd)
+        > td:nth-child(1) {
+        background: var(--black);
+        text-align: right;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	#main
-		> div
-		> div.header-wrapper
-		> div
-		> div.row.app-row
-		> div.span8
-		> table
-		> tbody
-		> tr:nth-child(even)
-		> td:nth-child(1),
-	#charts
-		> div.table-responsive
-		> table
-		> tbody
-		> tr:nth-child(even)
-		> td:nth-child(1) {
-		text-align: right;
-		text-shadow: 1px 1px var(--black);
-	}
+    #main
+        > div
+        > div.header-wrapper
+        > div
+        > div.row.app-row
+        > div.span8
+        > table
+        > tbody
+        > tr:nth-child(even)
+        > td:nth-child(1),
+    #charts
+        > div.table-responsive
+        > table
+        > tbody
+        > tr:nth-child(even)
+        > td:nth-child(1) {
+        text-align: right;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	#main
-		> div
-		> div.header-wrapper
-		> div
-		> div.row.app-row
-		> div.span8
-		> table
-		> tbody
-		> tr:nth-child(odd)
-		> td:nth-child(2),
-	#charts
-		> div.table-responsive
-		> table
-		> tbody
-		> tr:nth-child(odd)
-		> td:nth-child(2),
-	#charts
-		> div.table-responsive
-		> table
-		> tbody
-		> tr:nth-child(odd)
-		> td:nth-child(3) {
-		background: var(--black);
-		text-align: left;
-		text-shadow: 1px 1px var(--black);
-	}
+    #main
+        > div
+        > div.header-wrapper
+        > div
+        > div.row.app-row
+        > div.span8
+        > table
+        > tbody
+        > tr:nth-child(odd)
+        > td:nth-child(2),
+    #charts
+        > div.table-responsive
+        > table
+        > tbody
+        > tr:nth-child(odd)
+        > td:nth-child(2),
+    #charts
+        > div.table-responsive
+        > table
+        > tbody
+        > tr:nth-child(odd)
+        > td:nth-child(3) {
+        background: var(--black);
+        text-align: left;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	#chart-month-table
-		> tbody
-		> tr:nth-child(odd)
-		> td:nth-child(n) {
-		background: var(--black);
-		color: #ffa2ec;
-		text-shadow: 1px 1px var(--black);
-	}
+    #chart-month-table > tbody > tr:nth-child(odd) > td:nth-child(n) {
+        background: var(--black);
+        color: #ffa2ec;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	#main
-		> div
-		> div.header-wrapper
-		> div
-		> div.row.app-row
-		> div.span8
-		> table
-		> tbody
-		> tr:nth-child(even)
-		> td:nth-child(12) {
-		text-align: left;
-		text-shadow: 1px 1px var(--black);
-	}
+    #main
+        > div
+        > div.header-wrapper
+        > div
+        > div.row.app-row
+        > div.span8
+        > table
+        > tbody
+        > tr:nth-child(even)
+        > td:nth-child(12) {
+        text-align: left;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	.octicon-windows > path {
-		color: #5bc6fb;
-		text-shadow: 1px 1px var(--black);
-	}
+    .octicon-windows > path {
+        color: #5bc6fb;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	.octicon-linux > path {
-		color: #00ffae;
-		text-shadow: 1px 1px var(--black);
-	}
+    .octicon-linux > path {
+        color: #00ffae;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	.octicon-steamdeck > path {
-		color: #b5721b;
-		text-shadow: 1px 1px var(--black);
-	}
+    .octicon-steamdeck > path {
+        color: #b5721b;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	button,
-	.btn,
-	.btn-primary,
-	.btn-secondary,
-	.btn-success,
-	.btn-danger,
-	.btn-warning,
-	.btn-info,
-	.btn-light,
-	.btn-dark,
-	#js-hover > div > div.hover_buttons > *,
-	#js-hover > div > div.hover_body.hover_tag_row > * {
-		border-color: #454545 !important;
-		background-color: var(--black) !important;
-		color: var(--light-gray) !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    button,
+    .btn,
+    .btn-primary,
+    .btn-secondary,
+    .btn-success,
+    .btn-danger,
+    .btn-warning,
+    .btn-info,
+    .btn-light,
+    .btn-dark,
+    #js-hover > div > div.hover_buttons > *,
+    #js-hover > div > div.hover_body.hover_tag_row > * {
+        border-color: #454545 !important;
+        background-color: var(--black) !important;
+        color: var(--light-gray) !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	button:hover,
-	.btn:hover,
-	.btn-primary:hover,
-	.btn-secondary:hover,
-	.btn-success:hover,
-	.btn-danger:hover,
-	.btn-warning:hover,
-	.btn-info:hover,
-	.btn-light:hover,
-	.btn-dark:hover,
-	#js-hover > div > div.hover_buttons > *:hover,
-	#js-hover > div > div.hover_body.hover_tag_row > *:hover {
-		border-color: #555555 !important;
-		background-color: var(--black) !important;
-		color: #ffffff !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    button:hover,
+    .btn:hover,
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .btn-success:hover,
+    .btn-danger:hover,
+    .btn-warning:hover,
+    .btn-info:hover,
+    .btn-light:hover,
+    .btn-dark:hover,
+    #js-hover > div > div.hover_buttons > *:hover,
+    #js-hover > div > div.hover_body.hover_tag_row > *:hover,
+    button:focus,
+    .btn:focus,
+    .btn-primary:focus,
+    .btn-secondary:focus,
+    .btn-success:focus,
+    .btn-danger:focus,
+    .btn-warning:focus,
+    .btn-info:focus,
+    .btn-light:focus,
+    .btn-dark:focus,
+    #js-hover > div > div.hover_buttons > *:focus,
+    #js-hover > div > div.hover_body.hover_tag_row > *:focus {
+        border-color: #555555 !important;
+        background-color: var(--black) !important;
+        color: #ffffff !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	input,
-	textarea,
-	select {
-		border-color: #333333 !important;
-		background-color: var(--black) !important;
-		color: var(--light-gray) !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    input,
+    textarea,
+    select {
+        border-color: #333333 !important;
+        background-color: var(--black) !important;
+        color: var(--light-gray) !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	input::placeholder,
-	textarea::placeholder {
-		color: #888888 !important;
-		text-shadow: 1px 1px var(--black);
-	}
+    input::placeholder,
+    textarea::placeholder {
+        color: #888888 !important;
+        text-shadow: 1px 1px var(--black);
+    }
 
-	::-webkit-scrollbar {
-		width: 12px !important;
-	}
+    ::-webkit-scrollbar {
+        width: 12px !important;
+    }
 
-	::-webkit-scrollbar-track {
-		background: var(--primary-color) !important;
-	}
+    ::-webkit-scrollbar-track {
+        background: var(--primary-color) !important;
+    }
 
-	::-webkit-scrollbar-thumb {
-		border: 3px solid #121212 !important;
-		border-radius: 10px !important;
-		background-color: var(--black) !important;
-	}
+    ::-webkit-scrollbar-thumb {
+        border: 3px solid #121212 !important;
+        border-radius: 10px !important;
+        background-color: var(--black) !important;
+    }
 
-	* {
-		scrollbar-color: var(--primary-color) var(--black) !important;
-		scrollbar-width: thin !important;
-	}
+    * {
+        scrollbar-color: var(--primary-color) var(--black) !important;
+        scrollbar-width: thin !important;
+    }
 
-	body,
-	.container-products *,
-	#loading,
-	#freepackages {
-		background: var(--black) !important;
-	}
+    body,
+    .container-products *,
+    #loading,
+    #freepackages {
+        background: var(--black) !important;
+    }
 
-	.donate-panel {
-		color: var(--light-gray) !important;
-	}
+    .donate-panel {
+        color: var(--light-gray) !important;
+    }
 }

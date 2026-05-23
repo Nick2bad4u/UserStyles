@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           zwiftalizer.com - Darker Mode [Customizable]
 @namespace      nick2bad4u.github.io
 @version        1.0.6
@@ -21,233 +21,231 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Zwiftalizer.com-Darker-Mode.user.css
 ==/UserStyle== */
 @-moz-document domain("zwiftalizer.com") {
-	/* Use the variables for colors */
-	:root {
-		--darker: var(darker) !important;
-		--green: var(green) !important;
-		--purple: var(purple) !important;
-		--dark: var(dark) !important;
-		--blue: var(blue) !important;
-		--lighter: var(lighter) !important;
-		--gray: var(gray) !important;
-		--white: var(white) !important;
-		--pink: var(pink) !important;
-	}
+    /* Use the variables for colors */
+    :root {
+        --darker: var(darker) !important;
+        --green: var(green) !important;
+        --purple: var(purple) !important;
+        --dark: var(dark) !important;
+        --blue: var(blue) !important;
+        --lighter: var(lighter) !important;
+        --gray: var(gray) !important;
+        --white: var(white) !important;
+        --pink: var(pink) !important;
+    }
 
-	/* Invert colors except images and videos */
-	html,
-	.content,
-	.main-panel,
-	.modal-content {
-		background: var(--darker);
-	}
+    /* Invert colors except images and videos */
+    html,
+    .content,
+    .main-panel,
+    .modal-content {
+        background: var(--darker);
+    }
 
-	.bootstrap-select.show .dropdown-menu:not(.inner),
-	.dropdown-menu.bootstrap-datetimepicker-widget.bottom.open,
-	.dropdown-menu.bootstrap-datetimepicker-widget.top.open,
-	.dropdown.show .dropdown-menu,
-	.dropup.show:not(.bootstrap-select) .dropdown-menu,
-	.navbar .dropdown.show .dropdown-menu,
-	.form-group .form-control,
-	.input-group .form-control,
-	.container,
-	.alert-dismissible.animated {
-		/* Manipulations stuff */
-		filter: invert(1);
-	}
+    .bootstrap-select.show .dropdown-menu:not(.inner),
+    .dropdown-menu.bootstrap-datetimepicker-widget.bottom.open,
+    .dropdown-menu.bootstrap-datetimepicker-widget.top.open,
+    .dropdown.show .dropdown-menu,
+    .dropup.show:not(.bootstrap-select) .dropdown-menu,
+    .navbar .dropdown.show .dropdown-menu,
+    .form-group .form-control,
+    .input-group .form-control,
+    .container,
+    .alert-dismissible.animated {
+        /* Manipulations stuff */
+        filter: invert(1);
+    }
 
-	.card .card-body,
-	.card {
-		background: var(--darker);
-	}
+    .card .card-body,
+    .card {
+        background: var(--darker);
+    }
 
-	.user-activity-heading,
-	.user-activity-heading-right,
-	.table > tbody > tr > td,
-	.table > tbody > tr > th,
-	.table > tfoot > tr > td,
-	.table > tfoot > tr > th,
-	.table > thead > tr > td,
-	.table > thead > tr > th {
-		text-align: center !important;
-	}
+    .user-activity-heading,
+    .user-activity-heading-right,
+    .table > tbody > tr > td,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > td,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > thead > tr > th {
+        text-align: center !important;
+    }
 
-	.user-activity a:visited,
-	.user-activity-heading a:visited,
-	.user-activity-heading-right a:visited,
-	.user-activity-right a:visited,
-	.form-check .form-check-label {
-		color: var(--green) !important;
-	}
+    .user-activity a:visited,
+    .user-activity-heading a:visited,
+    .user-activity-heading-right a:visited,
+    .user-activity-right a:visited,
+    .form-check .form-check-label {
+        color: var(--green) !important;
+    }
 
-	.table.details > tbody > tr > td,
-	.session:not(.session.good),
-	.far,
-	.fas {
-		color: var(--purple) !important;
-	}
+    .table.details > tbody > tr > td,
+    .session:not(.session.good),
+    .far,
+    .fas {
+        color: var(--purple) !important;
+    }
 
-	.tooltip-inner {
-		/* Box model stuff */
-		border: 1px solid var(--dark);
-		background: var(--darker) !important;
-		/* Typography stuff */
-		color: var(--white);
-	}
+    .tooltip-inner {
+        /* Box model stuff */
+        border: 1px solid var(--dark);
+        background: var(--darker) !important;
+        /* Typography stuff */
+        color: var(--white);
+    }
 
-	.tooltip.show {
-		/* Manipulations stuff */
-		opacity: 100%;
-	}
+    .tooltip.show {
+        /* Manipulations stuff */
+        opacity: 100%;
+    }
 
-	.main-panel > div > div:nth-child(1),
-	.main-panel > div > div:nth-child(2),
-	#root
-		> div.wrapper
-		> div.main-panel
-		> div
-		> div:nth-child(3)
-		> div:nth-child(3),
-	#root
-		> div.wrapper
-		> div.sidebar
-		> div
-		> ul
-		> li:nth-child(8) {
-		/* Display stuff */
-		display: none;
-	}
+    .main-panel > div > div:nth-child(1),
+    .main-panel > div > div:nth-child(2),
+    #root
+        > div.wrapper
+        > div.main-panel
+        > div
+        > div:nth-child(3)
+        > div:nth-child(3),
+    #root > div.wrapper > div.sidebar > div > ul > li:nth-child(8) {
+        /* Display stuff */
+        display: none;
+    }
 
-	.fixed-plugin,
-	.off-canvas-sidebar .sidebar-wrapper,
-	.sidebar .sidebar-wrapper {
-		/* Box model stuff */
-		background: var(--blue);
-	}
+    .fixed-plugin,
+    .off-canvas-sidebar .sidebar-wrapper,
+    .sidebar .sidebar-wrapper {
+        /* Box model stuff */
+        background: var(--blue);
+    }
 
-	.dropbox .heading {
-		color: var(--blue);
-	}
+    .dropbox .heading {
+        color: var(--blue);
+    }
 
-	.fixed-plugin {
-		opacity: 20%;
-	}
+    .fixed-plugin {
+        opacity: 20%;
 
-	.fixed-plugin:hover {
-		opacity: 100%;
-	}
+        &:hover,
+        &:focus {
+            opacity: 100%;
+        }
+    }
 
-	/* Additional Table Styles */
-	table {
-		margin: 20px 0;
-		border-collapse: collapse;
-		background-color: var(--lighter);
-		width: 100%;
-		font-family: var(--font-family-sans-serif);
-	}
+    /* Additional Table Styles */
+    table {
+        width: 100%;
+        margin: 20px 0;
+        background-color: var(--lighter);
+        border-collapse: collapse;
+        font-family: var(--font-family-sans-serif), system-ui;
 
-	table th,
-	table td {
-		border: 1px solid var(--gray);
-		padding: 10px 15px;
-		text-align: left;
-	}
+        & th,
+        & td {
+            padding: 10px 15px;
+            border: 1px solid var(--gray);
+            text-align: left;
+        }
 
-	table th {
-		/* Box model stuff */
-		background-color: var(--blue);
-		color: var(--white);
-		/* Typography stuff */
-		font-weight: 700;
-	}
+        & th {
+            /* Box model stuff */
+            background-color: var(--blue);
+            color: var(--white);
+            /* Typography stuff */
+            font-weight: 700;
+        }
 
-	table tr:nth-child(even) {
-		background-color: var(--darker);
-	}
+        & tr:nth-child(even) {
+            background-color: var(--darker);
+        }
 
-	table tr:hover {
-		background-color: var(--blue);
-		color: var(--white);
-	}
+        & tr:hover,
+        & tr:focus {
+            background-color: var(--blue);
+            color: var(--white);
+        }
+    }
 
-	a:hover {
-		color: var(--pink) !important;
-	}
+    a:hover,
+    a:focus {
+        color: var(--pink) !important;
+    }
 
-	/* Responsive Design */
-	/* stylelint-disable-next-line media-query-no-invalid -- UnNeeded */
-	@media (max-width: var(--breakpoint-sm)) {
-		table {
-			display: block;
-			overflow-x: auto;
-			white-space: nowrap;
-		}
+    /* Responsive Design */
+    /* stylelint-disable-next-line media-query-no-invalid -- UnNeeded */
+    @media (max-width: var(--breakpoint-sm)) {
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
 
-		table thead,
-		table tbody,
-		table th,
-		table td,
-		table tr {
-			display: block;
-		}
+            & thead,
+            & tbody,
+            & th,
+            & td,
+            & tr {
+                display: block;
+            }
 
-		table th {
-			text-align: left;
-		}
+            & th {
+                text-align: left;
+            }
+        }
 
-		table th::before {
-			float: left;
-			content: attr(data-label);
-			font-weight: bold;
-		}
+        table th::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+        }
 
-		table td {
-			text-align: right;
-		}
+        table td {
+            text-align: right;
+        }
 
-		table td::before {
-			float: left;
-			content: attr(data-label);
-			font-weight: bold;
-		}
-	}
+        table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+        }
+    }
 
-	#root > div.wrapper > div.main-panel > footer {
-		display: none;
-	}
+    #root > div.wrapper > div.main-panel > footer {
+        display: none;
+    }
 
-	/* stylelint-disable-next-line no-duplicate-selectors -- UnNeeded  */
-	:root {
-		--indigo: #5603ad;
-		--red: #f5365c;
-		--orange: #fc6719;
-		--yellow: #ffd12c;
-		--teal: #11cdef;
-		--cyan: #2bffc6;
-		--gray-dark: #4a4a63;
-		--light: #ced4da;
-		--primary: #f96332;
-		--secondary: #f4f5f7;
-		--success: #5cb85c;
-		--info: #178acc;
-		--warning: #f0ad4e;
-		--danger: #fd5d93;
-		--light2: #adb5bd;
-		--dark2: #0d0d0d;
-		--default: #4f4f4f;
-		--neutral: #fff;
-		--breakpoint-xs: 0;
-		--breakpoint-sm: 576px;
-		--breakpoint-md: 768px;
-		--breakpoint-lg: 992px;
-		--breakpoint-xl: 1200px;
-		--font-family-sans-serif:
-			-apple-system, blinkmacsystemfont, 'Segoe UI', roboto,
-			'Helvetica Neue', arial, 'Noto Sans', sans-serif,
-			'Apple Color Emoji', 'Segoe UI Emoji',
-			'Segoe UI Symbol', 'Noto Color Emoji';
-		--font-family-monospace:
-			sfmono-regular, menlo, monaco, consolas,
-			'Liberation Mono', 'Courier New', monospace;
-	}
+    /* stylelint-disable-next-line no-duplicate-selectors -- UnNeeded  */
+    :root {
+        --indigo: #5603ad;
+        --red: #f5365c;
+        --orange: #fc6719;
+        --yellow: #ffd12c;
+        --teal: #11cdef;
+        --cyan: #2bffc6;
+        --gray-dark: #4a4a63;
+        --light: #ced4da;
+        --primary: #f96332;
+        --secondary: #f4f5f7;
+        --success: #5cb85c;
+        --info: #178acc;
+        --warning: #f0ad4e;
+        --danger: #fd5d93;
+        --light2: #adb5bd;
+        --dark2: #0d0d0d;
+        --default: #4f4f4f;
+        --neutral: #ffffff;
+        --breakpoint-xs: 0;
+        --breakpoint-sm: 576px;
+        --breakpoint-md: 768px;
+        --breakpoint-lg: 992px;
+        --breakpoint-xl: 1200px;
+        --font-family-sans-serif:
+            -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
+            "Helvetica Neue", arial, "Noto Sans", sans-serif,
+            "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+            "Noto Color Emoji";
+        --font-family-monospace:
+            sfmono-regular, menlo, monaco, consolas, "Liberation Mono",
+            "Courier New", monospace;
+    }
 }

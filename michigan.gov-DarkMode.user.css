@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         michigan.gov - Dark Mode
 @version      20241107.04.44
 @namespace    nick2bad4u.github.io
@@ -12,38 +12,36 @@
 ==/UserStyle== */
 
 @-moz-document domain("michigan.gov") {
-	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video):not(png) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video):not(png) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	/* Ensure background images are not inverted */
-	:is(html:not([stylus-iframe]), img, svg, video):not(
-		z#z.z[z]
-	) {
-		background-color: inherit !important;
-	}
+    /* Ensure background images are not inverted */
+    :is(html:not([stylus-iframe]), img, svg, video):not(z#z.z[z]) {
+        background-color: inherit !important;
+    }
 
-	/* Additional styling for the Michigan Department of State */
-	#footer > section > div > div > div > div > div.row {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Additional styling for the Michigan Department of State */
+    #footer > section > div > div > div > div > div.row {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	#footer
-		> section
-		> div
-		> div
-		> div
-		> div
-		> div.footer__section-logo
-		> div
-		> div
-		> div.col-lg-3.col-md-4.footer__section-logo-img
-		> img {
-		filter: invert(0) hue-rotate(180deg) !important;
-	}
+    #footer
+        > section
+        > div
+        > div
+        > div
+        > div
+        > div.footer__section-logo
+        > div
+        > div
+        > div.col-lg-3.col-md-4.footer__section-logo-img
+        > img {
+        filter: invert(0) hue-rotate(180deg) !important;
+    }
 
-	*[style*='background-image'] {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    *[style*="background-image"] {
+        filter: invert(1) hue-rotate(180deg);
+    }
 }

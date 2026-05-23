@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           weather.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.3
@@ -14,36 +14,36 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Weather.com-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("weather.com") {
-	/* Use the variables for colors */
-	:root {
-		--background-color: var(bgColor);
-		--text-color: var(textColor);
-	}
+    /* Use the variables for colors */
+    :root {
+        --background-color: var(bgColor);
+        --text-color: var(textColor);
+    }
 
-	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		img,
-		svg,
-		video,
-		.HurricaneTrackerCard--bodyWrapper--D\+PUk,
-		.Button--primary--I3yI4,
-		.HeaderLargeScreen--HeaderLargeScreen--HPtiq,
-		.Icon--lightTheme--Mqfrs > path,
-		.ExpandableMenu--ExpandableMenu--DLqTu.ExpandableMenu--open--NWYsb
-			> .ExpandableMenu--inner--d7mmL,
-		.CurrentConditions--header--z8kOV,
-		.CurrentConditions--overlayBox--veKTl,
-		.styles--locationNameBadge--CwsOx,
-		.styles--mini--GBfrx .styles--temperature--aIAgZ,
-		.RecentLocations--container--Vn06V.RecentLocations--open--WrsUf
-	) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(
+        html:not([stylus-iframe]),
+        img,
+        svg,
+        video,
+        .HurricaneTrackerCard--bodyWrapper--D\+PUk,
+        .Button--primary--I3yI4,
+        .HeaderLargeScreen--HeaderLargeScreen--HPtiq,
+        .Icon--lightTheme--Mqfrs > path,
+        .ExpandableMenu--ExpandableMenu--DLqTu.ExpandableMenu--open--NWYsb
+            > .ExpandableMenu--inner--d7mmL,
+        .CurrentConditions--header--z8kOV,
+        .CurrentConditions--overlayBox--veKTl,
+        .styles--locationNameBadge--CwsOx,
+        .styles--mini--GBfrx .styles--temperature--aIAgZ,
+        .RecentLocations--container--Vn06V.RecentLocations--open--WrsUf
+    ) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.styles--cards--Yo-aJ,
-	.styles--root--6Jj2d {
-		background: var(--background-color);
-		color: var(--text-color);
-	}
+    .styles--cards--Yo-aJ,
+    .styles--root--6Jj2d {
+        background: var(--background-color);
+        color: var(--text-color);
+    }
 }

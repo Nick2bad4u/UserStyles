@@ -15,13 +15,13 @@
 
 /* General Styles */
 body {
-  font-family: Arial, sans-serif;
-  line-height: 1.75;
-  color: #333;
-  background-color: #f9f9f9;
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
+    max-width: 800px;
+    padding: 20px;
+    margin: auto;
+    background-color: #f9f9f9;
+    color: #333333;
+    font-family: Arial, sans-serif;
+    line-height: 1.75;
 }
 
 /* Headings */
@@ -31,220 +31,228 @@ h3,
 h4,
 h5,
 h6 {
-  color: #2c3e50;
-  margin-top: 20px;
-  margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #2c3e50;
 }
 
 h1 {
-  font-size: 2em;
-  border-bottom: 3px solid #2c3e50;
-  padding-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 3px solid #2c3e50;
+    font-size: 2em;
 }
 
 h2 {
-  font-size: 1.75em;
-  border-bottom: 2px solid #2c3e50;
-  padding-bottom: 3px;
+    padding-bottom: 3px;
+    border-bottom: 2px solid #2c3e50;
+    font-size: 1.75em;
 }
 
 h3 {
-  font-size: 1.5em;
-  color: #34495e;
+    color: #34495e;
+    font-size: 1.5em;
 }
 
 h4 {
-  font-size: 1.25em;
-  color: #4a4a4a;
+    color: #4a4a4a;
+    font-size: 1.25em;
 }
 
 h5 {
-  font-size: 1.1em;
-  color: #4a4a4a;
+    color: #4a4a4a;
+    font-size: 1.125em;
 }
 
 h6 {
-  font-size: 1em;
-  color: #4a4a4a;
-  font-weight: 400;
+    color: #4a4a4a;
+    font-size: 1em;
+    font-weight: 400;
 }
 
 /* Paragraphs */
 p {
-  margin: 10px 0;
-  line-height: 1.8;
+    margin: 10px 0;
+    line-height: 1.75;
 }
 
 /* Links */
 a {
-  color: #3498db;
-  text-decoration: none;
-  border-bottom: 1px dotted #3498db;
-  transition:
-    color 0.2s ease,
-    border-bottom-color 0.2s ease;
-}
+    border-bottom: 1px dotted #3498db;
+    color: #3498db;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        border-bottom-color 0.2s ease;
+    @media screen and (prefers-reduced-motion: reduce) {
+        border-bottom: 1px dotted #3498db;
+        color: #3498db;
+        text-decoration: none;
+        transition: none;
+    }
 
-a:hover {
-  color: #2980b9;
-  border-bottom: 1px solid #2980b9;
+    &:hover,
+    &:focus {
+        border-bottom: 1px solid #2980b9;
+        color: #2980b9;
+    }
 }
 
 /* Emphasis */
 em,
 i {
-  color: #555;
-  font-style: italic;
+    color: #555555;
+    font-style: italic;
 }
 
 strong,
 b {
-  color: #333;
-  font-weight: 700;
+    color: #333333;
+    font-weight: 700;
 }
 
 /* Code Blocks */
 pre,
 code {
-  font-family: "Courier New", Courier, monospace;
-  background-color: #f5f5f5;
-  color: #2a2a2a;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    color: #2a2a2a;
+    font-family: "Courier New", Courier, monospace;
 }
 
 pre {
-  padding: 12px;
-  overflow: auto;
-  margin: 15px 0;
-  font-size: 0.95em;
-  line-height: 1.5;
-  background-color: #f1f1f1;
+    overflow: auto;
+    padding: 12px;
+    margin: 15px 0;
+    background-color: #f1f1f1;
+    font-size: 1em;
+    line-height: 1.5;
 }
 
 code {
-  padding: 3px 5px;
-  font-size: 0.95em;
-  border-radius: 4px;
-  background-color: #e8e8e8;
-  color: #3a3a3a;
+    padding: 3px 5px;
+    border-radius: 4px;
+    background-color: #e8e8e8;
+    color: #3a3a3a;
+    font-size: 1em;
 }
 
 /* Blockquotes */
 blockquote {
-  border-left: 4px solid #2c3e50;
-  padding: 10px 20px;
-  margin: 15px 0;
-  background-color: #f8f8f8;
-  color: #666;
-  font-style: italic;
-}
+    padding: 10px 20px;
+    border-left: 4px solid #2c3e50;
+    margin: 15px 0;
+    background-color: #f8f8f8;
+    color: #666666;
+    font-style: italic;
 
-blockquote p {
-  margin: 0;
-  color: #555;
+    & p {
+        margin: 0;
+        color: #555555;
+    }
 }
 
 /* Lists */
 ul,
 ol {
-  margin: 10px 0;
-  padding-left: 25px;
+    padding-left: 25px;
+    margin: 10px 0;
 }
 
 li {
-  margin: 6px 0;
+    margin: 6px 0;
 }
 
 ul ul,
 ol ol {
-  margin: 0;
-  padding-left: 20px;
-  list-style-type: circle;
+    padding-left: 20px;
+    margin: 0;
+    list-style-type: circle;
 }
 
 /* Horizontal Rule */
 hr {
-  border: 0;
-  height: 1px;
-  background: #ddd;
-  margin: 20px 0;
+    height: 1px;
+    border: 0;
+    margin: 20px 0;
+    background: #dddddd;
 }
 
 /* Images */
 img {
-  max-width: 100%;
-  display: block;
-  margin: 15px auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+    display: block;
+    max-width: 100%;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    margin: 15px auto;
 }
 
 /* Tables */
 table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 15px 0;
-  font-size: 0.95em;
+    width: 100%;
+    margin: 15px 0;
+    border-collapse: collapse;
+    font-size: 1em;
 }
 
 th,
 td {
-  border: 1px solid #ddd;
-  padding: 10px;
+    padding: 10px;
+    border: 1px solid #dddddd;
 }
 
 th {
-  background-color: #f2f2f2;
-  font-weight: 700;
-  color: #333;
+    background-color: #f2f2f2;
+    color: #333333;
+    font-weight: 700;
 }
 
 td {
-  background-color: #ffffff;
-}
+    background-color: #ffffff;
 
-tr:nth-child(even) td {
-  background-color: #f9f9f9;
+    tr:nth-child(even) & {
+        background-color: #f9f9f9;
+    }
 }
 
 /* Footnotes */
 sup {
-  font-size: 0.85em;
-  vertical-align: super;
+    font-size: 0.875em;
+    vertical-align: super;
 }
 
 /* Task Lists (Checkboxes) */
 input[type="checkbox"] {
-  margin-right: 5px;
-  transform: scale(1.2);
-  vertical-align: middle;
+    margin-right: 5px;
+    transform: scale(1.2);
+    vertical-align: middle;
 }
 
 /* Collapsible Details */
 details {
-  margin: 15px 0;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f8f8f8;
+    padding: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    margin: 15px 0;
+    background-color: #f8f8f8;
 }
 
 summary {
-  font-weight: 700;
-  cursor: pointer;
-  color: #2c3e50;
-}
+    color: #2c3e50;
+    cursor: pointer;
+    font-weight: 700;
 
-summary:hover {
-  color: #34495e;
+    &:hover,
+    &:focus {
+        color: #34495e;
+    }
 }
 
 /* Footnotes */
 footer {
-  font-size: 0.85em;
-  color: #666;
-  padding-top: 20px;
-  border-top: 1px solid #ddd;
-  margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #dddddd;
+    margin-top: 20px;
+    color: #666666;
+    font-size: 0.875em;
 }

@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           ZwifterBikes - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.4
@@ -15,49 +15,50 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ZwifterBikesDarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("zwifterbikes.web.app") {
-	:root {
-		--background-color: var(background-color);
-		--text-color: var(text-color);
-		--hover-color: var(hover-color);
-	}
+    :root {
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+        --hover-color: var(hover-color);
+    }
 
-	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		img,
-		svg,
-		video,
-		mat-toolbar,
-		z#z.z[z],
-		svg,
-		img.tron,
-		.fit
-	) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(
+        html:not([stylus-iframe]),
+        img,
+        svg,
+        video,
+        mat-toolbar,
+        z#z.z[z],
+        svg,
+        img.tron,
+        .fit
+    ) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.mdc-tab__text-label {
-		color: var(--text-color) !important;
-	}
+    .mdc-tab__text-label {
+        color: var(--text-color) !important;
+    }
 
-	*:hover > span.mdc-tab__content > span {
-		color: var(--hover-color) !important;
-		text-decoration: underline;
+    * {
+        --mdc-tab-indicator-active-indicator-color: var(
+            --hover-color
+        ) !important;
+        --mat-tab-header-active-hover-indicator-color: var(
+            --hover-color
+        ) !important;
 
-		--mdc-tab-indicator-active-indicator-color: var(
-			--hover-color
-		) !important;
-		--mat-tab-header-active-hover-indicator-color: var(
-			--hover-color
-		) !important;
-	}
+        &:hover > span.mdc-tab__content > span,
+        &:focus > span.mdc-tab__content > span {
+            color: var(--hover-color) !important;
+            text-decoration: underline;
 
-	* {
-		--mdc-tab-indicator-active-indicator-color: var(
-			--hover-color
-		) !important;
-		--mat-tab-header-active-hover-indicator-color: var(
-			--hover-color
-		) !important;
-	}
+            --mdc-tab-indicator-active-indicator-color: var(
+                --hover-color
+            ) !important;
+            --mat-tab-header-active-hover-indicator-color: var(
+                --hover-color
+            ) !important;
+        }
+    }
 }

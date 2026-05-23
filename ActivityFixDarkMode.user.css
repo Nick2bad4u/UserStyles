@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           activityfix.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.4
@@ -20,107 +20,113 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/ActivityFixDarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("activityfix.com") {
-	:root {
-		--background-color-black: var(background-color-black);
-		--text-color-white: var(text-color-white);
-		--text-color-blue: var(text-color-blue);
-		--text-decoration-color: var(text-decoration-color);
-		--background-color-blue: var(background-color-blue);
-		--border-color-blue: var(border-color-blue);
-		--background-color-white: var(background-color-white);
-		--text-color-black: var(text-color-black);
-	}
+    :root {
+        --background-color-black: var(background-color-black);
+        --text-color-white: var(text-color-white);
+        --text-color-blue: var(text-color-blue);
+        --text-decoration-color: var(text-decoration-color);
+        --background-color-blue: var(background-color-blue);
+        --border-color-blue: var(border-color-blue);
+        --background-color-white: var(background-color-white);
+        --text-color-black: var(text-color-black);
+    }
 
-	/* Invert colors except images and videos */
-	:is(
-		html:not([stylus-iframe]),
-		img,
-		svg,
-		video,
-		.w3-dark-gray,
-		.w3-dark-grey,
-		.w3-hover-dark-gray:hover,
-		.w3-hover-dark-grey:hover,
-		.w3-center,
-		iframe,
-		.af-disconnect-button
-	) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(
+        html:not([stylus-iframe]),
+        img,
+        svg,
+        video,
+        .w3-dark-gray,
+        .w3-dark-grey,
+        .w3-hover-dark-gray:hover,
+        .w3-hover-dark-grey:hover,
+        .w3-center,
+        iframe,
+        .af-disconnect-button
+    ),
+    :is(
+        html:not([stylus-iframe]),
+        img,
+        svg,
+        video,
+        .w3-dark-gray,
+        .w3-dark-grey,
+        .w3-hover-dark-gray:focus,
+        .w3-hover-dark-grey:focus,
+        .w3-center,
+        iframe,
+        .af-disconnect-button
+    ) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.w3-dark-gray,
-	.w3-dark-grey,
-	.w3-hover-dark-gray:hover,
-	.w3-hover-dark-grey:hover,
-	.w3-padding-16 {
-		background-color: var(
-			--background-color-black
-		) !important;
-		color: var(--text-color-white) !important;
-		font-weight: 800;
-	}
+    .w3-dark-gray,
+    .w3-dark-grey,
+    .w3-hover-dark-gray:hover,
+    .w3-hover-dark-grey:hover,
+    .w3-padding-16,
+    .w3-dark-gray,
+    .w3-dark-grey,
+    .w3-hover-dark-gray:focus,
+    .w3-hover-dark-grey:focus,
+    .w3-padding-16 {
+        background-color: var(--background-color-black) !important;
+        color: var(--text-color-white) !important;
+        font-weight: 800;
+    }
 
-	.af-update-header,
-	.af-version {
-		color: var(--text-color-blue);
-		text-decoration: underline;
-	}
+    .af-update-header,
+    .af-version {
+        color: var(--text-color-blue);
+        text-decoration: underline;
+    }
 
-	.af-update-header span {
-		cursor: default;
-		font-size: 13px;
-		text-decoration: underline var(--text-decoration-color);
-	}
+    .af-update-header span {
+        cursor: default;
+        font-size: 12px;
+        text-decoration: underline var(--text-decoration-color);
+    }
 
-	.w3-padding-16 {
-		padding-top: 0 !important;
-		padding-bottom: 16px !important;
-	}
+    .w3-padding-16 {
+        padding-top: 0 !important;
+        padding-bottom: 16px !important;
+    }
 
-	.w3-bar.w3-top.af-blue.w3-large {
-		background-color: var(
-			--background-color-blue
-		) !important;
-	}
+    .w3-bar.w3-top.af-blue.w3-large {
+        background-color: var(--background-color-blue) !important;
+    }
 
-	.w3-main {
-		background-color: var(--background-color-white);
-	}
+    .w3-main {
+        background-color: var(--background-color-white);
+    }
 
-	.w3-container.w3-black.w3-display-container {
-		margin: 0 !important;
-		background-color: var(
-			--background-color-white
-		) !important;
-		color: var(--text-color-black) !important;
-	}
+    .w3-container.w3-black.w3-display-container {
+        margin: 0 !important;
+        background-color: var(--background-color-white) !important;
+        color: var(--text-color-black) !important;
+    }
 
-	#save_success > div {
-		border: 4px var(--border-color-blue) dashed;
-	}
+    #save_success > div {
+        border: 4px var(--border-color-blue) dashed;
+    }
 
-	.w3-bar-item.w3-left {
-		font-style: italic;
-		font-weight: 550;
-	}
+    .w3-bar-item.w3-left {
+        font-style: italic;
+        font-weight: 550;
+    }
 
-	.af-help-contents > div:nth-child(n) > img,
-	.w3-center
-		> table
-		> tbody
-		> tr:nth-child(1)
-		> td:nth-child(1)
-		> a
-		> img {
-		filter: invert(0) hue-rotate(0deg) !important;
-	}
+    .af-help-contents > div:nth-child(n) > img,
+    .w3-center > table > tbody > tr:nth-child(1) > td:nth-child(1) > a > img {
+        filter: invert(0) hue-rotate(0deg) !important;
+    }
 
-	body > br,
-	body > hr {
-		display: none !important;
-	}
+    body > br,
+    body > hr {
+        display: none !important;
+    }
 
-	html {
-		background: var(--background-color-white);
-	}
+    html {
+        background: var(--background-color-white);
+    }
 }

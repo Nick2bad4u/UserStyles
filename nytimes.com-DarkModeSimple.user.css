@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         nytimes.com - Dark Mode Simple
 @version      20241106.05.28
 @namespace    nick2bad4u.github.io
@@ -12,19 +12,17 @@
 ==/UserStyle== */
 
 @-moz-document domain("nytimes.com") {
-	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video):not(
-		z#z.z[z],
-		svg,
-		a > img
-	) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video):not(
+        z#z.z[z],
+        svg,
+        a > img
+    ) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	/* Ensure background images are not inverted */
-	:is(html:not([stylus-iframe]), img, svg, video):not(
-		z#z.z[z]
-	) {
-		background-color: inherit !important;
-	}
+    /* Ensure background images are not inverted */
+    :is(html:not([stylus-iframe]), img, svg, video):not(z#z.z[z]) {
+        background-color: inherit !important;
+    }
 }

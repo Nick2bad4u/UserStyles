@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         Wigle.net Dark Mode (Beta)
 @version      20241107.17.37
 @namespace    nick2bad4u.github.io
@@ -19,177 +19,153 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Wigle-DarkMode-Beta.user.css
 ==/UserStyle== */
 @-moz-document domain("wigle.net") {
-	:root {
-		--background-color-dark: var(background-color-dark);
-		--background-color-darker: var(background-color-darker);
-		--border-color: var(border-color);
-		--border-color-light: var(border-color-light);
-		--text-color: var(text-color);
-		--accent-color: var(accent-color);
-		--page-controls-text-color: var(
-			page-controls-text-color
-		);
-	}
+    :root {
+        --background-color-dark: var(background-color-dark);
+        --background-color-darker: var(background-color-darker);
+        --border-color: var(border-color);
+        --border-color-light: var(border-color-light);
+        --text-color: var(text-color);
+        --accent-color: var(accent-color);
+        --page-controls-text-color: var(page-controls-text-color);
+    }
 
-	body,
-	.panel-body,
-	.toolsSection,
-	td,
-	#resultColumn,
-	ul,
-	div#newsBar,
-	.newsItem,
-	.contentall.contentwithheader.row,
-	.dd-selected,
-	ol.breadcrumb,
-	.searchControl,
-	#wigleMain > ul > li.active > a,
-	div.preformatted,
-	#userDiscovered
-		> div
-		> div.dygraph-legend
-		> span:nth-child(2)
-		> div {
-		background-color: var(--background-color-dark);
-		color: var(--text-color);
-	}
+    body,
+    .panel-body,
+    .toolsSection,
+    td,
+    #resultColumn,
+    ul,
+    div#newsBar,
+    .newsItem,
+    .contentall.contentwithheader.row,
+    .dd-selected,
+    ol.breadcrumb,
+    .searchControl,
+    #wigleMain > ul > li.active > a,
+    div.preformatted,
+    #userDiscovered > div > div.dygraph-legend > span:nth-child(2) > div {
+        background-color: var(--background-color-dark);
+        color: var(--text-color);
+    }
 
-	.navbar,
-	.footer,
-	.dropdown-menu,
-	.modal-content {
-		border-color: var(--border-color);
-		background-color: var(--background-color-darker);
-	}
+    .navbar,
+    .footer,
+    .dropdown-menu,
+    .modal-content {
+        border-color: var(--border-color);
+        background-color: var(--background-color-darker);
+    }
 
-	.navbar-brand img,
-	.navbar-toggle .icon-bar,
-	.navbar-nav > li > a,
-	.dropdown-menu > li > a,
-	#map_ext_wrapper,
-	input.mapfilter,
-	input#savelinkhereID,
-	#text,
-	.altStatsLink {
-		filter: invert(1) hue-rotate(180);
-	}
+    .navbar-brand img,
+    .navbar-toggle .icon-bar,
+    .navbar-nav > li > a,
+    .dropdown-menu > li > a,
+    #map_ext_wrapper,
+    input.mapfilter,
+    input#savelinkhereID,
+    #text,
+    .altStatsLink {
+        filter: invert(1) hue-rotate(180);
+    }
 
-	input,
-	select,
-	textarea,
-	#userDiscovered
-		> div
-		> div.dygraph-legend
-		> span:nth-child(1),
-	#userDiscovered
-		> div
-		> div.dygraph-legend
-		> span:nth-child(2),
-	#userDiscovered
-		> div
-		> div.dygraph-legend
-		> span:nth-child(3),
-	#userDiscovered
-		> div
-		> div.dygraph-legend
-		> span:nth-child(4),
-	#userDiscovered
-		> div
-		> div.dygraph-legend
-		> span:nth-child(5),
-	#userDiscovered
-		> div
-		> div.dygraph-legend
-		> span:nth-child(6) {
-		border: 1px solid var(--border-color-light);
-		background-color: var(--background-color-darker);
-		color: var(--text-color);
-	}
+    input,
+    select,
+    textarea,
+    #userDiscovered > div > div.dygraph-legend > span:nth-child(1),
+    #userDiscovered > div > div.dygraph-legend > span:nth-child(2),
+    #userDiscovered > div > div.dygraph-legend > span:nth-child(3),
+    #userDiscovered > div > div.dygraph-legend > span:nth-child(4),
+    #userDiscovered > div > div.dygraph-legend > span:nth-child(5),
+    #userDiscovered > div > div.dygraph-legend > span:nth-child(6) {
+        border: 1px solid var(--border-color-light);
+        background-color: var(--background-color-darker);
+        color: var(--text-color);
+    }
 
-	a {
-		color: var(--accent-color);
-	}
+    a {
+        color: var(--accent-color);
+    }
 
-	.btn,
-	.btn-default,
-	.btn-block {
-		border: 1px solid var(--border-color-light);
-		background-color: var(--background-color-darker);
-		color: var(--text-color);
-	}
+    .btn,
+    .btn-default,
+    .btn-block {
+        border: 1px solid var(--border-color-light);
+        background-color: var(--background-color-darker);
+        color: var(--text-color);
+    }
 
-	.form-control {
-		background-color: var(--background-color-darker);
-		color: var(--text-color);
-	}
+    .form-control {
+        background-color: var(--background-color-darker);
+        color: var(--text-color);
+    }
 
-	.mapBarItem,
-	.mapForm,
-	.mapFilter,
-	.mapBarSlider,
-	.mapBarStatus,
-	.mapBarShowHide,
-	.mapBarItem table,
-	.mapBarItem input,
-	.mapBarItem select,
-	.mapBarItem label,
-	div.panel {
-		background-color: var(--background-color-darker);
-		color: var(--text-color);
-	}
+    .mapBarItem,
+    .mapForm,
+    .mapFilter,
+    .mapBarSlider,
+    .mapBarStatus,
+    .mapBarShowHide,
+    .mapBarItem table,
+    .mapBarItem input,
+    .mapBarItem select,
+    .mapBarItem label,
+    div.panel {
+        background-color: var(--background-color-darker);
+        color: var(--text-color);
+    }
 
-	.statsGraphInner,
-	.statsgraphcontainer,
-	.graphContextLinks,
-	.graphCaption {
-		background-color: var(--background-color-darker);
-		color: var(--text-color);
-	}
+    .statsGraphInner,
+    .statsgraphcontainer,
+    .graphContextLinks,
+    .graphCaption {
+        background-color: var(--background-color-darker);
+        color: var(--text-color);
+    }
 
-	.hilite-stats {
-		color: var(--accent-color);
-	}
+    .hilite-stats {
+        color: var(--accent-color);
+    }
 
-	.modal-header,
-	.modal-footer,
-	.jumbotron {
-		background-color: var(--background-color-darker);
-		color: var(--text-color);
-	}
+    .modal-header,
+    .modal-footer,
+    .jumbotron {
+        background-color: var(--background-color-darker);
+        color: var(--text-color);
+    }
 
-	.modal-header .close {
-		color: var(--text-color);
-	}
+    .modal-header .close {
+        color: var(--text-color);
+    }
 
-	.modal-body,
-	#userDiscovered > div > div.dygraph-legend {
-		background-color: var(--background-color-darker);
-		color: var(--text-color);
-	}
+    .modal-body,
+    #userDiscovered > div > div.dygraph-legend {
+        background-color: var(--background-color-darker);
+        color: var(--text-color);
+    }
 
-	.container,
-	.row,
-	.col-sm-12,
-	.col-sm-9,
-	.col-sm-3,
-	.col-sm-2,
-	.col-sm-1 {
-		background-color: var(--background-color-darker);
-		color: var(--text-color);
-	}
+    .container,
+    .row,
+    .col-sm-12,
+    .col-sm-9,
+    .col-sm-3,
+    .col-sm-2,
+    .col-sm-1 {
+        background-color: var(--background-color-darker);
+        color: var(--text-color);
+    }
 
-	#newsBar,
-	.graphCaption,
-	.pageControls,
-	input.button1,
-	input.button2 {
-		color: var(--page-controls-text-color);
-	}
+    #newsBar,
+    .graphCaption,
+    .pageControls,
+    input.button1,
+    input.button2 {
+        color: var(--page-controls-text-color);
+    }
 
-	#uploadsTable,
-	#mapBar,
-	table,
-	a {
-		filter: invert(1) hue-rotate(180);
-	}
+    #uploadsTable,
+    #mapBar,
+    table,
+    a {
+        filter: invert(1) hue-rotate(180);
+    }
 }

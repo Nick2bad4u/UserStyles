@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         Garmin Connect Dark Mode (Updated)
 @version      3.5
 @namespace    nick2bad4u.github.io
@@ -22,233 +22,222 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GarminConnectDark.user.css
 ==/UserStyle== */
 @-moz-document domain("connect.garmin.com") {
-	:root {
-		--inverted-background: var(inverted-background);
-		--inverted-background2: var(inverted-background2);
-		--primary-text: var(primary-text);
-		--primary-text2: var(primary-text2);
-		--header-text: var(header-text);
-		--border: var(border-color);
-		--scrollbar-thumb: var(scrollbar-thumb-color);
-		--scrollbar-background: var(scrollbar-background-color);
-	}
+    :root {
+        --inverted-background: var(inverted-background);
+        --inverted-background2: var(inverted-background2);
+        --primary-text: var(primary-text);
+        --primary-text2: var(primary-text2);
+        --header-text: var(header-text);
+        --border: var(border-color);
+        --scrollbar-thumb: var(scrollbar-thumb-color);
+        --scrollbar-background: var(scrollbar-background-color);
+    }
 
-	.connect-container {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    .connect-container {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.main-nav,
-	.leaflet-zoom-animated,
-	html img,
-	#activityYouTubePlaceholder > div,
-	.modal-backdrop,
-	.modal:not(
-		.modal.fullscreen.fullscreen,
-		.modal-wide.metrics-edit-modal.in
-	),
-	.edit-carousel-content .edit-image-div,
-	.Notification_notification__189UW,
-	.connect-map-view .leaflet-container,
-	.marTopXS > iframe {
-		-webkit-filter: invert(1) hue-rotate(180deg) !important;
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    .main-nav,
+    .leaflet-zoom-animated,
+    html img,
+    #activityYouTubePlaceholder > div,
+    .modal-backdrop,
+    .modal:not(.modal.fullscreen.fullscreen, .modal-wide.metrics-edit-modal.in),
+    .edit-carousel-content .edit-image-div,
+    .Notification_notification__189UW,
+    .connect-map-view .leaflet-container,
+    .marTopXS > iframe {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	h1,
-	.h1,
-	h2,
-	.h2,
-	h3,
-	.h3,
-	h4,
-	.h4,
-	h5,
-	.h5,
-	h6,
-	.h6 {
-		color: var(--header-text);
-		font-weight: 600;
-	}
+    h1,
+    .h1,
+    h2,
+    .h2,
+    h3,
+    .h3,
+    h4,
+    .h4,
+    h5,
+    .h5,
+    h6,
+    .h6 {
+        color: var(--header-text);
+        font-weight: 600;
+    }
 
-	th.weekly-totals.weekly-totals-header,
-	td.weekly-totals.weekly-totals-data,
-	#defaultActivityOptionsGroup
-		> div.row-fluid.page-top
-		> div.span8.page-intro
-		> div
-		> h3
-		> div
-		> div
-		> button
-		> i,
-	.modal-body > select {
-		filter: invert(1) hue-rotate(180deg);
-		background-color: var(--inverted-background) !important;
-		color: var(--primary-text) !important;
-	}
+    th.weekly-totals.weekly-totals-header,
+    td.weekly-totals.weekly-totals-data,
+    #defaultActivityOptionsGroup
+        > div.row-fluid.page-top
+        > div.span8.page-intro
+        > div
+        > h3
+        > div
+        > div
+        > button
+        > i,
+    .modal-body > select {
+        background-color: var(--inverted-background) !important;
+        color: var(--primary-text) !important;
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	/* stylelint-disable-next-line selector-type-no-unknown -- Stylus preprocessor conditional block */
-	if dim-video-container {
-		.video-container {
-			opacity: 10%;
-		}
+    /* stylelint-disable-next-line selector-type-no-unknown -- Stylus preprocessor conditional block */
+    if dim-video-container .video-container {
+        opacity: 10%;
 
-		.video-container:hover {
-			opacity: 100% !important;
-		}
-	}
+        &:hover,
+        &:focus {
+            opacity: 100% !important;
+        }
+    }
 
-	.in.fade.modal-backdrop {
-		display: table !important;
-	}
+    .in.fade.modal-backdrop {
+        display: table !important;
+    }
 
-	[class*='modal']:not(
-		#pageContainer
-			> div
-			> div.modal.hide.fade.modal-wide.metrics-edit-modal.in
-			> div.modal-header
-			> h3,
-		#pageContainer
-			> div
-			> div
-			> div.row-fluid.list-items.flexItemAutoHeight
-			> ul
-			> li:nth-child(n)
-			> div
-			> div.pull-left.activity-name-type.title-col
-			> div.activity-name-edit.inline-edit.inline-edit-text-field
-			> button,
-		#activityIntroViewPlaceholder
-			> div.page-header-content
-			> h3
-			> div
-			> div
-			> button,
-		.inline-edit-trigger,
-		.modal.fade.in,
-		.modal-header h3,
-		.fade,
-		:not(.help-icon)
-	) {
-		/* Manipulations stuff */
-		filter: invert(1) hue-rotate(180deg);
-		/* Box model stuff */
-		border-color: var(--border);
-		background-color: var(
-			--inverted-background2
-		) !important;
-		/* Typography stuff */
-		color: var(--primary-text2) !important;
-	}
+    [class*="modal"]:not(
+        #pageContainer
+            > div
+            > div.modal.hide.fade.modal-wide.metrics-edit-modal.in
+            > div.modal-header
+            > h3,
+        #pageContainer
+            > div
+            > div
+            > div.row-fluid.list-items.flexItemAutoHeight
+            > ul
+            > li:nth-child(n)
+            > div
+            > div.pull-left.activity-name-type.title-col
+            > div.activity-name-edit.inline-edit.inline-edit-text-field
+            > button,
+        #activityIntroViewPlaceholder
+            > div.page-header-content
+            > h3
+            > div
+            > div
+            > button,
+        .inline-edit-trigger,
+        .modal.fade.in,
+        .modal-header h3,
+        .fade,
+        :not(.help-icon)
+    ) {
+        /* Box model stuff */
+        border-color: var(--border);
+        background-color: var(--inverted-background2) !important;
+        /* Typography stuff */
+        color: var(--primary-text2) !important;
+        /* Manipulations stuff */
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.photo-carousel {
-		background-color: var(
-			--inverted-background2
-		) !important;
-	}
+    .photo-carousel {
+        background-color: var(--inverted-background2) !important;
+    }
 
-	.photo-carousel-modal .close {
-		color: var(--primary-text2) !important;
-	}
+    .photo-carousel-modal .close {
+        color: var(--primary-text2) !important;
+    }
 
-	.photo-carousel-modal .photo {
-		filter: unset !important;
-		cursor: initial;
-	}
+    .photo-carousel-modal .photo {
+        cursor: initial;
+        filter: unset !important;
+    }
 
-	.photo-carousel-modal .slides {
-		margin-bottom: 35px;
-		background: var(--inverted-background);
-	}
+    .photo-carousel-modal .slides {
+        margin-bottom: 35px;
+        background: var(--inverted-background);
+    }
 
-	.btn-small {
-		z-index: 9999;
-	}
+    .btn-small {
+        z-index: 9999;
+    }
 
-	.react-global-modal .Dialog_dialogFooter__W9xGT > a {
-		background-color: var(
-			--inverted-background2
-		) !important;
-		color: var(--primary-text2);
-	}
+    .react-global-modal .Dialog_dialogFooter__W9xGT > a {
+        background-color: var(--inverted-background2) !important;
+        color: var(--primary-text2);
+    }
 
-	/* For WebKit browsers (e.g., Chrome, Safari) */
-	::-webkit-scrollbar {
-		width: 12px;
-	}
+    /* For WebKit browsers (e.g., Chrome, Safari) */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
 
-	::-webkit-scrollbar-thumb {
-		border: 3px solid var(--scrollbar-background-color);
-		border-radius: 6px;
-		background-color: var(--scrollbar-thumb-color);
-	}
+    ::-webkit-scrollbar-thumb {
+        border: 3px solid var(--scrollbar-background-color);
+        border-radius: 6px;
+        background-color: var(--scrollbar-thumb-color);
+    }
 
-	/* For Edge, IE */
-	body {
-		-ms-overflow-style: -ms-autohiding-scrollbar;
-	}
+    /* For Edge, IE */
+    body {
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
 }
 
 @-moz-document domain("forums.garmin.com"),
 regexp("^https?:\\/\\/(www\\.)?garmin\\.com(\\/[^\\s]*)?$") {
-	:root {
-		--inverted-background: var(inverted-background);
-		--inverted-background2: var(inverted-background2);
-		--primary-text: var(primary-text);
-		--primary-text2: var(primary-text2);
-		--header-text: var(header-text);
-		--border: var(border-color);
-		--scrollbar-thumb: var(scrollbar-thumb-color);
-		--scrollbar-background: var(scrollbar-background-color);
-	}
+    :root {
+        --inverted-background: var(inverted-background);
+        --inverted-background2: var(inverted-background2);
+        --primary-text: var(primary-text);
+        --primary-text2: var(primary-text2);
+        --header-text: var(header-text);
+        --border: var(border-color);
+        --scrollbar-thumb: var(scrollbar-thumb-color);
+        --scrollbar-background: var(scrollbar-background-color);
+    }
 
-	:is(
-		html:not([stylus-iframe]),
-		#app,
-		.ugc-gallery-image__figure__img,
-		.app__headline--dark,
-		img:not(.avatar > a > img),
-		svg,
-		video
-	),
-	.content-author .avatar img,
-	.gf__footer,
-	.g__email-signup,
-	.g__tile .g__tile__content-text > .g__heading p,
-	.css-karl3g div,
-	.app__color__picker__item,
-	.app__tabs__content__wrap img,
-	.app__tabs__content__main,
-	.app__product__card,
-	.app__related__card__inner {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    :is(
+        html:not([stylus-iframe]),
+        #app,
+        .ugc-gallery-image__figure__img,
+        .app__headline--dark,
+        img:not(.avatar > a > img),
+        svg,
+        video
+    ),
+    .content-author .avatar img,
+    .gf__footer,
+    .g__email-signup,
+    .g__tile .g__tile__content-text > .g__heading p,
+    .css-karl3g div,
+    .app__color__picker__item,
+    .app__tabs__content__wrap img,
+    .app__tabs__content__main,
+    .app__product__card,
+    .app__related__card__inner {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.g__email-signup,
-	.g__email-signup__copy__disclaimer,
-	.g__email-signup__copy__disclaimer a,
-	.app__sidebar__full {
-		background-color: var(--inverted-background);
-		color: var(--primary-text);
-	}
+    .g__email-signup,
+    .g__email-signup__copy__disclaimer,
+    .g__email-signup__copy__disclaimer a,
+    .app__sidebar__full {
+        background-color: var(--inverted-background);
+        color: var(--primary-text);
+    }
 
-	.app__feature__card__image {
-		filter: unset !important;
-	}
+    .app__feature__card__image {
+        filter: unset !important;
+    }
 
-	/* For WebKit browsers (e.g., Chrome, Safari) */
-	::-webkit-scrollbar {
-		width: 12px;
-	}
+    /* For WebKit browsers (e.g., Chrome, Safari) */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
 
-	::-webkit-scrollbar-thumb {
-		border: 3px solid var(--scrollbar-thumb);
-		border-radius: 6px;
-		background-color: var(--scrollbar-background-color);
-	}
+    ::-webkit-scrollbar-thumb {
+        border: 3px solid var(--scrollbar-thumb);
+        border-radius: 6px;
+        background-color: var(--scrollbar-background-color);
+    }
 
-	/* For Edge, IE */
-	body {
-		-ms-overflow-style: -ms-autohiding-scrollbar;
-	}
+    /* For Edge, IE */
+    body {
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
 }

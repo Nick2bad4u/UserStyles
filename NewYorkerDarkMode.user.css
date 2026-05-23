@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         New Yorker Simple Dark Mode
 @version      20241106.04.31
 @namespace    nick2bad4u.github.io
@@ -12,11 +12,9 @@
 ==/UserStyle== */
 
 @-moz-document domain("newyorker.com") {
-	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video):not(
-		z#z.z[z]
-	) {
-		filter: invert(1) hue-rotate(180deg) !important;
-		background-color: inherit !important;
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video):not(z#z.z[z]) {
+        background-color: inherit !important;
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

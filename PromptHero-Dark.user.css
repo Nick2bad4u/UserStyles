@@ -18,74 +18,79 @@
 @var color      navbar-shadow-color "Navbar Shadow Color" #4505bc
 ==/UserStyle== */
 @-moz-document domain("prompthero.com") {
-	:root {
-		--primary-color: var(primary-color);
-		--secondary-color: var(secondary-color);
-		--background-color: var(background-color);
-		--card-background-color: var(card-background-color);
-		--text-color: var(text-color);
-		--navbar-shadow-color: var(navbar-shadow-color);
-	}
+    :root {
+        --primary-color: var(primary-color);
+        --secondary-color: var(secondary-color);
+        --background-color: var(background-color);
+        --card-background-color: var(card-background-color);
+        --text-color: var(text-color);
+        --navbar-shadow-color: var(navbar-shadow-color);
+    }
 
-	/* Invert colors except images and videos */
-	body,
-	.navbar-container,
-	.p-3,
-	.text-center,
-	footer,
-	footer ul a,
-	.card,
-	.devise-wrapper form:not(.button_to) {
-		background: var(--background-color) !important;
-		color: var(--text-color) !important;
-	}
+    /* Invert colors except images and videos */
+    body,
+    .navbar-container,
+    .p-3,
+    .text-center,
+    footer,
+    footer ul a,
+    .card,
+    .devise-wrapper form:not(.button_to) {
+        background: var(--background-color) !important;
+        color: var(--text-color) !important;
+    }
 
-	#top-prompthero-navbar > a > span > img {
-		border-radius: 20px;
-		background: #56074300;
-		padding-top: 1px;
-		padding-right: 10px;
-		padding-left: 10px;
-	}
+    #top-prompthero-navbar > a > span > img {
+        padding-top: 1px;
+        padding-right: 10px;
+        padding-left: 10px;
+        border-radius: 20px;
+        background: #56074300;
+    }
 
-	.navbar-shadow {
-		box-shadow:
-			var(--navbar-shadow-color) 0 8px 8px -8px,
-			inset -30px 0 30px -30px #00000033;
-	}
+    .navbar-shadow {
+        box-shadow:
+            var(--navbar-shadow-color) 0 8px 8px -8px,
+            inset -30px 0 30px -30px #00000033;
+    }
 
-	#top-prompthero-navbar > a > span > img,
-	.navbar-light .navbar-toggler-icon,
-	#top-prompthero-navbar-main-area {
-		filter: invert(1) hue-rotate(180deg);
-	}
+    #top-prompthero-navbar > a > span > img,
+    .navbar-light .navbar-toggler-icon,
+    #top-prompthero-navbar-main-area {
+        filter: invert(1) hue-rotate(180deg);
+    }
 
-	.category-carousel-item {
-		color: var(--secondary-color);
-	}
+    .category-carousel-item {
+        color: var(--secondary-color);
+    }
 
-	.category-carousel-item:hover,
-	footer ul a:hover {
-		color: var(--primary-color) !important;
-	}
+    .category-carousel-item:hover,
+    footer ul a:hover,
+    .category-carousel-item:focus,
+    footer ul a:focus {
+        color: var(--primary-color) !important;
+    }
 
-	.prompt-area,
-	.p-3,
-	.card {
-		border: 1px solid var(--primary-color);
-		border-radius: 12px;
-		background-color: var(--card-background-color);
-		padding: 1.5em 2em;
-		overflow-wrap: break-word;
-	}
+    .prompt-area,
+    .p-3,
+    .card {
+        padding: 1.5em 2em;
+        border: 1px solid var(--primary-color);
+        border-radius: 12px;
+        background-color: var(--card-background-color);
+        overflow-wrap: break-word;
+    }
 
-	.prompt-area span {
-		color: var(--secondary-color);
-	}
+    .prompt-area span {
+        color: var(--secondary-color);
+    }
 
-	.prompt-buttons a:hover span,
-	#copyButton:hover span,
-	.footer-section-title {
-		color: var(--primary-color);
-	}
+    .prompt-buttons a:hover span,
+    #copyButton:hover span,
+    .footer-section-title,
+    .prompt-buttons a:focus span,
+    #copyButton:focus span,
+    .footer-section-title {
+        color: var(--primary-color);
+    }
 }

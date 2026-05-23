@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           cssgradient.io - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.1.1
@@ -14,47 +14,46 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/CSSGradient-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("cssgradient.io") {
-	/* Use the variables for colors */
-	:root {
-		--backgroundColor: var(backgroundColor);
-		--textColor: var(textColor);
-	}
+    /* Use the variables for colors */
+    :root {
+        --backgroundColor: var(backgroundColor);
+        --textColor: var(textColor);
+    }
 
-	/* Invert colors except images and videos */
-	main,
-	.panel-app,
-	.app-gradient,
-	.app-color,
-	.app-options,
-	.home-article,
-	.nav,
-	.home-page,
-	.blog-card,
-	.site-footer,
-	.blog-header,
-	.blog-article,
-	.row,
-	.html-backgrounds,
-	.gradient-backgrounds,
-	.js-body-content,
-	.content-backgrounds,
-	.sidenav-fake,
-	.sidenav-backgrounds__list-item
-		.sidenav-backgrounds__background,
-	body,
-	#app,
-	.pt-16,
-	.mt-2,
-	.page-article,
-	.page-header,
-	.page-card,
-	.swatch-card__bar,
-	.swatch-card__copy {
-		background: var(--backgroundColor) !important;
-		color: var(--textColor) !important;
-	}
-	.app-color__stop.is-active {
-		background: var(--backgroundColor) !important;
-		color: var(--textColor) !important;
-	}
+    /* Invert colors except images and videos */
+    main,
+    .panel-app,
+    .app-gradient,
+    .app-color,
+    .app-options,
+    .home-article,
+    .nav,
+    .home-page,
+    .blog-card,
+    .site-footer,
+    .blog-header,
+    .blog-article,
+    .row,
+    .html-backgrounds,
+    .gradient-backgrounds,
+    .js-body-content,
+    .content-backgrounds,
+    .sidenav-fake,
+    .sidenav-backgrounds__list-item .sidenav-backgrounds__background,
+    body,
+    #app,
+    .pt-16,
+    .mt-2,
+    .page-article,
+    .page-header,
+    .page-card,
+    .swatch-card__bar,
+    .swatch-card__copy {
+        background: var(--backgroundColor) !important;
+        color: var(--textColor) !important;
+    }
+    .app-color__stop.is-active {
+        background: var(--backgroundColor) !important;
+        color: var(--textColor) !important;
+    }
 }

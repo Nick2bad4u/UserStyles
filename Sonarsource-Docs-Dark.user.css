@@ -11,11 +11,11 @@
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Sonarsource-Docs-Dark.user.css
 ==/UserStyle== */
 @-moz-document domain("docs.sonarsource.com") {
-	/* Invert colors except images and videos */
-	html,
-	img,
-	video,
-	iframe {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    video,
+    iframe {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

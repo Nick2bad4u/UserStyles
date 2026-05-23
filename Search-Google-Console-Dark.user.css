@@ -10,13 +10,14 @@
 @downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Search-Google-Console-Dark.user.css
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Search-Google-Console-Dark.user.css
 ==/UserStyle== */
-@-moz-document url-prefix("https://search.google.com/") {
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+@-moz-document url-prefix("https://search.google.com/")
+{
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

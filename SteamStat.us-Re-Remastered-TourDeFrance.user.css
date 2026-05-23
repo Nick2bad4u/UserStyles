@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         SteamStat.us - Tour de France
 @version      20241115.16.06
 @namespace    nick2bad4u.github.io
@@ -23,249 +23,353 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-TourDeFrance.user.css
 ==/UserStyle== */
 @-moz-document domain("steamstat.us") {
-	:root {
-		--color1: var(color1);
-		--color2: var(color2);
-		--color3: var(color3);
-		--color4: var(color4);
-		--color5: var(color5);
-		--color6: var(color6);
-		--color7: var(color7);
-		--color8: var(color8);
-		--color9: var(color9);
-		--color10: var(color10);
-		--color11: var(color11);
-	}
-	/* Main title styling with Tour de France theme */
-	.title {
-		margin: 20px 0;
-		background: linear-gradient(
-			135deg,
-			var(--color1) 40%,
-			var(--color2) 70%
-		);
-		/* var(--color7) to var(--color8) */
-		background-clip: text;
-		color: var(--color1);
-		font-weight: 700;
-		font-size: 3em;
-		text-align: center;
-		/* var(--color7) Jersey */
-		text-shadow: 2px 2px 5px #00000099;
-		-webkit-text-fill-color: transparent;
-		animation: pulse-title 3s ease-in-out infinite;
-		font-family: Merriweather, serif;
-	}
+    :root {
+        --color1: var(color1);
+        --color2: var(color2);
+        --color3: var(color3);
+        --color4: var(color4);
+        --color5: var(color5);
+        --color6: var(color6);
+        --color7: var(color7);
+        --color8: var(color8);
+        --color9: var(color9);
+        --color10: var(color10);
+        --color11: var(color11);
+    }
+    /* Main title styling with Tour de France theme */
+    .title {
+        margin: 20px 0;
+        animation: pulse-title 3s ease-in-out infinite;
+        background: linear-gradient(
+            135deg,
+            var(--color1) 40%,
+            var(--color2) 70%
+        );
+        /* var(--color7) to var(--color8) */
+        background-clip: text;
+        color: var(--color1);
+        font-family: Merriweather, serif;
+        font-size: 3em;
+        font-weight: 700;
+        text-align: center;
+        -webkit-text-fill-color: transparent;
+        /* var(--color7) Jersey */
+        text-shadow: 2px 2px 5px #00000099;
+        @media screen and (prefers-reduced-motion: reduce) {
+            margin: 20px 0;
+            animation: none;
+            background: linear-gradient(
+                135deg,
+                var(--color1) 40%,
+                var(--color2) 70%
+            );
+            /* var(--color7) to var(--color8) */
+            background-clip: text;
+            color: var(--color1);
+            font-family: Merriweather, serif;
+            font-size: 3em;
+            font-weight: 700;
+            text-align: center;
+            -webkit-text-fill-color: transparent;
+            /* var(--color7) Jersey */
+            text-shadow: 2px 2px 5px #00000099;
+        }
+    }
 
-	/* Animation for title pulsing effect */
-	@keyframes pulse-title {
-		0%,
-		100% {
-			transform: scale(1);
-		}
+    /* Animation for title pulsing effect */
+    @keyframes pulse-title {
+        0%,
+        100% {
+            transform: scale(1);
+        }
 
-		50% {
-			transform: scale(1.1);
-		}
-	}
+        50% {
+            transform: scale(1.1);
+        }
+    }
 
-	/* Tour de France bicycle logo effect */
-	.title::after {
-		display: inline-block;
-		animation: rotate-bike 6s linear infinite;
-		margin-left: 15px;
-		background: url('https://i.gyazo.com/9823ea6d0dccc361361cfacc1a6df950.png')
-			no-repeat center;
-		background-size: contain;
-		width: 100px;
-		height: 100px;
-		content: '';
-	}
+    /* Tour de France bicycle logo effect */
+    .title::after {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        margin-left: 15px;
+        animation: rotate-bike 6s linear infinite;
+        background: url("https://i.gyazo.com/9823ea6d0dccc361361cfacc1a6df950.png")
+            no-repeat center;
+        background-size: contain;
+        content: "";
+        @media screen and (prefers-reduced-motion: reduce) {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            margin-left: 15px;
+            animation: none;
+            background: url("https://i.gyazo.com/9823ea6d0dccc361361cfacc1a6df950.png")
+                no-repeat center;
+            background-size: contain;
+            content: "";
+        }
+    }
 
-	/* Rotate animation for logo */
-	@keyframes rotate-bike {
-		0% {
-			transform: rotate(0deg);
-		}
+    /* Rotate animation for logo */
+    @keyframes rotate-bike {
+        0% {
+            transform: rotate(0deg);
+        }
 
-		100% {
-			transform: rotate(360deg);
-		}
-	}
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 
-	/* Link styling with cycling-theme hover effects */
-	a {
-		transition:
-			color 0.3s ease,
-			text-shadow 0.3s ease;
-		color: var(--color1);
-		font-weight: 700;
-		/* var(--color7) Jersey */
-		text-decoration: none;
-		text-shadow: 1px 1px 3px #00000099;
-	}
+    /* Link styling with cycling-theme hover effects */
+    a {
+        color: var(--color1);
+        font-weight: 700;
+        /* var(--color7) Jersey */
+        text-decoration: none;
+        text-shadow: 1px 1px 3px #00000099;
+        transition:
+            color 0.3s ease,
+            text-shadow 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            color: var(--color1);
+            font-weight: 700;
+            /* var(--color7) Jersey */
+            text-decoration: none;
+            text-shadow: 1px 1px 3px #00000099;
+            transition: none;
+        }
 
-	a:hover {
-		color: var(--color2);
-		/* var(--color8) Jersey */
-		text-shadow: 2px 2px 5px #000000cc;
-	}
+        &:hover,
+        &:focus {
+            color: var(--color2);
+            /* var(--color8) Jersey */
+            text-shadow: 2px 2px 5px #000000cc;
+        }
+    }
 
-	/* Container with bright accents and animation */
-	.services,
-	#psa,
-	footer,
-	div.regions-title.sep {
-		position: relative;
-		transition:
-			box-shadow 0.3s ease,
-			transform 0.3s ease;
-		box-shadow: 0 4px 10px #0000004d;
-		/* var(--color7) to var(--color8) */
-		border: 2px solid var(--color1);
-		border-radius: 10px;
-		background: linear-gradient(
-			135deg,
-			var(--color1) 30%,
-			var(--color2) 70%
-		);
-		padding: 10px;
-		color: var(--color3);
-		font-size: 1em;
-	}
+    /* Container with bright accents and animation */
+    .services,
+    #psa,
+    footer,
+    div.regions-title.sep {
+        position: relative;
+        padding: 10px;
+        /* var(--color7) to var(--color8) */
+        border: 2px solid var(--color1);
+        border-radius: 10px;
+        background: linear-gradient(
+            135deg,
+            var(--color1) 30%,
+            var(--color2) 70%
+        );
+        box-shadow: 0 4px 10px #0000004d;
+        color: var(--color3);
+        font-size: 1em;
+        transition:
+            box-shadow 0.3s ease,
+            transform 0.3s ease;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: relative;
+            padding: 10px;
+            /* var(--color7) to var(--color8) */
+            border: 2px solid var(--color1);
+            border-radius: 10px;
+            background: linear-gradient(
+                135deg,
+                var(--color1) 30%,
+                var(--color2) 70%
+            );
+            box-shadow: 0 4px 10px #0000004d;
+            color: var(--color3);
+            font-size: 1em;
+            transition: none;
+        }
+    }
 
-	.services:hover,
-	#psa:hover,
-	footer:hover,
-	div.regions-title.sep:hover {
-		transform: scale(1.05);
-		box-shadow: 0 6px 15px #00000080;
-	}
+    .services:hover,
+    #psa:hover,
+    footer:hover,
+    div.regions-title.sep:hover,
+    .services:focus,
+    #psa:focus,
+    footer:focus,
+    div.regions-title.sep:focus {
+        box-shadow: 0 6px 15px #00000080;
+        transform: scale(1.05);
+    }
 
-	/* Gradient border for status panels */
-	.gradient-border {
-		position: relative;
-		border-radius: 10px;
-		background-color: var(--color1);
-		padding: 10px;
-		/* var(--color7) Jersey */
-		color: var(--color3);
-		font-weight: 700;
-		font-size: 1.2em;
-		text-align: center;
-	}
+    /* Gradient border for status panels */
+    .gradient-border {
+        position: relative;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: var(--color1);
+        /* var(--color7) Jersey */
+        color: var(--color3);
+        font-size: 1.25em;
+        font-weight: 700;
+        text-align: center;
+    }
 
-	.gradient-border::before {
-		position: absolute;
-		z-index: -1;
-		animation: gradient-flow 5s linear infinite;
-		inset: 0;
-		border-radius: 10px;
-		background: linear-gradient(
-			45deg,
-			var(--color1),
-			var(--color2),
-			var(--color1),
-			var(--color2)
-		);
-		background-size: 200% 200%;
-		content: '';
-	}
+    .gradient-border::before {
+        position: absolute;
+        z-index: -1;
+        border-radius: 10px;
+        animation: gradient-flow 5s linear infinite;
+        background: linear-gradient(
+            45deg,
+            var(--color1),
+            var(--color2),
+            var(--color1),
+            var(--color2)
+        );
+        background-size: 200% 200%;
+        content: "";
+        inset: 0;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            z-index: -1;
+            border-radius: 10px;
+            animation: none;
+            background: linear-gradient(
+                45deg,
+                var(--color1),
+                var(--color2),
+                var(--color1),
+                var(--color2)
+            );
+            background-size: 200% 200%;
+            content: "";
+            inset: 0;
+        }
+    }
 
-	@keyframes gradient-flow {
-		0% {
-			background-position: 0% 50%;
-		}
+    @keyframes gradient-flow {
+        0% {
+            background-position: 0% 50%;
+        }
 
-		100% {
-			background-position: 100% 50%;
-		}
-	}
+        100% {
+            background-position: 100% 50%;
+        }
+    }
 
-	/* Status colors with vibrant cycling palette */
-	.good {
-		color: var(--color2);
-		font-weight: 700;
-		/* var(--color8) Jersey */
-		text-shadow: 2px 2px 3px #00000080;
-	}
+    /* Status colors with vibrant cycling palette */
+    .good {
+        color: var(--color2);
+        font-weight: 700;
+        /* var(--color8) Jersey */
+        text-shadow: 2px 2px 3px #00000080;
+    }
 
-	.minor {
-		color: var(--color4);
-		/* var(--color9) - minor alerts */
-		text-shadow: 1px 1px 3px #00000099;
-	}
+    .minor {
+        color: var(--color4);
+        /* var(--color9) - minor alerts */
+        text-shadow: 1px 1px 3px #00000099;
+    }
 
-	.major {
-		color: var(--color5);
-		font-weight: 700;
-		/* var(--color10) - major issues */
-		text-shadow: 1px 1px 3px #00000099;
-	}
+    .major {
+        color: var(--color5);
+        font-weight: 700;
+        /* var(--color10) - major issues */
+        text-shadow: 1px 1px 3px #00000099;
+    }
 
-	/* Background with cycling road theme */
-	body {
-		margin: 0;
-		background: url('https://i.gyazo.com/ebf59cbe7c55a3df90ae7d8c62c9584c.jpg')
-			no-repeat center;
-		background-size: cover;
-		color: var(--color3);
-		font-size: 16px;
-		font-family: Merriweather, serif;
-		text-shadow: 1px 1px 5px #000000cc;
-	}
+    /* Background with cycling road theme */
+    body {
+        margin: 0;
+        background: url("https://i.gyazo.com/ebf59cbe7c55a3df90ae7d8c62c9584c.jpg")
+            no-repeat center;
+        background-size: cover;
+        color: var(--color3);
+        font-family: Merriweather, serif;
+        font-size: 16px;
+        text-shadow: 1px 1px 5px #000000cc;
+    }
 
-	/* Tooltip with cycling theme */
-	[data-tooltip]::before {
-		position: absolute;
-		top: -40px;
-		left: 50%;
-		transform: translateX(-50%);
-		visibility: hidden;
-		opacity: 0%;
-		transition:
-			visibility 0s,
-			opacity 0.3s ease;
-		border-radius: 5px;
-		background: var(--color1);
-		padding: 5px 10px;
-		content: attr(data-tooltip);
-		color: var(--color6);
-		font-weight: 700;
-		font-size: 0.9em;
-		white-space: nowrap;
-	}
+    /* Tooltip with cycling theme */
+    [data-tooltip]::before {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background: var(--color1);
+        color: var(--color6);
+        content: attr(data-tooltip);
+        font-size: 0.875em;
+        font-weight: 700;
+        opacity: 0%;
+        transform: translateX(-50%);
+        transition:
+            visibility 0s,
+            opacity 0.3s ease;
+        visibility: hidden;
+        white-space: nowrap;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background: var(--color1);
+            color: var(--color6);
+            content: attr(data-tooltip);
+            font-size: 0.875em;
+            font-weight: 700;
+            opacity: 0%;
+            transform: translateX(-50%);
+            transition: none;
+            visibility: hidden;
+            white-space: nowrap;
+        }
+    }
 
-	[data-tooltip]:hover::before {
-		visibility: visible;
-		opacity: 100%;
-	}
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus::before {
+        opacity: 100%;
+        visibility: visible;
+    }
 
-	@keyframes ride-bike {
-		0% {
-			transform: translateX(0);
-		}
+    @keyframes ride-bike {
+        0% {
+            transform: translateX(0);
+        }
 
-		50% {
-			transform: translateX(calc(100vw - 100px));
-			/* Moves to the far right */
-		}
+        50% {
+            transform: translateX(calc(100vw - 100px));
+            /* Moves to the far right */
+        }
 
-		100% {
-			transform: translateX(0);
-			/* Returns to the starting point */
-		}
-	}
+        100% {
+            transform: translateX(0);
+            /* Returns to the starting point */
+        }
+    }
 
-	.bike-container {
-		position: fixed;
-		bottom: 20px;
-		left: 0;
-		animation: ride-bike 5s infinite ease-in-out;
-		background: url('https://i.gyazo.com/9823ea6d0dccc361361cfacc1a6df950.png')
-			no-repeat center;
-		background-size: contain;
-		width: 100px;
-		height: 100px;
-	}
+    .bike-container {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        animation: ride-bike 5s infinite ease-in-out;
+        background: url("https://i.gyazo.com/9823ea6d0dccc361361cfacc1a6df950.png")
+            no-repeat center;
+        background-size: contain;
+        @media screen and (prefers-reduced-motion: reduce) {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            animation: none;
+            background: url("https://i.gyazo.com/9823ea6d0dccc361361cfacc1a6df950.png")
+                no-repeat center;
+            background-size: contain;
+        }
+    }
 }

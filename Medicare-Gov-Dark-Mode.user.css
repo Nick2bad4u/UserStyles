@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           Medicare.Gov - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.4
@@ -11,9 +11,8 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Medicare-Gov-Dark-Mode.user.css
 ==/UserStyle== */
 @-moz-document domain("medicare.gov") {
-	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video) {
-		-webkit-filter: invert(1) hue-rotate(180deg) !important;
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

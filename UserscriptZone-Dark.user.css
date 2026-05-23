@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           userscript.zone - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.3
@@ -14,15 +14,15 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/UserscriptZone-Dark.user.css
 ==/UserStyle== */
 @-moz-document domain("userscript.zone") {
-	:root {
-		--background-color: var(background-color);
-		--text-color: var(text-color);
-	}
+    :root {
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+    }
 
-	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video) {
-		filter: invert(1) hue-rotate(180deg) !important;
-		background: var(--background-color);
-		color: var(--text-color);
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video) {
+        background: var(--background-color);
+        color: var(--text-color);
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 }

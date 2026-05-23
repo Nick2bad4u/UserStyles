@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           SportSurge.net - Black Mode [Customizable]
 @namespace      nick2bad4u.github.io
 @version        1.1.0
@@ -54,130 +54,133 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SportSurge-BlackMode.user.css
 ==/UserStyle== */
 @-moz-document domain("sportsurge.net"), domain("sportsurge.club"), domain("sportsurge.to"), regexp(".*sportsurge.*") {
-	:root {
-		--bs-body-color: var(bs-body-color);
-		--bs-body-bg-dark: var(bs-body-bg-dark);
-		--bs-hover-bg: var(bs-hover-bg);
-		--bs-header-color: var(bs-header-color);
-		--bs-header-bg: var(bs-header-bg);
-		--bs-header-border: var(bs-header-border);
-		--bs-link-hover-bg: var(bs-link-hover-bg);
-		--bs-odd-bg: var(bs-odd-bg);
-		--bs-even-bg: var(bs-even-bg);
-		--bs-primary: var(bs-primary);
-		--bs-secondary: var(bs-secondary);
-		--bs-success: var(bs-success);
-		--bs-info: var(bs-info);
-		--bs-warning: var(bs-warning);
-		--bs-danger: var(bs-danger);
-		--bs-light: var(bs-light);
-		--bs-dark: var(bs-dark);
-		--bs-blue: var(bs-blue);
-		--bs-indigo: var(bs-indigo);
-		--bs-purple: var(bs-purple);
-		--bs-pink: var(bs-pink);
-		--bs-red: var(bs-red);
-		--bs-orange: var(bs-orange);
-		--bs-yellow: var(bs-yellow);
-		--bs-green: var(bs-green);
-		--bs-teal: var(bs-teal);
-		--bs-cyan: var(bs-cyan);
-		--bs-white: var(bs-white);
-		--bs-gray: var(bs-gray);
-		--bs-gray-dark: var(bs-gray-dark);
-		--bs-gray-100: var(bs-gray-100);
-		--bs-gray-200: var(bs-gray-200);
-		--bs-gray-300: var(bs-gray-300);
-		--bs-gray-400: var(bs-gray-400);
-		--bs-gray-500: var(bs-gray-500);
-		--bs-gray-600: var(bs-gray-600);
-		--bs-gray-700: var(bs-gray-700);
-		--bs-gray-800: var(bs-gray-800);
-		--bs-gray-900: var(bs-gray-900);
-		--bs-body-bg: var(bs-body-bg);
-		--bs-gradient-start: var(bs-gradient-start);
-		--bs-gradient-end: var(bs-gradient-end);
-		--bs-gradient: linear-gradient(
-			180deg,
-			var(--bs-gradient-start),
-			var(--bs-gradient-end)
-		);
-		--bs-body-font-family: var(--bs-font-sans-serif);
-		--bs-body-font-size: 1rem;
-		--bs-body-font-weight: 400;
-		--bs-body-line-height: 1.5;
-	}
+    :root {
+        --bs-body-color: var(bs-body-color);
+        --bs-body-bg-dark: var(bs-body-bg-dark);
+        --bs-hover-bg: var(bs-hover-bg);
+        --bs-header-color: var(bs-header-color);
+        --bs-header-bg: var(bs-header-bg);
+        --bs-header-border: var(bs-header-border);
+        --bs-link-hover-bg: var(bs-link-hover-bg);
+        --bs-odd-bg: var(bs-odd-bg);
+        --bs-even-bg: var(bs-even-bg);
+        --bs-primary: var(bs-primary);
+        --bs-secondary: var(bs-secondary);
+        --bs-success: var(bs-success);
+        --bs-info: var(bs-info);
+        --bs-warning: var(bs-warning);
+        --bs-danger: var(bs-danger);
+        --bs-light: var(bs-light);
+        --bs-dark: var(bs-dark);
+        --bs-blue: var(bs-blue);
+        --bs-indigo: var(bs-indigo);
+        --bs-purple: var(bs-purple);
+        --bs-pink: var(bs-pink);
+        --bs-red: var(bs-red);
+        --bs-orange: var(bs-orange);
+        --bs-yellow: var(bs-yellow);
+        --bs-green: var(bs-green);
+        --bs-teal: var(bs-teal);
+        --bs-cyan: var(bs-cyan);
+        --bs-white: var(bs-white);
+        --bs-gray: var(bs-gray);
+        --bs-gray-dark: var(bs-gray-dark);
+        --bs-gray-100: var(bs-gray-100);
+        --bs-gray-200: var(bs-gray-200);
+        --bs-gray-300: var(bs-gray-300);
+        --bs-gray-400: var(bs-gray-400);
+        --bs-gray-500: var(bs-gray-500);
+        --bs-gray-600: var(bs-gray-600);
+        --bs-gray-700: var(bs-gray-700);
+        --bs-gray-800: var(bs-gray-800);
+        --bs-gray-900: var(bs-gray-900);
+        --bs-body-bg: var(bs-body-bg);
+        --bs-gradient-start: var(bs-gradient-start);
+        --bs-gradient-end: var(bs-gradient-end);
+        --bs-gradient: linear-gradient(
+            180deg,
+            var(--bs-gradient-start),
+            var(--bs-gradient-end)
+        );
+        --bs-body-font-family: var(--bs-font-sans-serif);
+        --bs-body-font-size: 1rem;
+        --bs-body-font-weight: 400;
+        --bs-body-line-height: 1.5;
+    }
 
-	body,
-	.MaclariListele:nth-of-type(even),
-	.Basliklar,
-	.lgrdhw .game-forecast-link:nth-of-type(even) {
-		background-color: var(--bs-body-bg-dark) !important;
-	}
+    body,
+    .MaclariListele:nth-of-type(even),
+    .Basliklar,
+    .lgrdhw .game-forecast-link:nth-of-type(even) {
+        background-color: var(--bs-body-bg-dark) !important;
+    }
 
-	.MaclariListele:nth-of-type(odd) {
-		background-color: var(--bs-odd-bg) !important;
-	}
+    .MaclariListele:nth-of-type(odd) {
+        background-color: var(--bs-odd-bg) !important;
+    }
 
-	.lgrdhw .game-forecast-link:nth-of-type(odd) {
-		background-color: var(--bs-even-bg) !important;
-	}
+    .lgrdhw .game-forecast-link:nth-of-type(odd) {
+        background-color: var(--bs-even-bg) !important;
+    }
 
-	.MaclariListele:hover,
-	form button:hover {
-		background-color: var(--bs-hover-bg) !important;
-	}
+    .MaclariListele:hover,
+    form button:hover,
+    .MaclariListele:focus,
+    form button:focus {
+        background-color: var(--bs-hover-bg) !important;
+    }
 
-	.HeaderUyari,
-	input,
-	select,
-	#__next
-		> div.DefaultPageLayout__LayoutBodyContainer-m5erbg-0.ioqCOx
-		> section
-		> div,
-	form button {
-		color: var(--bs-header-color) !important;
-		background-color: var(--bs-header-bg) !important;
-		border: 1px solid var(--bs-header-border) !important;
-		border-color: var(--bs-header-border) !important;
-	}
+    .HeaderUyari,
+    input,
+    select,
+    #__next
+        > div.DefaultPageLayout__LayoutBodyContainer-m5erbg-0.ioqCOx
+        > section
+        > div,
+    form button {
+        border: 1px solid var(--bs-header-border) !important;
+        border-color: var(--bs-header-border) !important;
+        background-color: var(--bs-header-bg) !important;
+        color: var(--bs-header-color) !important;
+    }
 
-	.YayinaGit:nth-child(8) {
-		color: var(--bs-header-color) !important;
-	}
+    .YayinaGit:nth-child(8) {
+        color: var(--bs-header-color) !important;
+    }
 
-	.YayinaGit:nth-child(7) {
-		color: var(--bs-danger) !important;
-	}
+    .YayinaGit:nth-child(7) {
+        color: var(--bs-danger) !important;
+    }
 
-	.lgrdhw .game-forecast-link:hover {
-		background-color: var(--bs-link-hover-bg) !important;
-	}
+    .lgrdhw .game-forecast-link:hover,
+    .lgrdhw .game-forecast-link:focus {
+        background-color: var(--bs-link-hover-bg) !important;
+    }
 
-	#__next
-		> div.DefaultPageLayout__LayoutBodyContainer-m5erbg-0.ioqCOx
-		> section
-		> section
-		> div
-		> section
-		> section
-		> div
-		> table
-		> thead
-		> tr
-		> th:nth-child(6),
-	#__next
-		> div.DefaultPageLayout__LayoutBodyContainer-m5erbg-0.ioqCOx
-		> section
-		> section
-		> div
-		> section
-		> section
-		> div
-		> table
-		> tbody
-		> tr:nth-child(n)
-		> td:nth-child(6) {
-		display: none !important;
-	}
+    #__next
+        > div.DefaultPageLayout__LayoutBodyContainer-m5erbg-0.ioqCOx
+        > section
+        > section
+        > div
+        > section
+        > section
+        > div
+        > table
+        > thead
+        > tr
+        > th:nth-child(6),
+    #__next
+        > div.DefaultPageLayout__LayoutBodyContainer-m5erbg-0.ioqCOx
+        > section
+        > section
+        > div
+        > section
+        > section
+        > div
+        > table
+        > tbody
+        > tr:nth-child(n)
+        > td:nth-child(6) {
+        display: none !important;
+    }
 }

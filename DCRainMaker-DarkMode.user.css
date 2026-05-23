@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name           dcrainmaker.com - Dark Mode
 @namespace      nick2bad4u.github.io
 @version        1.0.4
@@ -17,49 +17,48 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/DCRainMaker-DarkMode.user.css
 ==/UserStyle== */
 @-moz-document domain("dcrainmaker.com") {
-	:root {
-		--background-color: var(background-color);
-		--post-background-color: var(post-background-color);
-		--post-text-color: var(post-text-color);
-		--gradient-start-color: var(gradient-start-color);
-		--gradient-end-color: var(gradient-end-color);
-	}
+    :root {
+        --background-color: var(background-color);
+        --post-background-color: var(post-background-color);
+        --post-text-color: var(post-text-color);
+        --gradient-start-color: var(gradient-start-color);
+        --gradient-end-color: var(gradient-end-color);
+    }
 
-	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	#post-sections h4 {
-		background: var(--post-background-color);
-		color: var(--post-text-color);
-		font-style: oblique;
-		text-decoration: underline dotted;
-	}
+    #post-sections h4 {
+        background: var(--post-background-color);
+        color: var(--post-text-color);
+        font-style: oblique;
+        text-decoration: underline dotted;
+    }
 
-	.commentlist .children li.comment-author-rainmaker,
-	.commentlist li.comment-author-rainmaker > div,
-	.commentlist li.comment.bypostauthor > div {
-		border-radius: 10px !important;
-	}
+    .commentlist .children li.comment-author-rainmaker,
+    .commentlist li.comment-author-rainmaker > div,
+    .commentlist li.comment.bypostauthor > div {
+        border-radius: 10px !important;
+    }
 
-	.reply a,
-	a.comment-edit-link {
-		padding-right: 20px;
-	}
+    .reply a,
+    a.comment-edit-link {
+        padding-right: 20px;
+    }
 
-	.comment-author cite {
-		background: linear-gradient(
-			90deg,
-			var(--gradient-start-color) 55%,
-			var(--gradient-end-color) 45%
-		);
-		-webkit-background-clip: text;
-		background-clip: text;
-		-webkit-text-fill-color: transparent;
-	}
+    .comment-author cite {
+        background: linear-gradient(
+            90deg,
+            var(--gradient-start-color) 55%,
+            var(--gradient-end-color) 45%
+        );
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-	.commentlist li.comment-author-rainmaker {
-		border: var(--gradient-start-color) dashed;
-	}
+    .commentlist li.comment-author-rainmaker {
+        border: var(--gradient-start-color) dashed;
+    }
 }

@@ -1,4 +1,4 @@
-﻿/* ==UserStyle==
+/* ==UserStyle==
 @name         abcnews.go.com - Dark Mode
 @version      20241106.05.19
 @namespace    nick2bad4u.github.io
@@ -12,20 +12,18 @@
 ==/UserStyle== */
 
 @-moz-document domain("abc12.com") {
-	/* Invert colors except images and videos */
-	:is(html:not([stylus-iframe]), img, svg, video):not(
-		z#z.z[z],
-		svg,
-		a > img,
-		#site-footer-container
-	) {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    :is(html:not([stylus-iframe]), img, svg, video):not(
+        z#z.z[z],
+        svg,
+        a > img,
+        #site-footer-container
+    ) {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	/* Ensure background images are not inverted */
-	:is(html:not([stylus-iframe]), img, svg, video):not(
-		z#z.z[z]
-	) {
-		background-color: inherit !important;
-	}
+    /* Ensure background images are not inverted */
+    :is(html:not([stylus-iframe]), img, svg, video):not(z#z.z[z]) {
+        background-color: inherit !important;
+    }
 }

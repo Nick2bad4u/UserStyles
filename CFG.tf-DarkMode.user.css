@@ -16,52 +16,52 @@
 @var color navbar-bg "Navbar Background" #3285cc
 ==/UserStyle== */
 @-moz-document domain("cfg.tf") {
-	/* Stylus Variables */
-	:root {
-		--panel-border: var(panel-border);
-		--panel-heading-bg: var(panel-heading-bg);
-		--panel-heading-text: var(panel-heading-text);
-		--navbar-bg: var(navbar-bg);
-	}
+    /* Stylus Variables */
+    :root {
+        --panel-border: var(panel-border);
+        --panel-heading-bg: var(panel-heading-bg);
+        --panel-heading-text: var(panel-heading-text);
+        --navbar-bg: var(navbar-bg);
+    }
 
-	/* Invert colors except images and videos */
-	html,
-	img,
-	svg,
-	video,
-	iframe,
-	#generator_chooser,
-	.footer {
-		/* Invert colors and adjust hue to create a dark mode effect */
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
+    /* Invert colors except images and videos */
+    html,
+    img,
+    svg,
+    video,
+    iframe,
+    #generator_chooser,
+    .footer {
+        /* Invert colors and adjust hue to create a dark mode effect */
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
 
-	.panel-primary > .panel-heading {
-		border-color: var(--panel-border);
-		background-color: var(--panel-heading-bg);
-		color: var(--panel-heading-text);
-	}
+    .panel-primary > .panel-heading {
+        border-color: var(--panel-border);
+        background-color: var(--panel-heading-bg);
+        color: var(--panel-heading-text);
+    }
 
-	.panel {
-		border-color: var(--panel-border);
-	}
+    .panel {
+        border-color: var(--panel-border);
+    }
 
-	hr {
-		margin-top: 21px;
-		margin-bottom: 21px;
-		border: 0;
-		border-top: 1px solid var(--panel-border);
-	}
+    hr {
+        border: 0;
+        border-top: 1px solid var(--panel-border);
+        margin-top: 21px;
+        margin-bottom: 21px;
+    }
 
-	.bootstrap-select > .dropdown-toggle,
-	.btn-primary:focus,
-	.btn-primary.focus {
-		opacity: 100%;
-		color: black !important;
-	}
+    .bootstrap-select > .dropdown-toggle,
+    .btn-primary:focus,
+    .btn-primary.focus {
+        color: black !important;
+        opacity: 100%;
+    }
 
-	.navbar-default {
-		border-color: transparent;
-		background-color: var(--navbar-bg);
-	}
+    .navbar-default {
+        border-color: transparent;
+        background-color: var(--navbar-bg);
+    }
 }
