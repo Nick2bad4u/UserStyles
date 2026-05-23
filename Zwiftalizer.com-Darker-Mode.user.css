@@ -174,7 +174,7 @@
 
     /* Responsive Design */
     /* stylelint-disable-next-line media-query-no-invalid -- UnNeeded */
-    @media (max-width: var(--breakpoint-sm)) {
+    @media (width <= 576px) {
         table {
             display: block;
             overflow-x: auto;
