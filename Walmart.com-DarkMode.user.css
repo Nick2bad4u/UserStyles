@@ -184,20 +184,8 @@
     
 	/* Exclude flyer pages (flipp-router) from dark mode */
 	html body.multi flipp-router,
-	html body.multi flipp-router *:not(img, svg, iframe),
-	html body.multi flipp-router button,
-	html body.multi flipp-router button:hover,
-	html body.multi flipp-router input,
-	html body.multi flipp-router select,
-	html body.multi flipp-router textarea,
-	html body.multi flipp-router div {
+	html body.multi flipp-router *:not(img, svg, iframe) {
 		background-color: transparent !important;
-		border-color: revert !important;
-		color: revert !important;
-	}
-
-	html body.multi flipp-router a {
-		color: revert !important;
 	}
 }
 
