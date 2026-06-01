@@ -23,7 +23,7 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Walmart.com-DarkMode.user.css
 ==/UserStyle== */
 
-@-moz-document domain("walmart.com") {
+@-moz-document domain("walmart.com"), domain("walmart.ca"){
     :root {
         --base-border: var(base-border);
         --base-background: var(base-background);
