@@ -1,0 +1,305 @@
+/* ==UserStyle==
+@name           ChatGPT - Neon Theme
+@namespace      nick2bad4u.github.io
+@version        1.0.0
+@description    A vibrant neon theme for ChatGPT
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@downloadURL    https://raw.githubusercontent.com/Nick2bad4u/UserStyles/refs/heads/main/ChatGPT-Neon.user.css
+@updateURL      https://raw.githubusercontent.com/Nick2bad4u/UserStyles/refs/heads/main/ChatGPT-Neon.user.css
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+
+@var color color-primary "Primary Color" #81A1C1
+@var color color-secondary "Secondary Color" #A3BE8C
+@var color color-accent "Accent Color" #EBCB8B
+@var color background-color "Background Color" #00000000
+@var color text-color "Text Color" #D8DEE9
+==/UserStyle== */
+
+@import "https://fonts.googleapis.com/css2?family=Cousine:wght@400;500&display=swap";
+
+@-moz-document domain("chatgpt.com") {
+    :root,
+    .dark {
+        --color-primary: var(color-primary);
+        --color-secondary: var(color-secondary);
+        --color-accent: var(color-accent);
+        --background-color: var(background-color);
+        --text-color: var(text-color);
+        --surface-color: color-mix(
+            in srgb,
+            var(--background-color) 82%,
+            var(--text-color)
+        );
+        --surface-color-translucent: color-mix(
+            in srgb,
+            var(--surface-color) 63%,
+            transparent
+        );
+        --muted-color: color-mix(
+            in srgb,
+            var(--background-color) 55%,
+            var(--text-color)
+        );
+        --scrollbar-color: color-mix(
+            in srgb,
+            var(--color-primary) 72%,
+            var(--color-secondary)
+        );
+        --message-text-color: color-mix(
+            in srgb,
+            var(--color-accent) 70%,
+            #d08770
+        );
+        --heading-secondary-color: color-mix(
+            in srgb,
+            var(--color-primary) 45%,
+            #b48ead
+        );
+        --danger-color: color-mix(in srgb, var(--color-accent) 38%, #bf616a);
+        --primary-glow:
+            0 0 4px color-mix(in srgb, var(--color-primary) 50%, transparent),
+            0 0 8px color-mix(in srgb, var(--color-primary) 30%, transparent);
+        --secondary-glow:
+            0 0 4px color-mix(in srgb, var(--color-secondary) 50%, transparent),
+            0 0 8px color-mix(in srgb, var(--color-secondary) 30%, transparent);
+        --accent-glow:
+            0 0 4px color-mix(in srgb, var(--color-accent) 50%, transparent),
+            0 0 8px color-mix(in srgb, var(--color-accent) 30%, transparent);
+        --text-glow:
+            0 0 4px color-mix(in srgb, var(--text-color) 50%, transparent),
+            0 0 8px color-mix(in srgb, var(--text-color) 30%, transparent);
+        --scrollbar-glow:
+            0 0 4px color-mix(in srgb, var(--scrollbar-color) 50%, transparent),
+            0 0 8px color-mix(in srgb, var(--scrollbar-color) 30%, transparent);
+        --message-glow:
+            0 0 4px
+                color-mix(in srgb, var(--message-text-color) 50%, transparent),
+            0 0 8px
+                color-mix(in srgb, var(--message-text-color) 30%, transparent);
+        --heading-secondary-glow:
+            0 0 4px
+                color-mix(
+                    in srgb,
+                    var(--heading-secondary-color) 50%,
+                    transparent
+                ),
+            0 0 8px
+                color-mix(
+                    in srgb,
+                    var(--heading-secondary-color) 30%,
+                    transparent
+                );
+        --danger-glow:
+            0 0 4px color-mix(in srgb, var(--danger-color) 50%, transparent),
+            0 0 8px color-mix(in srgb, var(--danger-color) 30%, transparent);
+        --muted-glow:
+            0 0 4px color-mix(in srgb, var(--muted-color) 50%, transparent),
+            0 0 8px color-mix(in srgb, var(--muted-color) 30%, transparent);
+        --text-primary: var(--text-color);
+        --text-secondary: var(--color-primary);
+        --text-tertiary: var(--color-secondary);
+        --main-surface-primary: var(--background-color);
+        --main-surface-secondary: var(--surface-color);
+        --sidebar-surface-primary: var(--surface-color);
+        --message-surface: transparent;
+    }
+
+    body {
+        font-family: "Cousine", monospace !important;
+        background-color: var(--background-color) !important;
+        color: var(--text-color) !important;
+    }
+
+    .xl\:max-w-\[48rem\],
+    .md\:max-w-none,
+    .gap-1 {
+        max-width: 100% !important;
+        gap: 0 !important;
+    }
+    .items-end {
+        align-items: stretch !important;
+    }
+    .z-\[21\].flex-shrink-0.overflow-x-hidden.bg-token-sidebar-surface-primary.max-md\:\!w-0 {
+        width: 700px !important;
+        min-width: 700px !important;
+        max-width: 700px !important;
+    }
+    .w-\[260px\] {
+        width: 715px !important;
+    }
+    .top-bar {
+        background-color: var(--surface-color) !important;
+        border-bottom: 2px solid var(--scrollbar-color) !important;
+    }
+    ::-webkit-scrollbar {
+        width: 14px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-color);
+        border-radius: 6px;
+        border: 3px solid var(--surface-color);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-primary);
+    }
+
+    * {
+        scrollbar-color: var(--muted-color) transparent;
+    }
+
+    /* Tokens principales */
+    .text-token-text-primary {
+        color: var(--color-primary) !important;
+        text-shadow: var(--primary-glow);
+    }
+    .relative.max-w-\[70\%\].rounded-3xl.bg-token-message-surface.px-5.py-2\.5
+        .whitespace-pre-wrap {
+        color: var(--message-text-color) !important;
+        font-family: "Arial", sans-serif !important;
+        font-size: 15px !important;
+        letter-spacing: 0.1em;
+        border: 2px solid var(--surface-color) !important;
+        border-radius: 12px !important;
+        text-shadow: var(--message-glow);
+    }
+    .bg-token-message-surface {
+        background-color: transparent;
+    }
+    .dark\:bg-token-main-surface-secondary:is(.dark *) {
+        background-color: var(--surface-color-translucent);
+    }
+
+    /* Encabezados y texto general */
+    h1 {
+        color: var(--color-secondary) !important;
+        font-weight: bold !important;
+        letter-spacing: 0.6em !important;
+        text-shadow: var(--secondary-glow);
+    }
+    h2 {
+        color: var(--heading-secondary-color) !important;
+        font-weight: bold !important;
+        letter-spacing: 0.6em !important;
+        text-shadow: var(--heading-secondary-glow);
+    }
+    h3 {
+        color: var(--color-accent) !important;
+        font-weight: bold !important;
+        letter-spacing: 0.2em;
+        text-shadow: var(--accent-glow);
+    }
+    h4 {
+        color: var(--danger-color) !important;
+        font-weight: bold !important;
+        letter-spacing: 0.6em !important;
+        text-shadow: var(--danger-glow);
+    }
+    h5 {
+        color: var(--text-color) !important;
+        font-weight: bold !important;
+        letter-spacing: 0.6em !important;
+        text-shadow: var(--text-glow);
+    }
+    h6 {
+        color: var(--color-secondary) !important;
+        font-weight: bold !important;
+        letter-spacing: 0.6em !important;
+        text-shadow: var(--secondary-glow);
+    }
+    p {
+        color: var(--text-color) !important;
+        text-shadow: var(--text-glow);
+        letter-spacing: 0.1em;
+    }
+    li {
+        color: var(--scrollbar-color) !important;
+        text-shadow: var(--scrollbar-glow);
+        letter-spacing: 0.2em;
+        line-height: 1.3 !important;
+        font-size: 14px !important;
+    }
+    a {
+        color: var(--color-primary) !important;
+        font-weight: bold !important;
+        text-shadow: var(--primary-glow);
+        letter-spacing: 0.4em !important;
+    }
+
+    /* Código y metadatos */
+    pre,
+    code {
+        color: var(--color-secondary) !important;
+        font-weight: bold !important;
+        text-shadow: var(--secondary-glow);
+        font-size: 12px !important;
+        letter-spacing: 0.2em !important;
+    }
+    strong {
+        color: var(--color-primary) !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.2em;
+        text-shadow: var(--primary-glow);
+    }
+
+    /* Sintaxis de código resaltado */
+    .hljs-keyword {
+        color: var(--color-accent) !important;
+        font-weight: bold !important;
+        text-shadow: var(--accent-glow);
+    }
+    .hljs-string {
+        color: var(--color-secondary) !important;
+        text-shadow: var(--secondary-glow);
+        letter-spacing: 0.1em;
+    }
+    .hljs-number {
+        color: var(--scrollbar-color) !important;
+        font-weight: bold !important;
+        text-shadow: var(--scrollbar-glow);
+        letter-spacing: 0.1em;
+    }
+    .hljs-comment {
+        color: var(--muted-color) !important;
+        text-shadow: var(--muted-glow);
+    }
+    .hljs-meta {
+        color: var(--text-color) !important;
+        text-shadow: var(--text-glow);
+    }
+    .hljs-selector-class {
+        color: var(--heading-secondary-color) !important;
+        font-weight: bold !important;
+        text-shadow: var(--heading-secondary-glow);
+    }
+    .hljs-template-variable {
+        color: var(--danger-color) !important;
+        font-weight: bold !important;
+        text-shadow: var(--danger-glow);
+    }
+    .hljs-type {
+        color: var(--color-accent) !important;
+        text-shadow: var(--accent-glow);
+    }
+    .hljs-attr {
+        color: var(--color-secondary) !important;
+        font-weight: bold !important;
+        text-shadow: var(--secondary-glow);
+    }
+    .hljs-selector-attr {
+        color: var(--scrollbar-color) !important;
+        font-weight: bold !important;
+        text-shadow: var(--scrollbar-glow);
+    }
+    .hljs-selector-pseudo {
+        color: var(--heading-secondary-color) !important;
+        font-weight: bold !important;
+        text-shadow: var(--heading-secondary-glow);
+    }
+    .hljs-variable {
+        color: var(--color-secondary) !important;
+        font-weight: bold !important;
+        text-shadow: var(--secondary-glow);
+    }
+}
