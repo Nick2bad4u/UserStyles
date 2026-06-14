@@ -54,7 +54,8 @@
         "types:update": "typesync",
         "update-deps": "npx ncu -i --install never && npm update --force && npm install --force",
         "vscode:prepublish": "npm run compile",
-        "watch": "tsc -watch -p ./"
+        "watch": "tsc -watch -p ./",
+        "update-actions": "npx actions-up --yes --style sha"
     },
     "dependencies": {
         "acorn": "^8.16.0",
