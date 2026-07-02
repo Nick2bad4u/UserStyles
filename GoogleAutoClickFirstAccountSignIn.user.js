@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Automatically Select First Google Account to Sign In
 // @namespace    nick2bad4u.github.io
-// @version      1.7
+// @version      1.8
 // @description  Automatically selects the first Google account in the Google account selector page
 // @author       Nick2bad4u
 // @match        https://accounts.google.com/*
@@ -16,45 +16,136 @@
 // ==/UserScript==
 
 (function () {
-	'use strict';
+    "use strict";
 
-	// Configurable delay for automatic selection (default: 5000ms)
-	const AUTO_SELECT_DELAY_MS = 5000;
+    const CONFIG = {
+        accountPattern: /@gmail\.com\b/i,
+        initialDelayMs: 500,
+        retryIntervalMs: 1000,
+        minMutationRetryMs: 400,
+        maxAttempts: 45,
+        clickCooldownMs: 3000,
+    };
 
-	// Function to select the first account
-	const selectFirstAccount = () => {
-		const firstAccount = Array.from(document.querySelectorAll('li')).find((el) => el.textContent.includes('@gmail.com'));
-		if (firstAccount) {
-			const firstLink = firstAccount.querySelector('div[role="link"]');
-			if (firstLink) {
-				firstLink.click();
-			} else {
-				console.log(
-					'First account link not found. Ensure the page contains a <li> element with a child <div> having role="link". This might be due to changes in the page structure or the account list not being fully loaded.',
-				);
-			}
-		} else {
-			console.log('First account not found on the page. Waiting for the element to load dynamically via MutationObserver...');
-		}
-	};
+    let attempts = 0;
+    let lastClickAt = 0;
+    let lastRunAt = 0;
+    let observer;
+    let retryTimer;
+    let runTimer;
 
-	// Set up a MutationObserver to wait for dynamic content
-	const observer = new MutationObserver(() => {
-		if (Array.from(document.querySelectorAll('li')).some((el) => el.textContent.includes('@gmail.com'))) {
-			selectFirstAccount();
-			observer.disconnect(); // Stop observing once the element is found
-		}
-	});
+    function visible(element) {
+        if (!element) return false;
+        const rect = element.getBoundingClientRect();
+        const style = window.getComputedStyle(element);
+        return (
+            rect.width > 0 &&
+            rect.height > 0 &&
+            style.visibility !== "hidden" &&
+            style.display !== "none"
+        );
+    }
 
-	// Observe changes in the document body
-	observer.observe(document.body, { childList: true, subtree: true });
+    function textOf(element) {
+        return (element?.innerText || element?.textContent || "")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
 
-	// Automatically run the function after 5 seconds
-	setTimeout(() => {
-		if (Array.from(document.querySelectorAll('li')).some((el) => el.textContent.includes('@gmail.com'))) {
-			selectFirstAccount();
-		} else {
-			console.log('Account list not loaded within 5 seconds. Skipping automatic selection.');
-		}
-	}, AUTO_SELECT_DELAY_MS);
+    function getElementLabel(element) {
+        return [
+            textOf(element),
+            element?.getAttribute?.("aria-label"),
+            element?.getAttribute?.("data-email"),
+            element?.getAttribute?.("data-identifier"),
+            element?.getAttribute?.("title"),
+        ]
+            .filter(Boolean)
+            .join(" ");
+    }
+
+    function findClickableAccount(candidate) {
+        if (!candidate) return null;
+        const clickable = candidate.matches(
+            'a, button, [role="button"], [role="link"]'
+        )
+            ? candidate
+            : candidate.querySelector(
+                  'a, button, [role="button"], [role="link"]'
+              ) ||
+              candidate.closest('a, button, [role="button"], [role="link"]');
+        return visible(clickable) &&
+            clickable.getAttribute("aria-disabled") !== "true"
+            ? clickable
+            : null;
+    }
+
+    function findFirstAccountLink() {
+        const candidates = Array.from(
+            document.querySelectorAll(
+                'li, [data-email], [data-identifier], [role="link"], a, button'
+            )
+        );
+        for (const candidate of candidates) {
+            if (
+                !visible(candidate) ||
+                !CONFIG.accountPattern.test(getElementLabel(candidate))
+            )
+                continue;
+            const clickable = findClickableAccount(candidate);
+            if (clickable) return clickable;
+        }
+        return null;
+    }
+
+    function cleanup() {
+        observer?.disconnect();
+        window.clearTimeout(runTimer);
+        window.clearInterval(retryTimer);
+    }
+
+    function scheduleRun(delayMs = CONFIG.minMutationRetryMs) {
+        window.clearTimeout(runTimer);
+        runTimer = window.setTimeout(run, delayMs);
+    }
+
+    function run() {
+        const now = Date.now();
+        if (now - lastRunAt < CONFIG.minMutationRetryMs) return;
+        lastRunAt = now;
+
+        if (attempts >= CONFIG.maxAttempts) {
+            console.log(
+                `Google account selector: account not found after ${CONFIG.maxAttempts} attempts.`
+            );
+            cleanup();
+            return;
+        }
+
+        attempts += 1;
+        const accountLink = findFirstAccountLink();
+        if (!accountLink) return;
+
+        if (now - lastClickAt < CONFIG.clickCooldownMs) return;
+        lastClickAt = now;
+        console.log(
+            `Google account selector: selecting first matching account on attempt ${attempts}.`
+        );
+        accountLink.click();
+    }
+
+    function start() {
+        const root = document.documentElement || document.body;
+        if (!root) {
+            window.setTimeout(start, CONFIG.initialDelayMs);
+            return;
+        }
+
+        observer = new MutationObserver(() => scheduleRun());
+        observer.observe(root, { childList: true, subtree: true });
+        retryTimer = window.setInterval(run, CONFIG.retryIntervalMs);
+        window.setTimeout(run, CONFIG.initialDelayMs);
+    }
+
+    start();
 })();
