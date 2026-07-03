@@ -66,30 +66,25 @@
         font-weight: 600;
     }
 
+    /* prettier-ignore */
     th.weekly-totals.weekly-totals-header,
     td.weekly-totals.weekly-totals-data,
-    #defaultActivityOptionsGroup
-        > div.row-fluid.page-top
-        > div.span8.page-intro
-        > div
-        > h3
-        > div
-        > div
-        > button
-        > i,
+    #defaultActivityOptionsGroup > div.row-fluid.page-top > div.span8.page-intro > div > h3 > div > div > button > i,
     .modal-body > select {
         background-color: var(--inverted-background) !important;
         color: var(--primary-text) !important;
         filter: invert(1) hue-rotate(180deg);
     }
 
-    /* stylelint-disable-next-line selector-type-no-unknown -- Stylus preprocessor conditional block */
-    if dim-video-container .video-container {
-        opacity: 10%;
+    if dim-video-container {
+        /* stylelint-disable-next-line scss/block-no-redundant-nesting, relative-selector-nesting-notation -- Stylus preprocessor conditional block */
+        .video-container {
+            opacity: 10%;
 
-        &:hover,
-        &:focus {
-            opacity: 100% !important;
+            &:hover,
+            &:focus {
+                opacity: 100% !important;
+            }
         }
     }
 
@@ -97,34 +92,9 @@
         display: table !important;
     }
 
-    [class*="modal"]:not(
-        #pageContainer
-            > div
-            > div.modal.hide.fade.modal-wide.metrics-edit-modal.in
-            > div.modal-header
-            > h3,
-        #pageContainer
-            > div
-            > div
-            > div.row-fluid.list-items.flexItemAutoHeight
-            > ul
-            > li:nth-child(n)
-            > div
-            > div.pull-left.activity-name-type.title-col
-            > div.activity-name-edit.inline-edit.inline-edit-text-field
-            > button,
-        #activityIntroViewPlaceholder
-            > div.page-header-content
-            > h3
-            > div
-            > div
-            > button,
-        .inline-edit-trigger,
-        .modal.fade.in,
-        .modal-header h3,
-        .fade,
-        :not(.help-icon)
-    ) {
+    /* stylelint-disable selector-not-notation -- Stylus 2.4.2 cannot parse complex :not() selector lists. */
+    /* prettier-ignore */
+    [class*="modal"]:not(#pageContainer > div > div.modal.hide.fade.modal-wide.metrics-edit-modal.in > div.modal-header > h3):not(#pageContainer > div > div > div.row-fluid.list-items.flexItemAutoHeight > ul > li:nth-child(n) > div > div.pull-left.activity-name-type.title-col > div.activity-name-edit.inline-edit.inline-edit-text-field > button):not(#activityIntroViewPlaceholder > div.page-header-content > h3 > div > div > button):not(.inline-edit-trigger):not(.modal.fade.in):not(.modal-header h3):not(.fade):not(:not(.help-icon)) {
         /* Box model stuff */
         border-color: var(--border);
         background-color: var(--inverted-background2) !important;
@@ -133,6 +103,7 @@
         /* Manipulations stuff */
         filter: invert(1) hue-rotate(180deg);
     }
+    /* stylelint-enable selector-not-notation */
 
     .photo-carousel {
         background-color: var(--inverted-background2) !important;
