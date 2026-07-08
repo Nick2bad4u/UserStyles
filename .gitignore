@@ -720,3 +720,5 @@ package.json
 
 # Jest coverage output
 coverage/
+.lychee.report.md
+.lycheecache
