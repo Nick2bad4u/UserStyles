@@ -26,6 +26,7 @@ const REQUIRED_BY_KIND = {
 
 const REPO_RAW_BASE =
     "https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/";
+const DEFAULT_LICENSE = "UnLicense";
 
 function usage() {
     return [
@@ -164,6 +165,16 @@ function buildReport(filePath, content) {
         );
     }
 
+    if (
+        kind === "userstyle" &&
+        first(metadata, "license") &&
+        first(metadata, "license") !== DEFAULT_LICENSE
+    ) {
+        warnings.push(
+            `@license is ${first(metadata, "license")}; expected ${DEFAULT_LICENSE}.`
+        );
+    }
+
     for (const key of ["downloadURL", "updateURL"]) {
         const value = first(metadata, key);
 
@@ -189,6 +200,7 @@ function buildReport(filePath, content) {
         version: first(metadata, "version"),
         description: first(metadata, "description"),
         namespace: first(metadata, "namespace"),
+        license: first(metadata, "license"),
         downloadURL: first(metadata, "downloadURL"),
         updateURL: first(metadata, "updateURL"),
         expectedRawUrl,
@@ -207,6 +219,7 @@ function markdownReport(report) {
         `- Name: ${report.name || "(missing)"}`,
         `- Version: ${report.version || "(missing)"}`,
         `- Namespace: ${report.namespace || "(missing)"}`,
+        `- License: ${report.license || "(missing)"}`,
         `- Expected raw URL: ${report.expectedRawUrl}`,
     ];
 

@@ -26,9 +26,16 @@ node .\.codex\skills\userstyles-publishing\scripts\inspect-artifact.mjs .\Garmin
    - CSS: `npm run lint:css -- --fix` only when fixing stylelint-safe issues, then `npm run lint:css`.
    - JS: `node --check .\File.user.js`, then a focused test or `npm run lint -- File.user.js` when practical.
    - Metadata-only changes: run the inspector again and, if practical, the relevant linter.
-5. Ensure `@downloadURL` and `@updateURL` point at the committed raw GitHub file on `main`. If the file is not pushed yet, tell the user publishing will use the previous remote content until pushed.
-6. Publish or update on the target platform with the platform-specific reference below.
-7. Verify the public page after publishing and report the exact public URL, version, and any platform warnings.
+5. Ensure `@license` is `UnLicense` unless the user explicitly overrides it for that file.
+6. Ensure `@downloadURL` and `@updateURL` point at the committed raw GitHub file on `main`. If the file is not pushed yet, tell the user publishing will use the previous remote content until pushed.
+7. Generate or select a preview image before publishing. Use `assets/previews/<style-slug>.png`; create missing previews with:
+
+```powershell
+node .\.codex\skills\userstyles-publishing\scripts\generate-style-previews.mjs
+```
+
+8. Publish or update on the target platform with the platform-specific reference below.
+9. Verify the public page after publishing and report the exact public URL, version, preview status, and any platform warnings.
 
 ## Repo Rules
 
@@ -36,8 +43,9 @@ Read [references/repo-conventions.md](references/repo-conventions.md) when addin
 
 Important defaults:
 
-- Preserve the existing `@namespace nick2bad4u.github.io`, `@homepageURL`, `@supportURL`, author, and license conventions unless the target file already uses a different valid pattern.
+- Preserve the existing `@namespace nick2bad4u.github.io`, `@homepageURL`, `@supportURL`, and author conventions. Default `@license` to `UnLicense` for Nick2bad4u styles unless the user explicitly overrides it.
 - Do not store credentials, cookies, API keys, CSRF tokens, or session exports in this repo.
+- Do not publish a new userstyle without a preview image unless the user explicitly says to skip it.
 - Use the user's authenticated browser/session for live publishing. If blocked by login or 2FA, stop and ask the user to complete sign-in.
 - Distinguish "prepared for publishing" from "actually submitted and verified".
 

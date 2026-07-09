@@ -20,6 +20,8 @@ Prefer these existing repo conventions when creating or repairing metadata:
 @license      UnLicense
 ```
 
+Default to `@license UnLicense` for Nick2bad4u-owned metadata, including forks the user asks to publish under their account. Keep upstream attribution in `@author`, notes, or additional info when the style is derived from another project.
+
 Use the file-specific raw GitHub URL for both `@downloadURL` and `@updateURL` unless the artifact is already platform-managed, such as a Greasy Fork update URL for an existing userscript.
 
 For files on `main`, build raw URLs as:
@@ -44,6 +46,8 @@ For UserCSS/UserStyle:
 - `@updateURL`
 - At least one target rule in the CSS body, usually `@-moz-document domain(...)` or `url-prefix(...)`.
 
+For publish-ready userstyles, also prepare a preview image at `assets/previews/<style-slug>.png`. Use a 16:9 PNG, under 1 MB, with readable title text and a visual hint of the style's purpose.
+
 For userscripts:
 
 - `@name`
@@ -63,6 +67,7 @@ When updating a public listing, compare against the published version first. If 
 
 Run the smallest meaningful validation first:
 
+- Preview generation: `node .\.codex\skills\userstyles-publishing\scripts\generate-style-previews.mjs`
 - CSS metadata/report: `node .\.codex\skills\userstyles-publishing\scripts\inspect-artifact.mjs .\File.user.css --markdown`
 - CSS lint: `npm run lint:css`
 - JS syntax: `node --check .\File.user.js`

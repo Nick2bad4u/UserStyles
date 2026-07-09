@@ -14,8 +14,9 @@ Preferred flow:
 2. Search the user's profile for the style name from `@name`.
 3. If an existing style exists, update/import/mirror that listing instead of creating a duplicate.
 4. If creating a new style, use the raw GitHub `@downloadURL` as the source/import URL when the UI supports it. Otherwise paste the local CSS content.
-5. Verify the listing page shows the expected `@name`, `@version`, description, target domain, and install button.
-6. For mirror refreshes of existing style IDs, the repo's `UserstyleWorld-SyncStyles.user.js` can visit `https://userstyles.world/mirror/<styleID>` from an authenticated page.
+5. Add a preview image from `assets/previews/<style-slug>.png`. Prefer upload when editing a listing; use a raw GitHub preview image URL only if upload is inconvenient.
+6. Verify the listing page shows the expected `@name`, `@version`, description, target domain, license, preview image, and install button.
+7. For mirror refreshes of existing style IDs, the repo's `UserstyleWorld-SyncStyles.user.js` can visit `https://userstyles.world/mirror/<styleID>` from an authenticated page.
 
 Useful source links:
 
@@ -35,8 +36,9 @@ Preferred flow:
 2. Search the user's profile and the script title before creating a new script.
 3. For a new script, create from the local `.user.js` content or from the raw GitHub URL when the UI supports import.
 4. For an update, use the existing script edit/update page and preserve the script ID. If the metadata already has Greasy Fork `@downloadURL` or `@updateURL`, keep those platform URLs unless intentionally migrating back to GitHub raw URLs.
-5. Review Greasy Fork warnings carefully. Fix code-rule, external-resource, license, and metadata issues locally before submitting.
-6. Verify the public script page and update URL after submit.
+5. Add the preview image from `assets/previews/<style-slug>.png` as an attachment for CSS style listings.
+6. Review Greasy Fork warnings carefully. Fix code-rule, external-resource, license, and metadata issues locally before submitting.
+7. Verify the public script page, version, license, preview/attachment, and update URL after submit.
 
 Useful source links:
 
