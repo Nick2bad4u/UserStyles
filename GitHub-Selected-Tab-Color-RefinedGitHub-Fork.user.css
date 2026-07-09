@@ -1,0 +1,150 @@
+/* ==UserStyle==
+@name         GitHub Selected Tab Color for Refined GitHub (Nick2bad4u Fork)
+@version      1.3.2
+@namespace    nick2bad4u.github.io
+@homepageURL  https://github.com/Nick2bad4u/UserStyles
+@supportURL   https://github.com/Nick2bad4u/UserStyles/issues
+@description  Add a custom selected tab color to GitHub, including Refined GitHub nav states.
+@author       Nick2bad4u (forked from StylishThemes)
+@license      CC-BY-SA-4.0
+@var color base-color "Tab color" #4183c4
+@preprocessor stylus
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GitHub-Selected-Tab-Color-RefinedGitHub-Fork.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GitHub-Selected-Tab-Color-RefinedGitHub-Fork.user.css
+==/UserStyle== */
+@-moz-document regexp("^https?://((blog|gist|guides|docs|lab|launch-editor|raw|resources|status|support|developer)\\.)?github\\.com/((?!generated_pages/preview).)*$"),
+domain("www.githubstatus.com") {
+    :root {
+        --base-color: var(base-color);
+        --transparent: transparent;
+    }
+
+    body .pagehead-tabs-item.selected,
+    body .reponav .reponav-item.selected,
+    body .btn-link.selected,
+    body .tabnav-tab.selected,
+    body .tabnav-pr .tabnav-tab.selected,
+    body #graph_data .tab.selected,
+    body .select-menu-tabs .select-menu-tab-nav[aria-selected="true"],
+    body .tabnav-tab[aria-selected="true"],
+    body .history-nav .button.border-color,
+    body .timeline-comment.current-user .tabnav-tab.selected,
+    body .tabnav-tab[aria-current] {
+        border-top-width: 3px !important;
+        border-top-color: var(--base-color) !important;
+    }
+
+    body .repo-filterer .repo-filter.filter-selected,
+    body .filter-selected,
+    body .sub-nav ul a.active,
+    body .IconNav-item.selected,
+    body .UnderlineNav-item:focus,
+    body .UnderlineNav-item:hover,
+    body .UnderlineNav-item.selected,
+    body .user-status-emoji-tab[role="tab"][aria-selected="true"],
+    body .SegmentedNav .subnav-link.selected,
+    body .SegmentedNav .subnav-link:hover,
+    body .UnderlineNav-item[role="tab"][aria-selected="true"],
+    :is(
+        .UnderlineNav-item.selected,
+        .UnderlineNav-item[role="tab"][aria-selected="true"],
+        .UnderlineNav-item[aria-current]:not([aria-current="false"])
+    )::after,
+    body .UnderlineNav-item[aria-current]:not([aria-current="false"]),
+    body .PRC-selected {
+        border-bottom-color: var(--base-color) !important;
+    }
+
+    /* Refined GitHub / modern GitHub repo nav active underline */
+    body
+        :is(
+            .UnderlineNav-item.selected,
+            .UnderlineNav-item[role="tab"][aria-selected="true"],
+            .UnderlineNav-item[aria-current]:not([aria-current="false"])
+        )::after {
+        border-color: var(--base-color) !important;
+        background-color: var(--base-color) !important;
+    }
+
+    body .selected .security-nav-item {
+        box-shadow: inset 0 -3px 0 var(--base-color) !important;
+    }
+
+    body .menu-item.selected::before,
+    body .checks-index-item.selected::after,
+    body .SideNav-item[aria-current="page"]::before,
+    body .SideNav-item[aria-selected="true"]::before,
+    body .SideNav-item:focus::before,
+    body .SideNav-item:hover::before {
+        background-color: var(--base-color) !important;
+    }
+
+    body .js-current .standalone a,
+    body .sidebar-module .disable > a {
+        border-left-color: var(--base-color) !important;
+    }
+
+    body .home-nav-item.selected {
+        border-color: var(--base-color) !important;
+    }
+
+    @media (hover: hover) {
+        body .SelectMenu-tab[aria-selected="true"],
+        body .SelectMenu-tab[aria-selected="false"]:hover {
+            border-top-width: 3px;
+            border-top-color: var(--base-color) !important;
+        }
+    }
+
+    /* Start Mobile */
+    body[class="page-responsive"] .tabs > a.selected,
+    body[class="page-responsive"] a.reponav-item.selected {
+        border-top-width: 2px !important;
+        border-top-color: var(--base-color) !important;
+    }
+
+    body a.subnav-link:not(.subnav-primary).selected,
+    body a.subnav-link:not(.subnav-primary):hover {
+        border-bottom-color: var(--base-color) !important;
+    }
+
+    /* see issue https://github.com/StylishThemes/GitHub-Dark/issues/918 */
+    @media screen and (max-width: 768px) {
+        body .site-subnav .subnav-primary.selected,
+        body .site-subnav .subnav-primary:hover {
+            border-bottom-color: var(--transparent) !important;
+        }
+    }
+
+    /* End Mobile */
+    /* see issue https://github.com/StylishThemes/GitHub-Dark/issues/918 */
+    @media screen and (min-width: 1024px) {
+        body .site-subnav .subnav-primary.selected,
+        body .site-subnav .subnav-primary:hover {
+            border-bottom-color: var(--base-color) !important;
+        }
+    }
+
+    /* reset shifting selected tabs text down issue #16 */
+    body .reponav .reponav-item.selected {
+        padding-top: 7px !important;
+    }
+
+    body .hx_reponav.reponav .reponav-item.selected {
+        padding-top: 5px !important;
+        border-bottom: 0 !important;
+    }
+
+    body .hx_reponav.reponav .reponav-item {
+        padding-top: 7px !important;
+        border-bottom: 0 !important;
+    }
+
+    body .orgnav .pagehead-tabs-item.selected {
+        padding-top: 8px !important;
+    }
+
+    body .orgnav .pagehead-tabs-item {
+        border-bottom: 0 !important;
+    }
+}

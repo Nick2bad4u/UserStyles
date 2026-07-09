@@ -4,7 +4,11 @@ import userscripts from "eslint-plugin-userscripts";
 /** @type {import("eslint").Linter.Config[]} */
 const config = [
     {
-        ignores: ["**/*.html", "**/*.htm"],
+        ignores: [
+            ".codex/skills/**",
+            "**/*.html",
+            "**/*.htm",
+        ],
     },
     ...nick2bad4u.configs.all,
     {
