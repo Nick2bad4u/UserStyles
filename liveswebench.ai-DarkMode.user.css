@@ -1,0 +1,25 @@
+/* ==UserStyle==
+@name           liveswebench.ai - Dark Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.4
+@description    Applies an inversion-based dark mode to liveswebench.ai while preserving media and embedded content colors.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/liveswebench.ai-DarkMode.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/liveswebench.ai-DarkMode.user.css
+==/UserStyle== */
+@-moz-document domain("liveswebench.ai") {
+    html {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+
+    img,
+    svg,
+    video,
+    iframe,
+    .py-2 {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+}

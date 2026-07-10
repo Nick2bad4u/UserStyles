@@ -170,6 +170,48 @@ function drawStylusFluent(ctx) {
     });
 }
 
+function drawInversionDarkMode(ctx, siteName) {
+    const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+    gradient.addColorStop(0, "#080c14");
+    gradient.addColorStop(1, "#1b2537");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    text(ctx, siteName, 80, 105, { size: 52, weight: 700 });
+    text(ctx, "Inversion-based dark mode", 82, 150, {
+        color: "#aebbd0",
+        size: 26,
+        weight: 500,
+    });
+
+    fillRounded(ctx, 80, 205, 1120, 405, 18, "#111827");
+    fillRounded(ctx, 112, 235, 1048, 62, 10, "#1f2937");
+    text(ctx, siteName, 145, 275, { color: "#e5e7eb", size: 26 });
+    fillRounded(ctx, 1002, 249, 110, 34, 17, "#60a5fa");
+    text(ctx, "Dark", 1031, 275, { color: "#0f172a", size: 20, weight: 700 });
+
+    fillRounded(ctx, 120, 334, 350, 215, 12, "#1f2937");
+    fillRounded(ctx, 505, 334, 615, 96, 12, "#1f2937");
+    fillRounded(ctx, 505, 453, 460, 96, 12, "#1f2937");
+    text(ctx, "Dark interface", 150, 395, { size: 30 });
+    text(ctx, "Readable colors", 150, 445, {
+        color: "#aebbd0",
+        size: 24,
+        weight: 500,
+    });
+    text(ctx, "Media and embedded content", 535, 390, { size: 28 });
+    text(ctx, "retain natural colors", 535, 413, {
+        color: "#93c5fd",
+        size: 22,
+        weight: 500,
+    });
+    text(ctx, "Light pages, comfortably inverted", 535, 511, {
+        color: "#aebbd0",
+        size: 25,
+        weight: 500,
+    });
+}
+
 ensurePreviewDir();
 
 const outputs = [
@@ -178,6 +220,18 @@ const outputs = [
         drawGitHubSelectedTab
     ),
     writePreview("stylus-fluent-arimo-codenewroman-fork.png", drawStylusFluent),
+    writePreview("liveswebench-ai-dark-mode.png", (ctx) =>
+        drawInversionDarkMode(ctx, "liveswebench.ai")
+    ),
+    writePreview("livebench-ai-dark-mode.png", (ctx) =>
+        drawInversionDarkMode(ctx, "livebench.ai")
+    ),
+    writePreview("artificialanalysis-ai-dark-mode.png", (ctx) =>
+        drawInversionDarkMode(ctx, "artificialanalysis.ai")
+    ),
+    writePreview("epoch-ai-dark-mode.png", (ctx) =>
+        drawInversionDarkMode(ctx, "epoch.ai")
+    ),
 ];
 
 for (const output of outputs) {

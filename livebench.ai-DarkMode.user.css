@@ -1,0 +1,25 @@
+/* ==UserStyle==
+@name           livebench.ai - Dark Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.2
+@description    Applies an inversion-based dark mode to livebench.ai while preserving media, embedded content, and rounded buttons.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/livebench.ai-DarkMode.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/livebench.ai-DarkMode.user.css
+==/UserStyle== */
+@-moz-document domain("livebench.ai") {
+    html {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+
+    img,
+    svg,
+    video,
+    iframe,
+    .button.is-rounded {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+}
