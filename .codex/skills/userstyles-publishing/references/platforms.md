@@ -2,6 +2,29 @@
 
 Read this before live publishing or troubleshooting platform-specific behavior. Platform UIs and undocumented endpoints can change; if a step fails, verify the live site before changing repo files.
 
+## Browser File Uploads
+
+Use the selected browser's supported file-chooser API for preview images. Read its `file-uploads` documentation before the first upload in a browser session.
+
+1. Open the authenticated edit page and inspect the current DOM for the visible upload control.
+2. Start waiting for the `filechooser` event before clicking that control.
+3. Pass an absolute local path to `chooser.setFiles(...)`.
+4. Verify the file input records the selected filename, then submit the platform form.
+5. Verify the public page shows a complete, non-zero-size image hosted by the platform or listed as an attachment.
+
+```js
+const chooserPromise = tab.playwright.waitForEvent("filechooser", {
+ timeoutMs: 10000,
+});
+await uploadButton.click();
+const chooser = await chooserPromise;
+await chooser.setFiles([
+ "C:/Repos/UserStyles/assets/previews/<style-slug>.png",
+]);
+```
+
+Do not use `locator.setInputFiles(...)`; this browser surface exposes uploads through the chooser object. On Chrome, if `setFiles(...)` fails, read the browser's `chrome-file-upload-troubleshooting` documentation before retrying or falling back to a raw GitHub image URL.
+
 ## UserStyles.world
 
 User profile: <https://userstyles.world/user/Nick2bad4u>
@@ -14,8 +37,8 @@ Preferred flow:
 2. Search the user's profile for the style name from `@name`.
 3. If an existing style exists, update/import/mirror that listing instead of creating a duplicate.
 4. If creating a new style, use the raw GitHub `@downloadURL` as the source/import URL when the UI supports it. Otherwise paste the local CSS content.
-5. Add a preview image from `assets/previews/<style-slug>.png`. Prefer upload when editing a listing; use a raw GitHub preview image URL only if upload is inconvenient.
-6. Verify the listing page shows the expected `@name`, `@version`, description, target domain, license, preview image, and install button.
+5. Upload `assets/previews/<style-slug>.png` with the browser file-chooser flow above. Use a raw GitHub preview image URL only when the upload flow remains unavailable after browser-specific troubleshooting.
+6. Save the edit and verify the listing page shows the expected `@name`, `@version`, description, target domain, license, preview image, and install button. Confirm the preview resolves to a UserStyles.world-hosted URL and has non-zero natural dimensions.
 7. For mirror refreshes of existing style IDs, the repo's `UserstyleWorld-SyncStyles.user.js` can visit `https://userstyles.world/mirror/<styleID>` from an authenticated page.
 
 Useful source links:
@@ -36,7 +59,7 @@ Preferred flow:
 2. Search the user's profile and the script title before creating a new script.
 3. For a new script, create from the local `.user.js` content or from the raw GitHub URL when the UI supports import.
 4. For an update, use the existing script edit/update page and preserve the script ID. If the metadata already has Greasy Fork `@downloadURL` or `@updateURL`, keep those platform URLs unless intentionally migrating back to GitHub raw URLs.
-5. Add the preview image from `assets/previews/<style-slug>.png` as an attachment for CSS style listings.
+5. Add the preview image from `assets/previews/<style-slug>.png` as an attachment for CSS style listings using the browser file-chooser flow above.
 6. Review Greasy Fork warnings carefully. Fix code-rule, external-resource, license, and metadata issues locally before submitting.
 7. Verify the public script page, version, license, preview/attachment, and update URL after submit.
 

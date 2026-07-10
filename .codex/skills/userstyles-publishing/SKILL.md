@@ -34,8 +34,9 @@ node .\.codex\skills\userstyles-publishing\scripts\inspect-artifact.mjs .\Garmin
 node .\.codex\skills\userstyles-publishing\scripts\generate-style-previews.mjs
 ```
 
-8. Publish or update on the target platform with the platform-specific reference below.
-9. Verify the public page after publishing and report the exact public URL, version, preview status, and any platform warnings.
+8. Upload the local preview through the browser's file chooser. Use an absolute path, save the listing, and verify the public page serves the uploaded image. See the platform reference for the exact browser flow.
+9. Publish or update on the target platform with the platform-specific reference below.
+10. Verify the public page after publishing and report the exact public URL, version, preview status, and any platform warnings.
 
 ## Repo Rules
 
