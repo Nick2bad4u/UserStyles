@@ -1,0 +1,26 @@
+/* ==UserStyle==
+@name           Haskell.org Dark Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.3
+@description    An inversion-based dark mode for the Haskell website that preserves natural media colors.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Haskell-Org-DarkMode.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Haskell-Org-DarkMode.user.css
+==/UserStyle== */
+@-moz-document domain("haskell.org") {
+    /* Invert the page, then restore media to its natural colors. */
+    html,
+    img,
+    svg,
+    video,
+    iframe {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+
+    html {
+        background-color: white !important;
+    }
+}

@@ -1,0 +1,28 @@
+/* ==UserStyle==
+@name           Nim Language Dark Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.3
+@description    An inversion-based dark mode for the Nim website with menu, footer, and media color corrections.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Nim-Lang-Org-DarkMode.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Nim-Lang-Org-DarkMode.user.css
+==/UserStyle== */
+@-moz-document domain("nim-lang.org") {
+    /* Invert the page, then restore media to its natural colors. */
+    html,
+    img,
+    svg,
+    video,
+    iframe {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+
+    /* Restore sections that already use an appropriate dark palette. */
+    .pure-menu.pure-menu-horizontal,
+    body > footer {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+}

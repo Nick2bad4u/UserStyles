@@ -232,6 +232,25 @@ const outputs = [
     writePreview("epoch-ai-dark-mode.png", (ctx) =>
         drawInversionDarkMode(ctx, "epoch.ai")
     ),
+    ...[
+        ["ocaml-org-dark-mode.png", "OCaml.org"],
+        ["r-project-org-dark-mode.png", "R Project"],
+        ["nim-language-dark-mode.png", "Nim Language"],
+        ["lua-org-dark-mode.png", "Lua.org"],
+        ["kotlinlang-org-dark-mode.png", "Kotlinlang.org"],
+        ["elixir-language-dark-mode.png", "Elixir Language"],
+        ["haskell-org-dark-mode.png", "Haskell.org"],
+        ["cloud-foundry-dark-mode.png", "Cloud Foundry"],
+        ["umbraco-com-dark-mode.png", "Umbraco.com"],
+        ["taskwarrior-org-dark-mode.png", "Taskwarrior.org"],
+        ["ui5-github-pages-dark-mode.png", "UI5 GitHub Pages"],
+        ["apache-org-dark-mode.png", "Apache.org"],
+        ["buf-build-dark-mode.png", "Buf.build"],
+        ["bazel-build-dark-mode.png", "Bazel.build"],
+        ["aurelia-io-dark-mode.png", "Aurelia.io"],
+    ].map(([filename, siteName]) =>
+        writePreview(filename, (ctx) => drawInversionDarkMode(ctx, siteName))
+    ),
 ];
 
 for (const output of outputs) {

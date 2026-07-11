@@ -1,0 +1,28 @@
+/* ==UserStyle==
+@name           Kotlinlang.org Dark Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.3
+@description    An inversion-based dark mode for the Kotlin website with corrected header and navigation colors.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Kotlinlang-Org-DarkMode.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Kotlinlang-Org-DarkMode.user.css
+==/UserStyle== */
+@-moz-document domain("kotlinlang.org") {
+    /* Invert the page, then restore media to its natural colors. */
+    html,
+    img,
+    svg,
+    video,
+    iframe {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+
+    .kt-header,
+    .kt-menu-horizontal__node {
+        background-color: white !important;
+        color: black !important;
+    }
+}
