@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Automatically Select First Google Account to Sign In
 // @namespace    nick2bad4u.github.io
-// @version      1.8
-// @description  Automatically selects the first Google account in the Google account selector page
+// @version      1.9
+// @description  Automatically selects the first Google account and continues the sign-in flow
 // @author       Nick2bad4u
 // @match        https://accounts.google.com/*
 // @grant        none
-// @license      Unlicense
+// @license      UnLicense
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
 // @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
@@ -19,20 +19,25 @@
     "use strict";
 
     const CONFIG = {
-        accountPattern: /@gmail\.com\b/i,
+        accountSelector: "[data-identifier], [data-email]",
+        clickableSelector: 'a, button, [role="button"], [role="link"]',
+        continueSelector:
+            'button, [role="button"], input[type="button"], input[type="submit"]',
+        emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/u,
+        flowStateKey: "google-auto-first-account-flow-v1",
+        flowStateTtlMs: 2 * 60 * 1000,
         initialDelayMs: 500,
         retryIntervalMs: 1000,
         minMutationRetryMs: 400,
         maxAttempts: 45,
-        clickCooldownMs: 3000,
     };
 
     let attempts = 0;
-    let lastClickAt = 0;
     let lastRunAt = 0;
     let observer;
     let retryTimer;
     let runTimer;
+    let memoryFlowState = null;
 
     function visible(element) {
         if (!element) return false;
@@ -52,50 +57,105 @@
             .trim();
     }
 
-    function getElementLabel(element) {
+    function getElementLabels(element) {
         return [
             textOf(element),
             element?.getAttribute?.("aria-label"),
-            element?.getAttribute?.("data-email"),
-            element?.getAttribute?.("data-identifier"),
             element?.getAttribute?.("title"),
-        ]
-            .filter(Boolean)
-            .join(" ");
+            element?.getAttribute?.("value"),
+        ].filter(Boolean);
     }
 
-    function findClickableAccount(candidate) {
-        if (!candidate) return null;
-        const clickable = candidate.matches(
-            'a, button, [role="button"], [role="link"]'
-        )
+    function enabled(element) {
+        return (
+            visible(element) &&
+            !element.disabled &&
+            element.getAttribute("aria-disabled") !== "true"
+        );
+    }
+
+    function findClickable(candidate) {
+        const clickable = candidate.matches(CONFIG.clickableSelector)
             ? candidate
-            : candidate.querySelector(
-                  'a, button, [role="button"], [role="link"]'
-              ) ||
-              candidate.closest('a, button, [role="button"], [role="link"]');
-        return visible(clickable) &&
-            clickable.getAttribute("aria-disabled") !== "true"
-            ? clickable
-            : null;
+            : candidate.closest(CONFIG.clickableSelector) ||
+              candidate.querySelector(CONFIG.clickableSelector);
+        return enabled(clickable) ? clickable : null;
+    }
+
+    function getAccountIdentifier(candidate) {
+        return (
+            candidate.getAttribute("data-identifier") ||
+            candidate.getAttribute("data-email") ||
+            ""
+        ).trim();
     }
 
     function findFirstAccountLink() {
-        const candidates = Array.from(
-            document.querySelectorAll(
-                'li, [data-email], [data-identifier], [role="link"], a, button'
-            )
-        );
+        const candidates = document.querySelectorAll(CONFIG.accountSelector);
         for (const candidate of candidates) {
-            if (
-                !visible(candidate) ||
-                !CONFIG.accountPattern.test(getElementLabel(candidate))
-            )
-                continue;
-            const clickable = findClickableAccount(candidate);
-            if (clickable) return clickable;
+            const identifier = getAccountIdentifier(candidate);
+            if (!CONFIG.emailPattern.test(identifier)) continue;
+
+            const clickable = findClickable(candidate);
+            if (clickable) return { clickable, identifier };
         }
         return null;
+    }
+
+    function findContinueButton() {
+        const candidates = document.querySelectorAll(CONFIG.continueSelector);
+        for (const candidate of candidates) {
+            if (!enabled(candidate)) continue;
+            const hasContinueLabel = getElementLabels(candidate).some(
+                (label) => label.trim().toLowerCase() === "continue"
+            );
+            if (hasContinueLabel) {
+                return candidate;
+            }
+        }
+        return null;
+    }
+
+    function loadFlowState() {
+        let state = memoryFlowState;
+        try {
+            state =
+                JSON.parse(
+                    window.sessionStorage.getItem(CONFIG.flowStateKey) || "null"
+                ) || memoryFlowState;
+        } catch {
+            // Fall back to in-memory state when storage is unavailable.
+        }
+
+        if (
+            !state ||
+            typeof state.updatedAt !== "number" ||
+            Date.now() - state.updatedAt > CONFIG.flowStateTtlMs
+        ) {
+            memoryFlowState = null;
+            try {
+                window.sessionStorage.removeItem(CONFIG.flowStateKey);
+            } catch {
+                // Storage is optional; the in-memory state is already cleared.
+            }
+            return null;
+        }
+
+        memoryFlowState = state;
+        return state;
+    }
+
+    function saveFlowState(state) {
+        const nextState = { ...state, updatedAt: Date.now() };
+        memoryFlowState = nextState;
+        try {
+            window.sessionStorage.setItem(
+                CONFIG.flowStateKey,
+                JSON.stringify(nextState)
+            );
+        } catch {
+            // The in-memory state still prevents repeat clicks on this page.
+        }
     }
 
     function cleanup() {
@@ -123,15 +183,40 @@
         }
 
         attempts += 1;
-        const accountLink = findFirstAccountLink();
-        if (!accountLink) return;
+        const flowState = loadFlowState();
 
-        if (now - lastClickAt < CONFIG.clickCooldownMs) return;
-        lastClickAt = now;
+        if (flowState?.phase === "completed") {
+            cleanup();
+            return;
+        }
+
+        if (flowState?.phase === "account-selected") {
+            const continueButton = findContinueButton();
+            if (!continueButton) return;
+
+            saveFlowState({
+                ...flowState,
+                phase: "completed",
+                continueUrl: window.location.href,
+            });
+            cleanup();
+            console.log("Google account selector: continuing sign-in flow.");
+            continueButton.click();
+            return;
+        }
+
+        const account = findFirstAccountLink();
+        if (!account) return;
+
+        saveFlowState({
+            phase: "account-selected",
+            identifier: account.identifier,
+            pickerUrl: window.location.href,
+        });
         console.log(
-            `Google account selector: selecting first matching account on attempt ${attempts}.`
+            `Google account selector: selecting ${account.identifier} on attempt ${attempts}.`
         );
-        accountLink.click();
+        account.clickable.click();
     }
 
     function start() {
@@ -144,8 +229,9 @@
         observer = new MutationObserver(() => scheduleRun());
         observer.observe(root, { childList: true, subtree: true });
         retryTimer = window.setInterval(run, CONFIG.retryIntervalMs);
-        window.setTimeout(run, CONFIG.initialDelayMs);
+        scheduleRun(CONFIG.initialDelayMs);
     }
 
+    window.addEventListener("pagehide", cleanup, { once: true });
     start();
 })();
