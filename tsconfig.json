@@ -2,7 +2,7 @@
     "$schema": "https://www.schemastore.org/tsconfig.json",
     "compilerOptions": {
         "allowArbitraryExtensions": false,
-        "allowJs": false,
+        "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "allowUmdGlobalAccess": false,
         "allowUnreachableCode": false,
@@ -10,7 +10,7 @@
         "alwaysStrict": true,
         "assumeChangesOnlyAffectDirectDependencies": true,
         "checkJs": false,
-        "declaration": true,
+        "declaration": false,
         "declarationMap": false,
         "diagnostics": false,
         "disableReferencedProjectLoad": false,
@@ -30,7 +30,7 @@
         "incremental": true,
         "inlineSourceMap": false,
         "inlineSources": false,
-        "isolatedDeclarations": true,
+        "isolatedDeclarations": false,
         "isolatedModules": true,
         "jsx": "react-jsx",
         "jsxImportSource": "react",
@@ -84,10 +84,7 @@
         "target": "ES2024",
         "traceResolution": false,
         "tsBuildInfoFile": "./.cache/tsbuildinfo/tsconfig.tsbuildinfo",
-        "types": [
-            "vite/client",
-            "vitest/globals"
-        ],
+        "types": [],
         "useDefineForClassFields": true,
         "useUnknownInCatchVariables": true,
         "verbatimModuleSyntax": true
@@ -103,10 +100,12 @@
         "test/fixtures/**"
     ],
     "include": [
-        "index.d.ts",
-        "test/**/*.d.ts",
-        "test/**/*.ts",
-        "vite.config.ts"
+        ".*.cjs",
+        ".*.mjs",
+        "*.cjs",
+        "*.mjs",
+        "__tests__/**/*.cjs",
+        "src/**/*.cjs"
     ],
     "typeAcquisition": {
         "enable": true,

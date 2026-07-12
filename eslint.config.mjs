@@ -1,4 +1,4 @@
-import nick2bad4u from "eslint-config-nick2bad4u";
+import { createConfig } from "eslint-config-nick2bad4u";
 import userscripts from "eslint-plugin-userscripts";
 
 /** @type {import("eslint").Linter.Config[]} */
@@ -10,7 +10,10 @@ const config = [
             "**/*.htm",
         ],
     },
-    ...nick2bad4u.configs.all,
+    ...createConfig({
+        allowDefaultProjectFilePatterns: [],
+        tsconfigPaths: ["./tsconfig.json"],
+    }),
     {
         files: ["**/*.user.css"],
         rules: {
@@ -30,9 +33,9 @@ const config = [
         },
         settings: {
             userscriptVersions: {
-                violentmonkey: "*",
-                tampermonkey: "*",
                 greasemonkey: "*",
+                tampermonkey: "*",
+                violentmonkey: "*",
             },
         },
     },
