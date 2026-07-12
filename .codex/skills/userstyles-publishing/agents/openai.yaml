@@ -1,4 +1,4 @@
 interface:
     display_name: "UserStyles Publishing"
-    short_description: "Publish userstyles and userscripts safely"
-    default_prompt: "Use $userstyles-publishing to validate and publish a local UserStyles repo artifact."
+    short_description: "Publish styles with verified site screenshots"
+    default_prompt: "Use $userstyles-publishing to validate and publish a local UserStyles repo artifact with a real screenshot of the style running on its target website."

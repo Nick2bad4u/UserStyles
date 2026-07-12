@@ -46,7 +46,9 @@ For UserCSS/UserStyle:
 - `@updateURL`
 - At least one target rule in the CSS body, usually `@-moz-document domain(...)` or `url-prefix(...)`.
 
-For publish-ready userstyles, also prepare a preview image at `assets/previews/<style-slug>.png`. Use a 16:9 PNG, under 1 MB, with readable title text and a visual hint of the style's purpose.
+For publish-ready userstyles, capture the real target website with the style installed and enabled, then save the screenshot at `assets/previews/<style-slug>.png`. Use a 16:9 PNG under 1 MB. The image must visibly show recognizable target-site content and the style's actual effect. Generated mockups, AI-created images, title cards, placeholders, unstyled captures, and reused screenshots are not publish-ready.
+
+When several artifacts apply substantially identical CSS to different domains, prefer one multi-domain userstyle. Publish separate listings only when they provide meaningful site-specific behavior and each has its own real screenshot.
 
 For userscripts:
 
@@ -67,7 +69,7 @@ When updating a public listing, compare against the published version first. If 
 
 Run the smallest meaningful validation first:
 
-- Preview generation: `node .\.codex\skills\userstyles-publishing\scripts\generate-style-previews.mjs`
+- Screenshot review: inspect `assets/previews/<style-slug>.png` and verify it shows the target website with the style active, contains no sensitive information, is 16:9, and is under 1 MB.
 - CSS metadata/report: `node .\.codex\skills\userstyles-publishing\scripts\inspect-artifact.mjs .\File.user.css --markdown`
 - CSS lint: `npm run lint:css`
 - JS syntax: `node --check .\File.user.js`

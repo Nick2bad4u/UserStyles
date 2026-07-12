@@ -1,6 +1,6 @@
 ---
 name: userstyles-publishing
-description: Validate, prepare, publish, and update Nick2bad4u/UserStyles `.user.css` UserCSS/UserStyle files on UserStyles.world and `.user.js` userscripts on Greasy Fork. Use when Codex is asked to publish, sync, update, mirror, validate metadata, generate release notes/descriptions, or troubleshoot publishing for artifacts in `C:\Repos\UserStyles`, `userstyles.world/user/Nick2bad4u`, or `greasyfork.org/en/users/872842-nick2bad4u`.
+description: Validate, prepare, publish, and update Nick2bad4u/UserStyles `.user.css` UserCSS/UserStyle files on UserStyles.world and `.user.js` userscripts on Greasy Fork, including capturing and verifying real styled-site screenshots. Use when Codex is asked to publish, sync, update, mirror, validate metadata, prepare previews, generate release notes/descriptions, or troubleshoot publishing for artifacts in `C:\Repos\UserStyles`, `userstyles.world/user/Nick2bad4u`, or `greasyfork.org/en/users/872842-nick2bad4u`.
 ---
 
 # UserStyles Publishing
@@ -28,15 +28,11 @@ node .\.codex\skills\userstyles-publishing\scripts\inspect-artifact.mjs .\Garmin
    - Metadata-only changes: run the inspector again and, if practical, the relevant linter.
 5. Ensure `@license` is `UnLicense` unless the user explicitly overrides it for that file.
 6. Ensure `@downloadURL` and `@updateURL` point at the committed raw GitHub file on `main`. If the file is not pushed yet, tell the user publishing will use the previous remote content until pushed.
-7. Generate or select a preview image before publishing. Use `assets/previews/<style-slug>.png`; create missing previews with:
-
-```powershell
-node .\.codex\skills\userstyles-publishing\scripts\generate-style-previews.mjs
-```
-
-8. Upload the local preview through the browser's file chooser. Use an absolute path, save the listing, and verify the public page serves the uploaded image. See the platform reference for the exact browser flow.
-9. Publish or update on the target platform with the platform-specific reference below.
-10. Verify the public page after publishing and report the exact public URL, version, preview status, and any platform warnings.
+7. Install or enable the userstyle, open its target website, and capture an actual screenshot showing the style in effect. Save it as `assets/previews/<style-slug>.png`. Inspect it before publishing and confirm that it depicts the correct website, visibly demonstrates the style, and contains no sensitive information.
+8. Reject generated mockups, AI-created artwork, title cards, placeholders, unstyled website captures, or reused screenshots as publish previews. If a real screenshot cannot be captured, stop and report that the artifact is not publish-ready.
+9. Upload the verified local screenshot through the browser's file chooser. Use an absolute path, save the listing, and verify the public page serves the uploaded image. See the platform reference for the exact capture and upload flow.
+10. Publish or update on the target platform with the platform-specific reference below.
+11. Verify the public page after publishing and report the exact public URL, version, screenshot status, and any platform or moderation warnings.
 
 ## Repo Rules
 
@@ -46,7 +42,8 @@ Important defaults:
 
 - Preserve the existing `@namespace nick2bad4u.github.io`, `@homepageURL`, `@supportURL`, and author conventions. Default `@license` to `UnLicense` for Nick2bad4u styles unless the user explicitly overrides it.
 - Do not store credentials, cookies, API keys, CSRF tokens, or session exports in this repo.
-- Do not publish a new userstyle without a preview image unless the user explicitly says to skip it.
+- Do not publish a new userstyle without a real screenshot of the style running on its target website. The user cannot waive this requirement for UserStyles.world publication.
+- Do not use generated graphics, mockups, AI-created images, title cards, placeholders, or a screenshot from another style as a publish preview.
 - Use the user's authenticated browser/session for live publishing. If blocked by login or 2FA, stop and ask the user to complete sign-in.
 - Distinguish "prepared for publishing" from "actually submitted and verified".
 
@@ -58,8 +55,10 @@ Read [references/platforms.md](references/platforms.md) before live publishing o
 
 - Treat publish/update/delete operations as live external mutations. Proceed only when the user explicitly asked for publishing or updating.
 - Prefer updating an existing listing over creating a duplicate. Search the user's platform profile and the metadata title before creating a new entry.
+- Before publishing several styles with substantially identical CSS, consolidate them into one multi-domain userstyle unless each listing has meaningful site-specific behavior and its own real screenshot. Do not batch-publish near-duplicate inversion styles.
 - Before changing a published listing, compare the local version and description against the current public listing. If the local version is not greater than the published version, either bump it or explain why the platform accepts the update anyway.
 - After a publish, open the public page and the install/update URL. Verify HTTP success and that the page shows the expected title/version.
+- Re-check the platform profile and moderation log after batch publication. Immediate HTTP success proves submission, not durable moderation acceptance.
 - For UserStyles.world mirrors, this repo contains `UserstyleWorld-SyncStyles.user.js`, which can visit mirror URLs for existing style IDs from an authenticated page. Use it only for mirror refreshes, not as proof that a new style was created.
 
 ## Useful Commands
