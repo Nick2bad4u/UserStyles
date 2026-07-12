@@ -8701,7 +8701,7 @@
 			value = font_names[name].en;
 			if (name.endsWith('URL')) {
 				let href = !value.startsWith('http')
-					? 'http://' + value
+					? 'https://' + value
 					: value; // in case url without protocol is used
 				value =
 					'<a class="bold" href="' +
@@ -13697,19 +13697,23 @@
 			functionName: funcName,
 			arguments: args,
 		};
+		const targetOrigin =
+			window.location.origin === 'null'
+				? '*'
+				: window.location.origin;
 		switch (target) {
 			case 'iframe':
 				getEl(
 					'#content_iframe',
 				).contentWindow.postMessage(
 					messageObj,
-					'*',
+					targetOrigin,
 				);
 				break;
 			case 'top_body':
 				window.parent.postMessage(
 					messageObj,
-					'*',
+					targetOrigin,
 				);
 				break;
 		}

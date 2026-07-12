@@ -136,10 +136,21 @@
 
 	// Navigate to the notification page
 	function navigateToNotification(link) {
-		if (isProcessing) {
-			console.log(`Navigating to ${link}`);
-			window.location.href = link;
+		if (!isProcessing) {
+			return;
 		}
+
+		const notificationUrl = new URL(link, window.location.href);
+		if (
+			notificationUrl.origin !== window.location.origin ||
+			!notificationUrl.pathname.startsWith('/notification/')
+		) {
+			console.error('Refusing to navigate to an invalid notification URL.');
+			return;
+		}
+
+		console.log(`Navigating to ${notificationUrl.href}`);
+		window.location.assign(notificationUrl.href);
 	}
 
 	// Fetch token and delete the notification directly via POST
