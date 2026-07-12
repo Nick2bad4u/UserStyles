@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         GitHub Selected Tab Color - Refined GitHub Fork
-@version      1.3.4
+@version      1.3.5
 @namespace    nick2bad4u.github.io
 @homepageURL  https://github.com/Nick2bad4u/UserStyles
 @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
@@ -12,10 +12,17 @@
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GitHub-Selected-Tab-Color-RefinedGitHub-Fork.user.css
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/GitHub-Selected-Tab-Color-RefinedGitHub-Fork.user.css
 ==/UserStyle== */
+/* eslint-disable css/no-invalid-properties -- Stylus exposes the UserCSS @var as --base-color at install time. */
 @-moz-document regexp("^https?://((blog|gist|guides|docs|lab|launch-editor|raw|resources|status|support|developer)\\.)?github\\.com/((?!generated_pages/preview).)*$"),
 domain("www.githubstatus.com") {
     :root {
         --transparent: transparent;
+        --underlineNav-borderColor-active: var(--base-color) !important;
+    }
+
+    /* Modern generated Primer navigation */
+    body [data-tab-item][aria-current="page"]::after {
+        background-color: var(--base-color) !important;
     }
 
     body .pagehead-tabs-item.selected,
@@ -29,8 +36,8 @@ domain("www.githubstatus.com") {
     body .history-nav .button.border-color,
     body .timeline-comment.current-user .tabnav-tab.selected,
     body .tabnav-tab[aria-current] {
-        border-top-width: 3px !important;
-        border-top-color: var(--base-color) !important;
+        border-block-start-color: var(--base-color) !important;
+        border-block-start-width: 3px !important;
     }
 
     body .repo-filterer .repo-filter.filter-selected,
@@ -51,7 +58,7 @@ domain("www.githubstatus.com") {
     )::after,
     body .UnderlineNav-item[aria-current]:not([aria-current="false"]),
     body .PRC-selected {
-        border-bottom-color: var(--base-color) !important;
+        border-block-end-color: var(--base-color) !important;
     }
 
     /* Refined GitHub / modern GitHub repo nav active underline */
@@ -80,7 +87,7 @@ domain("www.githubstatus.com") {
 
     body .js-current .standalone a,
     body .sidebar-module .disable > a {
-        border-left-color: var(--base-color) !important;
+        border-inline-start-color: var(--base-color) !important;
     }
 
     body .home-nav-item.selected {
@@ -89,61 +96,67 @@ domain("www.githubstatus.com") {
 
     @media (hover: hover) {
         body .SelectMenu-tab[aria-selected="true"],
-        body .SelectMenu-tab[aria-selected="false"]:hover {
-            border-top-width: 3px;
-            border-top-color: var(--base-color) !important;
+        body .SelectMenu-tab[aria-selected="false"]:hover,
+        body .SelectMenu-tab[aria-selected="false"]:focus-visible {
+            border-block-start-color: var(--base-color) !important;
+            border-block-start-width: 3px;
         }
     }
 
     /* Start Mobile */
     body[class="page-responsive"] .tabs > a.selected,
     body[class="page-responsive"] a.reponav-item.selected {
-        border-top-width: 2px !important;
-        border-top-color: var(--base-color) !important;
+        border-block-start-color: var(--base-color) !important;
+        border-block-start-width: 2px !important;
     }
 
     body a.subnav-link:not(.subnav-primary).selected,
-    body a.subnav-link:not(.subnav-primary):hover {
-        border-bottom-color: var(--base-color) !important;
+    body a.subnav-link:not(.subnav-primary):hover,
+    body a.subnav-link:not(.subnav-primary):focus-visible {
+        border-block-end-color: var(--base-color) !important;
     }
 
     /* see issue https://github.com/StylishThemes/GitHub-Dark/issues/918 */
-    @media screen and (max-width: 768px) {
+    @media screen and (width <= 768px) {
         body .site-subnav .subnav-primary.selected,
-        body .site-subnav .subnav-primary:hover {
-            border-bottom-color: var(--transparent) !important;
+        body .site-subnav .subnav-primary:hover,
+        body .site-subnav .subnav-primary:focus-visible {
+            border-block-end-color: var(--transparent) !important;
         }
     }
 
     /* End Mobile */
     /* see issue https://github.com/StylishThemes/GitHub-Dark/issues/918 */
-    @media screen and (min-width: 1024px) {
+    @media screen and (width >= 1024px) {
         body .site-subnav .subnav-primary.selected,
-        body .site-subnav .subnav-primary:hover {
-            border-bottom-color: var(--base-color) !important;
+        body .site-subnav .subnav-primary:hover,
+        body .site-subnav .subnav-primary:focus-visible {
+            border-block-end-color: var(--base-color) !important;
         }
     }
 
     /* reset shifting selected tabs text down issue #16 */
     body .reponav .reponav-item.selected {
-        padding-top: 7px !important;
+        padding-block-start: 7px !important;
     }
 
+    /* stylelint-disable csstools/use-nesting -- Native CSS nesting is not Baseline-compatible with this userstyle's browser targets. */
     body .hx_reponav.reponav .reponav-item.selected {
-        padding-top: 5px !important;
-        border-bottom: 0 !important;
+        border-block-end: 0 !important;
+        padding-block-start: 5px !important;
     }
 
     body .hx_reponav.reponav .reponav-item {
-        padding-top: 7px !important;
-        border-bottom: 0 !important;
+        border-block-end: 0 !important;
+        padding-block-start: 7px !important;
     }
 
     body .orgnav .pagehead-tabs-item.selected {
-        padding-top: 8px !important;
+        padding-block-start: 8px !important;
     }
 
     body .orgnav .pagehead-tabs-item {
-        border-bottom: 0 !important;
+        border-block-end: 0 !important;
     }
+    /* stylelint-enable csstools/use-nesting */
 }
