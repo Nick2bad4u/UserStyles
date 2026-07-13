@@ -814,6 +814,7 @@ HISTORY.md
 
 # Documentation that may have different formatting requirements
 LICENSE
+.codex/
 .github/
 docs/docusaurus/node_modules/
 docs/docusaurus/build/

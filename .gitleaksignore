@@ -2,4 +2,10 @@ WIndyPlugin.min.js:generic-api-key:4
 OldRedditNewProfilePictures.html:generic-api-key:103
 c9e62182ac8c94b47cfa1ca43bd18f716c724b7d:Microsoft.PowerShell_profile.ps1:private-key:3955
 57295e7ccd98dba8f64d58a0f155b5ba7e590d75:Reddit-API-Key.txt:generic-api-key:2
-history/
+fe231d2:MergeDependabotPRs.user.js:nick2bad4u-sensitive-env-vars:121
+d1bf289:MergeDependabotPRs.user.js:nick2bad4u-sensitive-env-vars:127
+1cf3c82:MergeDependabotPRs.user.js:nick2bad4u-sensitive-env-vars:138
+b798632:MergeDependabotPRs.user.js:nick2bad4u-sensitive-env-vars:52
+fe231d2:MergeDependabotPRs.user.js:nick2bad4u-sensitive-env-vars:317
+MergeDependabotPRs.user.js:nick2bad4u-sensitive-env-vars:317
+316a0eb:.github/workflows/super-linter.yml:nick2bad4u-sensitive-env-vars:24

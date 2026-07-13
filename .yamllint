@@ -1,0 +1,7 @@
+extends: node_modules/yamllint-config-nick2bad4u/.yamllint
+
+rules:
+  indentation:
+    spaces: consistent
+    indent-sequences: consistent
+  quoted-strings: disable

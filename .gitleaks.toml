@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://www.schemastore.org/gitleaks.json
+
+title = "Nick2bad4u shared Gitleaks configuration"
+
+[extend]
+    path = "node_modules/gitleaks-config-nick2bad4u/gitleaks.toml"
+
+[[allowlists]]
+    description = "Ignore local scratch command output"
+    paths       = [ '''^temp/''' ]

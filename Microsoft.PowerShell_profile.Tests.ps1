@@ -1,5 +1,5 @@
 BeforeAll {
-	Import-Module -Name 'C:\Users\Nick\Dropbox\PC (2)\Documents\GitHub\UserStyles\Microsoft.PowerShell_profile.ps1'
+	Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'Microsoft.PowerShell_profile.ps1')
 }
 
 #region Tests for ghcs function

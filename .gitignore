@@ -720,5 +720,6 @@ package.json
 
 # Jest coverage output
 coverage/
+/reports/jscpd/
 .lychee.report.md
 .lycheecache
