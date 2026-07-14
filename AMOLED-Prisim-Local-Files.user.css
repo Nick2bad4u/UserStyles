@@ -1,0 +1,559 @@
+/* ==UserStyle==
+@name         AMOLED Prism for Local Files
+@namespace    nick2bad4u.github.io
+@version      0.1.0
+@description  A polished true-black Chromium directory-listing theme with bright cyan, magenta, and violet accents.
+@author       Nick2bad4u
+@license      UnLicense
+@homepageURL  https://github.com/Nick2bad4u/UserStyles
+@supportURL   https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/AMOLED-Prisim-Local-Files.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/AMOLED-Prisim-Local-Files.user.css
+@preprocessor default
+==/UserStyle== */
+
+@-moz-document url-prefix("file:///")
+{
+    /* The four-ID guard limits the style to Chromium's generated directory page. */
+    html:has(> body > #header):has(#parentDirLinkBox):has(#theader):has(
+            #tbody
+        ) {
+        background: #000000;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody) {
+        --amoled-black: #000000;
+        --panel-black: #050509;
+        --panel-raised: #090910;
+        --text-primary: #f8fbff;
+        --text-secondary: #aeb8cc;
+        --cyan: #28f7ff;
+        --magenta: #ff3bd4;
+        --violet: #9b6cff;
+        --cyan-rgb: 40, 247, 255;
+        --magenta-rgb: 255, 59, 212;
+        --violet-rgb: 155, 108, 255;
+        --line: rgb(255 255 255 / 0.1);
+        --line-strong: rgb(255 255 255 / 0.18);
+        max-width: 1180px;
+        min-height: 100dvh;
+
+        box-sizing: border-box;
+        padding: clamp(1rem, 3vw, 2.75rem);
+        margin: 0 auto;
+        background-attachment: fixed;
+        background-color: var(--amoled-black);
+        background-image:
+            radial-gradient(
+                circle at 8% -10%,
+                rgba(var(--cyan-rgb), 0.16),
+                transparent 25rem
+            ),
+            radial-gradient(
+                circle at 96% 0%,
+                rgba(var(--magenta-rgb), 0.13),
+                transparent 27rem
+            ),
+            radial-gradient(
+                circle at 70% 105%,
+                rgba(var(--violet-rgb), 0.1),
+                transparent 32rem
+            );
+        color: var(--text-primary);
+        color-scheme: dark;
+        font-family:
+            Inter,
+            ui-sans-serif,
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+        overflow-x: auto;
+        scrollbar-color: var(--violet) var(--amoled-black);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody),
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody) *,
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        *::before,
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        *::after {
+        box-sizing: border-box;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(
+            #tbody
+        )::selection,
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        *::selection {
+        background: var(--cyan);
+        color: #000000;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(
+            #tbody
+        )::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(
+            #tbody
+        )::-webkit-scrollbar-track {
+        background: var(--amoled-black);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(
+            #tbody
+        )::-webkit-scrollbar-thumb {
+        min-height: 2rem;
+        border: 3px solid var(--amoled-black);
+        border-radius: 999px;
+        background: linear-gradient(
+            180deg,
+            var(--cyan),
+            var(--violet) 55%,
+            var(--magenta)
+        );
+    }
+
+    /* The heading stays crisp while the lower edge supplies the neon shine. */
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        > #header {
+        position: relative;
+        padding: 0 0 0.8rem;
+        border: 0;
+        margin: 0 0 1.25rem;
+        color: var(--text-primary);
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 750;
+        letter-spacing: -0.035em;
+        line-height: 1.125;
+        overflow-wrap: anywhere;
+        text-shadow:
+            0 0 18px rgba(var(--cyan-rgb), 0.22),
+            0 0 34px rgba(var(--violet-rgb), 0.16);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        > #header::after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            var(--cyan),
+            var(--violet) 52%,
+            var(--magenta) 82%,
+            transparent
+        );
+        box-shadow:
+            0 0 10px rgba(var(--cyan-rgb), 0.75),
+            0 0 18px rgba(var(--magenta-rgb), 0.45);
+        content: "";
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        > #parentDirLinkBox {
+        padding: 0;
+        margin: 0 0 0.85rem;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #parentDirLink {
+        display: inline-flex;
+        min-height: 2.5rem;
+        align-items: center;
+        padding: 0.55rem 1rem 0.55rem 2.45rem;
+        border: 1px solid rgba(var(--violet-rgb), 0.48);
+        border-radius: 999px;
+        background-color: rgb(8 8 16 / 0.92);
+        background-position: 0.85rem center;
+        background-size: 1.05rem 1.05rem;
+        box-shadow:
+            inset 0 1px 0 rgb(255 255 255 / 0.08),
+            0 0 16px rgba(var(--violet-rgb), 0.12);
+        color: var(--text-primary);
+        font-weight: 650;
+        text-decoration: none;
+        transition:
+            color 150ms ease,
+            border-color 150ms ease,
+            background-color 150ms ease,
+            box-shadow 150ms ease,
+            transform 150ms ease;
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
+        &:hover,
+        &:focus {
+            border-color: var(--cyan);
+            background-color: rgba(var(--cyan-rgb), 0.08);
+            box-shadow:
+                inset 0 1px 0 rgb(255 255 255 / 0.12),
+                0 0 22px rgba(var(--cyan-rgb), 0.22);
+            color: var(--cyan);
+            transform: translateY(-1px);
+        }
+
+        html[dir="rtl"] & {
+            background-position: calc(100% - 0.85rem) center;
+        }
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        table {
+        width: 100%;
+        min-width: 42rem;
+        border: 0;
+        border-collapse: separate;
+        border-spacing: 0 0.38rem;
+        table-layout: auto;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #theader
+        th {
+        position: sticky;
+        z-index: 2;
+        top: 0;
+        padding: 0.8rem 1rem;
+        background: rgb(2 2 6 / 0.96);
+        border-block: 1px solid var(--line-strong);
+        box-shadow:
+            inset 0 1px 0 rgb(255 255 255 / 0.04),
+            0 10px 22px rgb(0 0 0 / 0.62);
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        font-weight: 750;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        transition:
+            color 150ms ease,
+            background-color 150ms ease,
+            border-color 150ms ease,
+            box-shadow 150ms ease;
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
+        &:first-child {
+            border-end-start-radius: 0.72rem;
+            border-inline-start: 1px solid var(--line-strong);
+            border-start-start-radius: 0.72rem;
+            text-align: start;
+        }
+
+        &:last-child {
+            border-end-end-radius: 0.72rem;
+            border-inline-end: 1px solid var(--line-strong);
+            border-start-end-radius: 0.72rem;
+        }
+
+        &:hover,
+        &:focus {
+            background-color: rgba(var(--cyan-rgb), 0.075);
+            border-block-color: rgba(var(--cyan-rgb), 0.5);
+            color: var(--cyan);
+        }
+
+        &:focus-visible {
+            z-index: 3;
+            box-shadow:
+                inset 0 0 0 1px rgba(var(--magenta-rgb), 0.45),
+                0 0 18px rgba(var(--magenta-rgb), 0.32);
+            color: #ffffff;
+            outline: 2px solid var(--magenta);
+            outline-offset: -3px;
+        }
+    }
+
+    /* Chromium stores the current direction as 1 (ascending) or -1 (descending). */
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #theader
+        th::after {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border: 0.28rem solid transparent;
+        content: "";
+        margin-inline-start: 0.55rem;
+        opacity: 0;
+        transform: translateY(0.15rem);
+        transition:
+            opacity 150ms ease,
+            transform 150ms ease;
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #theader
+        th:not([data-order]):hover::after,
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #theader
+        th:not([data-order]):focus::after {
+        border-top-color: currentcolor;
+        opacity: 0.55;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #theader
+        th[data-order="1"] {
+        box-shadow:
+            inset 0 -2px 0 var(--cyan),
+            0 0 18px rgba(var(--cyan-rgb), 0.16);
+        color: var(--cyan);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #theader
+        th[data-order="1"]::after {
+        border-bottom-color: var(--cyan);
+        opacity: 1;
+        transform: translateY(-0.14rem);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #theader
+        th[data-order="-1"] {
+        box-shadow:
+            inset 0 -2px 0 var(--magenta),
+            0 0 18px rgba(var(--magenta-rgb), 0.16);
+        color: var(--magenta);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #theader
+        th[data-order="-1"]::after {
+        border-top-color: var(--magenta);
+        opacity: 1;
+        transform: translateY(0.18rem);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #tbody
+        tr
+        > td {
+        height: 3rem;
+        padding: 0.62rem 1rem;
+        background:
+            linear-gradient(
+                105deg,
+                rgb(255 255 255 / 0.045),
+                rgb(255 255 255 / 0.012) 50%
+            ),
+            var(--panel-black);
+        border-block: 1px solid var(--line);
+        color: var(--text-secondary);
+        transition:
+            color 150ms ease,
+            border-color 150ms ease,
+            background-color 150ms ease,
+            box-shadow 150ms ease,
+            transform 150ms ease;
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
+        &:first-child {
+            border-end-start-radius: 0.62rem;
+            border-inline-start: 2px solid rgba(var(--cyan-rgb), 0.42);
+            border-start-start-radius: 0.62rem;
+        }
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #tbody
+        tr:nth-child(3n + 2)
+        > td:first-child {
+        border-inline-start-color: rgba(var(--magenta-rgb), 0.42);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #tbody
+        tr:nth-child(3n)
+        > td:first-child {
+        border-inline-start-color: rgba(var(--violet-rgb), 0.52);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #tbody
+        tr
+        > td:last-child {
+        border-end-end-radius: 0.62rem;
+        border-inline-end: 1px solid var(--line);
+        border-start-end-radius: 0.62rem;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #tbody
+        tr:hover
+        > td,
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #tbody
+        tr:focus-within
+        > td {
+        background:
+            linear-gradient(
+                105deg,
+                rgba(var(--cyan-rgb), 0.1),
+                rgba(var(--violet-rgb), 0.055) 48%,
+                rgba(var(--magenta-rgb), 0.07)
+            ),
+            var(--panel-raised);
+        border-block-color: rgba(var(--cyan-rgb), 0.34);
+        box-shadow:
+            inset 0 1px 0 rgb(255 255 255 / 0.075),
+            0 9px 24px rgb(0 0 0 / 0.58);
+        color: #dbe5f5;
+        transform: translateY(-1px);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #tbody
+        tr:hover
+        > td:first-child,
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #tbody
+        tr:focus-within
+        > td:first-child {
+        border-inline-start-color: var(--cyan);
+        box-shadow:
+            inset 2px 0 0 rgba(var(--cyan-rgb), 0.55),
+            inset 0 1px 0 rgb(255 255 255 / 0.075),
+            -5px 0 18px rgba(var(--cyan-rgb), 0.16),
+            0 9px 24px rgb(0 0 0 / 0.58);
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        td.detailsColumn,
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        th.detailsColumn {
+        color: var(--text-secondary);
+        font-variant-numeric: tabular-nums;
+        padding-inline-start: 1.25rem;
+        text-align: end;
+        white-space: nowrap;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #tbody
+        td:first-child {
+        width: 100%;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        a.icon {
+        display: inline-flex;
+        max-width: min(100%, 58rem);
+        min-height: 1.65rem;
+        align-items: center;
+        border-radius: 0.3rem;
+        background-position: 0.18rem center;
+        background-repeat: no-repeat;
+        background-size: 1.28rem 1.28rem;
+        color: var(--text-primary);
+        font-weight: 590;
+        overflow-wrap: anywhere;
+        padding-inline-start: 2rem;
+        text-decoration: none;
+        text-underline-offset: 0.2em;
+        transition:
+            color 150ms ease,
+            text-shadow 150ms ease;
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
+        html[dir="rtl"] & {
+            background-position: calc(100% - 0.18rem) center;
+        }
+
+        &:visited {
+            color: #e8dcff;
+        }
+
+        &:hover,
+        &:focus {
+            color: var(--cyan);
+            text-decoration: underline;
+            text-decoration-color: rgba(var(--magenta-rgb), 0.8);
+            text-shadow:
+                0 0 10px rgba(var(--cyan-rgb), 0.42),
+                0 0 18px rgba(var(--violet-rgb), 0.24);
+        }
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        a:focus-visible {
+        box-shadow: 0 0 0 5px rgba(var(--magenta-rgb), 0.13);
+        outline: 2px solid var(--magenta);
+        outline-offset: 3px;
+    }
+
+    body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+        #listingParsingErrorBox {
+        padding: 0.85rem 1rem;
+        border: 1px solid #ff4778;
+        border-radius: 0.65rem;
+        margin-bottom: 1rem;
+        background: #190008;
+        box-shadow: 0 0 18px rgb(255 71 120 / 0.2);
+        color: #ffe8ef;
+    }
+
+    @media (width <= 760px) {
+        body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody) {
+            padding: 1rem 0.85rem;
+            font-size: 14px;
+
+            & table {
+                min-width: 38rem;
+                border-spacing: 0 0.28rem;
+            }
+
+            & #theader th,
+            & #tbody tr > td {
+                padding: 0.58rem 0.7rem;
+            }
+
+            & td.detailsColumn,
+            & th.detailsColumn {
+                padding-inline-start: 0.85rem;
+            }
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+            *,
+        body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+            *::before,
+        body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
+            *::after {
+            scroll-behavior: auto;
+            transition-duration: 0.01ms;
+        }
+    }
+
+    @media (prefers-contrast: more) {
+        body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody) {
+            --text-secondary: #d4dced;
+            --line: rgb(255 255 255 / 0.28);
+            --line-strong: rgb(255 255 255 / 0.42);
+        }
+    }
+}
