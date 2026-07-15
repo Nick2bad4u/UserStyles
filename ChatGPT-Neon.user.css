@@ -17,6 +17,7 @@
 @var color text-color "Text Color" #D8DEE9
 ==/UserStyle== */
 
+/* stylelint-disable-next-line css-performance-budget/no-render-blocking-import -- UserCSS cannot preload or bundle the external Cousine font. */
 @import "https://fonts.googleapis.com/css2?family=Cousine:wght@400;500&display=swap";
 
 @-moz-document domain("chatgpt.com") {
@@ -107,9 +108,9 @@
     }
 
     body {
-        font-family: "Cousine", monospace !important;
         background-color: var(--background-color) !important;
         color: var(--text-color) !important;
+        font-family: Cousine, monospace !important;
     }
 
     .xl\:max-w-\[48rem\],
@@ -130,18 +131,19 @@
         width: 715px !important;
     }
     .top-bar {
-        background-color: var(--surface-color) !important;
         border-bottom: 2px solid var(--scrollbar-color) !important;
+        background-color: var(--surface-color) !important;
     }
     ::-webkit-scrollbar {
         width: 14px;
     }
     ::-webkit-scrollbar-thumb {
-        background-color: var(--scrollbar-color);
-        border-radius: 6px;
         border: 3px solid var(--surface-color);
+        border-radius: 6px;
+        background-color: var(--scrollbar-color);
     }
-    ::-webkit-scrollbar-thumb:hover {
+    ::-webkit-scrollbar-thumb:hover,
+    ::-webkit-scrollbar-thumb:focus {
         background-color: var(--color-primary);
     }
 
@@ -156,12 +158,12 @@
     }
     .relative.max-w-\[70\%\].rounded-3xl.bg-token-message-surface.px-5.py-2\.5
         .whitespace-pre-wrap {
-        color: var(--message-text-color) !important;
-        font-family: "Arial", sans-serif !important;
-        font-size: 15px !important;
-        letter-spacing: 0.1em;
         border: 2px solid var(--surface-color) !important;
         border-radius: 12px !important;
+        color: var(--message-text-color) !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+        letter-spacing: 0.1em;
         text-shadow: var(--message-glow);
     }
     .bg-token-message-surface {
@@ -210,31 +212,31 @@
     }
     p {
         color: var(--text-color) !important;
-        text-shadow: var(--text-glow);
         letter-spacing: 0.1em;
+        text-shadow: var(--text-glow);
     }
     li {
         color: var(--scrollbar-color) !important;
-        text-shadow: var(--scrollbar-glow);
-        letter-spacing: 0.2em;
-        line-height: 1.3 !important;
         font-size: 14px !important;
+        letter-spacing: 0.2em;
+        line-height: 1.25 !important;
+        text-shadow: var(--scrollbar-glow);
     }
     a {
         color: var(--color-primary) !important;
         font-weight: bold !important;
-        text-shadow: var(--primary-glow);
         letter-spacing: 0.4em !important;
+        text-shadow: var(--primary-glow);
     }
 
     /* Código y metadatos */
     pre,
     code {
         color: var(--color-secondary) !important;
-        font-weight: bold !important;
-        text-shadow: var(--secondary-glow);
         font-size: 12px !important;
+        font-weight: bold !important;
         letter-spacing: 0.2em !important;
+        text-shadow: var(--secondary-glow);
     }
     strong {
         color: var(--color-primary) !important;
@@ -251,14 +253,14 @@
     }
     .hljs-string {
         color: var(--color-secondary) !important;
-        text-shadow: var(--secondary-glow);
         letter-spacing: 0.1em;
+        text-shadow: var(--secondary-glow);
     }
     .hljs-number {
         color: var(--scrollbar-color) !important;
         font-weight: bold !important;
-        text-shadow: var(--scrollbar-glow);
         letter-spacing: 0.1em;
+        text-shadow: var(--scrollbar-glow);
     }
     .hljs-comment {
         color: var(--muted-color) !important;

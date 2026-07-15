@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 void (async function () {
 	'use strict';
 

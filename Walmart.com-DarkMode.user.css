@@ -23,7 +23,7 @@
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Walmart.com-DarkMode.user.css
 ==/UserStyle== */
 
-@-moz-document domain("walmart.com"), domain("walmart.ca"){
+@-moz-document domain("walmart.com"), domain("walmart.ca") {
     :root {
         --base-border: var(base-border);
         --base-background: var(base-background);
@@ -181,11 +181,10 @@
         background-color: var(--button-hover-background) !important;
         color: var(--base-text) !important;
     }
-    
-	/* Exclude flyer pages (flipp-router) from dark mode */
-	html body.multi flipp-router,
-	html body.multi flipp-router *:not(img, svg, iframe) {
-		background-color: transparent !important;
-	}
-}
 
+    /* Exclude flyer pages (flipp-router) from dark mode */
+    html body.multi flipp-router,
+    html body.multi flipp-router *:not(img, svg, iframe) {
+        background-color: transparent !important;
+    }
+}

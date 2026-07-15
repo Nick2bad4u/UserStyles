@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 
 // Function to fetch and display cookies
 function fetchAndDisplayCookies(cookieName) {

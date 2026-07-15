@@ -24,11 +24,13 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
      * These @font-face rules are local imports. Install the Nerd Font variants
      * locally and the style will bind to them without remote font downloads.
      */
+    /* stylelint-disable font/no-unused-font-face -- These families are referenced through CSS custom properties. */
+    /* stylelint-disable font/prefer-variable-fonts, font/prefer-woff2 -- Local aliases use installed fonts, not bundled web-font files. */
     @font-face {
+        font-display: swap;
         font-family: "Arimo Nerd Font Propo";
         font-style: normal;
         font-weight: 400;
-        font-display: swap;
         src:
             local("Arimo Nerd Font Propo"),
             local("Arimo Nerd Font Propo Regular"),
@@ -36,10 +38,10 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     }
 
     @font-face {
+        font-display: swap;
         font-family: "Arimo Nerd Font Propo";
         font-style: normal;
         font-weight: 600;
-        font-display: swap;
         src:
             local("Arimo Nerd Font Propo SemiBold"),
             local("Arimo Nerd Font Propo Bold"),
@@ -48,20 +50,20 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     }
 
     @font-face {
+        font-display: swap;
         font-family: "Arimo Nerd Font Propo";
         font-style: normal;
         font-weight: 700;
-        font-display: swap;
         src:
             local("Arimo Nerd Font Propo Bold"),
             local("ArimoNerdFontPropo-Bold");
     }
 
     @font-face {
+        font-display: swap;
         font-family: "CodeNewRoman Nerd Font Mono";
         font-style: normal;
         font-weight: 400;
-        font-display: swap;
         src:
             local("CodeNewRoman Nerd Font Mono"),
             local("CodeNewRoman Nerd Font Mono Regular"),
@@ -69,20 +71,22 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     }
 
     @font-face {
+        font-display: swap;
         font-family: "CodeNewRoman Nerd Font Mono";
         font-style: normal;
         font-weight: 700;
-        font-display: swap;
         src:
             local("CodeNewRoman Nerd Font Mono Bold"),
             local("CodeNewRomanNerdFontMono-Bold");
     }
+    /* stylelint-enable font/no-unused-font-face */
+    /* stylelint-enable font/prefer-variable-fonts, font/prefer-woff2 */
 
     :root {
         --font-family-Stylus-UI-CSS:
             "Arimo Nerd Font Propo", "Arimo", "Segoe UI Variable Display",
-            "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
-            "Helvetica Neue", Helvetica, Arial, sans-serif;
+            "Segoe UI", system-ui, -apple-system, blinkmacsystemfont,
+            "Helvetica Neue", helvetica, arial, sans-serif;
         --font-family-Stylus-Mono-CSS:
             "CodeNewRoman Nerd Font Mono", "CodeNewRoman Nerd Font",
             "Code New Roman", ui-monospace, "Cascadia Mono", "Cascadia Code",
@@ -94,13 +98,13 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
 
     body {
         --font-family-Stylus-CSS: var(--font-family-Stylus-UI-CSS);
-        font-family: var(--font-family-Stylus-CSS);
+        font-family: var(--font-family-Stylus-CSS), system-ui;
 
         &:lang(ja) {
             --font-family-Stylus-CSS:
                 var(--font-family-Stylus-UI-CSS),
                 var(--font-family-Stylus-ja-CSS);
-            font-family: var(--font-family-Stylus-CSS);
+            font-family: var(--font-family-Stylus-CSS), system-ui;
         }
     }
 
@@ -125,9 +129,7 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     code,
     kbd,
     samp,
-    xmp,
     pre,
-    plaintext,
     .CodeMirror,
     .CodeMirror pre,
     .CodeMirror-code,
@@ -144,10 +146,10 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     }
 
     :root {
-        --c97: hsl(0, 0%, 8%);
-        --c98: hsl(0, 0%, 10%);
-        --c99: hsl(0, 0%, 15%);
-        --c100: hsl(0, 0%, 10%);
+        --c97: hsl(0deg 0% 8%);
+        --c98: hsl(0deg 0% 10%);
+        --c99: hsl(0deg 0% 15%);
+        --c100: hsl(0deg 0% 10%);
         --name-padding-left: 0;
     }
 
@@ -158,27 +160,40 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     }
 
     button {
-        border-radius: 4px;
         padding: 6px 25px !important;
         border: 1px solid var(--c70);
+        border-color: rgb(255 255 255 / 0.09) rgb(255 255 255 / 0.07)
+            rgb(255 255 255 / 0.07);
+        border-radius: 4px;
+        background-color: rgb(255 255 255 / 0.0605);
+        color: var(--fg);
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
-        color: var(--fg);
-        background-color: rgba(255, 255, 255, 0.0605);
-        border-color: rgba(255, 255, 255, 0.09) rgba(255, 255, 255, 0.07)
-            rgba(255, 255, 255, 0.07);
         transition:
             background-color 0.25s,
             border-color 0.25s;
+        @media screen and (prefers-reduced-motion: reduce) {
+            padding: 6px 25px !important;
+            border: 1px solid var(--c70);
+            border-color: rgb(255 255 255 / 0.09) rgb(255 255 255 / 0.07)
+                rgb(255 255 255 / 0.07);
+            border-radius: 4px;
+            background-color: rgb(255 255 255 / 0.0605);
+            color: var(--fg);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            transition: none;
+        }
     }
 
     .dirty #save-button,
     .dirty #save-button + button,
     #usw-publish-style {
-        background: #3da8ff;
         border-color: transparent;
-        color: #000;
+        background: #3da8ff;
+        color: #000000;
     }
 
     input:not([type]),
@@ -190,22 +205,22 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     input[type="time"],
     #search,
     #manage\.newUI\.sort {
-        padding-left: 10px;
-        font-family: var(--font-family-Stylus-CSS), sans-serif;
         width: 100%;
-        box-sizing: border-box;
-        outline: 0;
         height: 32px;
-        background-color: rgba(255, 255, 255, 0.0605) !important;
+        box-sizing: border-box;
+        padding-left: 10px;
         border: 1px solid;
-        border-bottom-width: 2px;
-        border-color: rgba(255, 255, 255, 0.0698) !important;
+        border-color: rgb(255 255 255 / 0.0698) !important;
         border-radius: 4px;
+        border-bottom-width: 2px;
+        background-color: rgb(255 255 255 / 0.0605) !important;
+        color: rgb(255 255 255 / 0.786);
+        font-family: var(--font-family-Stylus-CSS), sans-serif;
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
         line-height: 32px;
-        color: rgba(255, 255, 255, 0.786);
+        outline: 0;
     }
 
     input:not([type]):focus,
@@ -216,50 +231,47 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     input[type="time"]:focus,
     #search:focus,
     #manage\.newUI\.sort:focus {
-        outline: none;
-        box-shadow: none !important;
+        border-color: rgb(255 255 255 / 0.0698);
         border-bottom: 2px solid #0076d6 !important;
-        background-color: rgba(30, 30, 30, 0.7);
-        color: #fff;
-        border-color: rgba(255, 255, 255, 0.0698);
+        background-color: rgb(30 30 30 / 0.7);
+        box-shadow: none !important;
+        color: #ffffff;
+        outline: none;
     }
 
     select {
-        padding-left: 10px;
-        font-family: var(--font-family-Stylus-CSS), sans-serif;
         width: 100%;
-        box-sizing: border-box;
-        outline: 0;
         height: 32px;
+        box-sizing: border-box;
+        padding-left: 10px;
         border: 1px solid;
-        border-bottom-width: 2px;
-        border-color: rgba(255, 255, 255, 0.0698) !important;
+        border-color: rgb(255 255 255 / 0.0698) !important;
         border-radius: 4px;
+        border-bottom-width: 2px;
+        background-color: #363636 !important;
+        /* lline-height: 32px; */
+        color: rgb(255 255 255 / 0.786);
+        font-family: var(--font-family-Stylus-CSS), sans-serif;
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
-        /* lline-height: 32px; */
-        color: rgba(255, 255, 255, 0.786);
-        background-color: #363636 !important;
+        outline: 0;
     }
 
     input[type="checkbox"]:not(.slider),
     input[type="radio"] {
-        background-color: transparent;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        -ms-appearance: none;
-        appearance: none;
-        height: 20px;
         width: 20px;
-        outline: 0;
-        cursor: pointer;
-        vertical-align: middle;
-        margin: 0 5px 3px;
-        background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='8.5' y='8.5' width='15' height='15' rx='1.5' stroke='%23ADADAD'/%3E%3C/svg%3E%0A");
-        border: 0;
-        background-position: -6px -6px;
+        height: 20px;
         flex: 0 0 20px !important;
+        border: 0;
+        margin: 0 5px 3px;
+        appearance: none;
+        background-color: transparent;
+        background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='8.5' y='8.5' width='15' height='15' rx='1.5' stroke='%23ADADAD'/%3E%3C/svg%3E%0A");
+        background-position: -6px -6px;
+        cursor: pointer;
+        outline: 0;
+        vertical-align: middle;
     }
 
     input[type="radio"] {
@@ -272,12 +284,14 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
         background-position: -6px -6px;
     }
 
-    input[type="checkbox"]:not(.slider):hover:checked {
+    input[type="checkbox"]:not(.slider):hover:checked,
+    input[type="checkbox"]:not(.slider):focus:checked {
         background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='8' y='8' width='16' height='16' rx='2' fill='%2362ABF5'/%3E%3Cpath d='M19.765 13.2047C20.0661 13.4892 20.0797 13.9638 19.7953 14.265L15.5453 18.765C15.4061 18.9123 15.2133 18.997 15.0107 18.9999C14.8081 19.0028 14.6129 18.9236 14.4697 18.7803L12.2197 16.5303C11.9268 16.2374 11.9268 15.7626 12.2197 15.4697C12.5126 15.1768 12.9874 15.1768 13.2803 15.4697L14.9846 17.174L18.7047 13.235C18.9891 12.9339 19.4638 12.9203 19.765 13.2047Z' fill='%23242424'/%3E%3C/svg%3E%0A");
         background-position: -6px -6px;
     }
 
-    input[type="checkbox"]:not(.slider):hover {
+    input[type="checkbox"]:not(.slider):hover,
+    input[type="checkbox"]:not(.slider):focus {
         background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='8.5' y='8.5' width='15' height='15' rx='1.5' stroke='%23BDBDBD'/%3E%3C/svg%3E");
         background-position: -6px -6px;
     }
@@ -285,14 +299,16 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     input[type="radio"]:checked {
         background-image: url("data:image/svg+xml,%3Csvg width='33' height='32' viewBox='0 0 33 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M24 16C24 20.1421 20.6421 23.5 16.5 23.5C12.3579 23.5 9 20.1421 9 16C9 11.8579 12.3579 8.5 16.5 8.5C20.6421 8.5 24 11.8579 24 16Z' stroke='%23479EF5'/%3E%3Ccircle cx='16.5' cy='16' r='5' fill='%23479EF5'/%3E%3C/svg%3E%0A");
         background-position: -5px -6px;
+
+        &:hover,
+        &:focus {
+            background-image: url("data:image/svg+xml,%3Csvg width='33' height='32' viewBox='0 0 33 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M24 16C24 20.1421 20.6421 23.5 16.5 23.5C12.3579 23.5 9 20.1421 9 16C9 11.8579 12.3579 8.5 16.5 8.5C20.6421 8.5 24 11.8579 24 16Z' stroke='%2362ABF5'/%3E%3Ccircle cx='16.5' cy='16' r='5' fill='%2362ABF5'/%3E%3C/svg%3E%0A");
+            background-position: -5px -6px;
+        }
     }
 
-    input[type="radio"]:checked:hover {
-        background-image: url("data:image/svg+xml,%3Csvg width='33' height='32' viewBox='0 0 33 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M24 16C24 20.1421 20.6421 23.5 16.5 23.5C12.3579 23.5 9 20.1421 9 16C9 11.8579 12.3579 8.5 16.5 8.5C20.6421 8.5 24 11.8579 24 16Z' stroke='%2362ABF5'/%3E%3Ccircle cx='16.5' cy='16' r='5' fill='%2362ABF5'/%3E%3C/svg%3E%0A");
-        background-position: -5px -6px;
-    }
-
-    input[type="radio"]:hover {
+    input[type="radio"]:hover,
+    input[type="radio"]:focus {
         background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='7.5' stroke='%23BDBDBD'/%3E%3C/svg%3E%0A");
         background-position: -5px -6px;
     }
@@ -330,19 +346,19 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
 
     #message-box {
         backdrop-filter: blur(1px);
-    }
 
-    #message-box > div {
-        border-radius: 8px;
+        & > div {
+            border-radius: 8px;
+        }
     }
 
     #message-box-title {
-        font-family: var(--font-family-Stylus-CSS), sans-serif !important;
-        font-weight: 600;
-        background-color: transparent;
-        padding: 0.45rem 12px;
-        font-size: 18px;
         min-height: 0;
+        padding: 0.45rem 12px;
+        background-color: transparent;
+        font-family: var(--font-family-Stylus-CSS), sans-serif !important;
+        font-size: 18px;
+        font-weight: 600;
     }
 
     #message-box-title::before {
@@ -382,7 +398,7 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
         background-color: transparent;
     }
 
-    @media (max-width: 850px) {
+    @media (width <= 850px) {
         #header .settings h2 {
             max-width: 10vw;
         }
@@ -393,12 +409,12 @@ url-prefix("moz-extension://5de42977-4cf5-47f5-a77f-be6e3a7ebcd3/"), url-prefix(
     }
 
     #popup-iframe {
-        margin: 10px;
         border-radius: 8px;
-        box-shadow: 0 0 30px #111;
+        margin: 10px;
+        box-shadow: 0 0 30px #111111;
     }
 
     #manage\.newUI\.sort:focus {
-        background-color: #222 !important;
+        background-color: #222222 !important;
     }
 }

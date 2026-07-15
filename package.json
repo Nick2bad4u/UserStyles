@@ -33,7 +33,7 @@
     "lint:config-effective": "node scripts/inspect-effective-config.mjs",
     "lint:config-plugin-usage": "node scripts/check-unused-config-plugins.mjs",
     "lint:config-rule-counts": "node scripts/count-rules-by-plugin.mjs",
-    "lint:css": "stylelint \"**/*.user.css\" --cache --cache-strategy content --cache-location .cache/stylelintcache",
+    "lint:css": "stylelint \"**/*.css\" --cache --cache-strategy content --cache-location .cache/stylelintcache",
     "lint:css:fix": "npm run lint:css -- --fix",
     "lint:fix": "npm run lint -- --fix",
     "lint:gitleaks": "gitleaks dir --config .gitleaks.toml .",

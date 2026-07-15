@@ -1,4 +1,4 @@
-/* eslint-disable no-case-declarations, no-fallthrough, indent, no-mixed-spaces-and-tabs, no-multi-spaces, no-return-assign, no-useless-escape, quotes */
+/* eslint-disable no-case-declarations, no-fallthrough, no-useless-escape */
 /* jshint esversion: 6 */
 
 // ==UserScript==
@@ -9,6 +9,7 @@
 // @author			  Nick2bad4u
 // @namespace     nick2bad4u.github.io
 // @license			  GPL-3.0-or-later
+// @homepage     https://github.com/Nick2bad4u/UserStyles
 // @homepageURL	https://github.com/Nick2bad4u/UserStyles
 // @icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAgMAAAC+UIlYAAAACVBMVEUmRcmZzP8zmf8pVcWPAAAAAXRSTlMAQObYZgAAAFBJREFUeF7tyqERwDAMBEE3mX5UiqDmqwwziTPHjG7xrmzrLFtRaApDIRiKQlMYCsFQFJrCUAiGotAU5hTA1WB4fhkMBsOJwWAwgHvB8CHpBcTbpxy4RZNvAAAAAElFTkSuQmCC
 // @match			      file://*/*

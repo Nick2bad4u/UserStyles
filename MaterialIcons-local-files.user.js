@@ -10712,6 +10712,7 @@
 
         // Versioned Python folders are common on Windows but are not exact
         // upstream associations (for example, Python314 on the test page).
+        // eslint-disable-next-line security/detect-unsafe-regex -- Anchored segments require digits, so the optional separator cannot cause runaway backtracking.
         if (/^python(?:[-_.]?\d+)*$/.test(name)) return "folder-python";
 
         return LOCAL_FOLDER_ALIASES[name] ?? DEFAULT_ICONS.folder;

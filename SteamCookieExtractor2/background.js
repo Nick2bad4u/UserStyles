@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 
 // Event listener for extension installation
 chrome.runtime.onInstalled.addListener(() => {

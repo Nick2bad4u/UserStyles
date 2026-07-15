@@ -431,7 +431,6 @@ void (async function () {
 		});
 	}
 
-	// eslint-disable-next-line @typescript-eslint/require-await
 	async function mergeDependabotPRs(prs, username, repo, token) {
 		let statusContainer = document.getElementById('merge-status');
 		if (!statusContainer) {
