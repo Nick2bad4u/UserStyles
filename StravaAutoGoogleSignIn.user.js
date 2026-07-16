@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Auto Click Google Sign-In Button
 // @namespace    nick2bad4u.github.io
-// @version      1.3
-// @description  Automatically clicks the Google sign-in button on the page
+// @version      1.4
+// @description  Automatically clicks the Google sign-in button on Strava's login page
 // @author       Nick2bad4u
-// @match        https://www.strava.com/login
+// @match        https://www.strava.com/login*
 // @grant        none
-// @license      Unlicense
+// @run-at       document-start
+// @license      UnLicense
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
 // @homepage     https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
@@ -16,29 +17,47 @@
 // ==/UserScript==
 
 (function () {
-	'use strict';
+    "use strict";
 
-	// Function to find and click the Google sign-in button
-	const clickGoogleSignIn = () => {
-		const buttons = Array.from(document.querySelectorAll('button, a')); // Get all buttons and links
-		const googleButton = buttons.find((btn) => btn.innerText.includes('Sign In With Google'));
-		if (googleButton) {
-			googleButton.click();
-		} else {
-			console.log('Google Sign-In button not found.');
-		}
-	};
+    let clicked = false;
 
-	// Use MutationObserver to wait for the button if the page loads dynamically
-	const observer = new MutationObserver(() => {
-		const buttons = Array.from(document.querySelectorAll('button, a'));
-		const googleButton = buttons.find((btn) => btn.innerText.includes('Sign In With Google'));
-		if (googleButton) {
-			clickGoogleSignIn();
-			observer.disconnect(); // Stop observing once the button is found and clicked
-		}
-	});
+    const findGoogleSignIn = () => {
+        const testIdButton = document.querySelector(
+            'button[data-testid="google_auth_btn"]'
+        );
+        if (testIdButton) {
+            return testIdButton;
+        }
 
-	// Observe changes in the document body
-	observer.observe(document.body, { childList: true, subtree: true });
+        return Array.from(document.querySelectorAll("button, a")).find(
+            (element) =>
+                element.textContent?.trim().toLowerCase() ===
+                "sign in with google"
+        );
+    };
+
+    const clickGoogleSignIn = () => {
+        if (clicked) {
+            return true;
+        }
+
+        const googleButton = findGoogleSignIn();
+        if (!(googleButton instanceof HTMLElement)) {
+            return false;
+        }
+
+        clicked = true;
+        googleButton.click();
+        return true;
+    };
+
+    if (!clickGoogleSignIn()) {
+        const observer = new MutationObserver(() => {
+            if (clickGoogleSignIn()) {
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(document, { childList: true, subtree: true });
+    }
 })();
