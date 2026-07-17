@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.0.0
+// @version      1.0.1
 // @description  Adds copyable Yarn install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
@@ -41,36 +41,59 @@
             }
 
             .mib-command {
-                align-items: stretch;
-                background: color-mix(in srgb, currentColor 5%, transparent);
-                border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
-                border-radius: 0.25rem;
-                color: inherit;
+                align-items: center;
+                background: transparent;
+                border: 1px solid var(--color-border-default, #dfdfdf);
+                border-radius: 5px;
+                color: var(--color-fg-default, #111);
                 cursor: pointer;
                 display: flex;
-                font: inherit;
+                font-family: var(--code, "Fira Mono", "Andale Mono", Consolas, monospace);
+                font-size: 14px;
+                font-weight: 400;
+                height: 46px;
+                line-height: var(--code-lh, 24px);
                 max-width: 100%;
                 min-width: 0;
-                padding: 0;
+                overflow: hidden;
+                padding: 10px 10px 10px 34px;
+                position: relative;
+                text-align: left;
                 transition: border-color 120ms ease, background-color 120ms ease;
+                white-space: nowrap;
                 width: 100%;
             }
 
+            .mib-command::before {
+                color: var(--color-fg-muted, #777);
+                content: "›";
+                font-size: 16px;
+                font-weight: 700;
+                left: 16px;
+                line-height: 1;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-52%);
+            }
+
             .mib-command:hover {
-                background: color-mix(in srgb, currentColor 9%, transparent);
-                border-color: #cb3837;
+                background: var(--color-bg-subtle, rgba(0, 0, 0, 0.03));
+                border-color: var(--color-border-strong, #999);
             }
 
             .mib-command:focus-visible {
-                outline: 2px solid #cb3837;
+                outline: 2px solid var(--color-fg-brand, #cb3837);
                 outline-offset: 2px;
             }
 
             .mib-command code {
                 flex: 1 1 auto;
+                font: inherit;
+                height: 24px;
+                line-height: 24px;
                 min-width: 0;
                 overflow: hidden;
-                padding: 0.65rem 0.75rem;
+                padding: 0 35px 0 0;
                 text-align: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -78,22 +101,53 @@
 
             .mib-status {
                 align-items: center;
-                border-left: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+                color: #808080;
                 display: flex;
-                flex: 0 0 auto;
-                font-size: 0.75rem;
-                font-weight: 600;
+                height: 22px;
                 justify-content: center;
-                min-width: 4.5rem;
-                padding: 0.65rem 0.6rem;
+                padding: 1px 6px;
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 28px;
+            }
+
+            .mib-copy-icon {
+                fill: none;
+                height: 13px;
+                overflow: visible;
+                stroke: currentColor;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 1.5;
+                transition: color 120ms ease, transform 120ms ease;
+                width: 13px;
+            }
+
+            .mib-status-text {
+                border: 0;
+                clip: rect(0 0 0 0);
+                clip-path: inset(50%);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                white-space: nowrap;
+                width: 1px;
             }
 
             .mib-command[data-copy-state="copied"] .mib-status {
-                color: #137752;
+                color: var(--color-fg-success, #137752);
+            }
+
+            .mib-command[data-copy-state="copied"] .mib-copy-icon {
+                transform: scale(1.15);
             }
 
             .mib-command[data-copy-state="failed"] .mib-status {
-                color: #cb3837;
+                color: var(--color-fg-danger, #cb3837);
             }
         `;
         (document.head || document.documentElement).append(style);
@@ -230,15 +284,40 @@
         return copyWithLegacyApi(text);
     }
 
-    function showCopyResult(button, status, copied) {
+    function showCopyResult(button, statusText, copied) {
         button.dataset.copyState = copied ? "copied" : "failed";
-        status.textContent = copied ? "Copied!" : "Failed";
+        statusText.textContent = copied ? "Copied!" : "Copy failed";
 
         window.setTimeout(() => {
             if (!button.isConnected) return;
             delete button.dataset.copyState;
-            status.textContent = "Copy";
+            statusText.textContent = "Copy";
         }, 1400);
+    }
+
+    function createCopyIcon() {
+        const svgNamespace = "http://www.w3.org/2000/svg";
+        const icon = document.createElementNS(svgNamespace, "svg");
+        icon.classList.add("mib-copy-icon");
+        icon.setAttribute("aria-hidden", "true");
+        icon.setAttribute("focusable", "false");
+        icon.setAttribute("viewBox", "0 0 16 16");
+
+        const backPage = document.createElementNS(svgNamespace, "path");
+        backPage.setAttribute(
+            "d",
+            "M4.75 11.25H3.5A1.5 1.5 0 0 1 2 9.75V3.5A1.5 1.5 0 0 1 3.5 2h6.25a1.5 1.5 0 0 1 1.5 1.5v1.25"
+        );
+
+        const frontPage = document.createElementNS(svgNamespace, "rect");
+        frontPage.setAttribute("x", "5");
+        frontPage.setAttribute("y", "5");
+        frontPage.setAttribute("width", "9");
+        frontPage.setAttribute("height", "9");
+        frontPage.setAttribute("rx", "1.5");
+
+        icon.append(backPage, frontPage);
+        return icon;
     }
 
     function createCommandButton({ label, text }) {
@@ -254,16 +333,20 @@
         const status = document.createElement("span");
         status.className = "mib-status";
         status.setAttribute("aria-live", "polite");
-        status.textContent = "Copy";
+
+        const statusText = document.createElement("span");
+        statusText.className = "mib-status-text";
+        statusText.textContent = "Copy";
+        status.append(createCopyIcon(), statusText);
 
         button.append(code, status);
         button.addEventListener("click", () => {
             copyText(text).then(
                 (copied) => {
-                    showCopyResult(button, status, copied);
+                    showCopyResult(button, statusText, copied);
                 },
                 () => {
-                    showCopyResult(button, status, false);
+                    showCopyResult(button, statusText, false);
                 }
             );
         });
