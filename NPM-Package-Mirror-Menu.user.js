@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         NPM - Package Mirror Menu
+// @name         NPM - Related Package Links
 // @namespace    nick2bad4u.github.io
-// @version      1.1.0
-// @description  Adds a configurable menu for opening npm packages in browsers, analysis tools, and CDNs.
+// @version      1.2.0
+// @description  Adds a configurable menu of useful package pages, security reports, size tools, trends, and CDNs.
 // @author       Nick2bad4u
 // @license      UnLicense
 // @homepage     https://github.com/Nick2bad4u/UserStyles
@@ -24,261 +24,215 @@
 
     const PACKAGE_MIRRORS = [
         {
-            id: "npm",
-            category: "Package browsers",
-            label: "npm",
-            description: "Official npm package page",
-            homepage: "https://www.npmjs.com/",
-            buildUrl: ({ npmHash, npmPath, npmSearch }) =>
-                `https://www.npmjs.com${npmPath}${npmSearch}${npmHash}`,
-        },
-        {
-            id: "npmx",
-            category: "Package browsers",
-            label: "npmx",
-            description: "Fast, modern npm frontend",
-            homepage: "https://npmx.dev/",
-            buildUrl: ({ npmHash, npmPath, npmSearch }) =>
-                `https://npmx.dev${npmPath}${npmSearch}${npmHash}`,
-        },
-        {
-            id: "npm-io",
-            category: "Package browsers",
-            label: "npm.io",
-            description: "Package summary and health",
-            homepage: "https://npm.io/",
-            buildUrl: ({ packagePath }) =>
-                `https://npm.io/package/${packagePath}`,
-        },
-        {
-            id: "yarn",
-            category: "Package browsers",
-            label: "Yarn",
-            description: "Yarn package details",
-            homepage: "https://yarnpkg.com/",
-            buildUrl: ({ encodedPackageName }) =>
-                `https://yarnpkg.com/package?name=${encodedPackageName}`,
-        },
-        {
-            id: "npms-io",
-            category: "Package browsers",
-            label: "npms.io",
-            description: "Search, quality, popularity, and maintenance",
-            homepage: "https://npms.io/",
-            buildUrl: ({ encodedPackageName }) =>
-                `https://npms.io/search?q=${encodedPackageName}`,
-        },
-        {
-            id: "npmmirror",
-            category: "Package browsers",
-            label: "npmmirror",
-            description: "Chinese npm registry mirror",
-            homepage: "https://npmmirror.com/",
-            buildUrl: ({ packagePath }) =>
-                `https://npmmirror.com/package/${packagePath}`,
-        },
-        {
-            id: "npkg",
-            category: "Package browsers",
-            label: "NPKG",
-            description: "Alternative npm package browser",
-            homepage: "https://npkg.dev/",
-            buildUrl: ({ packagePath }) => `https://npkg.dev/${packagePath}`,
-        },
-        {
-            id: "xnpmjs",
-            category: "Package browsers",
-            label: "xnpmjs.com",
-            description: "Legacy domain that redirects to npmx",
-            homepage: "https://xnpmjs.com/",
-            buildUrl: ({ npmHash, npmPath, npmSearch }) =>
-                `https://xnpmjs.com${npmPath}${npmSearch}${npmHash}`,
-        },
-        {
-            id: "npm-alt",
-            category: "Package browsers",
-            label: "npm-alt",
-            description: "Deprecated frontend; successor is npmx",
-            homepage: "https://npm-alt.vercel.app/",
-            buildUrl: ({ packagePath }) =>
-                `https://npm-alt.vercel.app/package/${packagePath}`,
-        },
-        {
-            id: "npm-registry-browser",
-            category: "Package browsers",
-            label: "npm registry browser",
-            description: "Older hosted registry-browser demo",
-            homepage: "https://npm-registry-browser.vercel.app/",
-            buildUrl: ({ encodedPackageName }) =>
-                `https://npm-registry-browser.vercel.app/#/package/${encodedPackageName}`,
-        },
-        {
-            id: "npmsearch",
-            category: "Package browsers",
-            label: "npmsearch.com",
-            description: "Legacy search service; may be unavailable",
-            homepage: "https://npmsearch.com/",
-            buildUrl: ({ encodedPackageName }) =>
-                `https://npmsearch.com/?q=${encodedPackageName}`,
-        },
-        {
             id: "socket",
-            category: "Package intelligence",
+            category: "Package quality and security",
             label: "Socket",
             description: "Supply-chain security analysis",
             homepage: "https://socket.dev/",
+            iconFallback: "SO",
             buildUrl: ({ packagePath }) =>
                 `https://socket.dev/npm/package/${packagePath}`,
         },
         {
+            id: "snyk-advisor",
+            category: "Package quality and security",
+            label: "Snyk",
+            description: "Vulnerabilities, licenses, and package health",
+            homepage: "https://security.snyk.io/",
+            iconFallback: "SY",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://security.snyk.io/package/npm/${encodedPackageName}`,
+        },
+        {
             id: "deps-dev",
-            category: "Package intelligence",
+            category: "Package quality and security",
             label: "deps.dev",
-            description: "Dependency, license, and advisory data",
+            description: "Dependencies, licenses, and advisories",
             homepage: "https://deps.dev/",
+            iconFallback: "DD",
             buildUrl: ({ encodedPackageName }) =>
                 `https://deps.dev/npm/${encodedPackageName}`,
         },
         {
-            id: "snyk-advisor",
-            category: "Package intelligence",
-            label: "Snyk",
-            description: "Security, health, and vulnerability data",
-            homepage: "https://security.snyk.io/",
-            buildUrl: ({ packagePath }) =>
-                `https://security.snyk.io/package/npm/${packagePath}`,
+            id: "publint",
+            category: "Package quality and security",
+            label: "publint",
+            description: "Package publishing and exports checks",
+            homepage: "https://publint.dev/",
+            iconFallback: "PL",
+            buildUrl: ({ packageVersionRaw }) =>
+                `https://publint.dev/${packageVersionRaw}`,
+        },
+        {
+            id: "are-the-types-wrong",
+            category: "Package quality and security",
+            label: "Are the Types Wrong?",
+            description: "TypeScript declarations and module-resolution checks",
+            homepage: "https://arethetypeswrong.github.io/",
+            iconFallback: "AT",
+            buildUrl: ({ encodedPackageSpec }) =>
+                `https://arethetypeswrong.github.io/?p=${encodedPackageSpec}`,
         },
         {
             id: "libraries-io",
-            category: "Package intelligence",
+            category: "Package quality and security",
             label: "Libraries.io",
-            description: "Release, dependency, and repository data",
+            description: "Releases, dependencies, and maintenance data",
             homepage: "https://libraries.io/",
-            buildUrl: ({ packagePath }) =>
-                `https://libraries.io/npm/${packagePath}`,
+            iconFallback: "LI",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://libraries.io/npm/${encodedPackageName}`,
         },
         {
             id: "packages-ecosystems",
-            category: "Package intelligence",
+            category: "Package quality and security",
             label: "packages.ecosyste.ms",
             description: "Open package metadata and dependency data",
             homepage: "https://packages.ecosyste.ms/",
+            iconFallback: "PE",
             buildUrl: ({ encodedPackageName }) =>
                 `https://packages.ecosyste.ms/registries/npmjs.org/packages/${encodedPackageName}`,
         },
         {
-            id: "packfolio",
-            category: "Package intelligence",
-            label: "PackFolio",
-            description: "Analytics search; no stable package deep link",
-            homepage: "https://www.packfolio.dev/",
-            buildUrl: () => "https://www.packfolio.dev/",
+            id: "npmx",
+            category: "Package pages",
+            label: "npmx",
+            description: "Fast, modern npm frontend",
+            homepage: "https://npmx.dev/",
+            iconFallback: "NX",
+            buildUrl: ({ npmHash, npmPath, npmSearch }) =>
+                `https://npmx.dev${npmPath}${npmSearch}${npmHash}`,
+        },
+        {
+            id: "yarn",
+            category: "Package pages",
+            label: "Yarn",
+            description: "Yarn package details",
+            homepage: "https://yarnpkg.com/",
+            iconFallback: "Y",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://yarnpkg.com/package?name=${encodedPackageName}`,
+        },
+        {
+            id: "npm-io",
+            category: "Package pages",
+            label: "npm.io",
+            description: "Package summary and health",
+            homepage: "https://npm.io/",
+            iconFallback: "NI",
+            buildUrl: ({ packagePath }) =>
+                `https://npm.io/package/${packagePath}`,
+        },
+        {
+            id: "npmmirror",
+            category: "Package pages",
+            label: "npmmirror",
+            description: "Chinese npm registry mirror",
+            homepage: "https://npmmirror.com/",
+            iconFallback: "NM",
+            buildUrl: ({ packagePath }) =>
+                `https://npmmirror.com/package/${packagePath}`,
         },
         {
             id: "bundlephobia",
-            category: "Size and bundles",
+            category: "Size and bundling",
             label: "Bundlephobia",
             description: "Bundle size, exports, and dependency cost",
             homepage: "https://bundlephobia.com/",
+            iconFallback: "BP",
+            iconUrl: "https://bundlephobia.com/favicon-32x32.png?l=4",
             buildUrl: ({ packageVersionPath }) =>
                 `https://bundlephobia.com/package/${packageVersionPath}`,
         },
         {
-            id: "package-phobia",
-            category: "Size and bundles",
-            label: "Package Phobia",
-            description: "Install and publish size",
-            homepage: "https://packagephobia.com/",
+            id: "bundlejs",
+            category: "Size and bundling",
+            label: "BundleJS",
+            description: "Tree-shaken bundle size explorer",
+            homepage: "https://bundlejs.com/",
+            iconFallback: "BJ",
             buildUrl: ({ encodedPackageSpec }) =>
-                `https://packagephobia.com/result?p=${encodedPackageSpec}`,
+                `https://bundlejs.com/?q=${encodedPackageSpec}`,
         },
         {
             id: "pkg-size",
-            category: "Size and bundles",
+            category: "Size and bundling",
             label: "pkg-size",
-            description: "Package file and bundle size explorer",
+            description: "Package files and bundle size explorer",
             homepage: "https://pkg-size.dev/",
+            iconFallback: "PS",
             buildUrl: ({ packageVersionPath }) =>
                 `https://pkg-size.dev/${packageVersionPath}`,
         },
         {
+            id: "package-phobia",
+            category: "Size and bundling",
+            label: "Package Phobia",
+            description: "Install and publish size",
+            homepage: "https://packagephobia.com/",
+            iconFallback: "PP",
+            buildUrl: ({ encodedPackageSpec }) =>
+                `https://packagephobia.com/result?p=${encodedPackageSpec}`,
+        },
+        {
             id: "npm-trends",
-            category: "Downloads and comparisons",
+            category: "Downloads and graphs",
             label: "npm trends",
             description: "Compare package download trends",
             homepage: "https://npmtrends.com/",
+            iconFallback: "NT",
             buildUrl: ({ packagePath }) =>
                 `https://npmtrends.com/${packagePath}`,
         },
         {
-            id: "npmcharts",
-            category: "Downloads and comparisons",
-            label: "npmcharts",
-            description: "Package download charts",
-            homepage: "https://npmcharts.com/",
+            id: "packfolio",
+            category: "Downloads and graphs",
+            label: "PackFolio",
+            description: "Downloads, health, trends, and comparisons",
+            homepage: "https://www.packfolio.dev/",
+            iconFallback: "PF",
             buildUrl: ({ encodedPackageName }) =>
-                `https://npmcharts.com/compare/${encodedPackageName}`,
-        },
-        {
-            id: "npm-compare",
-            category: "Downloads and comparisons",
-            label: "npm-compare.com",
-            description: "Similar packages, downloads, and metadata",
-            homepage: "https://npm-compare.com/",
-            buildUrl: ({ encodedPackageName }) =>
-                `https://npm-compare.com/${encodedPackageName}`,
-        },
-        {
-            id: "npm-stat",
-            category: "Downloads and comparisons",
-            label: "npm-stat",
-            description: "Historical npm download statistics",
-            homepage: "https://npm-stat.com/",
-            buildUrl: ({ encodedPackageName }) =>
-                `https://npm-stat.com/charts.html?package=${encodedPackageName}`,
-        },
-        {
-            id: "paralect-npm-compare",
-            category: "Downloads and comparisons",
-            label: "Paralect NPM Compare",
-            description: "Multi-package comparison landing page",
-            homepage: "https://www.paralect.com/npm-compare",
-            buildUrl: () => "https://www.paralect.com/npm-compare",
-        },
-        {
-            id: "npm-diff",
-            category: "Downloads and comparisons",
-            label: "npm diff",
-            description: "Choose two versions to compare",
-            homepage: "https://npmdiff.dev/",
-            buildUrl: () => "https://npmdiff.dev/",
+                `https://www.packfolio.dev/?q=${encodedPackageName}`,
         },
         {
             id: "npmgraph",
-            category: "Downloads and comparisons",
+            category: "Downloads and graphs",
             label: "npmgraph",
             description: "Interactive dependency graph",
             homepage: "https://npmgraph.js.org/",
+            iconFallback: "NG",
             buildUrl: ({ encodedPackageName }) =>
                 `https://npmgraph.js.org/?q=${encodedPackageName}`,
         },
         {
             id: "npm-anvaka",
-            category: "Downloads and comparisons",
+            category: "Downloads and graphs",
             label: "npm.anvaka.com",
             description: "Large interactive dependency graph",
             homepage: "https://npm.anvaka.com/",
+            iconFallback: "NA",
             buildUrl: ({ encodedPackageName }) =>
                 `https://npm.anvaka.com/#/view/2d/${encodedPackageName}`,
         },
         {
-            id: "jsdelivr",
-            category: "Files and CDNs",
-            label: "jsDelivr",
-            description: "Package files and CDN usage",
-            homepage: "https://www.jsdelivr.com/",
-            buildUrl: ({ packagePath }) =>
-                `https://www.jsdelivr.com/package/npm/${packagePath}`,
+            id: "npmcharts",
+            category: "Downloads and graphs",
+            label: "npmcharts",
+            description: "Package download charts",
+            homepage: "https://npmcharts.com/",
+            iconFallback: "NC",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://npmcharts.com/compare/${encodedPackageName}`,
+        },
+        {
+            id: "npm-stat",
+            category: "Downloads and graphs",
+            label: "npm-stat",
+            description: "Historical npm download statistics",
+            homepage: "https://npm-stat.com/",
+            iconFallback: "NS",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://npm-stat.com/charts.html?package=${encodedPackageName}`,
         },
         {
             id: "unpkg",
@@ -286,8 +240,19 @@
             label: "UNPKG",
             description: "Versioned package file browser",
             homepage: "https://unpkg.com/",
+            iconFallback: "UP",
             buildUrl: ({ packageVersionPath }) =>
                 `https://app.unpkg.com/${packageVersionPath}`,
+        },
+        {
+            id: "jsdelivr",
+            category: "Files and CDNs",
+            label: "jsDelivr",
+            description: "Package files, CDN usage, and statistics",
+            homepage: "https://www.jsdelivr.com/",
+            iconFallback: "JD",
+            buildUrl: ({ packagePath }) =>
+                `https://www.jsdelivr.com/package/npm/${packagePath}`,
         },
         {
             id: "esm-sh",
@@ -295,38 +260,145 @@
             label: "esm.sh",
             description: "ES module CDN endpoint",
             homepage: "https://esm.sh/",
+            iconFallback: "ES",
             buildUrl: ({ packageVersionPath }) =>
                 `https://esm.sh/${packageVersionPath}`,
         },
         {
+            id: "npm-diff",
+            category: "Manual and search tools",
+            label: "npm diff",
+            description: "Manual tool requiring two package versions",
+            homepage: "https://npmdiff.dev/",
+            iconFallback: "ND",
+            buildUrl: () => "https://npmdiff.dev/",
+        },
+        {
+            id: "npms-io",
+            category: "Dead, old, and archived",
+            label: "npms.io",
+            description: "Search-only frontend with stale analysis data",
+            homepage: "https://npms.io/",
+            iconFallback: "NS",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://npms.io/search?q=${encodedPackageName}`,
+        },
+        {
+            id: "npm-registry-browser",
+            category: "Dead, old, and archived",
+            label: "npm registry browser",
+            description: "Legacy 2020 registry browser",
+            homepage: "https://topheman.github.io/npm-registry-browser/",
+            iconFallback: "NR",
+            buildUrl: ({ packageName }) =>
+                `https://topheman.github.io/npm-registry-browser/#/package/${packageName}`,
+        },
+        {
+            id: "xnpmjs",
+            category: "Dead, old, and archived",
+            label: "xnpmjs.com",
+            description: "Legacy domain that only redirects to npmx",
+            homepage: "https://xnpmjs.com/",
+            iconFallback: "XN",
+            buildUrl: ({ npmHash, npmPath, npmSearch }) =>
+                `https://xnpmjs.com${npmPath}${npmSearch}${npmHash}`,
+        },
+        {
+            id: "npm-alt",
+            category: "Dead, old, and archived",
+            label: "npm-alt",
+            description: "Dead frontend; package routes return 404",
+            homepage: "https://npm-alt.vercel.app/",
+            iconFallback: "NA",
+            buildUrl: ({ packagePath }) =>
+                `https://npm-alt.vercel.app/package/${packagePath}`,
+        },
+        {
+            id: "npkg",
+            category: "Dead, old, and archived",
+            label: "NPKG",
+            description: "Dead domain; no longer resolves",
+            homepage: "https://npkg.dev/",
+            iconFallback: "NP",
+            buildUrl: ({ packagePath }) => `https://npkg.dev/${packagePath}`,
+        },
+        {
+            id: "npmsearch",
+            category: "Dead, old, and archived",
+            label: "npmsearch.com",
+            description: "Dead search domain; no longer resolves",
+            homepage: "https://npmsearch.com/",
+            iconFallback: "NS",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://npmsearch.com/?q=${encodedPackageName}`,
+        },
+        {
+            id: "npm-compare",
+            category: "Dead, old, and archived",
+            label: "npm-compare.com",
+            description: "Parked or unavailable comparison site",
+            homepage: "https://npm-compare.com/",
+            iconFallback: "NC",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://npm-compare.com/${encodedPackageName}`,
+        },
+        {
+            id: "paralect-npm-compare",
+            category: "Dead, old, and archived",
+            label: "Paralect NPM Compare",
+            description: "Repurposed; URL now opens an unrelated Pulse app",
+            homepage: "https://www.paralect.com/npm-compare",
+            iconFallback: "PN",
+            buildUrl: () => "https://www.paralect.com/npm-compare",
+        },
+        {
             id: "skypack",
-            category: "Files and CDNs",
+            category: "Dead, old, and archived",
             label: "Skypack",
-            description: "Legacy package browser and ESM CDN",
+            description: "Archived package browser; package routes return 404",
             homepage: "https://www.skypack.dev/",
+            iconFallback: "SK",
             buildUrl: ({ packagePath }) =>
                 `https://www.skypack.dev/view/${packagePath}`,
         },
         {
             id: "runkit",
-            category: "Files and CDNs",
+            category: "Dead, old, and archived",
             label: "RunKit npm",
-            description: "Legacy package notebook; may be unavailable",
+            description:
+                "Archived package notebook with an expired certificate",
             homepage: "https://npm.runkit.com/",
+            iconFallback: "RK",
             buildUrl: ({ encodedPackageName }) =>
                 `https://npm.runkit.com/${encodedPackageName}`,
         },
     ];
 
     const CATEGORY_ORDER = [
-        "Package browsers",
-        "Package intelligence",
-        "Size and bundles",
-        "Downloads and comparisons",
+        "Package quality and security",
+        "Package pages",
+        "Size and bundling",
+        "Downloads and graphs",
         "Files and CDNs",
+        "Manual and search tools",
+        "Dead, old, and archived",
     ];
-    const DEFAULT_DISABLED_MIRROR_IDS = [];
+    const DEFAULT_DISABLED_MIRROR_IDS = [
+        "npm-diff",
+        "npms-io",
+        "npm-registry-browser",
+        "xnpmjs",
+        "npm-alt",
+        "npkg",
+        "npmsearch",
+        "npm-compare",
+        "paralect-npm-compare",
+        "skypack",
+        "runkit",
+    ];
     const DISABLED_MIRRORS_KEY = "disabledMirrorIds";
+    const SETTINGS_SCHEMA_KEY = "relatedPackageLinksSettingsSchema";
+    const SETTINGS_SCHEMA_VERSION = 2;
     const MENU_ATTRIBUTE = "data-npm-package-mirror-menu";
     const MENU_ID = "npm-package-mirror-menu-list";
     const SETTINGS_DIALOG_ID = "npm-package-mirror-settings";
@@ -501,14 +573,14 @@
 
             .npml-site-icon {
                 align-items: center;
-                background: var(--npml-hover);
-                border: 1px solid var(--npml-border);
+                background: hsl(var(--npml-icon-hue, 0) 65% 91%);
+                border: 1px solid hsl(var(--npml-icon-hue, 0) 45% 77%);
                 border-radius: 4px;
-                color: var(--npml-muted);
+                color: hsl(var(--npml-icon-hue, 0) 55% 26%);
                 display: inline-flex;
                 flex: 0 0 auto;
-                font-size: 0.7rem;
-                font-weight: 700;
+                font-size: 0.62rem;
+                font-weight: 800;
                 height: 1.65rem;
                 justify-content: center;
                 overflow: hidden;
@@ -517,8 +589,14 @@
                 width: 1.65rem;
             }
 
+            html[data-color-mode="dark"] .npml-site-icon {
+                background: hsl(var(--npml-icon-hue, 0) 38% 22%);
+                border-color: hsl(var(--npml-icon-hue, 0) 35% 38%);
+                color: hsl(var(--npml-icon-hue, 0) 70% 82%);
+            }
+
             .npml-site-icon img {
-                background: var(--npml-bg);
+                box-sizing: border-box;
                 height: 100%;
                 inset: 0;
                 object-fit: contain;
@@ -723,17 +801,29 @@
                 DISABLED_MIRRORS_KEY,
                 DEFAULT_DISABLED_MIRROR_IDS
             );
-            if (!Array.isArray(savedIds)) {
-                return [...DEFAULT_DISABLED_MIRROR_IDS];
-            }
-
             const knownIds = new Set(PACKAGE_MIRRORS.map(({ id }) => id));
-            return savedIds.filter(
+            const candidateIds = Array.isArray(savedIds)
+                ? savedIds
+                : DEFAULT_DISABLED_MIRROR_IDS;
+            let normalizedIds = candidateIds.filter(
                 (id, index) =>
                     typeof id === "string" &&
                     knownIds.has(id) &&
-                    savedIds.indexOf(id) === index
+                    candidateIds.indexOf(id) === index
             );
+
+            const savedSchema = Number(GM_getValue(SETTINGS_SCHEMA_KEY, 0));
+            if (savedSchema < SETTINGS_SCHEMA_VERSION) {
+                normalizedIds = Array.from(
+                    new Set([...normalizedIds, ...DEFAULT_DISABLED_MIRROR_IDS])
+                );
+                if (typeof GM_setValue === "function") {
+                    GM_setValue(DISABLED_MIRRORS_KEY, normalizedIds);
+                    GM_setValue(SETTINGS_SCHEMA_KEY, SETTINGS_SCHEMA_VERSION);
+                }
+            }
+
+            return normalizedIds;
         } catch {
             return [...DEFAULT_DISABLED_MIRROR_IDS];
         }
@@ -746,6 +836,7 @@
         if (typeof GM_setValue === "function") {
             try {
                 GM_setValue(DISABLED_MIRRORS_KEY, disabledMirrorIds);
+                GM_setValue(SETTINGS_SCHEMA_KEY, SETTINGS_SCHEMA_VERSION);
             } catch {
                 // The current page still updates when persistent storage fails.
             }
@@ -824,6 +915,7 @@
             packageName,
             packagePath,
             packageVersion,
+            packageVersionRaw: `${packageName}@${packageVersion}`,
             packageVersionPath,
         };
     }
@@ -874,28 +966,51 @@
         return icon;
     }
 
-    function createServiceIcon({ homepage, label }) {
+    function getIconHue(value) {
+        return Array.from(value).reduce(
+            (hue, character) =>
+                (hue * 31 + (character.codePointAt(0) || 0)) % 360,
+            0
+        );
+    }
+
+    function createServiceIcon({ homepage, iconFallback, iconUrl, id, label }) {
         const icon = document.createElement("span");
         icon.className = "npml-site-icon";
         icon.setAttribute("aria-hidden", "true");
-        icon.textContent = label.match(/[a-z\d]/i)?.[0] || "•";
+        icon.style.setProperty("--npml-icon-hue", String(getIconHue(id)));
+        icon.textContent =
+            iconFallback ||
+            label
+                .match(/[a-z\d]+/gi)
+                ?.map((part) => part[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase() ||
+            "•";
 
         try {
-            const domainUrl = new URL(homepage).origin;
             const image = document.createElement("img");
             image.alt = "";
             image.decoding = "async";
             image.loading = "lazy";
             image.referrerPolicy = "no-referrer";
-            image.src = `https://www.google.com/s2/favicons?sz=32&domain_url=${encodeURIComponent(
-                domainUrl
-            )}`;
+            image.src = iconUrl || new URL("/favicon.ico", homepage).href;
+            image.addEventListener(
+                "load",
+                () => {
+                    if (image.naturalWidth < 2 || image.naturalHeight < 2) {
+                        image.remove();
+                    }
+                },
+                { once: true }
+            );
             image.addEventListener("error", () => image.remove(), {
                 once: true,
             });
             icon.append(image);
         } catch {
-            // Keep the visible letter fallback when a homepage is invalid.
+            // Keep the generated monogram when the icon URL is invalid.
         }
 
         return icon;
@@ -1074,7 +1189,7 @@
         button.setAttribute("aria-expanded", "false");
         button.setAttribute("aria-haspopup", "menu");
         button.append(
-            "Mirrors",
+            "Links",
             createSvgIcon("npml-chevron", "m3.5 6 4.5 4 4.5-4")
         );
 
@@ -1083,7 +1198,7 @@
         menu.className = "npml-list";
         menu.hidden = true;
         menu.role = "menu";
-        menu.setAttribute("aria-label", "Package mirrors and tools");
+        menu.setAttribute("aria-label", "Related package links");
         appendMirrorGroups(menu, mirrorLinks, details.packageName);
 
         container.append(button, menu);
@@ -1155,11 +1270,11 @@
         const title = document.createElement("h2");
         title.id = "npml-settings-title";
         title.className = "npml-settings-title";
-        title.textContent = "Package mirror menu";
+        title.textContent = "Related package links";
         const closeButton = document.createElement("button");
         closeButton.type = "button";
         closeButton.className = "npml-settings-close";
-        closeButton.setAttribute("aria-label", "Close mirror settings");
+        closeButton.setAttribute("aria-label", "Close related links settings");
         closeButton.textContent = "×";
         closeButton.addEventListener("click", () => dialog.close());
         header.append(title, closeButton);
@@ -1168,7 +1283,7 @@
         intro.id = "npml-settings-description";
         intro.className = "npml-settings-intro";
         intro.textContent =
-            "Choose which destinations appear in the Mirrors menu. Changes apply to every npm package page.";
+            "Choose which destinations appear in the Links menu. Older and limited services are off by default. Changes apply to every npm package page.";
 
         const toolbar = document.createElement("div");
         toolbar.className = "npml-settings-toolbar";
@@ -1251,10 +1366,13 @@
         if (typeof GM_registerMenuCommand !== "function") return;
 
         GM_registerMenuCommand(
-            "Configure package mirrors…",
+            "Configure related package links…",
             openSettingsDialog
         );
-        GM_registerMenuCommand("Reset package mirrors", resetMirrorSettings);
+        GM_registerMenuCommand(
+            "Reset related package links",
+            resetMirrorSettings
+        );
     }
 
     function alignMenuWithTitle(menu, titleContainer) {
