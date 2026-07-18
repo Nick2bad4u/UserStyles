@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.0.1
-// @description  Adds copyable Yarn install commands to npm package pages.
+// @version      1.1.1
+// @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
 // @homepage     https://github.com/Nick2bad4u/UserStyles
@@ -20,6 +20,97 @@
 
 (function () {
     "use strict";
+
+    // Add, remove, disable, or reorder buttons here.
+    // Available tokens: {{package}}, {{version}}, {{packageSpec}}, and
+    // {{typesPackage}}. Set enabled to false to hide a button. Commands with
+    // requiresTypes only appear when npm links a separate @types package.
+    const COMMAND_BUTTONS = [
+        {
+            label: "NPM dependency",
+            template: "npm install {{packageSpec}}",
+            enabled: false, // Disabled by default because the original "Copy install command line" button already provides this command.
+        },
+        {
+            label: "NPM dev dependency",
+            template: "npm i --save-dev {{packageSpec}}",
+        },
+        {
+            label: "NPM global dependency",
+            template: "npm i -g {{packageSpec}}",
+            enabled: false, // Disabled by default because global installs are less common.
+        },
+        {
+            label: "NPM @types dev dependency",
+            template: "npm install --save-dev {{typesPackage}}",
+            requiresTypes: true,
+        },
+        {
+            label: "Yarn dependency",
+            template: "yarn add {{packageSpec}}",
+        },
+        {
+            label: "Yarn package and types dependencies",
+            template:
+                "yarn add {{packageSpec}} && yarn add --dev {{typesPackage}}",
+            requiresTypes: true,
+            enabled: false, // Disabled by default because many users don't use Yarn.
+        },
+        {
+            label: "PNPM dependency",
+            template: "pnpm add {{packageSpec}}",
+        },
+        {
+            label: "Bun dependency",
+            template: "bun add {{packageSpec}}",
+        },
+        {
+            label: "Deno dependency",
+            template: "deno add npm:{{packageSpec}}",
+        },
+        {
+            label: "vlt dependency",
+            template: "vlt install {{packageSpec}}",
+            enabled: false, // Disabled by default because vlt is less common.
+        },
+        {
+            label: "Aube dependency",
+            template: "aube add {{packageSpec}}",
+            enabled: false, // Disabled by default because Aube is less common.
+        },
+        {
+            label: "Nub dependency",
+            template: "nub add {{packageSpec}}",
+            enabled: false, // Disabled by default because Nub is less common.
+        },
+        {
+            label: "CNPM dependency",
+            template: "cnpm install {{packageSpec}}",
+            enabled: false, // Disabled by default because CNPM is less common.
+        },
+        // {
+        //     label: "Yarn development dependency",
+        //     template: "yarn add --dev {{packageSpec}}",
+        // },
+        // {
+        //     label: "Yarn Classic global dependency",
+        //     template: "yarn global add {{packageSpec}}",
+        // },
+        // {
+        //     label: "Yarn types development dependency",
+        //     template: "yarn add --dev {{typesPackage}}",
+        //     requiresTypes: true,
+        // },
+        // {
+        //     label: "Yarn package and types dependencies",
+        //     template:
+        //         "yarn add {{packageSpec}} && yarn add --dev {{typesPackage}}",
+        //     requiresTypes: true,
+        // },
+        // Examples:
+        // { label: "pnpm dependency", template: "pnpm add {{packageSpec}}" },
+        // { label: "Bun dependency", template: "bun add {{packageSpec}}" },
+    ];
 
     const LIST_ATTRIBUTE = "data-npm-more-install-buttons";
     const STYLE_ID = "npm-more-install-buttons-style";
@@ -48,9 +139,8 @@
                 color: var(--color-fg-default, #111);
                 cursor: pointer;
                 display: flex;
-                font-family: var(--code, "Fira Mono", "Andale Mono", Consolas, monospace);
-                font-size: 14px;
-                font-weight: 400;
+                font-family: Consolas, monaco, monospace;
+                font-size: .875rem;
                 height: 46px;
                 line-height: var(--code-lh, 24px);
                 max-width: 100%;
@@ -219,37 +309,34 @@
         };
     }
 
-    function buildCommands({ packageName, packageVersion, typesPackageName }) {
-        const packageSpec = `${packageName}@${packageVersion}`;
-        const commands = [
-            {
-                label: "Yarn dependency",
-                text: `yarn add ${packageSpec}`,
-            },
-            {
-                label: "Yarn development dependency",
-                text: `yarn add --dev ${packageSpec}`,
-            },
-            {
-                label: "Yarn Classic global dependency",
-                text: `yarn global add ${packageSpec}`,
-            },
-        ];
+    function fillCommandTemplate(
+        template,
+        { packageName, packageVersion, typesPackageName }
+    ) {
+        return template
+            .replaceAll("{{package}}", packageName)
+            .replaceAll("{{version}}", packageVersion)
+            .replaceAll("{{packageSpec}}", `${packageName}@${packageVersion}`)
+            .replaceAll("{{typesPackage}}", typesPackageName || "");
+    }
 
-        if (typesPackageName && !packageName.startsWith("@types/")) {
-            commands.push(
-                {
-                    label: "Yarn types development dependency",
-                    text: `yarn add --dev ${typesPackageName}`,
-                },
-                {
-                    label: "Yarn package and types dependencies",
-                    text: `yarn add ${packageSpec} && yarn add --dev ${typesPackageName}`,
-                }
-            );
-        }
+    function buildCommands(details) {
+        const hasSeparateTypes =
+            Boolean(details.typesPackageName) &&
+            !details.packageName.startsWith("@types/");
 
-        return commands;
+        return COMMAND_BUTTONS.filter(
+            (button) =>
+                button.enabled !== false &&
+                typeof button.label === "string" &&
+                button.label.trim().length > 0 &&
+                typeof button.template === "string" &&
+                button.template.trim().length > 0 &&
+                (!button.requiresTypes || hasSeparateTypes)
+        ).map((button) => ({
+            label: button.label.trim(),
+            text: fillCommandTemplate(button.template, details).trim(),
+        }));
     }
 
     function copyWithLegacyApi(text) {
