@@ -1,0 +1,324 @@
+/* ==UserStyle==
+@name           yarnpkg.com search dark
+@namespace      github.com/openstyles/stylus
+@version        2.0.0
+@description    Dark theme for Yarn's modern package search and package report pages
+@author         Emily Klassen
+==/UserStyle== */
+
+@-moz-document url-prefix("https://yarnpkg.com/search"),
+  url-prefix("https://yarnpkg.com/package")
+{
+    :root {
+        color-scheme: dark;
+
+        --yarn-dark-bg: #0d1117;
+        --yarn-dark-surface: #161b22;
+        --yarn-dark-surface-raised: #21262d;
+        --yarn-dark-border: #30363d;
+        --yarn-dark-text: #c9d1d9;
+        --yarn-dark-muted: #8b949e;
+        --yarn-dark-accent: #25c2a0;
+        --yarn-dark-accent-hover: #32d8b4;
+
+        --ifm-color-scheme: dark;
+        --ifm-background-color: var(--yarn-dark-bg);
+        --ifm-background-surface-color: var(--yarn-dark-surface);
+        --ifm-card-background-color: var(--yarn-dark-surface);
+        --ifm-navbar-background-color: var(--yarn-dark-surface);
+        --ifm-footer-background-color: #010409;
+        --ifm-dropdown-background-color: var(--yarn-dark-surface);
+
+        --ifm-color-content: var(--yarn-dark-text);
+        --ifm-color-content-secondary: var(--yarn-dark-muted);
+        --ifm-font-color-base: var(--yarn-dark-text);
+        --ifm-font-color-secondary: var(--yarn-dark-muted);
+        --ifm-heading-color: #f0f6fc;
+        --ifm-navbar-link-color: var(--yarn-dark-text);
+        --ifm-navbar-link-hover-color: var(--yarn-dark-accent-hover);
+        --ifm-menu-color: var(--yarn-dark-text);
+        --ifm-menu-color-active: var(--yarn-dark-accent);
+        --ifm-menu-color-background-hover: rgb(177 186 196 / 8%);
+        --ifm-dropdown-link-color: var(--yarn-dark-text);
+
+        --ifm-color-primary: var(--yarn-dark-accent);
+        --ifm-color-primary-dark: #21af90;
+        --ifm-color-primary-darker: #1fa588;
+        --ifm-color-primary-darkest: #1a8870;
+        --ifm-color-primary-light: #29d5b0;
+        --ifm-color-primary-lighter: var(--yarn-dark-accent-hover);
+        --ifm-color-primary-lightest: #4fddbf;
+
+        --ifm-color-secondary: var(--yarn-dark-border);
+        --ifm-color-secondary-dark: #2b3035;
+        --ifm-color-secondary-darker: #292d32;
+        --ifm-color-secondary-darkest: #22252a;
+        --ifm-color-secondary-light: #484f58;
+        --ifm-color-secondary-lighter: #57606a;
+        --ifm-color-secondary-lightest: #6e7681;
+        --ifm-color-secondary-contrast-background: var(
+            --yarn-dark-surface-raised
+        );
+        --ifm-color-secondary-contrast-foreground: #f0f6fc;
+
+        --ifm-color-emphasis-0: #010409;
+        --ifm-color-emphasis-100: var(--yarn-dark-bg);
+        --ifm-color-emphasis-200: var(--yarn-dark-surface);
+        --ifm-color-emphasis-300: var(--yarn-dark-surface-raised);
+        --ifm-color-emphasis-400: var(--yarn-dark-border);
+        --ifm-color-emphasis-500: #484f58;
+        --ifm-color-emphasis-600: #6e7681;
+        --ifm-color-emphasis-700: var(--yarn-dark-muted);
+        --ifm-color-emphasis-800: #b1bac4;
+        --ifm-color-emphasis-900: var(--yarn-dark-text);
+        --ifm-color-emphasis-1000: #f0f6fc;
+
+        --ifm-hover-overlay: rgb(177 186 196 / 8%);
+        --ifm-code-background: rgb(110 118 129 / 24%);
+        --ifm-pre-background: var(--yarn-dark-surface);
+        --ifm-blockquote-color: var(--yarn-dark-muted);
+        --ifm-blockquote-border-color: var(--yarn-dark-border);
+        --ifm-hr-background-color: var(--yarn-dark-border);
+        --ifm-table-background: transparent;
+        --ifm-table-border-color: var(--yarn-dark-border);
+        --ifm-table-stripe-background: rgb(177 186 196 / 6%);
+        --ifm-toc-border-color: var(--yarn-dark-border);
+        --ifm-scrollbar-track-background-color: var(--yarn-dark-bg);
+        --ifm-scrollbar-thumb-background-color: #484f58;
+        --ifm-scrollbar-thumb-hover-background-color: #6e7681;
+        --docusaurus-highlighted-code-line-bg: rgb(110 118 129 / 18%);
+
+        --docsearch-primary-color: var(--yarn-dark-accent);
+        --docsearch-highlight-color: var(--yarn-dark-accent);
+        --docsearch-text-color: var(--yarn-dark-text);
+        --docsearch-muted-color: var(--yarn-dark-muted);
+        --docsearch-container-background: rgb(1 4 9 / 82%);
+        --docsearch-modal-background: var(--yarn-dark-bg);
+        --docsearch-modal-shadow: 0 12px 32px rgb(0 0 0 / 55%);
+        --docsearch-searchbox-background: var(--yarn-dark-surface);
+        --docsearch-searchbox-focus-background: var(--yarn-dark-surface-raised);
+        --docsearch-searchbox-shadow: inset 0 0 0 2px var(--yarn-dark-accent);
+        --docsearch-hit-color: var(--yarn-dark-text);
+        --docsearch-hit-active-color: #ffffff;
+        --docsearch-hit-background: var(--yarn-dark-surface);
+        --docsearch-hit-shadow: 0 1px 3px rgb(0 0 0 / 45%);
+        --docsearch-key-gradient: linear-gradient(-26.5deg, #161b22, #21262d);
+        --docsearch-key-shadow:
+            inset 0 -2px 0 0 var(--yarn-dark-border), inset 0 0 1px 1px #484f58,
+            0 1px 2px 1px rgb(0 0 0 / 45%);
+        --docsearch-footer-background: var(--yarn-dark-surface);
+        --docsearch-footer-shadow: 0 -1px 0 0 var(--yarn-dark-border);
+    }
+
+    html,
+    body {
+        background-color: var(--yarn-dark-bg) !important;
+        color: var(--yarn-dark-text);
+        scrollbar-color: #484f58 var(--yarn-dark-bg);
+    }
+
+    ::selection {
+        color: #ffffff;
+        background: #1a8870;
+    }
+
+    .navbar__logo {
+        filter: invert(100%) invert(15%) sepia(39%) saturate(2287%)
+            hue-rotate(222deg) brightness(392%) contrast(94%);
+    }
+
+    .navbar,
+    .navbar-sidebar,
+    .navbar-sidebar__brand,
+    .navbar-sidebar__items,
+    .dropdown__menu {
+        background-color: var(--yarn-dark-surface) !important;
+        border-color: var(--yarn-dark-border) !important;
+    }
+
+    .DocSearch-Button {
+        color: var(--yarn-dark-muted) !important;
+        background: var(--yarn-dark-surface-raised) !important;
+        border: 1px solid var(--yarn-dark-border) !important;
+    }
+
+    .DocSearch-Button:hover {
+        color: var(--yarn-dark-text) !important;
+        background: var(--yarn-dark-border) !important;
+        box-shadow: none !important;
+    }
+
+    .DocSearch-Button-Key {
+        color: var(--yarn-dark-muted) !important;
+        background: var(--yarn-dark-surface) !important;
+        border: 1px solid var(--yarn-dark-border) !important;
+        box-shadow: inset 0 -1px 0 var(--yarn-dark-border) !important;
+    }
+
+    /* Package search */
+    input[class*="search_"] {
+        color: #f0f6fc !important;
+        caret-color: var(--yarn-dark-accent);
+        background: rgb(13 17 23 / 78%) !important;
+        border-color: #8957b5 !important;
+        box-shadow: 0 0 0 1px rgb(137 87 181 / 20%);
+    }
+
+    input[class*="search_"]::placeholder {
+        color: var(--yarn-dark-muted) !important;
+    }
+
+    [class*="sponsors_"] {
+        background: rgb(13 17 23 / 92%) !important;
+        border: 1px solid var(--yarn-dark-border);
+    }
+
+    [class*="resultAside_"] {
+        background: var(--yarn-dark-surface-raised) !important;
+        border-color: var(--yarn-dark-border) !important;
+    }
+
+    [class*="resultMain_"] {
+        background: var(--yarn-dark-bg) !important;
+        border-color: var(--yarn-dark-border) !important;
+    }
+
+    [class*="tool_"] {
+        color: var(--yarn-dark-text) !important;
+        background: var(--yarn-dark-surface-raised) !important;
+    }
+
+    [class*="tool_"]:hover {
+        color: #ffffff !important;
+        background: var(--yarn-dark-border) !important;
+    }
+
+    .react-loading-skeleton {
+        --base-color: var(--yarn-dark-surface) !important;
+        --highlight-color: var(--yarn-dark-surface-raised) !important;
+    }
+
+    /* Package report */
+    [class*="docRoot_"] {
+        background: var(--yarn-dark-bg) !important;
+    }
+
+    .theme-doc-sidebar-container {
+        border-color: var(--yarn-dark-border) !important;
+    }
+
+    .theme-doc-markdown > [class*="reportReadme_"] {
+        background: var(--yarn-dark-surface-raised) !important;
+        border-color: var(--yarn-dark-border) !important;
+    }
+
+    .theme-doc-markdown > [class*="reportMain_"] {
+        color: var(--yarn-dark-text) !important;
+        background: var(--yarn-dark-bg) !important;
+        border-color: var(--yarn-dark-border) !important;
+    }
+
+    [class*="reportTableContainer_"] table,
+    [class*="reportTableContainer_"] td {
+        border-color: var(--yarn-dark-border) !important;
+    }
+
+    /* React Select package-version picker */
+    [class*="versionSelector_"] [class$="-control"] {
+        color: var(--yarn-dark-text) !important;
+        background: var(--yarn-dark-surface) !important;
+        border-color: var(--yarn-dark-border) !important;
+        box-shadow: none !important;
+    }
+
+    [class*="versionSelector_"] [class$="-control"]:hover {
+        border-color: var(--yarn-dark-accent) !important;
+    }
+
+    [class*="versionSelector_"] [class$="-control"]:focus-within {
+        border-color: var(--yarn-dark-accent) !important;
+        box-shadow: 0 0 0 1px var(--yarn-dark-accent) !important;
+    }
+
+    [class*="versionSelector_"] [class$="-singleValue"],
+    [class*="versionSelector_"] [class*="versionSelectorOption_"],
+    [class*="versionSelector_"] input {
+        color: var(--yarn-dark-text) !important;
+    }
+
+    [class*="versionSelector_"] [class$="-indicatorSeparator"] {
+        background: var(--yarn-dark-border) !important;
+    }
+
+    [class*="versionSelector_"] [class$="-indicatorContainer"] {
+        color: var(--yarn-dark-muted) !important;
+    }
+
+    [class*="versionSelector_"] [class$="-menu"] {
+        color: var(--yarn-dark-text) !important;
+        background: var(--yarn-dark-surface) !important;
+        border: 1px solid var(--yarn-dark-border);
+        box-shadow: 0 10px 24px rgb(0 0 0 / 45%) !important;
+    }
+
+    [class*="versionSelector_"] [role="option"] {
+        color: var(--yarn-dark-text) !important;
+        background: var(--yarn-dark-surface) !important;
+    }
+
+    [class*="versionSelector_"] [role="option"]:hover {
+        background: var(--yarn-dark-surface-raised) !important;
+    }
+
+    [class*="versionSelector_"] [role="option"][aria-selected="true"] {
+        color: #ffffff !important;
+        background: #1a8870 !important;
+    }
+
+    /* npm README rendered with github-markdown-css */
+    .markdown-body {
+        color: var(--yarn-dark-text) !important;
+    }
+
+    .markdown-body h1,
+    .markdown-body h2 {
+        border-bottom-color: var(--yarn-dark-border) !important;
+    }
+
+    .markdown-body blockquote {
+        color: var(--yarn-dark-muted) !important;
+        border-left-color: var(--yarn-dark-border) !important;
+    }
+
+    .markdown-body code {
+        background: rgb(110 118 129 / 24%) !important;
+    }
+
+    .markdown-body pre {
+        background: var(--yarn-dark-surface) !important;
+        border: 1px solid var(--yarn-dark-border);
+    }
+
+    .markdown-body pre code {
+        background: transparent !important;
+    }
+
+    .markdown-body table tr {
+        background: var(--yarn-dark-bg) !important;
+        border-top-color: var(--yarn-dark-border) !important;
+    }
+
+    .markdown-body table tr:nth-child(2n) {
+        background: var(--yarn-dark-surface) !important;
+    }
+
+    .markdown-body table th,
+    .markdown-body table td {
+        border-color: var(--yarn-dark-border) !important;
+    }
+
+    .markdown-body hr {
+        background: var(--yarn-dark-border) !important;
+        border-bottom-color: var(--yarn-dark-border) !important;
+    }
+}
