@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.1.2
+// @version      1.1.3
 // @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
@@ -39,7 +39,7 @@
         {
             label: "NPM global dependency",
             template: "npm i -g {{packageSpec}}",
-            enabled: true, // Disabled by default because global installs are less common.
+            enabled: false, // Disabled by default because global installs are less common.
         },
         {
             label: "NPM @types dev dependency",
