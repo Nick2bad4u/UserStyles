@@ -1,21 +1,21 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.1.1
+// @version      1.1.2
 // @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
 // @homepage     https://github.com/Nick2bad4u/UserStyles
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
-// @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NPM-More-Install-Buttons.user.js
-// @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NPM-More-Install-Buttons.user.js
 // @source       https://greasyfork.org/scripts/425544
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=npmjs.com
 // @match        https://www.npmjs.com/package/*
 // @run-at       document-idle
 // @grant        none
 // @noframes
+// @downloadURL https://update.greasyfork.org/scripts/587470/NPM%20-%20More%20Install%20Buttons.user.js
+// @updateURL https://update.greasyfork.org/scripts/587470/NPM%20-%20More%20Install%20Buttons.meta.js
 // ==/UserScript==
 
 (function () {
@@ -34,11 +34,12 @@
         {
             label: "NPM dev dependency",
             template: "npm i --save-dev {{packageSpec}}",
+            enabled: true,
         },
         {
             label: "NPM global dependency",
             template: "npm i -g {{packageSpec}}",
-            enabled: false, // Disabled by default because global installs are less common.
+            enabled: true, // Disabled by default because global installs are less common.
         },
         {
             label: "NPM @types dev dependency",
@@ -48,6 +49,7 @@
         {
             label: "Yarn dependency",
             template: "yarn add {{packageSpec}}",
+            enabled: true,
         },
         {
             label: "Yarn package and types dependencies",
@@ -59,14 +61,17 @@
         {
             label: "PNPM dependency",
             template: "pnpm add {{packageSpec}}",
+            enabled: true,
         },
         {
             label: "Bun dependency",
             template: "bun add {{packageSpec}}",
+            enabled: true,
         },
         {
             label: "Deno dependency",
             template: "deno add npm:{{packageSpec}}",
+            enabled: true,
         },
         {
             label: "vlt dependency",
