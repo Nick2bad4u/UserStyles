@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - Related Package Links
 // @namespace    nick2bad4u.github.io
-// @version      1.3.0
+// @version      1.4.0
 // @description  Adds a configurable menu of useful package pages, security reports, size tools, trends, and CDNs.
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -17,21 +17,28 @@
 // @connect      arethetypeswrong.github.io
 // @connect      avatars.githubusercontent.com
 // @connect      bundlejs.com
+// @connect      bundleinfo.com
+// @connect      bundlecheck.dev
 // @connect      bundlephobia.com
 // @connect      deps.dev
 // @connect      esm.sh
+// @connect      esm.run
+// @connect      ghub.io
+// @connect      github.githubassets.com
+// @connect      i.gyazo.com
+// @connect      www.jsdocs.io
 // @connect      libraries.io
-// @connect      npm-alt.vercel.app
 // @connect      npm-compare.com
 // @connect      npm-stat.com
 // @connect      npm.anvaka.com
+// @connect      npm.willow.sh
 // @connect      npm.io
 // @connect      npm.runkit.com
 // @connect      npmcharts.com
 // @connect      npmgraph.js.org
 // @connect      npmsearch.com
 // @connect      npmtrends.com
-// @connect      npkg.dev
+// @connect      npkg.lorypelli.dev
 // @connect      npmdiff.dev
 // @connect      npmmirror.com
 // @connect      npms.io
@@ -39,6 +46,7 @@
 // @connect      packagephobia.com
 // @connect      packages.ecosyste.ms
 // @connect      pkg-size.dev
+// @connect      www.pkgpulse.com
 // @connect      publint.dev
 // @connect      security.snyk.io
 // @connect      socket.dev
@@ -80,6 +88,16 @@
             iconFallback: "SY",
             buildUrl: ({ encodedPackageName }) =>
                 `https://security.snyk.io/package/npm/${encodedPackageName}`,
+        },
+        {
+            id: "pkgpulse",
+            category: "Package quality and security",
+            label: "PkgPulse",
+            description: "Package health, activity, size, and security signals",
+            homepage: "https://www.pkgpulse.com/",
+            iconFallback: "PP",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://www.pkgpulse.com/packages/${encodedPackageName}`,
         },
         {
             id: "deps-dev",
@@ -168,6 +186,37 @@
                 `https://npm.io/package/${packagePath}`,
         },
         {
+            id: "npkg",
+            category: "Package pages",
+            label: "NPKG",
+            description: "Lightweight package details, commands, and scripts",
+            homepage: "https://npkg.lorypelli.dev/",
+            iconFallback: "NP",
+            buildUrl: ({ packageName }) =>
+                `https://npkg.lorypelli.dev/${packageName}`,
+        },
+        {
+            id: "jsdocs",
+            category: "Package pages",
+            label: "jsDocs.io",
+            description: "Generated API documentation from TypeScript types",
+            homepage: "https://www.jsdocs.io/",
+            iconFallback: "JS",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://www.jsdocs.io/package/${encodedPackageName}`,
+        },
+        {
+            id: "ghub",
+            category: "Package pages",
+            label: "ghub.io",
+            iconUrl: "https://github.githubassets.com/favicons/favicon.svg",
+            description: "Open the package's source repository",
+            homepage: "https://ghub.io/",
+            iconFallback: "GH",
+            buildUrl: ({ encodedPackageName }) =>
+                `https://ghub.io/${encodedPackageName}`,
+        },
+        {
             id: "npmmirror",
             category: "Package pages",
             label: "npmmirror",
@@ -198,6 +247,26 @@
             iconFallback: "BJ",
             buildUrl: ({ encodedPackageSpec }) =>
                 `https://bundlejs.com/?q=${encodedPackageSpec}`,
+        },
+        {
+            id: "bundleinfo",
+            category: "Size and bundling",
+            label: "bundleinfo",
+            description: "Install, gzip, exports, and dependency size details",
+            homepage: "https://bundleinfo.com/",
+            iconFallback: "BI",
+            buildUrl: ({ encodedPackageSpec }) =>
+                `https://bundleinfo.com/?q=${encodedPackageSpec}`,
+        },
+        {
+            id: "bundlecheck",
+            category: "Size and bundling",
+            label: "BundleCheck",
+            description: "Raw, minified, gzip, and Brotli bundle sizes",
+            homepage: "https://bundlecheck.dev/",
+            iconFallback: "BC",
+            buildUrl: ({ encodedPackageSpec }) =>
+                `https://bundlecheck.dev/?q=${encodedPackageSpec}`,
         },
         {
             id: "pkg-size",
@@ -326,6 +395,16 @@
                 `https://esm.sh/${packageVersionPath}`,
         },
         {
+            id: "esm-run",
+            category: "Files and CDNs",
+            label: "esm.run",
+            description: "jsDelivr-backed ES module endpoint",
+            homepage: "https://esm.run/",
+            iconFallback: "ER",
+            buildUrl: ({ packageVersionPath }) =>
+                `https://esm.run/${packageVersionPath}`,
+        },
+        {
             id: "skypack",
             category: "Files and CDNs",
             label: "Skypack",
@@ -348,6 +427,7 @@
             id: "paralect-npm-compare",
             category: "Manual and search tools",
             label: "Paralect NPM Compare",
+            iconUrl: "https://i.gyazo.com/373bedac2a665666660d93e77ac2c5f8.png",
             description: "Manual multi-package comparison tool",
             homepage: "https://www.paralect.com/npm-compare",
             iconFallback: "PN",
@@ -355,9 +435,9 @@
         },
         {
             id: "npms-io",
-            category: "Dead, old, and archived",
+            category: "Manual and search tools",
             label: "npms.io",
-            description: "Search-only frontend with stale analysis data",
+            description: "Search-focused package scores and metadata",
             homepage: "https://npms.io/",
             iconFallback: "NS",
             buildUrl: ({ encodedPackageName }) =>
@@ -370,14 +450,14 @@
             description: "Legacy 2020 registry browser",
             homepage: "https://topheman.github.io/npm-registry-browser/",
             iconFallback: "NR",
-            buildUrl: ({ packageName }) =>
-                `https://topheman.github.io/npm-registry-browser/#/package/${packageName}`,
+            buildUrl: ({ encodedPackageName }) =>
+                `https://topheman.github.io/npm-registry-browser/#/package/${encodedPackageName}`,
         },
         {
             id: "xnpmjs",
-            category: "Dead, old, and archived",
+            category: "Package pages",
             label: "xnpmjs.com",
-            description: "Legacy domain that only redirects to npmx",
+            description: "Alias that redirects to npmx",
             homepage: "https://xnpmjs.com/",
             iconFallback: "XN",
             buildUrl: ({ npmHash, npmPath, npmSearch }) =>
@@ -385,27 +465,20 @@
         },
         {
             id: "npm-alt",
-            category: "Dead, old, and archived",
+            category: "Package pages",
             label: "npm-alt",
-            description: "Dead frontend; package routes return 404",
-            homepage: "https://npm-alt.vercel.app/",
+            iconUrl: "https://i.gyazo.com/dc8a298218b01cb39958e045e14036f8.png",
+            description: "Deprecated but online predecessor to npmx",
+            homepage: "https://npm.willow.sh/",
             iconFallback: "NA",
-            buildUrl: ({ packagePath }) =>
-                `https://npm-alt.vercel.app/package/${packagePath}`,
-        },
-        {
-            id: "npkg",
-            category: "Dead, old, and archived",
-            label: "NPKG",
-            description: "Dead domain; no longer resolves",
-            homepage: "https://npkg.dev/",
-            iconFallback: "NP",
-            buildUrl: ({ packagePath }) => `https://npkg.dev/${packagePath}`,
+            buildUrl: ({ packageName }) =>
+                `https://npm.willow.sh/package/${packageName}`,
         },
         {
             id: "npmsearch",
             category: "Dead, old, and archived",
             label: "npmsearch.com",
+            iconUrl: "https://i.gyazo.com/dc8a298218b01cb39958e045e14036f8.png",
             description: "Dead search domain; no longer resolves",
             homepage: "https://npmsearch.com/",
             iconFallback: "NS",
@@ -416,6 +489,7 @@
             id: "runkit",
             category: "Dead, old, and archived",
             label: "RunKit npm",
+            iconUrl: "https://i.gyazo.com/dc8a298218b01cb39958e045e14036f8.png",
             description:
                 "Archived package notebook with an expired certificate",
             homepage: "https://npm.runkit.com/",
@@ -428,6 +502,7 @@
     const CATEGORY_ORDER = [
         "Package quality and security",
         "Package pages",
+        "Custom links",
         "Size and bundling",
         "Downloads and graphs",
         "Files and CDNs",
@@ -436,30 +511,40 @@
     ];
     const DEFAULT_DISABLED_MIRROR_IDS = [
         "npm-diff",
+        "bundleinfo",
+        "bundlecheck",
+        "esm-run",
         "npms-io",
         "npm-registry-browser",
         "xnpmjs",
         "npm-alt",
-        "npkg",
         "npmsearch",
         "paralect-npm-compare",
         "runkit",
     ];
     const REENABLED_IN_SETTINGS_SCHEMA_3 = ["npm-compare", "skypack"];
+    const REENABLED_IN_SETTINGS_SCHEMA_4 = ["npkg"];
     const DISABLED_MIRRORS_KEY = "disabledMirrorIds";
+    const CUSTOM_LINKS_KEY = "relatedPackageLinksCustomLinks";
+    const VISIBLE_LINKS_KEY = "relatedPackageLinksVisibleCount";
+    const DEFAULT_VISIBLE_LINKS = 7;
+    const MINIMUM_VISIBLE_LINKS = 3;
+    const MAXIMUM_VISIBLE_LINKS = 15;
     const SETTINGS_SCHEMA_KEY = "relatedPackageLinksSettingsSchema";
-    const SETTINGS_SCHEMA_VERSION = 3;
+    const SETTINGS_SCHEMA_VERSION = 4;
     const ICON_CACHE_KEY = "relatedPackageLinksIconCache";
     const ICON_CACHE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
     const ICON_CACHE_FAILURE_TTL_MS = 24 * 60 * 60 * 1000;
     const ICON_CACHE_MAX_BLOB_BYTES = 96 * 1024;
-    const ICON_CACHE_MAX_ENTRIES = 40;
+    const ICON_CACHE_MAX_ENTRIES = 64;
     const MENU_ATTRIBUTE = "data-npm-package-mirror-menu";
     const MENU_ID = "npm-package-mirror-menu-list";
     const SETTINGS_DIALOG_ID = "npm-package-mirror-settings";
     const STYLE_ID = "npm-package-mirror-menu-style";
 
     let disabledMirrorIds = loadDisabledMirrorIds();
+    let customLinksText = loadCustomLinksText();
+    let visibleLinkCount = loadVisibleLinkCount();
     let iconCache = loadIconCache();
     let menuAbortController = null;
     let renderFrame = 0;
@@ -517,7 +602,8 @@
 
             .npml-trigger,
             .npml-settings-button,
-            .npml-settings-close {
+            .npml-settings-close,
+            .npml-menu-settings {
                 align-items: center;
                 background: var(--npml-bg);
                 border: 1px solid var(--npml-border);
@@ -539,7 +625,8 @@
 
             .npml-trigger:hover,
             .npml-settings-button:hover,
-            .npml-settings-close:hover {
+            .npml-settings-close:hover,
+            .npml-menu-settings:hover {
                 border-color: #cb3837;
                 color: #cb3837;
             }
@@ -548,6 +635,8 @@
             .npml-item:focus-visible,
             .npml-settings-button:focus-visible,
             .npml-settings-close:focus-visible,
+            .npml-menu-settings:focus-visible,
+            .npml-settings-input:focus-visible,
             .npml-settings-option:has(input:focus-visible) {
                 outline: 2px solid #cb3837;
                 outline-offset: 2px;
@@ -564,6 +653,16 @@
                 width: 10px;
             }
 
+            .npml-trigger-icon {
+                fill: none;
+                height: 15px;
+                stroke: currentColor;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 1.6;
+                width: 15px;
+            }
+
             .npml-trigger[aria-expanded="true"] .npml-chevron {
                 transform: rotate(180deg);
             }
@@ -577,7 +676,7 @@
                 color: var(--npml-color);
                 list-style: none;
                 margin: 0;
-                max-height: min(20.75rem, 70vh);
+                max-height: min(var(--npml-menu-content-height, 28rem), 70vh);
                 overflow-x: hidden;
                 overflow-y: auto;
                 overscroll-behavior: contain;
@@ -594,6 +693,41 @@
                 display: none !important;
             }
 
+            .npml-menu-toolbar {
+                align-items: center;
+                background: var(--npml-bg);
+                color: var(--npml-muted);
+                display: flex;
+                font-size: 0.72rem;
+                font-weight: 700;
+                height: 2rem;
+                justify-content: space-between;
+                letter-spacing: 0.03em;
+                padding: 0 0.4rem 0 0.65rem;
+                position: sticky;
+                text-transform: uppercase;
+                top: -0.35rem;
+                z-index: 3;
+            }
+
+            .npml-menu-settings {
+                background: transparent;
+                border-color: transparent;
+                height: 1.65rem;
+                padding: 0;
+                width: 1.65rem;
+            }
+
+            .npml-gear-icon {
+                fill: none;
+                height: 14px;
+                stroke: currentColor;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 1.4;
+                width: 14px;
+            }
+
             .npml-section-heading {
                 align-items: center;
                 background: var(--npml-bg);
@@ -606,7 +740,7 @@
                 padding: 0 0.65rem;
                 position: sticky;
                 text-transform: uppercase;
-                top: -0.35rem;
+                top: 1.65rem;
                 z-index: 1;
             }
 
@@ -785,6 +919,59 @@
                 padding: 0.65rem 1.1rem;
             }
 
+            .npml-settings-preferences {
+                border-bottom: 1px solid var(--npml-border);
+                display: grid;
+                gap: 0.85rem;
+                margin: -0.65rem -1.1rem 0.9rem;
+                padding: 0.85rem 1.1rem 1rem;
+            }
+
+            .npml-settings-field {
+                display: grid;
+                gap: 0.3rem;
+            }
+
+            .npml-settings-field-label {
+                font-size: 0.85rem;
+                font-weight: 700;
+            }
+
+            .npml-settings-field-help,
+            .npml-settings-error {
+                color: var(--npml-muted);
+                font-size: 0.75rem;
+                margin: 0;
+            }
+
+            .npml-settings-error {
+                color: #cb3837;
+                white-space: pre-line;
+            }
+
+            .npml-settings-input {
+                background: var(--npml-bg);
+                border: 1px solid var(--npml-border);
+                border-radius: 4px;
+                box-sizing: border-box;
+                color: var(--npml-color);
+                font: inherit;
+                padding: 0.45rem 0.55rem;
+                width: 100%;
+            }
+
+            input.npml-settings-input {
+                max-width: 6rem;
+            }
+
+            textarea.npml-settings-input {
+                font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+                font-size: 0.78rem;
+                line-height: 1.4;
+                min-height: 6.5rem;
+                resize: vertical;
+            }
+
             .npml-settings-group {
                 border: 0;
                 margin: 0;
@@ -834,6 +1021,7 @@
                 .npml-settings-dialog,
                 .npml-settings-button,
                 .npml-settings-close,
+                .npml-menu-settings,
                 .npml-site-icon {
                     border-color: ButtonText;
                 }
@@ -1013,6 +1201,7 @@
 
         const request = fetchAndCacheIcon(id, sourceUrl);
         iconSourcePromises.set(requestKey, request);
+        request.finally(() => iconSourcePromises.delete(requestKey));
         return request;
     }
 
@@ -1044,6 +1233,11 @@
                         (id) => !REENABLED_IN_SETTINGS_SCHEMA_3.includes(id)
                     );
                 }
+                if (savedSchema < 4) {
+                    normalizedIds = normalizedIds.filter(
+                        (id) => !REENABLED_IN_SETTINGS_SCHEMA_4.includes(id)
+                    );
+                }
                 normalizedIds = Array.from(
                     new Set([...normalizedIds, ...DEFAULT_DISABLED_MIRROR_IDS])
                 );
@@ -1059,13 +1253,54 @@
         }
     }
 
-    function saveDisabledMirrorIds(ids) {
-        disabledMirrorIds = [...ids];
+    function normalizeVisibleLinkCount(value) {
+        const numericValue = Number.parseInt(String(value), 10);
+        if (!Number.isFinite(numericValue)) return DEFAULT_VISIBLE_LINKS;
+
+        return Math.min(
+            MAXIMUM_VISIBLE_LINKS,
+            Math.max(MINIMUM_VISIBLE_LINKS, numericValue)
+        );
+    }
+
+    function loadVisibleLinkCount() {
+        if (typeof GM_getValue !== "function") return DEFAULT_VISIBLE_LINKS;
+
+        try {
+            return normalizeVisibleLinkCount(
+                GM_getValue(VISIBLE_LINKS_KEY, DEFAULT_VISIBLE_LINKS)
+            );
+        } catch {
+            return DEFAULT_VISIBLE_LINKS;
+        }
+    }
+
+    function loadCustomLinksText() {
+        if (typeof GM_getValue !== "function") return "";
+
+        try {
+            const savedText = GM_getValue(CUSTOM_LINKS_KEY, "");
+            return typeof savedText === "string" ? savedText : "";
+        } catch {
+            return "";
+        }
+    }
+
+    function saveRelatedLinkSettings({
+        customLinks,
+        disabledIds,
+        visibleLinks,
+    }) {
+        customLinksText = customLinks;
+        disabledMirrorIds = [...disabledIds];
+        visibleLinkCount = normalizeVisibleLinkCount(visibleLinks);
         settingsVersion += 1;
 
         if (typeof GM_setValue === "function") {
             try {
                 GM_setValue(DISABLED_MIRRORS_KEY, disabledMirrorIds);
+                GM_setValue(CUSTOM_LINKS_KEY, customLinksText);
+                GM_setValue(VISIBLE_LINKS_KEY, visibleLinkCount);
                 GM_setValue(SETTINGS_SCHEMA_KEY, SETTINGS_SCHEMA_VERSION);
             } catch {
                 // The current page still updates when persistent storage fails.
@@ -1077,7 +1312,11 @@
     }
 
     function resetMirrorSettings() {
-        saveDisabledMirrorIds(DEFAULT_DISABLED_MIRROR_IDS);
+        saveRelatedLinkSettings({
+            customLinks: customLinksText,
+            disabledIds: DEFAULT_DISABLED_MIRROR_IDS,
+            visibleLinks: DEFAULT_VISIBLE_LINKS,
+        });
     }
 
     function decodePathPart(part) {
@@ -1139,6 +1378,7 @@
             encodedPackageSpec: encodeURIComponent(
                 `${packageName}@${packageVersion}`
             ),
+            encodedVersion: encodeURIComponent(packageVersion),
             npmHash: window.location.hash,
             npmPath: window.location.pathname,
             npmSearch: window.location.search,
@@ -1150,36 +1390,161 @@
         };
     }
 
-    function buildMirrorLinks(details) {
-        const disabledIds = new Set(disabledMirrorIds);
-        return PACKAGE_MIRRORS.filter(
-            (mirror) =>
-                !disabledIds.has(mirror.id) &&
-                typeof mirror.label === "string" &&
-                mirror.label.trim().length > 0 &&
-                typeof mirror.buildUrl === "function"
-        ).flatMap((mirror) => {
+    function fillCustomLinkTemplate(template, details) {
+        const tokenValues = {
+            "{{encodedPackage}}": details.encodedPackageName,
+            "{{encodedPackageSpec}}": details.encodedPackageSpec,
+            "{{encodedVersion}}": details.encodedVersion,
+            "{{package}}": details.packageName,
+            "{{packagePath}}": details.packagePath,
+            "{{packageSpec}}": details.packageVersionRaw,
+            "{{packageVersionPath}}": details.packageVersionPath,
+            "{{version}}": details.packageVersion,
+        };
+
+        return Object.entries(tokenValues).reduce(
+            (result, [token, value]) => result.replaceAll(token, value),
+            template
+        );
+    }
+
+    function parseCustomLinks(text) {
+        const errors = [];
+        const mirrors = [];
+        const allowedTokens = new Set([
+            "encodedPackage",
+            "encodedPackageSpec",
+            "encodedVersion",
+            "package",
+            "packagePath",
+            "packageSpec",
+            "packageVersionPath",
+            "version",
+        ]);
+        const exampleDetails = {
+            encodedPackageName: "%40scope%2Fpackage",
+            encodedPackageSpec: "%40scope%2Fpackage%401.2.3",
+            encodedVersion: "1.2.3",
+            packageName: "@scope/package",
+            packagePath: "%40scope/package",
+            packageVersion: "1.2.3",
+            packageVersionPath: "%40scope/package@1.2.3",
+            packageVersionRaw: "@scope/package@1.2.3",
+        };
+        const lines = text.split(/\r?\n/u);
+
+        for (const [lineIndex, untrimmedLine] of lines.entries()) {
+            const line = untrimmedLine.trim();
+            if (!line || line.startsWith("#")) continue;
+
+            if (mirrors.length >= 25) {
+                errors.push("Custom links are limited to 25 entries.");
+                break;
+            }
+
+            const separatorIndex = line.indexOf("|");
+            const lineNumber = lineIndex + 1;
+            if (separatorIndex < 1) {
+                errors.push(`Line ${lineNumber}: use Label | https://…`);
+                continue;
+            }
+
+            const label = line.slice(0, separatorIndex).trim();
+            const template = line.slice(separatorIndex + 1).trim();
+            if (!label || label.length > 60) {
+                errors.push(
+                    `Line ${lineNumber}: labels must be 1–60 characters.`
+                );
+                continue;
+            }
+            if (!template || template.length > 2_000) {
+                errors.push(
+                    `Line ${lineNumber}: URL templates must be 1–2000 characters.`
+                );
+                continue;
+            }
+
+            const unknownTokens = Array.from(
+                template.matchAll(/\{\{([^{}]+)\}\}/gu),
+                (match) => match[1]
+            ).filter((token) => !allowedTokens.has(token));
+            if (unknownTokens.length > 0) {
+                errors.push(
+                    `Line ${lineNumber}: unknown token {{${unknownTokens[0]}}}.`
+                );
+                continue;
+            }
+
             try {
-                const url = new URL(mirror.buildUrl(details));
-                if (url.protocol !== "https:" && url.protocol !== "http:") {
-                    return [];
+                const previewUrl = new URL(
+                    fillCustomLinkTemplate(template, exampleDetails)
+                );
+                if (
+                    previewUrl.protocol !== "https:" &&
+                    previewUrl.protocol !== "http:"
+                ) {
+                    throw new TypeError("Unsupported URL protocol");
                 }
 
-                return [
-                    {
-                        ...mirror,
-                        description:
-                            typeof mirror.description === "string"
-                                ? mirror.description.trim()
-                                : "",
-                        label: mirror.label.trim(),
-                        url: url.href,
-                    },
-                ];
+                const normalizedLabel = label
+                    .toLowerCase()
+                    .replaceAll(/[^a-z0-9]+/gu, "-")
+                    .replaceAll(/(^-|-$)/gu, "");
+                mirrors.push({
+                    buildUrl: (details) =>
+                        fillCustomLinkTemplate(template, details),
+                    category: "Custom links",
+                    description: `Custom link to ${previewUrl.hostname}`,
+                    disableRemoteIcon: true,
+                    homepage: `${previewUrl.origin}/`,
+                    iconFallback: label.slice(0, 2),
+                    id: `custom-${lineNumber}-${normalizedLabel || "link"}`,
+                    label,
+                });
             } catch {
-                return [];
+                errors.push(
+                    `Line ${lineNumber}: enter a valid http:// or https:// URL template.`
+                );
             }
-        });
+        }
+
+        return { errors, mirrors };
+    }
+
+    function buildMirrorLinks(details) {
+        const disabledIds = new Set(disabledMirrorIds);
+        const customMirrors = parseCustomLinks(customLinksText).mirrors;
+        return [...PACKAGE_MIRRORS, ...customMirrors]
+            .filter(
+                (mirror) =>
+                    !disabledIds.has(mirror.id) &&
+                    typeof mirror.label === "string" &&
+                    mirror.label.trim().length > 0 &&
+                    typeof mirror.buildUrl === "function"
+            )
+            .flatMap((mirror) => {
+                try {
+                    const url = new URL(mirror.buildUrl(details));
+                    if (url.protocol !== "https:" && url.protocol !== "http:") {
+                        return [];
+                    }
+
+                    return [
+                        {
+                            ...mirror,
+                            description:
+                                typeof mirror.description === "string"
+                                    ? mirror.description.trim()
+                                    : "",
+                            homepage: mirror.homepage || `${url.origin}/`,
+                            label: mirror.label.trim(),
+                            url: url.href,
+                        },
+                    ];
+                } catch {
+                    return [];
+                }
+            });
     }
 
     function createSvgIcon(className, pathData) {
@@ -1204,7 +1569,14 @@
         );
     }
 
-    function createServiceIcon({ homepage, iconFallback, iconUrl, id, label }) {
+    function createServiceIcon({
+        disableRemoteIcon,
+        homepage,
+        iconFallback,
+        iconUrl,
+        id,
+        label,
+    }) {
         const icon = document.createElement("span");
         icon.className = "npml-site-icon";
         icon.setAttribute("aria-hidden", "true");
@@ -1218,6 +1590,8 @@
                 .slice(0, 2)
                 .toUpperCase() ||
             "•";
+
+        if (disableRemoteIcon) return icon;
 
         try {
             const image = document.createElement("img");
@@ -1316,18 +1690,38 @@
         }
     }
 
+    function sizeMenuForVisibleLinks(menu) {
+        const items = Array.from(menu.querySelectorAll(".npml-item"));
+        const finalVisibleItem =
+            items[Math.min(visibleLinkCount, items.length) - 1];
+        if (!finalVisibleItem) return;
+
+        const menuStyles = window.getComputedStyle(menu);
+        const paddingBottom = Number.parseFloat(menuStyles.paddingBottom) || 0;
+        const contentHeight =
+            finalVisibleItem.offsetTop +
+            finalVisibleItem.offsetHeight +
+            paddingBottom;
+        menu.style.setProperty(
+            "--npml-menu-content-height",
+            `${Math.ceil(contentHeight)}px`
+        );
+    }
+
     function bindMenuInteractions(container, button, menu) {
         menuAbortController?.abort();
         menuAbortController = new AbortController();
         const { signal } = menuAbortController;
 
-        const getItems = () => Array.from(menu.querySelectorAll(".npml-item"));
+        const getItems = () =>
+            Array.from(menu.querySelectorAll('[role="menuitem"]'));
         const setOpen = (open, focusPosition = null) => {
             button.setAttribute("aria-expanded", String(open));
             menu.hidden = !open;
 
             if (!open) return;
 
+            sizeMenuForVisibleLinks(menu);
             keepMenuInViewport(menu);
             if (focusPosition === null) return;
 
@@ -1426,6 +1820,10 @@
         button.setAttribute("aria-expanded", "false");
         button.setAttribute("aria-haspopup", "menu");
         button.append(
+            createSvgIcon(
+                "npml-trigger-icon",
+                "M6.25 9.75 4.5 11.5a2.12 2.12 0 0 1-3-3l2.25-2.25a2.12 2.12 0 0 1 3 0M9.75 6.25l1.75-1.75a2.12 2.12 0 1 1 3 3l-2.25 2.25a2.12 2.12 0 0 1-3 0M5.75 10.25l4.5-4.5"
+            ),
             "Links",
             createSvgIcon("npml-chevron", "m3.5 6 4.5 4 4.5-4")
         );
@@ -1436,6 +1834,34 @@
         menu.hidden = true;
         menu.role = "menu";
         menu.setAttribute("aria-label", "Related package links");
+
+        const toolbar = document.createElement("div");
+        toolbar.className = "npml-menu-toolbar";
+        toolbar.role = "none";
+        const toolbarLabel = document.createElement("span");
+        toolbarLabel.textContent = "Related links";
+        const settingsButton = document.createElement("button");
+        settingsButton.type = "button";
+        settingsButton.className = "npml-menu-settings";
+        settingsButton.role = "menuitem";
+        settingsButton.title = "Configure related package links";
+        settingsButton.setAttribute(
+            "aria-label",
+            "Configure related package links"
+        );
+        settingsButton.append(
+            createSvgIcon(
+                "npml-gear-icon",
+                "M8 5.4a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2ZM8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M12.6 3.4l-.9.9M4.3 11.7l-.9.9"
+            )
+        );
+        settingsButton.addEventListener("click", () => {
+            button.setAttribute("aria-expanded", "false");
+            menu.hidden = true;
+            openSettingsDialog();
+        });
+        toolbar.append(toolbarLabel, settingsButton);
+        menu.append(toolbar);
         appendMirrorGroups(menu, mirrorLinks, details.packageName);
 
         container.append(button, menu);
@@ -1520,7 +1946,33 @@
         intro.id = "npml-settings-description";
         intro.className = "npml-settings-intro";
         intro.textContent =
-            "Choose which destinations appear in the Links menu. Older and limited services are off by default. Changes apply to every npm package page.";
+            "Choose the built-in destinations, popup size, and your own package links. Older and limited services are off by default. Changes apply to every npm package page.";
+
+        const visibleLinksInput = document.createElement("input");
+        visibleLinksInput.id = "npml-visible-links";
+        visibleLinksInput.className = "npml-settings-input";
+        visibleLinksInput.type = "number";
+        visibleLinksInput.min = String(MINIMUM_VISIBLE_LINKS);
+        visibleLinksInput.max = String(MAXIMUM_VISIBLE_LINKS);
+        visibleLinksInput.step = "1";
+        visibleLinksInput.value = String(visibleLinkCount);
+
+        const customLinksInput = document.createElement("textarea");
+        customLinksInput.id = "npml-custom-links";
+        customLinksInput.className = "npml-settings-input";
+        customLinksInput.placeholder =
+            "My package page | https://example.com/package/{{encodedPackage}}";
+        customLinksInput.spellcheck = false;
+        customLinksInput.value = customLinksText;
+
+        const customLinksError = document.createElement("p");
+        customLinksError.className = "npml-settings-error";
+        customLinksError.hidden = true;
+        customLinksError.role = "alert";
+        customLinksInput.addEventListener("input", () => {
+            customLinksError.hidden = true;
+            customLinksError.textContent = "";
+        });
 
         const toolbar = document.createElement("div");
         toolbar.className = "npml-settings-toolbar";
@@ -1533,6 +1985,7 @@
             ),
             createSettingsButton("Defaults", () => {
                 setAllSettingsCheckboxes(form, true);
+                visibleLinksInput.value = String(DEFAULT_VISIBLE_LINKS);
                 for (const id of DEFAULT_DISABLED_MIRROR_IDS) {
                     const checkbox = form.querySelector(
                         `input[value="${CSS.escape(id)}"]`
@@ -1544,6 +1997,44 @@
 
         const groups = document.createElement("div");
         groups.className = "npml-settings-groups";
+
+        const preferences = document.createElement("section");
+        preferences.className = "npml-settings-preferences";
+
+        const visibleLinksField = document.createElement("label");
+        visibleLinksField.className = "npml-settings-field";
+        visibleLinksField.htmlFor = visibleLinksInput.id;
+        const visibleLinksLabel = document.createElement("span");
+        visibleLinksLabel.className = "npml-settings-field-label";
+        visibleLinksLabel.textContent = "Links visible before scrolling";
+        const visibleLinksHelp = document.createElement("span");
+        visibleLinksHelp.className = "npml-settings-field-help";
+        visibleLinksHelp.textContent = `${MINIMUM_VISIBLE_LINKS}–${MAXIMUM_VISIBLE_LINKS}; the default is ${DEFAULT_VISIBLE_LINKS}.`;
+        visibleLinksField.append(
+            visibleLinksLabel,
+            visibleLinksInput,
+            visibleLinksHelp
+        );
+
+        const customLinksField = document.createElement("label");
+        customLinksField.className = "npml-settings-field";
+        customLinksField.htmlFor = customLinksInput.id;
+        const customLinksLabel = document.createElement("span");
+        customLinksLabel.className = "npml-settings-field-label";
+        customLinksLabel.textContent = "Custom links";
+        const customLinksHelp = document.createElement("span");
+        customLinksHelp.className = "npml-settings-field-help";
+        customLinksHelp.textContent =
+            "One per line: Label | URL. Tokens: {{package}}, {{packagePath}}, {{encodedPackage}}, {{version}}, {{encodedVersion}}, {{packageSpec}}, {{packageVersionPath}}, {{encodedPackageSpec}}. Lines beginning with # are ignored.";
+        customLinksField.append(
+            customLinksLabel,
+            customLinksInput,
+            customLinksHelp,
+            customLinksError
+        );
+        preferences.append(visibleLinksField, customLinksField);
+        groups.append(preferences);
+
         for (const category of CATEGORY_ORDER) {
             const mirrors = PACKAGE_MIRRORS.filter(
                 (mirror) => mirror.category === category
@@ -1572,13 +2063,26 @@
         form.append(header, intro, toolbar, groups, footer);
         form.addEventListener("submit", (event) => {
             event.preventDefault();
+            const customLinks = customLinksInput.value.trim();
+            const { errors } = parseCustomLinks(customLinks);
+            if (errors.length > 0) {
+                customLinksError.hidden = false;
+                customLinksError.textContent = errors.join("\n");
+                customLinksInput.focus();
+                return;
+            }
+
             const disabledIds = PACKAGE_MIRRORS.filter((mirror) => {
                 const checkbox = form.querySelector(
                     `input[value="${CSS.escape(mirror.id)}"]`
                 );
                 return !checkbox?.checked;
             }).map(({ id }) => id);
-            saveDisabledMirrorIds(disabledIds);
+            saveRelatedLinkSettings({
+                customLinks,
+                disabledIds,
+                visibleLinks: visibleLinksInput.value,
+            });
             dialog.close();
         });
 
@@ -1607,7 +2111,7 @@
             openSettingsDialog
         );
         GM_registerMenuCommand(
-            "Reset related package links",
+            "Reset built-in links and popup size",
             resetMirrorSettings
         );
     }
@@ -1661,6 +2165,8 @@
             details.npmHash,
             settingsVersion,
             disabledMirrorIds.join(","),
+            visibleLinkCount,
+            customLinksText,
         ].join("|");
         const existingMenu = document.querySelector(`[${MENU_ATTRIBUTE}]`);
         if (
