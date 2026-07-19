@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Npm Userscript (Modern Workerless Fork)
-// @version      0.5.0
-// @description  Modern, workerless improvements and fixes for npmjs.com
+// @name         npm Package and Search Enhancer
+// @version      0.6.0
+// @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
@@ -9,8 +9,8 @@
 // @namespace    nick2bad4u.github.io
 // @homepage     https://github.com/Nick2bad4u/UserStyles
 // @source       https://github.com/bluwy/npm-userscript
-// @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NPM-Userscript.user.js
-// @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NPM-Userscript.user.js
+// @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NPM-Package-and-Search-Enhancer.user.js
+// @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NPM-Package-and-Search-Enhancer.user.js
 // @match        https://www.npmjs.com/**
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=npmjs.com
 // @grant        GM.xmlHttpRequest
@@ -18,6 +18,7 @@
 // @connect      api.npmjs.org
 // @connect      api.osv.dev
 // @connect      cdn.jsdelivr.net
+// @connect      data.jsdelivr.com
 // @connect      registry.npmjs.org
 // @inject-into  content
 // @run-at       document-start
@@ -315,17 +316,17 @@
         if (pathVersion && /^\d/.test(pathVersion)) return pathVersion;
         return new Promise((resolve) => {
             const timeout = window.setTimeout(() => {
-                observer.disconnect();
+                observer2.disconnect();
                 resolve(pathVersion);
             }, 5e3);
-            const observer = new MutationObserver(() => {
+            const observer2 = new MutationObserver(() => {
                 const version = getSidebarValue("Version");
                 if (!version) return;
                 window.clearTimeout(timeout);
-                observer.disconnect();
+                observer2.disconnect();
                 resolve(version);
             });
-            observer.observe(document.documentElement, {
+            observer2.observe(document.documentElement, {
                 childList: true,
                 subtree: true,
             });
@@ -1122,13 +1123,292 @@ versions, and fix provenance icon alignment.
         },
     });
 
-    // src/features/fix-highlight-styles.ts
-    var fix_highlight_styles_exports = {};
-    __export(fix_highlight_styles_exports, {
+    // src/enhancement-settings.ts
+    function localStorageStore(key, defaultValue) {
+        const store = {
+            get() {
+                const value = localStorage.getItem(key);
+                if (value !== null) {
+                    try {
+                        return JSON.parse(value);
+                    } catch {
+                        localStorage.removeItem(key);
+                    }
+                }
+                store.reset();
+                return structuredClone(defaultValue);
+            },
+            set(value) {
+                localStorage.setItem(key, JSON.stringify(value));
+            },
+            reset() {
+                store.set(defaultValue);
+            },
+        };
+        return store;
+    }
+    function parseCustomLinks(input) {
+        const links = [];
+        const errors = [];
+        for (const [index, rawLine] of input.split(/\r?\n/).entries()) {
+            const line = rawLine.trim();
+            if (!line || line.startsWith("#")) continue;
+            if (links.length >= MAX_CUSTOM_LINKS) {
+                errors.push(
+                    `Only the first ${MAX_CUSTOM_LINKS} custom links are used.`
+                );
+                break;
+            }
+            const [
+                label = "",
+                urlTemplate = "",
+                iconTemplate = "",
+                ...extra
+            ] = line.split("|").map((part) => part.trim());
+            const lineNumber = index + 1;
+            if (extra.length > 0 || !label || !urlTemplate) {
+                errors.push(
+                    `Line ${lineNumber}: use Label | URL | optional icon URL.`
+                );
+                continue;
+            }
+            if (label.length > MAX_LABEL_LENGTH) {
+                errors.push(
+                    `Line ${lineNumber}: label is longer than ${MAX_LABEL_LENGTH} characters.`
+                );
+                continue;
+            }
+            if (
+                urlTemplate.length > MAX_URL_LENGTH ||
+                iconTemplate.length > MAX_URL_LENGTH
+            ) {
+                errors.push(`Line ${lineNumber}: URL is too long.`);
+                continue;
+            }
+            try {
+                validateHttpTemplate(urlTemplate);
+                if (iconTemplate) validateHttpTemplate(iconTemplate);
+            } catch (error) {
+                errors.push(`Line ${lineNumber}: ${error.message}`);
+                continue;
+            }
+            links.push({
+                label,
+                urlTemplate,
+                iconTemplate: iconTemplate || void 0,
+            });
+        }
+        return { links, errors };
+    }
+    function fillLinkTemplate(template, context) {
+        const version = context.version || "";
+        const packagePath = context.packageName.startsWith("@")
+            ? context.packageName
+            : encodeURIComponent(context.packageName);
+        const values = {
+            package: context.packageName,
+            packagePath,
+            encodedPackage: encodeURIComponent(context.packageName),
+            version,
+            encodedVersion: encodeURIComponent(version),
+            packageSpec: version
+                ? `${context.packageName}@${version}`
+                : context.packageName,
+            encodedPackageSpec: encodeURIComponent(
+                version
+                    ? `${context.packageName}@${version}`
+                    : context.packageName
+            ),
+        };
+        return template.replace(
+            /\{\{([A-Za-z]+)\}\}/g,
+            (match, token) => values[token] ?? match
+        );
+    }
+    function validateHttpTemplate(template) {
+        const filled = fillLinkTemplate(template, {
+            packageName: "@scope/package",
+            version: "1.2.3",
+        });
+        const url = new URL(filled);
+        if (url.protocol !== "https:" && url.protocol !== "http:") {
+            throw new Error("only http:// and https:// URLs are allowed.");
+        }
+    }
+    var badgeDefinitions,
+        badgeVisibility,
+        linkDefinitions,
+        linkVisibility,
+        customLinksSetting,
+        MAX_CUSTOM_LINKS,
+        MAX_LABEL_LENGTH,
+        MAX_URL_LENGTH;
+    var init_enhancement_settings = __esm({
+        "src/enhancement-settings.ts"() {
+            badgeDefinitions = {
+                esm: "ESM",
+                cjs: "CJS",
+                dts: "TypeScript types (DTS)",
+                untyped: "Untyped warning",
+                cli: "Command-line package (CLI)",
+                binary: "Native binaries",
+                node: "Node.js engine requirement",
+                lifecycle: "Install lifecycle scripts",
+                vulnerable: "Known vulnerabilities",
+                alternatives: "Package alternatives",
+            };
+            badgeVisibility = Object.fromEntries(
+                Object.keys(badgeDefinitions).map((id) => [
+                    id,
+                    localStorageStore(
+                        `npm-enhancer:settings:badge:${id}`,
+                        true
+                    ),
+                ])
+            );
+            linkDefinitions = {
+                documentation: "npm documentation",
+                repository: "Repository",
+                homepage: "Homepage",
+                funding: "Funding",
+                npmx: "npmx",
+                publint: "publint",
+                attw: "Are the Types Wrong?",
+                npmgraph: "npmgraph",
+                pkgSize: "pkg-size",
+                nodeModulesInspector: "Node Modules Inspector",
+                packagephobia: "Packagephobia",
+                bundlejs: "Bundlejs",
+                custom: "Custom links",
+            };
+            linkVisibility = Object.fromEntries(
+                Object.keys(linkDefinitions).map((id) => [
+                    id,
+                    localStorageStore(`npm-enhancer:settings:link:${id}`, true),
+                ])
+            );
+            customLinksSetting = localStorageStore(
+                "npm-enhancer:settings:custom-links",
+                ""
+            );
+            MAX_CUSTOM_LINKS = 20;
+            MAX_LABEL_LENGTH = 48;
+            MAX_URL_LENGTH = 1500;
+        },
+    });
+
+    // src/features/compact-navigation.ts
+    var compact_navigation_exports = {};
+    __export(compact_navigation_exports, {
         description: () => description3,
+        run: () => run3,
         runPre: () => runPre3,
     });
     function runPre3() {
+        addStyle(`
+    div:has(> nav[aria-label="Product Navigation"]) {
+      display: none !important;
+    }
+
+    .npm-userscript-header-actions {
+      display: flex;
+      align-items: center;
+      align-self: center;
+      gap: 2px;
+      margin-left: 12px;
+      order: 1;
+      white-space: nowrap;
+    }
+
+    .npm-userscript-docs-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 8px;
+      color: inherit;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      opacity: 0.85;
+    }
+
+    .npm-userscript-docs-link:hover,
+    .npm-userscript-docs-link:focus-visible {
+      background: rgba(127, 127, 127, 0.14);
+      opacity: 1;
+    }
+
+    .npm-userscript-docs-link svg {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+    }
+
+    @media (max-width: 37rem) {
+      .npm-userscript-header-actions {
+        margin-left: 4px;
+      }
+
+      .npm-userscript-docs-link span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    }
+  `);
+    }
+    function run3() {
+        if (document.querySelector(".npm-userscript-header-actions")) return;
+        const searchInput = document.querySelector(
+            'input[aria-label="Search packages"]'
+        );
+        const primaryHeader =
+            searchInput?.closest("form")?.parentElement?.parentElement;
+        if (!primaryHeader) return;
+        const profile = Array.from(primaryHeader.children).find((child) =>
+            child.querySelector('button[aria-label="Profile menu"]')
+        );
+        if (!profile) return;
+        const actions = document.createElement("div");
+        actions.className = "npm-userscript-header-actions";
+        if (linkVisibility.documentation.get()) {
+            const documentation = document.createElement("a");
+            documentation.className = "npm-userscript-docs-link";
+            documentation.href = "https://docs.npmjs.com/";
+            documentation.target = "_blank";
+            documentation.rel = "noopener noreferrer";
+            documentation.title = "npm documentation";
+            documentation.setAttribute("aria-label", "npm documentation");
+            documentation.innerHTML =
+                '<svg aria-hidden="true" viewBox="0 0 16 16"><path d="M2.75 1A1.75 1.75 0 0 0 1 2.75v10.5C1 14.216 1.784 15 2.75 15H7.5V3.25C7.5 2.007 6.493 1 5.25 1h-2.5Zm10.5 0H10.75A2.75 2.75 0 0 0 8 3.75V15h5.25A1.75 1.75 0 0 0 15 13.25V2.75A1.75 1.75 0 0 0 13.25 1Z"/></svg><span>Docs</span>';
+            actions.appendChild(documentation);
+        }
+        profile.insertAdjacentElement("beforebegin", actions);
+    }
+    var description3;
+    var init_compact_navigation = __esm({
+        "src/features/compact-navigation.ts"() {
+            init_enhancement_settings();
+            init_utils();
+            description3 =
+                "Hide npm paid-plan navigation and keep Documentation as a compact primary-header action.";
+        },
+    });
+
+    // src/features/fix-highlight-styles.ts
+    var fix_highlight_styles_exports = {};
+    __export(fix_highlight_styles_exports, {
+        description: () => description4,
+        runPre: () => runPre4,
+    });
+    function runPre4() {
         if (isValidPackagePage()) {
             addStyle(`
       html[data-color-mode="dark"] .highlight {
@@ -1265,11 +1545,11 @@ versions, and fix provenance icon alignment.
     `);
         }
     }
-    var description3;
+    var description4;
     var init_fix_highlight_styles = __esm({
         "src/features/fix-highlight-styles.ts"() {
             init_utils();
-            description3 = `Fix syntax highlighting contrast issues in dark mode by using the GitHub Dark theme.
+            description4 = `Fix syntax highlighting contrast issues in dark mode by using the GitHub Dark theme.
 `;
         },
     });
@@ -2706,7 +2986,7 @@ versions, and fix provenance icon alignment.
         featureSettings: () => featureSettings,
         injectSettingsTrigger: () => injectSettingsTrigger,
     });
-    function localStorageStore(key, defaultValue) {
+    function localStorageStore2(key, defaultValue) {
         const store = {
             get() {
                 const v2 = localStorage.getItem(key);
@@ -2736,8 +3016,27 @@ versions, and fix provenance icon alignment.
                 L(setting.get()),
             ])
         );
+        const badgeStates = Object.fromEntries(
+            Object.entries(badgeVisibility).map(([name, setting]) => [
+                name,
+                L(setting.get()),
+            ])
+        );
+        const linkStates = Object.fromEntries(
+            Object.entries(linkVisibility).map(([name, setting]) => [
+                name,
+                L(setting.get()),
+            ])
+        );
+        const customLinksState = L(customLinksSetting.get());
+        const customLinkErrors = L(
+            parseCustomLinks(customLinksState.value).errors.join("\n")
+        );
         return at`
-    <div id="npm-userscript-settings" @click=${(e3) => e3.currentTarget.remove()}>
+    <div
+      id="npm-userscript-settings"
+      @click=${(e3) => e3.currentTarget.remove()}
+    >
       <style>
         #npm-userscript-settings {
           position: fixed;
@@ -2766,8 +3065,11 @@ versions, and fix provenance icon alignment.
         }
         #npm-userscript-settings .features {
           font-size: 14px;
-          margin: 12px 0 4px 0;
+          margin: 18px 0 8px 0;
           color: var(--color-fg-muted);
+          font-weight: bold;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
         }
         #npm-userscript-settings .setting {
           display: grid;
@@ -2784,7 +3086,7 @@ versions, and fix provenance icon alignment.
           font-weight: bold;
         }
         #npm-userscript-settings .setting > p {
-          grid-area: 2 / 2 / 3 / 3; 
+          grid-area: 2 / 2 / 3 / 3;
           margin: 4px 0 0 0;
           opacity: 0.6;
         }
@@ -2797,11 +3099,36 @@ versions, and fix provenance icon alignment.
         }
         #npm-userscript-settings .footer p {
           color: var(--color-fg-muted);
-          margin: 0
+          margin: 0;
+        }
+        #npm-userscript-settings textarea {
+          box-sizing: border-box;
+          width: 100%;
+          min-height: 120px;
+          padding: 8px;
+          resize: vertical;
+          color: inherit;
+          background: var(--background-color);
+          border: 1px solid var(--color-border-muted, #aaa);
+          border-radius: 4px;
+          font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+          font-size: 12px;
+        }
+        #npm-userscript-settings .custom-help,
+        #npm-userscript-settings .custom-errors {
+          white-space: pre-wrap;
+          font-size: 12px;
+          margin: 6px 0;
+        }
+        #npm-userscript-settings .custom-help {
+          color: var(--color-fg-muted);
+        }
+        #npm-userscript-settings .custom-errors {
+          color: var(--color-fg-danger, #bb2e3e);
         }
       </style>
       <div class="dialog" @click=${(e3) => e3.stopPropagation()}>
-        <h2>Npm Userscript Settings</h2>
+        <h2>npm Package & Search Enhancer</h2>
         <p class="features">Features</p>
         ${Object.entries(featureStates).map(([name, state]) => {
             return at`
@@ -2820,6 +3147,59 @@ versions, and fix provenance icon alignment.
             </label>
           `;
         })}
+        <p class="features">Badges</p>
+        ${Object.entries(badgeStates).map(
+            ([name, state]) => at`
+            <label class="setting" key=${name}>
+              <input
+                type="checkbox"
+                .checked=${state.value}
+                @change=${(e3) => {
+                    const checked = e3.target.checked;
+                    badgeVisibility[name].set(checked);
+                    state.value = checked;
+                }}
+              />
+              <span>${badgeDefinitions[name]}</span>
+            </label>
+          `
+        )}
+        <p class="features">Links</p>
+        ${Object.entries(linkStates).map(
+            ([name, state]) => at`
+            <label class="setting" key=${name}>
+              <input
+                type="checkbox"
+                .checked=${state.value}
+                @change=${(e3) => {
+                    const checked = e3.target.checked;
+                    linkVisibility[name].set(checked);
+                    state.value = checked;
+                }}
+              />
+              <span>${linkDefinitions[name]}</span>
+            </label>
+          `
+        )}
+        <p class="features">Custom links</p>
+        <textarea
+          aria-label="Custom package links"
+          placeholder="My service | https://example.com/{{encodedPackage}} | https://example.com/icon.png"
+          .value=${customLinksState.value}
+          @input=${(e3) => {
+              const value = e3.target.value;
+              customLinksSetting.set(value);
+              customLinksState.value = value;
+              customLinkErrors.value =
+                  parseCustomLinks(value).errors.join("\n");
+          }}
+        ></textarea>
+        <p class="custom-help">
+          One per line: Label | URL | optional icon URL. Tokens: {{package}}, {{packagePath}},
+          {{encodedPackage}}, {{version}}, {{encodedVersion}}, {{packageSpec}},
+          {{encodedPackageSpec}}.
+        </p>
+        <p class="custom-errors">${customLinkErrors}</p>
         <div class="footer">
           <p class="note">(Refresh page to view changes)</p>
           <button
@@ -2828,11 +3208,24 @@ versions, and fix provenance icon alignment.
                     featureSettings[name].reset();
                     state.value = featureSettings[name].get();
                 });
+                Object.entries(badgeStates).forEach(([name, state]) => {
+                    const setting = badgeVisibility[name];
+                    setting.reset();
+                    state.value = setting.get();
+                });
+                Object.entries(linkStates).forEach(([name, state]) => {
+                    const setting = linkVisibility[name];
+                    setting.reset();
+                    state.value = setting.get();
+                });
+                customLinksSetting.reset();
+                customLinksState.value = customLinksSetting.get();
+                customLinkErrors.value = "";
             }}
           >
-            Reset to defaults 
+            Reset to defaults
           </button>
-        </button>
+        </div>
       </div>
     </div>
   `;
@@ -2841,14 +3234,28 @@ versions, and fix provenance icon alignment.
         if (document.querySelector(".npm-userscript-settings-trigger")) return;
         const button = document.createElement("button");
         button.classList.add("npm-userscript-settings-trigger");
-        button.innerHTML = "Open Npm Userscript Settings";
+        button.type = "button";
+        button.title = "Open npm enhancer settings";
+        button.setAttribute("aria-label", "Open npm enhancer settings");
+        button.textContent = "\u2699";
         button.style.cssText =
-            "font-size: 13px; border: 0px; background: none; cursor: pointer; padding: 0; opacity: 0.8;";
+            "font-size: 18px; border: 0; background: none; color: inherit; cursor: pointer; padding: 6px 8px; opacity: 0.85;";
         button.onclick = () => document.body.append(at`<${Settings} />`);
+        const headerActions = document.querySelector(
+            ".npm-userscript-header-actions"
+        );
+        if (headerActions) {
+            headerActions.appendChild(button);
+            return;
+        }
         const sidebar = document.querySelector(
             '[aria-label="Package sidebar"]'
         );
-        sidebar?.insertAdjacentElement("beforeend", button);
+        if (sidebar) {
+            button.textContent = "\u2699 Enhancer settings";
+            button.style.fontSize = "13px";
+            sidebar.insertAdjacentElement("beforeend", button);
+        }
     }
     function clearOutdatedSettings() {
         const keys = Object.keys(localStorage);
@@ -2868,11 +3275,12 @@ versions, and fix provenance icon alignment.
         "src/settings.ts"() {
             init_dom();
             init_all_features();
+            init_enhancement_settings();
             featureSettings = Object.fromEntries(
                 Object.entries(allFeatures).map(([name, feature]) => {
                     return [
                         name,
-                        localStorageStore(
+                        localStorageStore2(
                             `npm-userscript:settings:feature:${name}`,
                             feature.disabled ? false : true
                         ),
@@ -2885,9 +3293,9 @@ versions, and fix provenance icon alignment.
     // src/features/fix-issue-pr-count.ts
     var fix_issue_pr_count_exports = {};
     __export(fix_issue_pr_count_exports, {
-        description: () => description4,
-        run: () => run3,
-        runPre: () => runPre4,
+        description: () => description5,
+        run: () => run4,
+        runPre: () => runPre5,
         teardown: () => teardown,
     });
     function teardown(previousUrl) {
@@ -2896,7 +3304,7 @@ versions, and fix provenance icon alignment.
             .querySelectorAll(".npm-userscript-issue-pr-count")
             .forEach((el) => el.remove());
     }
-    async function runPre4() {
+    async function runPre5() {
         if (!isValidPackagePage()) return;
         if ((await getFeatureSettings())["repository-card"].get() === true)
             return;
@@ -2924,7 +3332,7 @@ versions, and fix provenance icon alignment.
     }
   `);
     }
-    async function run3() {
+    async function run4() {
         if (!isValidPackagePage()) return;
         if ((await getFeatureSettings())["repository-card"].get() === true)
             return;
@@ -3009,12 +3417,12 @@ versions, and fix provenance icon alignment.
         );
         return settings.featureSettings;
     }
-    var description4;
+    var description5;
     var init_fix_issue_pr_count = __esm({
         "src/features/fix-issue-pr-count.ts"() {
             init_utils_fetch();
             init_utils();
-            description4 = `Show "Issue" and "Pull Requests" counts in the package sidebar. At the time of writing, npm's own
+            description5 = `Show "Issue" and "Pull Requests" counts in the package sidebar. At the time of writing, npm's own
 implementation is broken for large numbers for some reason. This temporarily fixes it.
 `;
         },
@@ -3023,11 +3431,11 @@ implementation is broken for large numbers for some reason. This temporarily fix
     // src/features/fix-styles.ts
     var fix_styles_exports = {};
     __export(fix_styles_exports, {
-        description: () => description5,
-        run: () => run4,
-        runPre: () => runPre5,
+        description: () => description6,
+        run: () => run5,
+        runPre: () => runPre6,
     });
-    function runPre5() {
+    function runPre6() {
         if (isValidPackagePage()) {
             addStyle(`
       #repository + p,
@@ -3120,7 +3528,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     `);
         }
     }
-    function run4() {
+    function run5() {
         if (isValidPackagePage()) {
             const sidebar = document.querySelector(
                 '[aria-label="Package sidebar"]'
@@ -3133,11 +3541,11 @@ implementation is broken for large numbers for some reason. This temporarily fix
             }
         }
     }
-    var description5;
+    var description6;
     var init_fix_styles = __esm({
         "src/features/fix-styles.ts"() {
             init_utils();
-            description5 = `Fix various style issues on the npm site.
+            description6 = `Fix various style issues on the npm site.
 `;
         },
     });
@@ -3145,36 +3553,70 @@ implementation is broken for large numbers for some reason. This temporarily fix
     // src/features/helpful-links.ts
     var helpful_links_exports = {};
     __export(helpful_links_exports, {
-        description: () => description6,
-        run: () => run5,
-        runPre: () => runPre6,
+        createHelpfulLinksElement: () => createHelpfulLinksElement,
+        description: () => description7,
+        getHelpfulLinks: () => getHelpfulLinks,
+        run: () => run6,
+        runPre: () => runPre7,
         teardown: () => teardown2,
     });
     function teardown2(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
-        document
-            .querySelector(".npm-userscript-helpful-links")
-            ?.parentElement?.remove();
+        document.querySelector(".npm-userscript-helpful-links")?.remove();
     }
-    function runPre6() {
+    function runPre7() {
         if (!isValidPackagePage()) return;
         addStyle(`
     .npm-userscript-helpful-links {
-      display: inline-flex;
+      display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
-      height: 0;
-      transform: translateY(5px);
+      gap: 6px;
+      width: 100%;
+      height: auto;
+      margin: 4px 0 8px;
+      clear: both;
+      box-sizing: border-box;
+      transform: none;
     }
 
     .npm-userscript-helpful-links a {
-      display: block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      flex: 0 0 28px;
+      border-radius: 5px;
+      text-decoration: none;
+      overflow: hidden;
     }
 
-    .npm-userscript-helpful-links a svg {
+    .npm-userscript-helpful-links a:hover,
+    .npm-userscript-helpful-links a:focus-visible {
+      background: rgba(127, 127, 127, 0.14);
+    }
+
+    .npm-userscript-helpful-links a svg,
+    .npm-userscript-helpful-links a img {
       display: block;
       width: 20px;
       height: 20px;
+      object-fit: contain;
+    }
+
+    .npm-userscript-helpful-links .npm-userscript-link-monogram {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      color: #fff;
+      background: #6b7280;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
     }
 
     html[data-color-mode="dark"] .npm-userscript-helpful-links a svg.dark-invert {
@@ -3192,15 +3634,47 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
   `);
     }
-    async function run5() {
+    async function run6() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-helpful-links")) return;
         const packageName = getPackageName();
         if (!packageName) return;
-        const links = [
-            await getRepoLinkData(),
-            getHomepageLinkData(),
-            getFundingLinkData(),
+        const links = await getHelpfulLinks(
+            packageName,
+            void 0,
+            getPackageVersion()
+        );
+        if (links.length === 0) return;
+        const sidebar = document.querySelector(
+            'aside[aria-label="Package sidebar"]'
+        );
+        const installHeading = Array.from(
+            sidebar?.querySelectorAll(":scope > h2, :scope > h3") || []
+        ).find((heading) => heading.textContent?.trim() === "Install");
+        if (!installHeading) return;
+        installHeading.insertAdjacentElement(
+            "beforebegin",
+            createHelpfulLinksElement(links)
+        );
+    }
+    async function getHelpfulLinks(
+        packageName,
+        metadata,
+        version = metadata?.version
+    ) {
+        const contextualLinks = metadata
+            ? [
+                  getRepositoryLinkData(metadata.repository),
+                  getHomepageLinkData(metadata.homepage),
+                  getFundingLinkData(metadata.funding),
+              ]
+            : [
+                  await getRepoLinkData(),
+                  getHomepageLinkData(),
+                  getFundingLinkData(),
+              ];
+        const builtInLinks = [
+            ...contextualLinks,
             getNpmxLinkData(packageName),
             getPublintLinkData(packageName),
             getAttwLinkData(packageName),
@@ -3209,27 +3683,72 @@ implementation is broken for large numbers for some reason. This temporarily fix
             getNodeModulesInspectorLinkData(packageName),
             getPackagephobiaLinkData(packageName),
             getBundlejsLinkData(packageName),
-        ].filter(Boolean);
-        const injectParent = document.querySelector("#top > div:has(h1)");
-        if (!injectParent) return;
-        const group = injectParent.lastElementChild.cloneNode();
-        group.innerHTML = `&nbsp;\u2022&nbsp;<div class="npm-userscript-helpful-links">
-    ${links
-        .map(
-            (link) => `
-        <a
-          href="${link.url}"
-          target="_blank"
-          rel="noopener noreferrer nofollow"
-          title="${link.label}"
-        >
-          ${scopeSvgId(link.iconSvg, link.label.toLowerCase().replace(/\s+/g, "-"))}
-        </a>
-      `
-        )
-        .join("")}
-  <div>`;
-        injectParent.appendChild(group);
+        ].filter((link) => Boolean(link));
+        const enabledLinks = builtInLinks.filter((link) => {
+            const setting = linkVisibility[link.id];
+            return setting?.get() !== false;
+        });
+        if (linkVisibility.custom.get()) {
+            const templates = parseCustomLinks(customLinksSetting.get()).links;
+            for (const [index, template] of templates.entries()) {
+                const context = { packageName, version };
+                enabledLinks.push({
+                    id: `custom-${index}`,
+                    label: template.label,
+                    url: fillLinkTemplate(template.urlTemplate, context),
+                    iconUrl: template.iconTemplate
+                        ? fillLinkTemplate(template.iconTemplate, context)
+                        : void 0,
+                });
+            }
+        }
+        return enabledLinks;
+    }
+    function createHelpfulLinksElement(
+        links,
+        className = "npm-userscript-helpful-links"
+    ) {
+        const container = document.createElement("div");
+        container.className = className;
+        for (const link of links) {
+            const anchor = document.createElement("a");
+            anchor.href = link.url;
+            anchor.target = "_blank";
+            anchor.rel = "noopener noreferrer nofollow";
+            anchor.title = link.label;
+            anchor.setAttribute("aria-label", link.label);
+            if (link.iconSvg) {
+                anchor.innerHTML = scopeSvgId(
+                    link.iconSvg,
+                    `${link.id}-${link.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
+                );
+            } else if (link.iconUrl) {
+                const image = document.createElement("img");
+                image.src = link.iconUrl;
+                image.alt = "";
+                image.loading = "lazy";
+                image.referrerPolicy = "no-referrer";
+                image.addEventListener(
+                    "error",
+                    () => image.replaceWith(createMonogram(link.label)),
+                    {
+                        once: true,
+                    }
+                );
+                anchor.appendChild(image);
+            } else {
+                anchor.appendChild(createMonogram(link.label));
+            }
+            container.appendChild(anchor);
+        }
+        return container;
+    }
+    function createMonogram(label) {
+        const monogram = document.createElement("span");
+        monogram.className = "npm-userscript-link-monogram";
+        monogram.textContent = label.trim().slice(0, 2) || "\u2197";
+        monogram.setAttribute("aria-hidden", "true");
+        return monogram;
     }
     async function getRepoLinkData() {
         const useFullRepoLink =
@@ -3238,28 +3757,35 @@ implementation is broken for large numbers for some reason. This temporarily fix
         const repositoryLink = useFullRepoLink
             ? await getFullRepositoryLink()
             : getNpmContext().context.packument.repository;
-        if (repositoryLink) {
-            return {
-                label: "Repository",
-                url: repositoryLink,
-                iconSvg: `<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="#F1502F" fill-rule="nonzero"><path d="M15.6981994,7.28744895 L8.71251571,0.3018063 C8.3102891,-0.1006021 7.65784619,-0.1006021 7.25527133,0.3018063 L5.80464367,1.75263572 L7.64478689,3.59281398 C8.07243561,3.44828825 8.56276901,3.5452772 8.90352982,3.88604451 C9.24638012,4.22907547 9.34249661,4.72359725 9.19431703,5.15282127 L10.9679448,6.92630874 C11.3971607,6.77830046 11.8918472,6.8738964 12.2346975,7.21727561 C12.7135387,7.69595181 12.7135387,8.47203759 12.2346975,8.95106204 C11.755508,9.43026062 10.9796112,9.43026062 10.5002476,8.95106204 C10.140159,8.59061834 10.0510075,8.06127108 10.2336636,7.61759448 L8.57948492,5.9635584 L8.57948492,10.3160467 C8.69614805,10.3738569 8.80636859,10.4509954 8.90352982,10.5479843 C9.38237103,11.0268347 9.38237103,11.8027463 8.90352982,12.2822931 C8.42468862,12.7609693 7.64826937,12.7609693 7.16977641,12.2822931 C6.69093521,11.8027463 6.69093521,11.0268347 7.16977641,10.5479843 C7.28818078,10.4297518 7.42521643,10.3402504 7.57148065,10.2803505 L7.57148065,5.88746473 C7.42521643,5.82773904 7.28852903,5.73893407 7.16977641,5.62000506 C6.80707597,5.25747183 6.71983981,4.72499027 6.90597844,4.27957241 L5.09195384,2.465165 L0.301800552,7.25506126 C-0.100600184,7.65781791 -0.100600184,8.31027324 0.301800552,8.71268164 L7.28783254,15.6983243 C7.69005915,16.1005586 8.34232793,16.1005586 8.74507691,15.6983243 L15.6981994,8.74506934 C16.1006002,8.34266094 16.1006002,7.68968322 15.6981994,7.28744895" id="Path"></path></g></svg>`,
-            };
-        }
+        return getRepositoryLinkData(repositoryLink);
     }
-    function getHomepageLinkData() {
-        const homepageLink = getNpmContext().context.packument.homepage;
+    function getRepositoryLinkData(repositoryLink) {
+        if (!repositoryLink) return void 0;
+        return {
+            id: "repository",
+            label: "Repository",
+            url: repositoryLink,
+            iconSvg: `<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="#F1502F" fill-rule="nonzero"><path d="M15.6981994,7.28744895 L8.71251571,0.3018063 C8.3102891,-0.1006021 7.65784619,-0.1006021 7.25527133,0.3018063 L5.80464367,1.75263572 L7.64478689,3.59281398 C8.07243561,3.44828825 8.56276901,3.5452772 8.90352982,3.88604451 C9.24638012,4.22907547 9.34249661,4.72359725 9.19431703,5.15282127 L10.9679448,6.92630874 C11.3971607,6.77830046 11.8918472,6.8738964 12.2346975,7.21727561 C12.7135387,7.69595181 12.7135387,8.47203759 12.2346975,8.95106204 C11.755508,9.43026062 10.9796112,9.43026062 10.5002476,8.95106204 C10.140159,8.59061834 10.0510075,8.06127108 10.2336636,7.61759448 L8.57948492,5.9635584 L8.57948492,10.3160467 C8.69614805,10.3738569 8.80636859,10.4509954 8.90352982,10.5479843 C9.38237103,11.0268347 9.38237103,11.8027463 8.90352982,12.2822931 C8.42468862,12.7609693 7.64826937,12.7609693 7.16977641,12.2822931 C6.69093521,11.8027463 6.69093521,11.0268347 7.16977641,10.5479843 C7.28818078,10.4297518 7.42521643,10.3402504 7.57148065,10.2803505 L7.57148065,5.88746473 C7.42521643,5.82773904 7.28852903,5.73893407 7.16977641,5.62000506 C6.80707597,5.25747183 6.71983981,4.72499027 6.90597844,4.27957241 L5.09195384,2.465165 L0.301800552,7.25506126 C-0.100600184,7.65781791 -0.100600184,8.31027324 0.301800552,8.71268164 L7.28783254,15.6983243 C7.69005915,16.1005586 8.34232793,16.1005586 8.74507691,15.6983243 L15.6981994,8.74506934 C16.1006002,8.34266094 16.1006002,7.68968322 15.6981994,7.28744895" id="Path"></path></g></svg>`,
+        };
+    }
+    function getHomepageLinkData(
+        homepageLink = getNpmContext().context.packument.homepage
+    ) {
         if (homepageLink) {
             return {
+                id: "homepage",
                 label: "Homepage",
                 url: homepageLink,
                 iconSvg: `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#2679d8" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg>`,
             };
         }
     }
-    function getFundingLinkData() {
-        const fundingLink = getNpmContext().context.packument.funding?.url;
+    function getFundingLinkData(
+        fundingLink = getNpmContext().context.packument.funding?.url
+    ) {
         if (fundingLink) {
             return {
+                id: "funding",
                 label: "Fund this package",
                 url: fundingLink,
                 iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true"><path fill="#fa5b9b" d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg>`,
@@ -3268,6 +3794,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     function getNpmxLinkData(packageName) {
         return {
+            id: "npmx",
             label: "Open in npmx",
             url: `https://npmx.dev/package/${packageName}`,
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#0a0a0a" rx="64"/><path fill="#525252" d="M110 310h60v60h-60z"/><text x="320" y="370" fill="#fafafa" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="420" font-weight="500" text-anchor="middle"><tspan>/</tspan></text></svg>`,
@@ -3275,6 +3802,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     function getPublintLinkData(packageName) {
         return {
+            id: "publint",
             label: "Check with Publint",
             url: `https://publint.dev/${packageName}`,
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 241" width="100%" height="100%" aria-hidden="true" fill="none"><g clip-path="url(#a)"><path fill="#CF7522" stroke="#fff" stroke-width="8" d="m171.514 210.672-.006.003-.007.003c-.717.358-1.534.461-2.326.304-1.486-.294-2.092-1.028-2.446-1.852-.448-1.041-.45-2.255-.339-2.813l35.471-179.0918c.22-1.1065.922-2.029 1.922-2.5282.346-.1148.784-.2761 1.321-.4739 2.613-.9619 7.569-2.7866 15.673-4.3209 10.147-1.921 24.244-3.0651 40.689-.1184 16.777 3.1628 35.653 11.4949 54.595 24.6852 3.309 2.3123 4.906 6.6296 4.362 11.4434l-33.08 167.0166c-.528 2.663-3.609 3.763-5.582 2.318-55.564-40.744-107.73-15.819-110.247-14.575Z"/></g><g clip-path="url(#b)"><path fill="#CF7522" stroke="#fff" stroke-width="8" d="m158.439 210.682.007.003.007.003c.717.358 1.534.461 2.325.304 1.486-.294 2.093-1.028 2.447-1.851.447-1.042.449-2.256.339-2.814L128.092 27.2354c-.219-1.1065-.921-2.0289-1.921-2.5282-.346-.1148-.784-.2761-1.321-.4739-2.613-.9619-7.569-2.7866-15.674-4.3209-10.1467-1.921-24.2437-3.065-40.6882-.1184-16.777 3.1629-35.6531 11.4949-54.5951 24.6852-3.3089 2.3123-4.9057 6.6296-4.3621 11.4434L42.6108 222.939c.5275 2.664 3.6093 3.764 5.5817 2.318 55.5635-40.744 107.7305-15.819 110.2465-14.575Z"/></g><g clip-path="url(#c)"><path fill="#E69B57" stroke="#fff" stroke-width="8" d="m170.873 208.731-.006.004-.006.005c-.633.49-1.415.75-2.222.75-1.515 0-2.252-.602-2.76-1.341-.641-.934-.879-2.126-.879-2.694V22.8841c0-1.128.509-2.1692 1.393-2.8532.317-.1799.716-.4233 1.204-.7217 2.377-1.4512 6.883-4.204 14.536-7.2837 9.58-3.856 23.186-7.717 39.89-8.0215 17.072-.1571 37.207 4.3487 58.351 13.6074 3.695 1.6254 6.1 5.5501 6.502 10.3778V198.25c0 2.715-2.809 4.393-5.025 3.358-62.421-29.171-108.751 5.414-110.978 7.123Z"/></g><g clip-path="url(#d)"><path fill="#E69B57" stroke="#fff" stroke-width="8" d="m159.127 208.731.006.004.006.005c.633.49 1.415.75 2.222.75 1.515 0 2.252-.602 2.76-1.341.641-.934.879-2.126.879-2.694V22.8841c0-1.128-.509-2.1692-1.393-2.8532-.318-.1799-.716-.4233-1.204-.7217-2.377-1.4512-6.883-4.204-14.536-7.2837-9.58-3.856-23.186-7.717-39.89-8.0215-17.0716-.1571-37.2068 4.3487-58.3507 13.6074-3.695 1.6254-6.1002 5.5501-6.5023 10.3778l.0001 170.2618c0 2.715 2.8093 4.392 5.0251 3.357 62.4208-29.171 108.7508 5.414 110.9778 7.123Z"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h130v215.599H0z" transform="rotate(11.203 80.8005 1033.73)"/></clipPath><clipPath id="b"><path fill="#fff" d="M0 0h130v215.06H0z" transform="scale(-1 1) rotate(11.203 -84.2286 -648.3313)"/></clipPath><clipPath id="c"><path fill="#fff" d="M0 0h130v213H0z" transform="translate(161)"/></clipPath><clipPath id="d"><path fill="#fff" d="M0 0h130v213H0z" transform="matrix(-1 0 0 1 169 0)"/></clipPath></defs></svg>`,
@@ -3282,6 +3810,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     function getAttwLinkData(packageName) {
         return {
+            id: "attw",
             label: "Check with Are the types wrong?",
             url: `https://arethetypeswrong.github.io/?p=${packageName}`,
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="933.333" height="933.333" viewBox="0 0 700 700" aria-hidden="true"><path fill="#3178C6" d="M0 350v350h420.5l-3.5-2.2c-11.7-7.2-27.9-18.1-36.5-24.7-10.8-8.1-32-28.8-37.1-36.1l-3.2-4.5 21.1-40.6 21.1-40.6 5.6 11.1c9.9 19.8 20.4 34.1 35.8 48.7 19.9 19 42.3 32.4 65.9 39.5 12.2 3.7 28.9 3.9 37.6.5 11.8-4.6 20.5-16.9 21.5-30 .6-8.5-1.5-16.9-7.2-28.8-5.7-11.8-12-21.1-27-39.6-6.6-8.2-15.6-19.3-19.9-24.6-10.7-13.1-19.9-27.2-26.2-39.9-9.8-19.7-13.7-35.1-13.7-53.7 0-18.4 3.3-31.9 12.4-50.3 30.6-62.3 95-80 175-48.1 14.9 5.9 42.7 20.2 55.1 28.3l2.7 1.8V0H0zm395-115v38H275v337h-95V273H60v-76h335z"/><path fill="#3178C6" d="M580.7 403c-11.6 3-21.3 11.9-24.7 22.7-2.5 8.1-2.5 11-.1 20.5 4.3 16.6 12.2 28.6 47.1 71.8 25 30.9 39.4 57.5 44.4 82.2 2 9.6 2.1 28.2.2 38-3.1 16.2-12.5 37.5-23.1 52.2-2.8 4-5.5 7.8-5.9 8.4-.5.9 9.5 1.2 40.3 1.2H700V466.3l-6.3-7.4c-21.9-25.5-51.7-45.6-79.8-53.9-8.3-2.4-26.9-3.6-33.2-2"/></svg>`,
@@ -3289,6 +3818,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     function getNpmgraphLinkData(packageName) {
         return {
+            id: "npmgraph",
             label: "Check with Npmgraph",
             url: `https://npmgraph.js.org/?q=${packageName}`,
             iconSvg: `<svg class="dark-invert" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 8.467 8.467" aria-hidden="true"><defs><radialGradient xlink:href="#a" id="b" cx=".794" cy="3.572" r="1.323" fx=".794" fy="3.572" gradientTransform="matrix(1.4 0 0 .8 -.317 1.111)" gradientUnits="userSpaceOnUse"/><radialGradient xlink:href="#a" id="c" cx=".794" cy="3.572" r="1.323" fx=".794" fy="3.572" gradientTransform="matrix(1.4 0 0 .8 4.974 -2.328)" gradientUnits="userSpaceOnUse"/><radialGradient xlink:href="#a" id="d" cx=".794" cy="3.572" r="1.323" fx=".794" fy="3.572" gradientTransform="matrix(1.4 0 0 .8 4.974 .053)" gradientUnits="userSpaceOnUse"/><radialGradient xlink:href="#a" id="f" cx=".794" cy="3.572" r="1.323" fx=".794" fy="3.572" gradientTransform="matrix(1.4 0 0 .8 4.974 4.55)" gradientUnits="userSpaceOnUse"/><radialGradient xlink:href="#a" id="e" cx=".794" cy="3.572" r="1.323" fx=".794" fy="3.572" gradientTransform="matrix(1.4 0 0 .8 4.974 2.17)" gradientUnits="userSpaceOnUse"/><linearGradient id="a"><stop offset="0" style="stop-color:#fff;stop-opacity:1"/><stop offset="1" style="stop-color:#a4a4a4;stop-opacity:1"/></linearGradient></defs><rect width="2.381" height=".794" x=".397" y="3.836" rx=".282" ry=".282" style="fill:url(#b);stroke:#000;stroke-width:.264584;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"/><path d="M2.891 4.233c1.047.045.558-3.44 2.136-3.44" style="fill:none;stroke:#000;stroke-width:.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"/><path d="m5.027.265.546.557-.546.5ZM5.027 2.646l.546.558-.546.5ZM5.027 4.762l.546.558-.546.5ZM5.027 7.144l.546.558-.546.5Z" style="fill:#000;stroke:none;stroke-width:.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"/><path d="M2.91 4.233c1.048.045.539-1.058 2.117-1.058" style="fill:none;stroke:#000;stroke-width:.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"/><path d="M2.891 4.233c1.047-.044.558 3.44 2.136 3.44" style="fill:none;stroke:#000;stroke-width:.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"/><path d="M2.91 4.233c1.048-.044.539 1.059 2.117 1.059" style="fill:none;stroke:#000;stroke-width:.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"/><rect width="2.381" height=".794" x="5.689" y=".397" rx=".282" ry=".282" style="fill:url(#c);fill-opacity:1;stroke:#000;stroke-width:.264583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"/><rect width="2.381" height=".794" x="5.689" y="2.778" rx=".282" ry=".282" style="fill:url(#d);fill-opacity:1;stroke:#000;stroke-width:.264583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"/><rect width="2.381" height=".794" x="5.689" y="4.895" rx=".282" ry=".282" style="fill:url(#e);fill-opacity:1;stroke:#000;stroke-width:.264583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"/><rect width="2.381" height=".794" x="5.689" y="7.276" rx=".282" ry=".282" style="fill:url(#f);fill-opacity:1;stroke:#000;stroke-width:.264583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"/></svg>`,
@@ -3296,6 +3826,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     function getPkgSizeLinkData(packageName) {
         return {
+            id: "pkgSize",
             label: "Check with pkg-size",
             url: `https://pkg-size.dev/${packageName}`,
             iconSvg: `<svg width="1.2em" height="1.2em" viewBox="0 0 24 24"><g fill="none" stroke="#ff7251" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14M7.5 4.27l9 5.15"/><path d="M3.29 7 12 12l8.71-5M12 22V12"/><circle cx="18.5" cy="15.5" r="2.5"/><path d="M20.27 17.27 22 19"/></g></svg>`,
@@ -3303,6 +3834,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     function getNodeModulesInspectorLinkData(packageName) {
         return {
+            id: "nodeModulesInspector",
             label: "Check with Node Modules Inspector",
             url: `https://node-modules.dev/grid/depth#install=${packageName}`,
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 100 100" width="100" height="100" aria-hidden="true"><path fill="#469B18" fill-rule="evenodd" d="M51.05 39.797a3.1 3.1 0 0 1 3.428-2.732c2.682.304 5.347 1.215 7.865 2.543a3.1 3.1 0 1 1-2.89 5.485c-1.977-1.042-3.901-1.667-5.672-1.867a3.1 3.1 0 0 1-2.732-3.43Zm-1.133.1a3.1 3.1 0 0 1-1.316 4.182 8.62 8.62 0 0 0-2.113 1.569 3.1 3.1 0 1 1-4.384-4.385 14.82 14.82 0 0 1 3.631-2.682 3.1 3.1 0 0 1 4.182 1.316Zm14.52 4.506a3.1 3.1 0 0 1 4.377-.244 38.946 38.946 0 0 1 5.239 5.744 3.1 3.1 0 1 1-4.971 3.705 32.743 32.743 0 0 0-4.4-4.827 3.1 3.1 0 0 1-.245-4.378Zm9.497 10.678a3.1 3.1 0 0 1 4.127 1.48 34.816 34.816 0 0 1 2.55 7.425 3.1 3.1 0 0 1-6.058 1.32 28.622 28.622 0 0 0-2.1-6.099 3.1 3.1 0 0 1 1.481-4.127ZM78.35 68.67a3.1 3.1 0 0 1 2.92 3.27 26.364 26.364 0 0 1-1.677 7.911 3.1 3.1 0 1 1-5.794-2.205 20.163 20.163 0 0 0 1.281-6.056 3.1 3.1 0 0 1 3.27-2.92Zm-3.264 13.833a3.1 3.1 0 0 1 .558 4.348 31.224 31.224 0 0 1-2.639 2.992 3.1 3.1 0 1 1-4.383-4.384 25.043 25.043 0 0 0 2.115-2.397 3.1 3.1 0 0 1 4.349-.559ZM32.676 9.046a3.1 3.1 0 0 1 0 4.384 25.044 25.044 0 0 0-2.117 2.397 3.1 3.1 0 1 1-4.907-3.79 31.23 31.23 0 0 1 2.64-2.992 3.1 3.1 0 0 1 4.384 0Zm-6.973 8.197a3.1 3.1 0 0 1 1.795 4 20.155 20.155 0 0 0-1.28 6.056 3.1 3.1 0 0 1-6.19-.35 26.349 26.349 0 0 1 1.675-7.911 3.1 3.1 0 0 1 4-1.795Zm-2.648 13.971a3.1 3.1 0 0 1 3.69 2.368 28.625 28.625 0 0 0 2.098 6.1 3.1 3.1 0 0 1-5.606 2.646 34.822 34.822 0 0 1-2.55-7.424 3.1 3.1 0 0 1 2.368-3.69Zm4.822 13.434a3.1 3.1 0 0 1 4.338.633 32.756 32.756 0 0 0 4.4 4.828 3.1 3.1 0 0 1-4.132 4.621 38.956 38.956 0 0 1-5.239-5.744 3.1 3.1 0 0 1 .633-4.338Zm31.315 8.593a3.1 3.1 0 0 1 0 4.384 14.816 14.816 0 0 1-3.63 2.683 3.1 3.1 0 1 1-2.867-5.497 8.621 8.621 0 0 0 2.113-1.57 3.1 3.1 0 0 1 4.384 0Zm-21.536 1.853a3.1 3.1 0 0 1 4.188-1.297c1.977 1.042 3.901 1.667 5.672 1.867a3.1 3.1 0 1 1-.698 6.16c-2.681-.303-5.346-1.215-7.865-2.542a3.1 3.1 0 0 1-1.297-4.188Z" clip-rule="evenodd" opacity=".5"></path><path fill="#469B18" fill-rule="evenodd" d="M69.316 22.298a3.1 3.1 0 0 1 3.27-2.92 26.35 26.35 0 0 1 7.911 1.676 3.1 3.1 0 1 1-2.204 5.795 20.157 20.157 0 0 0-6.057-1.281 3.1 3.1 0 0 1-2.92-3.27Zm-.995.107a3.1 3.1 0 0 1-2.368 3.69 28.626 28.626 0 0 0-6.099 2.099 3.1 3.1 0 1 1-2.646-5.607 34.823 34.823 0 0 1 7.424-2.55 3.1 3.1 0 0 1 3.69 2.368Zm14.828 3.156a3.1 3.1 0 0 1 4.348-.558 31.223 31.223 0 0 1 2.992 2.638 3.1 3.1 0 0 1-4.384 4.384 25.041 25.041 0 0 0-2.397-2.115 3.1 3.1 0 0 1-.559-4.349Zm-28.26 1.667a3.1 3.1 0 0 1-.634 4.338 32.75 32.75 0 0 0-4.826 4.4 3.1 3.1 0 1 1-4.622-4.132 38.952 38.952 0 0 1 5.743-5.239 3.1 3.1 0 0 1 4.338.633Zm-10.445 9.78a3.1 3.1 0 0 1 1.297 4.187c-1.042 1.977-1.666 3.9-1.867 5.671a3.1 3.1 0 1 1-6.16-.697c.303-2.681 1.215-5.346 2.542-7.865a3.1 3.1 0 0 1 4.188-1.297ZM40.545 50.73a3.1 3.1 0 0 1 4.182 1.315c.38.727.893 1.436 1.57 2.112a3.1 3.1 0 0 1-4.383 4.386 14.816 14.816 0 0 1-2.684-3.63 3.1 3.1 0 0 1 1.315-4.183Zm13.346-9.272a3.1 3.1 0 0 1 4.384 0 14.817 14.817 0 0 1 2.683 3.631 3.1 3.1 0 0 1-5.497 2.866 8.62 8.62 0 0 0-1.57-2.113 3.1 3.1 0 0 1 0-4.384Zm5.851 8.945a3.1 3.1 0 0 1 2.732 3.43c-.304 2.68-1.216 5.346-2.544 7.864a3.1 3.1 0 1 1-5.484-2.89c1.042-1.978 1.666-3.902 1.867-5.672a3.1 3.1 0 0 1 3.43-2.732ZM55.135 63.79a3.1 3.1 0 0 1 .244 4.378 38.955 38.955 0 0 1-5.743 5.238 3.1 3.1 0 0 1-3.706-4.971 32.758 32.758 0 0 0 4.828-4.4 3.1 3.1 0 0 1 4.377-.245Zm-45.44 4.185a3.1 3.1 0 0 1 4.384 0c.788.787 1.588 1.49 2.398 2.116a3.1 3.1 0 1 1-3.79 4.906 31.225 31.225 0 0 1-2.992-2.638 3.1 3.1 0 0 1 0-4.384Zm34.763 5.312a3.1 3.1 0 0 1-1.48 4.127 34.814 34.814 0 0 1-7.425 2.55 3.1 3.1 0 1 1-1.32-6.058 28.622 28.622 0 0 0 6.098-2.099 3.1 3.1 0 0 1 4.127 1.48Zm-26.565 1.66a3.1 3.1 0 0 1 4-1.795 20.161 20.161 0 0 0 6.056 1.28 3.1 3.1 0 1 1-.35 6.19 26.361 26.361 0 0 1-7.911-1.675 3.1 3.1 0 0 1-1.795-4Z" clip-rule="evenodd" opacity=".5"></path><path fill="#579E4B" fill-rule="evenodd" d="M58.501 50.834C56.589 46.9 53.708 44.767 50 44.767a3.1 3.1 0 1 1 0-6.2c6.708 0 11.432 4.116 14.077 9.557 2.607 5.363 3.381 12.263 2.43 18.977C64.614 80.466 55.465 94.767 37.5 94.767a3.1 3.1 0 1 1 0-6.2c13.701 0 21.22-10.699 22.868-22.335.82-5.786.083-11.385-1.867-15.398Z" clip-rule="evenodd"></path><path fill="#579E4B" fill-rule="evenodd" d="M42.799 49.166c1.913 3.934 4.793 6.067 8.501 6.067a3.1 3.1 0 0 1 0 6.2c-6.708 0-11.432-4.116-14.077-9.557-2.607-5.363-3.381-12.263-2.43-18.977C36.686 19.534 45.834 5.232 63.8 5.232a3.1 3.1 0 1 1 0 6.2c-13.701 0-21.22 10.699-22.868 22.335-.82 5.786-.083 11.385 1.867 15.398Z" clip-rule="evenodd"></path><path fill="#3E863D" fill-rule="evenodd" d="M50.834 42.799c-3.934 1.913-6.067 4.793-6.067 8.501a3.1 3.1 0 1 1-6.2 0c0-6.708 4.116-11.432 9.557-14.077 5.363-2.607 12.263-3.381 18.977-2.43C80.466 36.686 94.767 45.834 94.767 63.8a3.1 3.1 0 1 1-6.2 0c0-13.701-10.699-21.22-22.335-22.868-5.786-.82-11.385-.083-15.398 1.867Z" clip-rule="evenodd"></path><path fill="#3E863D" fill-rule="evenodd" d="M8.333 34.4a3.1 3.1 0 0 1 3.1 3.1c0 13.701 10.699 21.22 22.335 22.868 5.786.82 11.385.083 15.398-1.867 3.934-1.912 6.067-4.793 6.067-8.501a3.1 3.1 0 0 1 6.2 0c0 6.708-4.116 11.432-9.557 14.077-5.363 2.607-12.263 3.381-18.977 2.43C19.534 64.614 5.232 55.465 5.232 37.5a3.1 3.1 0 0 1 3.1-3.1Z" clip-rule="evenodd"></path><path fill="#579E4B" fill-rule="evenodd" d="M50 45.017a4.983 4.983 0 1 0 0 9.966 4.983 4.983 0 0 0 0-9.966ZM38.317 50c0-6.453 5.23-11.683 11.683-11.683 6.453 0 11.683 5.23 11.683 11.683 0 6.453-5.23 11.683-11.683 11.683-6.453 0-11.683-5.23-11.683-11.683Z" clip-rule="evenodd"></path></svg>`,
@@ -3310,6 +3842,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     function getPackagephobiaLinkData(packageName) {
         return {
+            id: "packagephobia",
             label: "Check with Packagephobia",
             url: `https://packagephobia.com/result?p=${packageName}`,
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108" aria-hidden="true"><defs><linearGradient id="main"><stop offset="0" stop-color="#006838"></stop><stop offset="1" stop-color="#32de85"></stop></linearGradient></defs><path xmlns="http://www.w3.org/2000/svg" fill="url(#main)" d="M21.667 73.809V33.867l28.33-16.188 28.337 16.188V66.13L49.997 82.321 35 73.75V41.604l14.997-8.57L65 41.604v16.788l-15.003 8.571-1.663-.95v-16.67l8.382-4.792-6.719-3.838-8.33 4.763V69.88l8.33 4.762 21.67-12.383V37.737l-21.67-12.379-21.663 12.379v39.88L49.997 90 85 70V30L49.997 10 15 30v40z" transform="translate(-8.75 -7.5)scale(1.25)"></path></svg>`,
@@ -3317,6 +3850,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     function getBundlejsLinkData(packageName) {
         return {
+            id: "bundlejs",
             label: "Check with Bundlejs",
             url: `https://bundlejs.com/?q=${packageName}`,
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" aria-hidden="true" fill="none"><rect width="1024" height="1024" rx="250" fill="url(#a)"/><path d="M546.914 715.1c-28.98 0-53.19-6.75-72.63-20.25-19.44-13.5-34.11-31.86-44.01-55.08-9.72-23.22-14.58-49.41-14.58-78.57 0-29.16 4.86-55.35 14.58-78.57 9.72-23.22 24.03-41.58 42.93-55.08s42.21-20.25 69.93-20.25c27.9 0 52.2 6.66 72.9 19.98 20.7 13.32 36.72 31.59 48.06 54.81 11.52 23.04 17.28 49.41 17.28 79.11 0 29.16-5.67 55.35-17.01 78.57-11.16 23.22-26.82 41.58-46.98 55.08-20.16 13.5-43.65 20.25-70.47 20.25Zm-143.64-8.1V318.2h73.98v189h-9.18V707h-64.8Zm131.76-57.24c15.84 0 28.8-3.96 38.88-11.88 10.08-7.92 17.55-18.54 22.41-31.86 4.86-13.5 7.29-28.44 7.29-44.82 0-16.2-2.52-30.96-7.56-44.28-5.04-13.5-12.87-24.21-23.49-32.13-10.44-8.1-23.85-12.15-40.23-12.15-15.3 0-27.72 3.69-37.26 11.07-9.36 7.38-16.2 17.73-20.52 31.05s-6.48 28.8-6.48 46.44c0 17.64 2.16 33.12 6.48 46.44s11.34 23.67 21.06 31.05c9.9 7.38 23.04 11.07 39.42 11.07Z" fill="#FCFCFC" fill-opacity=".96"/><path d="m474.284 694.85.57-.821-.57.821Zm-44.01-55.08-.923.386.003.006.92-.392Zm0-157.14-.923-.386.923.386Zm42.93-55.08-.582-.814.582.814Zm142.83-.27-.541.841.541-.841Zm48.06 54.81-.899.439.004.008.895-.447Zm.27 157.68-.899-.439-.003.006.902.433Zm-46.98 55.08-.557-.831.557.831ZM403.274 707h-1v1h1v-1Zm0-388.8v-1h-1v1h1Zm73.98 0h1v-1h-1v1Zm0 189v1h1v-1h-1Zm-9.18 0v-1h-1v1h1Zm0 199.8v1h1v-1h-1Zm128.25-100.98.939.343.002-.004-.941-.339Zm-.27-89.1-.937.35.001.004.936-.354Zm-23.49-32.13-.613.79.007.006.008.006.598-.802Zm-77.49-1.08-.612-.791-.007.006.619.785Zm-20.52 31.05-.952-.309.952.309Zm0 92.88-.952.308.952-.308Zm21.06 31.05-.605.796.007.006.598-.802Zm51.3 75.41c-28.823 0-52.822-6.712-72.06-20.071l-1.141 1.642c19.642 13.641 44.063 20.429 73.201 20.429v-2Zm-72.06-20.071c-19.275-13.386-33.829-31.592-43.66-54.651l-1.84.784c9.968 23.381 24.754 41.895 44.359 55.509l1.141-1.642Zm-43.658-54.645c-9.661-23.08-14.502-49.136-14.502-78.184h-2c0 29.272 4.879 55.596 14.657 78.956l1.845-.772ZM416.694 561.2c0-29.048 4.841-55.104 14.502-78.184l-1.845-.772c-9.778 23.36-14.657 49.684-14.657 78.956h2Zm14.502-78.184c9.655-23.063 23.853-41.269 42.589-54.652l-1.163-1.628c-19.063 13.617-33.485 32.131-43.271 55.508l1.845.772Zm42.589-54.652c18.7-13.357 41.796-20.064 69.349-20.064v-2c-27.887 0-51.411 6.793-70.512 20.436l1.163 1.628Zm69.349-20.064c27.734 0 51.841 6.618 72.359 19.821l1.082-1.682c-20.882-13.437-45.376-20.139-73.441-20.139v2Zm72.359 19.821c20.538 13.216 36.438 31.343 47.702 54.408l1.797-.878c-11.416-23.375-27.556-41.788-48.417-55.212l-1.082 1.682Zm47.706 54.416c11.441 22.882 17.175 49.094 17.175 78.663h2c0-29.831-5.787-56.359-17.386-79.557l-1.789.894Zm17.175 78.663c0 29.028-5.644 55.064-16.909 78.131l1.797.878c11.415-23.373 17.112-49.717 17.112-79.009h-2Zm-16.912 78.137c-11.087 23.069-26.632 41.288-46.635 54.682l1.113 1.662c20.318-13.606 36.093-32.107 47.325-55.478l-1.803-.866Zm-46.635 54.682c-19.978 13.378-43.27 20.081-69.913 20.081v2c26.996 0 50.684-6.797 71.026-20.419l-1.113-1.662ZM404.274 707V318.2h-2V707h2Zm-1-387.8h73.98v-2h-73.98v2Zm72.98-1v189h2v-189h-2Zm1 188h-9.18v2h9.18v-2Zm-10.18 1V707h2V507.2h-2Zm1 198.8h-64.8v2h64.8v-2Zm66.96-55.24c16.01 0 29.203-4.005 39.498-12.094l-1.236-1.572c-9.866 7.751-22.592 11.666-38.262 11.666v2Zm39.498-12.094c10.241-8.047 17.814-18.827 22.731-32.303l-1.879-.686c-4.803 13.164-12.17 23.624-22.088 31.417l1.236 1.572Zm22.733-32.307c4.904-13.623 7.349-28.68 7.349-45.159h-2c0 16.281-2.415 31.104-7.231 44.481l1.882.678Zm7.349-45.159c0-16.304-2.537-31.186-7.625-44.634l-1.871.708c4.992 13.192 7.496 27.83 7.496 43.926h2Zm-7.623-44.63c-5.102-13.663-13.042-24.537-23.829-32.582l-1.196 1.604c10.452 7.795 18.172 18.341 23.151 31.678l1.874-.7ZM573.177 484c-10.654-8.266-24.296-12.36-40.843-12.36v2c16.212 0 29.391 4.006 39.617 11.94l1.226-1.58Zm-40.843-12.36c-15.461 0-28.115 3.731-37.872 11.279l1.224 1.582c9.322-7.212 21.509-10.861 36.648-10.861v-2Zm-37.879 11.285c-9.542 7.522-16.482 18.052-20.853 31.526l1.903.618c4.27-13.166 11.009-23.336 20.188-30.574l-1.238-1.57Zm-20.853 31.526c-4.359 13.442-6.528 29.03-6.528 46.749h2c0-17.561 2.15-32.933 6.431-46.131l-1.903-.618Zm-6.528 46.749c0 17.719 2.169 33.307 6.528 46.748l1.903-.617c-4.281-13.198-6.431-28.57-6.431-46.131h-2Zm6.528 46.748c4.374 13.485 11.501 24.017 21.407 31.538l1.209-1.592c-9.534-7.239-16.446-17.407-20.713-30.563l-1.903.617Zm21.414 31.544c10.121 7.545 23.492 11.268 40.018 11.268v-2c-16.235 0-29.144-3.657-38.823-10.872l-1.195 1.604Z" fill="#fff"/><defs><linearGradient id="a" x1="512" y1="0" x2="512" y2="1024" gradientUnits="userSpaceOnUse"><stop offset=".161" stop-color="#3B82F6"/><stop offset="1" stop-color="#262BA3"/></linearGradient></defs></svg>`,
@@ -3333,14 +3867,15 @@ implementation is broken for large numbers for some reason. This temporarily fix
         );
         return settings.featureSettings;
     }
-    var description6;
+    var description7;
     var init_helpful_links = __esm({
         "src/features/helpful-links.ts"() {
             init_utils_fetch();
+            init_enhancement_settings();
             init_utils_npm_context();
             init_utils();
-            description6 =
-                "Add helpful links beside the package header for convenience.";
+            description7 =
+                "Add configurable package links above the Install command.";
         },
     });
 
@@ -4673,6 +5208,17 @@ implementation is broken for large numbers for some reason. This temporarily fix
       color: inherit;
       text-decoration: underline;
     }
+    .npm-userscript-package-label-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.15em;
+      height: 1.15em;
+      margin-right: 1px;
+      font-size: 0.82em;
+      font-weight: 900;
+      line-height: 1;
+    }
     .npm-userscript-package-label-info {
       color: #004085;
       background-color: #cce5ff;
@@ -4703,15 +5249,81 @@ implementation is broken for large numbers for some reason. This temporarily fix
       background-color: #721c24;
       border-color: #b08f94;
     }
+    .npm-userscript-badge-esm {
+      color: #4c1d95;
+      background: #ede9fe;
+      border-color: #a78bfa;
+    }
+    .npm-userscript-badge-cjs {
+      color: #78350f;
+      background: #fef3c7;
+      border-color: #f59e0b;
+    }
+    .npm-userscript-badge-dts {
+      color: #1e3a8a;
+      background: #dbeafe;
+      border-color: #60a5fa;
+    }
+    .npm-userscript-badge-untyped {
+      color: #713f12;
+      background: #fef9c3;
+      border-color: #eab308;
+    }
+    .npm-userscript-badge-node {
+      color: #14532d;
+      background: #dcfce7;
+      border-color: #4ade80;
+    }
+    .npm-userscript-badge-cli {
+      color: #134e4a;
+      background: #ccfbf1;
+      border-color: #2dd4bf;
+    }
+    .npm-userscript-badge-binary {
+      color: #7c2d12;
+      background: #ffedd5;
+      border-color: #fb923c;
+    }
+    .npm-userscript-badge-lifecycle {
+      color: #7f1d1d;
+      background: #fee2e2;
+      border-color: #f87171;
+    }
+    .npm-userscript-badge-vulnerable {
+      color: #fff;
+      background: #b91c1c;
+      border-color: #ef4444;
+    }
+    .npm-userscript-badge-alternatives {
+      color: #312e81;
+      background: #e0e7ff;
+      border-color: #818cf8;
+    }
+    html[data-color-mode="dark"] .npm-userscript-badge-esm { color: #ede9fe; background: #4c1d95; border-color: #8b5cf6; }
+    html[data-color-mode="dark"] .npm-userscript-badge-cjs { color: #fef3c7; background: #78350f; border-color: #d97706; }
+    html[data-color-mode="dark"] .npm-userscript-badge-dts { color: #dbeafe; background: #1e3a8a; border-color: #3b82f6; }
+    html[data-color-mode="dark"] .npm-userscript-badge-untyped { color: #fef9c3; background: #713f12; border-color: #ca8a04; }
+    html[data-color-mode="dark"] .npm-userscript-badge-node { color: #dcfce7; background: #14532d; border-color: #22c55e; }
+    html[data-color-mode="dark"] .npm-userscript-badge-cli { color: #ccfbf1; background: #134e4a; border-color: #14b8a6; }
+    html[data-color-mode="dark"] .npm-userscript-badge-binary { color: #ffedd5; background: #7c2d12; border-color: #f97316; }
+    html[data-color-mode="dark"] .npm-userscript-badge-lifecycle { color: #fee2e2; background: #7f1d1d; border-color: #ef4444; }
+    html[data-color-mode="dark"] .npm-userscript-badge-alternatives { color: #e0e7ff; background: #312e81; border-color: #6366f1; }
   `);
     }
-    function addPackageLabel(orderKey, innerHtml, type = "info", el = "span") {
+    function addPackageLabel(
+        orderKey,
+        innerHtml,
+        type = "info",
+        el = "span",
+        variant
+    ) {
         const order = PACKAGE_LABEL_ORDER.indexOf(orderKey);
         const titleEl = document.querySelector("#top h1");
         if (!titleEl) throw new Error("Could not find package title element");
         const label = document.createElement(el);
         label.className = `npm-userscript-package-label npm-userscript-package-label-${type}`;
         label.innerHTML = innerHtml;
+        if (variant) applyBadgeVariant(label, variant);
         label.dataset.order = order.toString();
         let inserted = false;
         const insertedLabels = document.querySelectorAll(
@@ -4730,6 +5342,22 @@ implementation is broken for large numbers for some reason. This temporarily fix
             titleEl.appendChild(label);
         }
         return label;
+    }
+    function createPackageBadge(variant, text, title, type = "info") {
+        const badge = document.createElement("span");
+        badge.className = `npm-userscript-package-label npm-userscript-package-label-${type}`;
+        badge.appendChild(document.createTextNode(text));
+        applyBadgeVariant(badge, variant);
+        if (title) badge.title = title;
+        return badge;
+    }
+    function applyBadgeVariant(label, variant) {
+        label.classList.add(`npm-userscript-badge-${variant}`);
+        const icon = document.createElement("span");
+        icon.className = "npm-userscript-package-label-icon";
+        icon.textContent = BADGE_ICONS[variant];
+        icon.setAttribute("aria-hidden", "true");
+        label.insertAdjacentElement("afterbegin", icon);
     }
     function computeFloatingUI(ref, floating, options) {
         let manualOpened = false;
@@ -4777,11 +5405,23 @@ implementation is broken for large numbers for some reason. This temporarily fix
         });
         floating.addEventListener("mouseleave", close);
     }
-    var PACKAGE_LABEL_ORDER;
+    var BADGE_ICONS, PACKAGE_LABEL_ORDER;
     var init_utils_ui = __esm({
         "src/utils-ui.ts"() {
             init_floating_ui_dom();
             init_utils();
+            BADGE_ICONS = {
+                esm: "\u2197",
+                cjs: "\u21BB",
+                dts: "TS",
+                untyped: "?",
+                cli: "\u203A_",
+                binary: "\u25C6",
+                node: "\u2B22",
+                lifecycle: "\u2699",
+                vulnerable: "!",
+                alternatives: "\u21C4",
+            };
             PACKAGE_LABEL_ORDER = [
                 "show-vulnerabilities",
                 "show-file-types-label",
@@ -4798,9 +5438,10 @@ implementation is broken for large numbers for some reason. This temporarily fix
     // src/features/module-replacements.ts
     var module_replacements_exports = {};
     __export(module_replacements_exports, {
-        description: () => description7,
-        run: () => run6,
-        runPre: () => runPre7,
+        description: () => description8,
+        getModuleReplacements: () => getModuleReplacements,
+        run: () => run7,
+        runPre: () => runPre8,
         teardown: () => teardown3,
     });
     function teardown3(previousUrl) {
@@ -4812,7 +5453,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
             .querySelectorAll(".npm-userscript-popup")
             .forEach((el) => el.remove());
     }
-    function runPre7() {
+    function runPre8() {
         addPackageLabelStyle();
         addStyle(`
     .npm-userscript-popup {
@@ -4838,8 +5479,9 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
   `);
     }
-    async function run6() {
+    async function run7() {
         if (!isValidPackagePage()) return;
+        if (!badgeVisibility.alternatives.get()) return;
         if (document.querySelector(".npm-userscript-module-replacements-label"))
             return;
         const packageName = getPackageName();
@@ -4857,7 +5499,8 @@ implementation is broken for large numbers for some reason. This temporarily fix
                     "module-replacements",
                     "Has alternatives",
                     "info",
-                    "button"
+                    "button",
+                    "alternatives"
                 );
                 label.classList.add("npm-userscript-module-replacements-label");
                 const popup = document.createElement("div");
@@ -4883,7 +5526,8 @@ implementation is broken for large numbers for some reason. This temporarily fix
                     "module-replacements",
                     "Prefer native code",
                     "warning",
-                    "button"
+                    "button",
+                    "alternatives"
                 );
                 label.classList.add("npm-userscript-module-replacements-label");
                 let replacementText = replacement.replacement;
@@ -4904,7 +5548,8 @@ implementation is broken for large numbers for some reason. This temporarily fix
                     "module-replacements",
                     "Prefer simpler code",
                     "error",
-                    "button"
+                    "button",
+                    "alternatives"
                 );
                 label.classList.add("npm-userscript-module-replacements-label");
                 const popup = document.createElement("div");
@@ -4925,28 +5570,32 @@ implementation is broken for large numbers for some reason. This temporarily fix
             .filter((c2) => c2.startsWith("_"))
             .join(" ");
     }
-    async function getModuleReplacements() {
-        const results = [
-            fetchJson(
-                "https://cdn.jsdelivr.net/npm/module-replacements@2/manifests/micro-utilities.json"
-            ),
-            fetchJson(
-                "https://cdn.jsdelivr.net/npm/module-replacements@2/manifests/native.json"
-            ),
-            fetchJson(
-                "https://cdn.jsdelivr.net/npm/module-replacements@2/manifests/preferred.json"
-            ),
-        ];
-        const [
-            microUtilities,
-            native,
-            preferred,
-        ] = await Promise.all(results);
-        return [
-            ...microUtilities.moduleReplacements,
-            ...native.moduleReplacements,
-            ...preferred.moduleReplacements,
-        ];
+    function getModuleReplacements() {
+        return Promise.resolve(
+            cacheResult("moduleReplacements", 3600, async () => {
+                const results = [
+                    fetchJson(
+                        "https://cdn.jsdelivr.net/npm/module-replacements@2/manifests/micro-utilities.json"
+                    ),
+                    fetchJson(
+                        "https://cdn.jsdelivr.net/npm/module-replacements@2/manifests/native.json"
+                    ),
+                    fetchJson(
+                        "https://cdn.jsdelivr.net/npm/module-replacements@2/manifests/preferred.json"
+                    ),
+                ];
+                const [
+                    microUtilities,
+                    native,
+                    preferred,
+                ] = await Promise.all(results);
+                return [
+                    ...microUtilities.moduleReplacements,
+                    ...native.moduleReplacements,
+                    ...preferred.moduleReplacements,
+                ];
+            })
+        );
     }
     async function fetchDocumentedDocs(docPath) {
         return cacheResult(`fetchDocumentedDocs:${docPath}`, 120, async () => {
@@ -4975,14 +5624,15 @@ implementation is broken for large numbers for some reason. This temporarily fix
             return html;
         });
     }
-    var description7;
+    var description8;
     var init_module_replacements = __esm({
         "src/features/module-replacements.ts"() {
+            init_enhancement_settings();
             init_utils_fetch();
             init_utils_ui();
             init_utils();
             init_utils_cache();
-            description7 = `Suggest alternatives for the package based on "es-tooling/module-replacements" data set.
+            description8 = `Suggest alternatives for the package based on "es-tooling/module-replacements" data set.
 `;
         },
     });
@@ -4990,10 +5640,10 @@ implementation is broken for large numbers for some reason. This temporarily fix
     // src/features/move-funding.ts
     var move_funding_exports = {};
     __export(move_funding_exports, {
-        description: () => description8,
-        run: () => run7,
+        description: () => description9,
+        run: () => run8,
     });
-    function run7() {
+    function run8() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-funding-button")) return;
         const sidebarButtons = document.querySelectorAll(
@@ -5017,11 +5667,11 @@ implementation is broken for large numbers for some reason. This temporarily fix
             fundingButton.style.display = "none";
         }
     }
-    var description8;
+    var description9;
     var init_move_funding = __esm({
         "src/features/move-funding.ts"() {
             init_utils();
-            description8 = `Move the "Fund this package" button to the bottom of the sidebar.
+            description9 = `Move the "Fund this package" button to the bottom of the sidebar.
 `;
         },
     });
@@ -5029,22 +5679,22 @@ implementation is broken for large numbers for some reason. This temporarily fix
     // src/features/no-code-beta.ts
     var no_code_beta_exports = {};
     __export(no_code_beta_exports, {
-        description: () => description9,
+        description: () => description10,
         disabled: () => disabled,
-        runPre: () => runPre8,
+        runPre: () => runPre9,
     });
-    function runPre8() {
+    function runPre9() {
         addStyle(`
     #package-tab-code > span > span:last-child {
       display: none;
     }
   `);
     }
-    var description9, disabled;
+    var description10, disabled;
     var init_no_code_beta = __esm({
         "src/features/no-code-beta.ts"() {
             init_utils();
-            description9 = `Hide the "Beta" label in the package code tab.
+            description10 = `Hide the "Beta" label in the package code tab.
 `;
             disabled = true;
         },
@@ -5053,11 +5703,11 @@ implementation is broken for large numbers for some reason. This temporarily fix
     // src/features/remember-banner.ts
     var remember_banner_exports = {};
     __export(remember_banner_exports, {
-        description: () => description10,
-        run: () => run8,
-        runPre: () => runPre9,
+        description: () => description11,
+        run: () => run9,
+        runPre: () => runPre10,
     });
-    function runPre9() {
+    function runPre10() {
         if (inited) return;
         inited = true;
         const wasClosed = cache.hasByPrefix(bannerPrefix);
@@ -5069,7 +5719,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     `);
         }
     }
-    function run8() {
+    function run9() {
         if (inited) return;
         const banner = document.querySelector(
             'section[aria-label="Site notifications"]'
@@ -5087,12 +5737,12 @@ implementation is broken for large numbers for some reason. This temporarily fix
         }
         cache.clearByPrefix(bannerPrefix, [key]);
     }
-    var description10, bannerPrefix, getBannerKey, inited;
+    var description11, bannerPrefix, getBannerKey, inited;
     var init_remember_banner = __esm({
         "src/features/remember-banner.ts"() {
             init_utils_cache();
             init_utils();
-            description10 = `Remember the banner at the top of the page when dismissed, so it doesn't keep showing up.
+            description11 = `Remember the banner at the top of the page when dismissed, so it doesn't keep showing up.
 `;
             bannerPrefix = "remember-banner:";
             getBannerKey = (banner) => {
@@ -5108,8 +5758,8 @@ implementation is broken for large numbers for some reason. This temporarily fix
     // src/features/remove-redundant-homepage.ts
     var remove_redundant_homepage_exports = {};
     __export(remove_redundant_homepage_exports, {
-        description: () => description11,
-        run: () => run9,
+        description: () => description12,
+        run: () => run10,
         teardown: () => teardown4,
     });
     function teardown4(previousUrl) {
@@ -5119,7 +5769,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
             homepageEl.parentElement.style.display = "";
         }
     }
-    function run9() {
+    function run10() {
         if (!isValidPackagePage()) return;
         const homepageEl = document.getElementById("homePage");
         if (!homepageEl) return;
@@ -5133,12 +5783,12 @@ implementation is broken for large numbers for some reason. This temporarily fix
             homepageEl.parentElement.style.display = "none";
         }
     }
-    var description11;
+    var description12;
     var init_remove_redundant_homepage = __esm({
         "src/features/remove-redundant-homepage.ts"() {
             init_utils();
             init_utils_npm_context();
-            description11 = `Remove the homepage link if it's the same as the repository link, or only has a hash to the readme.
+            description12 = `Remove the homepage link if it's the same as the repository link, or only has a hash to the readme.
 `;
         },
     });
@@ -5146,16 +5796,16 @@ implementation is broken for large numbers for some reason. This temporarily fix
     // src/features/repository-card.ts
     var repository_card_exports = {};
     __export(repository_card_exports, {
-        description: () => description12,
-        run: () => run10,
-        runPre: () => runPre10,
+        description: () => description13,
+        run: () => run11,
+        runPre: () => runPre11,
         teardown: () => teardown5,
     });
     function teardown5(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document.querySelector(".npm-userscript-repository-card")?.remove();
     }
-    function runPre10() {
+    function runPre11() {
         if (!isValidPackagePage()) return;
         addStyle(`
     .npm-userscript-repository-card {
@@ -5220,7 +5870,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
   `);
     }
-    async function run10() {
+    async function run11() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-repository-card")) return;
         const repositoryH3 = document.getElementById("repository");
@@ -5320,13 +5970,13 @@ implementation is broken for large numbers for some reason. This temporarily fix
             }
         );
     }
-    var description12, starSvg, issueSvg, pullSvg, changelogSvg;
+    var description13, starSvg, issueSvg, pullSvg, changelogSvg;
     var init_repository_card = __esm({
         "src/features/repository-card.ts"() {
             init_utils_cache();
             init_utils_fetch();
             init_utils();
-            description12 = `Consolidates all repository information in a card-like view in the package sidebar.
+            description13 = `Consolidates all repository information in a card-like view in the package sidebar.
 Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
 `;
             starSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path></svg>`;
@@ -5339,8 +5989,8 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
     // src/features/repository-directory.ts
     var repository_directory_exports = {};
     __export(repository_directory_exports, {
-        description: () => description13,
-        run: () => run11,
+        description: () => description14,
+        run: () => run12,
         teardown: () => teardown6,
     });
     function teardown6(previousUrl) {
@@ -5349,7 +5999,7 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
             .querySelector("a[aria-labelledby*=repository-link]")
             ?.classList.remove("npm-userscript-repository-directory");
     }
-    async function run11() {
+    async function run12() {
         if (!isValidPackagePage()) return;
         if (!document.querySelector(".npm-userscript-repository-directory"))
             return;
@@ -5365,40 +6015,655 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         textEl.textContent = fullRepositoryLink.replace(/^https?:\/\//, "");
         el.classList.add("npm-userscript-repository-directory");
     }
-    var description13;
+    var description14;
     var init_repository_directory = __esm({
         "src/features/repository-directory.ts"() {
             init_utils_fetch();
             init_utils();
-            description13 = `Adds the repository directory to the repository link.
+            description14 = `Adds the repository directory to the repository link.
 `;
+        },
+    });
+
+    // src/package-metadata.ts
+    function getHelpfulLinkMetadata(manifest) {
+        return {
+            repository: normalizeRepository2(manifest.repository),
+            homepage: normalizeHttpUrl2(manifest.homepage),
+            funding: normalizeFunding2(manifest.funding),
+            version:
+                typeof manifest.version === "string"
+                    ? manifest.version
+                    : void 0,
+        };
+    }
+    function normalizeRepository2(value) {
+        let repository = typeof value === "string" ? value : value?.url;
+        if (typeof repository !== "string") return void 0;
+        repository = repository
+            .replace(/^git\+/, "")
+            .replace(/^git:\/\//, "https://")
+            .replace(/^git@github\.com:/, "https://github.com/")
+            .replace(/\.git$/, "");
+        return normalizeHttpUrl2(repository);
+    }
+    function normalizeFunding2(value) {
+        const first = Array.isArray(value) ? value[0] : value;
+        const url = typeof first === "string" ? first : first?.url;
+        return normalizeHttpUrl2(url);
+    }
+    function normalizeHttpUrl2(value) {
+        if (typeof value !== "string") return void 0;
+        try {
+            const url = new URL(value);
+            return url.protocol === "https:" || url.protocol === "http:"
+                ? url.href
+                : void 0;
+        } catch {
+            return void 0;
+        }
+    }
+    var init_package_metadata = __esm({
+        "src/package-metadata.ts"() {},
+    });
+
+    // src/features/search-results.ts
+    var search_results_exports = {};
+    __export(search_results_exports, {
+        description: () => description15,
+        run: () => run13,
+        runPre: () => runPre12,
+        teardown: () => teardown7,
+    });
+    function runPre12() {
+        addPackageLabelStyle();
+        addStyle(`
+    .npm-userscript-search-card {
+      position: relative;
+      min-height: 88px;
+    }
+
+    .npm-userscript-search-main {
+      min-width: 0;
+    }
+
+    .npm-userscript-search-badges {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      margin-left: 2px;
+    }
+
+    .npm-userscript-search-badges .npm-userscript-package-label {
+      margin-left: 4px;
+      padding: 1px 4px;
+      font-size: 0.72rem;
+      line-height: 1.2;
+    }
+
+    .npm-userscript-search-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 4px;
+      width: 100%;
+      max-width: 300px;
+      margin: 0;
+    }
+
+    .npm-userscript-search-right {
+      display: flex;
+      flex: 0 0 min(38vw, 300px);
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 8px;
+      min-width: 0;
+      margin-left: auto;
+    }
+
+    .npm-userscript-search-links a {
+      width: 25px;
+      height: 25px;
+      flex-basis: 25px;
+    }
+
+    .npm-userscript-search-links a svg,
+    .npm-userscript-search-links a img {
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (max-width: 50rem) {
+      .npm-userscript-search-card {
+        flex-wrap: wrap;
+      }
+
+      .npm-userscript-search-right {
+        flex-basis: 100%;
+        margin-top: 8px;
+      }
+    }
+  `);
+    }
+    async function run13() {
+        if (!isSearchPage()) return;
+        await enrichSearchResults();
+        if (!observer) {
+            observer = new MutationObserver(queueEnrichment);
+            const main2 = document.querySelector("main");
+            if (main2)
+                observer.observe(main2, { childList: true, subtree: true });
+        }
+    }
+    function teardown7() {
+        observer?.disconnect();
+        observer = void 0;
+        document
+            .querySelectorAll(".npm-userscript-search-right")
+            .forEach((right) => {
+                const download = Array.from(right.children).find((child) =>
+                    child.querySelector('[aria-label="Download statistics"]')
+                );
+                if (download)
+                    right.insertAdjacentElement("beforebegin", download);
+                right.remove();
+            });
+        document
+            .querySelectorAll("[data-npm-enhancer-search]")
+            .forEach((card) => {
+                card.classList.remove("npm-userscript-search-card");
+                card.firstElementChild?.classList.remove(
+                    "npm-userscript-search-main"
+                );
+                delete card.dataset.npmEnhancerSearch;
+            });
+        document
+            .querySelectorAll(
+                ".npm-userscript-search-badges, .npm-userscript-search-links"
+            )
+            .forEach((element) => element.remove());
+    }
+    function queueEnrichment() {
+        if (enrichQueued || !isSearchPage()) return;
+        enrichQueued = true;
+        requestAnimationFrame(() => {
+            enrichQueued = false;
+            void enrichSearchResults();
+        });
+    }
+    async function enrichSearchResults() {
+        const pageKey = location.href;
+        const cards = getUnprocessedCards();
+        if (cards.length === 0) return;
+        await Promise.all(
+            cards.map(async (card) => {
+                card.card.dataset.npmEnhancerSearch = card.packageName;
+                try {
+                    const packageData = await requestManifest(() =>
+                        fetchSearchPackageData(card.packageName)
+                    );
+                    card.manifest = packageData.manifest;
+                    card.filePaths = packageData.filePaths;
+                } catch (error) {
+                    console.warn(
+                        `[npm-enhancer] Could not enrich search result ${card.packageName}:`,
+                        error
+                    );
+                }
+            })
+        );
+        if (location.href !== pageKey) return;
+        const settings = await Promise.resolve().then(
+            () => (init_settings(), settings_exports)
+        );
+        const isFeatureEnabled = (name) =>
+            settings.featureSettings[name]?.get() !== false;
+        const showLinks =
+            settings.featureSettings["helpful-links"].get() !== false;
+        const showAlternatives =
+            settings.featureSettings["module-replacements"].get() !== false &&
+            badgeVisibility.alternatives.get();
+        const showVulnerabilities =
+            settings.featureSettings["show-vulnerabilities"].get() !== false &&
+            badgeVisibility.vulnerable.get();
+        const validCards = cards.filter((card) =>
+            Boolean(card.manifest && card.card.isConnected)
+        );
+        const [replacementMap, vulnerablePackages] = await Promise.all([
+            showAlternatives
+                ? fetchReplacementMap()
+                : /* @__PURE__ */ new Map(),
+            showVulnerabilities
+                ? fetchVulnerablePackages(validCards)
+                : /* @__PURE__ */ new Set(),
+        ]);
+        if (location.href !== pageKey) return;
+        await Promise.all(
+            validCards.map(async (card) => {
+                addSearchBadges(
+                    card,
+                    replacementMap.get(card.packageName),
+                    vulnerablePackages,
+                    isFeatureEnabled
+                );
+                if (showLinks) await addSearchLinks(card);
+            })
+        );
+    }
+    function getUnprocessedCards() {
+        const cards = [];
+        const headings = document.querySelectorAll(
+            'main a[href^="/package/"] > h3'
+        );
+        for (const heading of headings) {
+            const card = heading.closest("section");
+            const headingRow = heading.parentElement?.parentElement;
+            const link = heading.parentElement;
+            if (!card || !headingRow || !link || card.dataset.npmEnhancerSearch)
+                continue;
+            const packageName = parsePackageName(link.getAttribute("href"));
+            if (!packageName) continue;
+            cards.push({ card, headingRow, packageName });
+        }
+        return cards;
+    }
+    function addSearchBadges(
+        card,
+        replacement,
+        vulnerablePackages,
+        isFeatureEnabled
+    ) {
+        if (card.card.querySelector(".npm-userscript-search-badges")) return;
+        const specs = getBadgeSpecs(
+            card.manifest,
+            card.filePaths || [],
+            isFeatureEnabled
+        );
+        if (replacement) {
+            specs.push({
+                id: "alternatives",
+                text:
+                    replacement.type === "native"
+                        ? "Prefer native"
+                        : replacement.type === "simple"
+                          ? "Prefer simpler"
+                          : "Alternatives",
+                title: "The module-replacements project recommends an alternative.",
+                type: replacement.type === "simple" ? "error" : "warning",
+            });
+        }
+        if (vulnerablePackages.has(card.packageName)) {
+            specs.unshift({
+                id: "vulnerable",
+                text: "VULNERABLE",
+                title: "OSV reports a known vulnerability for this displayed package version.",
+                type: "error",
+            });
+        }
+        if (specs.length === 0) return;
+        const container = document.createElement("span");
+        container.className = "npm-userscript-search-badges";
+        for (const spec of specs) {
+            container.appendChild(
+                createPackageBadge(spec.id, spec.text, spec.title, spec.type)
+            );
+        }
+        const packageLink = card.headingRow.querySelector(
+            ':scope > a[href^="/package/"]'
+        );
+        packageLink?.insertAdjacentElement("afterend", container);
+    }
+    async function addSearchLinks(card) {
+        if (card.card.querySelector(".npm-userscript-search-links")) return;
+        const links = await getHelpfulLinks(
+            card.packageName,
+            getHelpfulLinkMetadata(card.manifest),
+            card.manifest.version
+        );
+        if (links.length === 0 || !card.card.isConnected) return;
+        card.card.classList.add("npm-userscript-search-card");
+        card.card.firstElementChild?.classList.add(
+            "npm-userscript-search-main"
+        );
+        const linkRow = createHelpfulLinksElement(
+            links,
+            "npm-userscript-helpful-links npm-userscript-search-links"
+        );
+        const download = Array.from(card.card.children).find((child) =>
+            child.querySelector('[aria-label="Download statistics"]')
+        );
+        if (!download) {
+            card.card.appendChild(linkRow);
+            return;
+        }
+        const right = document.createElement("div");
+        right.className = "npm-userscript-search-right";
+        download.insertAdjacentElement("beforebegin", right);
+        right.append(linkRow, download);
+    }
+    function getBadgeSpecs(manifest, filePaths, isFeatureEnabled) {
+        const specs = [];
+        const fileTypes = detectManifestFileTypes(manifest, filePaths);
+        if (
+            isFeatureEnabled("show-file-types-label") &&
+            fileTypes.esm &&
+            badgeVisibility.esm.get()
+        ) {
+            specs.push({
+                id: "esm",
+                text: "ESM",
+                title: "The package manifest advertises ESM.",
+            });
+        }
+        if (
+            isFeatureEnabled("show-file-types-label") &&
+            fileTypes.cjs &&
+            badgeVisibility.cjs.get()
+        ) {
+            specs.push({
+                id: "cjs",
+                text: "CJS",
+                title: "The package manifest advertises CommonJS.",
+            });
+        }
+        if (
+            isFeatureEnabled("show-types-label") &&
+            badgeVisibility.dts.get() &&
+            (typeof manifest.types === "string" ||
+                typeof manifest.typings === "string" ||
+                manifest.name?.startsWith("@types/") ||
+                filePaths.some(
+                    (path) =>
+                        path.endsWith(".d.ts") ||
+                        path.endsWith(".d.mts") ||
+                        path.endsWith(".d.cts")
+                ))
+        ) {
+            specs.push({
+                id: "dts",
+                text: "DTS",
+                title: "The package manifest publishes TypeScript types.",
+            });
+        }
+        if (
+            isFeatureEnabled("show-cli-label") &&
+            badgeVisibility.cli.get() &&
+            manifest.bin
+        ) {
+            specs.push({
+                id: "cli",
+                text: "CLI",
+                title: "The package manifest publishes a command-line tool.",
+            });
+        }
+        if (
+            isFeatureEnabled("show-binary-label") &&
+            badgeVisibility.binary.get() &&
+            publishesNativeBinaries(manifest)
+        ) {
+            specs.push({
+                id: "binary",
+                text: "Binary",
+                title: "The package manifest indicates native binaries.",
+            });
+        }
+        if (
+            isFeatureEnabled("show-engine-label") &&
+            badgeVisibility.node.get() &&
+            typeof manifest.engines?.node === "string"
+        ) {
+            specs.push({
+                id: "node",
+                text: `Node.js ${manifest.engines.node}`,
+                title: `This package requires Node.js ${manifest.engines.node}.`,
+            });
+        }
+        if (
+            isFeatureEnabled("show-lifecycle-scripts-label") &&
+            badgeVisibility.lifecycle.get()
+        ) {
+            const lifecycle = [
+                "preinstall",
+                "install",
+                "postinstall",
+            ].filter((name) => typeof manifest.scripts?.[name] === "string");
+            if (lifecycle.length > 0) {
+                specs.push({
+                    id: "lifecycle",
+                    text: "Install script",
+                    title: `Runs on install: ${lifecycle.join(", ")}.`,
+                    type: "warning",
+                });
+            }
+        }
+        return specs;
+    }
+    function detectManifestFileTypes(manifest, filePaths) {
+        const exportsText = JSON.stringify(manifest.exports || "");
+        const hasEsm =
+            manifest.type === "module" ||
+            typeof manifest.module === "string" ||
+            /"(?:import|module)"\s*:/.test(exportsText) ||
+            /\.mjs(?:"|$)/.test(exportsText) ||
+            filePaths.some((path) => path.endsWith(".mjs"));
+        const hasCjs =
+            manifest.type === "commonjs" ||
+            /"require"\s*:/.test(exportsText) ||
+            /\.cjs(?:"|$)/.test(exportsText) ||
+            (manifest.type !== "module" &&
+                typeof manifest.main === "string" &&
+                /\.js$/.test(manifest.main)) ||
+            filePaths.some((path) => path.endsWith(".cjs"));
+        return { esm: hasEsm, cjs: hasCjs };
+    }
+    function publishesNativeBinaries(manifest) {
+        if (Array.isArray(manifest.os) && manifest.os.length > 0) return true;
+        if (Array.isArray(manifest.cpu) && manifest.cpu.length > 0) return true;
+        const names = Object.keys(manifest.optionalDependencies || {});
+        const platforms = [
+            "linux",
+            "darwin",
+            "win32",
+            "android",
+            "freebsd",
+        ];
+        const architectures = [
+            "x64",
+            "arm64",
+            "ia32",
+            "arm",
+        ];
+        return (
+            names.filter(
+                (name) =>
+                    platforms.some((platform2) => name.includes(platform2)) &&
+                    architectures.some((architecture) =>
+                        name.includes(architecture)
+                    )
+            ).length >= 2
+        );
+    }
+    async function fetchSearchPackageData(packageName) {
+        const manifest = await Promise.resolve(
+            cacheResult(`searchManifest:${packageName}`, 900, () =>
+                fetchJson(
+                    `https://registry.npmjs.org/${encodeURIComponent(packageName)}/latest`
+                )
+            )
+        );
+        const version = manifest.version;
+        let filePaths = [];
+        if (
+            typeof version === "string" &&
+            (badgeVisibility.esm.get() ||
+                badgeVisibility.cjs.get() ||
+                badgeVisibility.dts.get())
+        ) {
+            try {
+                filePaths = await Promise.resolve(
+                    cacheResult(
+                        `searchFilePaths:${packageName}@${version}`,
+                        900,
+                        async () => {
+                            const data = await fetchJson(
+                                `https://data.jsdelivr.com/v1/package/npm/${packageName}@${encodeURIComponent(version)}/flat`
+                            );
+                            return (data.files || [])
+                                .map((file) => file.name)
+                                .filter((name) => typeof name === "string");
+                        }
+                    )
+                );
+            } catch (error) {
+                console.warn(
+                    `[npm-enhancer] Could not inspect published files for ${packageName}:`,
+                    error
+                );
+            }
+        }
+        return { manifest, filePaths };
+    }
+    async function fetchReplacementMap() {
+        try {
+            const replacements = await getModuleReplacements();
+            return new Map(
+                replacements.map((replacement) => [
+                    replacement.moduleName,
+                    replacement,
+                ])
+            );
+        } catch (error) {
+            console.warn(
+                "[npm-enhancer] Could not load package alternatives:",
+                error
+            );
+            return /* @__PURE__ */ new Map();
+        }
+    }
+    async function fetchVulnerablePackages(cards) {
+        if (cards.length === 0) return /* @__PURE__ */ new Set();
+        const cacheKey = cards
+            .map(
+                (card) =>
+                    `${card.packageName}@${card.manifest.version || "latest"}`
+            )
+            .sort()
+            .join("|");
+        try {
+            const result = await Promise.resolve(
+                cacheResult(`searchVulnerabilities:${cacheKey}`, 300, () =>
+                    fetchJson("https://api.osv.dev/v1/querybatch", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            queries: cards.map((card) => ({
+                                package: {
+                                    name: card.packageName,
+                                    ecosystem: "npm",
+                                },
+                                version: card.manifest.version,
+                            })),
+                        }),
+                    })
+                )
+            );
+            const vulnerable = /* @__PURE__ */ new Set();
+            result.results?.forEach((entry, index) => {
+                if (entry.vulns?.length)
+                    vulnerable.add(cards[index].packageName);
+            });
+            return vulnerable;
+        } catch (error) {
+            console.warn(
+                "[npm-enhancer] Could not load search vulnerability badges:",
+                error
+            );
+            return /* @__PURE__ */ new Set();
+        }
+    }
+    function parsePackageName(href) {
+        if (!href?.startsWith("/package/")) return void 0;
+        const raw = href.slice("/package/".length).split(/[?#]/, 1)[0];
+        if (!raw) return void 0;
+        try {
+            return decodeURIComponent(raw);
+        } catch {
+            return raw;
+        }
+    }
+    function isSearchPage() {
+        return location.pathname === "/search";
+    }
+    function createConcurrencyLimit(limit) {
+        const queue = [];
+        let active = 0;
+        return function runLimited(task) {
+            return new Promise((resolve, reject) => {
+                const run24 = () => {
+                    active++;
+                    task()
+                        .then(resolve, reject)
+                        .finally(() => {
+                            active--;
+                            queue.shift()?.();
+                        });
+                };
+                if (active < limit) run24();
+                else queue.push(run24);
+            });
+        };
+    }
+    var description15, observer, enrichQueued, requestManifest;
+    var init_search_results = __esm({
+        "src/features/search-results.ts"() {
+            init_enhancement_settings();
+            init_utils_cache();
+            init_utils_fetch();
+            init_utils();
+            init_utils_ui();
+            init_package_metadata();
+            init_helpful_links();
+            init_module_replacements();
+            description15 =
+                "Add configurable package badges and helpful links to npm search results without opening package pages.";
+            enrichQueued = false;
+            requestManifest = createConcurrencyLimit(4);
         },
     });
 
     // src/features/show-binary-label.ts
     var show_binary_label_exports = {};
     __export(show_binary_label_exports, {
-        description: () => description14,
-        run: () => run12,
-        runPre: () => runPre11,
-        teardown: () => teardown7,
+        description: () => description16,
+        run: () => run14,
+        runPre: () => runPre13,
+        teardown: () => teardown8,
     });
-    function teardown7(previousUrl) {
+    function teardown8(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document
-            .querySelectorAll(".npm-userscript-types-label")
+            .querySelectorAll(".npm-userscript-binary-label")
             .forEach((el) => el.remove());
     }
-    function runPre11() {
+    function runPre13() {
         addPackageLabelStyle();
     }
-    async function run12() {
+    async function run14() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-binary-label")) return;
         const packageJson = await fetchPackageJson();
         if (!packageJson) return;
-        if (publishesNativeBinaries(packageJson)) {
-            const label = addPackageLabel("show-binary-label", "Has binaries");
+        if (!badgeVisibility.binary.get()) return;
+        if (publishesNativeBinaries2(packageJson)) {
+            const label = addPackageLabel(
+                "show-binary-label",
+                "Has binaries",
+                "info",
+                "span",
+                "binary"
+            );
             label.classList.add("npm-userscript-binary-label");
             label.title =
                 "This package publishes prebuilt native binaries via optional dependencies";
@@ -5408,13 +6673,16 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         if (nativeInfo) {
             const label = addPackageLabel(
                 "show-binary-label",
-                `${nativeInfo} binary`
+                `${nativeInfo} binary`,
+                "info",
+                "span",
+                "binary"
             );
             label.classList.add("npm-userscript-binary-label");
             label.title = `This package publishes prebuilt native binary for ${nativeInfo}`;
         }
     }
-    function publishesNativeBinaries(packageJson) {
+    function publishesNativeBinaries2(packageJson) {
         const optionalDependencies = Object.keys(
             packageJson.optionalDependencies || {}
         );
@@ -5441,13 +6709,14 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         }
         return str;
     }
-    var description14, popularOs, popularArch;
+    var description16, popularOs, popularArch;
     var init_show_binary_label = __esm({
         "src/features/show-binary-label.ts"() {
             init_utils_fetch();
+            init_enhancement_settings();
             init_utils_ui();
             init_utils();
-            description14 = `Adds a label for packages that publish prebuilt native binaries.
+            description16 = `Adds a label for packages that publish prebuilt native binaries.
 `;
             popularOs = [
                 "linux",
@@ -5465,19 +6734,19 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
     // src/features/show-cli-label-and-command.ts
     var show_cli_label_and_command_exports = {};
     __export(show_cli_label_and_command_exports, {
-        description: () => description15,
-        run: () => run13,
-        runPre: () => runPre12,
-        teardown: () => teardown8,
+        description: () => description17,
+        run: () => run15,
+        runPre: () => runPre14,
+        teardown: () => teardown9,
     });
-    function teardown8(previousUrl) {
+    function teardown9(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document.querySelector(".npm-userscript-cli-label")?.remove();
     }
-    function runPre12() {
+    function runPre14() {
         addPackageLabelStyle();
     }
-    async function run13() {
+    async function run15() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-cli-label")) return;
         const packageName = getPackageName();
@@ -5490,9 +6759,17 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
             packageName.startsWith("create-") ||
             /^@.+\/create-/.test(packageName)
         ) {
-            const label2 = addPackageLabel("show-cli-label-and-command", "CLI");
-            label2.classList.add("npm-userscript-cli-label");
-            label2.title = "This package is a template CLI";
+            if (badgeVisibility.cli.get()) {
+                const label = addPackageLabel(
+                    "show-cli-label-and-command",
+                    "CLI",
+                    "info",
+                    "span",
+                    "cli"
+                );
+                label.classList.add("npm-userscript-cli-label");
+                label.title = "This package is a template CLI";
+            }
             const atVersion = isLatest ? "@latest" : `@${packageVersion}`;
             updateCodeBlock(
                 `npm create ${packageName.slice("create-".length)}${atVersion}`
@@ -5503,9 +6780,17 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         if (!packageJson) return;
         const binNames = getBinNames(packageJson.bin, packageName);
         if (binNames.length === 0) return;
-        const label = addPackageLabel("show-cli-label-and-command", "CLI");
-        label.classList.add("npm-userscript-cli-label");
-        label.title = `This package publishes the ${binNames.map((n2) => `"${n2}"`).join(", ")} command`;
+        if (badgeVisibility.cli.get()) {
+            const label = addPackageLabel(
+                "show-cli-label-and-command",
+                "CLI",
+                "info",
+                "span",
+                "cli"
+            );
+            label.classList.add("npm-userscript-cli-label");
+            label.title = `This package publishes the ${binNames.map((n2) => `"${n2}"`).join(", ")} command`;
+        }
         if (
             !packageJson.main &&
             !packageJson.exports &&
@@ -5536,14 +6821,15 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         if (!codeBlock) return;
         codeBlock.textContent = command;
     }
-    var description15;
+    var description17;
     var init_show_cli_label_and_command = __esm({
         "src/features/show-cli-label-and-command.ts"() {
             init_utils_fetch();
+            init_enhancement_settings();
             init_utils_npm_context();
             init_utils_ui();
             init_utils();
-            description15 = `Adds a label if the package publishes a CLI via the package.json "bin" field, and update the install
+            description17 = `Adds a label if the package publishes a CLI via the package.json "bin" field, and update the install
 command to "npm create" or "npx" accordingly.
 `;
         },
@@ -5552,41 +6838,45 @@ command to "npm create" or "npx" accordingly.
     // src/features/show-engine-label.ts
     var show_engine_label_exports = {};
     __export(show_engine_label_exports, {
-        description: () => description16,
-        run: () => run14,
-        runPre: () => runPre13,
-        teardown: () => teardown9,
+        description: () => description18,
+        run: () => run16,
+        runPre: () => runPre15,
+        teardown: () => teardown10,
     });
-    function teardown9(previousUrl) {
+    function teardown10(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document.querySelector(".npm-userscript-engine-label")?.remove();
     }
-    function runPre13() {
+    function runPre15() {
         addPackageLabelStyle();
     }
-    async function run14() {
+    async function run16() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-engine-label")) return;
         const packageJson = await fetchPackageJson();
         if (!packageJson) return;
         const engines = packageJson.engines;
         if (!engines || Object.keys(engines).length === 0) return;
-        if (engines.node) {
+        if (engines.node && badgeVisibility.node.get()) {
             const label = addPackageLabel(
                 "show-engine-label",
-                `Node.js ${engines.node}`
+                `Node.js ${engines.node}`,
+                "info",
+                "span",
+                "node"
             );
             label.classList.add("npm-userscript-engine-label");
             label.title = `This package requires Node.js ${engines.node}`;
         }
     }
-    var description16;
+    var description18;
     var init_show_engine_label = __esm({
         "src/features/show-engine-label.ts"() {
             init_utils_fetch();
+            init_enhancement_settings();
             init_utils_ui();
             init_utils();
-            description16 = `Adds a label of the engine versions (e.g. Node.js) that a package supports.
+            description18 = `Adds a label of the engine versions (e.g. Node.js) that a package supports.
 `;
         },
     });
@@ -5594,21 +6884,21 @@ command to "npm create" or "npx" accordingly.
     // src/features/show-file-types-label.ts
     var show_file_types_label_exports = {};
     __export(show_file_types_label_exports, {
-        description: () => description17,
-        run: () => run15,
-        runPre: () => runPre14,
-        teardown: () => teardown10,
+        description: () => description19,
+        run: () => run17,
+        runPre: () => runPre16,
+        teardown: () => teardown11,
     });
-    function teardown10(previousUrl) {
+    function teardown11(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document
             .querySelectorAll(".npm-userscript-file-types-label")
             .forEach((el) => el.remove());
     }
-    function runPre14() {
+    function runPre16() {
         addPackageLabelStyle();
     }
-    async function run15() {
+    async function run17() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-file-types-label")) return;
         const data = await fetchPackageFilesData();
@@ -5621,13 +6911,25 @@ command to "npm create" or "npx" accordingly.
             data.files,
             packageJson
         );
-        if (fileTypes.hasEsm) {
-            const label = addPackageLabel("show-file-types-label", "ESM");
+        if (fileTypes.hasEsm && badgeVisibility.esm.get()) {
+            const label = addPackageLabel(
+                "show-file-types-label",
+                "ESM",
+                "info",
+                "span",
+                "esm"
+            );
             label.classList.add("npm-userscript-file-types-label");
             label.title = "This package publishes ECMAScript Modules (ESM)";
         }
-        if (fileTypes.hasCjs) {
-            const label = addPackageLabel("show-file-types-label", "CJS");
+        if (fileTypes.hasCjs && badgeVisibility.cjs.get()) {
+            const label = addPackageLabel(
+                "show-file-types-label",
+                "CJS",
+                "info",
+                "span",
+                "cjs"
+            );
             label.classList.add("npm-userscript-file-types-label");
             label.title = "This package publishes CommonJS modules (CJS)";
         }
@@ -5673,13 +6975,14 @@ command to "npm create" or "npx" accordingly.
             }
         }
     }
-    var description17;
+    var description19;
     var init_show_file_types_label = __esm({
         "src/features/show-file-types-label.ts"() {
             init_utils_fetch();
+            init_enhancement_settings();
             init_utils_ui();
             init_utils();
-            description17 = `Show ESM or CJS labels if the package publishes them.
+            description19 = `Show ESM or CJS labels if the package publishes them.
 `;
         },
     });
@@ -5687,26 +6990,27 @@ command to "npm create" or "npx" accordingly.
     // src/features/show-lifecycle-scripts-label.ts
     var show_lifecycle_scripts_label_exports = {};
     __export(show_lifecycle_scripts_label_exports, {
-        description: () => description18,
-        run: () => run16,
-        runPre: () => runPre15,
-        teardown: () => teardown11,
+        description: () => description20,
+        run: () => run18,
+        runPre: () => runPre17,
+        teardown: () => teardown12,
     });
-    function teardown11(previousUrl) {
+    function teardown12(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document
             .querySelector(".npm-userscript-lifecycle-scripts-label")
             ?.remove();
     }
-    function runPre15() {
+    function runPre17() {
         addPackageLabelStyle();
     }
-    async function run16() {
+    async function run18() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-lifecycle-scripts-label"))
             return;
         const packageJson = await fetchPackageJson();
         if (!packageJson) return;
+        if (!badgeVisibility.lifecycle.get()) return;
         const scriptNames = Object.keys(packageJson.scripts || {});
         const matchedScripts = LIFECYCLE_SCRIPTS.filter((script) =>
             scriptNames.includes(script)
@@ -5715,18 +7019,21 @@ command to "npm create" or "npx" accordingly.
         const label = addPackageLabel(
             "show-lifecycle-scripts-label",
             `Runs script on install`,
-            "warning"
+            "warning",
+            "span",
+            "lifecycle"
         );
         label.classList.add("npm-userscript-lifecycle-scripts-label");
         label.title = `This package defines lifecycle scripts that run on install: ${matchedScripts.map((s2) => `"${s2}"`).join(", ")}`;
     }
-    var description18, LIFECYCLE_SCRIPTS;
+    var description20, LIFECYCLE_SCRIPTS;
     var init_show_lifecycle_scripts_label = __esm({
         "src/features/show-lifecycle-scripts-label.ts"() {
             init_utils_fetch();
+            init_enhancement_settings();
             init_utils_ui();
             init_utils();
-            description18 = `Adds a label if the package defines lifecycle scripts in its package.json.
+            description20 = `Adds a label if the package defines lifecycle scripts in its package.json.
 `;
             LIFECYCLE_SCRIPTS = [
                 "postinstall",
@@ -5739,16 +7046,16 @@ command to "npm create" or "npx" accordingly.
     // src/features/show-types-label.ts
     var show_types_label_exports = {};
     __export(show_types_label_exports, {
-        description: () => description19,
-        run: () => run17,
-        runPre: () => runPre16,
-        teardown: () => teardown12,
+        description: () => description21,
+        run: () => run19,
+        runPre: () => runPre18,
+        teardown: () => teardown13,
     });
-    function teardown12(previousUrl) {
+    function teardown13(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document.querySelector(".npm-userscript-types-label")?.remove();
     }
-    function runPre16() {
+    function runPre18() {
         addPackageLabelStyle();
         addStyle(`
     h1 > div[data-nosnippet="true"] {
@@ -5756,7 +7063,7 @@ command to "npm create" or "npx" accordingly.
     }
   `);
     }
-    async function run17() {
+    async function run19() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-types-label")) return;
         const packageName = getPackageName();
@@ -5804,15 +7111,33 @@ command to "npm create" or "npx" accordingly.
         }
         let label;
         if (typesInfo.type === "none") {
-            label = addPackageLabel("show-types-label", "Untyped", "warning");
-            label.title = "This package does not publish TypeScript types";
-        } else if (typesInfo.type === "bundled") {
-            label = addPackageLabel("show-types-label", "DTS");
-            label.title = "This package publishes TypeScript types";
-        } else if (typesInfo.type === "package") {
+            if (!badgeVisibility.untyped.get()) return;
             label = addPackageLabel(
                 "show-types-label",
-                `DTS: <a href="https://www.npmjs.com/package/${typesInfo.packageName}">${typesInfo.packageName}</a>`
+                "Untyped",
+                "warning",
+                "span",
+                "untyped"
+            );
+            label.title = "This package does not publish TypeScript types";
+        } else if (typesInfo.type === "bundled") {
+            if (!badgeVisibility.dts.get()) return;
+            label = addPackageLabel(
+                "show-types-label",
+                "DTS",
+                "info",
+                "span",
+                "dts"
+            );
+            label.title = "This package publishes TypeScript types";
+        } else if (typesInfo.type === "package") {
+            if (!badgeVisibility.dts.get()) return;
+            label = addPackageLabel(
+                "show-types-label",
+                `DTS: <a href="https://www.npmjs.com/package/${typesInfo.packageName}">${typesInfo.packageName}</a>`,
+                "info",
+                "span",
+                "dts"
             );
             label.title = `This package relies on ${typesInfo.packageName} for TypeScript types`;
         } else {
@@ -5838,14 +7163,15 @@ command to "npm create" or "npx" accordingly.
         }
         return { type: "unknown" };
     }
-    var description19;
+    var description21;
     var init_show_types_label = __esm({
         "src/features/show-types-label.ts"() {
             init_utils_fetch();
+            init_enhancement_settings();
             init_utils_npm_context();
             init_utils_ui();
             init_utils();
-            description19 = `Adds a label for packages that publish TypeScript types. This is similar to npm's own DT / TS icon but
+            description21 = `Adds a label for packages that publish TypeScript types. This is similar to npm's own DT / TS icon but
 with a more consistent UI. It is also more accurate if the package publishes types but isn't detectable
 in the package.json.
 `;
@@ -16452,12 +17778,12 @@ in the package.json.
     // src/features/show-vulnerabilities.ts
     var show_vulnerabilities_exports = {};
     __export(show_vulnerabilities_exports, {
-        description: () => description20,
-        run: () => run18,
-        runPre: () => runPre17,
-        teardown: () => teardown13,
+        description: () => description22,
+        run: () => run20,
+        runPre: () => runPre19,
+        teardown: () => teardown14,
     });
-    function teardown13(previousUrl) {
+    function teardown14(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document.querySelector(".npm-userscript-vulnerability-label")?.remove();
         document
@@ -16467,7 +17793,7 @@ in the package.json.
             .querySelectorAll(".npm-userscript-vulnerability-popup")
             .forEach((el) => el.remove());
     }
-    function runPre17() {
+    function runPre19() {
         addPackageLabelStyle();
         addStyle(`
     .npm-userscript-vulnerability-tag {
@@ -16503,8 +17829,9 @@ in the package.json.
     }
   `);
     }
-    async function run18() {
+    async function run20() {
         if (!isValidPackagePage()) return;
+        if (!badgeVisibility.vulnerable.get()) return;
         if (
             document.querySelector(".npm-userscript-vulnerability-label") &&
             document.querySelector(".npm-userscript-vulnerability-tag")
@@ -16528,7 +17855,8 @@ in the package.json.
                     "show-vulnerabilities",
                     "VULNERABLE",
                     "error",
-                    "button"
+                    "button",
+                    "vulnerable"
                 );
                 label.classList.add("npm-userscript-vulnerability-label");
                 const popup = createPopup(vulnsForVersion, label);
@@ -16606,7 +17934,7 @@ in the package.json.
                 ?.url ||
             references[0]?.url;
         const link =
-            normalizeHttpUrl2(linkCandidate) ||
+            normalizeHttpUrl3(linkCandidate) ||
             `https://osv.dev/vulnerability/${encodeURIComponent(vulnerability.id)}`;
         return {
             id,
@@ -16679,7 +18007,7 @@ in the package.json.
         };
         return severityScores[severity] || 0;
     }
-    function normalizeHttpUrl2(value) {
+    function normalizeHttpUrl3(value) {
         if (typeof value !== "string") return void 0;
         try {
             const url = new URL(value);
@@ -16736,9 +18064,9 @@ in the package.json.
             onBeforeOpen() {
                 if (inited2) return;
                 inited2 = true;
-                const description24 = document.createElement("p");
-                description24.className = "mt1 mb2";
-                description24.textContent = "This version is vulnerable:";
+                const description26 = document.createElement("p");
+                description26.className = "mt1 mb2";
+                description26.textContent = "This version is vulnerable:";
                 const list = document.createElement("ul");
                 for (const vulnerability of vulns) {
                     const item = document.createElement("li");
@@ -16763,7 +18091,7 @@ in the package.json.
                     );
                     list.appendChild(item);
                 }
-                popup.replaceChildren(description24, list);
+                popup.replaceChildren(description26, list);
             },
         });
         return popup;
@@ -16842,7 +18170,7 @@ in the package.json.
         import_lt,
         import_lte,
         import_max_satisfying,
-        description20,
+        description22,
         warningSvg;
     var init_show_vulnerabilities = __esm({
         "src/features/show-vulnerabilities.ts"() {
@@ -16854,11 +18182,12 @@ in the package.json.
             import_lt = __toESM(require_lt(), 1);
             import_lte = __toESM(require_lte(), 1);
             import_max_satisfying = __toESM(require_max_satisfying(), 1);
+            init_enhancement_settings();
             init_utils_fetch();
             init_utils_npm_context();
             init_utils_ui();
             init_utils();
-            description20 = `Adds a label if a package is vulnerable in the header and versions table. The core vulnerability data
+            description22 = `Adds a label if a package is vulnerable in the header and versions table. The core vulnerability data
 is powered by https://osv.dev.
 `;
             warningSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>`;
@@ -16868,16 +18197,16 @@ is powered by https://osv.dev.
     // src/features/stars.ts
     var stars_exports = {};
     __export(stars_exports, {
-        description: () => description21,
-        run: () => run19,
-        runPre: () => runPre18,
-        teardown: () => teardown14,
+        description: () => description23,
+        run: () => run21,
+        runPre: () => runPre20,
+        teardown: () => teardown15,
     });
-    function teardown14(previousUrl) {
+    function teardown15(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document.querySelector(".npm-userscript-stars-column")?.remove();
     }
-    async function runPre18() {
+    async function runPre20() {
         if (!isValidPackagePage()) return;
         if ((await getFeatureSettings4())["repository-card"].get() === true)
             return;
@@ -16893,7 +18222,7 @@ is powered by https://osv.dev.
     }
   `);
     }
-    async function run19() {
+    async function run21() {
         if (!isValidPackagePage()) return;
         if ((await getFeatureSettings4())["repository-card"].get() === true)
             return;
@@ -16923,12 +18252,12 @@ is powered by https://osv.dev.
         );
         return settings.featureSettings;
     }
-    var description21;
+    var description23;
     var init_stars = __esm({
         "src/features/stars.ts"() {
             init_utils_fetch();
             init_utils();
-            description21 = `Display a "Stars" column in the package sidebar for GitHub repos.
+            description23 = `Display a "Stars" column in the package sidebar for GitHub repos.
 `;
         },
     });
@@ -16936,15 +18265,15 @@ is powered by https://osv.dev.
     // src/features/tarball-size.ts
     var tarball_size_exports = {};
     __export(tarball_size_exports, {
-        description: () => description22,
-        run: () => run20,
-        teardown: () => teardown15,
+        description: () => description24,
+        run: () => run22,
+        teardown: () => teardown16,
     });
-    function teardown15(previousUrl) {
+    function teardown16(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document.querySelector(".npm-userscript-tarball-size-column")?.remove();
     }
-    async function run20() {
+    async function run22() {
         if (!isValidPackagePage()) return;
         if (document.querySelector(".npm-userscript-tarball-size-column"))
             return;
@@ -16981,14 +18310,14 @@ is powered by https://osv.dev.
     function waitForColumnByName(name) {
         return new Promise((resolve) => {
             const timeout = window.setTimeout(() => {
-                observer.disconnect();
+                observer2.disconnect();
                 resolve(void 0);
             }, 5e3);
-            const observer = new MutationObserver(() => {
+            const observer2 = new MutationObserver(() => {
                 const column = getColumnByName(name);
                 if (!column) return;
                 window.clearTimeout(timeout);
-                observer.disconnect();
+                observer2.disconnect();
                 resolve(column);
             });
             const sidebar = document.querySelector(
@@ -16999,7 +18328,7 @@ is powered by https://osv.dev.
                 resolve(void 0);
                 return;
             }
-            observer.observe(sidebar, { childList: true, subtree: true });
+            observer2.observe(sidebar, { childList: true, subtree: true });
         });
     }
     function getColumnByName(name) {
@@ -17016,12 +18345,12 @@ is powered by https://osv.dev.
         );
         return settings.featureSettings;
     }
-    var description22;
+    var description24;
     var init_tarball_size = __esm({
         "src/features/tarball-size.ts"() {
             init_utils_fetch();
             init_utils();
-            description22 = `Display the tarball size of the package.
+            description24 = `Display the tarball size of the package.
 `;
         },
     });
@@ -17029,18 +18358,18 @@ is powered by https://osv.dev.
     // src/features/unpacked-size-and-total-files.ts
     var unpacked_size_and_total_files_exports = {};
     __export(unpacked_size_and_total_files_exports, {
-        description: () => description23,
-        run: () => run21,
-        teardown: () => teardown16,
+        description: () => description25,
+        run: () => run23,
+        teardown: () => teardown17,
     });
-    function teardown16(previousUrl) {
+    function teardown17(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document
             .querySelector(".npm-userscript-unpacked-size-column")
             ?.remove();
         document.querySelector(".npm-userscript-total-files-column")?.remove();
     }
-    async function run21() {
+    async function run23() {
         if (!isValidPackagePage()) return;
         if (
             document.querySelector(".npm-userscript-unpacked-size-column") ||
@@ -17092,12 +18421,12 @@ is powered by https://osv.dev.
             );
         }
     }
-    var description23;
+    var description25;
     var init_unpacked_size_and_total_files = __esm({
         "src/features/unpacked-size-and-total-files.ts"() {
             init_utils_fetch();
             init_utils();
-            description23 = `Display the "Unpacked Size" and "Total Files" columns for older packages that lack the data.
+            description25 = `Display the "Unpacked Size" and "Total Files" columns for older packages that lack the data.
 `;
         },
     });
@@ -17108,6 +18437,7 @@ is powered by https://osv.dev.
         "src/all-features.ts"() {
             init_better_dependencies();
             init_better_versions();
+            init_compact_navigation();
             init_fix_highlight_styles();
             init_fix_issue_pr_count();
             init_fix_styles();
@@ -17119,6 +18449,7 @@ is powered by https://osv.dev.
             init_remove_redundant_homepage();
             init_repository_card();
             init_repository_directory();
+            init_search_results();
             init_show_binary_label();
             init_show_cli_label_and_command();
             init_show_engine_label();
@@ -17132,6 +18463,7 @@ is powered by https://osv.dev.
             allFeatures = {
                 "better-dependencies": better_dependencies_exports,
                 "better-versions": better_versions_exports,
+                "compact-navigation": compact_navigation_exports,
                 "fix-highlight-styles": fix_highlight_styles_exports,
                 "fix-issue-pr-count": fix_issue_pr_count_exports,
                 "fix-styles": fix_styles_exports,
@@ -17143,6 +18475,7 @@ is powered by https://osv.dev.
                 "remove-redundant-homepage": remove_redundant_homepage_exports,
                 "repository-card": repository_card_exports,
                 "repository-directory": repository_directory_exports,
+                "search-results": search_results_exports,
                 "show-binary-label": show_binary_label_exports,
                 "show-cli-label": show_cli_label_and_command_exports,
                 "show-engine-label": show_engine_label_exports,
@@ -17202,14 +18535,14 @@ is powered by https://osv.dev.
         }
         await new Promise((resolve, reject) => {
             const timeout = window.setTimeout(() => {
-                observer.disconnect();
+                observer2.disconnect();
                 reject(
                     new Error(
                         "[npm-userscript] npm package page took too long to render"
                     )
                 );
             }, 1e4);
-            const observer = new MutationObserver(() => {
+            const observer2 = new MutationObserver(() => {
                 if (
                     document.querySelector("main h1") &&
                     document.querySelector(
@@ -17217,11 +18550,11 @@ is powered by https://osv.dev.
                     )
                 ) {
                     window.clearTimeout(timeout);
-                    observer.disconnect();
+                    observer2.disconnect();
                     resolve();
                 }
             });
-            observer.observe(document.documentElement, {
+            observer2.observe(document.documentElement, {
                 childList: true,
                 subtree: true,
             });
@@ -17244,8 +18577,8 @@ is powered by https://osv.dev.
     }
     function listenNavigate(listener) {
         if (onNavigateListeners.length === 0) {
-            const observer = new MutationObserver(queueNavigationCheck);
-            observer.observe(document.documentElement, {
+            const observer2 = new MutationObserver(queueNavigationCheck);
+            observer2.observe(document.documentElement, {
                 childList: true,
                 subtree: true,
             });
