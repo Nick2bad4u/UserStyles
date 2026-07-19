@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - Related Package Links
 // @namespace    nick2bad4u.github.io
-// @version      1.4.0
+// @version      1.4.1
 // @description  Adds a configurable menu of useful package pages, security reports, size tools, trends, and CDNs.
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -76,8 +76,8 @@
             description: "Supply-chain security analysis",
             homepage: "https://socket.dev/",
             iconFallback: "SO",
-            buildUrl: ({ packagePath }) =>
-                `https://socket.dev/npm/package/${packagePath}`,
+            buildUrl: ({ packageName }) =>
+                `https://socket.dev/npm/package/${packageName}`,
         },
         {
             id: "snyk-advisor",
@@ -250,8 +250,9 @@
         },
         {
             id: "bundleinfo",
-            category: "Size and bundling",
+            category: "Manual and search tools",
             label: "bundleinfo",
+            iconUrl: "https://bundleinfo.com/favicon.svg",
             description: "Install, gzip, exports, and dependency size details",
             homepage: "https://bundleinfo.com/",
             iconFallback: "BI",
@@ -262,6 +263,7 @@
             id: "bundlecheck",
             category: "Size and bundling",
             label: "BundleCheck",
+            iconUrl: "https://bundlecheck.dev/logo.png",
             description: "Raw, minified, gzip, and Brotli bundle sizes",
             homepage: "https://bundlecheck.dev/",
             iconFallback: "BC",
@@ -381,8 +383,8 @@
             description: "Package files, CDN usage, and statistics",
             homepage: "https://www.jsdelivr.com/",
             iconFallback: "JD",
-            buildUrl: ({ packagePath }) =>
-                `https://www.jsdelivr.com/package/npm/${packagePath}`,
+            buildUrl: ({ packageName }) =>
+                `https://www.jsdelivr.com/package/npm/${packageName}`,
         },
         {
             id: "esm-sh",
@@ -401,8 +403,8 @@
             description: "jsDelivr-backed ES module endpoint",
             homepage: "https://esm.run/",
             iconFallback: "ER",
-            buildUrl: ({ packageVersionPath }) =>
-                `https://esm.run/${packageVersionPath}`,
+            buildUrl: ({ packageVersionRaw }) =>
+                `https://esm.run/${packageVersionRaw}`,
         },
         {
             id: "skypack",
