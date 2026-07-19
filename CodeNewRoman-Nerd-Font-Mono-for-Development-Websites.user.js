@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CodeNewRoman Nerd Font Mono for Development Websites
 // @namespace    nick2bad4u.github.io
-// @version      1.3.0
+// @version      1.3.1
 // @description  Adds configurable code fonts to popular development websites, defaulting to CodeNewRoman Nerd Font Mono with a local-first WOFF2 fallback.
 // @author       Nick2bad4u (based on Arylo's Fira Code userscript)
 // @license      UnLicense
@@ -11,6 +11,7 @@
 // @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/CodeNewRoman-Nerd-Font-Mono-for-Development-Websites.user.js
 // @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/CodeNewRoman-Nerd-Font-Mono-for-Development-Websites.user.js
 // @source       https://greasyfork.org/scripts/519936
+// @icon         https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/assets/codenewroman-nerd-font-mono-icon.png
 // @match        https://*.webpack.js.org/*
 // @match        https://*.rollupjs.org/*
 // @match        https://*.jestjs.io/*
