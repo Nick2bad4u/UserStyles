@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.1.3
+// @version      1.2.0
 // @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
@@ -21,38 +21,61 @@
 (function () {
     "use strict";
 
+    // Display options. Nerd Font icons use locally installed Nerd Font families.
+    // Turn either row option off for a simpler command-only layout.
+    const DISPLAY_OPTIONS = {
+        showInstallHeaderIcon: true,
+        showListHeading: true,
+        showCommandIcons: true,
+        showCommandLabels: true,
+    };
+
     // Add, remove, disable, or reorder buttons here.
     // Available tokens: {{package}}, {{version}}, {{packageSpec}}, and
-    // {{typesPackage}}. Set enabled to false to hide a button. Commands with
-    // requiresTypes only appear when npm links a separate @types package.
+    // {{typesPackage}}. Set enabled to false to hide a button. The optional
+    // manager and icon values control each button's accent and Nerd Font icon.
+    // Commands with requiresTypes only appear when npm links a separate @types
+    // package.
     const COMMAND_BUTTONS = [
         {
             label: "NPM dependency",
+            manager: "npm",
+            icon: "",
             template: "npm install {{packageSpec}}",
             enabled: false, // Disabled by default because the original "Copy install command line" button already provides this command.
         },
         {
             label: "NPM dev dependency",
+            manager: "npm",
+            icon: "",
             template: "npm i --save-dev {{packageSpec}}",
             enabled: true,
         },
         {
             label: "NPM global dependency",
+            manager: "npm",
+            icon: "",
             template: "npm i -g {{packageSpec}}",
             enabled: false, // Disabled by default because global installs are less common.
         },
         {
             label: "NPM @types dev dependency",
+            manager: "npm",
+            icon: "",
             template: "npm install --save-dev {{typesPackage}}",
             requiresTypes: true,
         },
         {
             label: "Yarn dependency",
+            manager: "yarn",
+            icon: "",
             template: "yarn add {{packageSpec}}",
             enabled: true,
         },
         {
             label: "Yarn package and types dependencies",
+            manager: "yarn",
+            icon: "",
             template:
                 "yarn add {{packageSpec}} && yarn add --dev {{typesPackage}}",
             requiresTypes: true,
@@ -60,36 +83,50 @@
         },
         {
             label: "PNPM dependency",
+            manager: "pnpm",
+            icon: "",
             template: "pnpm add {{packageSpec}}",
             enabled: true,
         },
         {
             label: "Bun dependency",
+            manager: "bun",
+            icon: "",
             template: "bun add {{packageSpec}}",
             enabled: true,
         },
         {
             label: "Deno dependency",
+            manager: "deno",
+            icon: "",
             template: "deno add npm:{{packageSpec}}",
             enabled: true,
         },
         {
             label: "vlt dependency",
+            manager: "vlt",
+            icon: "",
             template: "vlt install {{packageSpec}}",
             enabled: false, // Disabled by default because vlt is less common.
         },
         {
             label: "Aube dependency",
+            manager: "aube",
+            icon: "",
             template: "aube add {{packageSpec}}",
             enabled: false, // Disabled by default because Aube is less common.
         },
         {
             label: "Nub dependency",
+            manager: "nub",
+            icon: "",
             template: "nub add {{packageSpec}}",
             enabled: false, // Disabled by default because Nub is less common.
         },
         {
             label: "CNPM dependency",
+            manager: "cnpm",
+            icon: "",
             template: "cnpm install {{packageSpec}}",
             enabled: false, // Disabled by default because CNPM is less common.
         },
@@ -132,63 +169,175 @@
         style.textContent = `
             .mib-list {
                 display: grid;
-                gap: 0.5rem;
-                margin: -0.35rem 0 1.5rem;
+                gap: 0.625rem;
+                margin: 0.75rem 0 1.5rem;
+                min-width: 0;
+            }
+
+            .mib-install-heading {
+                align-items: center;
+                display: flex;
+                gap: 0.45rem;
+            }
+
+            .mib-install-heading-icon,
+            .mib-list-heading-icon,
+            .mib-command-icon {
+                font-family: "Symbols Nerd Font Mono", "Symbols Nerd Font", "CaskaydiaCove Nerd Font", "CaskaydiaMono Nerd Font", "JetBrainsMono Nerd Font", monospace;
+                font-style: normal;
+                font-variant: normal;
+                line-height: 1;
+                text-rendering: auto;
+            }
+
+            .mib-install-heading-icon {
+                color: var(--color-fg-brand, #cb3837);
+                font-size: 1.05em;
+            }
+
+            .mib-list-heading {
+                align-items: center;
+                color: var(--color-fg-muted, #666);
+                display: flex;
+                font-size: 0.72rem;
+                font-weight: 700;
+                gap: 0.4rem;
+                letter-spacing: 0.055em;
+                margin: 0 0 0.05rem;
+                text-transform: uppercase;
+            }
+
+            .mib-list-heading::after {
+                background: linear-gradient(90deg, var(--color-border-default, #d8d8d8), transparent);
+                content: "";
+                flex: 1 1 auto;
+                height: 1px;
+                margin-left: 0.15rem;
+            }
+
+            .mib-list-heading-icon {
+                color: var(--color-fg-brand, #cb3837);
+                font-size: 0.95rem;
+            }
+
+            .mib-list-heading-count {
+                border: 1px solid var(--color-border-default, #d8d8d8);
+                border-radius: 999px;
+                font-size: 0.62rem;
+                letter-spacing: 0;
+                padding: 0.1rem 0.35rem;
             }
 
             .mib-command {
+                --mib-accent: var(--color-fg-brand, #cb3837);
                 align-items: center;
-                background: transparent;
+                background: linear-gradient(105deg, color-mix(in srgb, var(--mib-accent) 7%, transparent), transparent 38%);
                 border: 1px solid var(--color-border-default, #dfdfdf);
-                border-radius: 5px;
+                border-left: 3px solid var(--mib-accent);
+                border-radius: 7px;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.035);
                 color: var(--color-fg-default, #111);
                 cursor: pointer;
-                display: flex;
-                font-family: Consolas, monaco, monospace;
-                font-size: .875rem;
-                height: 46px;
-                line-height: var(--code-lh, 24px);
+                display: grid;
+                font-size: 0.875rem;
+                gap: 0.625rem;
+                grid-template-areas: "icon content status";
+                grid-template-columns: 2rem minmax(0, 1fr) 1.75rem;
+                min-height: 58px;
                 max-width: 100%;
                 min-width: 0;
                 overflow: hidden;
-                padding: 10px 10px 10px 34px;
+                padding: 0.5rem 0.625rem;
                 position: relative;
                 text-align: left;
-                transition: border-color 120ms ease, background-color 120ms ease;
-                white-space: nowrap;
+                transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
                 width: 100%;
             }
 
-            .mib-command::before {
-                color: var(--color-fg-muted, #777);
-                content: "›";
-                font-size: 16px;
-                font-weight: 700;
-                left: 16px;
-                line-height: 1;
-                position: absolute;
-                top: 50%;
-                transform: translateY(-52%);
+            .mib-command[data-manager="yarn"] {
+                --mib-accent: #2c8ebb;
+            }
+
+            .mib-command[data-manager="pnpm"] {
+                --mib-accent: #d88c00;
+            }
+
+            .mib-command[data-manager="bun"] {
+                --mib-accent: #9b6c4f;
+            }
+
+            .mib-command[data-manager="deno"] {
+                --mib-accent: #5b9279;
+            }
+
+            .mib-command[data-manager="vlt"] {
+                --mib-accent: #6f5bd3;
+            }
+
+            .mib-command[data-manager="aube"],
+            .mib-command[data-manager="nub"],
+            .mib-command[data-manager="cnpm"] {
+                --mib-accent: #737373;
             }
 
             .mib-command:hover {
-                background: var(--color-bg-subtle, rgba(0, 0, 0, 0.03));
-                border-color: var(--color-border-strong, #999);
+                border-color: color-mix(in srgb, var(--mib-accent) 70%, var(--color-border-default, #999));
+                box-shadow: 0 5px 16px color-mix(in srgb, var(--mib-accent) 14%, transparent);
+                transform: translateY(-1px);
             }
 
             .mib-command:focus-visible {
-                outline: 2px solid var(--color-fg-brand, #cb3837);
+                outline: 2px solid var(--mib-accent);
                 outline-offset: 2px;
             }
 
+            .mib-command:active {
+                box-shadow: 0 1px 3px color-mix(in srgb, var(--mib-accent) 12%, transparent);
+                transform: translateY(0);
+            }
+
+            .mib-command-icon {
+                align-items: center;
+                background: color-mix(in srgb, var(--mib-accent) 13%, transparent);
+                border: 1px solid color-mix(in srgb, var(--mib-accent) 25%, transparent);
+                border-radius: 6px;
+                color: var(--mib-accent);
+                display: flex;
+                font-size: 1.05rem;
+                grid-area: icon;
+                height: 2rem;
+                justify-content: center;
+                width: 2rem;
+            }
+
+            .mib-command-content {
+                align-self: center;
+                display: grid;
+                gap: 0.12rem;
+                grid-area: content;
+                min-width: 0;
+            }
+
+            .mib-command-label {
+                color: var(--mib-accent);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                font-size: 0.66rem;
+                font-weight: 750;
+                letter-spacing: 0.035em;
+                line-height: 1.2;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+
             .mib-command code {
-                flex: 1 1 auto;
-                font: inherit;
-                height: 24px;
-                line-height: 24px;
+                font-family: Consolas, monaco, monospace;
+                font-size: 0.82rem;
+                line-height: 1.35;
                 min-width: 0;
                 overflow: hidden;
-                padding: 0 35px 0 0;
+                padding: 0;
                 text-align: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -198,14 +347,13 @@
                 align-items: center;
                 color: #808080;
                 display: flex;
-                height: 22px;
+                grid-area: status;
+                height: 1.75rem;
                 justify-content: center;
-                padding: 1px 6px;
-                position: absolute;
-                right: 10px;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 28px;
+                padding: 0;
+                position: relative;
+                transition: color 120ms ease, transform 120ms ease;
+                width: 1.75rem;
             }
 
             .mib-copy-icon {
@@ -218,6 +366,14 @@
                 stroke-width: 1.5;
                 transition: color 120ms ease, transform 120ms ease;
                 width: 13px;
+            }
+
+            .mib-status::after {
+                display: none;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                font-size: 1rem;
+                font-weight: 800;
+                line-height: 1;
             }
 
             .mib-status-text {
@@ -238,11 +394,47 @@
             }
 
             .mib-command[data-copy-state="copied"] .mib-copy-icon {
-                transform: scale(1.15);
+                display: none;
+            }
+
+            .mib-command[data-copy-state="copied"] .mib-status::after {
+                content: "✓";
+                display: block;
             }
 
             .mib-command[data-copy-state="failed"] .mib-status {
                 color: var(--color-fg-danger, #cb3837);
+            }
+
+            .mib-command[data-copy-state="failed"] .mib-copy-icon {
+                display: none;
+            }
+
+            .mib-command[data-copy-state="failed"] .mib-status::after {
+                content: "×";
+                display: block;
+            }
+
+            .mib-list[data-show-icons="false"] .mib-command {
+                grid-template-areas: "content status";
+                grid-template-columns: minmax(0, 1fr) 1.75rem;
+            }
+
+            .mib-list[data-show-icons="false"] .mib-command-icon,
+            .mib-list[data-show-labels="false"] .mib-command-label {
+                display: none;
+            }
+
+            .mib-list[data-show-labels="false"] .mib-command-content {
+                gap: 0;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .mib-command,
+                .mib-copy-icon,
+                .mib-status {
+                    transition: none;
+                }
             }
         `;
         (document.head || document.documentElement).append(style);
@@ -293,8 +485,34 @@
 
     function findHeading(root, text) {
         return Array.from(root.querySelectorAll("h3")).find(
-            (heading) => heading.textContent?.trim() === text
+            (heading) =>
+                heading.dataset.mibHeading === text ||
+                heading.textContent?.trim() === text
         );
+    }
+
+    function updateInstallHeading(installHeading) {
+        installHeading.dataset.mibHeading = "Install";
+        installHeading.classList.toggle(
+            "mib-install-heading",
+            DISPLAY_OPTIONS.showInstallHeaderIcon
+        );
+
+        const existingIcon = installHeading.querySelector(
+            ".mib-install-heading-icon"
+        );
+        if (!DISPLAY_OPTIONS.showInstallHeaderIcon) {
+            existingIcon?.remove();
+            return;
+        }
+
+        if (existingIcon) return;
+
+        const installHeadingIcon = document.createElement("span");
+        installHeadingIcon.className = "mib-install-heading-icon";
+        installHeadingIcon.setAttribute("aria-hidden", "true");
+        installHeadingIcon.textContent = "󰏗";
+        installHeading.prepend(installHeadingIcon);
     }
 
     function getPackageDetails(sidebar) {
@@ -340,6 +558,14 @@
                 (!button.requiresTypes || hasSeparateTypes)
         ).map((button) => ({
             label: button.label.trim(),
+            manager:
+                typeof button.manager === "string" && button.manager.trim()
+                    ? button.manager.trim().toLowerCase()
+                    : "other",
+            icon:
+                typeof button.icon === "string" && button.icon.trim()
+                    ? button.icon.trim()
+                    : "󰏗",
             text: fillCommandTemplate(button.template, details).trim(),
         }));
     }
@@ -412,15 +638,29 @@
         return icon;
     }
 
-    function createCommandButton({ label, text }) {
+    function createCommandButton({ icon, label, manager, text }) {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "mib-command";
+        button.dataset.manager = manager;
         button.title = `${label}: click to copy`;
         button.setAttribute("aria-label", `Copy ${label}: ${text}`);
 
+        const commandIcon = document.createElement("span");
+        commandIcon.className = "mib-command-icon";
+        commandIcon.setAttribute("aria-hidden", "true");
+        commandIcon.textContent = icon;
+
+        const content = document.createElement("span");
+        content.className = "mib-command-content";
+
+        const commandLabel = document.createElement("span");
+        commandLabel.className = "mib-command-label";
+        commandLabel.textContent = label;
+
         const code = document.createElement("code");
         code.textContent = text;
+        content.append(commandLabel, code);
 
         const status = document.createElement("span");
         status.className = "mib-status";
@@ -431,7 +671,7 @@
         statusText.textContent = "Copy";
         status.append(createCopyIcon(), statusText);
 
-        button.append(code, status);
+        button.append(commandIcon, content, status);
         button.addEventListener("click", () => {
             copyText(text).then(
                 (copied) => {
@@ -470,6 +710,7 @@
             details.typesPackageName,
         ].join("|");
         const existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
+        updateInstallHeading(installHeading);
         if (existingList?.dataset.pageKey === pageKey) return;
         existingList?.remove();
 
@@ -478,10 +719,37 @@
         const list = document.createElement("div");
         list.className = "mib-list";
         list.dataset.pageKey = pageKey;
+        list.dataset.showIcons = String(DISPLAY_OPTIONS.showCommandIcons);
+        list.dataset.showLabels = String(DISPLAY_OPTIONS.showCommandLabels);
         list.setAttribute(LIST_ATTRIBUTE, "");
         list.setAttribute("aria-label", "Additional install commands");
 
-        for (const command of buildCommands(details)) {
+        const commands = buildCommands(details);
+        if (DISPLAY_OPTIONS.showListHeading && commands.length > 0) {
+            const listHeading = document.createElement("div");
+            listHeading.className = "mib-list-heading";
+            listHeading.setAttribute("aria-hidden", "true");
+
+            const listHeadingIcon = document.createElement("span");
+            listHeadingIcon.className = "mib-list-heading-icon";
+            listHeadingIcon.textContent = "";
+
+            const listHeadingText = document.createElement("span");
+            listHeadingText.textContent = "More commands";
+
+            const listHeadingCount = document.createElement("span");
+            listHeadingCount.className = "mib-list-heading-count";
+            listHeadingCount.textContent = String(commands.length);
+
+            listHeading.append(
+                listHeadingIcon,
+                listHeadingText,
+                listHeadingCount
+            );
+            list.append(listHeading);
+        }
+
+        for (const command of commands) {
             list.append(createCommandButton(command));
         }
 
