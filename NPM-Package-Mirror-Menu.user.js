@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - Related Package Links
 // @namespace    nick2bad4u.github.io
-// @version      1.2.0
+// @version      1.3.0
 // @description  Adds a configurable menu of useful package pages, security reports, size tools, trends, and CDNs.
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -13,9 +13,47 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=npmjs.com
 // @match        https://*.npmjs.com/package/*
 // @run-at       document-idle
+// @connect      app.unpkg.com
+// @connect      arethetypeswrong.github.io
+// @connect      avatars.githubusercontent.com
+// @connect      bundlejs.com
+// @connect      bundlephobia.com
+// @connect      deps.dev
+// @connect      esm.sh
+// @connect      libraries.io
+// @connect      npm-alt.vercel.app
+// @connect      npm-compare.com
+// @connect      npm-stat.com
+// @connect      npm.anvaka.com
+// @connect      npm.io
+// @connect      npm.runkit.com
+// @connect      npmcharts.com
+// @connect      npmgraph.js.org
+// @connect      npmsearch.com
+// @connect      npmtrends.com
+// @connect      npkg.dev
+// @connect      npmdiff.dev
+// @connect      npmmirror.com
+// @connect      npms.io
+// @connect      npmx.dev
+// @connect      packagephobia.com
+// @connect      packages.ecosyste.ms
+// @connect      pkg-size.dev
+// @connect      publint.dev
+// @connect      security.snyk.io
+// @connect      socket.dev
+// @connect      topheman.github.io
+// @connect      unpkg.com
+// @connect      www.jsdelivr.com
+// @connect      www.packfolio.dev
+// @connect      www.paralect.com
+// @connect      www.skypack.dev
+// @connect      xnpmjs.com
+// @connect      yarnpkg.com
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
+// @grant        GM_xmlhttpRequest
 // @noframes
 // ==/UserScript==
 
@@ -48,6 +86,7 @@
             category: "Package quality and security",
             label: "deps.dev",
             description: "Dependencies, licenses, and advisories",
+            iconUrl: "https://deps.dev/static/favicon.ico",
             homepage: "https://deps.dev/",
             iconFallback: "DD",
             buildUrl: ({ encodedPackageName }) =>
@@ -57,6 +96,7 @@
             id: "publint",
             category: "Package quality and security",
             label: "publint",
+            iconUrl: "https://publint.dev/favicon.png",
             description: "Package publishing and exports checks",
             homepage: "https://publint.dev/",
             iconFallback: "PL",
@@ -67,6 +107,8 @@
             id: "are-the-types-wrong",
             category: "Package quality and security",
             label: "Are the Types Wrong?",
+            iconUrl:
+                "https://arethetypeswrong.github.io/icons/apple-touch-icon.png",
             description: "TypeScript declarations and module-resolution checks",
             homepage: "https://arethetypeswrong.github.io/",
             iconFallback: "AT",
@@ -108,6 +150,7 @@
             category: "Package pages",
             label: "Yarn",
             description: "Yarn package details",
+            iconUrl: "https://yarnpkg.com/img/yarn-favicon.svg",
             homepage: "https://yarnpkg.com/",
             iconFallback: "Y",
             buildUrl: ({ encodedPackageName }) =>
@@ -117,6 +160,7 @@
             id: "npm-io",
             category: "Package pages",
             label: "npm.io",
+            iconUrl: "https://npm.io/icon.svg",
             description: "Package summary and health",
             homepage: "https://npm.io/",
             iconFallback: "NI",
@@ -149,6 +193,7 @@
             category: "Size and bundling",
             label: "BundleJS",
             description: "Tree-shaken bundle size explorer",
+            iconUrl: "https://bundlejs.com/favicon/favicon.svg",
             homepage: "https://bundlejs.com/",
             iconFallback: "BJ",
             buildUrl: ({ encodedPackageSpec }) =>
@@ -159,6 +204,7 @@
             category: "Size and bundling",
             label: "pkg-size",
             description: "Package files and bundle size explorer",
+            iconUrl: "https://pkg-size.dev/favicon.svg",
             homepage: "https://pkg-size.dev/",
             iconFallback: "PS",
             buildUrl: ({ packageVersionPath }) =>
@@ -185,9 +231,21 @@
                 `https://npmtrends.com/${packagePath}`,
         },
         {
+            id: "npm-compare",
+            category: "Downloads and graphs",
+            label: "npm-compare.com",
+            description: "Package alternatives, downloads, and comparisons",
+            iconUrl: "https://npm-compare.com/img/favicon.png",
+            homepage: "https://npm-compare.com/",
+            iconFallback: "NC",
+            buildUrl: ({ packageName }) =>
+                `https://npm-compare.com/${packageName}`,
+        },
+        {
             id: "packfolio",
             category: "Downloads and graphs",
             label: "PackFolio",
+            iconUrl: "https://www.packfolio.dev/icon.svg",
             description: "Downloads, health, trends, and comparisons",
             homepage: "https://www.packfolio.dev/",
             iconFallback: "PF",
@@ -199,6 +257,7 @@
             category: "Downloads and graphs",
             label: "npmgraph",
             description: "Interactive dependency graph",
+            iconUrl: "https://npmgraph.js.org/favicon.png",
             homepage: "https://npmgraph.js.org/",
             iconFallback: "NG",
             buildUrl: ({ encodedPackageName }) =>
@@ -209,6 +268,7 @@
             category: "Downloads and graphs",
             label: "npm.anvaka.com",
             description: "Large interactive dependency graph",
+            iconUrl: "https://avatars.githubusercontent.com/u/225407?s=48&v=4",
             homepage: "https://npm.anvaka.com/",
             iconFallback: "NA",
             buildUrl: ({ encodedPackageName }) =>
@@ -238,6 +298,7 @@
             id: "unpkg",
             category: "Files and CDNs",
             label: "UNPKG",
+            iconUrl: "https://app.unpkg.com/favicon.jpg",
             description: "Versioned package file browser",
             homepage: "https://unpkg.com/",
             iconFallback: "UP",
@@ -265,6 +326,16 @@
                 `https://esm.sh/${packageVersionPath}`,
         },
         {
+            id: "skypack",
+            category: "Files and CDNs",
+            label: "Skypack",
+            description: "Legacy package browser and ESM CDN",
+            homepage: "https://www.skypack.dev/",
+            iconFallback: "SK",
+            buildUrl: ({ packageName }) =>
+                `https://www.skypack.dev/view/${packageName}`,
+        },
+        {
             id: "npm-diff",
             category: "Manual and search tools",
             label: "npm diff",
@@ -272,6 +343,15 @@
             homepage: "https://npmdiff.dev/",
             iconFallback: "ND",
             buildUrl: () => "https://npmdiff.dev/",
+        },
+        {
+            id: "paralect-npm-compare",
+            category: "Manual and search tools",
+            label: "Paralect NPM Compare",
+            description: "Manual multi-package comparison tool",
+            homepage: "https://www.paralect.com/npm-compare",
+            iconFallback: "PN",
+            buildUrl: () => "https://www.paralect.com/npm-compare",
         },
         {
             id: "npms-io",
@@ -333,35 +413,6 @@
                 `https://npmsearch.com/?q=${encodedPackageName}`,
         },
         {
-            id: "npm-compare",
-            category: "Dead, old, and archived",
-            label: "npm-compare.com",
-            description: "Parked or unavailable comparison site",
-            homepage: "https://npm-compare.com/",
-            iconFallback: "NC",
-            buildUrl: ({ encodedPackageName }) =>
-                `https://npm-compare.com/${encodedPackageName}`,
-        },
-        {
-            id: "paralect-npm-compare",
-            category: "Dead, old, and archived",
-            label: "Paralect NPM Compare",
-            description: "Repurposed; URL now opens an unrelated Pulse app",
-            homepage: "https://www.paralect.com/npm-compare",
-            iconFallback: "PN",
-            buildUrl: () => "https://www.paralect.com/npm-compare",
-        },
-        {
-            id: "skypack",
-            category: "Dead, old, and archived",
-            label: "Skypack",
-            description: "Archived package browser; package routes return 404",
-            homepage: "https://www.skypack.dev/",
-            iconFallback: "SK",
-            buildUrl: ({ packagePath }) =>
-                `https://www.skypack.dev/view/${packagePath}`,
-        },
-        {
             id: "runkit",
             category: "Dead, old, and archived",
             label: "RunKit npm",
@@ -391,23 +442,29 @@
         "npm-alt",
         "npkg",
         "npmsearch",
-        "npm-compare",
         "paralect-npm-compare",
-        "skypack",
         "runkit",
     ];
+    const REENABLED_IN_SETTINGS_SCHEMA_3 = ["npm-compare", "skypack"];
     const DISABLED_MIRRORS_KEY = "disabledMirrorIds";
     const SETTINGS_SCHEMA_KEY = "relatedPackageLinksSettingsSchema";
-    const SETTINGS_SCHEMA_VERSION = 2;
+    const SETTINGS_SCHEMA_VERSION = 3;
+    const ICON_CACHE_KEY = "relatedPackageLinksIconCache";
+    const ICON_CACHE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+    const ICON_CACHE_FAILURE_TTL_MS = 24 * 60 * 60 * 1000;
+    const ICON_CACHE_MAX_BLOB_BYTES = 96 * 1024;
+    const ICON_CACHE_MAX_ENTRIES = 40;
     const MENU_ATTRIBUTE = "data-npm-package-mirror-menu";
     const MENU_ID = "npm-package-mirror-menu-list";
     const SETTINGS_DIALOG_ID = "npm-package-mirror-settings";
     const STYLE_ID = "npm-package-mirror-menu-style";
 
     let disabledMirrorIds = loadDisabledMirrorIds();
+    let iconCache = loadIconCache();
     let menuAbortController = null;
     let renderFrame = 0;
     let settingsVersion = 0;
+    const iconSourcePromises = new Map();
 
     function addStyles() {
         if (document.getElementById(STYLE_ID)) return;
@@ -791,6 +848,174 @@
         (document.head || document.documentElement).append(style);
     }
 
+    function isValidIconCacheEntry(entry) {
+        const maximumDataUrlLength =
+            Math.ceil((ICON_CACHE_MAX_BLOB_BYTES * 4) / 3) + 256;
+        return (
+            entry &&
+            typeof entry === "object" &&
+            typeof entry.sourceUrl === "string" &&
+            Number.isFinite(entry.cachedAt) &&
+            ((typeof entry.dataUrl === "string" &&
+                entry.dataUrl.startsWith("data:") &&
+                entry.dataUrl.length <= maximumDataUrlLength) ||
+                entry.failed === true)
+        );
+    }
+
+    function trimIconCache(cache) {
+        return Object.fromEntries(
+            Object.entries(cache)
+                .filter(([, entry]) => isValidIconCacheEntry(entry))
+                .sort(
+                    ([, firstEntry], [, secondEntry]) =>
+                        secondEntry.cachedAt - firstEntry.cachedAt
+                )
+                .slice(0, ICON_CACHE_MAX_ENTRIES)
+        );
+    }
+
+    function loadIconCache() {
+        if (typeof GM_getValue !== "function") return {};
+
+        try {
+            const savedCache = GM_getValue(ICON_CACHE_KEY, {});
+            if (
+                !savedCache ||
+                typeof savedCache !== "object" ||
+                Array.isArray(savedCache)
+            ) {
+                return {};
+            }
+
+            return trimIconCache(savedCache);
+        } catch {
+            return {};
+        }
+    }
+
+    function saveIconCacheEntry(id, entry) {
+        iconCache[id] = entry;
+        iconCache = trimIconCache(iconCache);
+
+        if (typeof GM_setValue !== "function") return;
+
+        try {
+            GM_setValue(ICON_CACHE_KEY, iconCache);
+        } catch {
+            // The fetched icon still works for the current page.
+        }
+    }
+
+    function getFreshIconCacheEntry(id, sourceUrl) {
+        const entry = iconCache[id];
+        if (!isValidIconCacheEntry(entry) || entry.sourceUrl !== sourceUrl) {
+            return null;
+        }
+
+        const maximumAge = entry.failed
+            ? ICON_CACHE_FAILURE_TTL_MS
+            : ICON_CACHE_TTL_MS;
+        return Date.now() - entry.cachedAt <= maximumAge ? entry : null;
+    }
+
+    function requestIconBlob(sourceUrl) {
+        return new Promise((resolve, reject) => {
+            try {
+                GM_xmlhttpRequest({
+                    anonymous: true,
+                    method: "GET",
+                    onabort: () => reject(new Error("Icon request aborted")),
+                    onerror: () => reject(new Error("Icon request failed")),
+                    onload: ({ response, status }) => {
+                        const responseType =
+                            typeof response?.type === "string"
+                                ? response.type.toLowerCase()
+                                : "";
+                        if (
+                            status < 200 ||
+                            status >= 300 ||
+                            !response ||
+                            typeof response.size !== "number" ||
+                            response.size === 0 ||
+                            response.size > ICON_CACHE_MAX_BLOB_BYTES ||
+                            (responseType &&
+                                !responseType.startsWith("image/") &&
+                                responseType !== "application/octet-stream")
+                        ) {
+                            reject(new Error("Invalid icon response"));
+                            return;
+                        }
+
+                        resolve(response);
+                    },
+                    ontimeout: () =>
+                        reject(new Error("Icon request timed out")),
+                    responseType: "blob",
+                    timeout: 10_000,
+                    url: sourceUrl,
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    function blobToDataUrl(blob) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.addEventListener("error", () => {
+                reject(new Error("Could not read icon response"));
+            });
+            reader.addEventListener("load", () => {
+                if (typeof reader.result === "string") {
+                    resolve(reader.result);
+                } else {
+                    reject(new Error("Invalid icon data URL"));
+                }
+            });
+            reader.readAsDataURL(blob);
+        });
+    }
+
+    async function fetchAndCacheIcon(id, sourceUrl) {
+        try {
+            const blob = await requestIconBlob(sourceUrl);
+            const dataUrl = await blobToDataUrl(blob);
+            saveIconCacheEntry(id, {
+                cachedAt: Date.now(),
+                dataUrl,
+                sourceUrl,
+            });
+            return dataUrl;
+        } catch {
+            saveIconCacheEntry(id, {
+                cachedAt: Date.now(),
+                failed: true,
+                sourceUrl,
+            });
+            return sourceUrl;
+        }
+    }
+
+    function getCachedIconSource(id, sourceUrl) {
+        const entry = getFreshIconCacheEntry(id, sourceUrl);
+        if (entry?.dataUrl) return Promise.resolve(entry.dataUrl);
+        if (entry?.failed) return Promise.resolve(sourceUrl);
+
+        if (typeof GM_xmlhttpRequest !== "function") {
+            return Promise.resolve(sourceUrl);
+        }
+
+        const requestKey = `${id}|${sourceUrl}`;
+        const existingRequest = iconSourcePromises.get(requestKey);
+        if (existingRequest) return existingRequest;
+
+        const request = fetchAndCacheIcon(id, sourceUrl);
+        iconSourcePromises.set(requestKey, request);
+        return request;
+    }
+
     function loadDisabledMirrorIds() {
         if (typeof GM_getValue !== "function") {
             return [...DEFAULT_DISABLED_MIRROR_IDS];
@@ -814,6 +1039,11 @@
 
             const savedSchema = Number(GM_getValue(SETTINGS_SCHEMA_KEY, 0));
             if (savedSchema < SETTINGS_SCHEMA_VERSION) {
+                if (savedSchema < 3) {
+                    normalizedIds = normalizedIds.filter(
+                        (id) => !REENABLED_IN_SETTINGS_SCHEMA_3.includes(id)
+                    );
+                }
                 normalizedIds = Array.from(
                     new Set([...normalizedIds, ...DEFAULT_DISABLED_MIRROR_IDS])
                 );
@@ -995,7 +1225,6 @@
             image.decoding = "async";
             image.loading = "lazy";
             image.referrerPolicy = "no-referrer";
-            image.src = iconUrl || new URL("/favicon.ico", homepage).href;
             image.addEventListener(
                 "load",
                 () => {
@@ -1009,6 +1238,14 @@
                 once: true,
             });
             icon.append(image);
+            const sourceUrl = iconUrl || new URL("/favicon.ico", homepage).href;
+            getCachedIconSource(id, sourceUrl).then((cachedSource) => {
+                if (cachedSource) {
+                    image.src = cachedSource;
+                } else {
+                    image.remove();
+                }
+            });
         } catch {
             // Keep the generated monogram when the icon URL is invalid.
         }
