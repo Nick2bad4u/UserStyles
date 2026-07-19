@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - Related Package Links
 // @namespace    nick2bad4u.github.io
-// @version      1.4.1
+// @version      1.4.2
 // @description  Adds a configurable menu of useful package pages, security reports, size tools, trends, and CDNs.
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -113,7 +113,7 @@
         {
             id: "publint",
             category: "Package quality and security",
-            label: "publint",
+            label: "Publint",
             iconUrl: "https://publint.dev/favicon.png",
             description: "Package publishing and exports checks",
             homepage: "https://publint.dev/",
@@ -146,7 +146,7 @@
         {
             id: "packages-ecosystems",
             category: "Package quality and security",
-            label: "packages.ecosyste.ms",
+            label: "Package Ecosystems",
             description: "Open package metadata and dependency data",
             homepage: "https://packages.ecosyste.ms/",
             iconFallback: "PE",
@@ -219,7 +219,7 @@
         {
             id: "npmmirror",
             category: "Package pages",
-            label: "npmmirror",
+            label: "CNPM Mirror",
             description: "Chinese npm registry mirror",
             homepage: "https://npmmirror.com/",
             iconFallback: "NM",
@@ -400,6 +400,7 @@
             id: "esm-run",
             category: "Files and CDNs",
             label: "esm.run",
+            iconUrl: "https://i.gyazo.com/90686fd2b5d023afbdd11989a75edc47.png",
             description: "jsDelivr-backed ES module endpoint",
             homepage: "https://esm.run/",
             iconFallback: "ER",
