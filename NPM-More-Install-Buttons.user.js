@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.3.1
+// @version      1.3.2
 // @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
@@ -857,6 +857,14 @@
         );
     }
 
+    function getDirectSidebarChild(sidebar, element) {
+        let child = element;
+        while (child && child.parentElement !== sidebar) {
+            child = child.parentElement;
+        }
+        return child?.parentElement === sidebar ? child : null;
+    }
+
     function updateInstallHeading(installHeading) {
         installHeading.dataset.mibHeading = "Install";
         installHeading.classList.toggle(
@@ -1316,12 +1324,15 @@
         );
         const originalCopyButton = sidebar?.querySelector(COPY_BUTTON_SELECTOR);
         const installHeading = sidebar ? findHeading(sidebar, "Install") : null;
-        const installRow = installHeading?.nextElementSibling;
+        const installSection = sidebar
+            ? getDirectSidebarChild(sidebar, originalCopyButton)
+            : null;
 
         if (
             !sidebar ||
+            !installHeading ||
             !originalCopyButton ||
-            !installRow?.contains(originalCopyButton)
+            !installSection
         )
             return;
 
@@ -1404,7 +1415,7 @@
             list.append(createCommandButton(command));
         }
 
-        installRow.after(list);
+        installSection.insertAdjacentElement("afterend", list);
     }
 
     function scheduleRender() {

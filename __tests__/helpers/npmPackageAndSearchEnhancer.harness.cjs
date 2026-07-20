@@ -162,13 +162,18 @@ function createSearchCards(names) {
         .join("");
 }
 
-function setOnlyFeature(dom, enabledFeature) {
+function setFeatures(dom, enabledFeatures) {
+    const enabled = new Set(enabledFeatures);
     for (const name of FEATURE_NAMES) {
         dom.window.localStorage.setItem(
             `npm-userscript:settings:feature:${name}`,
-            JSON.stringify(name === enabledFeature)
+            JSON.stringify(enabled.has(name))
         );
     }
+}
+
+function setOnlyFeature(dom, enabledFeature) {
+    setFeatures(dom, [enabledFeature]);
 }
 
 async function runDefaultSearchScenario() {
@@ -621,6 +626,151 @@ async function runCoexistenceScenario() {
     };
 }
 
+async function runSidebarIntegrationScenario() {
+    const homepageUrl =
+        "https://github.com/eslint/js/blob/main/packages/eslint-visitor-keys/README.md";
+    const dom = createPage(
+        `<title>example - npm</title><main><h1>example</h1>
+            <aside id="package-sidebar" aria-label="Package sidebar" style="width: 360px">
+                <div id="install-section">
+                    <h3>Install</h3>
+                    <div><button aria-label="Copy install command line"><code>npm i example</code></button></div>
+                </div>
+                <div id="repository-section" class="w-50">
+                    <h3 id="repository">Repository</h3>
+                    <p><a aria-labelledby="repository-link" href="https://github.com/example/example"><span aria-hidden="true"><svg></svg></span><span id="repository-link">example/example</span></a></p>
+                </div>
+                <div id="homepage-section" class="w-50">
+                    <h3 id="homePage">Homepage</h3>
+                    <p><a aria-labelledby="homePage-link" href="${homepageUrl}"><span aria-hidden="true"><svg></svg></span><span id="homePage-link">${homepageUrl}</span></a></p>
+                </div>
+                <div id="version-section"><h3>Version</h3><p>1.0.0</p></div>
+                <div id="unpacked-section" class="w-50"><h3>Unpacked Size</h3><p>6.4 kB</p></div>
+                <div id="bundle-link-section"><div><a href="https://bundlephobia.com/package/example@1.0.0">Bundlephobia</a></div></div>
+                <div id="funding-original"><a class="button" href="https://example.test/fund">Fund this package</a></div>
+                <div id="collaborators-section"><h3 id="collaborators">Collaborators</h3></div>
+            </aside>
+        </main>`,
+        "https://www.npmjs.com/package/example"
+    );
+    setFeatures(dom, [
+        "fix-styles",
+        "install-commands",
+        "move-funding",
+        "package-size",
+        "repository-card",
+    ]);
+    installGm(dom, async (url) => {
+        if (url.includes("bundlephobia.com/api/size")) {
+            return {
+                dependencyCount: 0,
+                dependencySizes: [],
+                gzip: 800,
+                name: "example",
+                size: 1600,
+                version: "1.0.0",
+            };
+        }
+        if (url.includes("api.github.com/search/issues")) {
+            return { total_count: 2 };
+        }
+        if (url.includes("api.github.com/repos/example/example/contents")) {
+            return {};
+        }
+        if (url.endsWith("api.github.com/repos/example/example")) {
+            return {
+                default_branch: "main",
+                full_name: "example/example",
+                html_url: "https://github.com/example/example",
+                open_issues_count: 7,
+                organization: null,
+                owner: { avatar_url: "https://example.test/avatar.png" },
+                stargazers_count: 1234,
+            };
+        }
+        if (url.includes("registry.npmjs.org/example/1.0.0")) {
+            return {
+                dist: {
+                    fileCount: 12,
+                    tarball:
+                        "https://registry.npmjs.org/example/-/example-1.0.0.tgz",
+                    unpackedSize: 6400,
+                },
+                funding: { url: "https://example.test/fund" },
+                homepage: homepageUrl,
+                repository: {
+                    type: "git",
+                    url: "git+https://github.com/example/example.git",
+                },
+                version: "1.0.0",
+            };
+        }
+        if (url.endsWith("example-1.0.0.tgz")) return {};
+        throw new Error(`Unexpected request: ${url}`);
+    });
+
+    try {
+        runScript(dom);
+        const sidebar = dom.window.document.querySelector("#package-sidebar");
+        const installList = await waitFor(() =>
+            sidebar.querySelector("[data-npm-more-install-buttons]")
+        );
+        const fundingButton = await waitFor(() =>
+            sidebar.querySelector(".npm-userscript-funding-button")
+        );
+        const sizeCard = await waitFor(() => {
+            const candidate = sidebar.querySelector(
+                "[data-npm-bundlephobia-size]"
+            );
+            return candidate?.nextElementSibling === fundingButton
+                ? candidate
+                : null;
+        });
+        await waitFor(() =>
+            sidebar.querySelector(".npm-userscript-repository-card")
+        );
+        const homepageLink = sidebar.querySelector(
+            '[aria-labelledby="homePage-link"]'
+        );
+        const homepageText = sidebar.querySelector("#homePage-link");
+        const homepageLinkStyle = dom.window.getComputedStyle(homepageLink);
+        const homepageTextStyle = dom.window.getComputedStyle(homepageText);
+        const originalCopyButton = sidebar.querySelector(
+            'button[aria-label="Copy install command line"]'
+        );
+
+        return {
+            homepage: {
+                display: homepageLinkStyle.display,
+                minWidth: homepageTextStyle.minWidth,
+                overflowWrap: homepageTextStyle.overflowWrap,
+                text: homepageText.textContent,
+                width: homepageLinkStyle.width,
+            },
+            install: {
+                commandCount:
+                    installList.querySelectorAll(".mib-command").length,
+                followsInstallSection:
+                    installList.previousElementSibling?.id ===
+                    "install-section",
+                nativeCopyButtonConnected: originalCopyButton.isConnected,
+                parentIsSidebar: installList.parentElement === sidebar,
+            },
+            size: {
+                avoidsNestedBundleLinkSection: !sidebar
+                    .querySelector("#bundle-link-section")
+                    .contains(sizeCard),
+                parentIsSidebar: sizeCard.parentElement === sidebar,
+                placement: sizeCard.dataset.placement,
+                precedesFundingButton:
+                    sizeCard.nextElementSibling === fundingButton,
+            },
+        };
+    } finally {
+        dom.window.close();
+    }
+}
+
 async function runPackageScenario() {
     const dom = createPage(
         `
@@ -784,6 +934,7 @@ async function main() {
         defaultSearch: await runDefaultSearchScenario(),
         packagePage: await runPackageScenario(),
         repositoryCard: await runRepositoryCardScenario(),
+        sidebarIntegration: await runSidebarIntegrationScenario(),
         versions: await runVersionsScenario(),
     };
     process.stdout.write(JSON.stringify(results));

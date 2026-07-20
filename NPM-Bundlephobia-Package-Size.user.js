@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - Bundlephobia Package Size
 // @namespace    nick2bad4u.github.io
-// @version      2.3.0
+// @version      2.3.1
 // @description  Shows exact-version Bundlephobia data plus npm tarball, unpacked, and file-count metrics.
 // @author       Nick2bad4u (modern fork of dutzi's original script)
 // @license      MIT
@@ -45,6 +45,7 @@
     const CARD_PLACEMENT_KEY = "bundlephobiaSizeCardPlacement";
     const CARD_PLACEMENTS = Object.freeze({
         bundlephobiaLink: "bundlephobia-link",
+        fundingButton: "funding-button",
         unpackedSize: "unpacked-size",
     });
     const DEFAULT_ACCENT_COLOR = "#cb3837";
@@ -105,6 +106,29 @@
         return [...sidebar.querySelectorAll("h2, h3, h4")].find(
             (heading) => normalizeText(heading.textContent) === label
         );
+    }
+
+    function getDirectSidebarChild(sidebar, element) {
+        let child = element;
+        while (child && child.parentElement !== sidebar) {
+            child = child.parentElement;
+        }
+        return child?.parentElement === sidebar ? child : null;
+    }
+
+    function findFundingSection(sidebar) {
+        const movedFundingButton = sidebar.querySelector(
+            ".npm-userscript-funding-button"
+        );
+        if (movedFundingButton) {
+            return getDirectSidebarChild(sidebar, movedFundingButton);
+        }
+
+        const fundingLink = [...sidebar.querySelectorAll("a.button")].find(
+            (link) =>
+                normalizeText(link.textContent).includes("Fund this package")
+        );
+        return getDirectSidebarChild(sidebar, fundingLink);
     }
 
     function getSidebarFieldValue(sidebar, label) {
@@ -1214,11 +1238,11 @@
     function getCardPlacement() {
         const placement = GM_getValue(
             CARD_PLACEMENT_KEY,
-            CARD_PLACEMENTS.bundlephobiaLink
+            CARD_PLACEMENTS.fundingButton
         );
         return Object.values(CARD_PLACEMENTS).includes(placement)
             ? placement
-            : CARD_PLACEMENTS.bundlephobiaLink;
+            : CARD_PLACEMENTS.fundingButton;
     }
 
     function setCardPlacement(placement) {
@@ -1234,6 +1258,10 @@
         GM_registerMenuCommand("Bundlephobia: place below Unpacked Size", () =>
             setCardPlacement(CARD_PLACEMENTS.unpackedSize)
         );
+        GM_registerMenuCommand(
+            "Bundlephobia: place above Fund this package",
+            () => setCardPlacement(CARD_PLACEMENTS.fundingButton)
+        );
         GM_registerMenuCommand("Bundlephobia: place by npm bundle link", () =>
             setCardPlacement(CARD_PLACEMENTS.bundlephobiaLink)
         );
@@ -1247,12 +1275,26 @@
     }
 
     function insertCard(details, card) {
+        if (getCardPlacement() === CARD_PLACEMENTS.fundingButton) {
+            const fundingSection = findFundingSection(details.sidebar);
+            if (fundingSection) {
+                card.dataset.placement = CARD_PLACEMENTS.fundingButton;
+                if (fundingSection.previousElementSibling !== card) {
+                    fundingSection.insertAdjacentElement("beforebegin", card);
+                }
+                return;
+            }
+        }
+
         if (getCardPlacement() === CARD_PLACEMENTS.unpackedSize) {
             const unpackedSizeHeading = findSidebarHeading(
                 details.sidebar,
                 "Unpacked Size"
             );
-            const unpackedSizeSection = unpackedSizeHeading?.parentElement;
+            const unpackedSizeSection = getDirectSidebarChild(
+                details.sidebar,
+                unpackedSizeHeading
+            );
             if (unpackedSizeSection) {
                 insertAfter(
                     unpackedSizeSection,
@@ -1264,9 +1306,13 @@
         }
 
         const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
-        if (bundlephobiaLink) {
+        const bundlephobiaSection = getDirectSidebarChild(
+            details.sidebar,
+            bundlephobiaLink
+        );
+        if (bundlephobiaSection) {
             insertAfter(
-                bundlephobiaLink,
+                bundlephobiaSection,
                 card,
                 CARD_PLACEMENTS.bundlephobiaLink
             );
@@ -1274,7 +1320,10 @@
         }
 
         const versionHeading = findSidebarHeading(details.sidebar, "Version");
-        const versionSection = versionHeading?.parentElement;
+        const versionSection = getDirectSidebarChild(
+            details.sidebar,
+            versionHeading
+        );
         if (versionSection) {
             insertAfter(versionSection, card, "version-fallback");
             return;

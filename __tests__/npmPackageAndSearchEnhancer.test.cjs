@@ -33,7 +33,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.8.0");
+        expect(script).toContain("// @version      0.8.1");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
         expect(script).not.toContain("data.jsdelivr.com");
@@ -171,11 +171,11 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "/* BEGIN INTEGRATED NPM BUNDLEPHOBIA PACKAGE SIZE */"
         );
-        expect(moreInstallButtons).toContain("// @version      1.3.1");
+        expect(moreInstallButtons).toContain("// @version      1.3.2");
         expect(moreInstallButtons).toContain(
             '"data-npm-enhancer-install-commands"'
         );
-        expect(packageSize).toContain("// @version      2.3.0");
+        expect(packageSize).toContain("// @version      2.3.1");
         expect(packageSize).toContain('"data-npm-enhancer-package-size"');
         expect(packageSize).toMatch(/createMetric\(\s*"Tarball"/u);
         expect(packageSize).toMatch(/createMetric\(\s*"Unpacked"/u);
@@ -212,5 +212,27 @@ describe("NPM Package and Search Enhancer userscript", () => {
             );
         }
         expect(results.coexistence.tarballErrorIgnored).toBe(true);
+    });
+
+    test("keeps nested sidebar links and install commands intact while placing size above funding", () => {
+        expect(results.sidebarIntegration.homepage).toEqual({
+            display: "flex",
+            minWidth: "0px",
+            overflowWrap: "anywhere",
+            text: "https://github.com/eslint/js/blob/main/packages/eslint-visitor-keys/README.md",
+            width: "100%",
+        });
+        expect(results.sidebarIntegration.install).toEqual({
+            commandCount: 5,
+            followsInstallSection: true,
+            nativeCopyButtonConnected: true,
+            parentIsSidebar: true,
+        });
+        expect(results.sidebarIntegration.size).toEqual({
+            avoidsNestedBundleLinkSection: true,
+            parentIsSidebar: true,
+            placement: "funding-button",
+            precedesFundingButton: true,
+        });
     });
 });

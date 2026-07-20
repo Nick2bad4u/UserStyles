@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.8.0
+// @version      0.8.1
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -4007,9 +4007,12 @@ implementation is broken for large numbers for some reason. This temporarily fix
             addStyle(`
       #repository + p,
       #homePage + p {
+        box-sizing: border-box;
+        min-width: 0;
         padding: 0 !important;
         margin: 0 !important;
         text-decoration: none;
+        width: 100%;
       }
     `);
             addStyle(`
@@ -4017,10 +4020,17 @@ implementation is broken for large numbers for some reason. This temporarily fix
       [aria-labelledby*=homePage-link] {
         display: flex;
         align-items: center;
+        gap: 6px;
+        min-width: 0;
+        width: 100%;
       }
 
-      [aria-labelledby*=repository-link] > span {
-        margin-right: 6px;
+      #repository-link,
+      #homePage-link {
+        flex: 1 1 0%;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        word-break: normal;
       }
 
       [aria-labelledby*=repository-link] > span > svg {
@@ -20364,6 +20374,14 @@ if (readIntegratedFeatureSetting("install-commands")) {
             );
         }
 
+        function getDirectSidebarChild(sidebar, element) {
+            let child = element;
+            while (child && child.parentElement !== sidebar) {
+                child = child.parentElement;
+            }
+            return child?.parentElement === sidebar ? child : null;
+        }
+
         function updateInstallHeading(installHeading) {
             installHeading.dataset.mibHeading = "Install";
             installHeading.classList.toggle(
@@ -20833,12 +20851,15 @@ if (readIntegratedFeatureSetting("install-commands")) {
             const installHeading = sidebar
                 ? findHeading(sidebar, "Install")
                 : null;
-            const installRow = installHeading?.nextElementSibling;
+            const installSection = sidebar
+                ? getDirectSidebarChild(sidebar, originalCopyButton)
+                : null;
 
             if (
                 !sidebar ||
+                !installHeading ||
                 !originalCopyButton ||
-                !installRow?.contains(originalCopyButton)
+                !installSection
             )
                 return;
 
@@ -20923,7 +20944,7 @@ if (readIntegratedFeatureSetting("install-commands")) {
                 list.append(createCommandButton(command));
             }
 
-            installRow.after(list);
+            installSection.insertAdjacentElement("afterend", list);
         }
 
         function scheduleRender() {
@@ -20966,6 +20987,7 @@ if (readIntegratedFeatureSetting("package-size")) {
         const CARD_PLACEMENT_KEY = "bundlephobiaSizeCardPlacement";
         const CARD_PLACEMENTS = Object.freeze({
             bundlephobiaLink: "bundlephobia-link",
+            fundingButton: "funding-button",
             unpackedSize: "unpacked-size",
         });
         const DEFAULT_ACCENT_COLOR = "#cb3837";
@@ -21026,6 +21048,31 @@ if (readIntegratedFeatureSetting("package-size")) {
             return [...sidebar.querySelectorAll("h2, h3, h4")].find(
                 (heading) => normalizeText(heading.textContent) === label
             );
+        }
+
+        function getDirectSidebarChild(sidebar, element) {
+            let child = element;
+            while (child && child.parentElement !== sidebar) {
+                child = child.parentElement;
+            }
+            return child?.parentElement === sidebar ? child : null;
+        }
+
+        function findFundingSection(sidebar) {
+            const movedFundingButton = sidebar.querySelector(
+                ".npm-userscript-funding-button"
+            );
+            if (movedFundingButton) {
+                return getDirectSidebarChild(sidebar, movedFundingButton);
+            }
+
+            const fundingLink = [...sidebar.querySelectorAll("a.button")].find(
+                (link) =>
+                    normalizeText(link.textContent).includes(
+                        "Fund this package"
+                    )
+            );
+            return getDirectSidebarChild(sidebar, fundingLink);
         }
 
         function getSidebarFieldValue(sidebar, label) {
@@ -22151,11 +22198,11 @@ if (readIntegratedFeatureSetting("package-size")) {
         function getCardPlacement() {
             const placement = GM_getValue(
                 CARD_PLACEMENT_KEY,
-                CARD_PLACEMENTS.bundlephobiaLink
+                CARD_PLACEMENTS.fundingButton
             );
             return Object.values(CARD_PLACEMENTS).includes(placement)
                 ? placement
-                : CARD_PLACEMENTS.bundlephobiaLink;
+                : CARD_PLACEMENTS.fundingButton;
         }
 
         function setCardPlacement(placement) {
@@ -22173,6 +22220,10 @@ if (readIntegratedFeatureSetting("package-size")) {
                 () => setCardPlacement(CARD_PLACEMENTS.unpackedSize)
             );
             GM_registerMenuCommand(
+                "Bundlephobia: place above Fund this package",
+                () => setCardPlacement(CARD_PLACEMENTS.fundingButton)
+            );
+            GM_registerMenuCommand(
                 "Bundlephobia: place by npm bundle link",
                 () => setCardPlacement(CARD_PLACEMENTS.bundlephobiaLink)
             );
@@ -22186,12 +22237,29 @@ if (readIntegratedFeatureSetting("package-size")) {
         }
 
         function insertCard(details, card) {
+            if (getCardPlacement() === CARD_PLACEMENTS.fundingButton) {
+                const fundingSection = findFundingSection(details.sidebar);
+                if (fundingSection) {
+                    card.dataset.placement = CARD_PLACEMENTS.fundingButton;
+                    if (fundingSection.previousElementSibling !== card) {
+                        fundingSection.insertAdjacentElement(
+                            "beforebegin",
+                            card
+                        );
+                    }
+                    return;
+                }
+            }
+
             if (getCardPlacement() === CARD_PLACEMENTS.unpackedSize) {
                 const unpackedSizeHeading = findSidebarHeading(
                     details.sidebar,
                     "Unpacked Size"
                 );
-                const unpackedSizeSection = unpackedSizeHeading?.parentElement;
+                const unpackedSizeSection = getDirectSidebarChild(
+                    details.sidebar,
+                    unpackedSizeHeading
+                );
                 if (unpackedSizeSection) {
                     insertAfter(
                         unpackedSizeSection,
@@ -22203,9 +22271,13 @@ if (readIntegratedFeatureSetting("package-size")) {
             }
 
             const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
-            if (bundlephobiaLink) {
+            const bundlephobiaSection = getDirectSidebarChild(
+                details.sidebar,
+                bundlephobiaLink
+            );
+            if (bundlephobiaSection) {
                 insertAfter(
-                    bundlephobiaLink,
+                    bundlephobiaSection,
                     card,
                     CARD_PLACEMENTS.bundlephobiaLink
                 );
@@ -22216,7 +22288,10 @@ if (readIntegratedFeatureSetting("package-size")) {
                 details.sidebar,
                 "Version"
             );
-            const versionSection = versionHeading?.parentElement;
+            const versionSection = getDirectSidebarChild(
+                details.sidebar,
+                versionHeading
+            );
             if (versionSection) {
                 insertAfter(versionSection, card, "version-fallback");
                 return;
