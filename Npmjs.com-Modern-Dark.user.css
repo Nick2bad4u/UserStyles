@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           npmjs.com - Modern Dark Theme
 @namespace      nick2bad4u.github.io
-@version        1.1.1
+@version        1.2.0
 @description    A durable, accent-customizable dark theme for modern npm pages, package readmes, code views, forms, menus, and syntax-highlighted examples.
 @author         Nick2bad4u (complete rewrite; original idea by hypnojerk)
 @license        UnLicense
@@ -9,7 +9,7 @@
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
 @downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Npmjs.com-Modern-Dark.user.css
 @updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Npmjs.com-Modern-Dark.user.css
-@var color accent-color "Accent color" #ff7b72
+@var color accent-color "Accent color" #a78bfa
 @preprocessor   default
 ==/UserStyle== */
 @-moz-document domain("npmjs.com") {
@@ -39,6 +39,16 @@
             in srgb,
             var(--npm-dark-accent) 18%,
             transparent
+        );
+        --npm-dark-accent-cool: color-mix(
+            in srgb,
+            var(--npm-dark-accent) 78%,
+            #60a5fa
+        );
+        --npm-dark-accent-warm: color-mix(
+            in srgb,
+            var(--npm-dark-accent) 78%,
+            #f472b6
         );
         --npm-dark-success: #3fb950;
         --npm-dark-warning: #d29922;
@@ -155,6 +165,26 @@
 
     dialog::backdrop {
         background-color: var(--overlay-backdrop-heavy) !important;
+    }
+
+    /* Keep npm's profile popover anchored when the enhancer changes header flow. */
+    header nav:has(> button[aria-label="Profile menu"]) > div {
+        position: relative !important;
+
+        & > div {
+            z-index: 100 !important;
+            overflow: hidden auto !important;
+            max-width: calc(100vw - 1rem);
+            max-height: calc(100dvh - 5rem);
+            inset: 0.625rem 0 auto auto !important;
+            overscroll-behavior: contain;
+        }
+    }
+
+    .npm-userscript-docs-link:hover,
+    .npm-userscript-docs-link:focus-visible {
+        background: var(--npm-dark-accent-soft) !important;
+        color: var(--npm-dark-accent-strong) !important;
     }
 
     /* npm still uses stable Tachyons utility names around generated classes. */
@@ -421,6 +451,81 @@
         border-color: var(--npm-dark-accent) !important;
         background-color: var(--npm-dark-accent-soft) !important;
         color: var(--npm-dark-text) !important;
+    }
+
+    /* Homepage discovery cards, including the enhancer's two-column layout. */
+    #discover-packages-header {
+        color: var(--npm-dark-accent-strong) !important;
+
+        & svg * {
+            stroke: currentcolor !important;
+        }
+
+        & + hr {
+            border-color: transparent !important;
+            background: linear-gradient(
+                90deg,
+                var(--npm-dark-accent),
+                var(--npm-dark-accent-warm)
+            ) !important;
+        }
+    }
+
+    ul[aria-labelledby="discover-packages-header"] li {
+        --npm-dark-discover-item-accent: var(--npm-dark-accent-strong);
+
+        &:nth-child(3n + 2) {
+            --npm-dark-discover-item-accent: var(--npm-dark-accent-cool);
+        }
+
+        &:nth-child(3n) {
+            --npm-dark-discover-item-accent: var(--npm-dark-accent-warm);
+        }
+    }
+
+    ul[aria-labelledby="discover-packages-header"] a {
+        border-color: color-mix(
+            in srgb,
+            var(--npm-dark-discover-item-accent) 42%,
+            var(--npm-dark-border)
+        ) !important;
+        background: linear-gradient(
+            135deg,
+            color-mix(
+                    in srgb,
+                    var(--npm-dark-discover-item-accent) 12%,
+                    var(--npm-dark-surface)
+                )
+                0%,
+            var(--npm-dark-surface-inset) 100%
+        ) !important;
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
+        color: var(--npm-dark-discover-item-accent) !important;
+        text-decoration: none !important;
+        transition:
+            border-color 140ms ease,
+            background-color 140ms ease,
+            box-shadow 140ms ease,
+            transform 140ms ease;
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
+        &:hover,
+        &:focus-visible {
+            border-color: var(--npm-dark-discover-item-accent) !important;
+            background: color-mix(
+                in srgb,
+                var(--npm-dark-discover-item-accent) 20%,
+                var(--npm-dark-surface-raised)
+            ) !important;
+            box-shadow:
+                0 0 0 1px var(--npm-dark-accent-soft),
+                0 8px 22px rgb(0 0 0 / 34%);
+            color: #ffffff !important;
+            transform: translateY(-1px);
+        }
     }
 
     /* Package readmes and code examples */
