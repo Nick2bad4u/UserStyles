@@ -1,15 +1,15 @@
 /* ==UserStyle==
-@name           npmjs.com - Modern Dark Theme + Syntax Highlighting
+@name           npmjs.com - AMOLED Black Theme + Syntax Highlighting
 @namespace      nick2bad4u.github.io
-@version        1.1.0
-@description    A durable, accent-customizable dark theme for modern npm pages, package readmes, code views, forms, menus, and syntax-highlighted examples.
+@version        1.0.0
+@description    A true-black, accent-customizable AMOLED theme for modern npm pages, package readmes, code views, forms, menus, and syntax-highlighted examples.
 @author         Nick2bad4u (complete rewrite; original idea by hypnojerk)
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
 @supportURL     https://github.com/Nick2bad4u/UserStyles/issues
-@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Npmjs.com-Modern-Dark.user.css
-@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Npmjs.com-Modern-Dark.user.css
-@var color accent-color "Accent color" #ff7b72
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Npmjs.com-AMOLED-Black.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Npmjs.com-AMOLED-Black.user.css
+@var color accent-color "Accent color" #ff5f56
 @preprocessor   default
 ==/UserStyle== */
 @-moz-document domain("npmjs.com") {
@@ -18,17 +18,17 @@
         color-scheme: dark !important;
 
         /* Theme palette */
-        --npm-dark-bg: #0d1117;
-        --npm-dark-surface: #161b22;
-        --npm-dark-surface-raised: #21262d;
-        --npm-dark-surface-inset: #090c10;
-        --npm-dark-border: #30363d;
-        --npm-dark-border-strong: #484f58;
-        --npm-dark-text: #e6edf3;
-        --npm-dark-text-muted: #b1bac4;
-        --npm-dark-text-subtle: #8c959f;
-        --npm-dark-link: #79c0ff;
-        --npm-dark-link-visited: #d2a8ff;
+        --npm-dark-bg: #000000;
+        --npm-dark-surface: #050505;
+        --npm-dark-surface-raised: #0d0d0d;
+        --npm-dark-surface-inset: #000000;
+        --npm-dark-border: #242424;
+        --npm-dark-border-strong: #3a3a3a;
+        --npm-dark-text: #f5f5f5;
+        --npm-dark-text-muted: #c4c4c4;
+        --npm-dark-text-subtle: #8f8f8f;
+        --npm-dark-link: #73c5ff;
+        --npm-dark-link-visited: #d5a6ff;
         --npm-dark-accent: var(--accent-color);
         --npm-dark-accent-strong: color-mix(
             in srgb,
@@ -40,9 +40,9 @@
             var(--npm-dark-accent) 18%,
             transparent
         );
-        --npm-dark-success: #3fb950;
-        --npm-dark-warning: #d29922;
-        --npm-dark-danger: #ff7b72;
+        --npm-dark-success: #4ade80;
+        --npm-dark-warning: #facc15;
+        --npm-dark-danger: #ff6b6b;
         --npm-dark-focus: var(--npm-dark-accent);
 
         /* Modern npm semantic tokens */
@@ -60,11 +60,11 @@
         --color-bg-inset: var(--npm-dark-surface-inset) !important;
         --color-bg-emphasis: var(--npm-dark-border-strong) !important;
         --color-bg-accent: var(--npm-dark-accent-soft) !important;
-        --color-bg-success: #102418 !important;
-        --color-bg-attention: #2a2111 !important;
-        --color-bg-danger: #2d1518 !important;
+        --color-bg-success: #07150b !important;
+        --color-bg-attention: #181204 !important;
+        --color-bg-danger: #1c0709 !important;
         --color-border-default: var(--npm-dark-border) !important;
-        --color-border-muted: #21262d !important;
+        --color-border-muted: #141414 !important;
         --color-border-strong: var(--npm-dark-border-strong) !important;
         --color-border-accent: color-mix(
             in srgb,
@@ -72,13 +72,13 @@
             var(--npm-dark-bg)
         ) !important;
         --color-border-accent-emphasis: var(--npm-dark-focus) !important;
-        --color-border-success: #1f6f35 !important;
+        --color-border-success: #1b5e2f !important;
         --color-border-success-emphasis: var(--npm-dark-success) !important;
-        --color-border-attention: #6e5a1a !important;
-        --color-border-danger: #7d292f !important;
+        --color-border-attention: #66520d !important;
+        --color-border-danger: #71262b !important;
         --color-accent-emphasis: var(--npm-dark-focus) !important;
         --color-accent-subtle: var(--npm-dark-accent-soft) !important;
-        --color-shadow-large: 0 8px 24px rgb(0 0 0 / 55%) !important;
+        --color-shadow-large: 0 8px 24px rgb(0 0 0 / 80%) !important;
 
         /* Current and legacy npm component tokens */
         --bg: var(--npm-dark-bg) !important;
@@ -108,12 +108,12 @@
 
         /* npm readme syntax tokens */
         --color-syntax-string: #a5d6ff !important;
-        --color-syntax-constant: #79c0ff !important;
+        --color-syntax-constant: #73c5ff !important;
         --color-syntax-symbol: #ffa657 !important;
         --color-syntax-variable: #ffa657 !important;
         --color-syntax-keyword: var(--npm-dark-accent) !important;
         --color-syntax-support: #7ee787 !important;
-        --color-syntax-function: #d2a8ff !important;
+        --color-syntax-function: #d5a6ff !important;
     }
 
     html,
@@ -172,7 +172,7 @@
         [class~="bg-white-80"],
         [class~="bg-white-70"]
     ) {
-        background-color: rgb(22 27 34 / 94%) !important;
+        background-color: rgb(5 5 5 / 96%) !important;
     }
 
     [class~="bg-black-05"] {
@@ -344,7 +344,11 @@
     }
 
     ::selection {
-        background-color: #264f78;
+        background-color: color-mix(
+            in srgb,
+            var(--npm-dark-accent) 42%,
+            #000000
+        );
         color: #ffffff;
     }
 
@@ -392,7 +396,7 @@
     }
 
     tbody tr:nth-child(even) {
-        background-color: rgb(33 38 45 / 48%) !important;
+        background-color: rgb(13 13 13 / 70%) !important;
     }
 
     tbody tr:hover,
@@ -456,7 +460,7 @@
 
     :where(#readme, .markdown) blockquote {
         border-color: var(--npm-dark-border-strong) !important;
-        background-color: rgb(22 27 34 / 72%) !important;
+        background-color: rgb(5 5 5 / 88%) !important;
         color: var(--npm-dark-text-muted) !important;
     }
 
@@ -532,7 +536,7 @@
     }
 
     :where(#readme, .markdown) .pl-mc {
-        background-color: #2a2111 !important;
+        background-color: #181204 !important;
         color: #e3b341 !important;
     }
 

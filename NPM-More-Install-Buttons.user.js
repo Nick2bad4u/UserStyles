@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.2.0
+// @version      1.3.0
 // @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
@@ -12,7 +12,10 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=npmjs.com
 // @match        https://www.npmjs.com/package/*
 // @run-at       document-idle
-// @grant        none
+// @grant        GM_getValue
+// @grant        GM_registerMenuCommand
+// @grant        GM_setClipboard
+// @grant        GM_setValue
 // @noframes
 // @downloadURL https://update.greasyfork.org/scripts/587470/NPM%20-%20More%20Install%20Buttons.user.js
 // @updateURL https://update.greasyfork.org/scripts/587470/NPM%20-%20More%20Install%20Buttons.meta.js
@@ -21,23 +24,14 @@
 (function () {
     "use strict";
 
-    // Display options. Nerd Font icons use locally installed Nerd Font families.
-    // Turn either row option off for a simpler command-only layout.
-    const DISPLAY_OPTIONS = {
-        showInstallHeaderIcon: true,
-        showListHeading: true,
-        showCommandIcons: true,
-        showCommandLabels: true,
-    };
-
-    // Add, remove, disable, or reorder buttons here.
+    // Command definitions and defaults. End users can enable or disable these
+    // from the userscript-manager menu without editing this source.
     // Available tokens: {{package}}, {{version}}, {{packageSpec}}, and
-    // {{typesPackage}}. Set enabled to false to hide a button. The optional
-    // manager and icon values control each button's accent and Nerd Font icon.
-    // Commands with requiresTypes only appear when npm links a separate @types
-    // package.
+    // {{typesPackage}}. Commands with requiresTypes only appear when npm links
+    // a separate @types package.
     const COMMAND_BUTTONS = [
         {
+            id: "npm-dependency",
             label: "NPM dependency",
             manager: "npm",
             icon: "",
@@ -45,6 +39,7 @@
             enabled: false, // Disabled by default because the original "Copy install command line" button already provides this command.
         },
         {
+            id: "npm-dev-dependency",
             label: "NPM dev dependency",
             manager: "npm",
             icon: "",
@@ -52,6 +47,7 @@
             enabled: true,
         },
         {
+            id: "npm-global-dependency",
             label: "NPM global dependency",
             manager: "npm",
             icon: "",
@@ -59,6 +55,7 @@
             enabled: false, // Disabled by default because global installs are less common.
         },
         {
+            id: "npm-types-dev-dependency",
             label: "NPM @types dev dependency",
             manager: "npm",
             icon: "",
@@ -66,6 +63,7 @@
             requiresTypes: true,
         },
         {
+            id: "yarn-dependency",
             label: "Yarn dependency",
             manager: "yarn",
             icon: "",
@@ -73,6 +71,7 @@
             enabled: true,
         },
         {
+            id: "yarn-package-and-types",
             label: "Yarn package and types dependencies",
             manager: "yarn",
             icon: "",
@@ -82,6 +81,7 @@
             enabled: false, // Disabled by default because many users don't use Yarn.
         },
         {
+            id: "pnpm-dependency",
             label: "PNPM dependency",
             manager: "pnpm",
             icon: "",
@@ -89,6 +89,7 @@
             enabled: true,
         },
         {
+            id: "bun-dependency",
             label: "Bun dependency",
             manager: "bun",
             icon: "",
@@ -96,6 +97,7 @@
             enabled: true,
         },
         {
+            id: "deno-dependency",
             label: "Deno dependency",
             manager: "deno",
             icon: "",
@@ -103,6 +105,7 @@
             enabled: true,
         },
         {
+            id: "vlt-dependency",
             label: "vlt dependency",
             manager: "vlt",
             icon: "",
@@ -110,6 +113,7 @@
             enabled: false, // Disabled by default because vlt is less common.
         },
         {
+            id: "aube-dependency",
             label: "Aube dependency",
             manager: "aube",
             icon: "",
@@ -117,6 +121,7 @@
             enabled: false, // Disabled by default because Aube is less common.
         },
         {
+            id: "nub-dependency",
             label: "Nub dependency",
             manager: "nub",
             icon: "",
@@ -124,6 +129,7 @@
             enabled: false, // Disabled by default because Nub is less common.
         },
         {
+            id: "cnpm-dependency",
             label: "CNPM dependency",
             manager: "cnpm",
             icon: "",
@@ -149,17 +155,123 @@
         //         "yarn add {{packageSpec}} && yarn add --dev {{typesPackage}}",
         //     requiresTypes: true,
         // },
-        // Examples:
-        // { label: "pnpm dependency", template: "pnpm add {{packageSpec}}" },
-        // { label: "Bun dependency", template: "bun add {{packageSpec}}" },
+    ];
+
+    const DISPLAY_OPTION_DEFINITIONS = [
+        {
+            id: "showInstallHeaderIcon",
+            label: "Install heading icon",
+            description: "Show the Nerd Font package icon beside Install.",
+            enabled: true,
+        },
+        {
+            id: "showListHeading",
+            label: "More commands heading",
+            description: "Show the command count and quick settings button.",
+            enabled: true,
+        },
+        {
+            id: "showCommandIcons",
+            label: "Package-manager icons",
+            description: "Show the npm, Yarn, pnpm, Bun, and Deno icons.",
+            enabled: true,
+        },
+        {
+            id: "showCommandLabels",
+            label: "Command labels",
+            description: "Show labels such as NPM dev dependency and Yarn.",
+            enabled: true,
+        },
     ];
 
     const LIST_ATTRIBUTE = "data-npm-more-install-buttons";
     const STYLE_ID = "npm-more-install-buttons-style";
+    const SETTINGS_DIALOG_ID = "npm-more-install-buttons-settings";
+    const SETTINGS_KEY = "npmMoreInstallButtonsSettings";
+    const SETTINGS_VERSION = 1;
     const COPY_BUTTON_SELECTOR =
         'button[aria-label="Copy install command line"]';
 
     let renderFrame = 0;
+    let settingsRevision = 0;
+    let settings = loadSettings();
+
+    function createDefaultSettings() {
+        return {
+            version: SETTINGS_VERSION,
+            commandEnabled: Object.fromEntries(
+                COMMAND_BUTTONS.map(({ enabled, id }) => [
+                    id,
+                    enabled !== false,
+                ])
+            ),
+            display: Object.fromEntries(
+                DISPLAY_OPTION_DEFINITIONS.map(({ enabled, id }) => [
+                    id,
+                    enabled !== false,
+                ])
+            ),
+        };
+    }
+
+    function normalizeSettings(value) {
+        const defaults = createDefaultSettings();
+        if (!value || typeof value !== "object" || Array.isArray(value)) {
+            return defaults;
+        }
+
+        const savedCommands =
+            value.commandEnabled &&
+            typeof value.commandEnabled === "object" &&
+            !Array.isArray(value.commandEnabled)
+                ? value.commandEnabled
+                : {};
+        const savedDisplay =
+            value.display &&
+            typeof value.display === "object" &&
+            !Array.isArray(value.display)
+                ? value.display
+                : {};
+
+        for (const { id } of COMMAND_BUTTONS) {
+            if (typeof savedCommands[id] === "boolean") {
+                defaults.commandEnabled[id] = savedCommands[id];
+            }
+        }
+        for (const { id } of DISPLAY_OPTION_DEFINITIONS) {
+            if (typeof savedDisplay[id] === "boolean") {
+                defaults.display[id] = savedDisplay[id];
+            }
+        }
+
+        return defaults;
+    }
+
+    function loadSettings() {
+        if (typeof GM_getValue !== "function") return createDefaultSettings();
+
+        try {
+            return normalizeSettings(GM_getValue(SETTINGS_KEY, null));
+        } catch {
+            return createDefaultSettings();
+        }
+    }
+
+    function saveSettings(nextSettings) {
+        settings = normalizeSettings(nextSettings);
+        settingsRevision += 1;
+
+        if (typeof GM_setValue === "function") {
+            try {
+                GM_setValue(SETTINGS_KEY, settings);
+            } catch {
+                // Apply the settings to the current page even if persistence fails.
+            }
+        }
+
+        document.querySelector(`[${LIST_ATTRIBUTE}]`)?.remove();
+        scheduleRender();
+    }
 
     function addStyles() {
         if (document.getElementById(STYLE_ID)) return;
@@ -182,7 +294,9 @@
 
             .mib-install-heading-icon,
             .mib-list-heading-icon,
-            .mib-command-icon {
+            .mib-command-icon,
+            .mib-settings-option-icon,
+            .mib-settings-title-icon {
                 font-family: "Symbols Nerd Font Mono", "Symbols Nerd Font", "CaskaydiaCove Nerd Font", "CaskaydiaMono Nerd Font", "JetBrainsMono Nerd Font", monospace;
                 font-style: normal;
                 font-variant: normal;
@@ -207,9 +321,8 @@
                 text-transform: uppercase;
             }
 
-            .mib-list-heading::after {
+            .mib-list-heading-divider {
                 background: linear-gradient(90deg, var(--color-border-default, #d8d8d8), transparent);
-                content: "";
                 flex: 1 1 auto;
                 height: 1px;
                 margin-left: 0.15rem;
@@ -226,6 +339,37 @@
                 font-size: 0.62rem;
                 letter-spacing: 0;
                 padding: 0.1rem 0.35rem;
+            }
+
+            .mib-list-settings {
+                align-items: center;
+                background: transparent;
+                border: 1px solid transparent;
+                border-radius: 5px;
+                color: var(--color-fg-muted, #666);
+                cursor: pointer;
+                display: flex;
+                height: 1.75rem;
+                justify-content: center;
+                padding: 0;
+                width: 1.75rem;
+            }
+
+            .mib-list-settings:hover,
+            .mib-list-settings:focus-visible {
+                background: color-mix(in srgb, var(--color-fg-brand, #cb3837) 9%, transparent);
+                border-color: color-mix(in srgb, var(--color-fg-brand, #cb3837) 32%, transparent);
+                color: var(--color-fg-brand, #cb3837);
+            }
+
+            .mib-gear-icon {
+                fill: none;
+                height: 14px;
+                stroke: currentColor;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 1.5;
+                width: 14px;
             }
 
             .mib-command {
@@ -254,29 +398,29 @@
                 width: 100%;
             }
 
-            .mib-command[data-manager="yarn"] {
+            :is(.mib-command, .mib-settings-option)[data-manager="yarn"] {
                 --mib-accent: #2c8ebb;
             }
 
-            .mib-command[data-manager="pnpm"] {
+            :is(.mib-command, .mib-settings-option)[data-manager="pnpm"] {
                 --mib-accent: #d88c00;
             }
 
-            .mib-command[data-manager="bun"] {
+            :is(.mib-command, .mib-settings-option)[data-manager="bun"] {
                 --mib-accent: #9b6c4f;
             }
 
-            .mib-command[data-manager="deno"] {
+            :is(.mib-command, .mib-settings-option)[data-manager="deno"] {
                 --mib-accent: #5b9279;
             }
 
-            .mib-command[data-manager="vlt"] {
+            :is(.mib-command, .mib-settings-option)[data-manager="vlt"] {
                 --mib-accent: #6f5bd3;
             }
 
-            .mib-command[data-manager="aube"],
-            .mib-command[data-manager="nub"],
-            .mib-command[data-manager="cnpm"] {
+            :is(.mib-command, .mib-settings-option)[data-manager="aube"],
+            :is(.mib-command, .mib-settings-option)[data-manager="nub"],
+            :is(.mib-command, .mib-settings-option)[data-manager="cnpm"] {
                 --mib-accent: #737373;
             }
 
@@ -429,6 +573,215 @@
                 gap: 0;
             }
 
+            .mib-settings-dialog {
+                background: var(--color-bg-default, #fff);
+                border: 1px solid var(--color-border-default, #d8d8d8);
+                border-radius: 10px;
+                box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+                color: var(--color-fg-default, #171717);
+                max-height: min(46rem, calc(100vh - 2rem));
+                max-width: calc(100vw - 2rem);
+                overflow: hidden;
+                padding: 0;
+                width: min(40rem, calc(100vw - 2rem));
+            }
+
+            .mib-settings-dialog::backdrop {
+                background: rgba(0, 0, 0, 0.58);
+                backdrop-filter: blur(2px);
+            }
+
+            .mib-settings-form {
+                display: grid;
+                grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+                max-height: min(46rem, calc(100vh - 2rem));
+            }
+
+            .mib-settings-header,
+            .mib-settings-footer,
+            .mib-settings-toolbar {
+                align-items: center;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .mib-settings-header {
+                border-bottom: 1px solid var(--color-border-default, #d8d8d8);
+                justify-content: space-between;
+                padding: 1rem 1.1rem;
+            }
+
+            .mib-settings-title-wrap {
+                align-items: center;
+                display: flex;
+                gap: 0.6rem;
+            }
+
+            .mib-settings-title-icon {
+                color: var(--color-fg-brand, #cb3837);
+                font-size: 1.2rem;
+            }
+
+            .mib-settings-title {
+                font-size: 1.15rem;
+                margin: 0;
+            }
+
+            .mib-settings-intro {
+                color: var(--color-fg-muted, #666);
+                margin: 0;
+                padding: 0.85rem 1.1rem 0.25rem;
+            }
+
+            .mib-settings-toolbar {
+                flex-wrap: wrap;
+                padding: 0.6rem 1.1rem 0.85rem;
+            }
+
+            .mib-settings-button,
+            .mib-settings-close {
+                background: var(--color-bg-default, #fff);
+                border: 1px solid var(--color-border-default, #c8c8c8);
+                border-radius: 5px;
+                color: var(--color-fg-default, #171717);
+                cursor: pointer;
+                font: inherit;
+            }
+
+            .mib-settings-button {
+                min-height: 2rem;
+                padding: 0.35rem 0.7rem;
+            }
+
+            .mib-settings-button:hover,
+            .mib-settings-close:hover {
+                background: var(--color-bg-subtle, #f3f3f3);
+                border-color: var(--color-border-strong, #8c8c8c);
+            }
+
+            .mib-settings-button-primary {
+                background: #cb3837;
+                border-color: #cb3837;
+                color: #fff;
+                font-weight: 700;
+            }
+
+            .mib-settings-button-primary:hover {
+                background: #a92f2e;
+                border-color: #a92f2e;
+                color: #fff;
+            }
+
+            .mib-settings-close {
+                font-size: 1.25rem;
+                height: 2rem;
+                line-height: 1;
+                padding: 0;
+                width: 2rem;
+            }
+
+            .mib-settings-groups {
+                border-bottom: 1px solid var(--color-border-default, #d8d8d8);
+                border-top: 1px solid var(--color-border-default, #d8d8d8);
+                overflow: auto;
+                overscroll-behavior: contain;
+                padding: 0.75rem 1.1rem 1rem;
+            }
+
+            .mib-settings-group {
+                border: 0;
+                margin: 0;
+                padding: 0;
+            }
+
+            .mib-settings-group + .mib-settings-group {
+                border-top: 1px solid var(--color-border-default, #e2e2e2);
+                margin-top: 1rem;
+                padding-top: 0.9rem;
+            }
+
+            .mib-settings-legend {
+                font-size: 0.85rem;
+                font-weight: 750;
+                padding: 0 0 0.4rem;
+            }
+
+            .mib-settings-option {
+                --mib-accent: var(--color-fg-brand, #cb3837);
+                align-items: center;
+                border-radius: 6px;
+                cursor: pointer;
+                display: grid;
+                gap: 0.65rem;
+                grid-template-columns: auto 2rem minmax(0, 1fr);
+                min-height: 3.45rem;
+                padding: 0.4rem 0.5rem;
+            }
+
+            .mib-settings-option-display {
+                grid-template-columns: auto minmax(0, 1fr);
+            }
+
+            .mib-settings-option:hover {
+                background: var(--color-bg-subtle, rgba(0, 0, 0, 0.035));
+            }
+
+            .mib-settings-option input {
+                accent-color: #cb3837;
+                height: 1rem;
+                margin: 0;
+                width: 1rem;
+            }
+
+            .mib-settings-option-icon {
+                align-items: center;
+                background: color-mix(in srgb, var(--mib-accent) 13%, transparent);
+                border: 1px solid color-mix(in srgb, var(--mib-accent) 25%, transparent);
+                border-radius: 6px;
+                color: var(--mib-accent);
+                display: flex;
+                font-size: 1.05rem;
+                height: 2rem;
+                justify-content: center;
+                width: 2rem;
+            }
+
+            .mib-settings-option-text {
+                display: grid;
+                gap: 0.1rem;
+                min-width: 0;
+            }
+
+            .mib-settings-option-label {
+                font-size: 0.88rem;
+                font-weight: 650;
+            }
+
+            .mib-settings-option-description {
+                color: var(--color-fg-muted, #666);
+                font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+                font-size: 0.71rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .mib-settings-option-display .mib-settings-option-description {
+                font-family: inherit;
+            }
+
+            .mib-settings-footer {
+                justify-content: flex-end;
+                padding: 0.85rem 1.1rem;
+            }
+
+            html[data-color-mode="dark"] .mib-settings-dialog,
+            html[data-color-mode="dark"] .mib-settings-button,
+            html[data-color-mode="dark"] .mib-settings-close {
+                background: #171717;
+                color: #f4f4f4;
+            }
+
             @media (prefers-reduced-motion: reduce) {
                 .mib-command,
                 .mib-copy-icon,
@@ -495,13 +848,13 @@
         installHeading.dataset.mibHeading = "Install";
         installHeading.classList.toggle(
             "mib-install-heading",
-            DISPLAY_OPTIONS.showInstallHeaderIcon
+            settings.display.showInstallHeaderIcon
         );
 
         const existingIcon = installHeading.querySelector(
             ".mib-install-heading-icon"
         );
-        if (!DISPLAY_OPTIONS.showInstallHeaderIcon) {
+        if (!settings.display.showInstallHeaderIcon) {
             existingIcon?.remove();
             return;
         }
@@ -550,7 +903,9 @@
 
         return COMMAND_BUTTONS.filter(
             (button) =>
-                button.enabled !== false &&
+                settings.commandEnabled[button.id] !== false &&
+                typeof button.id === "string" &&
+                button.id.trim().length > 0 &&
                 typeof button.label === "string" &&
                 button.label.trim().length > 0 &&
                 typeof button.template === "string" &&
@@ -590,6 +945,15 @@
     }
 
     async function copyText(text) {
+        if (typeof GM_setClipboard === "function") {
+            try {
+                GM_setClipboard(text, "text");
+                return true;
+            } catch {
+                // Fall through to browser clipboard APIs.
+            }
+        }
+
         if (navigator.clipboard?.writeText) {
             try {
                 await navigator.clipboard.writeText(text);
@@ -636,6 +1000,269 @@
 
         icon.append(backPage, frontPage);
         return icon;
+    }
+
+    function createGearIcon() {
+        const svgNamespace = "http://www.w3.org/2000/svg";
+        const icon = document.createElementNS(svgNamespace, "svg");
+        icon.classList.add("mib-gear-icon");
+        icon.setAttribute("aria-hidden", "true");
+        icon.setAttribute("focusable", "false");
+        icon.setAttribute("viewBox", "0 0 16 16");
+
+        const path = document.createElementNS(svgNamespace, "path");
+        path.setAttribute(
+            "d",
+            "M8 5.4a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2ZM8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M12.6 3.4l-.9.9M4.3 11.7l-.9.9"
+        );
+        icon.append(path);
+        return icon;
+    }
+
+    function createSettingsButton(label, action, primary = false) {
+        const button = document.createElement("button");
+        button.type = action === "submit" ? "submit" : "button";
+        button.className = "mib-settings-button";
+        if (primary) button.classList.add("mib-settings-button-primary");
+        button.textContent = label;
+        if (typeof action === "function") {
+            button.addEventListener("click", action);
+        }
+        return button;
+    }
+
+    function createSettingsOption({
+        checked,
+        description,
+        icon,
+        id,
+        label,
+        manager,
+        name,
+    }) {
+        const option = document.createElement("label");
+        option.className = "mib-settings-option";
+        if (manager) option.dataset.manager = manager;
+        if (!icon) option.classList.add("mib-settings-option-display");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.name = name;
+        checkbox.value = id;
+        checkbox.checked = checked;
+
+        const text = document.createElement("span");
+        text.className = "mib-settings-option-text";
+
+        const optionLabel = document.createElement("span");
+        optionLabel.className = "mib-settings-option-label";
+        optionLabel.textContent = label;
+
+        const optionDescription = document.createElement("span");
+        optionDescription.className = "mib-settings-option-description";
+        optionDescription.textContent = description;
+
+        text.append(optionLabel, optionDescription);
+        option.append(checkbox);
+        if (icon) {
+            const optionIcon = document.createElement("span");
+            optionIcon.className = "mib-settings-option-icon";
+            optionIcon.setAttribute("aria-hidden", "true");
+            optionIcon.textContent = icon;
+            option.append(optionIcon);
+        }
+        option.append(text);
+        return option;
+    }
+
+    function applySettingsToForm(form, formSettings) {
+        for (const checkbox of form.querySelectorAll(
+            'input[name="enabledCommand"]'
+        )) {
+            checkbox.checked = formSettings.commandEnabled[checkbox.value];
+        }
+        for (const checkbox of form.querySelectorAll(
+            'input[name="displayOption"]'
+        )) {
+            checkbox.checked = formSettings.display[checkbox.value];
+        }
+    }
+
+    function readSettingsFromForm(form) {
+        const nextSettings = createDefaultSettings();
+        for (const checkbox of form.querySelectorAll(
+            'input[name="enabledCommand"]'
+        )) {
+            nextSettings.commandEnabled[checkbox.value] = checkbox.checked;
+        }
+        for (const checkbox of form.querySelectorAll(
+            'input[name="displayOption"]'
+        )) {
+            nextSettings.display[checkbox.value] = checkbox.checked;
+        }
+        return nextSettings;
+    }
+
+    function closeSettingsDialog(dialog) {
+        if (typeof dialog.close === "function") {
+            dialog.close();
+        } else {
+            dialog.remove();
+        }
+    }
+
+    function openSettingsDialog() {
+        document.getElementById(SETTINGS_DIALOG_ID)?.remove();
+        addStyles();
+
+        const dialog = document.createElement("dialog");
+        dialog.id = SETTINGS_DIALOG_ID;
+        dialog.className = "mib-settings-dialog";
+        dialog.setAttribute("aria-describedby", "mib-settings-description");
+        dialog.setAttribute("aria-labelledby", "mib-settings-title");
+
+        const form = document.createElement("form");
+        form.className = "mib-settings-form";
+
+        const header = document.createElement("header");
+        header.className = "mib-settings-header";
+
+        const titleWrap = document.createElement("div");
+        titleWrap.className = "mib-settings-title-wrap";
+        const titleIcon = document.createElement("span");
+        titleIcon.className = "mib-settings-title-icon";
+        titleIcon.setAttribute("aria-hidden", "true");
+        titleIcon.textContent = "󰏗";
+        const title = document.createElement("h2");
+        title.id = "mib-settings-title";
+        title.className = "mib-settings-title";
+        title.textContent = "Install command settings";
+        titleWrap.append(titleIcon, title);
+
+        const closeButton = document.createElement("button");
+        closeButton.type = "button";
+        closeButton.className = "mib-settings-close";
+        closeButton.setAttribute(
+            "aria-label",
+            "Close install command settings"
+        );
+        closeButton.textContent = "×";
+        closeButton.addEventListener("click", () =>
+            closeSettingsDialog(dialog)
+        );
+        header.append(titleWrap, closeButton);
+
+        const intro = document.createElement("p");
+        intro.id = "mib-settings-description";
+        intro.className = "mib-settings-intro";
+        intro.textContent =
+            "Choose which commands appear on npm package pages and how each row is presented. Settings are saved by your userscript manager.";
+
+        const toolbar = document.createElement("div");
+        toolbar.className = "mib-settings-toolbar";
+        toolbar.append(
+            createSettingsButton("Enable all commands", () => {
+                for (const checkbox of form.querySelectorAll(
+                    'input[name="enabledCommand"]'
+                )) {
+                    checkbox.checked = true;
+                }
+            }),
+            createSettingsButton("Disable all commands", () => {
+                for (const checkbox of form.querySelectorAll(
+                    'input[name="enabledCommand"]'
+                )) {
+                    checkbox.checked = false;
+                }
+            }),
+            createSettingsButton("Defaults", () =>
+                applySettingsToForm(form, createDefaultSettings())
+            )
+        );
+
+        const groups = document.createElement("div");
+        groups.className = "mib-settings-groups";
+
+        const displayGroup = document.createElement("fieldset");
+        displayGroup.className = "mib-settings-group";
+        const displayLegend = document.createElement("legend");
+        displayLegend.className = "mib-settings-legend";
+        displayLegend.textContent = "Appearance";
+        displayGroup.append(displayLegend);
+        for (const option of DISPLAY_OPTION_DEFINITIONS) {
+            displayGroup.append(
+                createSettingsOption({
+                    checked: settings.display[option.id],
+                    description: option.description,
+                    id: option.id,
+                    label: option.label,
+                    name: "displayOption",
+                })
+            );
+        }
+
+        const commandGroup = document.createElement("fieldset");
+        commandGroup.className = "mib-settings-group";
+        const commandLegend = document.createElement("legend");
+        commandLegend.className = "mib-settings-legend";
+        commandLegend.textContent = "Install commands";
+        commandGroup.append(commandLegend);
+        for (const command of COMMAND_BUTTONS) {
+            const requirements = command.requiresTypes
+                ? " · requires a separate @types package"
+                : "";
+            commandGroup.append(
+                createSettingsOption({
+                    checked: settings.commandEnabled[command.id],
+                    description: `${command.template}${requirements}`,
+                    icon: command.icon,
+                    id: command.id,
+                    label: command.label,
+                    manager: command.manager,
+                    name: "enabledCommand",
+                })
+            );
+        }
+        groups.append(displayGroup, commandGroup);
+
+        const footer = document.createElement("footer");
+        footer.className = "mib-settings-footer";
+        footer.append(
+            createSettingsButton("Cancel", () => closeSettingsDialog(dialog)),
+            createSettingsButton("Save", "submit", true)
+        );
+
+        form.append(header, intro, toolbar, groups, footer);
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            saveSettings(readSettingsFromForm(form));
+            closeSettingsDialog(dialog);
+        });
+
+        dialog.addEventListener("click", (event) => {
+            if (event.target === dialog) closeSettingsDialog(dialog);
+        });
+        dialog.addEventListener("close", () => dialog.remove(), {
+            once: true,
+        });
+        dialog.append(form);
+        (document.body || document.documentElement).append(dialog);
+
+        if (typeof dialog.showModal === "function") {
+            dialog.showModal();
+        } else {
+            dialog.setAttribute("open", "");
+        }
+        form.querySelector('input[name="displayOption"]')?.focus();
+    }
+
+    function registerSettingsCommand() {
+        if (typeof GM_registerMenuCommand !== "function") return;
+
+        GM_registerMenuCommand(
+            "Configure install commands…",
+            openSettingsDialog
+        );
     }
 
     function createCommandButton({ icon, label, manager, text }) {
@@ -708,6 +1335,7 @@
             details.packageName,
             details.packageVersion,
             details.typesPackageName,
+            settingsRevision,
         ].join("|");
         const existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
         updateInstallHeading(installHeading);
@@ -716,22 +1344,24 @@
 
         addStyles();
 
+        const commands = buildCommands(details);
+        if (commands.length === 0) return;
+
         const list = document.createElement("div");
         list.className = "mib-list";
         list.dataset.pageKey = pageKey;
-        list.dataset.showIcons = String(DISPLAY_OPTIONS.showCommandIcons);
-        list.dataset.showLabels = String(DISPLAY_OPTIONS.showCommandLabels);
+        list.dataset.showIcons = String(settings.display.showCommandIcons);
+        list.dataset.showLabels = String(settings.display.showCommandLabels);
         list.setAttribute(LIST_ATTRIBUTE, "");
         list.setAttribute("aria-label", "Additional install commands");
 
-        const commands = buildCommands(details);
-        if (DISPLAY_OPTIONS.showListHeading && commands.length > 0) {
+        if (settings.display.showListHeading && commands.length > 0) {
             const listHeading = document.createElement("div");
             listHeading.className = "mib-list-heading";
-            listHeading.setAttribute("aria-hidden", "true");
 
             const listHeadingIcon = document.createElement("span");
             listHeadingIcon.className = "mib-list-heading-icon";
+            listHeadingIcon.setAttribute("aria-hidden", "true");
             listHeadingIcon.textContent = "";
 
             const listHeadingText = document.createElement("span");
@@ -741,10 +1371,27 @@
             listHeadingCount.className = "mib-list-heading-count";
             listHeadingCount.textContent = String(commands.length);
 
+            const listHeadingDivider = document.createElement("span");
+            listHeadingDivider.className = "mib-list-heading-divider";
+            listHeadingDivider.setAttribute("aria-hidden", "true");
+
+            const settingsButton = document.createElement("button");
+            settingsButton.type = "button";
+            settingsButton.className = "mib-list-settings";
+            settingsButton.title = "Configure install commands";
+            settingsButton.setAttribute(
+                "aria-label",
+                "Configure install commands"
+            );
+            settingsButton.append(createGearIcon());
+            settingsButton.addEventListener("click", openSettingsDialog);
+
             listHeading.append(
                 listHeadingIcon,
                 listHeadingText,
-                listHeadingCount
+                listHeadingCount,
+                listHeadingDivider,
+                settingsButton
             );
             list.append(listHeading);
         }
@@ -771,5 +1418,6 @@
         subtree: true,
     });
     window.addEventListener("popstate", scheduleRender);
+    registerSettingsCommand();
     scheduleRender();
 })();
