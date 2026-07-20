@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.7.1
+// @version      0.8.0
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -15,13 +15,20 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=npmjs.com
 // @grant        GM.registerMenuCommand
 // @grant        GM.xmlHttpRequest
+// @grant        GM_getValue
+// @grant        GM_registerMenuCommand
+// @grant        GM_setClipboard
+// @grant        GM_setValue
+// @grant        GM_xmlhttpRequest
 // @connect      api.github.com
 // @connect      api.npmjs.org
 // @connect      api.osv.dev
+// @connect      bundlephobia.com
 // @connect      cdn.jsdelivr.net
 // @connect      registry.npmjs.org
 // @inject-into  content
 // @run-at       document-start
+// @noframes
 // ==/UserScript==
 
 /* eslint-disable -- Generated bundle containing audited upstream and third-party code; authored TypeScript is type-checked before bundling. */
@@ -539,7 +546,7 @@
     }
     function ensureSidebarBalance() {
         const halfWidthColumns = document.querySelectorAll(
-            '[aria-label="Package sidebar"] div.w-50:not(.w-100)'
+            '[aria-label="Package sidebar"] div.w-50:not(.w-100):not(.npm-userscript-repository-card-superseded)'
         );
         if (halfWidthColumns.length % 2 === 1) {
             const lastColumn = halfWidthColumns[halfWidthColumns.length - 1];
@@ -914,6 +921,7 @@ and dependency semver ranges.
         description: () => description2,
         run: () => run2,
         runPre: () => runPre2,
+        teardown: () => teardownBetterVersions,
     });
     function runPre2() {
         if (!isValidPackagePage()) return;
@@ -966,11 +974,60 @@ and dependency semver ranges.
     }
   `);
         addStyle(`
-    table[aria-labelledby="cumulated-versions"] .npm-userscript-cumulated-versions-minor {
-      display: none;
+    .npm-userscript-version-summary {
+      margin-top: 2rem;
     }
-    table[aria-labelledby="cumulated-versions"] .npm-userscript-cumulated-versions-minor[open] {
-      display: table-row-group;
+
+    .npm-userscript-version-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 12px;
+      border-bottom: 1px solid var(--color-border-default);
+    }
+
+    .npm-userscript-version-tab {
+      padding: 12px 8px 10px;
+      color: var(--color-fg-muted, #656d76);
+      background: transparent;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .npm-userscript-version-tab[aria-selected="true"] {
+      color: var(--wombat-red, #cb3837);
+      border-bottom-color: var(--wombat-red, #cb3837);
+    }
+
+    .npm-userscript-version-tab:focus-visible {
+      outline: 2px solid var(--wombat-red, #cb3837);
+      outline-offset: -2px;
+    }
+
+    .npm-userscript-version-summary table {
+      margin-top: 12px;
+    }
+
+    .npm-userscript-version-summary-note,
+    .npm-userscript-version-limit-note {
+      margin: 8px 0 0;
+      color: var(--color-fg-muted, #656d76);
+      font-size: 0.82rem;
+    }
+
+    .npm-userscript-version-limit-note button {
+      padding: 0;
+      color: var(--wombat-red, #cb3837);
+      background: none;
+      border: 0;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .npm-userscript-version-limit-hidden {
+      display: none !important;
     }
   `);
         addStyle(`
@@ -984,14 +1041,62 @@ and dependency semver ranges.
     }
   `);
     }
+    var betterVersionsObserver;
+    var betterVersionsRenderQueued = false;
+    var showAllNativeVersions = false;
     function run2() {
         if (!isValidPackagePage()) return;
         if (
             new URLSearchParams(location.search).get("activeTab") !== "versions"
         )
             return;
+        showAllNativeVersions = false;
+        renderBetterVersions();
+        observeBetterVersions();
+    }
+    function renderBetterVersions() {
         addVersionTag();
         addCumulatedVersionsTable();
+        applyNativeVersionHistoryLimit();
+    }
+    function observeBetterVersions() {
+        betterVersionsObserver?.disconnect();
+        const root = document.querySelector("main");
+        if (!root) return;
+        betterVersionsObserver = new MutationObserver(() => {
+            if (betterVersionsRenderQueued) return;
+            betterVersionsRenderQueued = true;
+            requestAnimationFrame(() => {
+                betterVersionsRenderQueued = false;
+                if (!betterVersionsObserver) return;
+                betterVersionsObserver.disconnect();
+                renderBetterVersions();
+                betterVersionsObserver.observe(root, {
+                    childList: true,
+                    subtree: true,
+                });
+            });
+        });
+        betterVersionsObserver.observe(root, {
+            childList: true,
+            subtree: true,
+        });
+    }
+    function teardownBetterVersions() {
+        betterVersionsObserver?.disconnect();
+        betterVersionsObserver = void 0;
+        betterVersionsRenderQueued = false;
+        showAllNativeVersions = false;
+        document.querySelector(".npm-userscript-version-summary")?.remove();
+        document.querySelector(".npm-userscript-version-limit-note")?.remove();
+        document
+            .querySelectorAll(".npm-userscript-tag")
+            .forEach((tag) => tag.remove());
+        document
+            .querySelectorAll(".npm-userscript-version-limit-hidden")
+            .forEach((row) =>
+                row.classList.remove("npm-userscript-version-limit-hidden")
+            );
     }
     function addVersionTag() {
         if (document.querySelector(".npm-userscript-tag")) return;
@@ -1026,90 +1131,209 @@ and dependency semver ranges.
             'table[aria-labelledby="version-history"]'
         );
         if (!versionHistoryTable) return;
+        const section = document.createElement("section");
+        section.className = "npm-userscript-version-summary";
         const newH3 = versionHistoryH3.cloneNode(true);
         newH3.id = "cumulated-versions";
-        newH3.textContent = "Cumulated Versions";
+        newH3.textContent = "Version History Overview";
         const newTable = versionHistoryTable.cloneNode(true);
         newTable.setAttribute("aria-labelledby", "cumulated-versions");
-        const newBody = newTable.querySelector("tbody");
-        if (!newBody) return;
+        newTable.querySelectorAll("tbody").forEach((body) => body.remove());
         const majorToInfo = {};
         const minorToInfo = {};
+        const patchToInfo = {};
         const npmContext2 = getNpmContext();
         for (const entry of npmContext2.context.packument.versions) {
             const version = entry.version;
-            const major = version.split(".")[0];
-            const minor = version.split(".").slice(0, 2).join(".");
+            const parts = parseVersionParts(version);
+            if (!parts) continue;
+            const major = `${parts.major}`;
+            const minor = `${parts.major}.${parts.minor}`;
             const downloads =
                 npmContext2.context.versionsDownloads[version] || 0;
             const lastPublished = entry.date;
-            if (!majorToInfo[major]) {
-                majorToInfo[major] = { totalDownloads: 0, lastPublished };
-            }
-            majorToInfo[major].totalDownloads += downloads;
-            if (!minorToInfo[minor]) {
-                minorToInfo[minor] = { totalDownloads: 0, lastPublished };
-            }
-            minorToInfo[minor].totalDownloads += downloads;
+            addVersionSummaryInfo(majorToInfo, major, downloads, lastPublished);
+            addVersionSummaryInfo(minorToInfo, minor, downloads, lastPublished);
+            patchToInfo[version] = {
+                parts,
+                totalDownloads: downloads,
+                lastPublished,
+            };
         }
-        newBody.remove();
-        const keys = Object.keys(majorToInfo).sort(
-            (a2, b2) => parseInt(b2) - parseInt(a2)
-        );
-        for (const major of keys) {
-            const majorInfo = majorToInfo[major];
-            const majorDate = new Date(majorInfo.lastPublished.ts);
-            const majorTbody = document.createElement("tbody");
-            majorTbody.innerHTML = `
-      <tr>
-        <td style="cursor: pointer;">
-          <span class="f5 black-80 lh-copy code">${major}.x</span>
-        </td>
-        <td>${majorInfo.totalDownloads.toLocaleString()}</td>
-        <td class="f5 black-60 lh-copy">
-          <time datetime="${majorDate.toISOString()}" title="${majorDate.toLocaleString()}">
-            ${majorInfo.lastPublished.rel}
-          </time>
-        </td>
-      </tr>
-    `;
-            const minorTbody = document.createElement("tbody");
-            minorTbody.className = "npm-userscript-cumulated-versions-minor";
-            const minorKeys = Object.keys(minorToInfo)
-                .filter((k2) => k2.startsWith(major + "."))
-                .sort((a2, b2) => {
-                    const [aMajor, aMinor] = a2
-                        .split(".")
-                        .map((n2) => parseInt(n2, 10));
-                    const [bMajor, bMinor] = b2
-                        .split(".")
-                        .map((n2) => parseInt(n2, 10));
-                    if (aMajor !== bMajor) return bMajor - aMajor;
-                    return bMinor - aMinor;
-                });
-            for (const minor of minorKeys) {
-                const minorInfo = minorToInfo[minor];
-                const minorDate = new Date(minorInfo.lastPublished.ts);
-                minorTbody.innerHTML += `
-        <tr>
-          <td><span class="f6 black-80 code ml3">${minor}.x</span></td>
-          <td class="o-80">${minorInfo.totalDownloads.toLocaleString()}</td>
-          <td class="o-80 f5 black-60 lh-copy">
-            <time datetime="${minorDate.toISOString()}" title="${minorDate.toLocaleString()}">
-              ${minorInfo.lastPublished.rel}
-            </time>
-          </td>
-        </tr>
-      `;
+        const views = {
+            major: Object.entries(majorToInfo)
+                .map(([label, info]) => ({ label: `${label}.x`, ...info }))
+                .sort(
+                    (a2, b2) =>
+                        Number(b2.label.split(".")[0]) -
+                        Number(a2.label.split(".")[0])
+                ),
+            minor: Object.entries(minorToInfo)
+                .map(([label, info]) => ({ label: `${label}.x`, ...info }))
+                .sort((a2, b2) =>
+                    compareVersionParts(
+                        parseVersionParts(b2.label),
+                        parseVersionParts(a2.label)
+                    )
+                ),
+            patch: Object.entries(patchToInfo)
+                .map(([label, info]) => ({ label, ...info }))
+                .sort(
+                    (a2, b2) =>
+                        compareSemverVersions(b2.label, a2.label) ||
+                        new Date(b2.lastPublished.ts).getTime() -
+                            new Date(a2.lastPublished.ts).getTime() ||
+                        b2.label.localeCompare(a2.label)
+                ),
+        };
+        const tabs = document.createElement("div");
+        tabs.className = "npm-userscript-version-tabs";
+        tabs.setAttribute("role", "group");
+        tabs.setAttribute("aria-label", "Version history level");
+        const note = document.createElement("p");
+        note.className = "npm-userscript-version-summary-note";
+        const renderView = (selected) => {
+            newTable.querySelectorAll("tbody").forEach((body) => body.remove());
+            const body = document.createElement("tbody");
+            let entries = views[selected];
+            const limit = getVersionHistoryLimit();
+            if (selected === "patch" && limit !== null) {
+                entries = entries.slice(0, limit);
             }
-            majorTbody.querySelector("td")?.addEventListener("click", () => {
-                minorTbody.toggleAttribute("open");
+            entries.forEach((entry) =>
+                body.appendChild(createVersionSummaryRow(entry))
+            );
+            newTable.appendChild(body);
+            tabs.querySelectorAll("button").forEach((button) => {
+                button.setAttribute(
+                    "aria-pressed",
+                    String(button.dataset.versionLevel === selected)
+                );
             });
-            newTable.appendChild(majorTbody);
-            newTable.appendChild(minorTbody);
+            note.textContent =
+                selected === "patch" && entries.length < views.patch.length
+                    ? `Showing the latest ${entries.length} of ${views.patch.length} patch versions. Change this limit in Enhancer settings.`
+                    : `${entries.length.toLocaleString()} ${selected} version groups.`;
+        };
+        for (const [level, label] of [
+            ["major", "Major Versions"],
+            ["minor", "Minor Versions"],
+            ["patch", "Patch Versions"],
+        ]) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "npm-userscript-version-tab";
+            button.dataset.versionLevel = level;
+            button.setAttribute("aria-pressed", "false");
+            button.textContent = `${label} (${views[level].length})`;
+            button.addEventListener("click", () => renderView(level));
+            tabs.appendChild(button);
         }
-        versionHistoryH3.insertAdjacentElement("beforebegin", newH3);
-        versionHistoryH3.insertAdjacentElement("beforebegin", newTable);
+        section.append(newH3, tabs, newTable, note);
+        renderView("major");
+        versionHistoryH3.insertAdjacentElement("beforebegin", section);
+    }
+    function parseVersionParts(version) {
+        const match = /^v?(\d+)\.(\d+)(?:\.(\d+))?/.exec(version || "");
+        if (!match) return void 0;
+        return {
+            major: Number(match[1]),
+            minor: Number(match[2]),
+            patch: Number(match[3] || 0),
+            version,
+        };
+    }
+    function compareVersionParts(a2, b2) {
+        if (!a2 || !b2) return 0;
+        return (
+            a2.major - b2.major ||
+            a2.minor - b2.minor ||
+            a2.patch - b2.patch ||
+            String(a2.version).localeCompare(String(b2.version))
+        );
+    }
+    function compareSemverVersions(a2, b2) {
+        try {
+            return require_compare()(a2, b2);
+        } catch {
+            return compareVersionParts(
+                parseVersionParts(a2),
+                parseVersionParts(b2)
+            );
+        }
+    }
+    function addVersionSummaryInfo(target, key, downloads, lastPublished) {
+        const current = target[key];
+        if (!current) {
+            target[key] = { totalDownloads: downloads, lastPublished };
+            return;
+        }
+        current.totalDownloads += downloads;
+        if (
+            new Date(lastPublished.ts).getTime() >
+            new Date(current.lastPublished.ts).getTime()
+        ) {
+            current.lastPublished = lastPublished;
+        }
+    }
+    function createVersionSummaryRow(entry) {
+        const row = document.createElement("tr");
+        const versionCell = document.createElement("td");
+        const version = document.createElement("span");
+        version.className = "f5 black-80 lh-copy code";
+        version.textContent = entry.label;
+        versionCell.appendChild(version);
+        const downloads = document.createElement("td");
+        downloads.textContent = entry.totalDownloads.toLocaleString();
+        const published = document.createElement("td");
+        published.className = "f5 black-60 lh-copy";
+        const date = new Date(entry.lastPublished.ts);
+        const time = document.createElement("time");
+        time.dateTime = date.toISOString();
+        time.title = date.toLocaleString();
+        time.textContent = entry.lastPublished.rel;
+        published.appendChild(time);
+        row.append(versionCell, downloads, published);
+        return row;
+    }
+    function getVersionHistoryLimit() {
+        if (!versionLimitEnabledSetting.get()) return null;
+        const value = Number(versionLimitSetting.get());
+        return Number.isFinite(value)
+            ? Math.min(250, Math.max(5, Math.round(value)))
+            : 25;
+    }
+    function applyNativeVersionHistoryLimit() {
+        const table = document.querySelector(
+            'table[aria-labelledby="version-history"]'
+        );
+        if (!table) return;
+        const rows = Array.from(table.querySelectorAll("tbody tr"));
+        const limit = getVersionHistoryLimit();
+        const shouldLimit = limit !== null && !showAllNativeVersions;
+        rows.forEach((row, index) =>
+            row.classList.toggle(
+                "npm-userscript-version-limit-hidden",
+                shouldLimit && index >= limit
+            )
+        );
+        document.querySelector(".npm-userscript-version-limit-note")?.remove();
+        if (!shouldLimit || rows.length <= limit) return;
+        const note = document.createElement("p");
+        note.className = "npm-userscript-version-limit-note";
+        note.textContent = `Showing the latest ${limit} of ${rows.length} versions. `;
+        const showAll = document.createElement("button");
+        showAll.type = "button";
+        showAll.textContent = "Show all for this page";
+        showAll.addEventListener("click", () => {
+            showAllNativeVersions = true;
+            rows.forEach((row) =>
+                row.classList.remove("npm-userscript-version-limit-hidden")
+            );
+            note.remove();
+        });
+        note.appendChild(showAll);
+        table.insertAdjacentElement("afterend", note);
     }
     var description2;
     var init_better_versions = __esm({
@@ -1237,6 +1461,8 @@ versions, and fix provenance icon alignment.
     var badgeDefinitions,
         badgeVisibility,
         searchBadgesSetting,
+        versionLimitEnabledSetting,
+        versionLimitSetting,
         linkDefinitions,
         linkVisibility,
         customLinksSetting,
@@ -1269,6 +1495,14 @@ versions, and fix provenance icon alignment.
             searchBadgesSetting = localStorageStore(
                 "npm-enhancer:settings:search-badges",
                 false
+            );
+            versionLimitEnabledSetting = localStorageStore(
+                "npm-enhancer:settings:version-limit-enabled",
+                true
+            );
+            versionLimitSetting = localStorageStore(
+                "npm-enhancer:settings:version-limit",
+                25
             );
             linkDefinitions = {
                 documentation: "npm documentation",
@@ -1346,6 +1580,7 @@ versions, and fix provenance icon alignment.
     .npm-userscript-docs-link svg {
       width: 15px;
       height: 15px;
+      flex: 0 0 15px;
       fill: currentColor;
     }
 
@@ -1391,7 +1626,7 @@ versions, and fix provenance icon alignment.
             documentation.title = "npm documentation";
             documentation.setAttribute("aria-label", "npm documentation");
             documentation.innerHTML =
-                '<svg aria-hidden="true" viewBox="0 0 16 16"><path d="M2.75 1A1.75 1.75 0 0 0 1 2.75v10.5C1 14.216 1.784 15 2.75 15H7.5V3.25C7.5 2.007 6.493 1 5.25 1h-2.5Zm10.5 0H10.75A2.75 2.75 0 0 0 8 3.75V15h5.25A1.75 1.75 0 0 0 15 13.25V2.75A1.75 1.75 0 0 0 13.25 1Z"/></svg><span>Docs</span>';
+                '<svg class="npm-userscript-docs-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M2.75 1A1.75 1.75 0 0 0 1 2.75v10.5C1 14.216 1.784 15 2.75 15H7.5V3.25C7.5 2.007 6.493 1 5.25 1h-2.5Zm10.5 0H10.75A2.75 2.75 0 0 0 8 3.75V15h5.25A1.75 1.75 0 0 0 15 13.25V2.75A1.75 1.75 0 0 0 13.25 1Z"/></svg><span>Docs</span>';
             actions.appendChild(documentation);
         }
         profile.insertAdjacentElement("beforebegin", actions);
@@ -3039,6 +3274,8 @@ versions, and fix provenance icon alignment.
             parseCustomLinks(customLinksState.value).errors.join("\n")
         );
         const searchBadgesState = L(searchBadgesSetting.get());
+        const versionLimitEnabledState = L(versionLimitEnabledSetting.get());
+        const versionLimitState = L(versionLimitSetting.get());
         return at`
     <div
       id="npm-userscript-settings"
@@ -3176,12 +3413,52 @@ versions, and fix provenance icon alignment.
           grid-area: 1 / 2 / 2 / 3;
           font-weight: bold;
         }
+        #npm-userscript-settings .setting-name {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          min-width: 0;
+        }
+        #npm-userscript-settings .setting-preview {
+          display: inline-flex;
+          flex: 0 0 24px;
+          width: 24px;
+          height: 24px;
+          align-items: center;
+          justify-content: center;
+          color: #cb3837;
+          background: color-mix(in srgb, #cb3837 10%, transparent);
+          border: 1px solid color-mix(in srgb, #cb3837 24%, transparent);
+          border-radius: 6px;
+          font-family: "NPM Enhancer Nerd Font Symbols", sans-serif;
+          font-size: 14px;
+          line-height: 1;
+        }
+        #npm-userscript-settings .setting-badge-preview {
+          width: auto;
+          min-width: 24px;
+          padding: 0 5px;
+          color: #3155a6;
+          background: color-mix(in srgb, #3155a6 10%, transparent);
+          border-color: color-mix(in srgb, #3155a6 25%, transparent);
+        }
         #npm-userscript-settings .setting > p {
           grid-area: 2 / 2 / 3 / 3;
           margin: 2px 0 0;
           color: var(--color-fg-muted, #656d76);
           font-size: 13px;
           line-height: 1.35;
+        }
+        #npm-userscript-settings .inline-number {
+          width: 64px;
+          margin: 0 4px;
+          padding: 3px 6px;
+          color: inherit;
+          background: var(--background-color, #fff);
+          border: 1px solid var(--color-border-muted, #aaa);
+          border-radius: 6px;
+          font: inherit;
+          font-weight: 700;
         }
         #npm-userscript-settings .footer {
           font-size: 12px;
@@ -3275,8 +3552,8 @@ versions, and fix provenance icon alignment.
       <div class="dialog" @click=${(e3) => e3.stopPropagation()}>
         <h2>NPM Package & Search Enhancer</h2>
         <p class="intro">
-          Choose what appears on package and search pages. Search badges are opt-in because they
-          require extra registry lookups; search links use one cached lookup for the whole page.
+          Choose what appears on package and search pages. Static search links make no network
+          requests; enhanced badges are opt-in because they query package and security services.
         </p>
         <details class="settings-section" open>
           <summary>Features</summary>
@@ -3301,6 +3578,47 @@ versions, and fix provenance icon alignment.
           </div>
         </details>
         <details class="settings-section" open>
+          <summary>Version history</summary>
+          <div class="settings-grid">
+            <label class="setting setting-emphasis">
+              <input
+                type="checkbox"
+                .checked=${versionLimitEnabledState.value}
+                @change=${(e3) => {
+                    const checked = e3.target.checked;
+                    versionLimitEnabledSetting.set(checked);
+                    versionLimitEnabledState.value = checked;
+                }}
+              />
+              <span>Limit long version histories</span>
+              <p>
+                Show the latest
+                <input
+                  class="inline-number"
+                  type="number"
+                  min="5"
+                  max="250"
+                  step="1"
+                  aria-label="Maximum versions to show"
+                  .disabled=${!versionLimitEnabledState.value}
+                  .value=${String(versionLimitState.value)}
+                  @change=${(e3) => {
+                      const value = Math.min(
+                          250,
+                          Math.max(5, Math.round(Number(e3.target.value) || 25))
+                      );
+                      e3.target.value = String(value);
+                      versionLimitSetting.set(value);
+                      versionLimitState.value = value;
+                  }}
+                />
+                releases in the detailed Patch view and npm's native history table. Enabled by
+                default with a 25-version limit; Major and Minor totals remain complete.
+              </p>
+            </label>
+          </div>
+        </details>
+        <details class="settings-section" open>
           <summary>Badges</summary>
           <div class="settings-grid">
             <label class="setting setting-emphasis">
@@ -3313,10 +3631,11 @@ versions, and fix provenance icon alignment.
                     searchBadgesState.value = checked;
                 }}
               />
-              <span>Show badges in search results</span>
+              <span>Enhanced badges in search results</span>
               <p>
-                Off by default. When enabled, the enhancer loads up to two package manifests at a
-                time and caches them for six hours.
+                Off by default. Sends one npm Registry manifest request per displayed result,
+                limited to two at a time and cached for six hours. Alternatives and vulnerability
+                badges can also query jsDelivr and OSV.
               </p>
             </label>
             ${Object.entries(badgeStates).map(
@@ -3331,13 +3650,18 @@ versions, and fix provenance icon alignment.
                         state.value = checked;
                     }}
                   />
-                  <span>${badgeDefinitions[name]}</span>
+                  <span class="setting-name">
+                    <span class="setting-preview setting-badge-preview" aria-hidden="true">
+                      ${BADGE_ICONS[name] || "\u25CF"}
+                    </span>
+                    ${badgeDefinitions[name]}
+                  </span>
                 </label>
               `
             )}
           </div>
         </details>
-        <details class="settings-section">
+        <details class="settings-section" open>
           <summary>Links</summary>
           <div class="settings-grid">
             ${Object.entries(linkStates).map(
@@ -3352,7 +3676,12 @@ versions, and fix provenance icon alignment.
                         state.value = checked;
                     }}
                   />
-                  <span>${linkDefinitions[name]}</span>
+                  <span class="setting-name">
+                    <span class="setting-preview" aria-hidden="true">
+                      ${getLinkSettingIcon(name)}
+                    </span>
+                    ${linkDefinitions[name]}
+                  </span>
                 </label>
               `
             )}
@@ -3374,7 +3703,9 @@ versions, and fix provenance icon alignment.
         <p class="custom-help">
           One per line: Label | URL | optional icon URL. Tokens: {{package}}, {{packagePath}},
           {{encodedPackage}}, {{version}}, {{encodedVersion}}, {{packageSpec}},
-          {{encodedPackageSpec}}.
+          {{encodedPackageSpec}}. Icon URLs may use PNG, SVG, ICO, WebP, GIF, or another
+          browser-supported image format. Only http(s) URLs are accepted; failed icons fall back
+          to a text monogram.
         </p>
         <p class="custom-errors">${customLinkErrors}</p>
         <div class="footer">
@@ -3401,6 +3732,11 @@ versions, and fix provenance icon alignment.
                   customLinkErrors.value = "";
                   searchBadgesSetting.reset();
                   searchBadgesState.value = searchBadgesSetting.get();
+                  versionLimitEnabledSetting.reset();
+                  versionLimitEnabledState.value =
+                      versionLimitEnabledSetting.get();
+                  versionLimitSetting.reset();
+                  versionLimitState.value = versionLimitSetting.get();
               }}
             >
               Reset defaults
@@ -3423,6 +3759,24 @@ versions, and fix provenance icon alignment.
             .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
             .join(" ")
             .replace(/^Npm\b/, "NPM");
+    }
+    function getLinkSettingIcon(name) {
+        const icons = {
+            documentation: "\u{F02D}",
+            repository: "\uE702",
+            homepage: "\u{F02DC}",
+            funding: "\u{F02D1}",
+            npmx: "\uE71E",
+            publint: "\u{F05A2}",
+            attw: "\uE628",
+            npmgraph: "\u{F1049}",
+            pkgSize: "\u{F01D9}",
+            nodeModulesInspector: "\u{F05B0}",
+            packagephobia: "\u{F0D93}",
+            bundlejs: "\u{F0726}",
+            custom: "\u{F0337}",
+        };
+        return icons[name] || "\u2197";
     }
     function openSettings() {
         const existing = document.querySelector("#npm-userscript-settings");
@@ -3742,23 +4096,14 @@ implementation is broken for large numbers for some reason. This temporarily fix
         }
     }
     function run5() {
-        if (isValidPackagePage()) {
-            const sidebar = document.querySelector(
-                '[aria-label="Package sidebar"]'
-            );
-            const el = Array.from(sidebar?.querySelectorAll("h3") || []).find(
-                (el2) => el2.textContent === "Last publish"
-            );
-            if (el) {
-                el.textContent = "Last Publish";
-            }
-        }
+        // Visual fixes are CSS-only so npm's React tree retains ownership of
+        // native text and child nodes during client-side navigation.
     }
     var description6;
     var init_fix_styles = __esm({
         "src/features/fix-styles.ts"() {
             init_utils();
-            description6 = `Fix various style issues on the npm site.
+            description6 = `Correct npm layout and alignment problems across package sidebars, install controls, repository and homepage links, package badges, dark-mode notices, organization member tables, and homepage package cards.
 `;
         },
     });
@@ -3794,6 +4139,12 @@ implementation is broken for large numbers for some reason. This temporarily fix
       box-sizing: border-box;
       transform: none;
       list-style: none;
+    }
+
+    .npm-enhancer-package-links {
+      display: grid;
+      grid-template-columns: repeat(var(--npm-enhancer-link-columns, 1), 28px);
+      justify-content: center;
     }
 
     .npm-enhancer-link-row::before {
@@ -4014,7 +4365,29 @@ implementation is broken for large numbers for some reason. This temporarily fix
             }
             container.appendChild(anchor);
         }
+        if (container.classList.contains("npm-enhancer-package-links")) {
+            requestAnimationFrame(() => balanceHelpfulLinkRows(container));
+        }
         return container;
+    }
+    function balanceHelpfulLinkRows(container) {
+        if (!container.isConnected) return;
+        const count = container.children.length;
+        if (count === 0) return;
+        const availableWidth =
+            container.getBoundingClientRect().width ||
+            container.parentElement?.getBoundingClientRect().width ||
+            300;
+        const maxPerRow = Math.max(
+            1,
+            Math.floor((availableWidth + 6) / (28 + 6))
+        );
+        const rowCount = Math.ceil(count / maxPerRow);
+        const columns = Math.ceil(count / rowCount);
+        container.style.setProperty(
+            "--npm-enhancer-link-columns",
+            String(columns)
+        );
     }
     function createMonogram(label) {
         const monogram = document.createElement("span");
@@ -5763,6 +6136,9 @@ implementation is broken for large numbers for some reason. This temporarily fix
         document
             .querySelectorAll(".npm-userscript-popup")
             .forEach((el) => el.remove());
+        document
+            .querySelectorAll(".npm-userscript-alternatives-notice")
+            .forEach((el) => el.remove());
     }
     function runPre8() {
         addPackageLabelStyle();
@@ -5787,6 +6163,43 @@ implementation is broken for large numbers for some reason. This temporarily fix
     .npm-userscript-popup-documented {
       transform-origin: 0 0;
       transform: scale(0.8);
+    }
+
+    .npm-userscript-alternatives-notice {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0 10px;
+      padding: 8px 9px;
+      color: #3730a3;
+      background: color-mix(in srgb, #6366f1 10%, transparent);
+      border: 1px solid color-mix(in srgb, #6366f1 28%, transparent);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      line-height: 1.3;
+    }
+
+    html[data-color-mode="dark"] .npm-userscript-alternatives-notice {
+      color: #e0e7ff;
+      background: color-mix(in srgb, #818cf8 14%, transparent);
+      border-color: color-mix(in srgb, #818cf8 38%, transparent);
+    }
+
+    .npm-userscript-alternatives-notice-icon {
+      flex: 0 0 auto;
+      font-family: "NPM Enhancer Nerd Font Symbols", sans-serif;
+      font-size: 1rem;
+    }
+
+    .npm-userscript-alternatives-notice button {
+      margin-left: auto;
+      padding: 2px 5px;
+      color: inherit;
+      background: transparent;
+      border: 0;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
     }
   `);
     }
@@ -5830,6 +6243,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
                         popup.innerHTML = html;
                     },
                 });
+                addAlternativesNotice(replacement, label);
                 break;
             }
             case "native": {
@@ -5852,6 +6266,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
 `;
                 injectParent.appendChild(popup);
                 computeFloatingUI(label, popup);
+                addAlternativesNotice(replacement, label);
                 break;
             }
             case "simple": {
@@ -5869,9 +6284,38 @@ implementation is broken for large numbers for some reason. This temporarily fix
                 popup.textContent = replacement.replacement;
                 injectParent.appendChild(popup);
                 computeFloatingUI(label, popup);
+                addAlternativesNotice(replacement, label);
                 break;
             }
         }
+    }
+    function addAlternativesNotice(replacement, label) {
+        if (document.querySelector(".npm-userscript-alternatives-notice"))
+            return;
+        const sidebar = document.querySelector(
+            '[aria-label="Package sidebar"]'
+        );
+        const installHeading = findInstallHeading(sidebar);
+        if (!installHeading) return;
+        const notice = document.createElement("div");
+        notice.className = "npm-userscript-alternatives-notice";
+        const icon = document.createElement("span");
+        icon.className = "npm-userscript-alternatives-notice-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = BADGE_ICONS.alternatives;
+        const text = document.createElement("span");
+        text.textContent =
+            replacement.type === "native"
+                ? "A native platform API is recommended for this package."
+                : replacement.type === "simple"
+                  ? "A simpler implementation is recommended for this package."
+                  : "Maintained alternatives are available for this package.";
+        const details = document.createElement("button");
+        details.type = "button";
+        details.textContent = "Details";
+        details.addEventListener("click", () => label.click());
+        notice.append(icon, text, details);
+        installHeading.insertAdjacentElement("beforebegin", notice);
     }
     function getReadmeInternalClassName() {
         const el = document.getElementById("readme");
@@ -6031,20 +6475,22 @@ implementation is broken for large numbers for some reason. This temporarily fix
         }
     }
     function run9() {
-        if (inited) return;
         const banner = document.querySelector(
             'section[aria-label="Site notifications"]'
         );
         if (!banner) return;
         const key = getBannerKey(banner);
         if (cache.get(key) === "hide") {
-            banner.remove();
+            banner.style.display = "none";
         } else {
             banner.style.display = "block";
             const closeButton = banner.querySelector("button");
-            closeButton?.addEventListener("click", () => {
-                cache.set(key, "hide");
-            });
+            if (closeButton && !closeButton.dataset.npmEnhancerBannerListener) {
+                closeButton.dataset.npmEnhancerBannerListener = "true";
+                closeButton.addEventListener("click", () => {
+                    cache.set(key, "hide");
+                });
+            }
         }
         cache.clearByPrefix(bannerPrefix, [key]);
     }
@@ -6115,17 +6561,25 @@ implementation is broken for large numbers for some reason. This temporarily fix
     function teardown5(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document.querySelector(".npm-userscript-repository-card")?.remove();
+        document
+            .querySelectorAll(".npm-userscript-repository-card-superseded")
+            .forEach((column) =>
+                column.classList.remove(
+                    "npm-userscript-repository-card-superseded"
+                )
+            );
     }
     function runPre11() {
         if (!isValidPackagePage()) return;
         addStyle(`
     .npm-userscript-repository-card {
       border: 1px solid var(--color-border-default);
-      border-radius: 5px;
-      padding: 10px;
+      border-radius: 10px;
+      padding: 12px;
       margin-top: 14px;
       margin-right: -8px;
-      font-size: 18px;
+      font-size: 16px;
+      background: color-mix(in srgb, currentColor 2.5%, transparent);
     }
 
     .npm-userscript-repository-card-title {
@@ -6152,18 +6606,61 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
 
     .npm-userscript-repository-card-description {
-      margin: 0;
-      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+      margin: 12px 0 0;
     }
 
     .npm-userscript-repository-card-entry {
-      display: inline-flex;
+      display: flex;
       align-items: center;
+      justify-content: center;
       gap: 5px;
-      margin-right: 20px;
+      min-width: 0;
+      padding: 7px 5px;
+      border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+      border-radius: 7px;
+      font-variant-numeric: tabular-nums;
     }
-    .npm-userscript-repository-card-entry:last-child {
-      margin-right: 0;
+
+    .npm-userscript-repository-card-entry[data-metric="stars"] {
+      color: #9a6700;
+      background: color-mix(in srgb, #d4a72c 12%, transparent);
+      border-color: color-mix(in srgb, #d4a72c 34%, transparent);
+    }
+
+    .npm-userscript-repository-card-entry[data-metric="issues"] {
+      color: #1a7f37;
+      background: color-mix(in srgb, #2da44e 10%, transparent);
+      border-color: color-mix(in srgb, #2da44e 30%, transparent);
+    }
+
+    .npm-userscript-repository-card-entry[data-metric="pulls"] {
+      color: #8250df;
+      background: color-mix(in srgb, #8250df 10%, transparent);
+      border-color: color-mix(in srgb, #8250df 30%, transparent);
+    }
+
+    html[data-color-mode="dark"] .npm-userscript-repository-card-entry[data-metric="stars"] {
+      color: #e3b341;
+    }
+
+    html[data-color-mode="dark"] .npm-userscript-repository-card-entry[data-metric="issues"] {
+      color: #56d364;
+    }
+
+    html[data-color-mode="dark"] .npm-userscript-repository-card-entry[data-metric="pulls"] {
+      color: #d2a8ff;
+    }
+
+    .npm-userscript-repository-card-entry[data-metric="changelog"] {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
+      padding: 5px 7px;
+      color: var(--color-fg-muted, #656d76);
+      font-size: 90%;
+      background: transparent;
     }
 
     .npm-userscript-repository-card a {
@@ -6179,6 +6676,10 @@ implementation is broken for large numbers for some reason. This temporarily fix
     .npm-userscript-repository-card + p {
       display: none;
     }
+
+    .npm-userscript-repository-card-superseded {
+      display: none !important;
+    }
   `);
     }
     async function run11() {
@@ -6192,7 +6693,12 @@ implementation is broken for large numbers for some reason. This temporarily fix
         if (prCount === void 0) return;
         const issueCount = repoData.open_issues_count - prCount;
         const packageJson = await fetchPackageJson();
-        let directory = packageJson?.repository?.directory;
+        const showRepositoryDirectory =
+            (await getFeatureSettings2())["repository-directory"].get() ===
+            true;
+        let directory = showRepositoryDirectory
+            ? packageJson?.repository?.directory
+            : void 0;
         if (directory) {
             directory = directory.replace(/^\/+/, "").replace(/\/+$/, "");
         }
@@ -6229,22 +6735,22 @@ implementation is broken for large numbers for some reason. This temporarily fix
       }
     </div>
     <div class="npm-userscript-repository-card-description">
-      <a class="npm-userscript-repository-card-entry" href="${repoData.html_url}/stargazers" title="${repoData.stargazers_count} stars" rel="noopener noreferrer nofollow">
+      <a class="npm-userscript-repository-card-entry" data-metric="stars" href="${repoData.html_url}/stargazers" title="${repoData.stargazers_count} stars" rel="noopener noreferrer nofollow">
         ${starSvg}
         ${repoData.stargazers_count.toLocaleString()}
       </a>
-      <a class="npm-userscript-repository-card-entry" href="${repoData.html_url}/issues" title="${issueCount} issues" rel="noopener noreferrer nofollow" style="gap: 5px;">
+      <a class="npm-userscript-repository-card-entry" data-metric="issues" href="${repoData.html_url}/issues" title="${issueCount} issues" rel="noopener noreferrer nofollow">
         ${issueSvg}
         ${issueCount.toLocaleString()}
       </a>
-      <a class="npm-userscript-repository-card-entry" href="${repoData.html_url}/pulls" title="${prCount} pull requests" rel="noopener noreferrer nofollow">
+      <a class="npm-userscript-repository-card-entry" data-metric="pulls" href="${repoData.html_url}/pulls" title="${prCount} pull requests" rel="noopener noreferrer nofollow">
         ${pullSvg}
         ${prCount.toLocaleString()}
       </a>
       ${
           changelogLink
               ? `
-            <a class="npm-userscript-repository-card-entry" href="${changelogLink}" rel="noopener noreferrer nofollow" style="font-size: 90%">
+            <a class="npm-userscript-repository-card-entry" data-metric="changelog" href="${changelogLink}" rel="noopener noreferrer nofollow">
               ${changelogSvg} Changelog
             </a>
             `
@@ -6260,7 +6766,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
         for (const col of sidebarColumns) {
             const h3Text = col.querySelector("h3")?.textContent;
             if (h3Text === "Issues" || h3Text === "Pull Requests") {
-                col.remove();
+                col.classList.add("npm-userscript-repository-card-superseded");
             }
         }
     }
@@ -6312,18 +6818,17 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
     }
     async function run12() {
         if (!isValidPackagePage()) return;
-        if (!document.querySelector(".npm-userscript-repository-directory"))
+        if (document.querySelector(".npm-userscript-repository-directory"))
             return;
         const el = document.querySelector(
             "a[aria-labelledby*=repository-link]"
         );
-        const textEl = document.getElementById("repository-link");
-        if (!el || !textEl) return;
+        if (!el) return;
         const fullRepositoryLink = await getFullRepositoryLink();
         if (!fullRepositoryLink) return;
         if (el.href === fullRepositoryLink) return;
         el.href = fullRepositoryLink;
-        textEl.textContent = fullRepositoryLink.replace(/^https?:\/\//, "");
+        el.title = "Open this package's directory in its repository";
         el.classList.add("npm-userscript-repository-directory");
     }
     var description14;
@@ -6331,7 +6836,7 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         "src/features/repository-directory.ts"() {
             init_utils_fetch();
             init_utils();
-            description14 = `Adds the repository directory to the repository link.
+            description14 = `When package.json declares repository.directory, links directly to that package's subdirectory on the repository's default branch. Useful for packages published from monorepos.
 `;
         },
     });
@@ -6376,20 +6881,10 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
       flex-wrap: wrap;
       justify-content: flex-end;
       gap: 4px;
-      width: 100%;
+      flex: 0 1 300px;
       max-width: 300px;
-      margin: 0;
-    }
-
-    .npm-userscript-search-right {
-      display: flex;
-      flex: 0 0 min(38vw, 300px);
-      flex-direction: column;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 8px;
       min-width: 0;
-      margin-left: auto;
+      margin: 0 0 0 auto;
     }
 
     .npm-enhancer-search-links a {
@@ -6409,7 +6904,7 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         flex-wrap: wrap;
       }
 
-      .npm-userscript-search-right {
+      .npm-enhancer-search-links {
         flex-basis: 100%;
         margin-top: 8px;
       }
@@ -6429,16 +6924,6 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
     function teardown7() {
         observer?.disconnect();
         observer = void 0;
-        document
-            .querySelectorAll(".npm-userscript-search-right")
-            .forEach((right) => {
-                const download = Array.from(right.children).find((child) =>
-                    child.querySelector('[aria-label="Download statistics"]')
-                );
-                if (download)
-                    right.insertAdjacentElement("beforebegin", download);
-                right.remove();
-            });
         document
             .querySelectorAll("[data-npm-enhancer-search]")
             .forEach((card) => {
@@ -6485,9 +6970,9 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         cards.forEach((card) => {
             card.card.dataset.npmEnhancerSearch = card.packageName;
         });
-        const searchMetadataPromise = showLinks
-            ? fetchSearchMetadata()
-            : Promise.resolve(/* @__PURE__ */ new Map());
+        const searchMetadataPromise = Promise.resolve(
+            /* @__PURE__ */ new Map()
+        );
         if (showBadges) {
             await Promise.all(
                 cards.map(async (card) => {
@@ -6624,10 +7109,7 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
             card.card.appendChild(linkRow);
             return;
         }
-        const right = document.createElement("div");
-        right.className = "npm-userscript-search-right";
-        download.insertAdjacentElement("beforebegin", right);
-        right.append(linkRow, download);
+        download.insertAdjacentElement("beforebegin", linkRow);
     }
     function getBadgeSpecs(manifest, isFeatureEnabled) {
         const specs = [];
@@ -6904,7 +7386,7 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
             init_helpful_links();
             init_module_replacements();
             description15 =
-                "Add configurable package badges and helpful links to npm search results without opening package pages.";
+                "Add configurable static package-tool links to npm search results without network requests. Enhanced badges are separately opt-in.";
             enrichQueued = false;
             requestManifest = createConcurrencyLimit(2);
         },
@@ -7019,9 +7501,39 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
     function teardown9(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
         document.querySelector(".npm-userscript-cli-label")?.remove();
+        document.querySelector(".npm-userscript-cli-command")?.remove();
     }
     function runPre14() {
         addPackageLabelStyle();
+        addStyle(`
+    .npm-userscript-cli-command {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0 10px;
+      padding: 7px 9px;
+      background: color-mix(in srgb, currentColor 5%, transparent);
+      border: 1px solid var(--color-border-default);
+      border-radius: 7px;
+      font-size: 0.82rem;
+    }
+
+    .npm-userscript-cli-command code {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .npm-userscript-cli-command button {
+      flex: 0 0 auto;
+      margin-left: auto;
+      color: inherit;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+  `);
     }
     async function run15() {
         if (!isValidPackagePage()) return;
@@ -7092,11 +7604,36 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         }
     }
     function updateCodeBlock(command) {
-        const codeBlock = document.querySelector(
-            '[aria-label="Package sidebar"] code'
+        const sidebar = document.querySelector(
+            '[aria-label="Package sidebar"]'
         );
-        if (!codeBlock) return;
-        codeBlock.textContent = command;
+        const installHeading = findInstallHeading(sidebar);
+        const installRow = installHeading?.nextElementSibling;
+        if (!installRow) return;
+        const existing = sidebar.querySelector(".npm-userscript-cli-command");
+        if (existing?.dataset.command === command) return;
+        existing?.remove();
+        const wrapper = document.createElement("div");
+        wrapper.className = "npm-userscript-cli-command";
+        wrapper.dataset.command = command;
+        const label = document.createElement("span");
+        label.textContent = "Run as CLI";
+        const code = document.createElement("code");
+        code.textContent = command;
+        const copy = document.createElement("button");
+        copy.type = "button";
+        copy.title = "Copy CLI command";
+        copy.setAttribute("aria-label", "Copy CLI command");
+        copy.textContent = "\u{F018F}";
+        copy.addEventListener("click", async () => {
+            if (typeof GM_setClipboard === "function") {
+                GM_setClipboard(command);
+            } else {
+                await navigator.clipboard?.writeText(command);
+            }
+        });
+        wrapper.append(label, code, copy);
+        installRow.insertAdjacentElement("afterend", wrapper);
     }
     var description17;
     var init_show_cli_label_and_command = __esm({
@@ -18745,6 +19282,10 @@ is powered by https://osv.dev.
                 "fix-issue-pr-count": fix_issue_pr_count_exports,
                 "fix-styles": fix_styles_exports,
                 "helpful-links": helpful_links_exports,
+                "install-commands": {
+                    description:
+                        "Add customizable, copyable npm, Yarn, pnpm, Bun, Deno, and other install commands. Use the dedicated install-command settings menu for individual commands and labels.",
+                },
                 "module-replacements": module_replacements_exports,
                 "move-funding": move_funding_exports,
                 "no-code-beta": no_code_beta_exports,
@@ -18752,6 +19293,10 @@ is powered by https://osv.dev.
                 "remove-redundant-homepage": remove_redundant_homepage_exports,
                 "repository-card": repository_card_exports,
                 "repository-directory": repository_directory_exports,
+                "package-size": {
+                    description:
+                        "Show exact-version Bundlephobia browser-bundle data alongside npm tarball, unpacked-size, and published-file metrics in one card.",
+                },
                 "search-results": search_results_exports,
                 "show-binary-label": show_binary_label_exports,
                 "show-cli-label": show_cli_label_and_command_exports,
@@ -18762,9 +19307,6 @@ is powered by https://osv.dev.
                 "show-types-label": show_types_label_exports,
                 "show-vulnerabilities": show_vulnerabilities_exports,
                 stars: stars_exports,
-                "tarball-size": tarball_size_exports,
-                "unpacked-size-and-total-files":
-                    unpacked_size_and_total_files_exports,
             };
         },
     });
@@ -18965,3 +19507,2772 @@ is powered by https://osv.dev.
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+function readIntegratedFeatureSetting(feature) {
+    try {
+        const saved = localStorage.getItem(
+            `npm-userscript:settings:feature:${feature}`
+        );
+        return saved === null || JSON.parse(saved) !== false;
+    } catch {
+        return true;
+    }
+}
+
+/* BEGIN INTEGRATED NPM MORE INSTALL BUTTONS */
+/*
+ * Embedded from NPM-More-Install-Buttons.user.js. Keep the standalone source authoritative and
+ * run scripts/sync-npm-enhancer-integrations.mjs after changing it.
+ */
+if (readIntegratedFeatureSetting("install-commands")) {
+    document.documentElement.setAttribute(
+        "data-npm-enhancer-install-commands",
+        "main"
+    );
+    (function () {
+        "use strict";
+
+        // Command definitions and defaults. End users can enable or disable these
+        // from the userscript-manager menu without editing this source.
+        // Available tokens: {{package}}, {{version}}, {{packageSpec}}, and
+        // {{typesPackage}}. Commands with requiresTypes only appear when npm links
+        // a separate @types package.
+        const COMMAND_BUTTONS = [
+            {
+                id: "npm-dependency",
+                label: "NPM dependency",
+                manager: "npm",
+                icon: "",
+                template: "npm install {{packageSpec}}",
+                enabled: false, // Disabled by default because the original "Copy install command line" button already provides this command.
+            },
+            {
+                id: "npm-dev-dependency",
+                label: "NPM dev dependency",
+                manager: "npm",
+                icon: "",
+                template: "npm i --save-dev {{packageSpec}}",
+                enabled: true,
+            },
+            {
+                id: "npm-global-dependency",
+                label: "NPM global dependency",
+                manager: "npm",
+                icon: "",
+                template: "npm i -g {{packageSpec}}",
+                enabled: false, // Disabled by default because global installs are less common.
+            },
+            {
+                id: "npm-types-dev-dependency",
+                label: "NPM @types dev dependency",
+                manager: "npm",
+                icon: "",
+                template: "npm install --save-dev {{typesPackage}}",
+                requiresTypes: true,
+            },
+            {
+                id: "yarn-dependency",
+                label: "Yarn dependency",
+                manager: "yarn",
+                icon: "",
+                template: "yarn add {{packageSpec}}",
+                enabled: true,
+            },
+            {
+                id: "yarn-package-and-types",
+                label: "Yarn package and types dependencies",
+                manager: "yarn",
+                icon: "",
+                template:
+                    "yarn add {{packageSpec}} && yarn add --dev {{typesPackage}}",
+                requiresTypes: true,
+                enabled: false, // Disabled by default because many users don't use Yarn.
+            },
+            {
+                id: "pnpm-dependency",
+                label: "PNPM dependency",
+                manager: "pnpm",
+                icon: "",
+                template: "pnpm add {{packageSpec}}",
+                enabled: true,
+            },
+            {
+                id: "bun-dependency",
+                label: "Bun dependency",
+                manager: "bun",
+                icon: "",
+                template: "bun add {{packageSpec}}",
+                enabled: true,
+            },
+            {
+                id: "deno-dependency",
+                label: "Deno dependency",
+                manager: "deno",
+                icon: "",
+                template: "deno add npm:{{packageSpec}}",
+                enabled: true,
+            },
+            {
+                id: "vlt-dependency",
+                label: "vlt dependency",
+                manager: "vlt",
+                icon: "",
+                template: "vlt install {{packageSpec}}",
+                enabled: false, // Disabled by default because vlt is less common.
+            },
+            {
+                id: "aube-dependency",
+                label: "Aube dependency",
+                manager: "aube",
+                icon: "",
+                template: "aube add {{packageSpec}}",
+                enabled: false, // Disabled by default because Aube is less common.
+            },
+            {
+                id: "nub-dependency",
+                label: "Nub dependency",
+                manager: "nub",
+                icon: "",
+                template: "nub add {{packageSpec}}",
+                enabled: false, // Disabled by default because Nub is less common.
+            },
+            {
+                id: "cnpm-dependency",
+                label: "CNPM dependency",
+                manager: "cnpm",
+                icon: "",
+                template: "cnpm install {{packageSpec}}",
+                enabled: false, // Disabled by default because CNPM is less common.
+            },
+            // {
+            //     label: "Yarn development dependency",
+            //     template: "yarn add --dev {{packageSpec}}",
+            // },
+            // {
+            //     label: "Yarn Classic global dependency",
+            //     template: "yarn global add {{packageSpec}}",
+            // },
+            // {
+            //     label: "Yarn types development dependency",
+            //     template: "yarn add --dev {{typesPackage}}",
+            //     requiresTypes: true,
+            // },
+            // {
+            //     label: "Yarn package and types dependencies",
+            //     template:
+            //         "yarn add {{packageSpec}} && yarn add --dev {{typesPackage}}",
+            //     requiresTypes: true,
+            // },
+        ];
+
+        const DISPLAY_OPTION_DEFINITIONS = [
+            {
+                id: "showInstallHeaderIcon",
+                label: "Install heading icon",
+                description: "Show the Nerd Font package icon beside Install.",
+                enabled: true,
+            },
+            {
+                id: "showListHeading",
+                label: "More commands heading",
+                description:
+                    "Show the command count and quick settings button.",
+                enabled: true,
+            },
+            {
+                id: "showCommandIcons",
+                label: "Package-manager icons",
+                description: "Show the npm, Yarn, pnpm, Bun, and Deno icons.",
+                enabled: true,
+            },
+            {
+                id: "showCommandLabels",
+                label: "Command labels",
+                description: "Show labels such as NPM dev dependency and Yarn.",
+                enabled: true,
+            },
+        ];
+
+        const LIST_ATTRIBUTE = "data-npm-more-install-buttons";
+        const STYLE_ID = "npm-more-install-buttons-style";
+        const SETTINGS_DIALOG_ID = "npm-more-install-buttons-settings";
+        const SETTINGS_KEY = "npmMoreInstallButtonsSettings";
+        const SETTINGS_VERSION = 1;
+        const COPY_BUTTON_SELECTOR =
+            'button[aria-label="Copy install command line"]';
+
+        let renderFrame = 0;
+        let settingsRevision = 0;
+        let settings = loadSettings();
+
+        function createDefaultSettings() {
+            return {
+                version: SETTINGS_VERSION,
+                commandEnabled: Object.fromEntries(
+                    COMMAND_BUTTONS.map(({ enabled, id }) => [
+                        id,
+                        enabled !== false,
+                    ])
+                ),
+                display: Object.fromEntries(
+                    DISPLAY_OPTION_DEFINITIONS.map(({ enabled, id }) => [
+                        id,
+                        enabled !== false,
+                    ])
+                ),
+            };
+        }
+
+        function normalizeSettings(value) {
+            const defaults = createDefaultSettings();
+            if (!value || typeof value !== "object" || Array.isArray(value)) {
+                return defaults;
+            }
+
+            const savedCommands =
+                value.commandEnabled &&
+                typeof value.commandEnabled === "object" &&
+                !Array.isArray(value.commandEnabled)
+                    ? value.commandEnabled
+                    : {};
+            const savedDisplay =
+                value.display &&
+                typeof value.display === "object" &&
+                !Array.isArray(value.display)
+                    ? value.display
+                    : {};
+
+            for (const { id } of COMMAND_BUTTONS) {
+                if (typeof savedCommands[id] === "boolean") {
+                    defaults.commandEnabled[id] = savedCommands[id];
+                }
+            }
+            for (const { id } of DISPLAY_OPTION_DEFINITIONS) {
+                if (typeof savedDisplay[id] === "boolean") {
+                    defaults.display[id] = savedDisplay[id];
+                }
+            }
+
+            return defaults;
+        }
+
+        function loadSettings() {
+            if (typeof GM_getValue !== "function")
+                return createDefaultSettings();
+
+            try {
+                return normalizeSettings(GM_getValue(SETTINGS_KEY, null));
+            } catch {
+                return createDefaultSettings();
+            }
+        }
+
+        function saveSettings(nextSettings) {
+            settings = normalizeSettings(nextSettings);
+            settingsRevision += 1;
+
+            if (typeof GM_setValue === "function") {
+                try {
+                    GM_setValue(SETTINGS_KEY, settings);
+                } catch {
+                    // Apply the settings to the current page even if persistence fails.
+                }
+            }
+
+            const ownedList = document.querySelector(
+                `[${LIST_ATTRIBUTE}][data-npm-enhancement-owner="main"]`
+            );
+            ownedList?.remove();
+            scheduleRender();
+        }
+
+        function addStyles() {
+            if (document.getElementById(STYLE_ID)) return;
+
+            const style = document.createElement("style");
+            style.id = STYLE_ID;
+            style.textContent = `
+            .mib-list {
+                display: grid;
+                gap: 0.625rem;
+                margin: 0.75rem 0 1.5rem;
+                min-width: 0;
+            }
+
+            .mib-install-heading {
+                align-items: center;
+                display: flex;
+                gap: 0.45rem;
+            }
+
+            .mib-list-heading-icon,
+            .mib-command-icon,
+            .mib-settings-option-icon,
+            .mib-settings-title-icon {
+                font-family: "Symbols Nerd Font Mono", "Symbols Nerd Font", "CaskaydiaCove Nerd Font", "CaskaydiaMono Nerd Font", "JetBrainsMono Nerd Font", monospace;
+                font-style: normal;
+                font-variant: normal;
+                line-height: 1;
+                text-rendering: auto;
+            }
+
+            .mib-install-heading::before {
+                color: var(--color-fg-brand, #cb3837);
+                content: "󰏗";
+                font-family: "Symbols Nerd Font Mono", "Symbols Nerd Font", "CaskaydiaCove Nerd Font", "CaskaydiaMono Nerd Font", "JetBrainsMono Nerd Font", monospace;
+                font-size: 1.05em;
+                font-style: normal;
+                font-variant: normal;
+                line-height: 1;
+                text-rendering: auto;
+            }
+
+            .mib-list-heading {
+                align-items: center;
+                color: var(--color-fg-muted, #666);
+                display: flex;
+                font-size: 0.72rem;
+                font-weight: 700;
+                gap: 0.4rem;
+                letter-spacing: 0.055em;
+                margin: 0 0 0.05rem;
+                text-transform: uppercase;
+            }
+
+            .mib-list-heading-divider {
+                background: linear-gradient(90deg, var(--color-border-default, #d8d8d8), transparent);
+                flex: 1 1 auto;
+                height: 1px;
+                margin-left: 0.15rem;
+            }
+
+            .mib-list-heading-icon {
+                color: var(--color-fg-brand, #cb3837);
+                font-size: 0.95rem;
+            }
+
+            .mib-list-heading-count {
+                border: 1px solid var(--color-border-default, #d8d8d8);
+                border-radius: 999px;
+                font-size: 0.62rem;
+                letter-spacing: 0;
+                padding: 0.1rem 0.35rem;
+            }
+
+            .mib-list-settings {
+                align-items: center;
+                background: transparent;
+                border: 1px solid transparent;
+                border-radius: 5px;
+                color: var(--color-fg-muted, #666);
+                cursor: pointer;
+                display: flex;
+                height: 1.75rem;
+                justify-content: center;
+                padding: 0;
+                width: 1.75rem;
+            }
+
+            .mib-list-settings:hover,
+            .mib-list-settings:focus-visible {
+                background: color-mix(in srgb, var(--color-fg-brand, #cb3837) 9%, transparent);
+                border-color: color-mix(in srgb, var(--color-fg-brand, #cb3837) 32%, transparent);
+                color: var(--color-fg-brand, #cb3837);
+            }
+
+            .mib-gear-icon {
+                fill: none;
+                height: 14px;
+                stroke: currentColor;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 1.5;
+                width: 14px;
+            }
+
+            .mib-command {
+                --mib-accent: var(--color-fg-brand, #cb3837);
+                align-items: center;
+                background: linear-gradient(105deg, color-mix(in srgb, var(--mib-accent) 7%, transparent), transparent 38%);
+                border: 1px solid var(--color-border-default, #dfdfdf);
+                border-left: 3px solid var(--mib-accent);
+                border-radius: 7px;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.035);
+                color: var(--color-fg-default, #111);
+                cursor: pointer;
+                display: grid;
+                font-size: 0.875rem;
+                gap: 0.625rem;
+                grid-template-areas: "icon content status";
+                grid-template-columns: 2rem minmax(0, 1fr) 1.75rem;
+                min-height: 58px;
+                max-width: 100%;
+                min-width: 0;
+                overflow: hidden;
+                padding: 0.5rem 0.625rem;
+                position: relative;
+                text-align: left;
+                transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+                width: 100%;
+            }
+
+            :is(.mib-command, .mib-settings-option)[data-manager="yarn"] {
+                --mib-accent: #2c8ebb;
+            }
+
+            :is(.mib-command, .mib-settings-option)[data-manager="pnpm"] {
+                --mib-accent: #d88c00;
+            }
+
+            :is(.mib-command, .mib-settings-option)[data-manager="bun"] {
+                --mib-accent: #9b6c4f;
+            }
+
+            :is(.mib-command, .mib-settings-option)[data-manager="deno"] {
+                --mib-accent: #5b9279;
+            }
+
+            :is(.mib-command, .mib-settings-option)[data-manager="vlt"] {
+                --mib-accent: #6f5bd3;
+            }
+
+            :is(.mib-command, .mib-settings-option)[data-manager="aube"],
+            :is(.mib-command, .mib-settings-option)[data-manager="nub"],
+            :is(.mib-command, .mib-settings-option)[data-manager="cnpm"] {
+                --mib-accent: #737373;
+            }
+
+            .mib-command:hover {
+                border-color: color-mix(in srgb, var(--mib-accent) 70%, var(--color-border-default, #999));
+                box-shadow: 0 5px 16px color-mix(in srgb, var(--mib-accent) 14%, transparent);
+                transform: translateY(-1px);
+            }
+
+            .mib-command:focus-visible {
+                outline: 2px solid var(--mib-accent);
+                outline-offset: 2px;
+            }
+
+            .mib-command:active {
+                box-shadow: 0 1px 3px color-mix(in srgb, var(--mib-accent) 12%, transparent);
+                transform: translateY(0);
+            }
+
+            .mib-command-icon {
+                align-items: center;
+                background: color-mix(in srgb, var(--mib-accent) 13%, transparent);
+                border: 1px solid color-mix(in srgb, var(--mib-accent) 25%, transparent);
+                border-radius: 6px;
+                color: var(--mib-accent);
+                display: flex;
+                font-size: 1.05rem;
+                grid-area: icon;
+                height: 2rem;
+                justify-content: center;
+                width: 2rem;
+            }
+
+            .mib-command-content {
+                align-self: center;
+                display: grid;
+                gap: 0.12rem;
+                grid-area: content;
+                min-width: 0;
+            }
+
+            .mib-command-label {
+                color: var(--mib-accent);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                font-size: 0.66rem;
+                font-weight: 750;
+                letter-spacing: 0.035em;
+                line-height: 1.2;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+
+            .mib-command code {
+                font-family: Consolas, monaco, monospace;
+                font-size: 0.82rem;
+                line-height: 1.35;
+                min-width: 0;
+                overflow: hidden;
+                padding: 0;
+                text-align: left;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .mib-status {
+                align-items: center;
+                color: #808080;
+                display: flex;
+                grid-area: status;
+                height: 1.75rem;
+                justify-content: center;
+                padding: 0;
+                position: relative;
+                transition: color 120ms ease, transform 120ms ease;
+                width: 1.75rem;
+            }
+
+            .mib-copy-icon {
+                fill: none;
+                height: 13px;
+                overflow: visible;
+                stroke: currentColor;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 1.5;
+                transition: color 120ms ease, transform 120ms ease;
+                width: 13px;
+            }
+
+            .mib-status::after {
+                display: none;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                font-size: 1rem;
+                font-weight: 800;
+                line-height: 1;
+            }
+
+            .mib-status-text {
+                border: 0;
+                clip: rect(0 0 0 0);
+                clip-path: inset(50%);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                white-space: nowrap;
+                width: 1px;
+            }
+
+            .mib-command[data-copy-state="copied"] .mib-status {
+                color: var(--color-fg-success, #137752);
+            }
+
+            .mib-command[data-copy-state="copied"] .mib-copy-icon {
+                display: none;
+            }
+
+            .mib-command[data-copy-state="copied"] .mib-status::after {
+                content: "✓";
+                display: block;
+            }
+
+            .mib-command[data-copy-state="failed"] .mib-status {
+                color: var(--color-fg-danger, #cb3837);
+            }
+
+            .mib-command[data-copy-state="failed"] .mib-copy-icon {
+                display: none;
+            }
+
+            .mib-command[data-copy-state="failed"] .mib-status::after {
+                content: "×";
+                display: block;
+            }
+
+            .mib-list[data-show-icons="false"] .mib-command {
+                grid-template-areas: "content status";
+                grid-template-columns: minmax(0, 1fr) 1.75rem;
+            }
+
+            .mib-list[data-show-icons="false"] .mib-command-icon,
+            .mib-list[data-show-labels="false"] .mib-command-label {
+                display: none;
+            }
+
+            .mib-list[data-show-labels="false"] .mib-command-content {
+                gap: 0;
+            }
+
+            .mib-settings-dialog {
+                background: var(--color-bg-default, #fff);
+                border: 1px solid var(--color-border-default, #d8d8d8);
+                border-radius: 10px;
+                box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+                color: var(--color-fg-default, #171717);
+                max-height: min(46rem, calc(100vh - 2rem));
+                max-width: calc(100vw - 2rem);
+                overflow: hidden;
+                padding: 0;
+                width: min(40rem, calc(100vw - 2rem));
+            }
+
+            .mib-settings-dialog::backdrop {
+                background: rgba(0, 0, 0, 0.58);
+                backdrop-filter: blur(2px);
+            }
+
+            .mib-settings-form {
+                display: grid;
+                grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+                max-height: min(46rem, calc(100vh - 2rem));
+            }
+
+            .mib-settings-header,
+            .mib-settings-footer,
+            .mib-settings-toolbar {
+                align-items: center;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .mib-settings-header {
+                border-bottom: 1px solid var(--color-border-default, #d8d8d8);
+                justify-content: space-between;
+                padding: 1rem 1.1rem;
+            }
+
+            .mib-settings-title-wrap {
+                align-items: center;
+                display: flex;
+                gap: 0.6rem;
+            }
+
+            .mib-settings-title-icon {
+                color: var(--color-fg-brand, #cb3837);
+                font-size: 1.2rem;
+            }
+
+            .mib-settings-title {
+                font-size: 1.15rem;
+                margin: 0;
+            }
+
+            .mib-settings-intro {
+                color: var(--color-fg-muted, #666);
+                margin: 0;
+                padding: 0.85rem 1.1rem 0.25rem;
+            }
+
+            .mib-settings-toolbar {
+                flex-wrap: wrap;
+                padding: 0.6rem 1.1rem 0.85rem;
+            }
+
+            .mib-settings-button,
+            .mib-settings-close {
+                background: var(--color-bg-default, #fff);
+                border: 1px solid var(--color-border-default, #c8c8c8);
+                border-radius: 5px;
+                color: var(--color-fg-default, #171717);
+                cursor: pointer;
+                font: inherit;
+            }
+
+            .mib-settings-button {
+                min-height: 2rem;
+                padding: 0.35rem 0.7rem;
+            }
+
+            .mib-settings-button:hover,
+            .mib-settings-close:hover {
+                background: var(--color-bg-subtle, #f3f3f3);
+                border-color: var(--color-border-strong, #8c8c8c);
+            }
+
+            .mib-settings-button-primary {
+                background: #cb3837;
+                border-color: #cb3837;
+                color: #fff;
+                font-weight: 700;
+            }
+
+            .mib-settings-button-primary:hover {
+                background: #a92f2e;
+                border-color: #a92f2e;
+                color: #fff;
+            }
+
+            .mib-settings-close {
+                font-size: 1.25rem;
+                height: 2rem;
+                line-height: 1;
+                padding: 0;
+                width: 2rem;
+            }
+
+            .mib-settings-groups {
+                border-bottom: 1px solid var(--color-border-default, #d8d8d8);
+                border-top: 1px solid var(--color-border-default, #d8d8d8);
+                overflow: auto;
+                overscroll-behavior: contain;
+                padding: 0.75rem 1.1rem 1rem;
+            }
+
+            .mib-settings-group {
+                border: 0;
+                margin: 0;
+                padding: 0;
+            }
+
+            .mib-settings-group + .mib-settings-group {
+                border-top: 1px solid var(--color-border-default, #e2e2e2);
+                margin-top: 1rem;
+                padding-top: 0.9rem;
+            }
+
+            .mib-settings-legend {
+                font-size: 0.85rem;
+                font-weight: 750;
+                padding: 0 0 0.4rem;
+            }
+
+            .mib-settings-option {
+                --mib-accent: var(--color-fg-brand, #cb3837);
+                align-items: center;
+                border-radius: 6px;
+                cursor: pointer;
+                display: grid;
+                gap: 0.65rem;
+                grid-template-columns: auto 2rem minmax(0, 1fr);
+                min-height: 3.45rem;
+                padding: 0.4rem 0.5rem;
+            }
+
+            .mib-settings-option-display {
+                grid-template-columns: auto minmax(0, 1fr);
+            }
+
+            .mib-settings-option:hover {
+                background: var(--color-bg-subtle, rgba(0, 0, 0, 0.035));
+            }
+
+            .mib-settings-option input {
+                accent-color: #cb3837;
+                height: 1rem;
+                margin: 0;
+                width: 1rem;
+            }
+
+            .mib-settings-option-icon {
+                align-items: center;
+                background: color-mix(in srgb, var(--mib-accent) 13%, transparent);
+                border: 1px solid color-mix(in srgb, var(--mib-accent) 25%, transparent);
+                border-radius: 6px;
+                color: var(--mib-accent);
+                display: flex;
+                font-size: 1.05rem;
+                height: 2rem;
+                justify-content: center;
+                width: 2rem;
+            }
+
+            .mib-settings-option-text {
+                display: grid;
+                gap: 0.1rem;
+                min-width: 0;
+            }
+
+            .mib-settings-option-label {
+                font-size: 0.88rem;
+                font-weight: 650;
+            }
+
+            .mib-settings-option-description {
+                color: var(--color-fg-muted, #666);
+                font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+                font-size: 0.71rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .mib-settings-option-display .mib-settings-option-description {
+                font-family: inherit;
+            }
+
+            .mib-settings-footer {
+                justify-content: flex-end;
+                padding: 0.85rem 1.1rem;
+            }
+
+            html[data-color-mode="dark"] .mib-settings-dialog,
+            html[data-color-mode="dark"] .mib-settings-button,
+            html[data-color-mode="dark"] .mib-settings-close {
+                background: #171717;
+                color: #f4f4f4;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .mib-command,
+                .mib-copy-icon,
+                .mib-status {
+                    transition: none;
+                }
+            }
+        `;
+            (document.head || document.documentElement).append(style);
+        }
+
+        function getPackageNameFromPath(pathname) {
+            const pathParts = pathname.split("/").filter(Boolean);
+            if (pathParts[0] !== "package") return null;
+
+            const decodePathPart = (part) => {
+                if (!part) return "";
+                try {
+                    return decodeURIComponent(part);
+                } catch {
+                    return part;
+                }
+            };
+            const firstPackagePart = decodePathPart(pathParts[1]);
+            if (!firstPackagePart) return null;
+
+            // Some links encode a scoped package as one path segment, while the
+            // browser's visible URL usually keeps the scope and name separate.
+            if (firstPackagePart.includes("/")) return firstPackagePart;
+            if (!firstPackagePart.startsWith("@")) return firstPackagePart;
+
+            const scopedPackageName = decodePathPart(pathParts[2]);
+            if (!scopedPackageName) return null;
+
+            return `${firstPackagePart}/${scopedPackageName}`;
+        }
+
+        function getTypesPackageName(packageHeading) {
+            const typeLink = packageHeading?.querySelector(
+                'a[href^="/package/@types/"]'
+            );
+            if (!typeLink) return null;
+
+            try {
+                const typeUrl = new URL(typeLink.href, window.location.origin);
+                const typePackageName = getPackageNameFromPath(
+                    typeUrl.pathname
+                );
+                return typePackageName?.startsWith("@types/")
+                    ? typePackageName
+                    : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function findHeading(root, text) {
+            return Array.from(root.querySelectorAll("h3")).find(
+                (heading) =>
+                    heading.dataset.mibHeading === text ||
+                    heading.textContent?.trim() === text
+            );
+        }
+
+        function updateInstallHeading(installHeading) {
+            installHeading.dataset.mibHeading = "Install";
+            installHeading.classList.toggle(
+                "mib-install-heading",
+                settings.display.showInstallHeaderIcon
+            );
+        }
+
+        function getPackageDetails(sidebar) {
+            const packageName = getPackageNameFromPath(
+                window.location.pathname
+            );
+            const packageHeading = document.querySelector("main h1");
+            const versionHeading = findHeading(sidebar, "Version");
+            const packageVersion = versionHeading?.parentElement
+                ?.querySelector("p")
+                ?.textContent?.trim();
+
+            if (!packageName || !packageVersion || !packageHeading) return null;
+
+            return {
+                packageName,
+                packageVersion,
+                typesPackageName: getTypesPackageName(packageHeading),
+            };
+        }
+
+        function fillCommandTemplate(
+            template,
+            { packageName, packageVersion, typesPackageName }
+        ) {
+            return template
+                .replaceAll("{{package}}", packageName)
+                .replaceAll("{{version}}", packageVersion)
+                .replaceAll(
+                    "{{packageSpec}}",
+                    `${packageName}@${packageVersion}`
+                )
+                .replaceAll("{{typesPackage}}", typesPackageName || "");
+        }
+
+        function buildCommands(details) {
+            const hasSeparateTypes =
+                Boolean(details.typesPackageName) &&
+                !details.packageName.startsWith("@types/");
+
+            return COMMAND_BUTTONS.filter(
+                (button) =>
+                    settings.commandEnabled[button.id] !== false &&
+                    typeof button.id === "string" &&
+                    button.id.trim().length > 0 &&
+                    typeof button.label === "string" &&
+                    button.label.trim().length > 0 &&
+                    typeof button.template === "string" &&
+                    button.template.trim().length > 0 &&
+                    (!button.requiresTypes || hasSeparateTypes)
+            ).map((button) => ({
+                label: button.label.trim(),
+                manager:
+                    typeof button.manager === "string" && button.manager.trim()
+                        ? button.manager.trim().toLowerCase()
+                        : "other",
+                icon:
+                    typeof button.icon === "string" && button.icon.trim()
+                        ? button.icon.trim()
+                        : "󰏗",
+                text: fillCommandTemplate(button.template, details).trim(),
+            }));
+        }
+
+        function copyWithLegacyApi(text) {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.setAttribute("aria-hidden", "true");
+            textarea.style.cssText =
+                "position:fixed;inset:0 auto auto 0;opacity:0;pointer-events:none";
+            document.body.append(textarea);
+            textarea.focus({ preventScroll: true });
+            textarea.select();
+
+            try {
+                return document.execCommand("copy");
+            } catch {
+                return false;
+            } finally {
+                textarea.remove();
+            }
+        }
+
+        async function copyText(text) {
+            if (typeof GM_setClipboard === "function") {
+                try {
+                    GM_setClipboard(text, "text");
+                    return true;
+                } catch {
+                    // Fall through to browser clipboard APIs.
+                }
+            }
+
+            if (navigator.clipboard?.writeText) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    return true;
+                } catch {
+                    // Fall through for userscript managers without Clipboard API access.
+                }
+            }
+
+            return copyWithLegacyApi(text);
+        }
+
+        function showCopyResult(button, statusText, copied) {
+            button.dataset.copyState = copied ? "copied" : "failed";
+            statusText.textContent = copied ? "Copied!" : "Copy failed";
+
+            window.setTimeout(() => {
+                if (!button.isConnected) return;
+                delete button.dataset.copyState;
+                statusText.textContent = "Copy";
+            }, 1400);
+        }
+
+        function createCopyIcon() {
+            const svgNamespace = "http://www.w3.org/2000/svg";
+            const icon = document.createElementNS(svgNamespace, "svg");
+            icon.classList.add("mib-copy-icon");
+            icon.setAttribute("aria-hidden", "true");
+            icon.setAttribute("focusable", "false");
+            icon.setAttribute("viewBox", "0 0 16 16");
+
+            const backPage = document.createElementNS(svgNamespace, "path");
+            backPage.setAttribute(
+                "d",
+                "M4.75 11.25H3.5A1.5 1.5 0 0 1 2 9.75V3.5A1.5 1.5 0 0 1 3.5 2h6.25a1.5 1.5 0 0 1 1.5 1.5v1.25"
+            );
+
+            const frontPage = document.createElementNS(svgNamespace, "rect");
+            frontPage.setAttribute("x", "5");
+            frontPage.setAttribute("y", "5");
+            frontPage.setAttribute("width", "9");
+            frontPage.setAttribute("height", "9");
+            frontPage.setAttribute("rx", "1.5");
+
+            icon.append(backPage, frontPage);
+            return icon;
+        }
+
+        function createGearIcon() {
+            const svgNamespace = "http://www.w3.org/2000/svg";
+            const icon = document.createElementNS(svgNamespace, "svg");
+            icon.classList.add("mib-gear-icon");
+            icon.setAttribute("aria-hidden", "true");
+            icon.setAttribute("focusable", "false");
+            icon.setAttribute("viewBox", "0 0 16 16");
+
+            const path = document.createElementNS(svgNamespace, "path");
+            path.setAttribute(
+                "d",
+                "M8 5.4a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2ZM8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M12.6 3.4l-.9.9M4.3 11.7l-.9.9"
+            );
+            icon.append(path);
+            return icon;
+        }
+
+        function createSettingsButton(label, action, primary = false) {
+            const button = document.createElement("button");
+            button.type = action === "submit" ? "submit" : "button";
+            button.className = "mib-settings-button";
+            if (primary) button.classList.add("mib-settings-button-primary");
+            button.textContent = label;
+            if (typeof action === "function") {
+                button.addEventListener("click", action);
+            }
+            return button;
+        }
+
+        function createSettingsOption({
+            checked,
+            description,
+            icon,
+            id,
+            label,
+            manager,
+            name,
+        }) {
+            const option = document.createElement("label");
+            option.className = "mib-settings-option";
+            if (manager) option.dataset.manager = manager;
+            if (!icon) option.classList.add("mib-settings-option-display");
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = name;
+            checkbox.value = id;
+            checkbox.checked = checked;
+
+            const text = document.createElement("span");
+            text.className = "mib-settings-option-text";
+
+            const optionLabel = document.createElement("span");
+            optionLabel.className = "mib-settings-option-label";
+            optionLabel.textContent = label;
+
+            const optionDescription = document.createElement("span");
+            optionDescription.className = "mib-settings-option-description";
+            optionDescription.textContent = description;
+
+            text.append(optionLabel, optionDescription);
+            option.append(checkbox);
+            if (icon) {
+                const optionIcon = document.createElement("span");
+                optionIcon.className = "mib-settings-option-icon";
+                optionIcon.setAttribute("aria-hidden", "true");
+                optionIcon.textContent = icon;
+                option.append(optionIcon);
+            }
+            option.append(text);
+            return option;
+        }
+
+        function applySettingsToForm(form, formSettings) {
+            for (const checkbox of form.querySelectorAll(
+                'input[name="enabledCommand"]'
+            )) {
+                checkbox.checked = formSettings.commandEnabled[checkbox.value];
+            }
+            for (const checkbox of form.querySelectorAll(
+                'input[name="displayOption"]'
+            )) {
+                checkbox.checked = formSettings.display[checkbox.value];
+            }
+        }
+
+        function readSettingsFromForm(form) {
+            const nextSettings = createDefaultSettings();
+            for (const checkbox of form.querySelectorAll(
+                'input[name="enabledCommand"]'
+            )) {
+                nextSettings.commandEnabled[checkbox.value] = checkbox.checked;
+            }
+            for (const checkbox of form.querySelectorAll(
+                'input[name="displayOption"]'
+            )) {
+                nextSettings.display[checkbox.value] = checkbox.checked;
+            }
+            return nextSettings;
+        }
+
+        function closeSettingsDialog(dialog) {
+            if (typeof dialog.close === "function") {
+                dialog.close();
+            } else {
+                dialog.remove();
+            }
+        }
+
+        function openSettingsDialog() {
+            document.getElementById(SETTINGS_DIALOG_ID)?.remove();
+            addStyles();
+
+            const dialog = document.createElement("dialog");
+            dialog.id = SETTINGS_DIALOG_ID;
+            dialog.className = "mib-settings-dialog";
+            dialog.setAttribute("aria-describedby", "mib-settings-description");
+            dialog.setAttribute("aria-labelledby", "mib-settings-title");
+
+            const form = document.createElement("form");
+            form.className = "mib-settings-form";
+
+            const header = document.createElement("header");
+            header.className = "mib-settings-header";
+
+            const titleWrap = document.createElement("div");
+            titleWrap.className = "mib-settings-title-wrap";
+            const titleIcon = document.createElement("span");
+            titleIcon.className = "mib-settings-title-icon";
+            titleIcon.setAttribute("aria-hidden", "true");
+            titleIcon.textContent = "󰏗";
+            const title = document.createElement("h2");
+            title.id = "mib-settings-title";
+            title.className = "mib-settings-title";
+            title.textContent = "Install command settings";
+            titleWrap.append(titleIcon, title);
+
+            const closeButton = document.createElement("button");
+            closeButton.type = "button";
+            closeButton.className = "mib-settings-close";
+            closeButton.setAttribute(
+                "aria-label",
+                "Close install command settings"
+            );
+            closeButton.textContent = "×";
+            closeButton.addEventListener("click", () =>
+                closeSettingsDialog(dialog)
+            );
+            header.append(titleWrap, closeButton);
+
+            const intro = document.createElement("p");
+            intro.id = "mib-settings-description";
+            intro.className = "mib-settings-intro";
+            intro.textContent =
+                "Choose which commands appear on npm package pages and how each row is presented. Settings are saved by your userscript manager.";
+
+            const toolbar = document.createElement("div");
+            toolbar.className = "mib-settings-toolbar";
+            toolbar.append(
+                createSettingsButton("Enable all commands", () => {
+                    for (const checkbox of form.querySelectorAll(
+                        'input[name="enabledCommand"]'
+                    )) {
+                        checkbox.checked = true;
+                    }
+                }),
+                createSettingsButton("Disable all commands", () => {
+                    for (const checkbox of form.querySelectorAll(
+                        'input[name="enabledCommand"]'
+                    )) {
+                        checkbox.checked = false;
+                    }
+                }),
+                createSettingsButton("Defaults", () =>
+                    applySettingsToForm(form, createDefaultSettings())
+                )
+            );
+
+            const groups = document.createElement("div");
+            groups.className = "mib-settings-groups";
+
+            const displayGroup = document.createElement("fieldset");
+            displayGroup.className = "mib-settings-group";
+            const displayLegend = document.createElement("legend");
+            displayLegend.className = "mib-settings-legend";
+            displayLegend.textContent = "Appearance";
+            displayGroup.append(displayLegend);
+            for (const option of DISPLAY_OPTION_DEFINITIONS) {
+                displayGroup.append(
+                    createSettingsOption({
+                        checked: settings.display[option.id],
+                        description: option.description,
+                        id: option.id,
+                        label: option.label,
+                        name: "displayOption",
+                    })
+                );
+            }
+
+            const commandGroup = document.createElement("fieldset");
+            commandGroup.className = "mib-settings-group";
+            const commandLegend = document.createElement("legend");
+            commandLegend.className = "mib-settings-legend";
+            commandLegend.textContent = "Install commands";
+            commandGroup.append(commandLegend);
+            for (const command of COMMAND_BUTTONS) {
+                const requirements = command.requiresTypes
+                    ? " · requires a separate @types package"
+                    : "";
+                commandGroup.append(
+                    createSettingsOption({
+                        checked: settings.commandEnabled[command.id],
+                        description: `${command.template}${requirements}`,
+                        icon: command.icon,
+                        id: command.id,
+                        label: command.label,
+                        manager: command.manager,
+                        name: "enabledCommand",
+                    })
+                );
+            }
+            groups.append(displayGroup, commandGroup);
+
+            const footer = document.createElement("footer");
+            footer.className = "mib-settings-footer";
+            footer.append(
+                createSettingsButton("Cancel", () =>
+                    closeSettingsDialog(dialog)
+                ),
+                createSettingsButton("Save", "submit", true)
+            );
+
+            form.append(header, intro, toolbar, groups, footer);
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+                saveSettings(readSettingsFromForm(form));
+                closeSettingsDialog(dialog);
+            });
+
+            dialog.addEventListener("click", (event) => {
+                if (event.target === dialog) closeSettingsDialog(dialog);
+            });
+            dialog.addEventListener("close", () => dialog.remove(), {
+                once: true,
+            });
+            dialog.append(form);
+            (document.body || document.documentElement).append(dialog);
+
+            if (typeof dialog.showModal === "function") {
+                dialog.showModal();
+            } else {
+                dialog.setAttribute("open", "");
+            }
+            form.querySelector('input[name="displayOption"]')?.focus();
+        }
+
+        function registerSettingsCommand() {
+            if (typeof GM_registerMenuCommand !== "function") return;
+
+            GM_registerMenuCommand(
+                "Configure install commands…",
+                openSettingsDialog
+            );
+        }
+
+        function createCommandButton({ icon, label, manager, text }) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "mib-command";
+            button.dataset.manager = manager;
+            button.title = `${label}: click to copy`;
+            button.setAttribute("aria-label", `Copy ${label}: ${text}`);
+
+            const commandIcon = document.createElement("span");
+            commandIcon.className = "mib-command-icon";
+            commandIcon.setAttribute("aria-hidden", "true");
+            commandIcon.textContent = icon;
+
+            const content = document.createElement("span");
+            content.className = "mib-command-content";
+
+            const commandLabel = document.createElement("span");
+            commandLabel.className = "mib-command-label";
+            commandLabel.textContent = label;
+
+            const code = document.createElement("code");
+            code.textContent = text;
+            content.append(commandLabel, code);
+
+            const status = document.createElement("span");
+            status.className = "mib-status";
+            status.setAttribute("aria-live", "polite");
+
+            const statusText = document.createElement("span");
+            statusText.className = "mib-status-text";
+            statusText.textContent = "Copy";
+            status.append(createCopyIcon(), statusText);
+
+            button.append(commandIcon, content, status);
+            button.addEventListener("click", () => {
+                copyText(text).then(
+                    (copied) => {
+                        showCopyResult(button, statusText, copied);
+                    },
+                    () => {
+                        showCopyResult(button, statusText, false);
+                    }
+                );
+            });
+
+            return button;
+        }
+
+        function renderButtons() {
+            const sidebar = document.querySelector(
+                'aside[aria-label="Package sidebar"]'
+            );
+            const originalCopyButton =
+                sidebar?.querySelector(COPY_BUTTON_SELECTOR);
+            const installHeading = sidebar
+                ? findHeading(sidebar, "Install")
+                : null;
+            const installRow = installHeading?.nextElementSibling;
+
+            if (
+                !sidebar ||
+                !originalCopyButton ||
+                !installRow?.contains(originalCopyButton)
+            )
+                return;
+
+            const details = getPackageDetails(sidebar);
+            if (!details) return;
+
+            const pageKey = [
+                details.packageName,
+                details.packageVersion,
+                details.typesPackageName,
+                settingsRevision,
+            ].join("|");
+            const existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
+            updateInstallHeading(installHeading);
+            if (existingList?.dataset.pageKey === pageKey) return;
+            if (
+                existingList &&
+                existingList.dataset.npmEnhancementOwner !== "main"
+            ) {
+                return;
+            }
+            existingList?.remove();
+
+            addStyles();
+
+            const commands = buildCommands(details);
+            if (commands.length === 0) return;
+
+            const list = document.createElement("div");
+            list.className = "mib-list";
+            list.dataset.pageKey = pageKey;
+            list.dataset.npmEnhancementOwner = "main";
+            list.dataset.showIcons = String(settings.display.showCommandIcons);
+            list.dataset.showLabels = String(
+                settings.display.showCommandLabels
+            );
+            list.setAttribute(LIST_ATTRIBUTE, "");
+            list.setAttribute("aria-label", "Additional install commands");
+
+            if (settings.display.showListHeading && commands.length > 0) {
+                const listHeading = document.createElement("div");
+                listHeading.className = "mib-list-heading";
+
+                const listHeadingIcon = document.createElement("span");
+                listHeadingIcon.className = "mib-list-heading-icon";
+                listHeadingIcon.setAttribute("aria-hidden", "true");
+                listHeadingIcon.textContent = "";
+
+                const listHeadingText = document.createElement("span");
+                listHeadingText.textContent = "More commands";
+
+                const listHeadingCount = document.createElement("span");
+                listHeadingCount.className = "mib-list-heading-count";
+                listHeadingCount.textContent = String(commands.length);
+
+                const listHeadingDivider = document.createElement("span");
+                listHeadingDivider.className = "mib-list-heading-divider";
+                listHeadingDivider.setAttribute("aria-hidden", "true");
+
+                const settingsButton = document.createElement("button");
+                settingsButton.type = "button";
+                settingsButton.className = "mib-list-settings";
+                settingsButton.title = "Configure install commands";
+                settingsButton.setAttribute(
+                    "aria-label",
+                    "Configure install commands"
+                );
+                settingsButton.append(createGearIcon());
+                settingsButton.addEventListener("click", openSettingsDialog);
+
+                listHeading.append(
+                    listHeadingIcon,
+                    listHeadingText,
+                    listHeadingCount,
+                    listHeadingDivider,
+                    settingsButton
+                );
+                list.append(listHeading);
+            }
+
+            for (const command of commands) {
+                list.append(createCommandButton(command));
+            }
+
+            installRow.after(list);
+        }
+
+        function scheduleRender() {
+            if (renderFrame) return;
+
+            renderFrame = window.requestAnimationFrame(() => {
+                renderFrame = 0;
+                renderButtons();
+            });
+        }
+
+        const observer = new MutationObserver(scheduleRender);
+        observer.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+        });
+        window.addEventListener("popstate", scheduleRender);
+        registerSettingsCommand();
+        scheduleRender();
+    })();
+}
+/* END INTEGRATED NPM MORE INSTALL BUTTONS */
+
+/* BEGIN INTEGRATED NPM BUNDLEPHOBIA PACKAGE SIZE */
+/*
+ * Embedded from NPM-Bundlephobia-Package-Size.user.js. Keep the standalone source authoritative and
+ * run scripts/sync-npm-enhancer-integrations.mjs after changing it.
+ */
+if (readIntegratedFeatureSetting("package-size")) {
+    document.documentElement.setAttribute(
+        "data-npm-enhancer-package-size",
+        "main"
+    );
+    (function () {
+        "use strict";
+
+        const ACCENT_COLOR_KEY = "bundlephobiaSizeAccentColor";
+        const ACCENT_DIALOG_ID = "npm-bundlephobia-accent-dialog";
+        const CARD_ATTRIBUTE = "data-npm-bundlephobia-size";
+        const CARD_PLACEMENT_KEY = "bundlephobiaSizeCardPlacement";
+        const CARD_PLACEMENTS = Object.freeze({
+            bundlephobiaLink: "bundlephobia-link",
+            unpackedSize: "unpacked-size",
+        });
+        const DEFAULT_ACCENT_COLOR = "#cb3837";
+        const DOWNLOAD_SPEED_KBPS = Object.freeze({
+            emerging4G: 7000 / 8,
+            slow3G: 400 / 8,
+        });
+        const FAVICON_URL = "https://bundlephobia.com/favicon.ico";
+        // Status icons derived from Bundlephobia's MIT-licensed client assets:
+        // https://github.com/pastelsky/bundlephobia/tree/bundlephobia/client/assets
+        const STATUS_ICON_MARKUP = Object.freeze({
+            dependency: `<svg width="20" height="18" viewBox="0 0 20 18" xmlns="http://www.w3.org/2000/svg"><g fill-rule="nonzero"><path class="dep-icon__node" d="M9.5625 9a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-1.125a3.375 3.375 0 1 0 0-6.75 3.375 3.375 0 0 0 0 6.75Z" fill="#C8CDD3"/><path class="dep-icon__node" d="M9.5625 18a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-1.125a3.375 3.375 0 1 0 0-6.75 3.375 3.375 0 0 0 0 6.75Z" fill="#C8CDD3"/><path class="dep-icon__node" d="M14.625 13.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-1.125a3.375 3.375 0 1 0 0-6.75 3.375 3.375 0 0 0 0 6.75Z" fill="#C8CDD3"/><path class="dep-icon__node" d="M4.5 13.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-1.125a3.375 3.375 0 1 0 0-6.75 3.375 3.375 0 0 0 0 6.75Z" fill="#C8CDD3"/><path d="M9.5625 13.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-1.125a3.375 3.375 0 1 0 0-6.75 3.375 3.375 0 0 0 0 6.75Z" fill="#90DD97"/><circle class="dep-icon__dot" fill="#FFFFFF" cx="9.5625" cy="9" r="3.375"/></g></svg>`,
+            sideEffect: `<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill-rule="nonzero" fill="none"><path class="side-effect-icon-svg__circle" d="M9.65 6.54a3.12 3.12 0 1 0 .01 6.24 3.12 3.12 0 0 0 0-6.24zm0 .7a2.42 2.42 0 1 1 0 4.84 2.42 2.42 0 1 1 0-4.85z" stroke="#C8CDD3" fill="#C8CDD3"/><path class="side-effect-icon-svg__arrows" d="M6.2 6.54a.38.38 0 0 0 .34-.38v-3.2a.38.38 0 1 0-.75 0v2.29L1.65 1.1a.38.38 0 0 0-.54.53L5.26 5.8H2.98a.38.38 0 1 0 0 .75H6.2zM17.06 6.54a.38.38 0 1 0-.04-.75h-2.28l4.15-4.15a.38.38 0 1 0-.54-.53l-4.14 4.14V2.97a.38.38 0 1 0-.75 0v3.2c0 .2.17.37.38.37h3.22zM1.4 19c.1 0 .19-.05.26-.12l4.13-4.14v2.29a.38.38 0 1 0 .75 0v-3.2c0-.2-.17-.37-.38-.37H2.98a.38.38 0 1 0 0 .75h2.28l-4.14 4.14a.38.38 0 0 0 .28.65zM18.65 19a.38.38 0 0 0 .23-.65l-4.14-4.14h2.28a.38.38 0 1 0 0-.75h-3.18c-.21 0-.38.17-.38.38v3.19a.38.38 0 1 0 .75 0v-2.29l4.13 4.14c.08.09.2.13.31.12z" stroke="#90DD97" stroke-width=".5" fill="#90DD97"/></g></svg>`,
+            treeShake: `<svg width="23" height="21" viewBox="0 0 23 21" xmlns="http://www.w3.org/2000/svg"><g fill="#90DD97"><path class="tree-shake-icon-svg__bush" d="M11.95 15.89v.72A4.64 4.64 0 0 0 16 11.92c0-2.48-.53-5.27-1.41-7.44C13.69 2.27 12.56 1 11.5 1S9.31 2.26 8.41 4.46A20.82 20.82 0 0 0 7 11.92a4.64 4.64 0 0 0 4.05 4.69v-1.66L9.38 13.2a.49.49 0 0 1 0-.66.43.43 0 0 1 .64 0l1.03 1.08v-3.57c0-.26.2-.47.45-.47s.45.21.45.47v1.22l.58-.61a.43.43 0 0 1 .64 0 .49.49 0 0 1 0 .66l-1.22 1.28v1.96l1.03-1.08a.43.43 0 0 1 .63 0 .49.49 0 0 1 0 .66l-1.66 1.75zm.05 1.8l-.5-.05-.5.05v-.1l-.04-.01a5.6 5.6 0 0 1-4.9-5.66c0-2.62.55-5.54 1.48-7.84C8.57 1.56 9.94.02 11.5.02s2.93 1.54 3.96 4.08c.94 2.3 1.49 5.21 1.49 7.82a5.6 5.6 0 0 1-4.9 5.66H12v.1z"/><path d="M11.03 16.61h.94v3.9a.48.48 0 0 1-.47.49.48.48 0 0 1-.47-.49v-3.9z"/></g><path fill="#C8CDD3" class="tree-shake-icon-svg__shake" d="M19.95 16L21 13.89l-.95-1.97L21 10l-.95-1.92.95-1.97L19.95 4l-.85.43.85 1.68L19 8.08l.95 1.92-.95 1.92.95 1.97-.86 1.68zm2 0L23 13.89l-.95-1.97L23 10l-.95-1.92.95-1.97-.46-.92L21.95 4l-.85.43.85 1.68L21 8.08l.95 1.92-.95 1.92.95 1.97-.86 1.68zm-20.9 0L0 13.89l.95-1.97L0 10l.95-1.92L0 6.11 1.05 4l.85.43-.85 1.68L2 8.08 1.05 10 2 11.92l-.95 1.97.85 1.68zm1.97 0L2 13.89l.93-1.97L2 10l.93-1.92L2 6.11 3.02 4l.84.43-.79 1.68L4 8.08 3.07 10 4 11.92l-.93 1.97.79 1.68z"/></svg>`,
+        });
+        const STYLE_ID = "npm-bundlephobia-size-styles";
+        const REQUEST_TIMEOUT_MS = 20_000;
+        const bundleStatsCache = new Map();
+        const packageFootprintCache = new Map();
+        let renderQueued = false;
+
+        function normalizeText(value) {
+            return value?.replace(/\s+/gu, " ").trim() ?? "";
+        }
+
+        function decodePathSegment(segment) {
+            try {
+                return decodeURIComponent(segment);
+            } catch {
+                return segment;
+            }
+        }
+
+        function getPackageFromPath() {
+            const segments = window.location.pathname
+                .split("/")
+                .filter(Boolean)
+                .map(decodePathSegment);
+
+            if (segments[0] !== "package" || !segments[1]) return null;
+
+            const isScoped = segments[1].startsWith("@");
+            if (isScoped && !segments[2]) return null;
+
+            const packageName = isScoped
+                ? `${segments[1]}/${segments[2]}`
+                : segments[1];
+            const versionMarkerIndex = isScoped ? 3 : 2;
+            const pathVersion =
+                segments[versionMarkerIndex] === "v"
+                    ? (segments[versionMarkerIndex + 1] ?? "")
+                    : "";
+
+            return { packageName, pathVersion };
+        }
+
+        function findSidebarHeading(sidebar, label) {
+            return [...sidebar.querySelectorAll("h2, h3, h4")].find(
+                (heading) => normalizeText(heading.textContent) === label
+            );
+        }
+
+        function getSidebarFieldValue(sidebar, label) {
+            const heading = findSidebarHeading(sidebar, label);
+            if (!heading) return "";
+
+            const siblingValue = normalizeText(
+                heading.nextElementSibling?.textContent
+            );
+            if (siblingValue) return siblingValue;
+
+            return normalizeText(
+                [...(heading.parentElement?.children ?? [])].find(
+                    (element) => element !== heading && element.matches("p")
+                )?.textContent
+            );
+        }
+
+        function findBundlephobiaLink(sidebar) {
+            return [...sidebar.querySelectorAll("a[href]")].find((link) => {
+                if (link.closest(`[${CARD_ATTRIBUTE}]`)) return false;
+
+                try {
+                    const url = new URL(link.href);
+                    return (
+                        url.hostname === "bundlephobia.com" &&
+                        url.pathname.startsWith("/package/")
+                    );
+                } catch {
+                    return false;
+                }
+            });
+        }
+
+        function encodePackagePath(packageName) {
+            return packageName.split("/").map(encodeURIComponent).join("/");
+        }
+
+        function getPageDetails() {
+            const sidebar = document.querySelector(
+                'aside[aria-label="Package sidebar"]'
+            );
+            const packagePath = getPackageFromPath();
+            if (!sidebar || !packagePath) return null;
+
+            const packageVersion =
+                packagePath.pathVersion ||
+                getSidebarFieldValue(sidebar, "Version");
+            if (!packageVersion) return null;
+
+            const packageSpec = `${packagePath.packageName}@${packageVersion}`;
+            const bundlephobiaPath = `${encodePackagePath(
+                packagePath.packageName
+            )}@${encodeURIComponent(packageVersion)}`;
+
+            return {
+                bundlephobiaUrl: `https://bundlephobia.com/package/${bundlephobiaPath}`,
+                pageKey: `${window.location.pathname}|${packageSpec}`,
+                packageName: packagePath.packageName,
+                packageSpec,
+                packageVersion,
+                sidebar,
+            };
+        }
+
+        function addStyles() {
+            if (document.getElementById(STYLE_ID)) return;
+
+            const style = document.createElement("style");
+            style.id = STYLE_ID;
+            style.textContent = `
+            [${CARD_ATTRIBUTE}] {
+                --nbps-accent: ${DEFAULT_ACCENT_COLOR};
+                background: rgba(127, 127, 127, 0.055);
+                border: 1px solid rgba(127, 127, 127, 0.28);
+                border-left: 3px solid var(--nbps-accent);
+                border-radius: 0.4rem;
+                box-sizing: border-box;
+                clear: both;
+                color: inherit;
+                display: grid;
+                gap: 0.75rem;
+                margin: 0.5rem 0 0.75rem;
+                min-width: 0;
+                padding: 0.8rem;
+                width: 100%;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-header {
+                align-items: center;
+                display: flex;
+                gap: 0.55rem;
+                min-width: 0;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-icon {
+                border-radius: 0.25rem;
+                display: block;
+                flex: 0 0 auto;
+                height: 1.65rem;
+                object-fit: contain;
+                width: 1.65rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-title {
+                color: inherit;
+                font-size: 0.875rem;
+                font-weight: 700;
+                min-width: 0;
+                text-decoration: none;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-title:hover {
+                color: var(--nbps-accent);
+                text-decoration: underline;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-version {
+                color: inherit;
+                font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+                font-size: 0.72rem;
+                margin-left: auto;
+                max-width: 45%;
+                opacity: 0.65;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-content {
+                min-width: 0;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-loading,
+            [${CARD_ATTRIBUTE}] .nbps-error {
+                font-size: 0.8rem;
+                line-height: 1.45;
+                margin: 0;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-loading {
+                opacity: 0.72;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-metrics {
+                display: grid;
+                gap: 0.5rem;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-section-label {
+                font-size: 0.7rem;
+                font-weight: 800;
+                letter-spacing: 0.07em;
+                margin: 0.7rem 0 0.35rem;
+                opacity: 0.68;
+                text-transform: uppercase;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-section-label:first-child {
+                margin-top: 0;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-metric {
+                background: rgba(127, 127, 127, 0.08);
+                border-radius: 0.3rem;
+                display: grid;
+                gap: 0.15rem;
+                min-width: 0;
+                padding: 0.55rem 0.65rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-metric-label {
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.04em;
+                opacity: 0.65;
+                text-transform: uppercase;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-metric-value {
+                font-size: 1rem;
+                line-height: 1.25;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-details {
+                font-size: 0.7rem;
+                line-height: 1.4;
+                margin: 0.5rem 0 0;
+                opacity: 0.65;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badges {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+                margin-top: 0.6rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge {
+                align-items: center;
+                background: rgba(34, 197, 94, 0.12);
+                border: 1px solid rgba(34, 197, 94, 0.45);
+                border-radius: 999px;
+                color: inherit;
+                display: inline-flex;
+                font-size: 0.68rem;
+                font-weight: 700;
+                gap: 0.3rem;
+                line-height: 1.2;
+                padding: 0.25rem 0.5rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge-icon {
+                display: block;
+                flex: 0 0 auto;
+                height: 1.05rem;
+                overflow: visible;
+                width: auto;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition {
+                background: rgba(127, 127, 127, 0.08);
+                border-radius: 0.3rem;
+                display: grid;
+                gap: 0.4rem;
+                margin-top: 0.6rem;
+                padding: 0.55rem 0.65rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-summary {
+                align-items: baseline;
+                display: flex;
+                flex-wrap: wrap;
+                font-size: 0.72rem;
+                gap: 0.35rem 0.6rem;
+                justify-content: space-between;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-label {
+                font-weight: 700;
+                letter-spacing: 0.04em;
+                opacity: 0.65;
+                text-transform: uppercase;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-value {
+                font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+                font-size: 0.72rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-track {
+                background: rgba(127, 127, 127, 0.2);
+                border-radius: 999px;
+                height: 0.38rem;
+                overflow: hidden;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-fill {
+                background: linear-gradient(90deg, #16a34a, var(--nbps-accent));
+                border-radius: inherit;
+                height: 100%;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-error {
+                color: #b42318;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-retry {
+                background: transparent;
+                border: 1px solid currentColor;
+                border-radius: 0.3rem;
+                color: inherit;
+                cursor: pointer;
+                font: inherit;
+                font-size: 0.75rem;
+                font-weight: 700;
+                margin-top: 0.6rem;
+                padding: 0.35rem 0.55rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-retry:hover {
+                background: rgba(127, 127, 127, 0.12);
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-title:focus-visible,
+            [${CARD_ATTRIBUTE}] .nbps-retry:focus-visible {
+                outline: 2px solid var(--nbps-accent);
+                outline-offset: 2px;
+            }
+
+            #${ACCENT_DIALOG_ID} {
+                --nbps-accent: ${DEFAULT_ACCENT_COLOR};
+                background: Canvas;
+                border: 1px solid rgba(127, 127, 127, 0.4);
+                border-radius: 0.65rem;
+                box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.35);
+                color: CanvasText;
+                color-scheme: light dark;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                max-width: calc(100vw - 2rem);
+                padding: 1rem;
+                width: 19rem;
+            }
+
+            #${ACCENT_DIALOG_ID}::backdrop {
+                background: rgba(0, 0, 0, 0.45);
+                backdrop-filter: blur(2px);
+            }
+
+            #${ACCENT_DIALOG_ID} form {
+                display: grid;
+                gap: 0.85rem;
+                margin: 0;
+            }
+
+            #${ACCENT_DIALOG_ID} .nbps-accent-dialog-title {
+                font-size: 1rem;
+                margin: 0;
+            }
+
+            #${ACCENT_DIALOG_ID} label {
+                display: grid;
+                font-size: 0.8rem;
+                font-weight: 700;
+                gap: 0.4rem;
+            }
+
+            #${ACCENT_DIALOG_ID} input[type="color"] {
+                background: transparent;
+                border: 1px solid rgba(127, 127, 127, 0.45);
+                border-radius: 0.4rem;
+                box-sizing: border-box;
+                cursor: pointer;
+                height: 3rem;
+                padding: 0.2rem;
+                width: 100%;
+            }
+
+            #${ACCENT_DIALOG_ID} .nbps-accent-dialog-actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                justify-content: flex-end;
+            }
+
+            #${ACCENT_DIALOG_ID} button {
+                background: transparent;
+                border: 1px solid rgba(127, 127, 127, 0.55);
+                border-radius: 0.35rem;
+                color: inherit;
+                cursor: pointer;
+                font: inherit;
+                font-size: 0.78rem;
+                font-weight: 700;
+                padding: 0.45rem 0.7rem;
+            }
+
+            #${ACCENT_DIALOG_ID} button[value="save"] {
+                background: var(--nbps-accent);
+                border-color: var(--nbps-accent);
+                color: #fff;
+            }
+
+            #${ACCENT_DIALOG_ID} button:focus-visible,
+            #${ACCENT_DIALOG_ID} input:focus-visible {
+                outline: 2px solid var(--nbps-accent);
+                outline-offset: 2px;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                [${CARD_ATTRIBUTE}] .nbps-error {
+                    color: #ff8a80;
+                }
+            }
+
+            @media (max-width: 34rem) {
+                [${CARD_ATTRIBUTE}] .nbps-metrics {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+            }
+        `;
+            (document.head || document.documentElement).append(style);
+        }
+
+        function createElement(tagName, className, text) {
+            const element = document.createElement(tagName);
+            if (className) element.className = className;
+            if (text !== undefined) element.textContent = text;
+            return element;
+        }
+
+        function normalizeAccentColor(value) {
+            const color =
+                typeof value === "string" ? value.trim().toLowerCase() : "";
+            return /^#[\da-f]{6}$/u.test(color) ? color : DEFAULT_ACCENT_COLOR;
+        }
+
+        function getAccentColor() {
+            return normalizeAccentColor(
+                GM_getValue(ACCENT_COLOR_KEY, DEFAULT_ACCENT_COLOR)
+            );
+        }
+
+        function applyAccentColor(element, color = getAccentColor()) {
+            element.style.setProperty("--nbps-accent", color);
+        }
+
+        function applyAccentColorToUi(color) {
+            document
+                .querySelectorAll(`[${CARD_ATTRIBUTE}], #${ACCENT_DIALOG_ID}`)
+                .forEach((element) => applyAccentColor(element, color));
+        }
+
+        function setAccentColor(color) {
+            const normalizedColor = normalizeAccentColor(color);
+            GM_setValue(ACCENT_COLOR_KEY, normalizedColor);
+            applyAccentColorToUi(normalizedColor);
+        }
+
+        function createStatusIcon(iconName) {
+            const markup = STATUS_ICON_MARKUP[iconName];
+            if (!markup) return null;
+
+            const parsed = new DOMParser().parseFromString(
+                markup,
+                "image/svg+xml"
+            );
+            const icon = parsed.documentElement;
+            if (icon.localName !== "svg") return null;
+
+            icon.classList.add("nbps-badge-icon");
+            icon.setAttribute("aria-hidden", "true");
+            icon.setAttribute("focusable", "false");
+            return document.importNode(icon, true);
+        }
+
+        function openAccentColorDialog() {
+            addStyles();
+
+            const existingDialog = document.getElementById(ACCENT_DIALOG_ID);
+            if (existingDialog?.open) {
+                existingDialog.querySelector('input[type="color"]')?.focus();
+                return;
+            }
+            existingDialog?.remove();
+
+            const currentColor = getAccentColor();
+            const dialog = createElement("dialog");
+            dialog.id = ACCENT_DIALOG_ID;
+            dialog.setAttribute("aria-labelledby", `${ACCENT_DIALOG_ID}-title`);
+            applyAccentColor(dialog, currentColor);
+
+            const form = createElement("form");
+            form.method = "dialog";
+
+            const title = createElement(
+                "h2",
+                "nbps-accent-dialog-title",
+                "Bundlephobia accent color"
+            );
+            title.id = `${ACCENT_DIALOG_ID}-title`;
+
+            const label = createElement(
+                "label",
+                null,
+                "Choose an accent color"
+            );
+            const input = createElement("input");
+            input.type = "color";
+            input.value = currentColor;
+            input.setAttribute("aria-label", "Bundlephobia accent color");
+            input.addEventListener("input", () =>
+                applyAccentColorToUi(input.value)
+            );
+            label.append(input);
+
+            const actions = createElement("div", "nbps-accent-dialog-actions");
+            const reset = createElement("button", null, "Reset");
+            reset.type = "submit";
+            reset.value = "reset";
+            const cancel = createElement("button", null, "Cancel");
+            cancel.type = "submit";
+            cancel.value = "cancel";
+            const save = createElement("button", null, "Save");
+            save.type = "submit";
+            save.value = "save";
+            actions.append(reset, cancel, save);
+            form.append(title, label, actions);
+            dialog.append(form);
+
+            dialog.addEventListener(
+                "close",
+                () => {
+                    if (dialog.returnValue === "save") {
+                        setAccentColor(input.value);
+                    } else if (dialog.returnValue === "reset") {
+                        setAccentColor(DEFAULT_ACCENT_COLOR);
+                    } else {
+                        applyAccentColorToUi(getAccentColor());
+                    }
+                    dialog.remove();
+                },
+                { once: true }
+            );
+
+            (document.body || document.documentElement).append(dialog);
+            dialog.showModal();
+            input.focus();
+        }
+
+        function createCard(details) {
+            const card = createElement("section");
+            card.dataset.pageKey = details.pageKey;
+            card.dataset.npmEnhancementOwner = "main";
+            card.setAttribute(CARD_ATTRIBUTE, "");
+            card.setAttribute("aria-label", "Bundlephobia package size");
+            applyAccentColor(card);
+
+            const header = createElement("div", "nbps-header");
+            const icon = createElement("img", "nbps-icon");
+            icon.src = FAVICON_URL;
+            icon.alt = "";
+            icon.width = 26;
+            icon.height = 26;
+            icon.decoding = "async";
+            icon.referrerPolicy = "no-referrer";
+            icon.setAttribute("aria-hidden", "true");
+            icon.addEventListener("error", () => icon.remove(), { once: true });
+
+            const title = createElement("a", "nbps-title", "Bundlephobia size");
+            title.href = details.bundlephobiaUrl;
+            title.target = "_blank";
+            title.rel = "noopener noreferrer nofollow";
+            title.title = `Open ${details.packageSpec} on Bundlephobia`;
+
+            const version = createElement(
+                "span",
+                "nbps-version",
+                `v${details.packageVersion}`
+            );
+            version.title = details.packageSpec;
+            header.append(icon, title, version);
+
+            const content = createElement("div", "nbps-content");
+            content.setAttribute("aria-live", "polite");
+            content.setAttribute("aria-atomic", "true");
+            card.append(header, content);
+
+            return { card, content };
+        }
+
+        function formatSize(bytes) {
+            if (!Number.isFinite(bytes) || bytes < 0) return "Unknown";
+
+            const units = [
+                "B",
+                "kB",
+                "MB",
+                "GB",
+            ];
+            let value = bytes;
+            let unitIndex = 0;
+
+            while (value >= 1000 && unitIndex < units.length - 1) {
+                value /= 1000;
+                unitIndex += 1;
+            }
+
+            const maximumFractionDigits =
+                unitIndex === 0 || value >= 100 ? 0 : 1;
+            return `${new Intl.NumberFormat(undefined, {
+                maximumFractionDigits,
+            }).format(value)} ${units[unitIndex]}`;
+        }
+
+        function formatDownloadTime(seconds) {
+            if (!Number.isFinite(seconds) || seconds < 0) return "Unknown";
+
+            if (seconds < 0.0005) {
+                return `${Math.round(seconds * 1_000_000)} μs`;
+            }
+            if (seconds < 0.5) {
+                return `${Math.round(seconds * 1000)} ms`;
+            }
+            return `${new Intl.NumberFormat(undefined, {
+                maximumFractionDigits: 1,
+            }).format(seconds)} s`;
+        }
+
+        function getDownloadTimes(gzipSize) {
+            const gzipKilobytes = gzipSize / 1024;
+            return {
+                emerging4G: gzipKilobytes / DOWNLOAD_SPEED_KBPS.emerging4G,
+                slow3G: gzipKilobytes / DOWNLOAD_SPEED_KBPS.slow3G,
+            };
+        }
+
+        function getSelfComposition(data) {
+            if (!Array.isArray(data.dependencySizes)) return null;
+
+            const dependencies = data.dependencySizes.filter(
+                (dependency) =>
+                    dependency &&
+                    typeof dependency.name === "string" &&
+                    Number.isFinite(dependency.approximateSize) &&
+                    dependency.approximateSize >= 0
+            );
+            const totalApproximateSize = dependencies.reduce(
+                (total, dependency) => total + dependency.approximateSize,
+                0
+            );
+            const self = dependencies.find(
+                (dependency) => dependency.name === data.name
+            );
+            if (!self || totalApproximateSize <= 0) return null;
+
+            const ratio = self.approximateSize / totalApproximateSize;
+            return {
+                percent: ratio * 100,
+                size: ratio * data.size,
+            };
+        }
+
+        function dependencyBadgeLabel(count) {
+            if (!Number.isFinite(count) || count < 0) return null;
+            if (count === 0) return "No dependencies";
+            return `${new Intl.NumberFormat().format(count)} ${
+                count === 1 ? "dependency" : "dependencies"
+            }`;
+        }
+
+        function showLoading(content, details) {
+            const loading = createElement(
+                "p",
+                "nbps-loading",
+                `Fetching bundle and package data for ${details.packageSpec}…`
+            );
+            content.replaceChildren(loading);
+        }
+
+        function createMetric(label, value, title) {
+            const metric = createElement("span", "nbps-metric");
+            if (title) metric.title = title;
+            metric.append(
+                createElement("span", "nbps-metric-label", label),
+                createElement("strong", "nbps-metric-value", value)
+            );
+            return metric;
+        }
+
+        function createBadge(label, title, iconName) {
+            const badge = createElement("span", "nbps-badge");
+            const icon = createStatusIcon(iconName);
+            if (icon) badge.append(icon);
+            badge.append(document.createTextNode(label));
+            badge.title = title;
+            return badge;
+        }
+
+        function createBadges(data) {
+            const badges = createElement("div", "nbps-badges");
+            const isTreeShakeable = Boolean(
+                data.hasJSModule || data.hasJSNext || data.isModuleType
+            );
+
+            if (isTreeShakeable) {
+                badges.append(
+                    createBadge(
+                        "Tree-shakable",
+                        "Bundlephobia detected an ES module entry point.",
+                        "treeShake"
+                    )
+                );
+            }
+
+            if (data.hasSideEffects === false) {
+                badges.append(
+                    createBadge(
+                        "Side-effect free",
+                        "Bundlephobia reports that the package is marked as side-effect free.",
+                        "sideEffect"
+                    )
+                );
+            }
+
+            const dependencyText = dependencyBadgeLabel(data.dependencyCount);
+            if (dependencyText) {
+                badges.append(
+                    createBadge(
+                        dependencyText,
+                        "Bundlephobia's bundled dependency count.",
+                        "dependency"
+                    )
+                );
+            }
+
+            return badges.childElementCount > 0 ? badges : null;
+        }
+
+        function createSelfComposition(data) {
+            const composition = getSelfComposition(data);
+            if (!composition) return null;
+
+            const container = createElement("div", "nbps-composition");
+            container.title =
+                "Estimated from Bundlephobia's dependency contribution data.";
+
+            const summary = createElement("div", "nbps-composition-summary");
+            const label = createElement(
+                "span",
+                "nbps-composition-label",
+                "Self composition"
+            );
+            const value = createElement(
+                "strong",
+                "nbps-composition-value",
+                `${composition.percent.toFixed(1)}% · ~${formatSize(
+                    composition.size
+                )}`
+            );
+            summary.append(label, value);
+
+            const track = createElement("div", "nbps-composition-track");
+            track.setAttribute("role", "progressbar");
+            track.setAttribute("aria-label", "Package self composition");
+            track.setAttribute("aria-valuemin", "0");
+            track.setAttribute("aria-valuemax", "100");
+            track.setAttribute("aria-valuenow", composition.percent.toFixed(1));
+
+            const fill = createElement("div", "nbps-composition-fill");
+            fill.style.width = `${Math.min(100, composition.percent)}%`;
+            track.append(fill);
+            container.append(summary, track);
+            return container;
+        }
+
+        function createPackageMetrics(footprint) {
+            if (!footprint) return null;
+            const metrics = createElement("div", "nbps-metrics");
+            if (Number.isFinite(footprint.tarballSize)) {
+                metrics.append(
+                    createMetric(
+                        "Tarball",
+                        formatSize(footprint.tarballSize),
+                        "Compressed npm registry tarball transfer size."
+                    )
+                );
+            }
+            if (Number.isFinite(footprint.unpackedSize)) {
+                metrics.append(
+                    createMetric(
+                        "Unpacked",
+                        formatSize(footprint.unpackedSize),
+                        "Published package contents after the tarball is unpacked; dependencies are not included."
+                    )
+                );
+            }
+            if (Number.isFinite(footprint.fileCount)) {
+                metrics.append(
+                    createMetric(
+                        "Files",
+                        new Intl.NumberFormat().format(footprint.fileCount),
+                        "Number of files published in this package version."
+                    )
+                );
+            }
+            return metrics.childElementCount > 0 ? metrics : null;
+        }
+
+        function showStats(content, data, footprint) {
+            const downloadTimes = getDownloadTimes(data.gzip);
+            const metrics = createElement("div", "nbps-metrics");
+            metrics.append(
+                createMetric("Minified", formatSize(data.size)),
+                createMetric("Gzip", formatSize(data.gzip)),
+                createMetric(
+                    "Slow 3G",
+                    formatDownloadTime(downloadTimes.slow3G),
+                    `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`
+                ),
+                createMetric(
+                    "Emerging 4G",
+                    formatDownloadTime(downloadTimes.emerging4G),
+                    `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`
+                )
+            );
+
+            const badges = createBadges(data);
+            const composition = createSelfComposition(data);
+            const packageMetrics = createPackageMetrics(footprint);
+
+            const details = createElement(
+                "p",
+                "nbps-details",
+                `Bundlephobia analyzed v${data.version}`
+            );
+            content.replaceChildren(
+                createElement("p", "nbps-section-label", "Browser bundle"),
+                metrics,
+                ...(badges ? [badges] : []),
+                ...(composition ? [composition] : []),
+                ...(packageMetrics
+                    ? [
+                          createElement(
+                              "p",
+                              "nbps-section-label",
+                              "npm package"
+                          ),
+                          packageMetrics,
+                      ]
+                    : []),
+                details
+            );
+        }
+
+        function getFriendlyError(error) {
+            if (error?.code === "UnsupportedPackageError") {
+                return "No browser bundle data is available for this package.";
+            }
+            if (error?.code === "PackageNotFoundError") {
+                return "Bundlephobia could not find this package version.";
+            }
+            if (error?.code === "TimeoutError") {
+                return "Bundlephobia took too long to respond.";
+            }
+            if (error?.code === "NetworkError") {
+                return "Could not reach Bundlephobia.";
+            }
+            return error instanceof Error
+                ? error.message
+                : "Could not load bundle size data.";
+        }
+
+        function showError(content, details, error) {
+            const message = createElement(
+                "p",
+                "nbps-error",
+                getFriendlyError(error)
+            );
+            const retry = createElement("button", "nbps-retry", "Retry");
+            retry.type = "button";
+            retry.addEventListener("click", () => {
+                bundleStatsCache.delete(details.packageSpec);
+                packageFootprintCache.delete(details.packageSpec);
+                loadStats(content, details);
+            });
+            content.replaceChildren(message, retry);
+        }
+
+        function createRequestError(message, code) {
+            const error = new Error(message);
+            error.code = code;
+            return error;
+        }
+
+        function parseResponse(response) {
+            if (response.response && typeof response.response === "object") {
+                return response.response;
+            }
+
+            const responseText = response.responseText || response.response;
+            if (typeof responseText !== "string") return null;
+
+            try {
+                return JSON.parse(responseText);
+            } catch {
+                return null;
+            }
+        }
+
+        function requestBundleStats(packageSpec) {
+            return new Promise((resolve, reject) => {
+                GM_xmlhttpRequest({
+                    method: "GET",
+                    anonymous: true,
+                    url: `https://bundlephobia.com/api/size?package=${encodeURIComponent(
+                        packageSpec
+                    )}`,
+                    responseType: "json",
+                    timeout: REQUEST_TIMEOUT_MS,
+                    headers: {
+                        Accept: "application/json",
+                    },
+                    onload: (response) => {
+                        const data = parseResponse(response);
+                        if (response.status < 200 || response.status >= 300) {
+                            reject(
+                                createRequestError(
+                                    data?.error?.message ||
+                                        `Bundlephobia returned HTTP ${response.status}.`,
+                                    data?.error?.code || "HttpError"
+                                )
+                            );
+                            return;
+                        }
+
+                        if (
+                            !data ||
+                            !Number.isFinite(data.size) ||
+                            !Number.isFinite(data.gzip) ||
+                            typeof data.version !== "string"
+                        ) {
+                            reject(
+                                createRequestError(
+                                    "Bundlephobia returned an unexpected response.",
+                                    "InvalidResponseError"
+                                )
+                            );
+                            return;
+                        }
+
+                        resolve(data);
+                    },
+                    onabort: () => {
+                        reject(
+                            createRequestError(
+                                "The Bundlephobia request was cancelled.",
+                                "AbortError"
+                            )
+                        );
+                    },
+                    onerror: () => {
+                        reject(
+                            createRequestError(
+                                "Could not reach Bundlephobia.",
+                                "NetworkError"
+                            )
+                        );
+                    },
+                    ontimeout: () => {
+                        reject(
+                            createRequestError(
+                                "Bundlephobia took too long to respond.",
+                                "TimeoutError"
+                            )
+                        );
+                    },
+                });
+            });
+        }
+
+        function getBundleStats(packageSpec) {
+            const cached = bundleStatsCache.get(packageSpec);
+            if (cached) return cached;
+
+            const request = requestBundleStats(packageSpec).catch((error) => {
+                bundleStatsCache.delete(packageSpec);
+                throw error;
+            });
+            bundleStatsCache.set(packageSpec, request);
+            return request;
+        }
+
+        function requestRegistryManifest(details) {
+            return new Promise((resolve, reject) => {
+                GM_xmlhttpRequest({
+                    method: "GET",
+                    anonymous: true,
+                    url: `https://registry.npmjs.org/${encodeURIComponent(
+                        details.packageName
+                    )}/${encodeURIComponent(details.packageVersion)}`,
+                    responseType: "json",
+                    timeout: REQUEST_TIMEOUT_MS,
+                    headers: { Accept: "application/json" },
+                    onload: (response) => {
+                        const data = parseResponse(response);
+                        if (
+                            response.status >= 200 &&
+                            response.status < 300 &&
+                            data
+                        ) {
+                            resolve(data);
+                            return;
+                        }
+                        reject(
+                            createRequestError(
+                                `npm Registry returned HTTP ${response.status}.`,
+                                "RegistryError"
+                            )
+                        );
+                    },
+                    onerror: () =>
+                        reject(
+                            createRequestError(
+                                "Could not reach the npm Registry.",
+                                "NetworkError"
+                            )
+                        ),
+                    ontimeout: () =>
+                        reject(
+                            createRequestError(
+                                "The npm Registry took too long to respond.",
+                                "TimeoutError"
+                            )
+                        ),
+                });
+            });
+        }
+
+        function parseTarballSize(responseHeaders, status) {
+            if (status === 206) {
+                const contentRange =
+                    /^content-range:\s*bytes\s+\d+-\d+\/(\d+)$/imu.exec(
+                        responseHeaders || ""
+                    );
+                return contentRange ? Number(contentRange[1]) : null;
+            }
+            if (status === 200) {
+                const contentLength = /^content-length:\s*(\d+)$/imu.exec(
+                    responseHeaders || ""
+                );
+                return contentLength ? Number(contentLength[1]) : null;
+            }
+            return null;
+        }
+
+        function requestTarballSize(tarballUrl) {
+            if (typeof tarballUrl !== "string") return Promise.resolve(null);
+            return new Promise((resolve) => {
+                GM_xmlhttpRequest({
+                    method: "GET",
+                    anonymous: true,
+                    url: tarballUrl,
+                    timeout: REQUEST_TIMEOUT_MS,
+                    headers: { Range: "bytes=0-0" },
+                    onload: (response) =>
+                        resolve(
+                            parseTarballSize(
+                                response.responseHeaders,
+                                response.status
+                            )
+                        ),
+                    onerror: () => resolve(null),
+                    ontimeout: () => resolve(null),
+                });
+            });
+        }
+
+        async function requestPackageIndex(details) {
+            try {
+                const response = await fetch(
+                    `https://www.npmjs.com/package/${encodePackagePath(
+                        details.packageName
+                    )}/v/${encodeURIComponent(details.packageVersion)}/index`,
+                    { credentials: "same-origin" }
+                );
+                return response.ok ? response.json() : null;
+            } catch {
+                return null;
+            }
+        }
+
+        async function requestPackageFootprint(details) {
+            const manifest = await requestRegistryManifest(details);
+            const registryData = manifest.dist || {};
+            let unpackedSize = Number.isFinite(registryData.unpackedSize)
+                ? registryData.unpackedSize
+                : null;
+            let fileCount = Number.isFinite(registryData.fileCount)
+                ? registryData.fileCount
+                : null;
+            if (unpackedSize === null || fileCount === null) {
+                const index = await requestPackageIndex(details);
+                if (
+                    unpackedSize === null &&
+                    Number.isFinite(index?.totalSize)
+                ) {
+                    unpackedSize = index.totalSize;
+                }
+                if (fileCount === null && Number.isFinite(index?.fileCount)) {
+                    fileCount = index.fileCount;
+                }
+            }
+            return {
+                fileCount,
+                tarballSize: await requestTarballSize(registryData.tarball),
+                unpackedSize,
+            };
+        }
+
+        function getPackageFootprint(details) {
+            const cached = packageFootprintCache.get(details.packageSpec);
+            if (cached) return cached;
+            const request = requestPackageFootprint(details).catch((error) => {
+                packageFootprintCache.delete(details.packageSpec);
+                throw error;
+            });
+            packageFootprintCache.set(details.packageSpec, request);
+            return request;
+        }
+
+        async function loadStats(content, details) {
+            showLoading(content, details);
+
+            try {
+                const [data, footprint] = await Promise.all([
+                    getBundleStats(details.packageSpec),
+                    getPackageFootprint(details).catch(() => null),
+                ]);
+                if (
+                    !content.isConnected ||
+                    content.closest(`[${CARD_ATTRIBUTE}]`)?.dataset.pageKey !==
+                        details.pageKey
+                ) {
+                    return;
+                }
+                showStats(content, data, footprint);
+            } catch (error) {
+                if (
+                    content.isConnected &&
+                    content.closest(`[${CARD_ATTRIBUTE}]`)?.dataset.pageKey ===
+                        details.pageKey
+                ) {
+                    showError(content, details, error);
+                }
+            }
+        }
+
+        function getCardPlacement() {
+            const placement = GM_getValue(
+                CARD_PLACEMENT_KEY,
+                CARD_PLACEMENTS.bundlephobiaLink
+            );
+            return Object.values(CARD_PLACEMENTS).includes(placement)
+                ? placement
+                : CARD_PLACEMENTS.bundlephobiaLink;
+        }
+
+        function setCardPlacement(placement) {
+            GM_setValue(CARD_PLACEMENT_KEY, placement);
+            scheduleRender();
+        }
+
+        function registerMenuCommands() {
+            GM_registerMenuCommand(
+                "Bundlephobia: change accent color…",
+                openAccentColorDialog
+            );
+            GM_registerMenuCommand(
+                "Bundlephobia: place below Unpacked Size",
+                () => setCardPlacement(CARD_PLACEMENTS.unpackedSize)
+            );
+            GM_registerMenuCommand(
+                "Bundlephobia: place by npm bundle link",
+                () => setCardPlacement(CARD_PLACEMENTS.bundlephobiaLink)
+            );
+        }
+
+        function insertAfter(target, card, placement) {
+            card.dataset.placement = placement;
+            if (target.nextElementSibling !== card) {
+                target.insertAdjacentElement("afterend", card);
+            }
+        }
+
+        function insertCard(details, card) {
+            if (getCardPlacement() === CARD_PLACEMENTS.unpackedSize) {
+                const unpackedSizeHeading = findSidebarHeading(
+                    details.sidebar,
+                    "Unpacked Size"
+                );
+                const unpackedSizeSection = unpackedSizeHeading?.parentElement;
+                if (unpackedSizeSection) {
+                    insertAfter(
+                        unpackedSizeSection,
+                        card,
+                        CARD_PLACEMENTS.unpackedSize
+                    );
+                    return;
+                }
+            }
+
+            const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
+            if (bundlephobiaLink) {
+                insertAfter(
+                    bundlephobiaLink,
+                    card,
+                    CARD_PLACEMENTS.bundlephobiaLink
+                );
+                return;
+            }
+
+            const versionHeading = findSidebarHeading(
+                details.sidebar,
+                "Version"
+            );
+            const versionSection = versionHeading?.parentElement;
+            if (versionSection) {
+                insertAfter(versionSection, card, "version-fallback");
+                return;
+            }
+
+            card.dataset.placement = "sidebar-fallback";
+            if (details.sidebar.lastElementChild !== card) {
+                details.sidebar.append(card);
+            }
+        }
+
+        function render() {
+            const details = getPageDetails();
+            if (!details) return;
+
+            addStyles();
+            const existingCard = details.sidebar.querySelector(
+                `[${CARD_ATTRIBUTE}]`
+            );
+            if (
+                existingCard &&
+                existingCard.dataset.npmEnhancementOwner !== "main"
+            ) {
+                return;
+            }
+            if (existingCard?.dataset.pageKey === details.pageKey) {
+                insertCard(details, existingCard);
+                return;
+            }
+            existingCard?.remove();
+
+            const { card, content } = createCard(details);
+            insertCard(details, card);
+            loadStats(content, details);
+        }
+
+        function scheduleRender() {
+            if (renderQueued) return;
+            renderQueued = true;
+            window.requestAnimationFrame(() => {
+                renderQueued = false;
+                render();
+            });
+        }
+
+        registerMenuCommands();
+
+        const observer = new MutationObserver(scheduleRender);
+        observer.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+        });
+
+        window.addEventListener("pageshow", scheduleRender);
+        window.addEventListener("popstate", scheduleRender);
+        scheduleRender();
+    })();
+}
+/* END INTEGRATED NPM BUNDLEPHOBIA PACKAGE SIZE */

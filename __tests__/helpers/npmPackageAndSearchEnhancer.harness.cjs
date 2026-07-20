@@ -7,6 +7,14 @@ const script = fs.readFileSync(
     path.join(__dirname, "..", "..", "NPM-Package-and-Search-Enhancer.user.js"),
     "utf8"
 );
+const moreInstallButtonsScript = fs.readFileSync(
+    path.join(__dirname, "..", "..", "NPM-More-Install-Buttons.user.js"),
+    "utf8"
+);
+const packageSizeScript = fs.readFileSync(
+    path.join(__dirname, "..", "..", "NPM-Bundlephobia-Package-Size.user.js"),
+    "utf8"
+);
 
 const FEATURE_NAMES = [
     "better-dependencies",
@@ -16,6 +24,7 @@ const FEATURE_NAMES = [
     "fix-issue-pr-count",
     "fix-styles",
     "helpful-links",
+    "install-commands",
     "module-replacements",
     "move-funding",
     "no-code-beta",
@@ -23,6 +32,7 @@ const FEATURE_NAMES = [
     "remove-redundant-homepage",
     "repository-card",
     "repository-directory",
+    "package-size",
     "search-results",
     "show-binary-label",
     "show-cli-label",
@@ -32,20 +42,31 @@ const FEATURE_NAMES = [
     "show-types-label",
     "show-vulnerabilities",
     "stars",
-    "tarball-size",
-    "unpacked-size-and-total-files",
 ];
 
 function createPage(body, url) {
+    const virtualConsole = new VirtualConsole();
+    if (process.env.DEBUG_NPM_ENHANCER_HARNESS) {
+        virtualConsole.on("error", (...arguments_) =>
+            console.error(...arguments_)
+        );
+        virtualConsole.on("jsdomError", (error) => console.error(error));
+        virtualConsole.on("warn", (...arguments_) =>
+            console.error(...arguments_)
+        );
+    }
     const dom = new JSDOM(body, {
         pretendToBeVisual: true,
         runScripts: "outside-only",
         url,
-        virtualConsole: new VirtualConsole(),
+        virtualConsole,
     });
     dom.window.Headers = global.Headers;
     dom.window.Request = global.Request;
     dom.window.structuredClone = global.structuredClone;
+    dom.window.requestAnimationFrame = (callback) =>
+        dom.window.setTimeout(() => callback(Date.now()), 0);
+    dom.window.cancelAnimationFrame = (id) => dom.window.clearTimeout(id);
     return dom;
 }
 
@@ -62,14 +83,32 @@ function installGm(dom, respond) {
             requests.push(options.url);
             dom.window.queueMicrotask(async () => {
                 try {
-                    const response = await respond(options.url, options);
+                    const result = await respond(options.url, options);
+                    const isExplicitResponse = result?.__gmResponse === true;
+                    const response = isExplicitResponse ? result.body : result;
+                    const status = isExplicitResponse
+                        ? result.status
+                        : options.url.endsWith(".tgz")
+                          ? 206
+                          : 200;
+                    const responseHeaders = isExplicitResponse
+                        ? result.responseHeaders
+                        : options.url.endsWith(".tgz")
+                          ? "content-range: bytes 0-0/3200"
+                          : "content-type: application/json";
+                    options.onreadystatechange?.({
+                        readyState: 2,
+                        status,
+                    });
                     options.onload?.({
                         readyState: 4,
                         response,
-                        responseHeaders: "content-type: application/json",
+                        responseHeaders,
                         responseText: JSON.stringify(response),
-                        status: 200,
-                        statusText: "OK",
+                        status,
+                        statusText: isExplicitResponse
+                            ? result.statusText
+                            : "OK",
                     });
                 } catch (error) {
                     options.onerror?.(error);
@@ -77,6 +116,13 @@ function installGm(dom, respond) {
             });
         },
     };
+    dom.window.GM_getValue = (_key, defaultValue) => defaultValue;
+    dom.window.GM_registerMenuCommand = (label, callback) =>
+        dom.window.GM.registerMenuCommand(label, callback);
+    dom.window.GM_setClipboard = () => {};
+    dom.window.GM_setValue = () => {};
+    dom.window.GM_xmlhttpRequest = (options) =>
+        dom.window.GM.xmlHttpRequest(options);
 
     return { commands, requests };
 }
@@ -156,7 +202,9 @@ async function runDefaultSearchScenario() {
                     '[data-npm-enhancer-links="search"]'
                 ).length === 2
         );
-        gm.commands[0].callback();
+        gm.commands
+            .find((command) => command.label === "Open NPM Enhancer settings")
+            .callback();
         const dialog = dom.window.document.querySelector(
             "#npm-userscript-settings"
         );
@@ -167,9 +215,43 @@ async function runDefaultSearchScenario() {
             searchBadgeRows: dom.window.document.querySelectorAll(
                 ".npm-userscript-search-badges"
             ).length,
-            searchBadgesChecked: dialog.querySelector(
-                '.setting-emphasis input[type="checkbox"]'
-            ).checked,
+            searchBadgesChecked: Array.from(
+                dialog.querySelectorAll('.setting input[type="checkbox"]')
+            ).find(
+                (input) =>
+                    input.nextElementSibling?.textContent.trim() ===
+                    "Enhanced badges in search results"
+            )?.checked,
+            enhancedBadgesLabel: Array.from(
+                dialog.querySelectorAll(".setting > span")
+            ).some(
+                (element) =>
+                    element.textContent.trim() ===
+                    "Enhanced badges in search results"
+            ),
+            linkAndBadgeSectionsOpen: ["Badges", "Links"].every((label) =>
+                Array.from(dialog.querySelectorAll("details[open] > summary"))
+                    .map((summary) => summary.textContent.trim())
+                    .includes(label)
+            ),
+            previewCount: dialog.querySelectorAll(".setting-preview").length,
+            customIconHelp: dialog.querySelector(".custom-help").textContent,
+            versionLimitChecked: Array.from(
+                dialog.querySelectorAll('.setting input[type="checkbox"]')
+            ).find(
+                (input) =>
+                    input.nextElementSibling?.textContent.trim() ===
+                    "Limit long version histories"
+            )?.checked,
+            versionLimitValue: dialog.querySelector(".inline-number")?.value,
+            nativeDownloadsStayPut: Array.from(
+                dom.window.document.querySelectorAll(
+                    '[aria-label="Download statistics"]'
+                )
+            ).every(
+                (download) =>
+                    download.parentElement?.parentElement?.tagName === "SECTION"
+            ),
             searchLinkRows: dom.window.document.querySelectorAll(
                 '[data-npm-enhancer-links="search"]'
             ).length,
@@ -177,6 +259,366 @@ async function runDefaultSearchScenario() {
     } finally {
         dom.window.close();
     }
+}
+
+async function runVersionsScenario() {
+    const versions = [
+        "1.0.0",
+        "1.0.0+build.2",
+        "1.0.0-beta.10",
+        "1.0.0-beta.2",
+        "1.0.0-alpha.1",
+        "0.9.2",
+        "0.9.1",
+    ];
+    const rows = versions
+        .map(
+            (version) =>
+                `<tr><td><a href="/package/example/v/${version}">${version}</a></td><td>100</td><td>today</td></tr>`
+        )
+        .join("");
+    const dom = createPage(
+        `<title>example - npm</title><main><h1>example</h1>
+            <aside aria-label="Package sidebar"><div><h3>Version</h3><p>7.0.0</p></div></aside>
+        </main>`,
+        "https://www.npmjs.com/package/example?activeTab=versions"
+    );
+    setOnlyFeature(dom, "better-versions");
+    dom.window.localStorage.setItem("npm-enhancer:settings:version-limit", "5");
+    installGm(dom, async (url) => {
+        if (url.endsWith("/example/7.0.0")) return { version: "7.0.0" };
+        if (url.endsWith("/example")) {
+            return {
+                "dist-tags": { latest: "7.0.0" },
+                time: Object.fromEntries(
+                    versions.map((version, index) => [
+                        version,
+                        new Date(Date.UTC(2026, 0, 7 - index)).toISOString(),
+                    ])
+                ),
+                versions: Object.fromEntries(
+                    versions.map((version) => [version, {}])
+                ),
+            };
+        }
+        if (url.includes("api.npmjs.org/versions/")) {
+            return {
+                downloads: Object.fromEntries(
+                    versions.map((version) => [version, 100])
+                ),
+            };
+        }
+        throw new Error(`Unexpected request: ${url}`);
+    });
+
+    try {
+        runScript(dom);
+        dom.window.setTimeout(() => {
+            dom.window.document.querySelector("main").insertAdjacentHTML(
+                "afterbegin",
+                `<table aria-labelledby="current-tags"><tbody></tbody></table>
+                <h3 id="version-history">Version History</h3>
+                <table aria-labelledby="version-history"><thead><tr><th>Version</th><th>Downloads</th><th>Published</th></tr></thead><tbody>${rows}</tbody></table>`
+            );
+        }, 75);
+        const tabs = await waitFor(() =>
+            dom.window.document.querySelector(".npm-userscript-version-tabs")
+        );
+        const patchTab = Array.from(tabs.querySelectorAll("button")).find(
+            (button) => button.dataset.versionLevel === "patch"
+        );
+        patchTab.click();
+        const nativeTable = dom.window.document.querySelector(
+            'table[aria-labelledby="version-history"]'
+        );
+        nativeTable.querySelector("tbody").outerHTML = `<tbody>${rows}</tbody>`;
+        await waitFor(
+            () =>
+                nativeTable.querySelectorAll(
+                    ".npm-userscript-version-limit-hidden"
+                ).length === 2
+        );
+        return {
+            hiddenNativeRows: dom.window.document.querySelectorAll(
+                ".npm-userscript-version-limit-hidden"
+            ).length,
+            patchRows: dom.window.document.querySelectorAll(
+                ".npm-userscript-version-summary table tbody tr"
+            ).length,
+            patchLabels: Array.from(
+                dom.window.document.querySelectorAll(
+                    ".npm-userscript-version-summary table tbody tr td:first-child"
+                )
+            ).map((cell) => cell.textContent),
+            tabLabels: Array.from(tabs.querySelectorAll("button")).map(
+                (button) => button.textContent
+            ),
+            selectorRole: tabs.getAttribute("role"),
+            usesPressedButtons: Array.from(
+                tabs.querySelectorAll("button")
+            ).every(
+                (button) =>
+                    button.getAttribute("role") === null &&
+                    button.hasAttribute("aria-pressed")
+            ),
+        };
+    } finally {
+        dom.window.close();
+    }
+}
+
+async function runRepositoryCardScenario() {
+    const dom = createPage(
+        `<title>example - npm</title><main><h1>example</h1><aside aria-label="Package sidebar">
+            <div><h3 id="repository">Repository</h3><p><a aria-labelledby="repository-link" href="https://github.com/example/example"><span id="repository-link">example/example</span></a></p></div>
+            <div id="native-issues"><h3>Issues</h3><p>5</p></div>
+            <div id="native-pulls"><h3>Pull Requests</h3><p>2</p></div>
+            <div><h3>Version</h3><p>1.0.0</p></div>
+        </aside></main>`,
+        "https://www.npmjs.com/package/example"
+    );
+    setOnlyFeature(dom, "repository-card");
+    const sidebar = dom.window.document.querySelector(
+        '[aria-label="Package sidebar"]'
+    );
+    const issues = dom.window.document.querySelector("#native-issues");
+    const pulls = dom.window.document.querySelector("#native-pulls");
+    installGm(dom, async (url) => {
+        if (url.includes("api.github.com/search/issues")) {
+            return { total_count: 2 };
+        }
+        if (url.includes("api.github.com/repos/example/example/contents")) {
+            return {};
+        }
+        if (url.endsWith("api.github.com/repos/example/example")) {
+            return {
+                default_branch: "main",
+                full_name: "example/example",
+                html_url: "https://github.com/example/example",
+                open_issues_count: 7,
+                organization: null,
+                owner: { avatar_url: "https://example.test/avatar.png" },
+                stargazers_count: 1234,
+            };
+        }
+        if (url.includes("registry.npmjs.org/example/1.0.0")) {
+            return {
+                repository: {
+                    directory: "packages/example",
+                    type: "git",
+                    url: "git+https://github.com/example/example.git",
+                },
+                version: "1.0.0",
+            };
+        }
+        throw new Error(`Unexpected request: ${url}`);
+    });
+
+    try {
+        runScript(dom);
+        const card = await waitFor(() =>
+            dom.window.document.querySelector(".npm-userscript-repository-card")
+        );
+        return {
+            nativeColumnsStayConnected:
+                issues.parentElement === sidebar &&
+                pulls.parentElement === sidebar,
+            nativeColumnsHiddenByClass:
+                issues.classList.contains(
+                    "npm-userscript-repository-card-superseded"
+                ) &&
+                pulls.classList.contains(
+                    "npm-userscript-repository-card-superseded"
+                ),
+            metricKinds: Array.from(card.querySelectorAll("[data-metric]")).map(
+                (metric) => metric.dataset.metric
+            ),
+        };
+    } finally {
+        dom.window.close();
+    }
+}
+
+async function runCoexistenceScenario() {
+    async function runInstallOrder(standaloneFirst) {
+        const dom = createPage(
+            `<title>example - npm</title><main><h1>example</h1><aside aria-label="Package sidebar">
+                <h3>Install</h3><div><button aria-label="Copy install command line"><code>npm i example</code></button></div>
+                <div><h3>Version</h3><p>1.0.0</p></div>
+            </aside></main>`,
+            "https://www.npmjs.com/package/example"
+        );
+        setOnlyFeature(dom, "install-commands");
+        const gm = installGm(dom, async (url) => {
+            if (url.includes("registry.npmjs.org/example/1.0.0")) {
+                return { version: "1.0.0" };
+            }
+            throw new Error(`Unexpected request: ${url}`);
+        });
+        try {
+            if (standaloneFirst) dom.window.eval(moreInstallButtonsScript);
+            runScript(dom);
+            await waitFor(() =>
+                dom.window.document.querySelector(
+                    "[data-npm-more-install-buttons]"
+                )
+            );
+            if (!standaloneFirst) dom.window.eval(moreInstallButtonsScript);
+            await new Promise((resolve) => setTimeout(resolve, 20));
+            const mainSettingsCommand = gm.commands
+                .filter(
+                    (command) => command.label === "Configure install commands…"
+                )
+                .at(-1);
+            mainSettingsCommand.callback();
+            dom.window.document
+                .querySelector(".mib-settings-form")
+                .dispatchEvent(
+                    new dom.window.Event("submit", {
+                        bubbles: true,
+                        cancelable: true,
+                    })
+                );
+            await new Promise((resolve) => setTimeout(resolve, 20));
+            const lists = dom.window.document.querySelectorAll(
+                "[data-npm-more-install-buttons]"
+            );
+            return {
+                count: lists.length,
+                owner: lists[0]?.dataset.npmEnhancementOwner,
+                ownerAfterMainSettingsSave:
+                    lists[0]?.dataset.npmEnhancementOwner,
+            };
+        } finally {
+            dom.window.close();
+        }
+    }
+
+    async function runSizeOrder(standaloneFirst) {
+        const dom = createPage(
+            `<title>example - npm</title><main><h1>example</h1><aside aria-label="Package sidebar">
+                <div><h3>Version</h3><p>1.0.0</p></div>
+                <a href="https://bundlephobia.com/package/example@1.0.0">Bundlephobia</a>
+            </aside></main>`,
+            "https://www.npmjs.com/package/example"
+        );
+        setOnlyFeature(dom, "package-size");
+        installGm(dom, async (url) => {
+            if (url.includes("bundlephobia.com/api/size")) {
+                return {
+                    dependencyCount: 0,
+                    dependencySizes: [],
+                    gzip: 800,
+                    name: "example",
+                    size: 1600,
+                    version: "1.0.0",
+                };
+            }
+            if (url.includes("registry.npmjs.org/example/1.0.0")) {
+                return {
+                    dist: {
+                        fileCount: 12,
+                        tarball:
+                            "https://registry.npmjs.org/example/-/example-1.0.0.tgz",
+                        unpackedSize: 6400,
+                    },
+                    version: "1.0.0",
+                };
+            }
+            if (url.endsWith("example-1.0.0.tgz")) return {};
+            throw new Error(`Unexpected request: ${url}`);
+        });
+        try {
+            if (standaloneFirst) dom.window.eval(packageSizeScript);
+            runScript(dom);
+            const card = await waitFor(() =>
+                dom.window.document.querySelector(
+                    "[data-npm-bundlephobia-size]"
+                )
+            );
+            await waitFor(() => card.textContent.includes("Unpacked"));
+            if (!standaloneFirst) dom.window.eval(packageSizeScript);
+            await new Promise((resolve) => setTimeout(resolve, 20));
+            const cards = dom.window.document.querySelectorAll(
+                "[data-npm-bundlephobia-size]"
+            );
+            return {
+                count: cards.length,
+                owner: cards[0]?.dataset.npmEnhancementOwner,
+                packageMetricLabels: Array.from(
+                    cards[0]?.querySelectorAll(".nbps-metric-label") || []
+                ).map((label) => label.textContent),
+            };
+        } finally {
+            dom.window.close();
+        }
+    }
+
+    async function runTarballErrorScenario() {
+        const dom = createPage(
+            `<title>example - npm</title><main><h1>example</h1><aside aria-label="Package sidebar">
+                <div><h3>Version</h3><p>1.0.0</p></div>
+                <a href="https://bundlephobia.com/package/example@1.0.0">Bundlephobia</a>
+            </aside></main>`,
+            "https://www.npmjs.com/package/example"
+        );
+        setOnlyFeature(dom, "package-size");
+        installGm(dom, async (url) => {
+            if (url.includes("bundlephobia.com/api/size")) {
+                return {
+                    dependencyCount: 0,
+                    dependencySizes: [],
+                    gzip: 800,
+                    name: "example",
+                    size: 1600,
+                    version: "1.0.0",
+                };
+            }
+            if (url.includes("registry.npmjs.org/example/1.0.0")) {
+                return {
+                    dist: {
+                        tarball:
+                            "https://registry.npmjs.org/example/-/example-1.0.0.tgz",
+                    },
+                    version: "1.0.0",
+                };
+            }
+            if (url.endsWith("example-1.0.0.tgz")) {
+                return {
+                    __gmResponse: true,
+                    body: "Not Found",
+                    responseHeaders: "content-length: 4321",
+                    status: 404,
+                    statusText: "Not Found",
+                };
+            }
+            throw new Error(`Unexpected request: ${url}`);
+        });
+        try {
+            runScript(dom);
+            const card = await waitFor(() => {
+                const candidate = dom.window.document.querySelector(
+                    "[data-npm-bundlephobia-size]"
+                );
+                return candidate?.textContent.includes("Bundlephobia analyzed")
+                    ? candidate
+                    : null;
+            });
+            return !Array.from(
+                card.querySelectorAll(".nbps-metric-label")
+            ).some((label) => label.textContent === "Tarball");
+        } finally {
+            dom.window.close();
+        }
+    }
+
+    return {
+        installMainFirst: await runInstallOrder(false),
+        installStandaloneFirst: await runInstallOrder(true),
+        sizeMainFirst: await runSizeOrder(false),
+        sizeStandaloneFirst: await runSizeOrder(true),
+        tarballErrorIgnored: await runTarballErrorScenario(),
+    };
 }
 
 async function runPackageScenario() {
@@ -338,8 +780,11 @@ async function runAdvancedSearchScenario() {
 async function main() {
     const results = {
         advancedSearch: await runAdvancedSearchScenario(),
+        coexistence: await runCoexistenceScenario(),
         defaultSearch: await runDefaultSearchScenario(),
         packagePage: await runPackageScenario(),
+        repositoryCard: await runRepositoryCardScenario(),
+        versions: await runVersionsScenario(),
     };
     process.stdout.write(JSON.stringify(results));
 }

@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         NPM - Bundlephobia Package Size
 // @namespace    nick2bad4u.github.io
-// @version      2.2.0
-// @description  Shows exact-version Bundlephobia sizes, download estimates, and bundle metadata on npm package pages.
+// @version      2.3.0
+// @description  Shows exact-version Bundlephobia data plus npm tarball, unpacked, and file-count metrics.
 // @author       Nick2bad4u (modern fork of dutzi's original script)
 // @license      MIT
 // @homepage     https://github.com/Nick2bad4u/UserStyles
@@ -14,6 +14,7 @@
 // @match        https://npmjs.com/package/*
 // @run-at       document-idle
 // @connect      bundlephobia.com
+// @connect      registry.npmjs.org
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
@@ -32,6 +33,11 @@
 
 (function () {
     "use strict";
+
+    const MAIN_INTEGRATION_ATTRIBUTE = "data-npm-enhancer-package-size";
+    if (document.documentElement.hasAttribute(MAIN_INTEGRATION_ATTRIBUTE)) {
+        return;
+    }
 
     const ACCENT_COLOR_KEY = "bundlephobiaSizeAccentColor";
     const ACCENT_DIALOG_ID = "npm-bundlephobia-accent-dialog";
@@ -57,6 +63,7 @@
     const STYLE_ID = "npm-bundlephobia-size-styles";
     const REQUEST_TIMEOUT_MS = 20_000;
     const bundleStatsCache = new Map();
+    const packageFootprintCache = new Map();
     let renderQueued = false;
 
     function normalizeText(value) {
@@ -245,6 +252,19 @@
                 display: grid;
                 gap: 0.5rem;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-section-label {
+                font-size: 0.7rem;
+                font-weight: 800;
+                letter-spacing: 0.07em;
+                margin: 0.7rem 0 0.35rem;
+                opacity: 0.68;
+                text-transform: uppercase;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-section-label:first-child {
+                margin-top: 0;
             }
 
             [${CARD_ATTRIBUTE}] .nbps-metric {
@@ -594,6 +614,7 @@
     function createCard(details) {
         const card = createElement("section");
         card.dataset.pageKey = details.pageKey;
+        card.dataset.npmEnhancementOwner = "standalone";
         card.setAttribute(CARD_ATTRIBUTE, "");
         card.setAttribute("aria-label", "Bundlephobia package size");
         applyAccentColor(card);
@@ -714,7 +735,7 @@
         const loading = createElement(
             "p",
             "nbps-loading",
-            `Fetching bundle data for ${details.packageSpec}…`
+            `Fetching bundle and package data for ${details.packageSpec}…`
         );
         content.replaceChildren(loading);
     }
@@ -815,7 +836,40 @@
         return container;
     }
 
-    function showStats(content, data) {
+    function createPackageMetrics(footprint) {
+        if (!footprint) return null;
+        const metrics = createElement("div", "nbps-metrics");
+        if (Number.isFinite(footprint.tarballSize)) {
+            metrics.append(
+                createMetric(
+                    "Tarball",
+                    formatSize(footprint.tarballSize),
+                    "Compressed npm registry tarball transfer size."
+                )
+            );
+        }
+        if (Number.isFinite(footprint.unpackedSize)) {
+            metrics.append(
+                createMetric(
+                    "Unpacked",
+                    formatSize(footprint.unpackedSize),
+                    "Published package contents after the tarball is unpacked; dependencies are not included."
+                )
+            );
+        }
+        if (Number.isFinite(footprint.fileCount)) {
+            metrics.append(
+                createMetric(
+                    "Files",
+                    new Intl.NumberFormat().format(footprint.fileCount),
+                    "Number of files published in this package version."
+                )
+            );
+        }
+        return metrics.childElementCount > 0 ? metrics : null;
+    }
+
+    function showStats(content, data, footprint) {
         const downloadTimes = getDownloadTimes(data.gzip);
         const metrics = createElement("div", "nbps-metrics");
         metrics.append(
@@ -835,6 +889,7 @@
 
         const badges = createBadges(data);
         const composition = createSelfComposition(data);
+        const packageMetrics = createPackageMetrics(footprint);
 
         const details = createElement(
             "p",
@@ -842,9 +897,16 @@
             `Bundlephobia analyzed v${data.version}`
         );
         content.replaceChildren(
+            createElement("p", "nbps-section-label", "Browser bundle"),
             metrics,
             ...(badges ? [badges] : []),
             ...(composition ? [composition] : []),
+            ...(packageMetrics
+                ? [
+                      createElement("p", "nbps-section-label", "npm package"),
+                      packageMetrics,
+                  ]
+                : []),
             details
         );
     }
@@ -877,6 +939,7 @@
         retry.type = "button";
         retry.addEventListener("click", () => {
             bundleStatsCache.delete(details.packageSpec);
+            packageFootprintCache.delete(details.packageSpec);
             loadStats(content, details);
         });
         content.replaceChildren(message, retry);
@@ -986,11 +1049,149 @@
         return request;
     }
 
+    function requestRegistryManifest(details) {
+        return new Promise((resolve, reject) => {
+            GM_xmlhttpRequest({
+                method: "GET",
+                anonymous: true,
+                url: `https://registry.npmjs.org/${encodeURIComponent(
+                    details.packageName
+                )}/${encodeURIComponent(details.packageVersion)}`,
+                responseType: "json",
+                timeout: REQUEST_TIMEOUT_MS,
+                headers: { Accept: "application/json" },
+                onload: (response) => {
+                    const data = parseResponse(response);
+                    if (
+                        response.status >= 200 &&
+                        response.status < 300 &&
+                        data
+                    ) {
+                        resolve(data);
+                        return;
+                    }
+                    reject(
+                        createRequestError(
+                            `npm Registry returned HTTP ${response.status}.`,
+                            "RegistryError"
+                        )
+                    );
+                },
+                onerror: () =>
+                    reject(
+                        createRequestError(
+                            "Could not reach the npm Registry.",
+                            "NetworkError"
+                        )
+                    ),
+                ontimeout: () =>
+                    reject(
+                        createRequestError(
+                            "The npm Registry took too long to respond.",
+                            "TimeoutError"
+                        )
+                    ),
+            });
+        });
+    }
+
+    function parseTarballSize(responseHeaders, status) {
+        if (status === 206) {
+            const contentRange =
+                /^content-range:\s*bytes\s+\d+-\d+\/(\d+)$/imu.exec(
+                    responseHeaders || ""
+                );
+            return contentRange ? Number(contentRange[1]) : null;
+        }
+        if (status === 200) {
+            const contentLength = /^content-length:\s*(\d+)$/imu.exec(
+                responseHeaders || ""
+            );
+            return contentLength ? Number(contentLength[1]) : null;
+        }
+        return null;
+    }
+
+    function requestTarballSize(tarballUrl) {
+        if (typeof tarballUrl !== "string") return Promise.resolve(null);
+        return new Promise((resolve) => {
+            GM_xmlhttpRequest({
+                method: "GET",
+                anonymous: true,
+                url: tarballUrl,
+                timeout: REQUEST_TIMEOUT_MS,
+                headers: { Range: "bytes=0-0" },
+                onload: (response) =>
+                    resolve(
+                        parseTarballSize(
+                            response.responseHeaders,
+                            response.status
+                        )
+                    ),
+                onerror: () => resolve(null),
+                ontimeout: () => resolve(null),
+            });
+        });
+    }
+
+    async function requestPackageIndex(details) {
+        try {
+            const response = await fetch(
+                `https://www.npmjs.com/package/${encodePackagePath(
+                    details.packageName
+                )}/v/${encodeURIComponent(details.packageVersion)}/index`,
+                { credentials: "same-origin" }
+            );
+            return response.ok ? response.json() : null;
+        } catch {
+            return null;
+        }
+    }
+
+    async function requestPackageFootprint(details) {
+        const manifest = await requestRegistryManifest(details);
+        const registryData = manifest.dist || {};
+        let unpackedSize = Number.isFinite(registryData.unpackedSize)
+            ? registryData.unpackedSize
+            : null;
+        let fileCount = Number.isFinite(registryData.fileCount)
+            ? registryData.fileCount
+            : null;
+        if (unpackedSize === null || fileCount === null) {
+            const index = await requestPackageIndex(details);
+            if (unpackedSize === null && Number.isFinite(index?.totalSize)) {
+                unpackedSize = index.totalSize;
+            }
+            if (fileCount === null && Number.isFinite(index?.fileCount)) {
+                fileCount = index.fileCount;
+            }
+        }
+        return {
+            fileCount,
+            tarballSize: await requestTarballSize(registryData.tarball),
+            unpackedSize,
+        };
+    }
+
+    function getPackageFootprint(details) {
+        const cached = packageFootprintCache.get(details.packageSpec);
+        if (cached) return cached;
+        const request = requestPackageFootprint(details).catch((error) => {
+            packageFootprintCache.delete(details.packageSpec);
+            throw error;
+        });
+        packageFootprintCache.set(details.packageSpec, request);
+        return request;
+    }
+
     async function loadStats(content, details) {
         showLoading(content, details);
 
         try {
-            const data = await getBundleStats(details.packageSpec);
+            const [data, footprint] = await Promise.all([
+                getBundleStats(details.packageSpec),
+                getPackageFootprint(details).catch(() => null),
+            ]);
             if (
                 !content.isConnected ||
                 content.closest(`[${CARD_ATTRIBUTE}]`)?.dataset.pageKey !==
@@ -998,7 +1199,7 @@
             ) {
                 return;
             }
-            showStats(content, data);
+            showStats(content, data, footprint);
         } catch (error) {
             if (
                 content.isConnected &&
@@ -1093,6 +1294,12 @@
         const existingCard = details.sidebar.querySelector(
             `[${CARD_ATTRIBUTE}]`
         );
+        if (
+            existingCard &&
+            existingCard.dataset.npmEnhancementOwner !== "standalone"
+        ) {
+            return;
+        }
         if (existingCard?.dataset.pageKey === details.pageKey) {
             insertCard(details, existingCard);
             return;

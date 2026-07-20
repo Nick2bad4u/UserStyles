@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.3.0
+// @version      1.3.1
 // @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
@@ -23,6 +23,11 @@
 
 (function () {
     "use strict";
+
+    const MAIN_INTEGRATION_ATTRIBUTE = "data-npm-enhancer-install-commands";
+    if (document.documentElement.hasAttribute(MAIN_INTEGRATION_ATTRIBUTE)) {
+        return;
+    }
 
     // Command definitions and defaults. End users can enable or disable these
     // from the userscript-manager menu without editing this source.
@@ -269,7 +274,10 @@
             }
         }
 
-        document.querySelector(`[${LIST_ATTRIBUTE}]`)?.remove();
+        const ownedList = document.querySelector(
+            `[${LIST_ATTRIBUTE}][data-npm-enhancement-owner="standalone"]`
+        );
+        ownedList?.remove();
         scheduleRender();
     }
 
@@ -292,7 +300,6 @@
                 gap: 0.45rem;
             }
 
-            .mib-install-heading-icon,
             .mib-list-heading-icon,
             .mib-command-icon,
             .mib-settings-option-icon,
@@ -304,9 +311,15 @@
                 text-rendering: auto;
             }
 
-            .mib-install-heading-icon {
+            .mib-install-heading::before {
                 color: var(--color-fg-brand, #cb3837);
+                content: "󰏗";
+                font-family: "Symbols Nerd Font Mono", "Symbols Nerd Font", "CaskaydiaCove Nerd Font", "CaskaydiaMono Nerd Font", "JetBrainsMono Nerd Font", monospace;
                 font-size: 1.05em;
+                font-style: normal;
+                font-variant: normal;
+                line-height: 1;
+                text-rendering: auto;
             }
 
             .mib-list-heading {
@@ -850,22 +863,6 @@
             "mib-install-heading",
             settings.display.showInstallHeaderIcon
         );
-
-        const existingIcon = installHeading.querySelector(
-            ".mib-install-heading-icon"
-        );
-        if (!settings.display.showInstallHeaderIcon) {
-            existingIcon?.remove();
-            return;
-        }
-
-        if (existingIcon) return;
-
-        const installHeadingIcon = document.createElement("span");
-        installHeadingIcon.className = "mib-install-heading-icon";
-        installHeadingIcon.setAttribute("aria-hidden", "true");
-        installHeadingIcon.textContent = "󰏗";
-        installHeading.prepend(installHeadingIcon);
     }
 
     function getPackageDetails(sidebar) {
@@ -1340,6 +1337,12 @@
         const existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
         updateInstallHeading(installHeading);
         if (existingList?.dataset.pageKey === pageKey) return;
+        if (
+            existingList &&
+            existingList.dataset.npmEnhancementOwner !== "standalone"
+        ) {
+            return;
+        }
         existingList?.remove();
 
         addStyles();
@@ -1350,6 +1353,7 @@
         const list = document.createElement("div");
         list.className = "mib-list";
         list.dataset.pageKey = pageKey;
+        list.dataset.npmEnhancementOwner = "standalone";
         list.dataset.showIcons = String(settings.display.showCommandIcons);
         list.dataset.showLabels = String(settings.display.showCommandLabels);
         list.setAttribute(LIST_ATTRIBUTE, "");
