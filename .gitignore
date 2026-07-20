@@ -723,3 +723,4 @@ coverage/
 /reports/jscpd/
 .lychee.report.md
 .lycheecache
+.playwright-cli/

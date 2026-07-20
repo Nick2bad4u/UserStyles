@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.7.0
+// @version      0.7.1
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -5468,6 +5468,16 @@ implementation is broken for large numbers for some reason. This temporarily fix
     // src/utils-ui.ts
     function addPackageLabelStyle() {
         addStyle(`
+    @font-face {
+      font-family: "${BADGE_ICON_FONT_FAMILY}";
+      src:
+        local("Symbols Nerd Font Mono"),
+        local("Symbols Nerd Font"),
+        url("${BADGE_ICON_FONT_URL}") format("woff2");
+      font-display: swap;
+      font-style: normal;
+      font-weight: 400;
+    }
     .npm-userscript-package-label {
       display: inline-flex;
       border-radius: 4px;
@@ -5495,9 +5505,14 @@ implementation is broken for large numbers for some reason. This temporarily fix
       min-width: 1.15em;
       height: 1.15em;
       margin-right: 1px;
-      font-size: 0.82em;
-      font-weight: 900;
+      font-family: "${BADGE_ICON_FONT_FAMILY}", "Symbols Nerd Font Mono", "Symbols Nerd Font", "CaskaydiaCove Nerd Font", "JetBrainsMono Nerd Font", monospace;
+      font-size: 0.95em;
+      font-style: normal;
+      font-synthesis: none;
+      font-variant: normal;
+      font-weight: 400;
       line-height: 1;
+      text-rendering: auto;
     }
     .npm-userscript-package-label-info {
       color: #004085;
@@ -5685,22 +5700,38 @@ implementation is broken for large numbers for some reason. This temporarily fix
         });
         floating.addEventListener("mouseleave", close);
     }
-    var BADGE_ICONS, PACKAGE_LABEL_ORDER;
+    var BADGE_ICON_FONT_FAMILY,
+        BADGE_ICON_FONT_URL,
+        BADGE_ICONS,
+        PACKAGE_LABEL_ORDER;
     var init_utils_ui = __esm({
         "src/utils-ui.ts"() {
             init_floating_ui_dom();
             init_utils();
+            BADGE_ICON_FONT_FAMILY = "NPM Enhancer Nerd Font Symbols";
+            BADGE_ICON_FONT_URL =
+                "https://cdn.jsdelivr.net/gh/Nick2bad4u/nerd-fonts-woff2@v1.0.5/fonts/woff2/NerdFontsSymbolsOnly/SymbolsNerdFontMono-Regular.woff2";
             BADGE_ICONS = {
-                esm: "\u2197",
-                cjs: "\u21BB",
-                dts: "TS",
-                untyped: "?",
-                cli: "\u203A_",
-                binary: "\u25C6",
-                node: "\u2B22",
-                lifecycle: "\u2699",
-                vulnerable: "!",
-                alternatives: "\u21C4",
+                esm: "\u{F0207}",
+                // nf-md-export
+                cjs: "\u{F0453}",
+                // nf-md-reload
+                dts: "\u{F06E6}",
+                // nf-md-language_typescript
+                untyped: "\u{F0625}",
+                // nf-md-help_circle_outline
+                cli: "\uEA85",
+                // nf-cod-terminal
+                binary: "\uEAE8",
+                // nf-cod-file_binary
+                node: "\u{F0399}",
+                // nf-md-nodejs
+                lifecycle: "\u{F1727}",
+                // nf-md-script_text_play
+                vulnerable: "\u{F0ECC}",
+                // nf-md-shield_alert
+                alternatives: "\u{F14CE}",
+                // nf-md-source_branch_sync
             };
             PACKAGE_LABEL_ORDER = [
                 "show-vulnerabilities",

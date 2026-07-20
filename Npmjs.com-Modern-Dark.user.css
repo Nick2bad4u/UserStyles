@@ -1,0 +1,644 @@
+/* ==UserStyle==
+@name           npmjs.com - Modern Dark Theme + Syntax Highlighting
+@namespace      nick2bad4u.github.io
+@version        1.0.0
+@description    A durable dark theme for modern npm pages, package readmes, code views, forms, menus, and syntax-highlighted examples.
+@author         Nick2bad4u (complete rewrite; original idea by hypnojerk)
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Npmjs.com-Modern-Dark.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Npmjs.com-Modern-Dark.user.css
+==/UserStyle== */
+@-moz-document domain("npmjs.com") {
+    :root {
+        background: var(--npm-dark-bg) !important;
+        color-scheme: dark !important;
+
+        /* Theme palette */
+        --npm-dark-bg: #0d1117;
+        --npm-dark-surface: #161b22;
+        --npm-dark-surface-raised: #21262d;
+        --npm-dark-surface-inset: #090c10;
+        --npm-dark-border: #30363d;
+        --npm-dark-border-strong: #484f58;
+        --npm-dark-text: #e6edf3;
+        --npm-dark-text-muted: #b1bac4;
+        --npm-dark-text-subtle: #8c959f;
+        --npm-dark-link: #79c0ff;
+        --npm-dark-link-visited: #d2a8ff;
+        --npm-dark-accent: #ff7b72;
+        --npm-dark-accent-strong: #f85149;
+        --npm-dark-success: #3fb950;
+        --npm-dark-warning: #d29922;
+        --npm-dark-danger: #ff7b72;
+        --npm-dark-focus: #58a6ff;
+
+        /* Modern npm semantic tokens */
+        --color-fg-default: var(--npm-dark-text) !important;
+        --color-fg-muted: var(--npm-dark-text-muted) !important;
+        --color-fg-subtle: var(--npm-dark-text-subtle) !important;
+        --color-fg-on-emphasis: #ffffff !important;
+        --color-fg-brand: var(--npm-dark-accent) !important;
+        --color-fg-accent: var(--npm-dark-link) !important;
+        --color-fg-success: var(--npm-dark-success) !important;
+        --color-fg-attention: var(--npm-dark-warning) !important;
+        --color-fg-danger: var(--npm-dark-danger) !important;
+        --color-bg-default: var(--npm-dark-bg) !important;
+        --color-bg-subtle: var(--npm-dark-surface) !important;
+        --color-bg-inset: var(--npm-dark-surface-inset) !important;
+        --color-bg-emphasis: var(--npm-dark-border-strong) !important;
+        --color-bg-accent: #101d2d !important;
+        --color-bg-success: #102418 !important;
+        --color-bg-attention: #2a2111 !important;
+        --color-bg-danger: #2d1518 !important;
+        --color-border-default: var(--npm-dark-border) !important;
+        --color-border-muted: #21262d !important;
+        --color-border-strong: var(--npm-dark-border-strong) !important;
+        --color-border-accent: #1f4a7a !important;
+        --color-border-accent-emphasis: var(--npm-dark-focus) !important;
+        --color-border-success: #1f6f35 !important;
+        --color-border-success-emphasis: var(--npm-dark-success) !important;
+        --color-border-attention: #6e5a1a !important;
+        --color-border-danger: #7d292f !important;
+        --color-accent-emphasis: var(--npm-dark-focus) !important;
+        --color-accent-subtle: #101d2d !important;
+        --color-shadow-large: 0 8px 24px rgb(0 0 0 / 55%) !important;
+
+        /* Current and legacy npm component tokens */
+        --bg: var(--npm-dark-bg) !important;
+        --background-color: var(--npm-dark-bg) !important;
+        --border: var(--npm-dark-border) !important;
+        --header-color: var(--npm-dark-text) !important;
+        --bg-dark: var(--npm-dark-accent) !important;
+        --npmRed: var(--npm-dark-accent) !important;
+        --npmLightRed: #ff9b94 !important;
+        --wombat-red: var(--npm-dark-accent) !important;
+        --wombat-red-hover: #ffa198 !important;
+        --wombat-yellow: #e3b341 !important;
+        --wombat-violet: #b6a0ff !important;
+        --wombat-purple: var(--npm-dark-link-visited) !important;
+        --wombat-green: #56d364 !important;
+        --wombat-teal: #56d4dd !important;
+        --wombat-bg-red: rgb(248 81 73 / 14%) !important;
+        --copy-color: var(--npm-dark-text) !important;
+        --code-bg: var(--npm-dark-surface-raised) !important;
+        --overlay-backdrop: rgb(0 0 0 / 75%) !important;
+        --overlay-backdrop-heavy: rgb(0 0 0 / 88%) !important;
+        --search-bg-subtle: var(--npm-dark-surface-raised) !important;
+        --search-border: var(--npm-dark-border-strong) !important;
+        --search-box-shadow: 0 2px 8px rgb(0 0 0 / 50%) !important;
+        --search-fg-default: var(--npm-dark-text) !important;
+        --search-fg-muted: var(--npm-dark-text-muted) !important;
+
+        /* npm readme syntax tokens */
+        --color-syntax-string: #a5d6ff !important;
+        --color-syntax-constant: #79c0ff !important;
+        --color-syntax-symbol: #ffa657 !important;
+        --color-syntax-variable: #ffa657 !important;
+        --color-syntax-keyword: #ff7b72 !important;
+        --color-syntax-support: #7ee787 !important;
+        --color-syntax-function: #d2a8ff !important;
+    }
+
+    html,
+    body,
+    #app,
+    main {
+        background-color: var(--npm-dark-bg) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    div:has(> main#main) {
+        background-color: var(--npm-dark-bg) !important;
+    }
+
+    body {
+        accent-color: var(--npm-dark-accent);
+    }
+
+    header,
+    footer,
+    #footer,
+    #header,
+    [role="dialog"],
+    [aria-modal="true"],
+    [role="menu"],
+    [role="listbox"],
+    [role="tooltip"] {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    dialog,
+    dialog::backdrop {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    dialog::backdrop {
+        background-color: var(--overlay-backdrop-heavy) !important;
+    }
+
+    /* npm still uses stable Tachyons utility names around generated classes. */
+    :where(
+        [class~="bg-white"],
+        [class~="bg-near-white"],
+        [class~="bg-light-gray"],
+        [class~="bg-moon-gray"]
+    ) {
+        background-color: var(--npm-dark-surface) !important;
+    }
+
+    :where(
+        [class~="bg-white-90"],
+        [class~="bg-white-80"],
+        [class~="bg-white-70"]
+    ) {
+        background-color: rgb(22 27 34 / 94%) !important;
+    }
+
+    [class~="bg-black-05"] {
+        background-color: rgb(255 255 255 / 5%) !important;
+    }
+
+    [class~="bg-black-10"] {
+        background-color: rgb(255 255 255 / 10%) !important;
+    }
+
+    :where([class~="bg-washed-blue"], [class~="bg-lightest-blue"]) {
+        background-color: var(--color-bg-accent) !important;
+    }
+
+    :where([class~="bg-washed-green"], [class~="bg-light-green"]) {
+        background-color: var(--color-bg-success) !important;
+    }
+
+    :where([class~="bg-washed-yellow"], [class~="bg-light-yellow"]) {
+        background-color: var(--color-bg-attention) !important;
+    }
+
+    :where([class~="bg-washed-red"], [class~="bg-light-red"]) {
+        background-color: var(--color-bg-danger) !important;
+    }
+
+    :where(
+        [class~="black"],
+        [class~="near-black"],
+        [class~="dark-gray"],
+        [class~="black-90"],
+        [class~="black-80"]
+    ) {
+        color: var(--npm-dark-text) !important;
+    }
+
+    :where(
+        [class~="mid-gray"],
+        [class~="gray"],
+        [class~="black-70"],
+        [class~="black-60"],
+        [class~="black-50"]
+    ) {
+        color: var(--npm-dark-text-muted) !important;
+    }
+
+    :where(
+        [class~="silver"],
+        [class~="light-silver"],
+        [class~="black-40"],
+        [class~="black-30"]
+    ) {
+        color: var(--npm-dark-text-subtle) !important;
+    }
+
+    :where(
+        [class~="b--black"],
+        [class~="b--black-10"],
+        [class~="b--black-20"],
+        [class~="b--moon-gray"],
+        [class~="b--light-gray"]
+    ) {
+        border-color: var(--npm-dark-border) !important;
+    }
+
+    [style*="background-color: white" i],
+    [style*="background-color: #fff" i],
+    [style*="background: white" i],
+    [style*="background: #fff" i] {
+        background-color: var(--npm-dark-surface) !important;
+    }
+
+    a[class~="button"] {
+        border-color: var(--npm-dark-border-strong) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    a[aria-label="Npm"] path {
+        fill: var(--npm-dark-text) !important;
+        stroke: none !important;
+    }
+
+    #pkg-list-exact-match {
+        background-color: var(--color-bg-accent) !important;
+        color: var(--npm-dark-link) !important;
+    }
+
+    form#search :has(> input[type="search"]) {
+        background-color: var(--npm-dark-surface-inset) !important;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    legend,
+    summary {
+        border-color: var(--npm-dark-border) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    main a:not([role="tab"], [class~="button"]),
+    footer a {
+        color: var(--npm-dark-link) !important;
+    }
+
+    main a:visited:not([role="tab"], [class~="button"]) {
+        color: var(--npm-dark-link-visited) !important;
+    }
+
+    a:hover,
+    a:focus-visible {
+        color: #a5d6ff !important;
+    }
+
+    input,
+    select,
+    textarea,
+    [contenteditable="true"] {
+        border-color: var(--npm-dark-border-strong) !important;
+        background-color: var(--npm-dark-surface-inset) !important;
+        caret-color: var(--npm-dark-text) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: var(--npm-dark-text-subtle) !important;
+        opacity: 1;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:hover {
+        box-shadow: 0 0 0 1000px var(--npm-dark-surface-inset) inset !important;
+        -webkit-text-fill-color: var(--npm-dark-text) !important;
+    }
+
+    option,
+    optgroup {
+        background-color: var(--npm-dark-surface) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    button:not([class~="white"]),
+    [role="button"]:not([class~="white"]) {
+        border-color: var(--npm-dark-border-strong) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    button[name="show-hide-password"] {
+        background-color: var(--npm-dark-surface-raised) !important;
+    }
+
+    button:disabled,
+    input:disabled,
+    select:disabled,
+    textarea:disabled {
+        color: var(--npm-dark-text-subtle) !important;
+        opacity: 0.75;
+    }
+
+    :focus-visible {
+        outline-color: var(--npm-dark-focus) !important;
+    }
+
+    ::selection {
+        background-color: #264f78;
+        color: #ffffff;
+    }
+
+    /* Tabs, cards, package lists, and the Code Beta file browser */
+    [role="tablist"],
+    [role="tabpanel"],
+    article,
+    aside[aria-label="Package sidebar"] {
+        border-color: var(--npm-dark-border) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    [role="tab"] {
+        color: var(--npm-dark-text-muted) !important;
+
+        &[aria-selected="true"] {
+            border-color: var(--npm-dark-accent) !important;
+            color: var(--npm-dark-text) !important;
+        }
+    }
+
+    .TabNav-item .CounterLabel,
+    [class*="CounterLabel"] {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: var(--npm-dark-text-muted) !important;
+    }
+
+    table {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    thead,
+    th {
+        background-color: var(--npm-dark-surface-raised) !important;
+    }
+
+    th,
+    td,
+    tr {
+        border-color: var(--npm-dark-border) !important;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: rgb(33 38 45 / 48%) !important;
+    }
+
+    tbody tr:hover,
+    tbody tr:focus-within {
+        background-color: var(--color-bg-accent) !important;
+    }
+
+    td button {
+        background-color: transparent !important;
+        color: var(--npm-dark-link) !important;
+    }
+
+    main
+        :where(
+            a[aria-label^="Current page"],
+            a[aria-label^="Go to page"],
+            a[aria-label="Next page"],
+            a[aria-label="Previous page"]
+        ) {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: var(--npm-dark-link) !important;
+    }
+
+    main a[aria-current="true"] {
+        border-color: var(--npm-dark-accent) !important;
+        background-color: var(--color-bg-danger) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    /* Package readmes and code examples */
+    #readme,
+    .markdown {
+        color: var(--npm-dark-text) !important;
+    }
+
+    :where(#readme, .markdown) :where(h1, h2, h3, h4, h5, h6) {
+        border-color: var(--npm-dark-border) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    :where(#readme, .markdown) :where(p, li, dd, dt) {
+        color: var(--npm-dark-text) !important;
+    }
+
+    :where(#readme, .markdown) :where(pre, .highlight) {
+        border: 1px solid var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    :where(#readme, .markdown) code {
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: #f0b6ff !important;
+    }
+
+    :where(#readme, .markdown) pre code {
+        background-color: transparent !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    :where(#readme, .markdown) blockquote {
+        border-color: var(--npm-dark-border-strong) !important;
+        background-color: rgb(22 27 34 / 72%) !important;
+        color: var(--npm-dark-text-muted) !important;
+    }
+
+    :where(#readme, .markdown) :where(kbd, samp) {
+        border-color: var(--npm-dark-border-strong) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        box-shadow: inset 0 -1px 0 var(--npm-dark-border-strong) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    :where(#readme, .markdown) hr {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-border) !important;
+    }
+
+    /* Primer-style syntax classes used in npm readmes. */
+    :where(#readme, .markdown) .pl-c {
+        color: var(--npm-dark-text-subtle) !important;
+    }
+
+    :where(#readme, .markdown) :where(.pl-c1, .pl-s .pl-v, .pl-e, .pl-en) {
+        color: var(--color-syntax-constant) !important;
+    }
+
+    :where(#readme, .markdown) :where(.pl-smi, .pl-s .pl-s1, .pl-s1) {
+        color: var(--npm-dark-text) !important;
+    }
+
+    :where(#readme, .markdown) .pl-ent {
+        color: var(--color-syntax-support) !important;
+    }
+
+    :where(#readme, .markdown) :where(.pl-k, .pl-kos) {
+        color: var(--color-syntax-keyword) !important;
+    }
+
+    :where(#readme, .markdown)
+        :where(
+            .pl-s,
+            .pl-pds,
+            .pl-sr,
+            .pl-sr .pl-cce,
+            .pl-sr .pl-sre,
+            .pl-sr .pl-sra
+        ) {
+        color: var(--color-syntax-string) !important;
+    }
+
+    :where(#readme, .markdown) :where(.pl-v, .pl-ml) {
+        color: var(--color-syntax-variable) !important;
+    }
+
+    :where(#readme, .markdown) :where(.pl-bu, .pl-ii, .pl-c2) {
+        color: var(--npm-dark-danger) !important;
+    }
+
+    :where(#readme, .markdown) :where(.pl-mh, .pl-mh .pl-en, .pl-ms, .pl-mdr) {
+        color: var(--color-syntax-function) !important;
+    }
+
+    :where(#readme, .markdown) :where(.pl-mi, .pl-mb) {
+        color: var(--npm-dark-text) !important;
+    }
+
+    :where(#readme, .markdown) .pl-md {
+        background-color: #3f171c !important;
+        color: #ffa198 !important;
+    }
+
+    :where(#readme, .markdown) .pl-mi1 {
+        background-color: #12261e !important;
+        color: #7ee787 !important;
+    }
+
+    :where(#readme, .markdown) .pl-mc {
+        background-color: #2a2111 !important;
+        color: #e3b341 !important;
+    }
+
+    /* Atom-style tokens used by npm's package file viewer. */
+    :where([role="tabpanel"], #readme, .markdown) :where(.comment, .quote) {
+        color: var(--npm-dark-text-subtle) !important;
+    }
+
+    :where([role="tabpanel"], #readme, .markdown)
+        :where(.keyword, .storage, .selector-tag) {
+        color: var(--color-syntax-keyword) !important;
+    }
+
+    :where([role="tabpanel"], #readme, .markdown)
+        :where(.string, .doctag, .regexp) {
+        color: var(--color-syntax-string) !important;
+    }
+
+    :where([role="tabpanel"], #readme, .markdown)
+        :where(.constant, .number, .literal, .symbol) {
+        color: var(--color-syntax-constant) !important;
+    }
+
+    :where([role="tabpanel"], #readme, .markdown)
+        :where(.variable, .template-variable) {
+        color: var(--color-syntax-variable) !important;
+    }
+
+    :where([role="tabpanel"], #readme, .markdown)
+        :where(.support, .type, .built_in) {
+        color: var(--color-syntax-support) !important;
+    }
+
+    :where([role="tabpanel"], #readme, .markdown)
+        :where(.entity, .title, .function) {
+        color: var(--color-syntax-function) !important;
+    }
+
+    :where([role="tabpanel"], #readme, .markdown) :where(.meta, .region) {
+        color: var(--color-syntax-symbol) !important;
+    }
+
+    :where([role="tabpanel"], #readme, .markdown) .gutter {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface-inset) !important;
+        color: var(--npm-dark-text-subtle) !important;
+    }
+
+    /* The Code Beta viewer emits a light syntax theme as inline RGB values. */
+    [role="tabpanel"] :where(pre, code)[style*="color: rgb(51, 51, 51)"],
+    [role="tabpanel"] code [style*="color: rgb(36, 41, 46)"] {
+        color: var(--npm-dark-text) !important;
+    }
+
+    [role="tabpanel"]
+        code
+        :where(
+            [style*="color: rgb(88, 88, 88)"],
+            [style*="color: rgb(106, 115, 125)"]
+        ) {
+        color: var(--npm-dark-text-subtle) !important;
+    }
+
+    [role="tabpanel"]
+        code
+        :where(
+            [style*="color: rgb(0, 92, 197)"],
+            [style*="color: rgb(0, 127, 171)"]
+        ) {
+        color: var(--color-syntax-constant) !important;
+    }
+
+    [role="tabpanel"] code [style*="color: rgb(111, 66, 193)"] {
+        color: var(--color-syntax-function) !important;
+    }
+
+    [role="tabpanel"] code [style*="color: rgb(34, 134, 58)"] {
+        color: var(--color-syntax-support) !important;
+    }
+
+    [role="tabpanel"] code [style*="color: rgb(215, 58, 73)"] {
+        color: var(--color-syntax-keyword) !important;
+    }
+
+    [role="tabpanel"] code [style*="color: rgb(3, 47, 98)"] {
+        color: var(--color-syntax-string) !important;
+    }
+
+    [role="tabpanel"] code [style*="color: rgb(227, 98, 9)"] {
+        color: var(--color-syntax-variable) !important;
+    }
+
+    /* Alerts, progress, and browser-native controls */
+    [role="alert"],
+    [data-test-id="alert-banner"] {
+        border-color: var(--color-border-attention) !important;
+        color: #e3b341 !important;
+    }
+
+    progress {
+        accent-color: var(--npm-dark-accent);
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: var(--npm-dark-accent) !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--npm-dark-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border: 3px solid var(--npm-dark-bg);
+        border-radius: 999px;
+        background: var(--npm-dark-border-strong);
+    }
+
+    /* stylelint-disable-next-line a11y/selector-pseudo-class-focus -- Native scrollbar thumbs cannot receive focus. */
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--npm-dark-text-subtle);
+    }
+}

@@ -308,7 +308,17 @@ async function runAdvancedSearchScenario() {
                     ".npm-userscript-search-badges"
                 ).length === names.length
         );
+        const firstBadgeIcon = dom.window.document.querySelector(
+            ".npm-userscript-package-label-icon"
+        );
         return {
+            badgeIconFontFamily:
+                dom.window.getComputedStyle(firstBadgeIcon).fontFamily,
+            badgeIcons: Array.from(
+                dom.window.document.querySelectorAll(
+                    ".npm-userscript-package-label-icon"
+                )
+            ).map((icon) => icon.textContent),
             manifestRequests: gm.requests.filter((url) =>
                 url.endsWith("/latest")
             ).length,
