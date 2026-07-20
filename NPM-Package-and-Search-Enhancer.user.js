@@ -3391,7 +3391,6 @@ versions, and fix provenance icon alignment.
         }
         #npm-userscript-settings .setting > input::before {
           display: block;
-          width: 18px;
           height: 18px;
           background: #fff;
           border-radius: 50%;
@@ -4209,7 +4208,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     .npm-enhancer-link-row a[title="Homepage"] svg {
       height: 17px;
     }
-    
+
     /* publint icon is too short, so widen */
     .npm-enhancer-link-row a[href*="publint.dev"] svg {
       width: 24px;
@@ -6271,7 +6270,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
                 const popup = document.createElement("div");
                 popup.className =
                     "npm-userscript-popup" + getReadmeInternalClassName();
-                popup.innerHTML = `For Node.js v${replacement.nodeVersion} and later, use ${replacementText}. 
+                popup.innerHTML = `For Node.js v${replacement.nodeVersion} and later, use ${replacementText}.
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/${replacement.mdnPath}" target="_blank">See MDN docs</a>.
 `;
                 injectParent.appendChild(popup);
@@ -6598,7 +6597,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
       gap: 6px;
       margin: 0;
     }
-    
+
     .npm-userscript-repository-card-title-repo {
       font-weight: bold;
     }
@@ -6610,7 +6609,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     .npm-userscript-repository-card-title-separator {
       color: #757575;
     }

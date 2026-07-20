@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           npmjs.com - Modern Dark Theme
 @namespace      nick2bad4u.github.io
-@version        1.3.0
+@version        1.4.0
 @description    A durable, accent-customizable dark theme for modern npm pages, package readmes, code views, forms, menus, and syntax-highlighted examples.
 @author         Nick2bad4u (complete rewrite; original idea by hypnojerk)
 @license        UnLicense
@@ -167,6 +167,12 @@
         background-color: var(--overlay-backdrop-heavy) !important;
     }
 
+    /* Replace npm's fixed-red chrome with the selected theme accent. */
+    hr {
+        border-color: var(--npm-dark-accent) !important;
+        background-color: var(--npm-dark-accent) !important;
+    }
+
     /* Keep npm's profile popover anchored when the enhancer changes header flow. */
     header nav:has(> button[aria-label="Profile menu"]) > div {
         position: relative !important;
@@ -178,6 +184,20 @@
             max-height: calc(100dvh - 5rem);
             inset: 0.625rem 0 auto auto !important;
             overscroll-behavior: contain;
+        }
+    }
+
+    a[href="/org/create"] {
+        color: var(--npm-dark-accent-strong) !important;
+
+        & svg,
+        & svg path {
+            fill: currentcolor !important;
+        }
+
+        &:hover,
+        &:focus-visible {
+            color: var(--npm-dark-accent-warm) !important;
         }
     }
 
@@ -293,6 +313,17 @@
 
     form#search :has(> input[type="search"]) {
         background-color: var(--npm-dark-surface-inset) !important;
+        outline: 1px solid
+            color-mix(in srgb, var(--npm-dark-accent) 22%, transparent);
+        outline-offset: -1px;
+
+        &:focus-within {
+            outline-color: color-mix(
+                in srgb,
+                var(--npm-dark-accent) 52%,
+                transparent
+            );
+        }
     }
 
     h1,
@@ -505,11 +536,11 @@
         ) !important;
     }
 
+    /* Keep npm's native flex wrapping; the enhancer supplies half-width cards. */
     :is(
         ul[aria-labelledby="popular-libraries-header"],
         ul[aria-labelledby="discover-packages-header"]
     ) {
-        display: grid;
         gap: 0.5rem;
     }
 
