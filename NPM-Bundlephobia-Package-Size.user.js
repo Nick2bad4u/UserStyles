@@ -1,19 +1,22 @@
 // ==UserScript==
 // @name         NPM - Bundlephobia Package Size
 // @namespace    nick2bad4u.github.io
-// @version      2.0.0
-// @description  Shows exact-version minified and gzip bundle sizes from Bundlephobia on npm package pages.
+// @version      2.1.0
+// @description  Shows exact-version Bundlephobia sizes, download estimates, and bundle metadata on npm package pages.
 // @author       Nick2bad4u (modern fork of dutzi's original script)
 // @license      MIT
 // @homepage     https://github.com/Nick2bad4u/UserStyles
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
 // @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 // @source       https://greasyfork.org/scripts/436941-npm-package-size-from-bundlephobia
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=npmjs.com
+// @icon         https://bundlephobia.com/favicon.ico
 // @match        https://www.npmjs.com/package/*
 // @match        https://npmjs.com/package/*
 // @run-at       document-idle
 // @connect      bundlephobia.com
+// @grant        GM_getValue
+// @grant        GM_registerMenuCommand
+// @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
 // @noframes
 // @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NPM-Bundlephobia-Package-Size.user.js
@@ -31,6 +34,16 @@
     "use strict";
 
     const CARD_ATTRIBUTE = "data-npm-bundlephobia-size";
+    const CARD_PLACEMENT_KEY = "bundlephobiaSizeCardPlacement";
+    const CARD_PLACEMENTS = Object.freeze({
+        bundlephobiaLink: "bundlephobia-link",
+        unpackedSize: "unpacked-size",
+    });
+    const DOWNLOAD_SPEED_KBPS = Object.freeze({
+        emerging4G: 7000 / 8,
+        slow3G: 400 / 8,
+    });
+    const FAVICON_URL = "https://bundlephobia.com/favicon.ico";
     const STYLE_ID = "npm-bundlephobia-size-styles";
     const REQUEST_TIMEOUT_MS = 20_000;
     const bundleStatsCache = new Map();
@@ -95,6 +108,8 @@
 
     function findBundlephobiaLink(sidebar) {
         return [...sidebar.querySelectorAll("a[href]")].find((link) => {
+            if (link.closest(`[${CARD_ATTRIBUTE}]`)) return false;
+
             try {
                 const url = new URL(link.href);
                 return (
@@ -150,6 +165,7 @@
                 border-left: 3px solid var(--nbps-accent);
                 border-radius: 0.4rem;
                 box-sizing: border-box;
+                clear: both;
                 color: inherit;
                 display: grid;
                 gap: 0.75rem;
@@ -166,18 +182,12 @@
                 min-width: 0;
             }
 
-            [${CARD_ATTRIBUTE}] .nbps-mark {
-                align-items: center;
-                background: var(--nbps-accent);
-                border-radius: 0.3rem;
-                color: #fff;
-                display: inline-flex;
+            [${CARD_ATTRIBUTE}] .nbps-icon {
+                border-radius: 0.25rem;
+                display: block;
                 flex: 0 0 auto;
-                font-size: 0.65rem;
-                font-weight: 800;
                 height: 1.65rem;
-                justify-content: center;
-                letter-spacing: -0.04em;
+                object-fit: contain;
                 width: 1.65rem;
             }
 
@@ -259,6 +269,77 @@
                 opacity: 0.65;
             }
 
+            [${CARD_ATTRIBUTE}] .nbps-badges {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+                margin-top: 0.6rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge {
+                align-items: center;
+                background: rgba(34, 197, 94, 0.12);
+                border: 1px solid rgba(34, 197, 94, 0.45);
+                border-radius: 999px;
+                color: inherit;
+                display: inline-flex;
+                font-size: 0.68rem;
+                font-weight: 700;
+                gap: 0.3rem;
+                line-height: 1.2;
+                padding: 0.25rem 0.5rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge::before {
+                color: #16a34a;
+                content: "✓";
+                font-size: 0.75rem;
+                font-weight: 900;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition {
+                background: rgba(127, 127, 127, 0.08);
+                border-radius: 0.3rem;
+                display: grid;
+                gap: 0.4rem;
+                margin-top: 0.6rem;
+                padding: 0.55rem 0.65rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-summary {
+                align-items: baseline;
+                display: flex;
+                flex-wrap: wrap;
+                font-size: 0.72rem;
+                gap: 0.35rem 0.6rem;
+                justify-content: space-between;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-label {
+                font-weight: 700;
+                letter-spacing: 0.04em;
+                opacity: 0.65;
+                text-transform: uppercase;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-value {
+                font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+                font-size: 0.72rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-track {
+                background: rgba(127, 127, 127, 0.2);
+                border-radius: 999px;
+                height: 0.38rem;
+                overflow: hidden;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-composition-fill {
+                background: linear-gradient(90deg, #16a34a, #65c3f8);
+                border-radius: inherit;
+                height: 100%;
+            }
+
             [${CARD_ATTRIBUTE}] .nbps-error {
                 color: #b42318;
             }
@@ -315,8 +396,15 @@
         card.setAttribute("aria-label", "Bundlephobia package size");
 
         const header = createElement("div", "nbps-header");
-        const mark = createElement("span", "nbps-mark", "BP");
-        mark.setAttribute("aria-hidden", "true");
+        const icon = createElement("img", "nbps-icon");
+        icon.src = FAVICON_URL;
+        icon.alt = "";
+        icon.width = 26;
+        icon.height = 26;
+        icon.decoding = "async";
+        icon.referrerPolicy = "no-referrer";
+        icon.setAttribute("aria-hidden", "true");
+        icon.addEventListener("error", () => icon.remove(), { once: true });
 
         const title = createElement("a", "nbps-title", "Bundlephobia size");
         title.href = details.bundlephobiaUrl;
@@ -330,7 +418,7 @@
             `v${details.packageVersion}`
         );
         version.title = details.packageSpec;
-        header.append(mark, title, version);
+        header.append(icon, title, version);
 
         const content = createElement("div", "nbps-content");
         content.setAttribute("aria-live", "polite");
@@ -363,6 +451,54 @@
         }).format(value)} ${units[unitIndex]}`;
     }
 
+    function formatDownloadTime(seconds) {
+        if (!Number.isFinite(seconds) || seconds < 0) return "Unknown";
+
+        if (seconds < 0.0005) {
+            return `${Math.round(seconds * 1_000_000)} μs`;
+        }
+        if (seconds < 0.5) {
+            return `${Math.round(seconds * 1000)} ms`;
+        }
+        return `${new Intl.NumberFormat(undefined, {
+            maximumFractionDigits: 1,
+        }).format(seconds)} s`;
+    }
+
+    function getDownloadTimes(gzipSize) {
+        const gzipKilobytes = gzipSize / 1024;
+        return {
+            emerging4G: gzipKilobytes / DOWNLOAD_SPEED_KBPS.emerging4G,
+            slow3G: gzipKilobytes / DOWNLOAD_SPEED_KBPS.slow3G,
+        };
+    }
+
+    function getSelfComposition(data) {
+        if (!Array.isArray(data.dependencySizes)) return null;
+
+        const dependencies = data.dependencySizes.filter(
+            (dependency) =>
+                dependency &&
+                typeof dependency.name === "string" &&
+                Number.isFinite(dependency.approximateSize) &&
+                dependency.approximateSize >= 0
+        );
+        const totalApproximateSize = dependencies.reduce(
+            (total, dependency) => total + dependency.approximateSize,
+            0
+        );
+        const self = dependencies.find(
+            (dependency) => dependency.name === data.name
+        );
+        if (!self || totalApproximateSize <= 0) return null;
+
+        const ratio = self.approximateSize / totalApproximateSize;
+        return {
+            percent: ratio * 100,
+            size: ratio * data.size,
+        };
+    }
+
     function dependencyLabel(count) {
         if (!Number.isFinite(count)) return "dependency count unavailable";
         return `${new Intl.NumberFormat().format(count)} bundled ${
@@ -379,8 +515,9 @@
         content.replaceChildren(loading);
     }
 
-    function createMetric(label, value) {
+    function createMetric(label, value, title) {
         const metric = createElement("span", "nbps-metric");
+        if (title) metric.title = title;
         metric.append(
             createElement("span", "nbps-metric-label", label),
             createElement("strong", "nbps-metric-value", value)
@@ -388,12 +525,94 @@
         return metric;
     }
 
+    function createBadges(data) {
+        const badges = createElement("div", "nbps-badges");
+        const isTreeShakeable = Boolean(
+            data.hasJSModule || data.hasJSNext || data.isModuleType
+        );
+
+        if (isTreeShakeable) {
+            const treeShakeable = createElement(
+                "span",
+                "nbps-badge",
+                "Tree-shakable"
+            );
+            treeShakeable.title =
+                "Bundlephobia detected an ES module entry point.";
+            badges.append(treeShakeable);
+        }
+
+        if (data.hasSideEffects === false) {
+            const sideEffectFree = createElement(
+                "span",
+                "nbps-badge",
+                "Side-effect free"
+            );
+            sideEffectFree.title =
+                "Bundlephobia reports that the package is marked as side-effect free.";
+            badges.append(sideEffectFree);
+        }
+
+        return badges.childElementCount > 0 ? badges : null;
+    }
+
+    function createSelfComposition(data) {
+        const composition = getSelfComposition(data);
+        if (!composition) return null;
+
+        const container = createElement("div", "nbps-composition");
+        container.title =
+            "Estimated from Bundlephobia's dependency contribution data.";
+
+        const summary = createElement("div", "nbps-composition-summary");
+        const label = createElement(
+            "span",
+            "nbps-composition-label",
+            "Self composition"
+        );
+        const value = createElement(
+            "strong",
+            "nbps-composition-value",
+            `${composition.percent.toFixed(1)}% · ~${formatSize(
+                composition.size
+            )}`
+        );
+        summary.append(label, value);
+
+        const track = createElement("div", "nbps-composition-track");
+        track.setAttribute("role", "progressbar");
+        track.setAttribute("aria-label", "Package self composition");
+        track.setAttribute("aria-valuemin", "0");
+        track.setAttribute("aria-valuemax", "100");
+        track.setAttribute("aria-valuenow", composition.percent.toFixed(1));
+
+        const fill = createElement("div", "nbps-composition-fill");
+        fill.style.width = `${Math.min(100, composition.percent)}%`;
+        track.append(fill);
+        container.append(summary, track);
+        return container;
+    }
+
     function showStats(content, data) {
+        const downloadTimes = getDownloadTimes(data.gzip);
         const metrics = createElement("div", "nbps-metrics");
         metrics.append(
             createMetric("Minified", formatSize(data.size)),
-            createMetric("Gzip", formatSize(data.gzip))
+            createMetric("Gzip", formatSize(data.gzip)),
+            createMetric(
+                "Slow 3G",
+                formatDownloadTime(downloadTimes.slow3G),
+                `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`
+            ),
+            createMetric(
+                "Emerging 4G",
+                formatDownloadTime(downloadTimes.emerging4G),
+                `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`
+            )
         );
+
+        const badges = createBadges(data);
+        const composition = createSelfComposition(data);
 
         const details = createElement(
             "p",
@@ -402,7 +621,12 @@
                 data.dependencyCount
             )}`
         );
-        content.replaceChildren(metrics, details);
+        content.replaceChildren(
+            metrics,
+            ...(badges ? [badges] : []),
+            ...(composition ? [composition] : []),
+            details
+        );
     }
 
     function getFriendlyError(error) {
@@ -566,21 +790,75 @@
         }
     }
 
+    function getCardPlacement() {
+        const placement = GM_getValue(
+            CARD_PLACEMENT_KEY,
+            CARD_PLACEMENTS.bundlephobiaLink
+        );
+        return Object.values(CARD_PLACEMENTS).includes(placement)
+            ? placement
+            : CARD_PLACEMENTS.bundlephobiaLink;
+    }
+
+    function setCardPlacement(placement) {
+        GM_setValue(CARD_PLACEMENT_KEY, placement);
+        scheduleRender();
+    }
+
+    function registerPlacementMenuCommands() {
+        GM_registerMenuCommand("Bundlephobia: place below Unpacked Size", () =>
+            setCardPlacement(CARD_PLACEMENTS.unpackedSize)
+        );
+        GM_registerMenuCommand("Bundlephobia: place by npm bundle link", () =>
+            setCardPlacement(CARD_PLACEMENTS.bundlephobiaLink)
+        );
+    }
+
+    function insertAfter(target, card, placement) {
+        card.dataset.placement = placement;
+        if (target.nextElementSibling !== card) {
+            target.insertAdjacentElement("afterend", card);
+        }
+    }
+
     function insertCard(details, card) {
+        if (getCardPlacement() === CARD_PLACEMENTS.unpackedSize) {
+            const unpackedSizeHeading = findSidebarHeading(
+                details.sidebar,
+                "Unpacked Size"
+            );
+            const unpackedSizeSection = unpackedSizeHeading?.parentElement;
+            if (unpackedSizeSection) {
+                insertAfter(
+                    unpackedSizeSection,
+                    card,
+                    CARD_PLACEMENTS.unpackedSize
+                );
+                return;
+            }
+        }
+
         const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
         if (bundlephobiaLink) {
-            bundlephobiaLink.insertAdjacentElement("afterend", card);
+            insertAfter(
+                bundlephobiaLink,
+                card,
+                CARD_PLACEMENTS.bundlephobiaLink
+            );
             return;
         }
 
         const versionHeading = findSidebarHeading(details.sidebar, "Version");
         const versionSection = versionHeading?.parentElement;
         if (versionSection) {
-            versionSection.insertAdjacentElement("afterend", card);
+            insertAfter(versionSection, card, "version-fallback");
             return;
         }
 
-        details.sidebar.append(card);
+        card.dataset.placement = "sidebar-fallback";
+        if (details.sidebar.lastElementChild !== card) {
+            details.sidebar.append(card);
+        }
     }
 
     function render() {
@@ -591,7 +869,10 @@
         const existingCard = details.sidebar.querySelector(
             `[${CARD_ATTRIBUTE}]`
         );
-        if (existingCard?.dataset.pageKey === details.pageKey) return;
+        if (existingCard?.dataset.pageKey === details.pageKey) {
+            insertCard(details, existingCard);
+            return;
+        }
         existingCard?.remove();
 
         const { card, content } = createCard(details);
@@ -607,6 +888,8 @@
             render();
         });
     }
+
+    registerPlacementMenuCommands();
 
     const observer = new MutationObserver(scheduleRender);
     observer.observe(document.documentElement, {

@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         npm Package and Search Enhancer
-// @version      0.6.0
+// @name         NPM Package and Search Enhancer
+// @version      0.7.0
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -13,19 +13,18 @@
 // @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/NPM-Package-and-Search-Enhancer.user.js
 // @match        https://www.npmjs.com/**
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=npmjs.com
+// @grant        GM.registerMenuCommand
 // @grant        GM.xmlHttpRequest
 // @connect      api.github.com
 // @connect      api.npmjs.org
 // @connect      api.osv.dev
 // @connect      cdn.jsdelivr.net
-// @connect      data.jsdelivr.com
 // @connect      registry.npmjs.org
 // @inject-into  content
 // @run-at       document-start
 // ==/UserScript==
 
 /* eslint-disable -- Generated bundle containing audited upstream and third-party code; authored TypeScript is type-checked before bundling. */
-
 (() => {
     var __create = Object.create;
     var __defProp = Object.defineProperty;
@@ -1237,6 +1236,7 @@ versions, and fix provenance icon alignment.
     }
     var badgeDefinitions,
         badgeVisibility,
+        searchBadgesSetting,
         linkDefinitions,
         linkVisibility,
         customLinksSetting,
@@ -1265,6 +1265,10 @@ versions, and fix provenance icon alignment.
                         true
                     ),
                 ])
+            );
+            searchBadgesSetting = localStorageStore(
+                "npm-enhancer:settings:search-badges",
+                false
             );
             linkDefinitions = {
                 documentation: "npm documentation",
@@ -2985,6 +2989,8 @@ versions, and fix provenance icon alignment.
         clearOutdatedSettings: () => clearOutdatedSettings,
         featureSettings: () => featureSettings,
         injectSettingsTrigger: () => injectSettingsTrigger,
+        openSettings: () => openSettings,
+        registerSettingsMenuCommand: () => registerSettingsMenuCommand,
     });
     function localStorageStore2(key, defaultValue) {
         const store = {
@@ -3032,6 +3038,7 @@ versions, and fix provenance icon alignment.
         const customLinkErrors = L(
             parseCustomLinks(customLinksState.value).errors.join("\n")
         );
+        const searchBadgesState = L(searchBadgesSetting.get());
         return at`
     <div
       id="npm-userscript-settings"
@@ -3044,7 +3051,10 @@ versions, and fix provenance icon alignment.
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.5);
+          box-sizing: border-box;
+          padding: 24px;
+          background: rgba(15, 15, 18, 0.72);
+          backdrop-filter: blur(8px);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -3052,34 +3062,115 @@ versions, and fix provenance icon alignment.
           font-family: 'Source Sans Pro', 'Lucida Grande', sans-serif;
         }
         #npm-userscript-settings .dialog {
-          background-color: var(--background-color);
-          width: 700px;
-          max-width: 90vw;
-          max-height: 90vh;
-          padding: 16px;
-          border-radius: 4px;
+          box-sizing: border-box;
+          width: min(860px, 100%);
+          max-height: calc(100vh - 48px);
+          padding: 28px;
+          color: var(--color-fg-default, #24292f);
+          background: var(--background-color, #fff);
+          border: 1px solid var(--color-border-muted, rgba(127, 127, 127, 0.28));
+          border-radius: 16px;
+          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
           overflow-y: auto;
         }
         #npm-userscript-settings h2 {
           margin: 0;
+          font-size: clamp(22px, 4vw, 30px);
+          letter-spacing: -0.025em;
+        }
+        #npm-userscript-settings .intro {
+          max-width: 68ch;
+          margin: 8px 0 22px;
+          color: var(--color-fg-muted, #656d76);
+          line-height: 1.45;
         }
         #npm-userscript-settings .features {
-          font-size: 14px;
-          margin: 18px 0 8px 0;
-          color: var(--color-fg-muted);
-          font-weight: bold;
+          margin: 24px 0 10px;
+          padding-bottom: 7px;
+          color: var(--color-fg-muted, #656d76);
+          border-bottom: 1px solid var(--color-border-muted, rgba(127, 127, 127, 0.24));
+          font-size: 12px;
+          font-weight: 800;
           text-transform: uppercase;
-          letter-spacing: 0.04em;
+          letter-spacing: 0.1em;
+        }
+        #npm-userscript-settings .settings-section {
+          margin: 0 0 10px;
+          border: 1px solid var(--color-border-muted, rgba(127, 127, 127, 0.24));
+          border-radius: 12px;
+          overflow: clip;
+        }
+        #npm-userscript-settings .settings-section > summary {
+          padding: 12px 14px;
+          font-size: 14px;
+          font-weight: 800;
+          cursor: pointer;
+          user-select: none;
+        }
+        #npm-userscript-settings .settings-section[open] > summary {
+          border-bottom: 1px solid var(--color-border-muted, rgba(127, 127, 127, 0.24));
+        }
+        #npm-userscript-settings .settings-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+          padding: 10px;
         }
         #npm-userscript-settings .setting {
           display: grid;
           grid-template-columns: auto 1fr;
           grid-template-rows: auto auto;
-          margin: 0 0 10px 0;
+          gap: 2px 12px;
+          margin: 0;
+          padding: 11px 12px;
+          background: color-mix(in srgb, currentColor 4%, transparent);
+          border: 1px solid transparent;
+          border-radius: 10px;
+          cursor: pointer;
+          transition:
+            background 120ms ease,
+            border-color 120ms ease;
+        }
+        #npm-userscript-settings .setting:hover {
+          background: color-mix(in srgb, currentColor 7%, transparent);
+          border-color: var(--color-border-muted, rgba(127, 127, 127, 0.24));
+        }
+        #npm-userscript-settings .setting-emphasis {
+          grid-column: 1 / -1;
+          background: color-mix(in srgb, #cb3837 8%, transparent);
+          border-color: color-mix(in srgb, #cb3837 28%, transparent);
         }
         #npm-userscript-settings .setting > input {
           grid-area: 1 / 1 / 3 / 2;
-          margin: 3px 6px 0 0;
+          appearance: none;
+          width: 38px;
+          height: 22px;
+          margin: 1px 0 0;
+          padding: 2px;
+          background: color-mix(in srgb, currentColor 20%, transparent);
+          border-radius: 999px;
+          cursor: pointer;
+          transition: background 140ms ease;
+        }
+        #npm-userscript-settings .setting > input::before {
+          display: block;
+          width: 18px;
+          height: 18px;
+          background: #fff;
+          border-radius: 50%;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+          content: '';
+          transition: transform 140ms ease;
+        }
+        #npm-userscript-settings .setting > input:checked {
+          background: #cb3837;
+        }
+        #npm-userscript-settings .setting > input:checked::before {
+          transform: translateX(16px);
+        }
+        #npm-userscript-settings .setting > input:focus-visible {
+          outline: 3px solid color-mix(in srgb, #cb3837 42%, transparent);
+          outline-offset: 2px;
         }
         #npm-userscript-settings .setting > span {
           grid-area: 1 / 2 / 2 / 3;
@@ -3087,12 +3178,20 @@ versions, and fix provenance icon alignment.
         }
         #npm-userscript-settings .setting > p {
           grid-area: 2 / 2 / 3 / 3;
-          margin: 4px 0 0 0;
-          opacity: 0.6;
+          margin: 2px 0 0;
+          color: var(--color-fg-muted, #656d76);
+          font-size: 13px;
+          line-height: 1.35;
         }
         #npm-userscript-settings .footer {
           font-size: 12px;
-          margin-top: 12px;
+          position: sticky;
+          bottom: -28px;
+          gap: 12px;
+          margin: 24px -28px -28px;
+          padding: 14px 28px;
+          background: var(--background-color, #fff);
+          border-top: 1px solid var(--color-border-muted, rgba(127, 127, 127, 0.24));
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -3101,18 +3200,47 @@ versions, and fix provenance icon alignment.
           color: var(--color-fg-muted);
           margin: 0;
         }
+        #npm-userscript-settings .footer-actions {
+          display: flex;
+          gap: 8px;
+        }
+        #npm-userscript-settings .button-primary {
+          color: #fff;
+          background: #cb3837;
+          border-color: #cb3837;
+        }
+        #npm-userscript-settings .button-primary:hover {
+          background: #a82827;
+        }
         #npm-userscript-settings textarea {
           box-sizing: border-box;
           width: 100%;
-          min-height: 120px;
-          padding: 8px;
+          min-height: 132px;
+          padding: 12px;
           resize: vertical;
           color: inherit;
           background: var(--background-color);
           border: 1px solid var(--color-border-muted, #aaa);
-          border-radius: 4px;
+          border-radius: 10px;
           font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
           font-size: 12px;
+        }
+        #npm-userscript-settings textarea:focus {
+          border-color: #cb3837;
+          outline: 3px solid color-mix(in srgb, #cb3837 20%, transparent);
+        }
+        #npm-userscript-settings button {
+          padding: 8px 12px;
+          color: inherit;
+          background: color-mix(in srgb, currentColor 7%, transparent);
+          border: 1px solid var(--color-border-muted, rgba(127, 127, 127, 0.3));
+          border-radius: 8px;
+          font: inherit;
+          font-weight: 700;
+          cursor: pointer;
+        }
+        #npm-userscript-settings button:hover {
+          background: color-mix(in srgb, currentColor 12%, transparent);
         }
         #npm-userscript-settings .custom-help,
         #npm-userscript-settings .custom-errors {
@@ -3126,61 +3254,110 @@ versions, and fix provenance icon alignment.
         #npm-userscript-settings .custom-errors {
           color: var(--color-fg-danger, #bb2e3e);
         }
+        @media (max-width: 40rem) {
+          #npm-userscript-settings {
+            padding: 10px;
+          }
+          #npm-userscript-settings .dialog {
+            max-height: calc(100vh - 20px);
+            padding: 20px;
+          }
+          #npm-userscript-settings .footer {
+            bottom: -20px;
+            margin: 20px -20px -20px;
+            padding: 12px 20px;
+          }
+          #npm-userscript-settings .settings-grid {
+            grid-template-columns: 1fr;
+          }
+        }
       </style>
       <div class="dialog" @click=${(e3) => e3.stopPropagation()}>
-        <h2>npm Package & Search Enhancer</h2>
-        <p class="features">Features</p>
-        ${Object.entries(featureStates).map(([name, state]) => {
-            return at`
-            <label class="setting" key=${name}>
+        <h2>NPM Package & Search Enhancer</h2>
+        <p class="intro">
+          Choose what appears on package and search pages. Search badges are opt-in because they
+          require extra registry lookups; search links use one cached lookup for the whole page.
+        </p>
+        <details class="settings-section" open>
+          <summary>Features</summary>
+          <div class="settings-grid">
+            ${Object.entries(featureStates).map(([name, state]) => {
+                return at`
+                <label class="setting" key=${name}>
+                  <input
+                    type="checkbox"
+                    .checked=${state.value}
+                    @change=${(e3) => {
+                        const checked = e3.target.checked;
+                        featureSettings[name].set(checked);
+                        state.value = checked;
+                    }}
+                  />
+                  <span>${formatFeatureName(name)}</span>
+                  <p>${allFeatures[name].description.trim().replace(/\n/g, " ")}</p>
+                </label>
+              `;
+            })}
+          </div>
+        </details>
+        <details class="settings-section" open>
+          <summary>Badges</summary>
+          <div class="settings-grid">
+            <label class="setting setting-emphasis">
               <input
                 type="checkbox"
-                .checked=${state.value}
+                .checked=${searchBadgesState.value}
                 @change=${(e3) => {
                     const checked = e3.target.checked;
-                    featureSettings[name].set(checked);
-                    state.value = checked;
+                    searchBadgesSetting.set(checked);
+                    searchBadgesState.value = checked;
                 }}
               />
-              <span>${name}</span>
-              <p>${allFeatures[name].description.trim().replace(/\n/g, " ")}</p>
+              <span>Show badges in search results</span>
+              <p>
+                Off by default. When enabled, the enhancer loads up to two package manifests at a
+                time and caches them for six hours.
+              </p>
             </label>
-          `;
-        })}
-        <p class="features">Badges</p>
-        ${Object.entries(badgeStates).map(
-            ([name, state]) => at`
-            <label class="setting" key=${name}>
-              <input
-                type="checkbox"
-                .checked=${state.value}
-                @change=${(e3) => {
-                    const checked = e3.target.checked;
-                    badgeVisibility[name].set(checked);
-                    state.value = checked;
-                }}
-              />
-              <span>${badgeDefinitions[name]}</span>
-            </label>
-          `
-        )}
-        <p class="features">Links</p>
-        ${Object.entries(linkStates).map(
-            ([name, state]) => at`
-            <label class="setting" key=${name}>
-              <input
-                type="checkbox"
-                .checked=${state.value}
-                @change=${(e3) => {
-                    const checked = e3.target.checked;
-                    linkVisibility[name].set(checked);
-                    state.value = checked;
-                }}
-              />
-              <span>${linkDefinitions[name]}</span>
-            </label>
-          `
-        )}
+            ${Object.entries(badgeStates).map(
+                ([name, state]) => at`
+                <label class="setting" key=${name}>
+                  <input
+                    type="checkbox"
+                    .checked=${state.value}
+                    @change=${(e3) => {
+                        const checked = e3.target.checked;
+                        badgeVisibility[name].set(checked);
+                        state.value = checked;
+                    }}
+                  />
+                  <span>${badgeDefinitions[name]}</span>
+                </label>
+              `
+            )}
+          </div>
+        </details>
+        <details class="settings-section">
+          <summary>Links</summary>
+          <div class="settings-grid">
+            ${Object.entries(linkStates).map(
+                ([name, state]) => at`
+                <label class="setting" key=${name}>
+                  <input
+                    type="checkbox"
+                    .checked=${state.value}
+                    @change=${(e3) => {
+                        const checked = e3.target.checked;
+                        linkVisibility[name].set(checked);
+                        state.value = checked;
+                    }}
+                  />
+                  <span>${linkDefinitions[name]}</span>
+                </label>
+              `
+            )}
+          </div>
+        </details>
         <p class="features">Custom links</p>
         <textarea
           aria-label="Custom package links"
@@ -3201,46 +3378,81 @@ versions, and fix provenance icon alignment.
         </p>
         <p class="custom-errors">${customLinkErrors}</p>
         <div class="footer">
-          <p class="note">(Refresh page to view changes)</p>
-          <button
-            @click=${() => {
-                Object.entries(featureStates).forEach(([name, state]) => {
-                    featureSettings[name].reset();
-                    state.value = featureSettings[name].get();
-                });
-                Object.entries(badgeStates).forEach(([name, state]) => {
-                    const setting = badgeVisibility[name];
-                    setting.reset();
-                    state.value = setting.get();
-                });
-                Object.entries(linkStates).forEach(([name, state]) => {
-                    const setting = linkVisibility[name];
-                    setting.reset();
-                    state.value = setting.get();
-                });
-                customLinksSetting.reset();
-                customLinksState.value = customLinksSetting.get();
-                customLinkErrors.value = "";
-            }}
-          >
-            Reset to defaults
-          </button>
+          <p class="note">Refresh the page to apply changes.</p>
+          <div class="footer-actions">
+            <button
+              @click=${() => {
+                  Object.entries(featureStates).forEach(([name, state]) => {
+                      featureSettings[name].reset();
+                      state.value = featureSettings[name].get();
+                  });
+                  Object.entries(badgeStates).forEach(([name, state]) => {
+                      const setting = badgeVisibility[name];
+                      setting.reset();
+                      state.value = setting.get();
+                  });
+                  Object.entries(linkStates).forEach(([name, state]) => {
+                      const setting = linkVisibility[name];
+                      setting.reset();
+                      state.value = setting.get();
+                  });
+                  customLinksSetting.reset();
+                  customLinksState.value = customLinksSetting.get();
+                  customLinkErrors.value = "";
+                  searchBadgesSetting.reset();
+                  searchBadgesState.value = searchBadgesSetting.get();
+              }}
+            >
+              Reset defaults
+            </button>
+            <button
+              class="button-primary"
+              @click=${(event) => event.currentTarget.closest("#npm-userscript-settings")?.remove()}
+            >
+              Done
+            </button>
+          </div>
         </div>
       </div>
     </div>
   `;
+    }
+    function formatFeatureName(name) {
+        return name
+            .split("-")
+            .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+            .join(" ")
+            .replace(/^Npm\b/, "NPM");
+    }
+    function openSettings() {
+        const existing = document.querySelector("#npm-userscript-settings");
+        if (existing) {
+            existing.querySelector("input, textarea, button")?.focus();
+            return;
+        }
+        document.body.append(at`<${Settings} />`);
+    }
+    function registerSettingsMenuCommand() {
+        if (
+            settingsMenuRegistered ||
+            typeof GM === "undefined" ||
+            !GM.registerMenuCommand
+        )
+            return;
+        settingsMenuRegistered = true;
+        GM.registerMenuCommand("Open NPM Enhancer settings", openSettings);
     }
     function injectSettingsTrigger() {
         if (document.querySelector(".npm-userscript-settings-trigger")) return;
         const button = document.createElement("button");
         button.classList.add("npm-userscript-settings-trigger");
         button.type = "button";
-        button.title = "Open npm enhancer settings";
-        button.setAttribute("aria-label", "Open npm enhancer settings");
+        button.title = "Open NPM Enhancer settings";
+        button.setAttribute("aria-label", "Open NPM Enhancer settings");
         button.textContent = "\u2699";
         button.style.cssText =
             "font-size: 18px; border: 0; background: none; color: inherit; cursor: pointer; padding: 6px 8px; opacity: 0.85;";
-        button.onclick = () => document.body.append(at`<${Settings} />`);
+        button.onclick = openSettings;
         const headerActions = document.querySelector(
             ".npm-userscript-header-actions"
         );
@@ -3270,7 +3482,7 @@ versions, and fix provenance icon alignment.
             }
         }
     }
-    var featureSettings;
+    var featureSettings, settingsMenuRegistered;
     var init_settings = __esm({
         "src/settings.ts"() {
             init_dom();
@@ -3287,6 +3499,7 @@ versions, and fix provenance icon alignment.
                     ];
                 })
             );
+            settingsMenuRegistered = false;
         },
     });
 
@@ -3562,12 +3775,14 @@ implementation is broken for large numbers for some reason. This temporarily fix
     });
     function teardown2(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
-        document.querySelector(".npm-userscript-helpful-links")?.remove();
+        sidebarObserver?.disconnect();
+        sidebarObserver = void 0;
+        document.querySelector('[data-npm-enhancer-links="package"]')?.remove();
     }
     function runPre7() {
         if (!isValidPackagePage()) return;
         addStyle(`
-    .npm-userscript-helpful-links {
+    .npm-enhancer-link-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -3578,9 +3793,15 @@ implementation is broken for large numbers for some reason. This temporarily fix
       clear: both;
       box-sizing: border-box;
       transform: none;
+      list-style: none;
     }
 
-    .npm-userscript-helpful-links a {
+    .npm-enhancer-link-row::before {
+      display: none !important;
+      content: none !important;
+    }
+
+    .npm-enhancer-link-row a {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -3592,20 +3813,20 @@ implementation is broken for large numbers for some reason. This temporarily fix
       overflow: hidden;
     }
 
-    .npm-userscript-helpful-links a:hover,
-    .npm-userscript-helpful-links a:focus-visible {
+    .npm-enhancer-link-row a:hover,
+    .npm-enhancer-link-row a:focus-visible {
       background: rgba(127, 127, 127, 0.14);
     }
 
-    .npm-userscript-helpful-links a svg,
-    .npm-userscript-helpful-links a img {
+    .npm-enhancer-link-row a svg,
+    .npm-enhancer-link-row a img {
       display: block;
       width: 20px;
       height: 20px;
       object-fit: contain;
     }
 
-    .npm-userscript-helpful-links .npm-userscript-link-monogram {
+    .npm-enhancer-link-row .npm-userscript-link-monogram {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -3619,42 +3840,92 @@ implementation is broken for large numbers for some reason. This temporarily fix
       text-transform: uppercase;
     }
 
-    html[data-color-mode="dark"] .npm-userscript-helpful-links a svg.dark-invert {
+    html[data-color-mode="dark"] .npm-enhancer-link-row a svg.dark-invert {
       filter: invert(100%) sepia(100%) grayscale(100%);
     }
 
     /* link icon is jarringly large, so shrink */
-    .npm-userscript-helpful-links a[title="Homepage"] svg {
+    .npm-enhancer-link-row a[title="Homepage"] svg {
       height: 17px;
     }
     
     /* publint icon is too short, so widen */
-    .npm-userscript-helpful-links a[href*="publint.dev"] svg {
+    .npm-enhancer-link-row a[href*="publint.dev"] svg {
       width: 24px;
     }
   `);
     }
     async function run6() {
         if (!isValidPackagePage()) return;
-        if (document.querySelector(".npm-userscript-helpful-links")) return;
+        if (!sidebarObserver) {
+            const main2 = document.querySelector("main");
+            if (main2) {
+                sidebarObserver = new MutationObserver(queueRender);
+                sidebarObserver.observe(main2, {
+                    childList: true,
+                    subtree: true,
+                });
+            }
+        }
+        await renderPackageLinks();
+    }
+    function queueRender() {
+        renderRequested = true;
+        if (renderFrame) return;
+        renderFrame = requestAnimationFrame(() => {
+            renderFrame = 0;
+            void renderPackageLinks();
+        });
+    }
+    async function renderPackageLinks() {
+        if (!isValidPackagePage()) return;
+        if (renderInFlight) {
+            renderRequested = true;
+            return;
+        }
         const packageName = getPackageName();
         if (!packageName) return;
-        const links = await getHelpfulLinks(
-            packageName,
-            void 0,
-            getPackageVersion()
-        );
-        if (links.length === 0) return;
+        const version = getPackageVersion();
+        const pageKey = `${packageName}@${version || ""}`;
         const sidebar = document.querySelector(
             'aside[aria-label="Package sidebar"]'
         );
-        const installHeading = Array.from(
+        const existing = sidebar?.querySelector(
+            '[data-npm-enhancer-links="package"]'
+        );
+        if (existing?.dataset.pageKey === pageKey) return;
+        renderInFlight = true;
+        renderRequested = false;
+        try {
+            const links = await getHelpfulLinks(packageName, void 0, version);
+            if (links.length === 0 || getPackageName() !== packageName) return;
+            const currentSidebar = document.querySelector(
+                'aside[aria-label="Package sidebar"]'
+            );
+            const installHeading = findInstallHeading(currentSidebar);
+            if (!currentSidebar || !installHeading) return;
+            currentSidebar
+                .querySelector('[data-npm-enhancer-links="package"]')
+                ?.remove();
+            const row = createHelpfulLinksElement(
+                links,
+                "npm-enhancer-link-row npm-enhancer-package-links"
+            );
+            row.dataset.npmEnhancerLinks = "package";
+            row.dataset.pageKey = pageKey;
+            installHeading.insertAdjacentElement("beforebegin", row);
+        } finally {
+            renderInFlight = false;
+            if (renderRequested) queueRender();
+        }
+    }
+    function findInstallHeading(sidebar) {
+        return Array.from(
             sidebar?.querySelectorAll(":scope > h2, :scope > h3") || []
-        ).find((heading) => heading.textContent?.trim() === "Install");
-        if (!installHeading) return;
-        installHeading.insertAdjacentElement(
-            "beforebegin",
-            createHelpfulLinksElement(links)
+        ).find(
+            (heading) =>
+                heading.dataset.mibHeading === "Install" ||
+                heading.textContent?.trim() === "Install"
         );
     }
     async function getHelpfulLinks(
@@ -3668,11 +3939,13 @@ implementation is broken for large numbers for some reason. This temporarily fix
                   getHomepageLinkData(metadata.homepage),
                   getFundingLinkData(metadata.funding),
               ]
-            : [
-                  await getRepoLinkData(),
-                  getHomepageLinkData(),
-                  getFundingLinkData(),
-              ];
+            : isValidPackagePage()
+              ? [
+                    await getRepoLinkData(),
+                    getHomepageLinkData(),
+                    getFundingLinkData(),
+                ]
+              : [];
         const builtInLinks = [
             ...contextualLinks,
             getNpmxLinkData(packageName),
@@ -3706,7 +3979,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     function createHelpfulLinksElement(
         links,
-        className = "npm-userscript-helpful-links"
+        className = "npm-enhancer-link-row"
     ) {
         const container = document.createElement("div");
         container.className = className;
@@ -3867,7 +4140,11 @@ implementation is broken for large numbers for some reason. This temporarily fix
         );
         return settings.featureSettings;
     }
-    var description7;
+    var description7,
+        sidebarObserver,
+        renderFrame,
+        renderInFlight,
+        renderRequested;
     var init_helpful_links = __esm({
         "src/features/helpful-links.ts"() {
             init_utils_fetch();
@@ -3876,6 +4153,9 @@ implementation is broken for large numbers for some reason. This temporarily fix
             init_utils();
             description7 =
                 "Add configurable package links above the Install command.";
+            renderFrame = 0;
+            renderInFlight = false;
+            renderRequested = false;
         },
     });
 
@@ -6025,48 +6305,6 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         },
     });
 
-    // src/package-metadata.ts
-    function getHelpfulLinkMetadata(manifest) {
-        return {
-            repository: normalizeRepository2(manifest.repository),
-            homepage: normalizeHttpUrl2(manifest.homepage),
-            funding: normalizeFunding2(manifest.funding),
-            version:
-                typeof manifest.version === "string"
-                    ? manifest.version
-                    : void 0,
-        };
-    }
-    function normalizeRepository2(value) {
-        let repository = typeof value === "string" ? value : value?.url;
-        if (typeof repository !== "string") return void 0;
-        repository = repository
-            .replace(/^git\+/, "")
-            .replace(/^git:\/\//, "https://")
-            .replace(/^git@github\.com:/, "https://github.com/")
-            .replace(/\.git$/, "");
-        return normalizeHttpUrl2(repository);
-    }
-    function normalizeFunding2(value) {
-        const first = Array.isArray(value) ? value[0] : value;
-        const url = typeof first === "string" ? first : first?.url;
-        return normalizeHttpUrl2(url);
-    }
-    function normalizeHttpUrl2(value) {
-        if (typeof value !== "string") return void 0;
-        try {
-            const url = new URL(value);
-            return url.protocol === "https:" || url.protocol === "http:"
-                ? url.href
-                : void 0;
-        } catch {
-            return void 0;
-        }
-    }
-    var init_package_metadata = __esm({
-        "src/package-metadata.ts"() {},
-    });
-
     // src/features/search-results.ts
     var search_results_exports = {};
     __export(search_results_exports, {
@@ -6102,7 +6340,7 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
       line-height: 1.2;
     }
 
-    .npm-userscript-search-links {
+    .npm-enhancer-search-links {
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-end;
@@ -6123,14 +6361,14 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
       margin-left: auto;
     }
 
-    .npm-userscript-search-links a {
+    .npm-enhancer-search-links a {
       width: 25px;
       height: 25px;
       flex-basis: 25px;
     }
 
-    .npm-userscript-search-links a svg,
-    .npm-userscript-search-links a img {
+    .npm-enhancer-search-links a svg,
+    .npm-enhancer-search-links a img {
       width: 18px;
       height: 18px;
     }
@@ -6181,7 +6419,7 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
             });
         document
             .querySelectorAll(
-                ".npm-userscript-search-badges, .npm-userscript-search-links"
+                '.npm-userscript-search-badges, [data-npm-enhancer-links="search"]'
             )
             .forEach((element) => element.remove());
     }
@@ -6197,24 +6435,6 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         const pageKey = location.href;
         const cards = getUnprocessedCards();
         if (cards.length === 0) return;
-        await Promise.all(
-            cards.map(async (card) => {
-                card.card.dataset.npmEnhancerSearch = card.packageName;
-                try {
-                    const packageData = await requestManifest(() =>
-                        fetchSearchPackageData(card.packageName)
-                    );
-                    card.manifest = packageData.manifest;
-                    card.filePaths = packageData.filePaths;
-                } catch (error) {
-                    console.warn(
-                        `[npm-enhancer] Could not enrich search result ${card.packageName}:`,
-                        error
-                    );
-                }
-            })
-        );
-        if (location.href !== pageKey) return;
         const settings = await Promise.resolve().then(
             () => (init_settings(), settings_exports)
         );
@@ -6222,16 +6442,47 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
             settings.featureSettings[name]?.get() !== false;
         const showLinks =
             settings.featureSettings["helpful-links"].get() !== false;
+        const showBadges = searchBadgesSetting.get();
         const showAlternatives =
+            showBadges &&
             settings.featureSettings["module-replacements"].get() !== false &&
             badgeVisibility.alternatives.get();
         const showVulnerabilities =
+            showBadges &&
             settings.featureSettings["show-vulnerabilities"].get() !== false &&
             badgeVisibility.vulnerable.get();
+        cards.forEach((card) => {
+            card.card.dataset.npmEnhancerSearch = card.packageName;
+        });
+        const searchMetadataPromise = showLinks
+            ? fetchSearchMetadata()
+            : Promise.resolve(/* @__PURE__ */ new Map());
+        if (showBadges) {
+            await Promise.all(
+                cards.map(async (card) => {
+                    try {
+                        card.manifest = await requestManifest(() =>
+                            fetchSearchManifest(card.packageName)
+                        );
+                    } catch (error) {
+                        console.warn(
+                            `[npm-enhancer] Could not load search badges for ${card.packageName}:`,
+                            error
+                        );
+                    }
+                })
+            );
+        }
+        if (location.href !== pageKey) return;
         const validCards = cards.filter((card) =>
             Boolean(card.manifest && card.card.isConnected)
         );
-        const [replacementMap, vulnerablePackages] = await Promise.all([
+        const [
+            searchMetadata,
+            replacementMap,
+            vulnerablePackages,
+        ] = await Promise.all([
+            searchMetadataPromise,
             showAlternatives
                 ? fetchReplacementMap()
                 : /* @__PURE__ */ new Map(),
@@ -6241,14 +6492,20 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         ]);
         if (location.href !== pageKey) return;
         await Promise.all(
-            validCards.map(async (card) => {
-                addSearchBadges(
-                    card,
-                    replacementMap.get(card.packageName),
-                    vulnerablePackages,
-                    isFeatureEnabled
-                );
-                if (showLinks) await addSearchLinks(card);
+            cards.map(async (card) => {
+                if (card.manifest) {
+                    addSearchBadges(
+                        card,
+                        replacementMap.get(card.packageName),
+                        vulnerablePackages,
+                        isFeatureEnabled
+                    );
+                }
+                if (showLinks)
+                    await addSearchLinks(
+                        card,
+                        searchMetadata.get(card.packageName)
+                    );
             })
         );
     }
@@ -6276,11 +6533,7 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         isFeatureEnabled
     ) {
         if (card.card.querySelector(".npm-userscript-search-badges")) return;
-        const specs = getBadgeSpecs(
-            card.manifest,
-            card.filePaths || [],
-            isFeatureEnabled
-        );
+        const specs = getBadgeSpecs(card.manifest, isFeatureEnabled);
         if (replacement) {
             specs.push({
                 id: "alternatives",
@@ -6315,12 +6568,13 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         );
         packageLink?.insertAdjacentElement("afterend", container);
     }
-    async function addSearchLinks(card) {
-        if (card.card.querySelector(".npm-userscript-search-links")) return;
+    async function addSearchLinks(card, metadata) {
+        if (card.card.querySelector('[data-npm-enhancer-links="search"]'))
+            return;
         const links = await getHelpfulLinks(
             card.packageName,
-            getHelpfulLinkMetadata(card.manifest),
-            card.manifest.version
+            metadata,
+            metadata?.version
         );
         if (links.length === 0 || !card.card.isConnected) return;
         card.card.classList.add("npm-userscript-search-card");
@@ -6329,8 +6583,9 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         );
         const linkRow = createHelpfulLinksElement(
             links,
-            "npm-userscript-helpful-links npm-userscript-search-links"
+            "npm-enhancer-link-row npm-enhancer-search-links"
         );
+        linkRow.dataset.npmEnhancerLinks = "search";
         const download = Array.from(card.card.children).find((child) =>
             child.querySelector('[aria-label="Download statistics"]')
         );
@@ -6343,9 +6598,9 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         download.insertAdjacentElement("beforebegin", right);
         right.append(linkRow, download);
     }
-    function getBadgeSpecs(manifest, filePaths, isFeatureEnabled) {
+    function getBadgeSpecs(manifest, isFeatureEnabled) {
         const specs = [];
-        const fileTypes = detectManifestFileTypes(manifest, filePaths);
+        const fileTypes = detectManifestFileTypes(manifest);
         if (
             isFeatureEnabled("show-file-types-label") &&
             fileTypes.esm &&
@@ -6373,13 +6628,7 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
             badgeVisibility.dts.get() &&
             (typeof manifest.types === "string" ||
                 typeof manifest.typings === "string" ||
-                manifest.name?.startsWith("@types/") ||
-                filePaths.some(
-                    (path) =>
-                        path.endsWith(".d.ts") ||
-                        path.endsWith(".d.mts") ||
-                        path.endsWith(".d.cts")
-                ))
+                manifest.name?.startsWith("@types/"))
         ) {
             specs.push({
                 id: "dts",
@@ -6440,22 +6689,20 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
         }
         return specs;
     }
-    function detectManifestFileTypes(manifest, filePaths) {
+    function detectManifestFileTypes(manifest) {
         const exportsText = JSON.stringify(manifest.exports || "");
         const hasEsm =
             manifest.type === "module" ||
             typeof manifest.module === "string" ||
             /"(?:import|module)"\s*:/.test(exportsText) ||
-            /\.mjs(?:"|$)/.test(exportsText) ||
-            filePaths.some((path) => path.endsWith(".mjs"));
+            /\.mjs(?:"|$)/.test(exportsText);
         const hasCjs =
             manifest.type === "commonjs" ||
             /"require"\s*:/.test(exportsText) ||
             /\.cjs(?:"|$)/.test(exportsText) ||
             (manifest.type !== "module" &&
                 typeof manifest.main === "string" &&
-                /\.js$/.test(manifest.main)) ||
-            filePaths.some((path) => path.endsWith(".cjs"));
+                /\.js$/.test(manifest.main));
         return { esm: hasEsm, cjs: hasCjs };
     }
     function publishesNativeBinaries(manifest) {
@@ -6485,45 +6732,45 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
             ).length >= 2
         );
     }
-    async function fetchSearchPackageData(packageName) {
-        const manifest = await Promise.resolve(
-            cacheResult(`searchManifest:${packageName}`, 900, () =>
+    async function fetchSearchManifest(packageName) {
+        return Promise.resolve(
+            cacheResult(`searchManifest:${packageName}`, 21600, () =>
                 fetchJson(
                     `https://registry.npmjs.org/${encodeURIComponent(packageName)}/latest`
                 )
             )
         );
-        const version = manifest.version;
-        let filePaths = [];
-        if (
-            typeof version === "string" &&
-            (badgeVisibility.esm.get() ||
-                badgeVisibility.cjs.get() ||
-                badgeVisibility.dts.get())
-        ) {
-            try {
-                filePaths = await Promise.resolve(
-                    cacheResult(
-                        `searchFilePaths:${packageName}@${version}`,
-                        900,
-                        async () => {
-                            const data = await fetchJson(
-                                `https://data.jsdelivr.com/v1/package/npm/${packageName}@${encodeURIComponent(version)}/flat`
-                            );
-                            return (data.files || [])
-                                .map((file) => file.name)
-                                .filter((name) => typeof name === "string");
-                        }
+    }
+    async function fetchSearchMetadata() {
+        const query = new URLSearchParams(location.search).get("q")?.trim();
+        if (!query) return /* @__PURE__ */ new Map();
+        try {
+            const response = await Promise.resolve(
+                cacheResult(`searchMetadata:${query}`, 3600, () =>
+                    fetchJson(
+                        `https://registry.npmjs.org/-/v1/search?text=${encodeURIComponent(query)}&size=100`
                     )
-                );
-            } catch (error) {
-                console.warn(
-                    `[npm-enhancer] Could not inspect published files for ${packageName}:`,
-                    error
-                );
+                )
+            );
+            const metadata = /* @__PURE__ */ new Map();
+            for (const entry of response.objects || []) {
+                const packageData = entry.package;
+                if (!packageData?.name) continue;
+                metadata.set(packageData.name, {
+                    repository: packageData.links?.repository,
+                    homepage: packageData.links?.homepage,
+                    funding: packageData.links?.funding,
+                    version: packageData.version,
+                });
             }
+            return metadata;
+        } catch (error) {
+            console.warn(
+                "[npm-enhancer] Could not load search-result links:",
+                error
+            );
+            return /* @__PURE__ */ new Map();
         }
-        return { manifest, filePaths };
     }
     async function fetchReplacementMap() {
         try {
@@ -6623,13 +6870,12 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
             init_utils_fetch();
             init_utils();
             init_utils_ui();
-            init_package_metadata();
             init_helpful_links();
             init_module_replacements();
             description15 =
                 "Add configurable package badges and helpful links to npm search results without opening package pages.";
             enrichQueued = false;
-            requestManifest = createConcurrencyLimit(4);
+            requestManifest = createConcurrencyLimit(2);
         },
     });
 
@@ -17934,7 +18180,7 @@ in the package.json.
                 ?.url ||
             references[0]?.url;
         const link =
-            normalizeHttpUrl3(linkCandidate) ||
+            normalizeHttpUrl2(linkCandidate) ||
             `https://osv.dev/vulnerability/${encodeURIComponent(vulnerability.id)}`;
         return {
             id,
@@ -18007,7 +18253,7 @@ in the package.json.
         };
         return severityScores[severity] || 0;
     }
-    function normalizeHttpUrl3(value) {
+    function normalizeHttpUrl2(value) {
         if (typeof value !== "string") return void 0;
         try {
             const url = new URL(value);
@@ -18597,6 +18843,7 @@ is powered by https://osv.dev.
     main();
     async function main() {
         await waitForDocumentPartiallyReady();
+        registerSettingsMenuCommand();
         listenNpmContext();
         let sequencePromise = runFeatures().then(() => runNotImportantStuff());
         let teardownQueue = 0;
