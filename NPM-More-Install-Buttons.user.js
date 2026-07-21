@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.3.2
+// @version      1.4.0
 // @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
@@ -187,13 +187,20 @@
             description: "Show labels such as NPM dev dependency and Yarn.",
             enabled: true,
         },
+        {
+            id: "useExactVersion",
+            label: "Pin the current version",
+            description:
+                "Include the exact @version in generated commands. Disabled by default so commands install the active release tag.",
+            enabled: false,
+        },
     ];
 
     const LIST_ATTRIBUTE = "data-npm-more-install-buttons";
     const STYLE_ID = "npm-more-install-buttons-style";
     const SETTINGS_DIALOG_ID = "npm-more-install-buttons-settings";
     const SETTINGS_KEY = "npmMoreInstallButtonsSettings";
-    const SETTINGS_VERSION = 1;
+    const SETTINGS_VERSION = 2;
     const COPY_BUTTON_SELECTOR =
         'button[aria-label="Copy install command line"]';
 
@@ -354,7 +361,8 @@
                 padding: 0.1rem 0.35rem;
             }
 
-            .mib-list-settings {
+            .mib-list-settings,
+            .mib-list-version-toggle {
                 align-items: center;
                 background: transparent;
                 border: 1px solid transparent;
@@ -369,10 +377,23 @@
             }
 
             .mib-list-settings:hover,
-            .mib-list-settings:focus-visible {
+            .mib-list-settings:focus-visible,
+            .mib-list-version-toggle:hover,
+            .mib-list-version-toggle:focus-visible,
+            .mib-list-version-toggle[aria-pressed="true"] {
                 background: color-mix(in srgb, var(--color-fg-brand, #cb3837) 9%, transparent);
                 border-color: color-mix(in srgb, var(--color-fg-brand, #cb3837) 32%, transparent);
                 color: var(--color-fg-brand, #cb3837);
+            }
+
+            .mib-list-version-toggle {
+                width: auto;
+                min-width: 1.75rem;
+                padding: 0 0.4rem;
+                font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+                font-size: 0.64rem;
+                letter-spacing: 0;
+                text-transform: none;
             }
 
             .mib-gear-icon {
@@ -894,10 +915,13 @@
         template,
         { packageName, packageVersion, typesPackageName }
     ) {
+        const packageSpec = settings.display.useExactVersion
+            ? `${packageName}@${packageVersion}`
+            : packageName;
         return template
             .replaceAll("{{package}}", packageName)
             .replaceAll("{{version}}", packageVersion)
-            .replaceAll("{{packageSpec}}", `${packageName}@${packageVersion}`)
+            .replaceAll("{{packageSpec}}", packageSpec)
             .replaceAll("{{typesPackage}}", typesPackageName || "");
     }
 
@@ -1390,6 +1414,33 @@
             listHeadingDivider.className = "mib-list-heading-divider";
             listHeadingDivider.setAttribute("aria-hidden", "true");
 
+            const versionToggle = document.createElement("button");
+            versionToggle.type = "button";
+            versionToggle.className = "mib-list-version-toggle";
+            versionToggle.textContent = `@${details.packageVersion}`;
+            versionToggle.title = settings.display.useExactVersion
+                ? "Use the active release tag in generated commands"
+                : `Pin generated commands to ${details.packageVersion}`;
+            versionToggle.setAttribute(
+                "aria-label",
+                settings.display.useExactVersion
+                    ? "Stop pinning generated install commands to the current version"
+                    : `Pin generated install commands to version ${details.packageVersion}`
+            );
+            versionToggle.setAttribute(
+                "aria-pressed",
+                String(settings.display.useExactVersion)
+            );
+            versionToggle.addEventListener("click", () => {
+                saveSettings({
+                    ...settings,
+                    display: {
+                        ...settings.display,
+                        useExactVersion: !settings.display.useExactVersion,
+                    },
+                });
+            });
+
             const settingsButton = document.createElement("button");
             settingsButton.type = "button";
             settingsButton.className = "mib-list-settings";
@@ -1406,6 +1457,7 @@
                 listHeadingText,
                 listHeadingCount,
                 listHeadingDivider,
+                versionToggle,
                 settingsButton
             );
             list.append(listHeading);

@@ -248,6 +248,13 @@ async function runDefaultSearchScenario() {
                     input.nextElementSibling?.textContent.trim() ===
                     "Limit long version histories"
             )?.checked,
+            dependencyTableLayoutChecked: Array.from(
+                dialog.querySelectorAll('.setting input[type="checkbox"]')
+            ).find(
+                (input) =>
+                    input.nextElementSibling?.textContent.trim() ===
+                    "Tabbed dependency tables"
+            )?.checked,
             versionLimitValue: dialog.querySelector(".inline-number")?.value,
             nativeDownloadsStayPut: Array.from(
                 dom.window.document.querySelectorAll(
@@ -284,13 +291,14 @@ async function runVersionsScenario() {
         .join("");
     const dom = createPage(
         `<title>example - npm</title><main><h1>example</h1>
+            <section id="tabpanel-versions"></section>
             <aside aria-label="Package sidebar"><div><h3>Version</h3><p>7.0.0</p></div></aside>
         </main>`,
         "https://www.npmjs.com/package/example?activeTab=versions"
     );
     setOnlyFeature(dom, "better-versions");
     dom.window.localStorage.setItem("npm-enhancer:settings:version-limit", "5");
-    installGm(dom, async (url) => {
+    const gm = installGm(dom, async (url) => {
         if (url.endsWith("/example/7.0.0")) return { version: "7.0.0" };
         if (url.endsWith("/example")) {
             return {
@@ -318,14 +326,17 @@ async function runVersionsScenario() {
 
     try {
         runScript(dom);
-        dom.window.setTimeout(() => {
-            dom.window.document.querySelector("main").insertAdjacentHTML(
-                "afterbegin",
-                `<table aria-labelledby="current-tags"><tbody></tbody></table>
+        const summaryBeforeNative = await waitFor(() =>
+            dom.window.document.querySelector(".npm-userscript-version-summary")
+        );
+        const versionsPanel =
+            dom.window.document.querySelector("#tabpanel-versions");
+        versionsPanel.insertAdjacentHTML(
+            "beforeend",
+            `<table aria-labelledby="current-tags"><tbody></tbody></table>
                 <h3 id="version-history">Version History</h3>
                 <table aria-labelledby="version-history"><thead><tr><th>Version</th><th>Downloads</th><th>Published</th></tr></thead><tbody>${rows}</tbody></table>`
-            );
-        }, 75);
+        );
         const tabs = await waitFor(() =>
             dom.window.document.querySelector(".npm-userscript-version-tabs")
         );
@@ -344,6 +355,13 @@ async function runVersionsScenario() {
                 ).length === 2
         );
         return {
+            renderedBeforeNativeHistory: Boolean(summaryBeforeNative),
+            packumentRequests: gm.requests.filter(
+                (url) => url === "https://registry.npmjs.org/example"
+            ).length,
+            versionDownloadRequests: gm.requests.filter((url) =>
+                url.includes("api.npmjs.org/versions/")
+            ).length,
             hiddenNativeRows: dom.window.document.querySelectorAll(
                 ".npm-userscript-version-limit-hidden"
             ).length,
@@ -372,12 +390,216 @@ async function runVersionsScenario() {
     }
 }
 
+async function runVersionSidebarScenario() {
+    const dom = createPage(
+        `<title>example - npm</title><main><h1>example</h1>
+            <aside aria-label="Package sidebar">
+                <div id="version-section">
+                    <h3>Version</h3>
+                    <p>3.2.1</p>
+                    <button type="button" aria-label="View provenance details"><svg aria-hidden="true"></svg></button>
+                </div>
+            </aside>
+        </main>`,
+        "https://www.npmjs.com/package/example"
+    );
+    setOnlyFeature(dom, "better-versions");
+    installGm(dom, async (url) => {
+        if (url.endsWith("/example/3.2.1")) return { version: "3.2.1" };
+        if (url.endsWith("/example")) {
+            return {
+                "dist-tags": { latest: "3.2.1" },
+                versions: {
+                    "1.0.0": {},
+                    "2.0.0": {},
+                    "3.0.0": {},
+                    "3.1.0": {},
+                    "3.2.1": {},
+                },
+            };
+        }
+        if (url.includes("api.npmjs.org/versions/")) {
+            return { downloads: {} };
+        }
+        throw new Error(`Unexpected request: ${url}`);
+    });
+
+    try {
+        runScript(dom);
+        const row = await waitFor(() => {
+            const candidate = dom.window.document.querySelector(
+                ".npm-userscript-version-sidebar-row"
+            );
+            return candidate?.querySelector(
+                ".npm-userscript-version-total-count"
+            )?.textContent === "5"
+                ? candidate
+                : null;
+        });
+        const provenance = row.querySelector(
+            '[aria-label="View provenance details"]'
+        );
+        const versionValue = row.querySelector("p");
+        const totalLink = row.querySelector(".npm-userscript-version-total");
+        return {
+            provenanceBesideVersion:
+                provenance.parentElement === versionValue.parentElement,
+            totalCount: totalLink.querySelector(
+                ".npm-userscript-version-total-count"
+            ).textContent,
+            totalHref: totalLink.href,
+            totalLabel: totalLink.querySelector(
+                ".npm-userscript-version-total-label"
+            ).textContent,
+            versionValue: versionValue.textContent,
+        };
+    } finally {
+        dom.window.close();
+    }
+}
+
+async function runDependenciesScenario() {
+    const dom = createPage(
+        `<title>example - npm</title><main><h1>example</h1>
+            <section id="tabpanel-dependencies">
+                <h2>Dependencies (1)</h2>
+                <ul aria-label="Dependencies"><li><a href="/package/alpha">alpha</a></li></ul>
+            </section>
+            <aside aria-label="Package sidebar"><div><h3>Version</h3><p>1.0.0</p></div></aside>
+        </main>`,
+        "https://www.npmjs.com/package/example?activeTab=dependencies"
+    );
+    setOnlyFeature(dom, "better-dependencies");
+    installGm(dom, async (url) => {
+        if (url.includes("registry.npmjs.org/example/1.0.0")) {
+            return {
+                dependencies: { alpha: "^1.0.0" },
+                devDependencies: { delta: "~4.0.0" },
+                optionalDependencies: { gamma: ">=3" },
+                peerDependencies: { beta: "^2.0.0", theta: "^8.0.0" },
+                peerDependenciesMeta: { theta: { optional: true } },
+                version: "1.0.0",
+            };
+        }
+        throw new Error(`Unexpected request: ${url}`);
+    });
+
+    try {
+        runScript(dom);
+        const view = await waitFor(() =>
+            dom.window.document.querySelector(".npm-userscript-dependency-view")
+        );
+        const nativeSection = dom.window.document.querySelector(
+            "#tabpanel-dependencies"
+        );
+        const peerButton = view.querySelector('[data-dependency-group="peer"]');
+        peerButton.click();
+        const peerPanel = view.querySelector(
+            '.npm-userscript-dependency-panel[data-dependency-group="peer"]'
+        );
+        const result = {
+            nativeLayoutHidden:
+                nativeSection.dataset.npmUserscriptDependencyTable === "true",
+            peerRows: peerPanel.querySelectorAll("tbody tr").length,
+            peerRange: peerPanel.querySelector(
+                ".npm-userscript-dependency-range"
+            )?.textContent,
+            tableHeaders: Array.from(peerPanel.querySelectorAll("th")).map(
+                (heading) => heading.textContent
+            ),
+            tabLabels: Array.from(
+                view.querySelectorAll(".npm-userscript-dependency-tab")
+            ).map((button) => button.textContent),
+        };
+        view.querySelector(".npm-userscript-dependency-native-button").click();
+        result.nativeLayoutRestored =
+            !nativeSection.hasAttribute(
+                "data-npm-userscript-dependency-table"
+            ) &&
+            !nativeSection.querySelector(".npm-userscript-dependency-view");
+        return result;
+    } finally {
+        dom.window.close();
+    }
+}
+
+async function runDependentsScenario() {
+    const dom = createPage(
+        `<title>example - npm</title><main><h1>example</h1>
+            <section id="tabpanel-dependents">
+                <div class="dependent-list">
+                    <article><a href="/package/alpha">alpha</a></article>
+                    <article><a href="/package/beta">beta</a></article>
+                    <article><a href="/package/gamma">gamma</a></article>
+                </div>
+            </section>
+            <aside aria-label="Package sidebar"><div><h3>Version</h3><p>1.0.0</p></div></aside>
+        </main>`,
+        "https://www.npmjs.com/package/example?activeTab=dependents"
+    );
+    setOnlyFeature(dom, "better-dependencies");
+    installGm(dom, async (url) => {
+        if (url.includes("registry.npmjs.org/example/1.0.0")) {
+            return { version: "1.0.0" };
+        }
+        throw new Error(`Unexpected request: ${url}`);
+    });
+
+    try {
+        runScript(dom);
+        const toolbar = await waitFor(() =>
+            dom.window.document.querySelector(
+                ".npm-userscript-dependents-toolbar"
+            )
+        );
+        const search = toolbar.querySelector(
+            ".npm-userscript-dependents-search"
+        );
+        search.value = "beta";
+        search.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+        const filteredCount = toolbar.querySelector(
+            ".npm-userscript-dependents-count"
+        ).textContent;
+        search.value = "";
+        search.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+        const checkboxes = dom.window.document.querySelectorAll(
+            ".npm-userscript-dependent-select"
+        );
+        for (const checkbox of Array.from(checkboxes).slice(0, 2)) {
+            checkbox.checked = true;
+            checkbox.dispatchEvent(
+                new dom.window.Event("change", { bubbles: true })
+            );
+        }
+        const compareLink = toolbar.querySelector(
+            ".npm-userscript-dependents-compare"
+        );
+        return {
+            checkboxCount: checkboxes.length,
+            compareHref: compareLink.href,
+            compareIsEnabled:
+                compareLink.getAttribute("aria-disabled") === "false",
+            filteredCount,
+            totalCount: toolbar.querySelector(
+                ".npm-userscript-dependents-count"
+            ).textContent,
+        };
+    } finally {
+        dom.window.close();
+    }
+}
+
 async function runRepositoryCardScenario() {
     const dom = createPage(
         `<title>example - npm</title><main><h1>example</h1><aside aria-label="Package sidebar">
             <div><h3 id="repository">Repository</h3><p><a aria-labelledby="repository-link" href="https://github.com/example/example"><span id="repository-link">example/example</span></a></p></div>
+            <div id="native-homepage"><h3 id="homePage">Homepage</h3><p><a href="https://example.test/docs">Docs</a></p></div>
             <div id="native-issues"><h3>Issues</h3><p>5</p></div>
             <div id="native-pulls"><h3>Pull Requests</h3><p>2</p></div>
+            <div id="weekly-downloads"><h3>Weekly Downloads</h3><div id="weekly-chart"></div></div>
+            <div><h3 id="collaborators">Collaborators</h3></div>
+            <div><h3 id="license">License</h3><p>MIT</p></div>
+            <div><h3>Keywords</h3><p>example</p></div>
             <div><h3>Version</h3><p>1.0.0</p></div>
         </aside></main>`,
         "https://www.npmjs.com/package/example"
@@ -388,9 +610,16 @@ async function runRepositoryCardScenario() {
     );
     const issues = dom.window.document.querySelector("#native-issues");
     const pulls = dom.window.document.querySelector("#native-pulls");
+    const homepage = dom.window.document.querySelector("#native-homepage");
     installGm(dom, async (url) => {
         if (url.includes("api.github.com/search/issues")) {
             return { total_count: 2 };
+        }
+        if (url.endsWith("api.github.com/repos/example/example/license")) {
+            return {
+                html_url:
+                    "https://github.com/example/example/blob/main/LICENSE",
+            };
         }
         if (url.includes("api.github.com/repos/example/example/contents")) {
             return {};
@@ -408,6 +637,7 @@ async function runRepositoryCardScenario() {
         }
         if (url.includes("registry.npmjs.org/example/1.0.0")) {
             return {
+                homepage: "https://example.test/docs",
                 repository: {
                     directory: "packages/example",
                     type: "git",
@@ -424,6 +654,27 @@ async function runRepositoryCardScenario() {
         const card = await waitFor(() =>
             dom.window.document.querySelector(".npm-userscript-repository-card")
         );
+        const insights = await waitFor(() =>
+            dom.window.document.querySelector(
+                ".npm-userscript-package-insights"
+            )
+        );
+        const chart = insights.querySelector(
+            ".npm-userscript-star-history-chart img"
+        );
+        const chartStartsLazy = !chart.hasAttribute("src");
+        const chartDetails = insights.querySelector(
+            ".npm-userscript-star-history"
+        );
+        chartDetails.open = true;
+        chartDetails.dispatchEvent(new dom.window.Event("toggle"));
+        dom.window.document.querySelector("#weekly-chart").innerHTML =
+            '<svg aria-label="Weekly download chart"></svg>';
+        const weeklyChartLink = await waitFor(() =>
+            dom.window.document.querySelector(
+                ".npm-userscript-weekly-downloads-link"
+            )
+        );
         return {
             nativeColumnsStayConnected:
                 issues.parentElement === sidebar &&
@@ -434,7 +685,24 @@ async function runRepositoryCardScenario() {
                 ) &&
                 pulls.classList.contains(
                     "npm-userscript-repository-card-superseded"
+                ) &&
+                homepage.classList.contains(
+                    "npm-userscript-repository-card-superseded"
                 ),
+            homepageHref: card.querySelector('[data-metric="homepage"]')?.href,
+            collaboratorsHref:
+                dom.window.document.querySelector("#collaborators a")?.href,
+            licenseHref: dom.window.document.querySelector("#license a")?.href,
+            trendsHref: insights.querySelector(
+                ".npm-userscript-package-insights-link"
+            )?.href,
+            chartStartsLazy,
+            chartSrcAfterOpen: chart.src,
+            insightsAtContentBottom:
+                insights.nextElementSibling?.classList.contains(
+                    "npm-userscript-settings-trigger"
+                ) === true,
+            weeklyChartHref: weeklyChartLink.href,
             metricKinds: Array.from(card.querySelectorAll("[data-metric]")).map(
                 (metric) => metric.dataset.metric
             ),
@@ -738,6 +1006,27 @@ async function runSidebarIntegrationScenario() {
         const originalCopyButton = sidebar.querySelector(
             'button[aria-label="Copy install command line"]'
         );
+        const defaultInstallCommands = Array.from(
+            installList.querySelectorAll(".mib-command code")
+        ).map((code) => code.textContent);
+        const installPlacement = {
+            followsInstallSection:
+                installList.previousElementSibling?.id === "install-section",
+            nativeCopyButtonConnected: originalCopyButton.isConnected,
+            parentIsSidebar: installList.parentElement === sidebar,
+        };
+        installList.querySelector(".mib-list-version-toggle").click();
+        const pinnedInstallList = await waitFor(() => {
+            const candidate = sidebar.querySelector(
+                "[data-npm-more-install-buttons]"
+            );
+            return candidate !== installList &&
+                candidate
+                    ?.querySelector(".mib-command code")
+                    ?.textContent.includes("example@1.0.0")
+                ? candidate
+                : null;
+        });
 
         return {
             homepage: {
@@ -748,13 +1037,14 @@ async function runSidebarIntegrationScenario() {
                 width: homepageLinkStyle.width,
             },
             install: {
-                commandCount:
-                    installList.querySelectorAll(".mib-command").length,
-                followsInstallSection:
-                    installList.previousElementSibling?.id ===
-                    "install-section",
-                nativeCopyButtonConnected: originalCopyButton.isConnected,
-                parentIsSidebar: installList.parentElement === sidebar,
+                commandCount: defaultInstallCommands.length,
+                defaultsToActiveTag: defaultInstallCommands.every(
+                    (command) => !command.includes("example@1.0.0")
+                ),
+                exactVersionCommands: Array.from(
+                    pinnedInstallList.querySelectorAll(".mib-command code")
+                ).every((code) => code.textContent.includes("example@1.0.0")),
+                ...installPlacement,
             },
             size: {
                 avoidsNestedBundleLinkSection: !sidebar
@@ -932,9 +1222,12 @@ async function main() {
         advancedSearch: await runAdvancedSearchScenario(),
         coexistence: await runCoexistenceScenario(),
         defaultSearch: await runDefaultSearchScenario(),
+        dependencies: await runDependenciesScenario(),
+        dependents: await runDependentsScenario(),
         packagePage: await runPackageScenario(),
         repositoryCard: await runRepositoryCardScenario(),
         sidebarIntegration: await runSidebarIntegrationScenario(),
+        versionSidebar: await runVersionSidebarScenario(),
         versions: await runVersionsScenario(),
     };
     process.stdout.write(JSON.stringify(results));

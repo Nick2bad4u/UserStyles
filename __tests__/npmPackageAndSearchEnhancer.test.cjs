@@ -33,9 +33,10 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.8.1");
+        expect(script).toContain("// @version      0.9.0");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
+        expect(script).toContain("// @connect      npm-compare.com");
         expect(script).not.toContain("data.jsdelivr.com");
         expect(script).toContain(
             "https://cdn.jsdelivr.net/gh/Nick2bad4u/nerd-fonts-woff2@v1.0.5/fonts/woff2/NerdFontsSymbolsOnly/SymbolsNerdFontMono-Regular.woff2"
@@ -53,7 +54,14 @@ describe("NPM Package and Search Enhancer userscript", () => {
         );
         expect(results.defaultSearch.searchBadgesChecked).toBe(false);
         expect(results.defaultSearch.versionLimitChecked).toBe(true);
+        expect(results.defaultSearch.dependencyTableLayoutChecked).toBe(true);
         expect(results.defaultSearch.versionLimitValue).toBe("25");
+    });
+
+    test("keeps toggle knobs inside their tracks", () => {
+        expect(script).toMatch(
+            /#npm-userscript-settings \.setting > input::before \{[\s\S]*?height: 18px;[\s\S]*?width: 18px;/u
+        );
     });
 
     test("uses static links without requests and preserves npm-owned download nodes", () => {
@@ -125,6 +133,9 @@ describe("NPM Package and Search Enhancer userscript", () => {
     });
 
     test("renders delayed version history with semantic selectors and semver ordering", () => {
+        expect(results.versions.renderedBeforeNativeHistory).toBe(true);
+        expect(results.versions.packumentRequests).toBe(1);
+        expect(results.versions.versionDownloadRequests).toBe(1);
         expect(results.versions.tabLabels).toEqual([
             "Major Versions (2)",
             "Minor Versions (2)",
@@ -143,6 +154,45 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.versions.hiddenNativeRows).toBe(2);
     });
 
+    test("keeps provenance beside the current version and shows the total opposite it", () => {
+        expect(results.versionSidebar).toEqual({
+            provenanceBesideVersion: true,
+            totalCount: "5",
+            totalHref:
+                "https://www.npmjs.com/package/example?activeTab=versions",
+            totalLabel: "Total versions",
+            versionValue: "3.2.1",
+        });
+    });
+
+    test("renders dependency types as tabbed semantic tables and restores npm's layout", () => {
+        expect(results.dependencies.nativeLayoutHidden).toBe(true);
+        expect(results.dependencies.tabLabels).toEqual([
+            "Dependencies (1)",
+            "Peer (1)",
+            "Optional Peer (1)",
+            "Optional (1)",
+            "Development (1)",
+        ]);
+        expect(results.dependencies.tableHeaders).toEqual([
+            "Package",
+            "Required range",
+        ]);
+        expect(results.dependencies.peerRows).toBe(1);
+        expect(results.dependencies.peerRange).toBe("^2.0.0");
+        expect(results.dependencies.nativeLayoutRestored).toBe(true);
+    });
+
+    test("adds filtering and package comparison to dependents", () => {
+        expect(results.dependents.checkboxCount).toBe(3);
+        expect(results.dependents.filteredCount).toBe("Showing 1 of 3");
+        expect(results.dependents.totalCount).toBe("Showing 3 of 3");
+        expect(results.dependents.compareIsEnabled).toBe(true);
+        expect(results.dependents.compareHref).toBe(
+            "https://npmtrends.com/alpha-vs-beta"
+        );
+    });
+
     test("keeps npm-owned repository metrics connected and only hides them with CSS", () => {
         expect(results.repositoryCard.nativeColumnsStayConnected).toBe(true);
         expect(results.repositoryCard.nativeColumnsHiddenByClass).toBe(true);
@@ -152,8 +202,29 @@ describe("NPM Package and Search Enhancer userscript", () => {
                 "issues",
                 "pulls",
                 "changelog",
+                "homepage",
             ])
         );
+        expect(results.repositoryCard.homepageHref).toBe(
+            "https://example.test/docs"
+        );
+        expect(results.repositoryCard.collaboratorsHref).toBe(
+            "https://github.com/example/example/graphs/contributors"
+        );
+        expect(results.repositoryCard.licenseHref).toBe(
+            "https://github.com/example/example/blob/main/LICENSE"
+        );
+        expect(results.repositoryCard.weeklyChartHref).toBe(
+            "https://npm-compare.com/example"
+        );
+        expect(results.repositoryCard.trendsHref).toBe(
+            "https://npm-compare.com/example"
+        );
+        expect(results.repositoryCard.chartStartsLazy).toBe(true);
+        expect(results.repositoryCard.chartSrcAfterOpen).toBe(
+            "https://npm-compare.com/img/github-trend/example.png"
+        );
+        expect(results.repositoryCard.insightsAtContentBottom).toBe(true);
     });
 
     test("embeds both companion scripts and ships standalone coexistence guards", () => {
@@ -171,7 +242,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "/* BEGIN INTEGRATED NPM BUNDLEPHOBIA PACKAGE SIZE */"
         );
-        expect(moreInstallButtons).toContain("// @version      1.3.2");
+        expect(moreInstallButtons).toContain("// @version      1.4.0");
         expect(moreInstallButtons).toContain(
             '"data-npm-enhancer-install-commands"'
         );
@@ -224,6 +295,8 @@ describe("NPM Package and Search Enhancer userscript", () => {
         });
         expect(results.sidebarIntegration.install).toEqual({
             commandCount: 5,
+            defaultsToActiveTag: true,
+            exactVersionCommands: true,
             followsInstallSection: true,
             nativeCopyButtonConnected: true,
             parentIsSidebar: true,

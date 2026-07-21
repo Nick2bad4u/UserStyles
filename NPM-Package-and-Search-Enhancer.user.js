@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.8.1
+// @version      0.9.0
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -25,6 +25,7 @@
 // @connect      api.osv.dev
 // @connect      bundlephobia.com
 // @connect      cdn.jsdelivr.net
+// @connect      npm-compare.com
 // @connect      registry.npmjs.org
 // @inject-into  content
 // @run-at       document-start
@@ -215,15 +216,56 @@
             await waitForNpmContextReady();
         }
     }
+    function getManifestData(packageName, packageVersion) {
+        const key = `${packageName}@${packageVersion}`;
+        if (!manifestPromises.has(key)) {
+            const promise = requestJson(
+                `https://registry.npmjs.org/${encodeURIComponent(packageName)}/${encodeURIComponent(packageVersion)}`
+            ).catch((error) => {
+                manifestPromises.delete(key);
+                throw error;
+            });
+            manifestPromises.set(key, promise);
+        }
+        return manifestPromises.get(key);
+    }
+    function getVersionsData(packageName) {
+        if (!versionsDataPromises.has(packageName)) {
+            const encodedPackageName = encodeURIComponent(packageName);
+            const promise = Promise.all([
+                requestJson(`https://registry.npmjs.org/${encodedPackageName}`),
+                requestJson(
+                    `https://api.npmjs.org/versions/${encodedPackageName}/last-week`
+                ).catch(() => ({ downloads: {} })),
+            ])
+                .then(([packument, downloadsResult]) => ({
+                    packument,
+                    versionsDownloads: downloadsResult.downloads || {},
+                }))
+                .catch((error) => {
+                    versionsDataPromises.delete(packageName);
+                    throw error;
+                });
+            versionsDataPromises.set(packageName, promise);
+        }
+        return versionsDataPromises.get(packageName);
+    }
+    function preloadNpmVersionsData() {
+        const packageName = getPackageNameFromPath();
+        if (!packageName) return;
+        getVersionsData(packageName).catch((error) => {
+            console.warn(
+                "[npm-userscript] Could not preload version history:",
+                error
+            );
+        });
+    }
     async function buildNpmContext(key) {
         const packageName = getPackageNameFromPath();
         if (!packageName) return createEmptyContext();
         const packageVersion = (await waitForPackageVersion()) || "latest";
         const encodedPackageName = encodeURIComponent(packageName);
-        const encodedPackageVersion = encodeURIComponent(packageVersion);
-        const manifest = await requestJson(
-            `https://registry.npmjs.org/${encodedPackageName}/${encodedPackageVersion}`
-        );
+        const manifest = await getManifestData(packageName, packageVersion);
         if (getPageKey() !== key) return createEmptyContext();
         const resolvedVersion =
             typeof manifest.version === "string"
@@ -236,14 +278,10 @@
         let versions = [];
         let versionsDownloads = {};
         if (isVersionsPage) {
-            const [packument, downloadsResult] = await Promise.all([
-                requestJson(`https://registry.npmjs.org/${encodedPackageName}`),
-                requestJson(
-                    `https://api.npmjs.org/versions/${encodedPackageName}/last-week`
-                ).catch(() => ({ downloads: {} })),
-            ]);
+            const { packument, versionsDownloads: downloadedVersions } =
+                await getVersionsData(packageName);
             latestVersion = packument["dist-tags"]?.latest || resolvedVersion;
-            versionsDownloads = downloadsResult.downloads || {};
+            versionsDownloads = downloadedVersions;
             versions = Object.keys(packument.versions || {}).map((version) => {
                 const published = packument.time?.[version];
                 const timestamp = published ? new Date(published).getTime() : 0;
@@ -447,12 +485,18 @@
             });
         });
     }
-    var npmContext, npmContextKey, npmContextPromise;
+    var npmContext,
+        npmContextKey,
+        npmContextPromise,
+        manifestPromises,
+        versionsDataPromises;
     var init_utils_npm_context = __esm({
         "src/utils-npm-context.ts"() {
             npmContext = null;
             npmContextKey = "";
             npmContextPromise = null;
+            manifestPromises = new Map();
+            versionsDataPromises = new Map();
         },
     });
 
@@ -645,19 +689,32 @@
     async function fetchGitHubRepoData() {
         const ownerRepo = getGitHubOwnerRepo();
         if (!ownerRepo) return void 0;
-        return cacheResult(`fetchGitHubRepoData:${ownerRepo}`, 60, () =>
+        return cacheResult(`fetchGitHubRepoData:${ownerRepo}`, 3600, () =>
             fetchJson(`https://api.github.com/repos/${ownerRepo}`)
         );
     }
     async function fetchGitHubPullRequestsCount() {
         const ownerRepo = getGitHubOwnerRepo();
         if (!ownerRepo) return void 0;
-        return cacheResult(`fetchPrCount:${ownerRepo}`, 60, async () => {
+        return cacheResult(`fetchPrCount:${ownerRepo}`, 3600, async () => {
             const result = await fetchJson(
                 `https://api.github.com/search/issues?q=repo:${ownerRepo}+type:pr+state:open&per_page=1`
             );
             return result.total_count;
         });
+    }
+    async function fetchGitHubLicenseData() {
+        const ownerRepo = getGitHubOwnerRepo();
+        if (!ownerRepo) return void 0;
+        const result = await cacheResult(
+            `fetchLicense:${ownerRepo}`,
+            3600,
+            () =>
+                fetchJson(
+                    `https://api.github.com/repos/${ownerRepo}/license`
+                ).catch(() => null)
+        );
+        return result || void 0;
     }
     function fetchText(input, init) {
         return new Promise((resolve, reject) => {
@@ -797,54 +854,171 @@
         description: () => description,
         run: () => run,
         runPre: () => runPre,
+        teardown: () => teardownBetterDependencies,
     });
     function runPre() {
         addStyle(`
-    #tabpanel-dependencies li sup {
-      font-size: 0.875rem;
-      top: -0.6rem;
-      opacity: 0.7;
-    }
-  `);
-        addStyle(`
-    #tabpanel-dependencies li > a {
-      color: var(--wombat-red);
-    }
-  `);
-        addStyle(`
-    #tabpanel-dependencies[data-attribute="hidden"] {
+    #tabpanel-dependencies[data-npm-userscript-dependency-table="true"]
+      > :is(h2, ul):not([data-npm-userscript-added]) {
       display: none;
     }
-  `);
-        addStyle(`
-    #tabpanel-dependencies > h2:not([data-npm-userscript-added]),
-    #tabpanel-dependencies > ul:not([data-npm-userscript-added]) {
+
+    .npm-userscript-dependency-view {
+      margin-top: 16px;
+    }
+
+    .npm-userscript-dependency-controls {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .npm-userscript-dependency-tabs {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      flex: 1 1 auto;
+      border-bottom: 1px solid var(--color-border-default);
+    }
+
+    .npm-userscript-dependency-tab,
+    .npm-userscript-dependency-native-button {
+      padding: 10px 8px 8px;
+      color: var(--color-fg-muted, #656d76);
+      background: transparent;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .npm-userscript-dependency-tab[aria-pressed="true"] {
+      color: var(--wombat-red, #cb3837);
+      border-bottom-color: var(--wombat-red, #cb3837);
+    }
+
+    .npm-userscript-dependency-native-button {
+      flex: 0 0 auto;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+
+    .npm-userscript-dependency-tab:focus-visible,
+    .npm-userscript-dependency-native-button:focus-visible {
+      outline: 2px solid var(--wombat-red, #cb3837);
+      outline-offset: -2px;
+    }
+
+    .npm-userscript-dependency-panel[hidden] {
       display: none;
+    }
+
+    .npm-userscript-dependency-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .npm-userscript-dependency-table :is(th, td) {
+      padding: 9px 12px;
+      border: 1px solid var(--color-border-default);
+      text-align: left;
+      overflow-wrap: anywhere;
+    }
+
+    .npm-userscript-dependency-table th:first-child {
+      width: 58%;
+    }
+
+    .npm-userscript-dependency-range {
+      color: var(--color-fg-muted, #656d76);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.86rem;
+    }
+
+    .npm-userscript-dependents-toolbar {
+      display: grid;
+      grid-template-columns: minmax(12rem, 1fr) auto auto;
+      gap: 8px;
+      align-items: center;
+      margin: 0 0 16px;
+      padding: 12px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 8px;
+    }
+
+    .npm-userscript-dependents-search {
+      min-width: 0;
+      padding: 8px 10px;
+      color: inherit;
+      background: var(--color-bg-default, #fff);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      font: inherit;
+    }
+
+    .npm-userscript-dependents-count {
+      color: var(--color-fg-muted, #656d76);
+      font-size: 0.84rem;
+      white-space: nowrap;
+    }
+
+    .npm-userscript-dependents-compare,
+    .npm-userscript-dependents-copy {
+      padding: 7px 10px;
+      color: inherit;
+      background: transparent;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      font: inherit;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .npm-userscript-dependent-select {
+      margin-right: 8px;
+      accent-color: var(--wombat-red, #cb3837);
+    }
+
+    [data-npm-userscript-dependent-filtered="true"] {
+      display: none !important;
+    }
+
+    @media (max-width: 48rem) {
+      .npm-userscript-dependency-controls {
+        flex-direction: column;
+      }
+
+      .npm-userscript-dependency-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .npm-userscript-dependents-toolbar {
+        grid-template-columns: 1fr;
+      }
     }
   `);
     }
     async function run() {
         if (!isValidPackagePage()) return;
-        if (
-            new URLSearchParams(location.search).get("activeTab") !==
-            "dependencies"
-        )
+        const activeTab = new URLSearchParams(location.search).get("activeTab");
+        if (activeTab === "dependencies") {
+            await renderDependencyTables();
+        } else if (activeTab === "dependents") {
+            await renderDependentsExplorer();
+        }
+    }
+    async function renderDependencyTables() {
+        if (!dependencyTableLayoutSetting.get()) {
+            teardownDependencyTables();
             return;
-        if (document.querySelector('[aria-label="Peer Dependencies"]')) return;
+        }
         const packageJson = await fetchPackageJson();
         if (!packageJson) return;
         const section = document.getElementById("tabpanel-dependencies");
         if (!section) return;
-        const h2 = section.querySelector("h2");
-        const ul = section.querySelector("ul");
-        const li =
-            section.querySelector("li") ??
-            (() => {
-                const el = document.createElement("li");
-                el.className = "dib mr2";
-                el.innerHTML = `<a class="f4 fw6 fl db pv1 ma2 black-70 link hover-black animate" href=""></a>`;
-                return el;
-            })();
+        section.querySelector(".npm-userscript-dependency-view")?.remove();
         const peerDependencies = {};
         const optionalPeerDependencies = {};
         if (packageJson.peerDependencies) {
@@ -862,55 +1036,302 @@
             }
         }
         const groups = [
-            { title: "Dependencies", data: packageJson.dependencies },
-            { title: "Peer Dependencies", data: peerDependencies },
             {
+                id: "dependencies",
+                shortTitle: "Dependencies",
+                title: "Dependencies",
+                data: packageJson.dependencies,
+            },
+            {
+                id: "peer",
+                shortTitle: "Peer",
+                title: "Peer Dependencies",
+                data: peerDependencies,
+            },
+            {
+                id: "optional-peer",
+                shortTitle: "Optional Peer",
                 title: "Optional Peer Dependencies",
                 data: optionalPeerDependencies,
             },
             {
+                id: "optional",
+                shortTitle: "Optional",
                 title: "Optional Dependencies",
                 data: packageJson.optionalDependencies,
             },
-            { title: "Dev Dependencies", data: packageJson.devDependencies },
+            {
+                id: "development",
+                shortTitle: "Development",
+                title: "Development Dependencies",
+                data: packageJson.devDependencies,
+            },
         ];
-        const elements = [];
         for (const group of groups) {
-            const normalizedData = group.data
+            group.entries = group.data
                 ? Object.entries(group.data).sort((a2, b2) =>
                       a2[0].localeCompare(b2[0])
                   )
                 : [];
-            const newH2 = h2.cloneNode();
-            newH2.setAttribute("data-npm-userscript-added", "true");
-            newH2.textContent = `${group.title} (${normalizedData.length})`;
-            elements.push(newH2);
-            const newUl = ul.cloneNode();
-            newUl.setAttribute("data-npm-userscript-added", "true");
-            newUl.ariaLabel = group.title;
-            for (const [depName, depVersion] of normalizedData) {
-                const newLi = li.cloneNode(true);
-                newLi.classList.remove("mr2");
-                newLi.classList.add("mr1");
-                newLi.querySelector("a").innerHTML =
-                    `${depName} <sup>${depVersion}</sup>`;
-                newLi.querySelector("a").href =
-                    `/package/${encodeURIComponent(depName)}`;
-                newUl.appendChild(newLi);
-            }
-            elements.push(newUl);
         }
-        for (const el of elements) {
-            section.appendChild(el);
+        const view = document.createElement("section");
+        view.className = "npm-userscript-dependency-view";
+        view.setAttribute("data-npm-userscript-added", "true");
+        const heading = document.createElement("h2");
+        heading.textContent = "Dependency Overview";
+        const controls = document.createElement("div");
+        controls.className = "npm-userscript-dependency-controls";
+        const tabs = document.createElement("div");
+        tabs.className = "npm-userscript-dependency-tabs";
+        tabs.setAttribute("role", "group");
+        tabs.setAttribute("aria-label", "Dependency type");
+        const panels = document.createElement("div");
+        panels.className = "npm-userscript-dependency-panels";
+        const renderView = (selectedId) => {
+            tabs.querySelectorAll("button").forEach((button) =>
+                button.setAttribute(
+                    "aria-pressed",
+                    String(button.dataset.dependencyGroup === selectedId)
+                )
+            );
+            panels
+                .querySelectorAll(".npm-userscript-dependency-panel")
+                .forEach((panel) => {
+                    panel.hidden = panel.dataset.dependencyGroup !== selectedId;
+                });
+        };
+        for (const group of groups) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "npm-userscript-dependency-tab";
+            button.dataset.dependencyGroup = group.id;
+            button.setAttribute("aria-pressed", "false");
+            button.textContent = `${group.shortTitle} (${group.entries.length})`;
+            button.addEventListener("click", () => renderView(group.id));
+            tabs.appendChild(button);
+            panels.appendChild(createDependencyPanel(group));
+        }
+        const nativeButton = document.createElement("button");
+        nativeButton.type = "button";
+        nativeButton.className = "npm-userscript-dependency-native-button";
+        nativeButton.textContent = "Use npm layout";
+        nativeButton.title = "Restore npm's original dependency lists";
+        nativeButton.addEventListener("click", () => {
+            dependencyTableLayoutSetting.set(false);
+            teardownDependencyTables();
+        });
+        controls.append(tabs, nativeButton);
+        view.append(heading, controls, panels);
+        section.appendChild(view);
+        section.dataset.npmUserscriptDependencyTable = "true";
+        const initialGroup =
+            groups.find((group) => group.entries.length > 0) ?? groups[0];
+        renderView(initialGroup.id);
+    }
+    function createDependencyPanel(group) {
+        const panel = document.createElement("section");
+        panel.className = "npm-userscript-dependency-panel";
+        panel.dataset.dependencyGroup = group.id;
+        panel.hidden = true;
+        const table = document.createElement("table");
+        table.className = "npm-userscript-dependency-table";
+        table.setAttribute("aria-label", group.title);
+        const head = document.createElement("thead");
+        head.innerHTML = "<tr><th>Package</th><th>Required range</th></tr>";
+        const body = document.createElement("tbody");
+        if (group.entries.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.colSpan = 2;
+            cell.textContent = `No ${group.title.toLowerCase()}.`;
+            row.appendChild(cell);
+            body.appendChild(row);
+        }
+        for (const [dependencyName, dependencyRange] of group.entries) {
+            const row = document.createElement("tr");
+            const packageCell = document.createElement("td");
+            const link = document.createElement("a");
+            link.href = `/package/${encodeURIComponent(dependencyName)}`;
+            link.textContent = dependencyName;
+            packageCell.appendChild(link);
+            const rangeCell = document.createElement("td");
+            rangeCell.className = "npm-userscript-dependency-range";
+            rangeCell.textContent = dependencyRange;
+            row.append(packageCell, rangeCell);
+            body.appendChild(row);
+        }
+        table.append(head, body);
+        panel.appendChild(table);
+        return panel;
+    }
+    async function renderDependentsExplorer() {
+        const panel =
+            document.getElementById("tabpanel-dependents") ??
+            (await waitForElement("#tabpanel-dependents"));
+        if (!panel) return;
+        if (!panel.querySelector(".npm-userscript-dependents-toolbar")) {
+            const toolbar = document.createElement("div");
+            toolbar.className = "npm-userscript-dependents-toolbar";
+            const search = document.createElement("input");
+            search.type = "search";
+            search.className = "npm-userscript-dependents-search";
+            search.placeholder = "Filter dependents…";
+            search.setAttribute("aria-label", "Filter dependent packages");
+            const count = document.createElement("span");
+            count.className = "npm-userscript-dependents-count";
+            const copyButton = document.createElement("button");
+            copyButton.type = "button";
+            copyButton.className = "npm-userscript-dependents-copy";
+            copyButton.textContent = "Copy visible";
+            const compareLink = document.createElement("a");
+            compareLink.className = "npm-userscript-dependents-compare";
+            compareLink.textContent = "Compare selected";
+            compareLink.target = "_blank";
+            compareLink.rel = "noopener noreferrer nofollow";
+            compareLink.setAttribute("aria-disabled", "true");
+            search.addEventListener("input", updateDependentsExplorer);
+            copyButton.addEventListener("click", () => {
+                const visibleNames = getDependentEntries(panel)
+                    .filter(({ item }) => !item.hidden)
+                    .map(({ name }) => name);
+                if (typeof GM_setClipboard === "function") {
+                    GM_setClipboard(visibleNames.join("\n"));
+                }
+            });
+            toolbar.append(search, count, copyButton, compareLink);
+            panel.prepend(toolbar);
+        }
+        enhanceDependentEntries(panel);
+        updateDependentsExplorer();
+        dependentsObserver?.disconnect();
+        dependentsObserver = new MutationObserver(() => {
+            if (dependentsRenderQueued) return;
+            dependentsRenderQueued = true;
+            requestAnimationFrame(() => {
+                dependentsRenderQueued = false;
+                enhanceDependentEntries(panel);
+                updateDependentsExplorer();
+            });
+        });
+        dependentsObserver.observe(panel, { childList: true, subtree: true });
+    }
+    function getDependentEntries(panel) {
+        const entries = [];
+        const seenItems = new Set();
+        for (const link of panel.querySelectorAll('a[href^="/package/"]')) {
+            const name = decodeURIComponent(
+                new URL(link.href, location.href).pathname.slice(
+                    "/package/".length
+                )
+            );
+            if (!name) continue;
+            let item = link;
+            while (item.parentElement && item.parentElement !== panel) {
+                const parent = item.parentElement;
+                if (parent.querySelectorAll('a[href^="/package/"]').length > 1)
+                    break;
+                item = parent;
+            }
+            if (seenItems.has(item)) continue;
+            seenItems.add(item);
+            entries.push({ item, link, name });
+        }
+        return entries;
+    }
+    function enhanceDependentEntries(panel) {
+        for (const { item, link, name } of getDependentEntries(panel)) {
+            if (item.dataset.npmUserscriptDependentEnhanced === "true")
+                continue;
+            item.dataset.npmUserscriptDependentEnhanced = "true";
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.className = "npm-userscript-dependent-select";
+            checkbox.dataset.packageName = name;
+            checkbox.setAttribute(
+                "aria-label",
+                `Select ${name} for package comparison`
+            );
+            checkbox.addEventListener("change", () => {
+                const selected = panel.querySelectorAll(
+                    ".npm-userscript-dependent-select:checked"
+                );
+                if (selected.length > 5) checkbox.checked = false;
+                updateDependentsExplorer();
+            });
+            link.insertAdjacentElement("beforebegin", checkbox);
         }
     }
+    function updateDependentsExplorer() {
+        const panel = document.getElementById("tabpanel-dependents");
+        if (!panel) return;
+        const query =
+            panel
+                .querySelector(".npm-userscript-dependents-search")
+                ?.value.trim()
+                .toLocaleLowerCase() ?? "";
+        const entries = getDependentEntries(panel);
+        let visibleCount = 0;
+        for (const entry of entries) {
+            const visible = entry.name.toLocaleLowerCase().includes(query);
+            entry.item.hidden = !visible;
+            entry.item.dataset.npmUserscriptDependentFiltered =
+                String(!visible);
+            if (visible) visibleCount++;
+        }
+        const count = panel.querySelector(".npm-userscript-dependents-count");
+        if (count)
+            count.textContent = `Showing ${visibleCount} of ${entries.length}`;
+        const selectedNames = Array.from(
+            panel.querySelectorAll(".npm-userscript-dependent-select:checked")
+        ).map((checkbox) => checkbox.dataset.packageName);
+        const compareLink = panel.querySelector(
+            ".npm-userscript-dependents-compare"
+        );
+        if (compareLink) {
+            const enabled = selectedNames.length >= 2;
+            compareLink.setAttribute("aria-disabled", String(!enabled));
+            if (enabled) {
+                compareLink.href = `https://npmtrends.com/${selectedNames
+                    .map((name) => encodeURIComponent(name))
+                    .join("-vs-")}`;
+            } else {
+                compareLink.removeAttribute("href");
+            }
+        }
+    }
+    function teardownDependencyTables() {
+        const section = document.getElementById("tabpanel-dependencies");
+        section?.querySelector(".npm-userscript-dependency-view")?.remove();
+        if (section) delete section.dataset.npmUserscriptDependencyTable;
+    }
+    function teardownBetterDependencies() {
+        teardownDependencyTables();
+        dependentsObserver?.disconnect();
+        dependentsObserver = void 0;
+        dependentsRenderQueued = false;
+        const panel = document.getElementById("tabpanel-dependents");
+        panel?.querySelector(".npm-userscript-dependents-toolbar")?.remove();
+        panel
+            ?.querySelectorAll(".npm-userscript-dependent-select")
+            .forEach((checkbox) => checkbox.remove());
+        panel
+            ?.querySelectorAll("[data-npm-userscript-dependent-enhanced]")
+            .forEach((item) => {
+                item.hidden = false;
+                delete item.dataset.npmUserscriptDependentEnhanced;
+                delete item.dataset.npmUserscriptDependentFiltered;
+            });
+    }
+    var dependentsObserver;
+    var dependentsRenderQueued = false;
     var description;
     var init_better_dependencies = __esm({
         "src/features/better-dependencies.ts"() {
             init_utils_fetch();
             init_utils();
-            description = `Improved package dependencies tab with added peer dependencies info, optional dependencies info,
-and dependency semver ranges.
+            init_enhancement_settings();
+            description = `Improved package dependencies with tabbed tables for dependency types and a filterable,
+selectable Dependents explorer with package comparison links.
 `;
         },
     });
@@ -925,6 +1346,7 @@ and dependency semver ranges.
     });
     function runPre2() {
         if (!isValidPackagePage()) return;
+        preloadNpmVersionsData();
         addStyle(`
     table[aria-labelledby="current-tags"] tbody tr td,
     table[aria-labelledby="cumulated-versions"] tbody tr td,
@@ -995,7 +1417,7 @@ and dependency semver ranges.
       cursor: pointer;
     }
 
-    .npm-userscript-version-tab[aria-selected="true"] {
+    .npm-userscript-version-tab[aria-pressed="true"] {
       color: var(--wombat-red, #cb3837);
       border-bottom-color: var(--wombat-red, #cb3837);
     }
@@ -1029,6 +1451,63 @@ and dependency semver ranges.
     .npm-userscript-version-limit-hidden {
       display: none !important;
     }
+
+    .npm-userscript-version-sidebar-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .npm-userscript-version-sidebar-current {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .npm-userscript-version-sidebar-current > p {
+      min-width: 0;
+      margin: 0 !important;
+    }
+
+    .npm-userscript-version-provenance {
+      display: inline-flex !important;
+      flex: 0 0 auto;
+      align-items: center;
+      margin: 0 !important;
+      vertical-align: middle;
+    }
+
+    .npm-userscript-version-total {
+      display: inline-flex;
+      flex: 0 0 auto;
+      flex-direction: column;
+      align-items: flex-end;
+      color: inherit;
+      line-height: 1.1;
+      text-decoration: none;
+    }
+
+    .npm-userscript-version-total-label {
+      color: var(--color-fg-muted, #656d76);
+      font-size: 0.68rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .npm-userscript-version-total-count {
+      margin-top: 3px;
+      font-size: 1rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    .npm-userscript-version-total:is(:focus, :hover) {
+      color: var(--wombat-red, #cb3837);
+      text-decoration: underline;
+    }
   `);
         addStyle(`
     html[data-color-mode="dark"] table[aria-labelledby="current-tags"] thead th,
@@ -1046,15 +1525,21 @@ and dependency semver ranges.
     var showAllNativeVersions = false;
     function run2() {
         if (!isValidPackagePage()) return;
-        if (
-            new URLSearchParams(location.search).get("activeTab") !== "versions"
-        )
-            return;
         showAllNativeVersions = false;
         renderBetterVersions();
         observeBetterVersions();
     }
     function renderBetterVersions() {
+        enhanceVersionSidebar().catch((error) => {
+            console.warn(
+                "[npm-userscript] Could not enhance the Version sidebar:",
+                error
+            );
+        });
+        if (
+            new URLSearchParams(location.search).get("activeTab") !== "versions"
+        )
+            return;
         addVersionTag();
         addCumulatedVersionsTable();
         applyNativeVersionHistoryLimit();
@@ -1087,6 +1572,7 @@ and dependency semver ranges.
         betterVersionsObserver = void 0;
         betterVersionsRenderQueued = false;
         showAllNativeVersions = false;
+        teardownVersionSidebar();
         document.querySelector(".npm-userscript-version-summary")?.remove();
         document.querySelector(".npm-userscript-version-limit-note")?.remove();
         document
@@ -1097,6 +1583,113 @@ and dependency semver ranges.
             .forEach((row) =>
                 row.classList.remove("npm-userscript-version-limit-hidden")
             );
+    }
+    async function enhanceVersionSidebar() {
+        const packageName = getPackageNameFromPath();
+        const versionColumn = getColumnByName("Version");
+        if (!packageName || !versionColumn) return;
+        let row = versionColumn.querySelector(
+            ".npm-userscript-version-sidebar-row"
+        );
+        let current = row?.querySelector(
+            ".npm-userscript-version-sidebar-current"
+        );
+        if (!row || !current) {
+            const version = getPackageVersion();
+            const versionValue = Array.from(
+                versionColumn.querySelectorAll("p")
+            ).find((element) => element.textContent.trim() === version);
+            if (!versionValue) return;
+            row = document.createElement("div");
+            row.className = "npm-userscript-version-sidebar-row";
+            current = document.createElement("div");
+            current.className = "npm-userscript-version-sidebar-current";
+            versionValue.insertAdjacentElement("beforebegin", row);
+            current.append(versionValue);
+            row.append(current);
+        }
+        const provenanceControl = findProvenanceControl(versionColumn, row);
+        if (provenanceControl) {
+            provenanceControl.classList.add(
+                "npm-userscript-version-provenance"
+            );
+            current.append(provenanceControl);
+        }
+        let versionsData;
+        try {
+            versionsData = await getVersionsData(packageName);
+        } catch {
+            return;
+        }
+        if (!row.isConnected) return;
+        const totalVersions = Object.keys(
+            versionsData.packument.versions || {}
+        ).length;
+        if (totalVersions === 0) return;
+        let totalLink = row.querySelector(".npm-userscript-version-total");
+        if (!totalLink) {
+            totalLink = document.createElement("a");
+            totalLink.className = "npm-userscript-version-total";
+            const label = document.createElement("span");
+            label.className = "npm-userscript-version-total-label";
+            label.textContent = "Total versions";
+            const count = document.createElement("strong");
+            count.className = "npm-userscript-version-total-count";
+            totalLink.append(label, count);
+            row.append(totalLink);
+        }
+        const versionsUrl = new URL(location.href);
+        versionsUrl.searchParams.set("activeTab", "versions");
+        versionsUrl.hash = "";
+        const formattedCount = totalVersions.toLocaleString();
+        totalLink.href = versionsUrl.href;
+        totalLink.title = `Open all ${formattedCount} versions`;
+        totalLink.setAttribute(
+            "aria-label",
+            `Open all ${formattedCount} versions`
+        );
+        const count = totalLink.querySelector(
+            ".npm-userscript-version-total-count"
+        );
+        if (count.textContent !== formattedCount) {
+            count.textContent = formattedCount;
+        }
+    }
+    function findProvenanceControl(versionColumn, row) {
+        const marker = Array.from(
+            versionColumn.querySelectorAll(
+                '[aria-label*="provenance" i], [title*="provenance" i], [data-testid*="provenance" i], [aria-label*="attestation" i], [title*="attestation" i], [data-testid*="attestation" i]'
+            )
+        ).find((element) => !row.contains(element));
+        if (marker) {
+            const control =
+                marker.closest('button, a, [role="button"]') || marker;
+            return row.contains(control) ? void 0 : control;
+        }
+        const iconControls = Array.from(
+            versionColumn.querySelectorAll(
+                'button:has(svg), a:has(svg), [role="button"]:has(svg)'
+            )
+        ).filter((control) => !row.contains(control) && !control.closest("h3"));
+        return iconControls.length === 1 ? iconControls[0] : void 0;
+    }
+    function teardownVersionSidebar() {
+        document
+            .querySelectorAll(".npm-userscript-version-sidebar-row")
+            .forEach((row) => {
+                const current = row.querySelector(
+                    ".npm-userscript-version-sidebar-current"
+                );
+                if (current) {
+                    for (const child of Array.from(current.children)) {
+                        child.classList.remove(
+                            "npm-userscript-version-provenance"
+                        );
+                        row.insertAdjacentElement("beforebegin", child);
+                    }
+                }
+                row.remove();
+            });
     }
     function addVersionTag() {
         if (document.querySelector(".npm-userscript-tag")) return;
@@ -1126,19 +1719,19 @@ and dependency semver ranges.
     function addCumulatedVersionsTable() {
         if (document.getElementById("cumulated-versions")) return;
         const versionHistoryH3 = document.querySelector("h3#version-history");
-        if (!versionHistoryH3) return;
-        const versionHistoryTable = document.querySelector(
-            'table[aria-labelledby="version-history"]'
-        );
-        if (!versionHistoryTable) return;
+        const versionsPanel = document.getElementById("tabpanel-versions");
+        if (!versionHistoryH3 && !versionsPanel) return;
         const section = document.createElement("section");
         section.className = "npm-userscript-version-summary";
-        const newH3 = versionHistoryH3.cloneNode(true);
+        const newH3 = document.createElement("h3");
         newH3.id = "cumulated-versions";
         newH3.textContent = "Version History Overview";
-        const newTable = versionHistoryTable.cloneNode(true);
+        const newTable = document.createElement("table");
         newTable.setAttribute("aria-labelledby", "cumulated-versions");
-        newTable.querySelectorAll("tbody").forEach((body) => body.remove());
+        const head = document.createElement("thead");
+        head.innerHTML =
+            "<tr><th>Version</th><th>Downloads</th><th>Published</th></tr>";
+        newTable.appendChild(head);
         const majorToInfo = {};
         const minorToInfo = {};
         const patchToInfo = {};
@@ -1231,7 +1824,11 @@ and dependency semver ranges.
         }
         section.append(newH3, tabs, newTable, note);
         renderView("major");
-        versionHistoryH3.insertAdjacentElement("beforebegin", section);
+        if (versionHistoryH3) {
+            versionHistoryH3.insertAdjacentElement("beforebegin", section);
+        } else {
+            versionsPanel.prepend(section);
+        }
     }
     function parseVersionParts(version) {
         const match = /^v?(\d+)\.(\d+)(?:\.(\d+))?/.exec(version || "");
@@ -1460,6 +2057,7 @@ versions, and fix provenance icon alignment.
     }
     var badgeDefinitions,
         badgeVisibility,
+        dependencyTableLayoutSetting,
         searchBadgesSetting,
         versionLimitEnabledSetting,
         versionLimitSetting,
@@ -1495,6 +2093,10 @@ versions, and fix provenance icon alignment.
             searchBadgesSetting = localStorageStore(
                 "npm-enhancer:settings:search-badges",
                 false
+            );
+            dependencyTableLayoutSetting = localStorageStore(
+                "npm-enhancer:settings:dependency-table-layout",
+                true
             );
             versionLimitEnabledSetting = localStorageStore(
                 "npm-enhancer:settings:version-limit-enabled",
@@ -3274,6 +3876,9 @@ versions, and fix provenance icon alignment.
             parseCustomLinks(customLinksState.value).errors.join("\n")
         );
         const searchBadgesState = L(searchBadgesSetting.get());
+        const dependencyTableLayoutState = L(
+            dependencyTableLayoutSetting.get()
+        );
         const versionLimitEnabledState = L(versionLimitEnabledSetting.get());
         const versionLimitState = L(versionLimitSetting.get());
         return at`
@@ -3391,6 +3996,7 @@ versions, and fix provenance icon alignment.
         }
         #npm-userscript-settings .setting > input::before {
           display: block;
+          width: 18px;
           height: 18px;
           background: #fff;
           border-radius: 50%;
@@ -3577,6 +4183,27 @@ versions, and fix provenance icon alignment.
           </div>
         </details>
         <details class="settings-section" open>
+          <summary>Package tabs</summary>
+          <div class="settings-grid">
+            <label class="setting setting-emphasis">
+              <input
+                type="checkbox"
+                .checked=${dependencyTableLayoutState.value}
+                @change=${(e3) => {
+                    const checked = e3.target.checked;
+                    dependencyTableLayoutSetting.set(checked);
+                    dependencyTableLayoutState.value = checked;
+                }}
+              />
+              <span>Tabbed dependency tables</span>
+              <p>
+                Split dependencies, peer dependencies, optional dependencies, and development
+                dependencies into compact tables. Disable this to restore npm's native lists.
+              </p>
+            </label>
+          </div>
+        </details>
+        <details class="settings-section" open>
           <summary>Version history</summary>
           <div class="settings-grid">
             <label class="setting setting-emphasis">
@@ -3731,6 +4358,9 @@ versions, and fix provenance icon alignment.
                   customLinkErrors.value = "";
                   searchBadgesSetting.reset();
                   searchBadgesState.value = searchBadgesSetting.get();
+                  dependencyTableLayoutSetting.reset();
+                  dependencyTableLayoutState.value =
+                      dependencyTableLayoutSetting.get();
                   versionLimitEnabledSetting.reset();
                   versionLimitEnabledState.value =
                       versionLimitEnabledSetting.get();
@@ -6569,7 +7199,28 @@ implementation is broken for large numbers for some reason. This temporarily fix
     });
     function teardown5(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
+        repositorySidebarObserver?.disconnect();
+        repositorySidebarObserver = void 0;
         document.querySelector(".npm-userscript-repository-card")?.remove();
+        document.querySelector(".npm-userscript-package-insights")?.remove();
+        document
+            .querySelectorAll(".npm-userscript-sidebar-heading-link")
+            .forEach((link) => {
+                const heading = link.parentElement;
+                if (heading?.dataset.npmUserscriptOriginalHeading) {
+                    heading.replaceChildren(
+                        document.createTextNode(
+                            heading.dataset.npmUserscriptOriginalHeading
+                        )
+                    );
+                    delete heading.dataset.npmUserscriptOriginalHeading;
+                }
+            });
+        document
+            .querySelectorAll(".npm-userscript-weekly-downloads-link")
+            .forEach((link) =>
+                link.replaceWith(...Array.from(link.childNodes))
+            );
         document
             .querySelectorAll(".npm-userscript-repository-card-superseded")
             .forEach((column) =>
@@ -6663,7 +7314,10 @@ implementation is broken for large numbers for some reason. This temporarily fix
       color: #d2a8ff;
     }
 
-    .npm-userscript-repository-card-entry[data-metric="changelog"] {
+    .npm-userscript-repository-card-entry:is(
+      [data-metric="changelog"],
+      [data-metric="homepage"]
+    ) {
       grid-column: 1 / -1;
       justify-content: flex-start;
       padding: 5px 7px;
@@ -6689,6 +7343,97 @@ implementation is broken for large numbers for some reason. This temporarily fix
     .npm-userscript-repository-card-superseded {
       display: none !important;
     }
+
+    .npm-userscript-sidebar-heading-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .npm-userscript-sidebar-heading-link:is(:focus, :hover) {
+      color: var(--wombat-red, #cb3837);
+      text-decoration: underline;
+    }
+
+    .npm-userscript-weekly-downloads-link {
+      display: block;
+      color: inherit;
+      border-radius: 6px;
+    }
+
+    .npm-userscript-weekly-downloads-link:focus-visible {
+      outline: 2px solid var(--wombat-red, #cb3837);
+      outline-offset: 3px;
+    }
+
+    .npm-userscript-package-insights {
+      margin: 18px -8px 0 0;
+      padding: 12px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 10px;
+      background: color-mix(in srgb, currentColor 2.5%, transparent);
+    }
+
+    .npm-userscript-package-insights h3 {
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+    }
+
+    .npm-userscript-package-insights-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .npm-userscript-package-insights-link {
+      min-width: 0;
+      padding: 7px 5px;
+      color: inherit;
+      border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .npm-userscript-package-insights-link:is(:focus, :hover) {
+      color: var(--wombat-red, #cb3837);
+      border-color: var(--wombat-red, #cb3837);
+    }
+
+    .npm-userscript-star-history {
+      margin-top: 10px;
+      border-top: 1px solid var(--color-border-default);
+    }
+
+    .npm-userscript-star-history summary {
+      padding: 10px 0 0;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .npm-userscript-star-history-chart {
+      display: block;
+      margin-top: 8px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .npm-userscript-star-history-chart img {
+      display: block;
+      width: 100%;
+      min-height: 84px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: color-mix(in srgb, currentColor 4%, transparent);
+    }
+
+    .npm-userscript-star-history-status {
+      margin: 8px 0 0;
+      color: var(--color-fg-muted, #656d76);
+      font-size: 0.78rem;
+    }
   `);
     }
     async function run11() {
@@ -6698,10 +7443,17 @@ implementation is broken for large numbers for some reason. This temporarily fix
         if (!repositoryH3) return;
         const repoData = await fetchGitHubRepoData();
         if (!repoData) return;
-        const prCount = await fetchGitHubPullRequestsCount();
+        const [
+            prCount,
+            packageJson,
+            licenseData,
+        ] = await Promise.all([
+            fetchGitHubPullRequestsCount(),
+            fetchPackageJson(),
+            fetchGitHubLicenseData(),
+        ]);
         if (prCount === void 0) return;
         const issueCount = repoData.open_issues_count - prCount;
-        const packageJson = await fetchPackageJson();
         const showRepositoryDirectory =
             (await getFeatureSettings2())["repository-directory"].get() ===
             true;
@@ -6718,6 +7470,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
             repoData.full_name,
             directory
         );
+        const homepage = getNpmContext().context.packument.homepage;
         const card = document.createElement("div");
         card.className = "npm-userscript-repository-card";
         card.innerHTML = `
@@ -6767,6 +7520,9 @@ implementation is broken for large numbers for some reason. This temporarily fix
       }
     </div>
   `;
+        if (isHttpUrl(homepage) && homepage !== repoData.html_url) {
+            addRepositoryCardLink(card, "homepage", homepage, "Homepage");
+        }
         repositoryH3.insertAdjacentElement("afterend", card);
         repositoryH3.parentElement?.classList.remove("bb");
         const sidebarColumns = document.querySelectorAll(
@@ -6774,10 +7530,157 @@ implementation is broken for large numbers for some reason. This temporarily fix
         );
         for (const col of sidebarColumns) {
             const h3Text = col.querySelector("h3")?.textContent;
-            if (h3Text === "Issues" || h3Text === "Pull Requests") {
+            if (
+                h3Text === "Issues" ||
+                h3Text === "Pull Requests" ||
+                (h3Text === "Homepage" &&
+                    card.querySelector('[data-metric="homepage"]'))
+            ) {
                 col.classList.add("npm-userscript-repository-card-superseded");
             }
         }
+        applyRepositorySidebarLinks(repoData, licenseData);
+        renderPackageInsights(repoData);
+        const sidebar = document.querySelector(
+            '[aria-label="Package sidebar"]'
+        );
+        if (sidebar) {
+            repositorySidebarObserver?.disconnect();
+            repositorySidebarObserver = new MutationObserver(() =>
+                applyRepositorySidebarLinks(repoData, licenseData)
+            );
+            repositorySidebarObserver.observe(sidebar, {
+                childList: true,
+                subtree: true,
+            });
+        }
+    }
+    function isHttpUrl(value) {
+        if (typeof value !== "string") return false;
+        try {
+            return ["http:", "https:"].includes(new URL(value).protocol);
+        } catch {
+            return false;
+        }
+    }
+    function addRepositoryCardLink(card, metric, href, label) {
+        const link = document.createElement("a");
+        link.className = "npm-userscript-repository-card-entry";
+        link.dataset.metric = metric;
+        link.href = href;
+        link.rel = "noopener noreferrer nofollow";
+        link.textContent = `🌐 🔗 ${label}`;
+        card.querySelector(
+            ".npm-userscript-repository-card-description"
+        )?.append(link);
+    }
+    function linkSidebarHeading(column, href) {
+        if (!column || !isHttpUrl(href)) return;
+        const heading = column.matches?.("h3")
+            ? column
+            : column.querySelector("h3");
+        if (!heading || heading.querySelector("a")) return;
+        const label = heading.textContent.trim();
+        if (!label) return;
+        heading.dataset.npmUserscriptOriginalHeading = label;
+        const link = document.createElement("a");
+        link.className = "npm-userscript-sidebar-heading-link";
+        link.href = href;
+        link.rel = "noopener noreferrer nofollow";
+        link.textContent = label;
+        heading.replaceChildren(link);
+    }
+    function applyRepositorySidebarLinks(repoData, licenseData) {
+        linkSidebarHeading(
+            document.getElementById("collaborators") ||
+                getColumnByName("Collaborators"),
+            `${repoData.html_url}/graphs/contributors`
+        );
+        linkSidebarHeading(
+            document.getElementById("license") || getColumnByName("License"),
+            licenseData?.html_url
+        );
+        const packageName = getPackageNameFromPath();
+        const downloadsColumn = getColumnByName("Weekly Downloads");
+        if (!packageName || !downloadsColumn) return;
+        const trendsLink = `https://npm-compare.com/${encodeURIComponent(
+            packageName
+        )}`;
+        linkSidebarHeading(downloadsColumn, trendsLink);
+        const graph = downloadsColumn.querySelector("svg, canvas");
+        if (!graph || graph.closest("a")) return;
+        const graphLink = document.createElement("a");
+        graphLink.className = "npm-userscript-weekly-downloads-link";
+        graphLink.href = trendsLink;
+        graphLink.rel = "noopener noreferrer nofollow";
+        graphLink.setAttribute(
+            "aria-label",
+            `Open ${packageName} download trends`
+        );
+        graph.replaceWith(graphLink);
+        graphLink.append(graph);
+    }
+    function appendInsightLink(container, href, label) {
+        const link = document.createElement("a");
+        link.className = "npm-userscript-package-insights-link";
+        link.href = href;
+        link.rel = "noopener noreferrer nofollow";
+        link.textContent = label;
+        container.append(link);
+    }
+    function renderPackageInsights(repoData) {
+        if (document.querySelector(".npm-userscript-package-insights")) return;
+        const sidebar = document.querySelector(
+            '[aria-label="Package sidebar"]'
+        );
+        const packageName = getPackageNameFromPath();
+        if (!sidebar || !packageName) return;
+        const encodedPackageName = encodeURIComponent(packageName);
+        const trendsLink = `https://npm-compare.com/${encodedPackageName}`;
+        const insights = document.createElement("section");
+        insights.className = "npm-userscript-package-insights";
+        const heading = document.createElement("h3");
+        heading.textContent = "Package Insights";
+        const links = document.createElement("div");
+        links.className = "npm-userscript-package-insights-links";
+        appendInsightLink(links, trendsLink, "Trends");
+        appendInsightLink(
+            links,
+            `${repoData.html_url}/graphs/contributors`,
+            "Contributors"
+        );
+        appendInsightLink(links, `${repoData.html_url}/releases`, "Releases");
+        const details = document.createElement("details");
+        details.className = "npm-userscript-star-history";
+        const summary = document.createElement("summary");
+        summary.textContent = `GitHub star history (${repoData.stargazers_count.toLocaleString()})`;
+        const chartLink = document.createElement("a");
+        chartLink.className = "npm-userscript-star-history-chart";
+        chartLink.href = trendsLink;
+        chartLink.rel = "noopener noreferrer nofollow";
+        const chart = document.createElement("img");
+        chart.alt = `${packageName} cumulative GitHub star trend`;
+        chart.loading = "lazy";
+        chart.referrerPolicy = "no-referrer";
+        chart.dataset.src = `https://npm-compare.com/img/github-trend/${encodedPackageName}.png`;
+        const status = document.createElement("p");
+        status.className = "npm-userscript-star-history-status";
+        status.textContent = "Chart loads only when this section is opened.";
+        chart.addEventListener("load", () => status.remove());
+        chart.addEventListener("error", () => {
+            chart.remove();
+            status.textContent =
+                "The embedded chart could not load. Open Trends to view it.";
+        });
+        details.addEventListener("toggle", () => {
+            if (!details.open || chart.src) return;
+            chart.src = chart.dataset.src;
+            status.textContent = "Loading cumulative GitHub star trend…";
+        });
+        chartLink.append(chart);
+        details.append(summary, chartLink, status);
+        insights.append(heading, links, details);
+        sidebar.append(insights);
     }
     async function getChangelogLink(ownerRepo, directory) {
         const changelogPath = directory
@@ -6796,15 +7699,21 @@ implementation is broken for large numbers for some reason. This temporarily fix
             }
         );
     }
-    var description13, starSvg, issueSvg, pullSvg, changelogSvg;
+    var description13,
+        starSvg,
+        issueSvg,
+        pullSvg,
+        changelogSvg,
+        repositorySidebarObserver;
     var init_repository_card = __esm({
         "src/features/repository-card.ts"() {
             init_utils_cache();
             init_utils_fetch();
             init_utils();
-            description13 = `Consolidates all repository information in a card-like view in the package sidebar.
-Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
+            description13 = `Consolidates repository links and activity in a card, links npm metadata back to GitHub, and adds lazy package trends.
+Enabling this removes duplicate "Stars", "Issues", "Pull Requests", and "Homepage" columns.
 `;
+            repositorySidebarObserver = void 0;
             starSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path></svg>`;
             issueSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path></svg>`;
             pullSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"></path></svg>`;
@@ -6906,6 +7815,11 @@ Enabling this would remove the "Stars", "Issues", and "Pull Requests" columns.
     .npm-enhancer-search-links a img {
       width: 18px;
       height: 18px;
+    }
+
+    .dib .v-mid span {
+      vertical-align: middle;
+      width: auto !important;
     }
 
     @media (max-width: 50rem) {
@@ -19700,13 +20614,20 @@ if (readIntegratedFeatureSetting("install-commands")) {
                 description: "Show labels such as NPM dev dependency and Yarn.",
                 enabled: true,
             },
+            {
+                id: "useExactVersion",
+                label: "Pin the current version",
+                description:
+                    "Include the exact @version in generated commands. Disabled by default so commands install the active release tag.",
+                enabled: false,
+            },
         ];
 
         const LIST_ATTRIBUTE = "data-npm-more-install-buttons";
         const STYLE_ID = "npm-more-install-buttons-style";
         const SETTINGS_DIALOG_ID = "npm-more-install-buttons-settings";
         const SETTINGS_KEY = "npmMoreInstallButtonsSettings";
-        const SETTINGS_VERSION = 1;
+        const SETTINGS_VERSION = 2;
         const COPY_BUTTON_SELECTOR =
             'button[aria-label="Copy install command line"]';
 
@@ -19868,7 +20789,8 @@ if (readIntegratedFeatureSetting("install-commands")) {
                 padding: 0.1rem 0.35rem;
             }
 
-            .mib-list-settings {
+            .mib-list-settings,
+            .mib-list-version-toggle {
                 align-items: center;
                 background: transparent;
                 border: 1px solid transparent;
@@ -19883,10 +20805,23 @@ if (readIntegratedFeatureSetting("install-commands")) {
             }
 
             .mib-list-settings:hover,
-            .mib-list-settings:focus-visible {
+            .mib-list-settings:focus-visible,
+            .mib-list-version-toggle:hover,
+            .mib-list-version-toggle:focus-visible,
+            .mib-list-version-toggle[aria-pressed="true"] {
                 background: color-mix(in srgb, var(--color-fg-brand, #cb3837) 9%, transparent);
                 border-color: color-mix(in srgb, var(--color-fg-brand, #cb3837) 32%, transparent);
                 color: var(--color-fg-brand, #cb3837);
+            }
+
+            .mib-list-version-toggle {
+                width: auto;
+                min-width: 1.75rem;
+                padding: 0 0.4rem;
+                font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+                font-size: 0.64rem;
+                letter-spacing: 0;
+                text-transform: none;
             }
 
             .mib-gear-icon {
@@ -20412,13 +21347,13 @@ if (readIntegratedFeatureSetting("install-commands")) {
             template,
             { packageName, packageVersion, typesPackageName }
         ) {
+            const packageSpec = settings.display.useExactVersion
+                ? `${packageName}@${packageVersion}`
+                : packageName;
             return template
                 .replaceAll("{{package}}", packageName)
                 .replaceAll("{{version}}", packageVersion)
-                .replaceAll(
-                    "{{packageSpec}}",
-                    `${packageName}@${packageVersion}`
-                )
+                .replaceAll("{{packageSpec}}", packageSpec)
                 .replaceAll("{{typesPackage}}", typesPackageName || "");
         }
 
@@ -20918,6 +21853,33 @@ if (readIntegratedFeatureSetting("install-commands")) {
                 listHeadingDivider.className = "mib-list-heading-divider";
                 listHeadingDivider.setAttribute("aria-hidden", "true");
 
+                const versionToggle = document.createElement("button");
+                versionToggle.type = "button";
+                versionToggle.className = "mib-list-version-toggle";
+                versionToggle.textContent = `@${details.packageVersion}`;
+                versionToggle.title = settings.display.useExactVersion
+                    ? "Use the active release tag in generated commands"
+                    : `Pin generated commands to ${details.packageVersion}`;
+                versionToggle.setAttribute(
+                    "aria-label",
+                    settings.display.useExactVersion
+                        ? "Stop pinning generated install commands to the current version"
+                        : `Pin generated install commands to version ${details.packageVersion}`
+                );
+                versionToggle.setAttribute(
+                    "aria-pressed",
+                    String(settings.display.useExactVersion)
+                );
+                versionToggle.addEventListener("click", () => {
+                    saveSettings({
+                        ...settings,
+                        display: {
+                            ...settings.display,
+                            useExactVersion: !settings.display.useExactVersion,
+                        },
+                    });
+                });
+
                 const settingsButton = document.createElement("button");
                 settingsButton.type = "button";
                 settingsButton.className = "mib-list-settings";
@@ -20934,6 +21896,7 @@ if (readIntegratedFeatureSetting("install-commands")) {
                     listHeadingText,
                     listHeadingCount,
                     listHeadingDivider,
+                    versionToggle,
                     settingsButton
                 );
                 list.append(listHeading);
