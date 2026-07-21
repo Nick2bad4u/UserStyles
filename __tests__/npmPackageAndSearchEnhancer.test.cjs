@@ -33,7 +33,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.9.1");
+        expect(script).toContain("// @version      0.10.0");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
         expect(script).toContain("// @connect      npm-compare.com");
@@ -154,16 +154,31 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.versions.hiddenNativeRows).toBe(2);
     });
 
-    test("keeps provenance beside the current version and shows the total opposite it", () => {
+    test("renders version, total, license, and publish data as one metadata card", () => {
         expect(results.versionSidebar).toEqual({
+            fieldKinds: [
+                "version",
+                "versions",
+                "license",
+                "publish",
+            ],
+            iconKinds: [
+                "version",
+                "versions",
+                "license",
+                "publish",
+            ],
+            lastPublishValue: "2 months ago",
+            licenseHref: "https://example.test/license",
             provenanceBesideVersion: true,
-            rowWidth: "100%",
+            restoredAfterNavigation: true,
             totalCount: "5",
             totalCountFontSize: "1.25rem",
             totalHref:
                 "https://www.npmjs.com/package/example?activeTab=versions",
             totalLabel: "Total versions",
             totalLabelFontSize: "0.75rem",
+            totalIsOwnCell: true,
             versionValue: "3.2.1",
         });
     });

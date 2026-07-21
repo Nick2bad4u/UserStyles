@@ -399,6 +399,14 @@ async function runVersionSidebarScenario() {
                     <p>3.2.1</p>
                     <button type="button" aria-label="View provenance details"><svg aria-hidden="true"></svg></button>
                 </div>
+                <div id="license-section">
+                    <h3><a href="https://example.test/license">License</a></h3>
+                    <p>MIT</p>
+                </div>
+                <div id="publish-section">
+                    <h3>Last publish</h3>
+                    <p><time datetime="2026-01-01T00:00:00.000Z">2 months ago</time></p>
+                </div>
             </aside>
         </main>`,
         "https://www.npmjs.com/package/example"
@@ -430,9 +438,10 @@ async function runVersionSidebarScenario() {
             const candidate = dom.window.document.querySelector(
                 ".npm-userscript-version-sidebar-row"
             );
-            return candidate?.querySelector(
-                ".npm-userscript-version-total-count"
-            )?.textContent === "5"
+            return candidate &&
+                dom.window.document.querySelector(
+                    ".npm-userscript-version-total-count"
+                )?.textContent === "5"
                 ? candidate
                 : null;
         });
@@ -440,18 +449,34 @@ async function runVersionSidebarScenario() {
             '[aria-label="View provenance details"]'
         );
         const versionValue = row.querySelector("p");
-        const totalLink = row.querySelector(".npm-userscript-version-total");
-        const rowStyle = dom.window.getComputedStyle(row);
+        const totalLink = dom.window.document.querySelector(
+            ".npm-userscript-version-total"
+        );
         const totalLabel = totalLink.querySelector(
             ".npm-userscript-version-total-label"
         );
         const totalCount = totalLink.querySelector(
             ".npm-userscript-version-total-count"
         );
-        return {
+        const enhanced = {
+            fieldKinds: Array.from(
+                dom.window.document.querySelectorAll(
+                    "[data-npm-userscript-meta-field]"
+                )
+            ).map((field) => field.dataset.npmUserscriptMetaField),
+            iconKinds: Array.from(
+                dom.window.document.querySelectorAll(
+                    ".npm-userscript-package-meta-icon"
+                )
+            ).map((icon) => icon.dataset.metaIcon),
+            lastPublishValue: dom.window.document
+                .querySelector("#publish-section time")
+                .textContent.trim(),
+            licenseHref: dom.window.document.querySelector(
+                "#license-section h3 a"
+            ).href,
             provenanceBesideVersion:
                 provenance.parentElement === versionValue.parentElement,
-            rowWidth: rowStyle.width,
             totalCount: totalCount.textContent,
             totalCountFontSize:
                 dom.window.getComputedStyle(totalCount).fontSize,
@@ -459,7 +484,25 @@ async function runVersionSidebarScenario() {
             totalLabel: totalLabel.textContent,
             totalLabelFontSize:
                 dom.window.getComputedStyle(totalLabel).fontSize,
+            totalIsOwnCell: totalLink.parentElement.id === "version-section",
             versionValue: versionValue.textContent,
+        };
+        dom.window.history.pushState({}, "", "/search?q=example");
+        dom.window.dispatchEvent(new dom.window.PopStateEvent("popstate"));
+        await waitFor(
+            () =>
+                !dom.window.document.querySelector(
+                    ".npm-userscript-package-meta-field"
+                )
+        );
+        return {
+            ...enhanced,
+            restoredAfterNavigation:
+                dom.window.document.querySelector("#version-section > p")
+                    ?.textContent === "3.2.1" &&
+                dom.window.document.querySelectorAll(
+                    ".npm-userscript-package-meta-icon"
+                ).length === 0,
         };
     } finally {
         dom.window.close();

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.9.1
+// @version      0.10.0
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -1452,11 +1452,149 @@ selectable Dependents explorer with package comparison links.
       display: none !important;
     }
 
+    .npm-userscript-package-meta-field {
+      --npm-userscript-meta-color: var(--npm-dark-accent, #a78bfa);
+
+      box-sizing: border-box;
+      color: var(--color-fg-default, inherit);
+      background:
+        linear-gradient(
+          135deg,
+          color-mix(
+            in srgb,
+            var(--npm-userscript-meta-color) 11%,
+            transparent
+          ),
+          transparent 68%
+        ),
+        var(--npm-dark-surface, var(--color-bg-subtle, #fff)) !important;
+    }
+
+    .npm-userscript-package-meta-version {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: auto 1fr;
+      width: 100% !important;
+      margin: 16px 0 0 !important;
+      padding: 0 !important;
+      float: none !important;
+      border: 1px solid
+        var(--npm-dark-border, var(--color-border-default, #d2d2d2)) !important;
+      border-bottom: 0 !important;
+      border-radius: 14px 14px 0 0;
+      box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
+    }
+
+    .npm-userscript-package-meta-version > h3 {
+      grid-column: 1;
+      grid-row: 1;
+      padding: 14px 14px 0 !important;
+    }
+
+    .npm-userscript-package-meta-version
+      > :not(h3, .npm-userscript-version-total) {
+      grid-column: 1;
+      grid-row: 2;
+      width: auto !important;
+      min-width: 0;
+      margin: 0 !important;
+      padding: 9px 14px 14px !important;
+      float: none !important;
+      border: 0 !important;
+      background: transparent !important;
+    }
+
+    .npm-userscript-package-meta-license,
+    .npm-userscript-package-meta-publish {
+      display: flex !important;
+      flex-direction: column;
+      min-height: 92px;
+      width: 50% !important;
+      margin: 0 !important;
+      padding: 14px !important;
+      float: left !important;
+      border: 1px solid
+        var(--npm-dark-border, var(--color-border-default, #d2d2d2)) !important;
+      border-top: 0 !important;
+    }
+
+    .npm-userscript-package-meta-license {
+      --npm-userscript-meta-color: var(--npm-dark-warning, #f59e0b);
+
+      border-right: 0 !important;
+      border-radius: 0 0 0 14px;
+    }
+
+    .npm-userscript-package-meta-publish {
+      --npm-userscript-meta-color: var(--npm-dark-success, #22c55e);
+
+      border-radius: 0 0 14px;
+    }
+
+    .npm-userscript-package-meta-heading {
+      display: flex !important;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      margin: 0 !important;
+      padding: 0;
+      color: var(--npm-userscript-meta-color) !important;
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .npm-userscript-package-meta-heading > a {
+      color: inherit !important;
+    }
+
+    .npm-userscript-package-meta-icon {
+      display: inline-flex;
+      flex: 0 0 28px;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      color: var(--npm-userscript-meta-color);
+      border: 1px solid
+        color-mix(
+          in srgb,
+          var(--npm-userscript-meta-color) 42%,
+          transparent
+        );
+      border-radius: 8px;
+      background: color-mix(
+        in srgb,
+        var(--npm-userscript-meta-color) 14%,
+        transparent
+      );
+    }
+
+    .npm-userscript-package-meta-icon > svg {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.6;
+    }
+
+    .npm-userscript-package-meta-license > p,
+    .npm-userscript-package-meta-publish > p {
+      margin: 10px 0 0 !important;
+      color: var(--color-fg-default, inherit) !important;
+      font-size: 1.125rem !important;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.25;
+    }
+
     .npm-userscript-version-sidebar-row {
       display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 12px;
+      align-items: center;
+      gap: 8px;
       min-width: 0;
       width: 100%;
     }
@@ -1482,33 +1620,55 @@ selectable Dependents explorer with package comparison links.
     }
 
     .npm-userscript-version-total {
-      display: inline-flex;
-      flex: 0 0 auto;
+      --npm-userscript-meta-color: var(--npm-dark-accent-cool, #38bdf8);
+
+      display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      color: inherit;
-      line-height: 1.1;
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-items: flex-start;
+      justify-content: space-between;
+      min-width: 0;
+      padding: 14px;
+      color: var(--color-fg-default, inherit) !important;
+      border-left: 1px solid
+        var(--npm-dark-border, var(--color-border-default, #d2d2d2));
+      border-radius: 0 13px 0 0;
+      line-height: 1.2;
       text-decoration: none;
     }
 
     .npm-userscript-version-total-label {
-      color: var(--color-fg-muted, #656d76);
-      font-size: 0.75rem;
-      font-weight: 600;
-      white-space: nowrap;
+      width: 100%;
     }
 
     .npm-userscript-version-total-count {
-      margin-top: 3px;
+      margin-top: 10px;
+      color: var(--color-fg-default, inherit) !important;
       font-size: 1.25rem;
       font-variant-numeric: tabular-nums;
-      font-weight: 600;
+      font-weight: 700;
       line-height: 1.15;
     }
 
     .npm-userscript-version-total:is(:focus, :hover) {
-      color: var(--wombat-red, #cb3837);
-      text-decoration: underline;
+      background:
+        linear-gradient(
+          135deg,
+          color-mix(
+            in srgb,
+            var(--npm-userscript-meta-color) 19%,
+            transparent
+          ),
+          transparent 72%
+        ),
+        var(--npm-dark-surface, var(--color-bg-subtle, #fff)) !important;
+      text-decoration: none;
+    }
+
+    .npm-userscript-version-total:focus-visible {
+      outline: 2px solid var(--npm-userscript-meta-color);
+      outline-offset: -4px;
     }
   `);
         addStyle(`
@@ -1628,18 +1788,33 @@ selectable Dependents explorer with package comparison links.
             versionsData.packument.versions || {}
         ).length;
         if (totalVersions === 0) return;
-        let totalLink = row.querySelector(".npm-userscript-version-total");
+        let totalLink = versionColumn.querySelector(
+            ".npm-userscript-version-total"
+        );
         if (!totalLink) {
             totalLink = document.createElement("a");
             totalLink.className = "npm-userscript-version-total";
             const label = document.createElement("span");
-            label.className = "npm-userscript-version-total-label";
+            label.className =
+                "npm-userscript-version-total-label npm-userscript-package-meta-heading";
             label.textContent = "Total versions";
             const count = document.createElement("strong");
             count.className = "npm-userscript-version-total-count";
             totalLink.append(label, count);
-            row.append(totalLink);
         }
+        totalLink.classList.add("npm-userscript-package-meta-field");
+        totalLink.dataset.npmUserscriptMetaField = "versions";
+        versionColumn.append(totalLink);
+        decoratePackageMetadataField(versionColumn, "version");
+        decoratePackageMetadataField(getColumnByName("License"), "license");
+        decoratePackageMetadataField(
+            getColumnByName("Last publish"),
+            "publish"
+        );
+        decoratePackageMetadataHeading(
+            totalLink.querySelector(".npm-userscript-version-total-label"),
+            "versions"
+        );
         const versionsUrl = new URL(location.href);
         versionsUrl.searchParams.set("activeTab", "versions");
         versionsUrl.hash = "";
@@ -1656,6 +1831,54 @@ selectable Dependents explorer with package comparison links.
         if (count.textContent !== formattedCount) {
             count.textContent = formattedCount;
         }
+    }
+    function decoratePackageMetadataField(column, field) {
+        if (!column) return;
+        column.classList.add(
+            "npm-userscript-package-meta-field",
+            `npm-userscript-package-meta-${field}`
+        );
+        column.dataset.npmUserscriptMetaField = field;
+        const heading = Array.from(column.children).find((element) =>
+            element.matches("h2, h3")
+        );
+        decoratePackageMetadataHeading(heading, field);
+    }
+    function decoratePackageMetadataHeading(heading, field) {
+        if (!heading) return;
+        heading.classList.add("npm-userscript-package-meta-heading");
+        if (
+            heading.querySelector(
+                `:scope > .npm-userscript-package-meta-icon[data-meta-icon="${field}"]`
+            )
+        )
+            return;
+        heading.prepend(createPackageMetadataIcon(field));
+    }
+    function createPackageMetadataIcon(field) {
+        const paths = {
+            license:
+                '<path d="M3 1.75h6.75L13 5v9.25H3z"/><path d="M9.75 1.75V5H13M5.25 8h5.5M5.25 10.5h4"/>',
+            publish:
+                '<circle cx="8" cy="8" r="6.25"/><path d="M8 4.5v3.9l2.75 1.6"/>',
+            version:
+                '<path d="M2.25 3.25A1.25 1.25 0 0 1 3.5 2h4.2l6.05 6.05-5.7 5.7L2 7.7V3.5c0-.08.01-.17.03-.25z"/><circle cx="5.15" cy="5.15" r="1"/>',
+            versions:
+                '<path d="m8 1.75 6 3.05-6 3.05L2 4.8z"/><path d="m2 7.6 6 3.05 6-3.05M2 10.4l6 3.05 6-3.05"/>',
+        };
+        const icon = document.createElement("span");
+        icon.className = "npm-userscript-package-meta-icon";
+        icon.dataset.metaIcon = field;
+        icon.setAttribute("aria-hidden", "true");
+        const svg = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "svg"
+        );
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.setAttribute("aria-hidden", "true");
+        svg.innerHTML = paths[field] || paths.version;
+        icon.append(svg);
+        return icon;
     }
     function findProvenanceControl(versionColumn, row) {
         const marker = Array.from(
@@ -1676,6 +1899,26 @@ selectable Dependents explorer with package comparison links.
         return iconControls.length === 1 ? iconControls[0] : void 0;
     }
     function teardownVersionSidebar() {
+        document
+            .querySelectorAll(".npm-userscript-version-total")
+            .forEach((total) => total.remove());
+        document
+            .querySelectorAll(".npm-userscript-package-meta-icon")
+            .forEach((icon) => icon.remove());
+        document
+            .querySelectorAll(".npm-userscript-package-meta-field")
+            .forEach((field) => {
+                field.classList.remove(
+                    "npm-userscript-package-meta-field",
+                    "npm-userscript-package-meta-version",
+                    "npm-userscript-package-meta-license",
+                    "npm-userscript-package-meta-publish"
+                );
+                delete field.dataset.npmUserscriptMetaField;
+                field
+                    .querySelector(":scope > h2, :scope > h3")
+                    ?.classList.remove("npm-userscript-package-meta-heading");
+            });
         document
             .querySelectorAll(".npm-userscript-version-sidebar-row")
             .forEach((row) => {
