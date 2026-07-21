@@ -8,3 +8,10 @@ title = "Nick2bad4u shared Gitleaks configuration"
 [[allowlists]]
     description = "Ignore local scratch command output"
     paths       = [ '''^temp/''' ]
+
+[[allowlists]]
+    description = "Ignore the synthetic legacy GitHub token migration fixture"
+    condition   = "AND"
+    paths       = [ '''^__tests__/helpers/autoMergeDependabotPRs\.harness\.cjs$''' ]
+    regexTarget = "secret"
+    regexes     = [ '''^legacy-secret$''' ]

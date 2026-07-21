@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - Bundlephobia Package Size
 // @namespace    nick2bad4u.github.io
-// @version      2.3.1
+// @version      2.3.2
 // @description  Shows exact-version Bundlephobia data plus npm tarball, unpacked, and file-count metrics.
 // @author       Nick2bad4u (modern fork of dutzi's original script)
 // @license      MIT
@@ -135,16 +135,16 @@
         const heading = findSidebarHeading(sidebar, label);
         if (!heading) return "";
 
+        const paragraphValue = normalizeText(
+            heading.parentElement?.querySelector("p")?.textContent
+        );
+        if (paragraphValue) return paragraphValue;
+
         const siblingValue = normalizeText(
             heading.nextElementSibling?.textContent
         );
         if (siblingValue) return siblingValue;
-
-        return normalizeText(
-            [...(heading.parentElement?.children ?? [])].find(
-                (element) => element !== heading && element.matches("p")
-            )?.textContent
-        );
+        return "";
     }
 
     function findBundlephobiaLink(sidebar) {

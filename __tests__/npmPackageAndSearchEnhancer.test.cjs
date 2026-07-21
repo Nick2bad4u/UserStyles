@@ -33,7 +33,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.9.0");
+        expect(script).toContain("// @version      0.9.1");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
         expect(script).toContain("// @connect      npm-compare.com");
@@ -157,10 +157,13 @@ describe("NPM Package and Search Enhancer userscript", () => {
     test("keeps provenance beside the current version and shows the total opposite it", () => {
         expect(results.versionSidebar).toEqual({
             provenanceBesideVersion: true,
+            rowWidth: "100%",
             totalCount: "5",
+            totalCountFontSize: "1.25rem",
             totalHref:
                 "https://www.npmjs.com/package/example?activeTab=versions",
             totalLabel: "Total versions",
+            totalLabelFontSize: "0.75rem",
             versionValue: "3.2.1",
         });
     });
@@ -246,7 +249,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(moreInstallButtons).toContain(
             '"data-npm-enhancer-install-commands"'
         );
-        expect(packageSize).toContain("// @version      2.3.1");
+        expect(packageSize).toContain("// @version      2.3.2");
         expect(packageSize).toContain('"data-npm-enhancer-package-size"');
         expect(packageSize).toMatch(/createMetric\(\s*"Tarball"/u);
         expect(packageSize).toMatch(/createMetric\(\s*"Unpacked"/u);
@@ -274,6 +277,9 @@ describe("NPM Package and Search Enhancer userscript", () => {
             results.coexistence.sizeMainFirst,
             results.coexistence.sizeStandaloneFirst,
         ]) {
+            expect(result.bundlephobiaHref).toBe(
+                "https://bundlephobia.com/package/example@1.0.0"
+            );
             expect(result.packageMetricLabels).toEqual(
                 expect.arrayContaining([
                     "Tarball",
@@ -281,6 +287,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
                     "Files",
                 ])
             );
+            expect(result.versionLabel).toBe("v1.0.0");
         }
         expect(results.coexistence.tarballErrorIgnored).toBe(true);
     });

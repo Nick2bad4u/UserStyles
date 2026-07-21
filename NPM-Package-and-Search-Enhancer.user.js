@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.9.0
+// @version      0.9.1
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -1458,6 +1458,7 @@ selectable Dependents explorer with package comparison links.
       justify-content: space-between;
       gap: 12px;
       min-width: 0;
+      width: 100%;
     }
 
     .npm-userscript-version-sidebar-current {
@@ -1492,16 +1493,17 @@ selectable Dependents explorer with package comparison links.
 
     .npm-userscript-version-total-label {
       color: var(--color-fg-muted, #656d76);
-      font-size: 0.68rem;
+      font-size: 0.75rem;
       font-weight: 600;
       white-space: nowrap;
     }
 
     .npm-userscript-version-total-count {
       margin-top: 3px;
-      font-size: 1rem;
+      font-size: 1.25rem;
       font-variant-numeric: tabular-nums;
       font-weight: 600;
+      line-height: 1.15;
     }
 
     .npm-userscript-version-total:is(:focus, :hover) {
@@ -22041,16 +22043,16 @@ if (readIntegratedFeatureSetting("package-size")) {
             const heading = findSidebarHeading(sidebar, label);
             if (!heading) return "";
 
+            const paragraphValue = normalizeText(
+                heading.parentElement?.querySelector("p")?.textContent
+            );
+            if (paragraphValue) return paragraphValue;
+
             const siblingValue = normalizeText(
                 heading.nextElementSibling?.textContent
             );
             if (siblingValue) return siblingValue;
-
-            return normalizeText(
-                [...(heading.parentElement?.children ?? [])].find(
-                    (element) => element !== heading && element.matches("p")
-                )?.textContent
-            );
+            return "";
         }
 
         function findBundlephobiaLink(sidebar) {

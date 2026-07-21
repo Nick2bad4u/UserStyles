@@ -441,16 +441,24 @@ async function runVersionSidebarScenario() {
         );
         const versionValue = row.querySelector("p");
         const totalLink = row.querySelector(".npm-userscript-version-total");
+        const rowStyle = dom.window.getComputedStyle(row);
+        const totalLabel = totalLink.querySelector(
+            ".npm-userscript-version-total-label"
+        );
+        const totalCount = totalLink.querySelector(
+            ".npm-userscript-version-total-count"
+        );
         return {
             provenanceBesideVersion:
                 provenance.parentElement === versionValue.parentElement,
-            totalCount: totalLink.querySelector(
-                ".npm-userscript-version-total-count"
-            ).textContent,
+            rowWidth: rowStyle.width,
+            totalCount: totalCount.textContent,
+            totalCountFontSize:
+                dom.window.getComputedStyle(totalCount).fontSize,
             totalHref: totalLink.href,
-            totalLabel: totalLink.querySelector(
-                ".npm-userscript-version-total-label"
-            ).textContent,
+            totalLabel: totalLabel.textContent,
+            totalLabelFontSize:
+                dom.window.getComputedStyle(totalLabel).fontSize,
             versionValue: versionValue.textContent,
         };
     } finally {
@@ -770,7 +778,15 @@ async function runCoexistenceScenario() {
     async function runSizeOrder(standaloneFirst) {
         const dom = createPage(
             `<title>example - npm</title><main><h1>example</h1><aside aria-label="Package sidebar">
-                <div><h3>Version</h3><p>1.0.0</p></div>
+                <div><h3>Version</h3>
+                    <div class="npm-userscript-version-sidebar-row">
+                        <div class="npm-userscript-version-sidebar-current"><p>1.0.0</p></div>
+                        <a class="npm-userscript-version-total" href="?activeTab=versions">
+                            <span class="npm-userscript-version-total-label">Total versions</span>
+                            <strong class="npm-userscript-version-total-count">5</strong>
+                        </a>
+                    </div>
+                </div>
                 <a href="https://bundlephobia.com/package/example@1.0.0">Bundlephobia</a>
             </aside></main>`,
             "https://www.npmjs.com/package/example"
@@ -816,11 +832,14 @@ async function runCoexistenceScenario() {
                 "[data-npm-bundlephobia-size]"
             );
             return {
+                bundlephobiaHref: cards[0]?.querySelector(".nbps-title")?.href,
                 count: cards.length,
                 owner: cards[0]?.dataset.npmEnhancementOwner,
                 packageMetricLabels: Array.from(
                     cards[0]?.querySelectorAll(".nbps-metric-label") || []
                 ).map((label) => label.textContent),
+                versionLabel:
+                    cards[0]?.querySelector(".nbps-version")?.textContent,
             };
         } finally {
             dom.window.close();
