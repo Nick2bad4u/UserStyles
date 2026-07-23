@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         NPM - Bundlephobia Package Size
 // @namespace    nick2bad4u.github.io
-// @version      2.3.2
-// @description  Shows exact-version Bundlephobia data plus npm tarball, unpacked, and file-count metrics.
+// @version      2.4.0
+// @description  Shows exact-version Bundlephobia data plus npm tarball, unpacked, file-count, and packed-ratio metrics.
 // @author       Nick2bad4u (modern fork of dutzi's original script)
 // @license      MIT
 // @homepage     https://github.com/Nick2bad4u/UserStyles
@@ -45,10 +45,11 @@
     const CARD_PLACEMENT_KEY = "bundlephobiaSizeCardPlacement";
     const CARD_PLACEMENTS = Object.freeze({
         bundlephobiaLink: "bundlephobia-link",
+        collaborators: "collaborators",
         fundingButton: "funding-button",
         unpackedSize: "unpacked-size",
     });
-    const DEFAULT_ACCENT_COLOR = "#cb3837";
+    const DEFAULT_ACCENT_COLOR = "#a78bfa";
     const DOWNLOAD_SPEED_KBPS = Object.freeze({
         emerging4G: 7000 / 8,
         slow3G: 400 / 8,
@@ -201,18 +202,28 @@
         style.textContent = `
             [${CARD_ATTRIBUTE}] {
                 --nbps-accent: ${DEFAULT_ACCENT_COLOR};
-                background: rgba(127, 127, 127, 0.055);
-                border: 1px solid rgba(127, 127, 127, 0.28);
-                border-left: 3px solid var(--nbps-accent);
-                border-radius: 0.4rem;
+                --nbps-border: var(--npm-dark-border, var(--color-border-default, rgba(127, 127, 127, 0.28)));
+                --nbps-cool: var(--npm-dark-accent-cool, #60a5fa);
+                --nbps-success: var(--npm-dark-success, #22c55e);
+                --nbps-surface: var(--npm-dark-surface, var(--color-bg-subtle, Canvas));
+                --nbps-surface-raised: var(--npm-dark-surface-raised, color-mix(in srgb, currentColor 7%, var(--nbps-surface)));
+                --nbps-text-muted: var(--npm-dark-text-muted, var(--color-fg-muted, currentColor));
+                --nbps-warning: var(--npm-dark-warning, #f59e0b);
+                background:
+                    linear-gradient(135deg, color-mix(in srgb, var(--nbps-accent) 10%, transparent), transparent 48%),
+                    var(--nbps-surface);
+                border: 1px solid var(--nbps-border);
+                border-top: 3px solid var(--nbps-accent);
+                border-radius: 0.875rem;
                 box-sizing: border-box;
+                box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
                 clear: both;
                 color: inherit;
                 display: grid;
                 gap: 0.75rem;
-                margin: 0.5rem 0 0.75rem;
+                margin: 0.875rem 0;
                 min-width: 0;
-                padding: 0.8rem;
+                padding: 0.875rem;
                 width: 100%;
             }
 
@@ -279,11 +290,11 @@
             }
 
             [${CARD_ATTRIBUTE}] .nbps-section-label {
+                color: var(--nbps-text-muted);
                 font-size: 0.7rem;
                 font-weight: 800;
                 letter-spacing: 0.07em;
                 margin: 0.7rem 0 0.35rem;
-                opacity: 0.68;
                 text-transform: uppercase;
             }
 
@@ -292,19 +303,33 @@
             }
 
             [${CARD_ATTRIBUTE}] .nbps-metric {
-                background: rgba(127, 127, 127, 0.08);
-                border-radius: 0.3rem;
+                --nbps-metric-accent: var(--nbps-accent);
+                background: linear-gradient(145deg, color-mix(in srgb, var(--nbps-metric-accent) 11%, transparent), transparent 62%), var(--nbps-surface-raised);
+                border: 1px solid color-mix(in srgb, var(--nbps-metric-accent) 34%, var(--nbps-border));
+                border-radius: 0.55rem;
                 display: grid;
                 gap: 0.15rem;
                 min-width: 0;
                 padding: 0.55rem 0.65rem;
             }
 
+            [${CARD_ATTRIBUTE}] .nbps-metric[data-tone="cool"] {
+                --nbps-metric-accent: var(--nbps-cool);
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-metric[data-tone="success"] {
+                --nbps-metric-accent: var(--nbps-success);
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-metric[data-tone="warning"] {
+                --nbps-metric-accent: var(--nbps-warning);
+            }
+
             [${CARD_ATTRIBUTE}] .nbps-metric-label {
+                color: var(--nbps-metric-accent);
                 font-size: 0.68rem;
                 font-weight: 700;
                 letter-spacing: 0.04em;
-                opacity: 0.65;
                 text-transform: uppercase;
             }
 
@@ -317,10 +342,10 @@
             }
 
             [${CARD_ATTRIBUTE}] .nbps-details {
+                color: var(--nbps-text-muted);
                 font-size: 0.7rem;
                 line-height: 1.4;
                 margin: 0.5rem 0 0;
-                opacity: 0.65;
             }
 
             [${CARD_ATTRIBUTE}] .nbps-badges {
@@ -332,10 +357,10 @@
 
             [${CARD_ATTRIBUTE}] .nbps-badge {
                 align-items: center;
-                background: rgba(34, 197, 94, 0.12);
-                border: 1px solid rgba(34, 197, 94, 0.45);
+                background: color-mix(in srgb, var(--nbps-success) 12%, transparent);
+                border: 1px solid color-mix(in srgb, var(--nbps-success) 45%, transparent);
                 border-radius: 999px;
-                color: inherit;
+                color: var(--nbps-success);
                 display: inline-flex;
                 font-size: 0.68rem;
                 font-weight: 700;
@@ -353,8 +378,9 @@
             }
 
             [${CARD_ATTRIBUTE}] .nbps-composition {
-                background: rgba(127, 127, 127, 0.08);
-                border-radius: 0.3rem;
+                background: var(--nbps-surface-raised);
+                border: 1px solid var(--nbps-border);
+                border-radius: 0.55rem;
                 display: grid;
                 gap: 0.4rem;
                 margin-top: 0.6rem;
@@ -764,9 +790,10 @@
         content.replaceChildren(loading);
     }
 
-    function createMetric(label, value, title) {
+    function createMetric(label, value, title, tone = "accent") {
         const metric = createElement("span", "nbps-metric");
         if (title) metric.title = title;
+        metric.dataset.tone = tone;
         metric.append(
             createElement("span", "nbps-metric-label", label),
             createElement("strong", "nbps-metric-value", value)
@@ -868,7 +895,8 @@
                 createMetric(
                     "Tarball",
                     formatSize(footprint.tarballSize),
-                    "Compressed npm registry tarball transfer size."
+                    "Compressed npm registry tarball transfer size.",
+                    "accent"
                 )
             );
         }
@@ -877,7 +905,8 @@
                 createMetric(
                     "Unpacked",
                     formatSize(footprint.unpackedSize),
-                    "Published package contents after the tarball is unpacked; dependencies are not included."
+                    "Published package contents after the tarball is unpacked; dependencies are not included.",
+                    "cool"
                 )
             );
         }
@@ -886,7 +915,25 @@
                 createMetric(
                     "Files",
                     new Intl.NumberFormat().format(footprint.fileCount),
-                    "Number of files published in this package version."
+                    "Number of files published in this package version.",
+                    "success"
+                )
+            );
+        }
+        if (
+            Number.isFinite(footprint.tarballSize) &&
+            footprint.tarballSize >= 0 &&
+            Number.isFinite(footprint.unpackedSize) &&
+            footprint.unpackedSize > 0
+        ) {
+            const packedRatio =
+                (footprint.tarballSize / footprint.unpackedSize) * 100;
+            metrics.append(
+                createMetric(
+                    "Packed ratio",
+                    `${packedRatio.toFixed(1).replace(/\.0$/u, "")}%`,
+                    "Compressed tarball size as a percentage of the unpacked published package. Lower is smaller.",
+                    "warning"
                 )
             );
         }
@@ -897,17 +944,24 @@
         const downloadTimes = getDownloadTimes(data.gzip);
         const metrics = createElement("div", "nbps-metrics");
         metrics.append(
-            createMetric("Minified", formatSize(data.size)),
-            createMetric("Gzip", formatSize(data.gzip)),
+            createMetric(
+                "Minified",
+                formatSize(data.size),
+                undefined,
+                "accent"
+            ),
+            createMetric("Gzip", formatSize(data.gzip), undefined, "cool"),
             createMetric(
                 "Slow 3G",
                 formatDownloadTime(downloadTimes.slow3G),
-                `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`
+                `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`,
+                "warning"
             ),
             createMetric(
                 "Emerging 4G",
                 formatDownloadTime(downloadTimes.emerging4G),
-                `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`
+                `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`,
+                "success"
             )
         );
 
@@ -1238,11 +1292,11 @@
     function getCardPlacement() {
         const placement = GM_getValue(
             CARD_PLACEMENT_KEY,
-            CARD_PLACEMENTS.fundingButton
+            CARD_PLACEMENTS.collaborators
         );
         return Object.values(CARD_PLACEMENTS).includes(placement)
             ? placement
-            : CARD_PLACEMENTS.fundingButton;
+            : CARD_PLACEMENTS.collaborators;
     }
 
     function setCardPlacement(placement) {
@@ -1254,6 +1308,9 @@
         GM_registerMenuCommand(
             "Bundlephobia: change accent color…",
             openAccentColorDialog
+        );
+        GM_registerMenuCommand("Bundlephobia: place above Collaborators", () =>
+            setCardPlacement(CARD_PLACEMENTS.collaborators)
         );
         GM_registerMenuCommand("Bundlephobia: place below Unpacked Size", () =>
             setCardPlacement(CARD_PLACEMENTS.unpackedSize)
@@ -1274,19 +1331,45 @@
         }
     }
 
+    function insertBefore(target, card, placement) {
+        card.dataset.placement = placement;
+        if (target.previousElementSibling !== card) {
+            target.insertAdjacentElement("beforebegin", card);
+        }
+    }
+
     function insertCard(details, card) {
-        if (getCardPlacement() === CARD_PLACEMENTS.fundingButton) {
-            const fundingSection = findFundingSection(details.sidebar);
-            if (fundingSection) {
-                card.dataset.placement = CARD_PLACEMENTS.fundingButton;
-                if (fundingSection.previousElementSibling !== card) {
-                    fundingSection.insertAdjacentElement("beforebegin", card);
-                }
+        const requestedPlacement = getCardPlacement();
+        card.dataset.requestedPlacement = requestedPlacement;
+
+        if (requestedPlacement === CARD_PLACEMENTS.collaborators) {
+            const collaboratorsSection = getDirectSidebarChild(
+                details.sidebar,
+                findSidebarHeading(details.sidebar, "Collaborators")
+            );
+            if (collaboratorsSection) {
+                insertBefore(
+                    collaboratorsSection,
+                    card,
+                    CARD_PLACEMENTS.collaborators
+                );
                 return;
             }
         }
 
-        if (getCardPlacement() === CARD_PLACEMENTS.unpackedSize) {
+        if (requestedPlacement === CARD_PLACEMENTS.fundingButton) {
+            const fundingSection = findFundingSection(details.sidebar);
+            if (fundingSection) {
+                insertBefore(
+                    fundingSection,
+                    card,
+                    CARD_PLACEMENTS.fundingButton
+                );
+                return;
+            }
+        }
+
+        if (requestedPlacement === CARD_PLACEMENTS.unpackedSize) {
             const unpackedSizeHeading = findSidebarHeading(
                 details.sidebar,
                 "Unpacked Size"
@@ -1305,17 +1388,28 @@
             }
         }
 
-        const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
-        const bundlephobiaSection = getDirectSidebarChild(
-            details.sidebar,
-            bundlephobiaLink
-        );
-        if (bundlephobiaSection) {
-            insertAfter(
-                bundlephobiaSection,
-                card,
-                CARD_PLACEMENTS.bundlephobiaLink
+        if (requestedPlacement === CARD_PLACEMENTS.bundlephobiaLink) {
+            const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
+            const bundlephobiaSection = getDirectSidebarChild(
+                details.sidebar,
+                bundlephobiaLink
             );
+            if (bundlephobiaSection) {
+                insertAfter(
+                    bundlephobiaSection,
+                    card,
+                    CARD_PLACEMENTS.bundlephobiaLink
+                );
+                return;
+            }
+        }
+
+        const collaboratorsSection = getDirectSidebarChild(
+            details.sidebar,
+            findSidebarHeading(details.sidebar, "Collaborators")
+        );
+        if (collaboratorsSection) {
+            insertBefore(collaboratorsSection, card, "collaborators-fallback");
             return;
         }
 

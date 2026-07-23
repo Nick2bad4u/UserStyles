@@ -33,7 +33,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.10.0");
+        expect(script).toContain("// @version      0.11.0");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
         expect(script).toContain("// @connect      npm-compare.com");
@@ -62,6 +62,27 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toMatch(
             /#npm-userscript-settings \.setting > input::before \{[\s\S]*?height: 18px;[\s\S]*?width: 18px;/u
         );
+    });
+
+    test("keeps both npm dark themes on the shared sidebar design system", () => {
+        const themes = [
+            ["Npmjs.com-AMOLED-Black.user.css", "1.4.0"],
+            ["Npmjs.com-Modern-Dark.user.css", "1.5.0"],
+        ];
+        for (const [file, version] of themes) {
+            const theme = fs.readFileSync(
+                path.join(__dirname, "..", file),
+                "utf8"
+            );
+            expect(theme).toContain(`@version        ${version}`);
+            expect(theme).toContain("--npm-sidebar-card-radius: 14px");
+            expect(theme).toContain(".npm-userscript-repository-card");
+            expect(theme).toContain("[data-npm-bundlephobia-size]");
+            expect(theme).toContain(".npm-userscript-package-insights");
+            expect(theme).toContain(".npm-userscript-downloads-card");
+            expect(theme).toContain(".npm-userscript-collaborators-card");
+            expect(theme).toContain('a[href*="socket.dev"]');
+        }
     });
 
     test("uses static links without requests and preserves npm-owned download nodes", () => {
@@ -260,15 +281,16 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "/* BEGIN INTEGRATED NPM BUNDLEPHOBIA PACKAGE SIZE */"
         );
-        expect(moreInstallButtons).toContain("// @version      1.4.0");
+        expect(moreInstallButtons).toContain("// @version      1.5.0");
         expect(moreInstallButtons).toContain(
             '"data-npm-enhancer-install-commands"'
         );
-        expect(packageSize).toContain("// @version      2.3.2");
+        expect(packageSize).toContain("// @version      2.4.0");
         expect(packageSize).toContain('"data-npm-enhancer-package-size"');
         expect(packageSize).toMatch(/createMetric\(\s*"Tarball"/u);
         expect(packageSize).toMatch(/createMetric\(\s*"Unpacked"/u);
         expect(packageSize).toMatch(/createMetric\(\s*"Files"/u);
+        expect(packageSize).toMatch(/createMetric\(\s*"Packed ratio"/u);
     });
 
     test("renders one integrated companion UI in either userscript load order", () => {
@@ -300,14 +322,16 @@ describe("NPM Package and Search Enhancer userscript", () => {
                     "Tarball",
                     "Unpacked",
                     "Files",
+                    "Packed ratio",
                 ])
             );
+            expect(result.packedRatio).toBe("50%");
             expect(result.versionLabel).toBe("v1.0.0");
         }
         expect(results.coexistence.tarballErrorIgnored).toBe(true);
     });
 
-    test("keeps nested sidebar links and install commands intact while placing size above funding", () => {
+    test("keeps sidebar cards direct and supports every Bundlephobia placement", () => {
         expect(results.sidebarIntegration.homepage).toEqual({
             display: "flex",
             minWidth: "0px",
@@ -322,12 +346,22 @@ describe("NPM Package and Search Enhancer userscript", () => {
             followsInstallSection: true,
             nativeCopyButtonConnected: true,
             parentIsSidebar: true,
+            releasesReactRepurposedNode: true,
+            repairsAfterReactReuse: true,
         });
         expect(results.sidebarIntegration.size).toEqual({
             avoidsNestedBundleLinkSection: true,
+            defaultPlacement: "collaborators",
+            fallbackPlacement: "collaborators-fallback",
             parentIsSidebar: true,
-            placement: "funding-button",
-            precedesFundingButton: true,
+            placements: {
+                bundlephobiaLink: "bundlephobia-link",
+                collaborators: "collaborators",
+                funding: "funding-button",
+                unpacked: "unpacked-size",
+            },
+            repositoryCardIsDirectChild: true,
+            storedPlacement: "unpacked-size",
         });
     });
 });

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.4.0
+// @version      1.5.0
 // @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
@@ -295,10 +295,22 @@
         style.id = STYLE_ID;
         style.textContent = `
             .mib-list {
+                --mib-list-accent: var(--npm-dark-accent, var(--color-fg-brand, #cb3837));
+                --mib-list-border: var(--npm-dark-border, var(--color-border-default, #d8d8d8));
+                --mib-list-surface: var(--npm-dark-surface, var(--color-bg-subtle, Canvas));
+
+                background: linear-gradient(135deg, color-mix(in srgb, var(--mib-list-accent) 9%, transparent), transparent 48%), var(--mib-list-surface);
+                border: 1px solid var(--mib-list-border);
+                border-top: 3px solid var(--mib-list-accent);
+                border-radius: 0.875rem;
+                box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
+                box-sizing: border-box;
                 display: grid;
                 gap: 0.625rem;
-                margin: 0.75rem 0 1.5rem;
+                margin: 0.875rem 0;
                 min-width: 0;
+                padding: 0.75rem;
+                width: 100%;
             }
 
             .mib-install-heading {
@@ -1369,8 +1381,22 @@
             details.typesPackageName,
             settingsRevision,
         ].join("|");
-        const existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
+        let existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
         updateInstallHeading(installHeading);
+        if (
+            existingList &&
+            (!existingList.querySelector(".mib-command") ||
+                existingList.querySelector("#repository"))
+        ) {
+            existingList.classList.remove("mib-list");
+            delete existingList.dataset.npmEnhancementOwner;
+            delete existingList.dataset.pageKey;
+            delete existingList.dataset.showIcons;
+            delete existingList.dataset.showLabels;
+            existingList.removeAttribute(LIST_ATTRIBUTE);
+            existingList.removeAttribute("aria-label");
+            existingList = null;
+        }
         if (existingList?.dataset.pageKey === pageKey) return;
         if (
             existingList &&

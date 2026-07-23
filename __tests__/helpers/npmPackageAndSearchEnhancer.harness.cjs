@@ -73,6 +73,7 @@ function createPage(body, url) {
 function installGm(dom, respond) {
     const commands = [];
     const requests = [];
+    const values = new Map();
 
     dom.window.GM = {
         registerMenuCommand(label, callback) {
@@ -116,15 +117,16 @@ function installGm(dom, respond) {
             });
         },
     };
-    dom.window.GM_getValue = (_key, defaultValue) => defaultValue;
+    dom.window.GM_getValue = (key, defaultValue) =>
+        values.has(key) ? values.get(key) : defaultValue;
     dom.window.GM_registerMenuCommand = (label, callback) =>
         dom.window.GM.registerMenuCommand(label, callback);
     dom.window.GM_setClipboard = () => {};
-    dom.window.GM_setValue = () => {};
+    dom.window.GM_setValue = (key, value) => values.set(key, value);
     dom.window.GM_xmlhttpRequest = (options) =>
         dom.window.GM.xmlHttpRequest(options);
 
-    return { commands, requests };
+    return { commands, requests, values };
 }
 
 function runScript(dom) {
@@ -881,6 +883,15 @@ async function runCoexistenceScenario() {
                 packageMetricLabels: Array.from(
                     cards[0]?.querySelectorAll(".nbps-metric-label") || []
                 ).map((label) => label.textContent),
+                packedRatio: Array.from(
+                    cards[0]?.querySelectorAll(".nbps-metric") || []
+                )
+                    .find(
+                        (metric) =>
+                            metric.querySelector(".nbps-metric-label")
+                                ?.textContent === "Packed ratio"
+                    )
+                    ?.querySelector(".nbps-metric-value")?.textContent,
                 versionLabel:
                     cards[0]?.querySelector(".nbps-version")?.textContent,
             };
@@ -990,7 +1001,7 @@ async function runSidebarIntegrationScenario() {
         "package-size",
         "repository-card",
     ]);
-    installGm(dom, async (url) => {
+    const gm = installGm(dom, async (url) => {
         if (url.includes("bundlephobia.com/api/size")) {
             return {
                 dependencyCount: 0,
@@ -1048,15 +1059,19 @@ async function runSidebarIntegrationScenario() {
         const fundingButton = await waitFor(() =>
             sidebar.querySelector(".npm-userscript-funding-button")
         );
+        const collaboratorsSection = sidebar.querySelector(
+            "#collaborators-section"
+        );
         const sizeCard = await waitFor(() => {
             const candidate = sidebar.querySelector(
                 "[data-npm-bundlephobia-size]"
             );
-            return candidate?.nextElementSibling === fundingButton
+            return candidate?.nextElementSibling === collaboratorsSection
                 ? candidate
                 : null;
         });
-        await waitFor(() =>
+        const defaultPlacement = sizeCard.dataset.placement;
+        const repositoryCard = await waitFor(() =>
             sidebar.querySelector(".npm-userscript-repository-card")
         );
         const homepageLink = sidebar.querySelector(
@@ -1089,6 +1104,60 @@ async function runSidebarIntegrationScenario() {
                 ? candidate
                 : null;
         });
+        const exactVersionCommands = Array.from(
+            pinnedInstallList.querySelectorAll(".mib-command code")
+        ).every((code) => code.textContent.includes("example@1.0.0"));
+
+        const runPlacementCommand = async (label, check) => {
+            gm.commands.find((command) => command.label === label).callback();
+            return waitFor(() => {
+                const candidate = sidebar.querySelector(
+                    "[data-npm-bundlephobia-size]"
+                );
+                return check(candidate) ? candidate.dataset.placement : null;
+            });
+        };
+        const placements = {
+            bundlephobiaLink: await runPlacementCommand(
+                "Bundlephobia: place by npm bundle link",
+                (candidate) =>
+                    candidate.previousElementSibling?.id ===
+                    "bundle-link-section"
+            ),
+            collaborators: await runPlacementCommand(
+                "Bundlephobia: place above Collaborators",
+                (candidate) =>
+                    candidate.nextElementSibling === collaboratorsSection
+            ),
+            funding: await runPlacementCommand(
+                "Bundlephobia: place above Fund this package",
+                (candidate) => candidate.nextElementSibling === fundingButton
+            ),
+            unpacked: await runPlacementCommand(
+                "Bundlephobia: place below Unpacked Size",
+                (candidate) =>
+                    candidate.previousElementSibling?.id === "unpacked-section"
+            ),
+        };
+        sidebar.querySelector("#unpacked-section").remove();
+        const fallbackPlacement = await runPlacementCommand(
+            "Bundlephobia: place below Unpacked Size",
+            (candidate) => candidate.nextElementSibling === collaboratorsSection
+        );
+
+        const repurposedHeading = dom.window.document.createElement("h3");
+        repurposedHeading.id = "react-reused-repository";
+        repurposedHeading.textContent = "Repository";
+        pinnedInstallList.replaceChildren(repurposedHeading);
+        const repairedInstallList = await waitFor(() => {
+            const candidate = sidebar.querySelector(
+                "[data-npm-more-install-buttons]"
+            );
+            return candidate !== pinnedInstallList &&
+                candidate?.querySelector(".mib-command")
+                ? candidate
+                : null;
+        });
 
         return {
             homepage: {
@@ -1103,19 +1172,29 @@ async function runSidebarIntegrationScenario() {
                 defaultsToActiveTag: defaultInstallCommands.every(
                     (command) => !command.includes("example@1.0.0")
                 ),
-                exactVersionCommands: Array.from(
-                    pinnedInstallList.querySelectorAll(".mib-command code")
-                ).every((code) => code.textContent.includes("example@1.0.0")),
+                exactVersionCommands,
+                releasesReactRepurposedNode:
+                    pinnedInstallList.isConnected &&
+                    !pinnedInstallList.classList.contains("mib-list") &&
+                    !pinnedInstallList.hasAttribute(
+                        "data-npm-more-install-buttons"
+                    ) &&
+                    pinnedInstallList.firstElementChild === repurposedHeading,
+                repairsAfterReactReuse:
+                    repairedInstallList.parentElement === sidebar,
                 ...installPlacement,
             },
             size: {
                 avoidsNestedBundleLinkSection: !sidebar
                     .querySelector("#bundle-link-section")
                     .contains(sizeCard),
+                defaultPlacement,
+                fallbackPlacement,
                 parentIsSidebar: sizeCard.parentElement === sidebar,
-                placement: sizeCard.dataset.placement,
-                precedesFundingButton:
-                    sizeCard.nextElementSibling === fundingButton,
+                placements,
+                repositoryCardIsDirectChild:
+                    repositoryCard.parentElement === sidebar,
+                storedPlacement: gm.values.get("bundlephobiaSizeCardPlacement"),
             },
         };
     } finally {

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.10.0
+// @version      0.11.0
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -5012,6 +5012,10 @@ implementation is broken for large numbers for some reason. This temporarily fix
         if (!isValidPackagePage()) return;
         addStyle(`
     .npm-enhancer-link-row {
+      background: var(--npm-dark-surface, var(--color-bg-subtle, transparent));
+      border: 1px solid var(--npm-dark-border, var(--color-border-default, transparent));
+      border-radius: 10px;
+      box-sizing: border-box;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -5019,8 +5023,8 @@ implementation is broken for large numbers for some reason. This temporarily fix
       width: 100%;
       height: auto;
       margin: 4px 0 8px;
+      padding: 5px;
       clear: both;
-      box-sizing: border-box;
       transform: none;
       list-style: none;
     }
@@ -7473,18 +7477,35 @@ implementation is broken for large numbers for some reason. This temporarily fix
                     "npm-userscript-repository-card-superseded"
                 )
             );
+        document
+            .querySelectorAll(
+                ".npm-userscript-downloads-card, .npm-userscript-collaborators-card"
+            )
+            .forEach((column) =>
+                column.classList.remove(
+                    "npm-userscript-downloads-card",
+                    "npm-userscript-collaborators-card"
+                )
+            );
     }
     function runPre11() {
         if (!isValidPackagePage()) return;
         addStyle(`
     .npm-userscript-repository-card {
-      border: 1px solid var(--color-border-default);
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 14px;
-      margin-right: -8px;
+      --npm-repository-card-accent: var(--npm-dark-accent-cool, var(--color-fg-accent, #0969da));
+
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--npm-dark-border, var(--color-border-default));
+      border-top: 3px solid var(--npm-repository-card-accent);
+      border-radius: 14px;
+      padding: 14px;
+      margin: 14px 0 0;
       font-size: 16px;
-      background: color-mix(in srgb, currentColor 2.5%, transparent);
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--npm-repository-card-accent) 9%, transparent), transparent 48%),
+        var(--npm-dark-surface, var(--color-bg-subtle, #fff));
+      box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
     }
 
     .npm-userscript-repository-card-title {
@@ -7500,14 +7521,14 @@ implementation is broken for large numbers for some reason. This temporarily fix
 
     .npm-userscript-repository-card-title-directory {
       font-weight: bold;
-      color: #757575;
+      color: var(--npm-dark-text-muted, var(--color-fg-muted, #757575));
       text-wrap: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .npm-userscript-repository-card-title-separator {
-      color: #757575;
+      color: var(--npm-dark-text-muted, var(--color-fg-muted, #757575));
     }
 
     .npm-userscript-repository-card-description {
@@ -7611,11 +7632,19 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
 
     .npm-userscript-package-insights {
-      margin: 18px -8px 0 0;
-      padding: 12px;
-      border: 1px solid var(--color-border-default);
-      border-radius: 10px;
-      background: color-mix(in srgb, currentColor 2.5%, transparent);
+      --npm-insights-accent: var(--npm-dark-accent-warm, var(--wombat-violet, #8250df));
+
+      width: 100%;
+      box-sizing: border-box;
+      margin: 14px 0 0;
+      padding: 14px;
+      border: 1px solid var(--npm-dark-border, var(--color-border-default));
+      border-top: 3px solid var(--npm-insights-accent);
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--npm-insights-accent) 9%, transparent), transparent 48%),
+        var(--npm-dark-surface, var(--color-bg-subtle, #fff));
+      box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
     }
 
     .npm-userscript-package-insights h3 {
@@ -7630,11 +7659,17 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
 
     .npm-userscript-package-insights-link {
+      --npm-insight-link-accent: var(--npm-insights-accent);
+
+      display: grid;
+      gap: 5px;
+      justify-items: center;
       min-width: 0;
       padding: 7px 5px;
-      color: inherit;
-      border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
-      border-radius: 7px;
+      color: var(--npm-insight-link-accent);
+      border: 1px solid color-mix(in srgb, var(--npm-insight-link-accent) 34%, transparent);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--npm-insight-link-accent) 9%, transparent);
       font-size: 0.78rem;
       font-weight: 600;
       text-align: center;
@@ -7642,8 +7677,53 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
 
     .npm-userscript-package-insights-link:is(:focus, :hover) {
-      color: var(--wombat-red, #cb3837);
-      border-color: var(--wombat-red, #cb3837);
+      color: var(--npm-insight-link-accent);
+      border-color: var(--npm-insight-link-accent);
+      background: color-mix(in srgb, var(--npm-insight-link-accent) 16%, transparent);
+    }
+
+    .npm-userscript-package-insights-link[data-insight="trends"] {
+      --npm-insight-link-accent: var(--npm-dark-accent-cool, #3b82f6);
+    }
+
+    .npm-userscript-package-insights-link[data-insight="contributors"] {
+      --npm-insight-link-accent: var(--npm-dark-success, #22c55e);
+    }
+
+    .npm-userscript-package-insights-link[data-insight="releases"] {
+      --npm-insight-link-accent: var(--npm-dark-warning, #f59e0b);
+    }
+
+    .npm-userscript-package-insights-link svg {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.6;
+    }
+
+    .npm-userscript-downloads-card,
+    .npm-userscript-collaborators-card {
+      width: 100% !important;
+      box-sizing: border-box;
+      clear: both;
+      float: none !important;
+      margin: 14px 0 0 !important;
+      padding: 14px !important;
+      border: 1px solid var(--npm-dark-border, var(--color-border-default)) !important;
+      border-radius: 14px;
+      background: var(--npm-dark-surface, var(--color-bg-subtle, #fff));
+      box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
+    }
+
+    .npm-userscript-downloads-card {
+      border-top: 3px solid var(--npm-dark-accent-cool, #3b82f6) !important;
+    }
+
+    .npm-userscript-collaborators-card {
+      border-top: 3px solid var(--npm-dark-accent-warm, #a855f7) !important;
     }
 
     .npm-userscript-star-history {
@@ -7768,8 +7848,18 @@ implementation is broken for large numbers for some reason. This temporarily fix
         if (isHttpUrl(homepage) && homepage !== repoData.html_url) {
             addRepositoryCardLink(card, "homepage", homepage, "Homepage");
         }
-        repositoryH3.insertAdjacentElement("afterend", card);
-        repositoryH3.parentElement?.classList.remove("bb");
+        const sidebar = document.querySelector(
+            '[aria-label="Package sidebar"]'
+        );
+        let repositoryColumn = repositoryH3;
+        while (repositoryColumn && repositoryColumn.parentElement !== sidebar) {
+            repositoryColumn = repositoryColumn.parentElement;
+        }
+        if (!sidebar || repositoryColumn?.parentElement !== sidebar) return;
+        repositoryColumn.insertAdjacentElement("afterend", card);
+        repositoryColumn.classList.add(
+            "npm-userscript-repository-card-superseded"
+        );
         const sidebarColumns = document.querySelectorAll(
             '[aria-label="Package sidebar"] > div:has(> h3)'
         );
@@ -7786,9 +7876,6 @@ implementation is broken for large numbers for some reason. This temporarily fix
         }
         applyRepositorySidebarLinks(repoData, licenseData);
         renderPackageInsights(repoData);
-        const sidebar = document.querySelector(
-            '[aria-label="Package sidebar"]'
-        );
         if (sidebar) {
             repositorySidebarObserver?.disconnect();
             repositorySidebarObserver = new MutationObserver(() =>
@@ -7836,9 +7923,10 @@ implementation is broken for large numbers for some reason. This temporarily fix
         heading.replaceChildren(link);
     }
     function applyRepositorySidebarLinks(repoData, licenseData) {
+        const collaboratorsColumn = getColumnByName("Collaborators");
+        collaboratorsColumn?.classList.add("npm-userscript-collaborators-card");
         linkSidebarHeading(
-            document.getElementById("collaborators") ||
-                getColumnByName("Collaborators"),
+            document.getElementById("collaborators") || collaboratorsColumn,
             `${repoData.html_url}/graphs/contributors`
         );
         linkSidebarHeading(
@@ -7848,6 +7936,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
         const packageName = getPackageNameFromPath();
         const downloadsColumn = getColumnByName("Weekly Downloads");
         if (!packageName || !downloadsColumn) return;
+        downloadsColumn.classList.add("npm-userscript-downloads-card");
         const trendsLink = `https://npm-compare.com/${encodeURIComponent(
             packageName
         )}`;
@@ -7865,12 +7954,34 @@ implementation is broken for large numbers for some reason. This temporarily fix
         graph.replaceWith(graphLink);
         graphLink.append(graph);
     }
-    function appendInsightLink(container, href, label) {
+    function createInsightIcon(kind) {
+        const paths = {
+            contributors:
+                "M10.5 13.5v-1a3 3 0 0 0-3-3h-3a3 3 0 0 0-3 3v1M6 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5M11 7a2 2 0 0 1 2 2v.5M11 2a2 2 0 0 1 0 4",
+            releases: "M8.5 13.5l5-5-6-6h-5v5l6 6ZM5.25 5.25h.01",
+            trends: "M2 12.5l4-4 3 3 5-7M10 4.5h4v4",
+        };
+        const icon = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "svg"
+        );
+        icon.setAttribute("viewBox", "0 0 16 16");
+        icon.setAttribute("aria-hidden", "true");
+        const path = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+        );
+        path.setAttribute("d", paths[kind]);
+        icon.append(path);
+        return icon;
+    }
+    function appendInsightLink(container, href, label, kind) {
         const link = document.createElement("a");
         link.className = "npm-userscript-package-insights-link";
+        link.dataset.insight = kind;
         link.href = href;
         link.rel = "noopener noreferrer nofollow";
-        link.textContent = label;
+        link.append(createInsightIcon(kind), document.createTextNode(label));
         container.append(link);
     }
     function renderPackageInsights(repoData) {
@@ -7888,13 +7999,19 @@ implementation is broken for large numbers for some reason. This temporarily fix
         heading.textContent = "Package Insights";
         const links = document.createElement("div");
         links.className = "npm-userscript-package-insights-links";
-        appendInsightLink(links, trendsLink, "Trends");
+        appendInsightLink(links, trendsLink, "Trends", "trends");
         appendInsightLink(
             links,
             `${repoData.html_url}/graphs/contributors`,
-            "Contributors"
+            "Contributors",
+            "contributors"
         );
-        appendInsightLink(links, `${repoData.html_url}/releases`, "Releases");
+        appendInsightLink(
+            links,
+            `${repoData.html_url}/releases`,
+            "Releases",
+            "releases"
+        );
         const details = document.createElement("details");
         details.className = "npm-userscript-star-history";
         const summary = document.createElement("summary");
@@ -20968,10 +21085,22 @@ if (readIntegratedFeatureSetting("install-commands")) {
             style.id = STYLE_ID;
             style.textContent = `
             .mib-list {
+                --mib-list-accent: var(--npm-dark-accent, var(--color-fg-brand, #cb3837));
+                --mib-list-border: var(--npm-dark-border, var(--color-border-default, #d8d8d8));
+                --mib-list-surface: var(--npm-dark-surface, var(--color-bg-subtle, Canvas));
+
+                background: linear-gradient(135deg, color-mix(in srgb, var(--mib-list-accent) 9%, transparent), transparent 48%), var(--mib-list-surface);
+                border: 1px solid var(--mib-list-border);
+                border-top: 3px solid var(--mib-list-accent);
+                border-radius: 0.875rem;
+                box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
+                box-sizing: border-box;
                 display: grid;
                 gap: 0.625rem;
-                margin: 0.75rem 0 1.5rem;
+                margin: 0.875rem 0;
                 min-width: 0;
+                padding: 0.75rem;
+                width: 100%;
             }
 
             .mib-install-heading {
@@ -22051,8 +22180,22 @@ if (readIntegratedFeatureSetting("install-commands")) {
                 details.typesPackageName,
                 settingsRevision,
             ].join("|");
-            const existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
+            let existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
             updateInstallHeading(installHeading);
+            if (
+                existingList &&
+                (!existingList.querySelector(".mib-command") ||
+                    existingList.querySelector("#repository"))
+            ) {
+                existingList.classList.remove("mib-list");
+                delete existingList.dataset.npmEnhancementOwner;
+                delete existingList.dataset.pageKey;
+                delete existingList.dataset.showIcons;
+                delete existingList.dataset.showLabels;
+                existingList.removeAttribute(LIST_ATTRIBUTE);
+                existingList.removeAttribute("aria-label");
+                existingList = null;
+            }
             if (existingList?.dataset.pageKey === pageKey) return;
             if (
                 existingList &&
@@ -22194,10 +22337,11 @@ if (readIntegratedFeatureSetting("package-size")) {
         const CARD_PLACEMENT_KEY = "bundlephobiaSizeCardPlacement";
         const CARD_PLACEMENTS = Object.freeze({
             bundlephobiaLink: "bundlephobia-link",
+            collaborators: "collaborators",
             fundingButton: "funding-button",
             unpackedSize: "unpacked-size",
         });
-        const DEFAULT_ACCENT_COLOR = "#cb3837";
+        const DEFAULT_ACCENT_COLOR = "#a78bfa";
         const DOWNLOAD_SPEED_KBPS = Object.freeze({
             emerging4G: 7000 / 8,
             slow3G: 400 / 8,
@@ -22353,18 +22497,28 @@ if (readIntegratedFeatureSetting("package-size")) {
             style.textContent = `
             [${CARD_ATTRIBUTE}] {
                 --nbps-accent: ${DEFAULT_ACCENT_COLOR};
-                background: rgba(127, 127, 127, 0.055);
-                border: 1px solid rgba(127, 127, 127, 0.28);
-                border-left: 3px solid var(--nbps-accent);
-                border-radius: 0.4rem;
+                --nbps-border: var(--npm-dark-border, var(--color-border-default, rgba(127, 127, 127, 0.28)));
+                --nbps-cool: var(--npm-dark-accent-cool, #60a5fa);
+                --nbps-success: var(--npm-dark-success, #22c55e);
+                --nbps-surface: var(--npm-dark-surface, var(--color-bg-subtle, Canvas));
+                --nbps-surface-raised: var(--npm-dark-surface-raised, color-mix(in srgb, currentColor 7%, var(--nbps-surface)));
+                --nbps-text-muted: var(--npm-dark-text-muted, var(--color-fg-muted, currentColor));
+                --nbps-warning: var(--npm-dark-warning, #f59e0b);
+                background:
+                    linear-gradient(135deg, color-mix(in srgb, var(--nbps-accent) 10%, transparent), transparent 48%),
+                    var(--nbps-surface);
+                border: 1px solid var(--nbps-border);
+                border-top: 3px solid var(--nbps-accent);
+                border-radius: 0.875rem;
                 box-sizing: border-box;
+                box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
                 clear: both;
                 color: inherit;
                 display: grid;
                 gap: 0.75rem;
-                margin: 0.5rem 0 0.75rem;
+                margin: 0.875rem 0;
                 min-width: 0;
-                padding: 0.8rem;
+                padding: 0.875rem;
                 width: 100%;
             }
 
@@ -22431,11 +22585,11 @@ if (readIntegratedFeatureSetting("package-size")) {
             }
 
             [${CARD_ATTRIBUTE}] .nbps-section-label {
+                color: var(--nbps-text-muted);
                 font-size: 0.7rem;
                 font-weight: 800;
                 letter-spacing: 0.07em;
                 margin: 0.7rem 0 0.35rem;
-                opacity: 0.68;
                 text-transform: uppercase;
             }
 
@@ -22444,19 +22598,33 @@ if (readIntegratedFeatureSetting("package-size")) {
             }
 
             [${CARD_ATTRIBUTE}] .nbps-metric {
-                background: rgba(127, 127, 127, 0.08);
-                border-radius: 0.3rem;
+                --nbps-metric-accent: var(--nbps-accent);
+                background: linear-gradient(145deg, color-mix(in srgb, var(--nbps-metric-accent) 11%, transparent), transparent 62%), var(--nbps-surface-raised);
+                border: 1px solid color-mix(in srgb, var(--nbps-metric-accent) 34%, var(--nbps-border));
+                border-radius: 0.55rem;
                 display: grid;
                 gap: 0.15rem;
                 min-width: 0;
                 padding: 0.55rem 0.65rem;
             }
 
+            [${CARD_ATTRIBUTE}] .nbps-metric[data-tone="cool"] {
+                --nbps-metric-accent: var(--nbps-cool);
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-metric[data-tone="success"] {
+                --nbps-metric-accent: var(--nbps-success);
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-metric[data-tone="warning"] {
+                --nbps-metric-accent: var(--nbps-warning);
+            }
+
             [${CARD_ATTRIBUTE}] .nbps-metric-label {
+                color: var(--nbps-metric-accent);
                 font-size: 0.68rem;
                 font-weight: 700;
                 letter-spacing: 0.04em;
-                opacity: 0.65;
                 text-transform: uppercase;
             }
 
@@ -22469,10 +22637,10 @@ if (readIntegratedFeatureSetting("package-size")) {
             }
 
             [${CARD_ATTRIBUTE}] .nbps-details {
+                color: var(--nbps-text-muted);
                 font-size: 0.7rem;
                 line-height: 1.4;
                 margin: 0.5rem 0 0;
-                opacity: 0.65;
             }
 
             [${CARD_ATTRIBUTE}] .nbps-badges {
@@ -22484,10 +22652,10 @@ if (readIntegratedFeatureSetting("package-size")) {
 
             [${CARD_ATTRIBUTE}] .nbps-badge {
                 align-items: center;
-                background: rgba(34, 197, 94, 0.12);
-                border: 1px solid rgba(34, 197, 94, 0.45);
+                background: color-mix(in srgb, var(--nbps-success) 12%, transparent);
+                border: 1px solid color-mix(in srgb, var(--nbps-success) 45%, transparent);
                 border-radius: 999px;
-                color: inherit;
+                color: var(--nbps-success);
                 display: inline-flex;
                 font-size: 0.68rem;
                 font-weight: 700;
@@ -22505,8 +22673,9 @@ if (readIntegratedFeatureSetting("package-size")) {
             }
 
             [${CARD_ATTRIBUTE}] .nbps-composition {
-                background: rgba(127, 127, 127, 0.08);
-                border-radius: 0.3rem;
+                background: var(--nbps-surface-raised);
+                border: 1px solid var(--nbps-border);
+                border-radius: 0.55rem;
                 display: grid;
                 gap: 0.4rem;
                 margin-top: 0.6rem;
@@ -22924,9 +23093,10 @@ if (readIntegratedFeatureSetting("package-size")) {
             content.replaceChildren(loading);
         }
 
-        function createMetric(label, value, title) {
+        function createMetric(label, value, title, tone = "accent") {
             const metric = createElement("span", "nbps-metric");
             if (title) metric.title = title;
+            metric.dataset.tone = tone;
             metric.append(
                 createElement("span", "nbps-metric-label", label),
                 createElement("strong", "nbps-metric-value", value)
@@ -23028,7 +23198,8 @@ if (readIntegratedFeatureSetting("package-size")) {
                     createMetric(
                         "Tarball",
                         formatSize(footprint.tarballSize),
-                        "Compressed npm registry tarball transfer size."
+                        "Compressed npm registry tarball transfer size.",
+                        "accent"
                     )
                 );
             }
@@ -23037,7 +23208,8 @@ if (readIntegratedFeatureSetting("package-size")) {
                     createMetric(
                         "Unpacked",
                         formatSize(footprint.unpackedSize),
-                        "Published package contents after the tarball is unpacked; dependencies are not included."
+                        "Published package contents after the tarball is unpacked; dependencies are not included.",
+                        "cool"
                     )
                 );
             }
@@ -23046,7 +23218,25 @@ if (readIntegratedFeatureSetting("package-size")) {
                     createMetric(
                         "Files",
                         new Intl.NumberFormat().format(footprint.fileCount),
-                        "Number of files published in this package version."
+                        "Number of files published in this package version.",
+                        "success"
+                    )
+                );
+            }
+            if (
+                Number.isFinite(footprint.tarballSize) &&
+                footprint.tarballSize >= 0 &&
+                Number.isFinite(footprint.unpackedSize) &&
+                footprint.unpackedSize > 0
+            ) {
+                const packedRatio =
+                    (footprint.tarballSize / footprint.unpackedSize) * 100;
+                metrics.append(
+                    createMetric(
+                        "Packed ratio",
+                        `${packedRatio.toFixed(1).replace(/\.0$/u, "")}%`,
+                        "Compressed tarball size as a percentage of the unpacked published package. Lower is smaller.",
+                        "warning"
                     )
                 );
             }
@@ -23057,17 +23247,24 @@ if (readIntegratedFeatureSetting("package-size")) {
             const downloadTimes = getDownloadTimes(data.gzip);
             const metrics = createElement("div", "nbps-metrics");
             metrics.append(
-                createMetric("Minified", formatSize(data.size)),
-                createMetric("Gzip", formatSize(data.gzip)),
+                createMetric(
+                    "Minified",
+                    formatSize(data.size),
+                    undefined,
+                    "accent"
+                ),
+                createMetric("Gzip", formatSize(data.gzip), undefined, "cool"),
                 createMetric(
                     "Slow 3G",
                     formatDownloadTime(downloadTimes.slow3G),
-                    `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`
+                    `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`,
+                    "warning"
                 ),
                 createMetric(
                     "Emerging 4G",
                     formatDownloadTime(downloadTimes.emerging4G),
-                    `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`
+                    `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`,
+                    "success"
                 )
             );
 
@@ -23405,11 +23602,11 @@ if (readIntegratedFeatureSetting("package-size")) {
         function getCardPlacement() {
             const placement = GM_getValue(
                 CARD_PLACEMENT_KEY,
-                CARD_PLACEMENTS.fundingButton
+                CARD_PLACEMENTS.collaborators
             );
             return Object.values(CARD_PLACEMENTS).includes(placement)
                 ? placement
-                : CARD_PLACEMENTS.fundingButton;
+                : CARD_PLACEMENTS.collaborators;
         }
 
         function setCardPlacement(placement) {
@@ -23421,6 +23618,10 @@ if (readIntegratedFeatureSetting("package-size")) {
             GM_registerMenuCommand(
                 "Bundlephobia: change accent color…",
                 openAccentColorDialog
+            );
+            GM_registerMenuCommand(
+                "Bundlephobia: place above Collaborators",
+                () => setCardPlacement(CARD_PLACEMENTS.collaborators)
             );
             GM_registerMenuCommand(
                 "Bundlephobia: place below Unpacked Size",
@@ -23443,22 +23644,45 @@ if (readIntegratedFeatureSetting("package-size")) {
             }
         }
 
+        function insertBefore(target, card, placement) {
+            card.dataset.placement = placement;
+            if (target.previousElementSibling !== card) {
+                target.insertAdjacentElement("beforebegin", card);
+            }
+        }
+
         function insertCard(details, card) {
-            if (getCardPlacement() === CARD_PLACEMENTS.fundingButton) {
-                const fundingSection = findFundingSection(details.sidebar);
-                if (fundingSection) {
-                    card.dataset.placement = CARD_PLACEMENTS.fundingButton;
-                    if (fundingSection.previousElementSibling !== card) {
-                        fundingSection.insertAdjacentElement(
-                            "beforebegin",
-                            card
-                        );
-                    }
+            const requestedPlacement = getCardPlacement();
+            card.dataset.requestedPlacement = requestedPlacement;
+
+            if (requestedPlacement === CARD_PLACEMENTS.collaborators) {
+                const collaboratorsSection = getDirectSidebarChild(
+                    details.sidebar,
+                    findSidebarHeading(details.sidebar, "Collaborators")
+                );
+                if (collaboratorsSection) {
+                    insertBefore(
+                        collaboratorsSection,
+                        card,
+                        CARD_PLACEMENTS.collaborators
+                    );
                     return;
                 }
             }
 
-            if (getCardPlacement() === CARD_PLACEMENTS.unpackedSize) {
+            if (requestedPlacement === CARD_PLACEMENTS.fundingButton) {
+                const fundingSection = findFundingSection(details.sidebar);
+                if (fundingSection) {
+                    insertBefore(
+                        fundingSection,
+                        card,
+                        CARD_PLACEMENTS.fundingButton
+                    );
+                    return;
+                }
+            }
+
+            if (requestedPlacement === CARD_PLACEMENTS.unpackedSize) {
                 const unpackedSizeHeading = findSidebarHeading(
                     details.sidebar,
                     "Unpacked Size"
@@ -23477,16 +23701,31 @@ if (readIntegratedFeatureSetting("package-size")) {
                 }
             }
 
-            const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
-            const bundlephobiaSection = getDirectSidebarChild(
+            if (requestedPlacement === CARD_PLACEMENTS.bundlephobiaLink) {
+                const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
+                const bundlephobiaSection = getDirectSidebarChild(
+                    details.sidebar,
+                    bundlephobiaLink
+                );
+                if (bundlephobiaSection) {
+                    insertAfter(
+                        bundlephobiaSection,
+                        card,
+                        CARD_PLACEMENTS.bundlephobiaLink
+                    );
+                    return;
+                }
+            }
+
+            const collaboratorsSection = getDirectSidebarChild(
                 details.sidebar,
-                bundlephobiaLink
+                findSidebarHeading(details.sidebar, "Collaborators")
             );
-            if (bundlephobiaSection) {
-                insertAfter(
-                    bundlephobiaSection,
+            if (collaboratorsSection) {
+                insertBefore(
+                    collaboratorsSection,
                     card,
-                    CARD_PLACEMENTS.bundlephobiaLink
+                    "collaborators-fallback"
                 );
                 return;
             }

@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           npmjs.com - Modern Dark Theme
 @namespace      nick2bad4u.github.io
-@version        1.4.0
+@version        1.5.0
 @description    A durable, accent-customizable dark theme for modern npm pages, package readmes, code views, forms, menus, and syntax-highlighted examples.
 @author         Nick2bad4u (complete rewrite; original idea by hypnojerk)
 @license        UnLicense
@@ -54,6 +54,9 @@
         --npm-dark-warning: #d29922;
         --npm-dark-danger: #ff7b72;
         --npm-dark-focus: var(--npm-dark-accent);
+        --npm-sidebar-card-radius: 14px;
+        --npm-sidebar-tile-radius: 8px;
+        --npm-sidebar-card-shadow: 0 10px 28px rgb(0 0 0 / 42%);
 
         /* Modern npm semantic tokens */
         --color-fg-default: var(--npm-dark-text) !important;
@@ -416,6 +419,53 @@
     aside[aria-label="Package sidebar"] {
         border-color: var(--npm-dark-border) !important;
         color: var(--npm-dark-text) !important;
+    }
+
+    /* Give native and enhanced package-sidebar modules one visual language. */
+    aside[aria-label="Package sidebar"]
+        > :is(
+            .mib-list,
+            .npm-userscript-repository-card,
+            [data-npm-bundlephobia-size],
+            .npm-userscript-package-insights,
+            .npm-userscript-downloads-card,
+            .npm-userscript-collaborators-card
+        ),
+    aside[aria-label="Package sidebar"]
+        > div:has(a[href*="socket.dev"]):has(a[href*="bundlephobia.com"]) {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        border-color: var(--npm-dark-border) !important;
+        border-radius: var(--npm-sidebar-card-radius) !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        box-shadow: var(--npm-sidebar-card-shadow) !important;
+    }
+
+    aside[aria-label="Package sidebar"]
+        > div:has(a[href*="socket.dev"]):has(a[href*="bundlephobia.com"]) {
+        padding: 14px !important;
+        border: 1px solid var(--npm-dark-border) !important;
+        border-top: 3px solid var(--npm-dark-accent-warm) !important;
+        margin-top: 14px !important;
+        background:
+            linear-gradient(
+                135deg,
+                color-mix(in srgb, var(--npm-dark-accent-warm) 8%, transparent),
+                transparent 48%
+            ),
+            var(--npm-dark-surface) !important;
+    }
+
+    aside[aria-label="Package sidebar"]
+        :is(
+            .mib-command,
+            .npm-userscript-repository-card-entry,
+            .nbps-metric,
+            .nbps-composition,
+            .npm-userscript-package-insights-link
+        ) {
+        border-radius: var(--npm-sidebar-tile-radius) !important;
     }
 
     [role="tab"] {
