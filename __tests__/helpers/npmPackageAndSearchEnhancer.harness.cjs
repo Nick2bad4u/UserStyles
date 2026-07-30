@@ -765,6 +765,130 @@ async function runRepositoryCardScenario() {
     }
 }
 
+async function runDeferredRepositoryCardScenario() {
+    const dom = createPage(
+        `<title>example - npm</title><main><h1>example</h1><aside aria-label="Package sidebar">
+            <div id="deferred-repository"><h3 id="repository">Repository</h3><p><a aria-labelledby="repository-link" href="https://github.com/example/example"><span id="repository-link">example/example</span></a></p></div>
+            <div id="deferred-homepage"><h3 id="homePage">Homepage</h3><p><a href="https://example.test/docs">Docs</a></p></div>
+        </aside></main>`,
+        "https://www.npmjs.com/package/example"
+    );
+    setOnlyFeature(dom, "repository-card");
+    let releaseData;
+    const dataGate = new Promise((resolve) => {
+        releaseData = resolve;
+    });
+    const gm = installGm(dom, async (url) => {
+        await dataGate;
+        if (url.includes("api.github.com/search/issues")) {
+            return { total_count: 2 };
+        }
+        if (url.endsWith("api.github.com/repos/example/example/license")) {
+            return {
+                html_url:
+                    "https://github.com/example/example/blob/main/LICENSE",
+            };
+        }
+        if (url.includes("api.github.com/repos/example/example/contents")) {
+            return {};
+        }
+        if (url.endsWith("api.github.com/repos/example/example")) {
+            return {
+                default_branch: "main",
+                full_name: "example/example",
+                html_url: "https://github.com/example/example",
+                open_issues_count: 7,
+                organization: null,
+                owner: { avatar_url: "https://example.test/avatar.png" },
+                stargazers_count: 1234,
+            };
+        }
+        if (url.includes("registry.npmjs.org/example/")) {
+            return {
+                homepage: "https://example.test/docs",
+                repository: {
+                    type: "git",
+                    url: "git+https://github.com/example/example.git",
+                },
+                version: "1.0.0",
+            };
+        }
+        throw new Error(`Unexpected request: ${url}`);
+    });
+
+    try {
+        runScript(dom);
+        const shell = await waitFor(
+            () =>
+                dom.window.document.querySelector(
+                    ".npm-userscript-repository-card-loading"
+                ),
+            1_000
+        );
+        await waitFor(
+            () =>
+                gm.requests.includes(
+                    "https://registry.npmjs.org/example/latest"
+                ),
+            1_000
+        );
+        shell.remove();
+        const restoredShell = await waitFor(() => {
+            const candidate = dom.window.document.querySelector(
+                ".npm-userscript-repository-card-loading"
+            );
+            return candidate && candidate !== shell ? candidate : null;
+        }, 1_000);
+        const repository = dom.window.document.querySelector(
+            "#deferred-repository"
+        );
+        const homepage =
+            dom.window.document.querySelector("#deferred-homepage");
+        const beforeData = {
+            ariaBusy: restoredShell.getAttribute("aria-busy"),
+            homepageHref: restoredShell.querySelector(
+                '[data-metric="homepage"]'
+            )?.href,
+            homepageHidden: homepage.classList.contains(
+                "npm-userscript-repository-card-pending"
+            ),
+            minHeight: dom.window.getComputedStyle(restoredShell).minHeight,
+            repositoryHidden: repository.classList.contains(
+                "npm-userscript-repository-card-pending"
+            ),
+            status: restoredShell.querySelector(
+                ".npm-userscript-repository-card-status"
+            )?.textContent,
+        };
+        releaseData();
+        const enrichedCard = await waitFor(() => {
+            const card = dom.window.document.querySelector(
+                ".npm-userscript-repository-card:not(.npm-userscript-repository-card-loading)"
+            );
+            return card?.querySelector('[data-metric="stars"]') ? card : null;
+        });
+        return {
+            beforeData,
+            finalMetricKinds: Array.from(
+                enrichedCard.querySelectorAll("[data-metric]")
+            ).map((metric) => metric.dataset.metric),
+            latestRequestStartedBeforeData:
+                gm.requests[0] === "https://registry.npmjs.org/example/latest",
+            nativeColumnsHiddenAfterData:
+                repository.classList.contains(
+                    "npm-userscript-repository-card-superseded"
+                ) &&
+                homepage.classList.contains(
+                    "npm-userscript-repository-card-superseded"
+                ),
+            shellRestoredBeforeData: true,
+        };
+    } finally {
+        releaseData();
+        dom.window.close();
+    }
+}
+
 async function runCoexistenceScenario() {
     async function runInstallOrder(standaloneFirst) {
         const dom = createPage(
@@ -1365,6 +1489,7 @@ async function main() {
         defaultSearch: await runDefaultSearchScenario(),
         dependencies: await runDependenciesScenario(),
         dependents: await runDependentsScenario(),
+        deferredRepositoryCard: await runDeferredRepositoryCardScenario(),
         packagePage: await runPackageScenario(),
         repositoryCard: await runRepositoryCardScenario(),
         sidebarIntegration: await runSidebarIntegrationScenario(),

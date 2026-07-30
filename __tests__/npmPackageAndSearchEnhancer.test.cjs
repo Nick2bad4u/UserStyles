@@ -33,7 +33,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.11.0");
+        expect(script).toContain("// @version      0.12.0");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
         expect(script).toContain("// @connect      npm-compare.com");
@@ -66,7 +66,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
 
     test("keeps both npm dark themes on the shared sidebar design system", () => {
         const themes = [
-            ["Npmjs.com-AMOLED-Black.user.css", "1.4.0"],
+            ["Npmjs.com-AMOLED-Black.user.css", "1.5.0"],
             ["Npmjs.com-Modern-Dark.user.css", "1.5.0"],
         ];
         for (const [file, version] of themes) {
@@ -83,6 +83,18 @@ describe("NPM Package and Search Enhancer userscript", () => {
             expect(theme).toContain(".npm-userscript-collaborators-card");
             expect(theme).toContain('a[href*="socket.dev"]');
         }
+    });
+
+    test("covers npm subdomains and the current npm Docs component system", () => {
+        const theme = fs.readFileSync(
+            path.join(__dirname, "..", "Npmjs.com-AMOLED-Black.user.css"),
+            "utf8"
+        );
+        expect(theme).toContain('@-moz-document domain("npmjs.com")');
+        expect(theme).toContain("#gatsby-focus-wrapper");
+        expect(theme).toContain('[data-component="BaseStyles"]');
+        expect(theme).toContain('[class*="prc-ActionList-"]');
+        expect(theme).toContain("pre.prism-code");
     });
 
     test("uses static links without requests and preserves npm-owned download nodes", () => {
@@ -264,6 +276,34 @@ describe("NPM Package and Search Enhancer userscript", () => {
             "https://npm-compare.com/img/github-trend/example.png"
         );
         expect(results.repositoryCard.insightsAtContentBottom).toBe(true);
+    });
+
+    test("renders the repository and homepage shell before package data resolves", () => {
+        expect(results.deferredRepositoryCard.beforeData).toEqual({
+            ariaBusy: "true",
+            homepageHidden: true,
+            homepageHref: "https://example.test/docs",
+            minHeight: "112px",
+            repositoryHidden: true,
+            status: "Loading repository details…",
+        });
+        expect(
+            results.deferredRepositoryCard.latestRequestStartedBeforeData
+        ).toBe(true);
+        expect(
+            results.deferredRepositoryCard.nativeColumnsHiddenAfterData
+        ).toBe(true);
+        expect(results.deferredRepositoryCard.shellRestoredBeforeData).toBe(
+            true
+        );
+        expect(results.deferredRepositoryCard.finalMetricKinds).toEqual(
+            expect.arrayContaining([
+                "stars",
+                "issues",
+                "pulls",
+                "homepage",
+            ])
+        );
     });
 
     test("embeds both companion scripts and ships standalone coexistence guards", () => {

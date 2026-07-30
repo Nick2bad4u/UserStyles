@@ -29,9 +29,11 @@ describe("Dependabot PR Merge Assistant userscript", () => {
         expect(script).toContain(
             "// @name         Dependabot PR Merge Assistant"
         );
-        expect(script).toContain("// @version      3.0.0");
+        expect(script).toContain("// @version      3.0.1");
+        expect(script).toContain("// @match        https://github.com/*");
         expect(script).toContain("// @run-at       document-idle");
         expect(script).toContain("// @noframes");
+        expect(script).toContain("// @grant        window.onurlchange");
         expect(script).not.toContain("// @grant        GM_xmlhttpRequest");
         expect(script).not.toContain("// @connect      api.github.com");
         expect(script).not.toContain("Authorization:");
@@ -52,6 +54,18 @@ describe("Dependabot PR Merge Assistant userscript", () => {
 
     test("does not appear on pull requests from other authors", () => {
         expect(results.nonDependabot.hasAssistant).toBe(false);
+    });
+
+    test("persists when GitHub swaps the pull request header while scrolling", () => {
+        expect(results.stickyHeader.hasAssistant).toBe(true);
+    });
+
+    test("tracks GitHub soft navigation into and away from pull requests", () => {
+        expect(results.softNavigation).toEqual({
+            afterLeavingPull: false,
+            afterPullNavigation: true,
+            beforeNavigation: false,
+        });
     });
 
     test("supports keyboard dismissal and restores focus to the launcher", () => {

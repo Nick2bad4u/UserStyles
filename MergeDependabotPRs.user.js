@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    nick2bad4u.github.io
-// @version      6.7
+// @version      6.8
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
-// @match        https://github.com/notifications
-// @match        https://github.com/*/*/pull/*
+// @match        https://github.com/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
+// @grant        window.onurlchange
 // @connect      api.github.com
 // @license      UnLicense
 // @tag          github
@@ -77,6 +77,11 @@ function safeGM_addStyle(css) {
 
 void (async function () {
 	'use strict';
+
+	const BUTTON_CONTAINER_ID = 'merge-dependabot-merge-button-container';
+	const BUTTON_ID = 'merge-dependabot-merge-button';
+	let initializationPromise = null;
+	let pageSyncTimer = 0;
 
 	// Delay between each merge request in milliseconds, configurable via the 'merge_delay' variable stored in safeGM_getValue (default is 2000ms)
 	let delay = safeGM_getValue('merge_delay', 2000);
@@ -287,8 +292,6 @@ void (async function () {
 			});
 		});
 	}
-
-	await initialize();
 
 	async function encryptAndStoreToken(token) {
 		try {
@@ -539,12 +542,98 @@ void (async function () {
 		});
 	}
 
-	function addButton() {
+	function getSupportedPageKind() {
+		const { pathname } = globalThis.location;
+		if (/^\/notifications(?:\/|$)/u.test(pathname)) return 'notifications';
+		if (/^\/[^/]+\/[^/]+\/pull\/\d+(?:\/|$)/u.test(pathname)) return 'pull-request';
+		return null;
+	}
+
+	function positionButtonContainer(container, pageKind) {
+		const isPullRequest = pageKind === 'pull-request';
+		container.dataset.pageKind = pageKind;
+		for (const element of [container, container.querySelector(`#${BUTTON_ID}`)].filter(Boolean)) {
+			element.style.bottom = isPullRequest ? '20px' : '10px';
+			element.style.left = isPullRequest ? '20px' : 'auto';
+			element.style.right = isPullRequest ? 'auto' : '10px';
+		}
+	}
+
+	function removePageUi() {
+		document.getElementById(BUTTON_CONTAINER_ID)?.remove();
+		document.getElementById('merge-status')?.remove();
+		document.getElementById('merge-dependabot-config-panel')?.remove();
+		document.querySelectorAll('.pr-container').forEach((element) => element.remove());
+		removeAllPRSelectionContainers();
+	}
+
+	async function syncPage() {
+		pageSyncTimer = 0;
+		const pageKind = getSupportedPageKind();
+		if (!pageKind) {
+			removePageUi();
+			return;
+		}
+
 		try {
+			initializationPromise ??= initialize();
+			await initializationPromise;
+		} catch (error) {
+			initializationPromise = null;
+			console.error('[Auto-Merge Dependabot PRs] Initialization failed:', error);
+			return;
+		}
+
+		if (getSupportedPageKind() !== pageKind) {
+			schedulePageSync();
+			return;
+		}
+		addButton(pageKind);
+	}
+
+	function schedulePageSync() {
+		if (pageSyncTimer) return;
+		pageSyncTimer = globalThis.setTimeout(() => void syncPage(), 50);
+	}
+
+	function startPageLifecycle() {
+		globalThis.addEventListener('popstate', schedulePageSync);
+		if (globalThis.onurlchange === null) {
+			globalThis.addEventListener('urlchange', schedulePageSync);
+		}
+		document.addEventListener('turbo:load', schedulePageSync);
+		document.addEventListener('pjax:end', schedulePageSync);
+
+		const pageObserver = new MutationObserver(() => {
+			if (getSupportedPageKind() && !document.getElementById(BUTTON_ID)) {
+				schedulePageSync();
+			}
+		});
+		pageObserver.observe(document.documentElement, {
+			childList: true,
+			subtree: true,
+		});
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', schedulePageSync, { once: true });
+		} else {
+			schedulePageSync();
+		}
+	}
+
+	function addButton(pageKind) {
+		try {
+			const existingButton = document.getElementById(BUTTON_ID);
+			if (existingButton) {
+				const existingContainer = existingButton.closest(`#${BUTTON_CONTAINER_ID}`);
+				if (existingContainer) positionButtonContainer(existingContainer, pageKind);
+				return;
+			}
+
 			const mergeButton = document.createElement('button');
 			mergeButton.textContent = 'Merge Dependabot PRs';
 			mergeButton.classList.add('merge-dependabot-merge-button', 'merge-button');
-			mergeButton.id = 'merge-dependabot-merge-button';
+			mergeButton.id = BUTTON_ID;
 			mergeButton.addEventListener('click', () => {
 				void (async () => {
 					try {
@@ -603,16 +692,15 @@ void (async function () {
 					}
 				})();
 			});
-			const container = document.getElementById('merge-dependabot-merge-button-container') || createMergeButtonContainer();
+			const container = document.getElementById(BUTTON_CONTAINER_ID) || createMergeButtonContainer();
 			container.appendChild(mergeButton);
+			positionButtonContainer(container, pageKind);
 
 			function createMergeButtonContainer() {
 				const container = document.createElement('div');
-				container.id = 'merge-dependabot-merge-button-container';
+				container.id = BUTTON_CONTAINER_ID;
 				container.className = 'merge-dependabot-merge-button-container';
 				container.style.position = 'fixed';
-				container.style.bottom = '10px';
-				container.style.right = '10px';
 				container.style.zIndex = '1000';
 				document.body.appendChild(container);
 				return container;
@@ -947,8 +1035,6 @@ void (async function () {
 	`;
 	safeGM_addStyle(mainCSS);
 
-	window.addEventListener('load', addButton);
-
 	function showConfigPanel() {
 		const configPanel = document.createElement('div');
 		configPanel.setAttribute('role', 'dialog');
@@ -1073,4 +1159,6 @@ void (async function () {
 			throw new Error('Rate limit exceeded');
 		}
 	}
+
+	startPageLifecycle();
 })();

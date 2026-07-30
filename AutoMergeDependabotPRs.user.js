@@ -1,15 +1,16 @@
 // ==UserScript==
 // @name         Dependabot PR Merge Assistant
 // @namespace    nick2bad4u.github.io
-// @version      3.0.0
+// @version      3.0.1
 // @description  Adds a safe, configurable merge assistant to Dependabot pull requests while keeping GitHub's native checks and confirmation flow in control.
 // @author       Nick2bad4u
-// @match        https://github.com/*/*/pull/*
+// @match        https://github.com/*
 // @run-at       document-idle
 // @noframes
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_registerMenuCommand
+// @grant        window.onurlchange
 // @license      UnLicense
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
@@ -272,6 +273,16 @@
     }
 
     function findDependabotAuthorLink() {
+        const metadata = document.querySelector(
+            'meta[property="og:author:username"]'
+        );
+        const metadataAuthor = normalizeText(
+            metadata?.getAttribute("content")
+        );
+        if (metadataAuthor) {
+            return metadataAuthor === DEPENDABOT_LOGIN ? metadata : null;
+        }
+
         const links = document.querySelectorAll(
             `main a[href="/${DEPENDABOT_LOGIN}"], main a[href="/${encodeURIComponent(
                 DEPENDABOT_LOGIN
@@ -1615,6 +1626,9 @@
         subtree: true,
     });
     globalThis.addEventListener("popstate", scheduleRender);
+    if (globalThis.onurlchange === null) {
+        globalThis.addEventListener("urlchange", scheduleRender);
+    }
     document.addEventListener("turbo:load", scheduleRender);
     document.addEventListener("pjax:end", scheduleRender);
     scheduleRender();

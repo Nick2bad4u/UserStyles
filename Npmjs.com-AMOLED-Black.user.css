@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           npmjs.com - AMOLED Black Theme
 @namespace      nick2bad4u.github.io
-@version        1.4.0
-@description    A true-black, accent-customizable AMOLED theme for modern npm pages, package readmes, code views, forms, menus, and syntax-highlighted examples.
+@version        1.5.0
+@description    A true-black, accent-customizable AMOLED theme for npmjs.com and its subdomains, including npm Docs, package readmes, code views, forms, menus, and syntax-highlighted examples.
 @author         Nick2bad4u (complete rewrite; original idea by hypnojerk)
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
@@ -729,6 +729,141 @@
         font-variant-numeric: tabular-nums;
         text-shadow: 0 0 18px
             color-mix(in srgb, var(--npm-dark-stat-accent) 24%, transparent);
+    }
+
+    /*
+     * npm Docs runs on docs.npmjs.com with Gatsby and Primer React. The
+     * parent domain rule already matches every npmjs.com subdomain; these
+     * stable Gatsby/Primer hooks cover the docs-specific component system.
+     */
+    #gatsby-focus-wrapper,
+    #gatsby-focus-wrapper [data-component="BaseStyles"] {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-bg) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    #gatsby-focus-wrapper
+        :where(p, li, dd, dt, nav, section, article, details, summary, label) {
+        border-color: var(--npm-dark-border) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    #gatsby-focus-wrapper :where(h1, h2, h3, h4, h5, h6) {
+        border-color: var(--npm-dark-border) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    #gatsby-focus-wrapper a {
+        color: var(--npm-dark-link) !important;
+    }
+
+    #gatsby-focus-wrapper
+        :where(
+            header,
+            [class*="sidebar-module--"],
+            [class*="breadcrumbs-module--"],
+            [class*="table-of-contents-module--"]
+        )
+        a {
+        color: var(--npm-dark-text-muted) !important;
+    }
+
+    #gatsby-focus-wrapper
+        :where(a, button, summary, [class*="prc-ActionList-"])
+        :where(span:not([aria-hidden="true"])) {
+        color: inherit !important;
+    }
+
+    #gatsby-focus-wrapper
+        :where(
+            [class*="prc-ActionList-"],
+            [class*="sidebar-module--"],
+            [class*="breadcrumbs-module--"],
+            [class*="table-of-contents-module--"],
+            [class*="variant-select-module--"]
+        ) {
+        border-color: var(--npm-dark-border) !important;
+        color: var(--npm-dark-text-muted) !important;
+    }
+
+    #gatsby-focus-wrapper
+        :where(
+            [class*="prc-ActionList-ActionListContent"],
+            [class*="prc-Button-ButtonBase"]
+        ) {
+        border-color: var(--npm-dark-border-strong) !important;
+        background-color: transparent !important;
+        color: var(--npm-dark-text-muted) !important;
+    }
+
+    #gatsby-focus-wrapper
+        :where(
+            [class*="prc-ActionList-ActionListContent"],
+            [class*="prc-Button-ButtonBase"]
+        ):is(:hover, :focus-visible),
+    #gatsby-focus-wrapper [aria-current="page"] {
+        border-color: var(--npm-dark-accent) !important;
+        background-color: var(--npm-dark-accent-soft) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    #gatsby-focus-wrapper
+        :where(
+            [class*="TextInput-wrapper"],
+            [class*="prc-components-TextInputWrapper"],
+            [class*="prc-Select-Select"]
+        ) {
+        border-color: var(--npm-dark-border-strong) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    #gatsby-focus-wrapper :where(input, select, textarea) {
+        border-color: var(--npm-dark-border-strong) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        caret-color: var(--npm-dark-text);
+        color: var(--npm-dark-text) !important;
+    }
+
+    #gatsby-focus-wrapper [class*="prc-ActionList-Divider"] {
+        background-color: var(--npm-dark-border) !important;
+    }
+
+    #gatsby-focus-wrapper [class*="code-module--Box"] {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: var(--npm-dark-text) !important;
+    }
+
+    #gatsby-focus-wrapper code:not(pre code) {
+        border: 1px solid var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: #f0b6ff !important;
+    }
+
+    #gatsby-focus-wrapper pre.prism-code {
+        overflow: auto;
+        border: 1px solid var(--npm-dark-border) !important;
+        border-radius: 8px;
+        background-color: var(--npm-dark-surface-raised) !important;
+        color: var(--npm-dark-text) !important;
+
+        & [style*="color: rgb(57, 58, 52)"] {
+            color: var(--npm-dark-text) !important;
+        }
+
+        & [style*="color: rgb(207, 56, 70)"] {
+            color: var(--color-syntax-keyword) !important;
+        }
+
+        & [style*="color: rgb(54, 172, 170)"] {
+            color: var(--color-syntax-constant) !important;
+        }
+
+        & [style*="color: rgb(219, 16, 104)"] {
+            color: var(--color-syntax-string) !important;
+        }
     }
 
     /* Package readmes and code examples */

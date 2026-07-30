@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.11.0
+// @version      0.12.0
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -263,7 +263,8 @@
     async function buildNpmContext(key) {
         const packageName = getPackageNameFromPath();
         if (!packageName) return createEmptyContext();
-        const packageVersion = (await waitForPackageVersion()) || "latest";
+        const packageVersion =
+            getVersionFromPath() || getSidebarValue("Version") || "latest";
         const encodedPackageName = encodeURIComponent(packageName);
         const manifest = await getManifestData(packageName, packageVersion);
         if (getPageKey() !== key) return createEmptyContext();
@@ -352,29 +353,6 @@
         } catch {
             return match[1];
         }
-    }
-    async function waitForPackageVersion() {
-        const pathVersion = getVersionFromPath();
-        const currentVersion = getSidebarValue("Version");
-        if (currentVersion) return currentVersion;
-        if (pathVersion && /^\d/.test(pathVersion)) return pathVersion;
-        return new Promise((resolve) => {
-            const timeout = window.setTimeout(() => {
-                observer2.disconnect();
-                resolve(pathVersion);
-            }, 5e3);
-            const observer2 = new MutationObserver(() => {
-                const version = getSidebarValue("Version");
-                if (!version) return;
-                window.clearTimeout(timeout);
-                observer2.disconnect();
-                resolve(version);
-            });
-            observer2.observe(document.documentElement, {
-                childList: true,
-                subtree: true,
-            });
-        });
     }
     function getSidebarValue(label) {
         const sidebar = document.querySelector(
@@ -7448,6 +7426,8 @@ implementation is broken for large numbers for some reason. This temporarily fix
     });
     function teardown5(previousUrl) {
         if (isSamePackagePage(previousUrl)) return;
+        repositoryLoadingObserver?.disconnect();
+        repositoryLoadingObserver = void 0;
         repositorySidebarObserver?.disconnect();
         repositorySidebarObserver = void 0;
         document.querySelector(".npm-userscript-repository-card")?.remove();
@@ -7478,6 +7458,13 @@ implementation is broken for large numbers for some reason. This temporarily fix
                 )
             );
         document
+            .querySelectorAll(".npm-userscript-repository-card-pending")
+            .forEach((column) =>
+                column.classList.remove(
+                    "npm-userscript-repository-card-pending"
+                )
+            );
+        document
             .querySelectorAll(
                 ".npm-userscript-downloads-card, .npm-userscript-collaborators-card"
             )
@@ -7487,6 +7474,114 @@ implementation is broken for large numbers for some reason. This temporarily fix
                     "npm-userscript-collaborators-card"
                 )
             );
+    }
+    function findDirectSidebarColumn(sidebar, heading) {
+        let column = heading;
+        while (column && column.parentElement !== sidebar) {
+            column = column.parentElement;
+        }
+        return column?.parentElement === sidebar ? column : void 0;
+    }
+    function findDirectSidebarColumnByName(sidebar, name) {
+        return Array.from(sidebar?.children || []).find(
+            (column) =>
+                column.querySelector?.("h2, h3")?.textContent?.trim() === name
+        );
+    }
+    function prepareRepositoryCardShell() {
+        if (!isValidPackagePage()) return;
+        const sidebar = document.querySelector(
+            'aside[aria-label="Package sidebar"]'
+        );
+        const repositoryH3 = document.getElementById("repository");
+        if (!sidebar || !repositoryH3) return;
+        const repositoryColumn = findDirectSidebarColumn(sidebar, repositoryH3);
+        const repositoryLink = repositoryColumn?.querySelector("a[href]");
+        if (!repositoryColumn || !repositoryLink) return;
+        const homepageColumn = findDirectSidebarColumnByName(
+            sidebar,
+            "Homepage"
+        );
+        const homepageLink = homepageColumn?.querySelector("a[href]");
+        const existing = sidebar.querySelector(
+            ".npm-userscript-repository-card"
+        );
+        if (existing) {
+            if (
+                existing.classList.contains(
+                    "npm-userscript-repository-card-loading"
+                )
+            ) {
+                repositoryColumn.classList.add(
+                    "npm-userscript-repository-card-pending"
+                );
+                if (existing.querySelector('[data-metric="homepage"]')) {
+                    homepageColumn?.classList.add(
+                        "npm-userscript-repository-card-pending"
+                    );
+                }
+            }
+            return existing;
+        }
+        const card = document.createElement("div");
+        card.className =
+            "npm-userscript-repository-card npm-userscript-repository-card-loading";
+        card.dataset.pageKey = getPageKey();
+        card.setAttribute("aria-busy", "true");
+        const title = document.createElement("div");
+        title.className = "npm-userscript-repository-card-title";
+        title.innerHTML = `
+      <svg class="npm-userscript-repository-card-loading-icon" viewBox="0 0 16 16" width="24" height="24" aria-hidden="true">
+        <path fill="currentColor" d="M8 .25a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.23.49-2.7-1.08-2.7-1.08-.36-.93-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.88 2.34.67.07-.52.28-.88.51-1.08-1.78-.2-3.65-.89-3.65-3.96 0-.88.31-1.59.83-2.15-.08-.2-.36-1.02.08-2.12 0 0 .68-.22 2.2.82A7.67 7.67 0 0 1 8 3.93c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.52.56.83 1.27.83 2.15 0 3.08-1.87 3.75-3.66 3.95.29.25.54.74.54 1.5l-.01 2.22c0 .21.14.46.55.38A8 8 0 0 0 8 .25Z"/>
+      </svg>
+    `;
+        const repositoryTitle = document.createElement("a");
+        repositoryTitle.className = "npm-userscript-repository-card-title-repo";
+        repositoryTitle.href = repositoryLink.href;
+        repositoryTitle.rel = "noopener noreferrer nofollow";
+        repositoryTitle.textContent =
+            repositoryLink.textContent?.trim() || "Repository";
+        title.append(repositoryTitle);
+        const description = document.createElement("div");
+        description.className = "npm-userscript-repository-card-description";
+        card.append(title, description);
+        if (
+            isHttpUrl(homepageLink?.href) &&
+            homepageLink.href !== repositoryLink.href
+        ) {
+            addRepositoryCardLink(
+                card,
+                "homepage",
+                homepageLink.href,
+                "Homepage"
+            );
+            homepageColumn.classList.add(
+                "npm-userscript-repository-card-pending"
+            );
+        }
+        const status = document.createElement("p");
+        status.className = "npm-userscript-repository-card-status";
+        status.textContent = "Loading repository details…";
+        card.append(status);
+        repositoryColumn.insertAdjacentElement("afterend", card);
+        repositoryColumn.classList.add(
+            "npm-userscript-repository-card-pending"
+        );
+        return card;
+    }
+    function settleRepositoryCardShell(message) {
+        repositoryLoadingObserver?.disconnect();
+        repositoryLoadingObserver = void 0;
+        const card = document.querySelector(
+            ".npm-userscript-repository-card-loading"
+        );
+        if (!card) return;
+        card.classList.remove("npm-userscript-repository-card-loading");
+        card.removeAttribute("aria-busy");
+        const status = card.querySelector(
+            ".npm-userscript-repository-card-status"
+        );
+        if (status) status.textContent = message;
     }
     function runPre11() {
         if (!isValidPackagePage()) return;
@@ -7529,6 +7624,21 @@ implementation is broken for large numbers for some reason. This temporarily fix
 
     .npm-userscript-repository-card-title-separator {
       color: var(--npm-dark-text-muted, var(--color-fg-muted, #757575));
+    }
+
+    .npm-userscript-repository-card-loading {
+      min-height: 112px;
+    }
+
+    .npm-userscript-repository-card-loading-icon {
+      flex: 0 0 24px;
+      color: var(--npm-repository-card-accent);
+    }
+
+    .npm-userscript-repository-card-status {
+      margin: 10px 0 0;
+      color: var(--npm-dark-text-muted, var(--color-fg-muted, #656d76));
+      font-size: 0.78rem;
     }
 
     .npm-userscript-repository-card-description {
@@ -7607,6 +7717,10 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
 
     .npm-userscript-repository-card-superseded {
+      display: none !important;
+    }
+
+    .npm-userscript-repository-card-pending {
       display: none !important;
     }
 
@@ -7760,25 +7874,69 @@ implementation is broken for large numbers for some reason. This temporarily fix
       font-size: 0.78rem;
     }
   `);
+        const card = prepareRepositoryCardShell();
+        if (
+            card &&
+            !card.classList.contains("npm-userscript-repository-card-loading")
+        ) {
+            return;
+        }
+        if (!repositoryLoadingObserver) {
+            repositoryLoadingObserver = new MutationObserver(() => {
+                prepareRepositoryCardShell();
+            });
+            repositoryLoadingObserver.observe(document.documentElement, {
+                childList: true,
+                subtree: true,
+            });
+        }
     }
     async function run11() {
         if (!isValidPackagePage()) return;
-        if (document.querySelector(".npm-userscript-repository-card")) return;
-        const repositoryH3 = document.getElementById("repository");
-        if (!repositoryH3) return;
-        const repoData = await fetchGitHubRepoData();
-        if (!repoData) return;
+        const loadingCard = document.querySelector(
+            ".npm-userscript-repository-card-loading"
+        );
+        if (
+            document.querySelector(".npm-userscript-repository-card") &&
+            !loadingCard
+        ) {
+            return;
+        }
+        let repositoryH3 = document.getElementById("repository");
+        if (!repositoryH3 && getNpmContext().context.packument.repository) {
+            repositoryH3 = await waitForElement("#repository", 2e3).catch(
+                () => null
+            );
+        }
+        if (!repositoryH3) {
+            settleRepositoryCardShell(
+                "Repository activity is unavailable; npm links remain ready."
+            );
+            return;
+        }
         const [
+            repoData,
             prCount,
             packageJson,
             licenseData,
         ] = await Promise.all([
-            fetchGitHubPullRequestsCount(),
-            fetchPackageJson(),
-            fetchGitHubLicenseData(),
+            fetchGitHubRepoData().catch(() => void 0),
+            fetchGitHubPullRequestsCount().catch(() => void 0),
+            fetchPackageJson().catch(() => void 0),
+            fetchGitHubLicenseData().catch(() => void 0),
         ]);
-        if (prCount === void 0) return;
-        const issueCount = repoData.open_issues_count - prCount;
+        if (!repoData) {
+            settleRepositoryCardShell(
+                "Repository activity is unavailable; npm links remain ready."
+            );
+            return;
+        }
+        const issueCount =
+            prCount === void 0
+                ? repoData.open_issues_count
+                : Math.max(0, repoData.open_issues_count - prCount);
+        const pullRequestCount =
+            prCount === void 0 ? "—" : prCount.toLocaleString();
         const showRepositoryDirectory =
             (await getFeatureSettings2())["repository-directory"].get() ===
             true;
@@ -7794,7 +7952,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
         const changelogLink = await getChangelogLink(
             repoData.full_name,
             directory
-        );
+        ).catch(() => void 0);
         const homepage = getNpmContext().context.packument.homepage;
         const card = document.createElement("div");
         card.className = "npm-userscript-repository-card";
@@ -7830,9 +7988,9 @@ implementation is broken for large numbers for some reason. This temporarily fix
         ${issueSvg}
         ${issueCount.toLocaleString()}
       </a>
-      <a class="npm-userscript-repository-card-entry" data-metric="pulls" href="${repoData.html_url}/pulls" title="${prCount} pull requests" rel="noopener noreferrer nofollow">
+      <a class="npm-userscript-repository-card-entry" data-metric="pulls" href="${repoData.html_url}/pulls" title="${prCount === void 0 ? "Pull request count unavailable" : `${prCount} pull requests`}" rel="noopener noreferrer nofollow">
         ${pullSvg}
-        ${prCount.toLocaleString()}
+        ${pullRequestCount}
       </a>
       ${
           changelogLink
@@ -7851,12 +8009,28 @@ implementation is broken for large numbers for some reason. This temporarily fix
         const sidebar = document.querySelector(
             '[aria-label="Package sidebar"]'
         );
-        let repositoryColumn = repositoryH3;
-        while (repositoryColumn && repositoryColumn.parentElement !== sidebar) {
-            repositoryColumn = repositoryColumn.parentElement;
+        const repositoryColumn = findDirectSidebarColumn(sidebar, repositoryH3);
+        if (!sidebar || !repositoryColumn) return;
+        const currentLoadingCard = document.querySelector(
+            ".npm-userscript-repository-card-loading"
+        );
+        if (currentLoadingCard?.isConnected) {
+            currentLoadingCard.replaceWith(card);
+        } else {
+            repositoryColumn.insertAdjacentElement("afterend", card);
         }
-        if (!sidebar || repositoryColumn?.parentElement !== sidebar) return;
-        repositoryColumn.insertAdjacentElement("afterend", card);
+        repositoryLoadingObserver?.disconnect();
+        repositoryLoadingObserver = void 0;
+        document
+            .querySelectorAll(".npm-userscript-repository-card-pending")
+            .forEach((column) => {
+                column.classList.remove(
+                    "npm-userscript-repository-card-pending"
+                );
+                column.classList.add(
+                    "npm-userscript-repository-card-superseded"
+                );
+            });
         repositoryColumn.classList.add(
             "npm-userscript-repository-card-superseded"
         );
@@ -8066,6 +8240,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
         issueSvg,
         pullSvg,
         changelogSvg,
+        repositoryLoadingObserver,
         repositorySidebarObserver;
     var init_repository_card = __esm({
         "src/features/repository-card.ts"() {
@@ -8075,6 +8250,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
             description13 = `Consolidates repository links and activity in a card, links npm metadata back to GitHub, and adds lazy package trends.
 Enabling this removes duplicate "Stars", "Issues", "Pull Requests", and "Homepage" columns.
 `;
+            repositoryLoadingObserver = void 0;
             repositorySidebarObserver = void 0;
             starSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path></svg>`;
             issueSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path></svg>`;
@@ -20747,8 +20923,9 @@ is powered by https://osv.dev.
         await Promise.all(promises);
         promises.length = 0;
         consolidateStyles();
-        await waitForPageReady();
-        await waitForNpmContextReady();
+        const pageReadyPromise = waitForPageReady();
+        const contextReadyPromise = waitForNpmContextReady();
+        await Promise.all([pageReadyPromise, contextReadyPromise]);
         for (const feature in allFeatures) {
             if (featureSettings[feature].get() === false) continue;
             const promise = allFeatures[feature].run?.()?.catch((err) => {

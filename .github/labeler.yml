@@ -1,107 +1,128 @@
-# This YAML configuration file is used for labeling pull requests based on the changes made to files in the repository.
+# yaml-language-server: $schema=https://www.schemastore.org/pull-request-labeler.json
 #
-# Labels:
-# - 'root': Applied to any changes made to root files.
-# - 'AnyChange': Applied to any changes made within the entire repository.
-# - 'Actions': Applied to any changes made within the '.workflows' folder or its subfolders.
-# - 'GitHub': Applied to any changes made within the '.github' folder.
-# - 'Style': Applied to any changes made within the '.github/styles' folder.
-# - 'CSS': Applied to any changes made to files with the '.css' extension.
-# - 'JavaScript': Applied to any changes made to files with the '.js' extension.
-# - 'HTML': Applied to any changes made to files with the '.html' extension.
-# - 'PNG': Applied to any changes made to files with the '.png' extension.
-# - 'SVG': Applied to any changes made to files with the '.svg' extension.
-# - 'JPG': Applied to any changes made to files with the '.jpg' extension.
-# - 'GIF': Applied to any changes made to files with the '.gif' extension.
-# - 'JSON': Applied to any changes made to files with the '.json' extension.
-# - 'XML': Applied to any changes made to files with the '.xml' extension.
-# - 'Markdown': Applied to any changes made to files with the '.md' extension.
-# - 'YAML': Applied to any changes made to files with the '.yaml' extension.
-# - 'TypeScript': Applied to any changes made to files with the '.ts' extension.
-# - 'SCSS': Applied to any changes made to files with the '.scss' extension.
-# - 'feature': Applied to any PR where the head branch name starts with `feature` or has a `feature` section in the name.
-# - 'release': Applied to any PR that is opened against the `main` branch.
-# Add 'root' label to any root file changes
-# Quotation marks are required for the leading asterisk
+# =============================================================================
+# PR Labeler Configuration
+# =============================================================================
+#
+# This file configures automatic PR labeling rules (GitHub Action / labeler).
+# It also serves as the *source of label names* if you choose.
+# actions/labeler does not inspect PR titles or bodies. Keyword-based labels
+# therefore match the repository's required type/description head branches.
 
-root:
-  - changed-files:
-      - any-glob-to-any-file: '*'
+# Limit changed-files based labels to 5
+changed-files-labels-limit: 5
 
-# Add 'AnyChange' label to any changes within the entire repository
-AnyChange:
-  - changed-files:
-      - any-glob-to-any-file: '**'
+# Limit changed-files based labels to 100 files changed (default is 1000)
+max-files-changed: 100
 
-# Add 'Actions' label to any changes within '.workflows' folder or any subfolders
-Actions:
-  - changed-files:
-      - any-glob-to-any-file: .github/.workflows/**
+CI/CD:
+    - changed-files:
+          - any-glob-to-any-file:
+                - ".github/workflows/**"
+                - ".github/actions/**"
+                - ".github/*.yml"
+                - ".github/*.yaml"
 
-GitHub:
-  - changed-files:
-      - any-glob-to-any-file: .github/**
+breaking change:
+    - head-branch:
+          - "^(?:breaking|major)/"
 
-Style:
-  - changed-files:
-      - any-glob-to-any-file: .github/styles/**
+bug:
+    - head-branch:
+          - "^(?:bug|fix|hotfix|patch)/"
 
-CSS:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.css'
+build:
+    - any:
+          - changed-files:
+                - any-glob-to-any-file:
+                      - "dist/**/*"
+                      - "plugin.mjs"
+                      - "plugin.d.mts"
+                      - "scripts/**/*"
+                      - "tsconfig.build.json"
+                      - "vite.config.ts"
+          - head-branch:
+                - "^(?:build|bundle|compile)/"
 
-JavaScript:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.js'
+configuration:
+    - changed-files:
+          - any-glob-to-any-file:
+                - "*.config.{js,ts,json}"
+                - "*.json"
+                - "*.yml"
+                - "*.yaml"
+                - ".eslint*"
+                - ".prettier*"
+                - ".github/labeler.yml"
+                - ".github/actionlint.yaml"
+                - "cliff.toml"
+                - "knip.config.ts"
+                - "node.config.json"
+                - "stryker.config.mjs"
+                - "tsconfig*.json"
+                - "vite.config.ts"
 
-HTML:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.html'
+dependencies:
+    - changed-files:
+          - any-glob-to-any-file:
+                - "package.json"
+                - "package-lock.json"
+                - "**/package.json"
 
-PNG:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.png'
+documentation:
+    - any:
+          - changed-files:
+                - any-glob-to-any-file:
+                      - "**/*.md"
+                      - "docs/**/*"
+                      - "README*"
+                      - "CHANGELOG.md"
+                      - "RELEASING.md"
+          - head-branch:
+                - "^(?:docs|documentation|readme)/"
 
-SVG:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.svg'
+enhancement:
+    - head-branch:
+          - "^(?:enhancement|feat|feature|improve)/"
 
-JPG:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.jpg'
+good first issue:
+    - head-branch:
+          - "^(?:beginner|good-first-issue|starter)/"
 
-GIF:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.gif'
+help wanted:
+    - head-branch:
+          - "^(?:help|help-wanted)/"
 
-JSON:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.json'
+performance:
+    - head-branch:
+          - "^(?:optimize|perf|performance)/"
 
-XML:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.xml'
+refactor:
+    - head-branch:
+          - "^(?:cleanup|refactor)/"
 
-Markdown:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.md'
+rules:
+    - changed-files:
+          - any-glob-to-any-file:
+                - "src/rules/**/*.ts"
+                - "src/_internal/**/*.ts"
+                - "src/plugin.ts"
 
-YAML:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.yaml'
+security:
+    - head-branch:
+          - "^(?:cve|security|vuln|vulnerability)/"
 
-TypeScript:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.ts'
+style:
+    - head-branch:
+          - "^(?:format|formatting|lint|style)/"
 
-SCSS:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.scss'
-
-# Add 'feature' label to any PR where the head branch name starts with `feature` or has a `feature` section in the name
-feature:
-  - head-branch: ['^feature', 'feature']
-
-# Add 'release' label to any PR that is opened against the `main` branch
-release:
-  - base-branch: 'main'
+testing:
+    - any:
+          - changed-files:
+                - any-glob-to-any-file:
+                      - "**/*.test.{js,ts,tsx}"
+                      - "**/*.spec.{js,ts,tsx}"
+                      - "test/**/*"
+                      - "__tests__/**/*"
+          - head-branch:
+                - "^(?:test|testing|tests)/"

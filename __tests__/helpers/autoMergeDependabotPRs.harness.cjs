@@ -39,6 +39,9 @@ function createPage({
     return new JSDOM(
         `<!doctype html>
         <html>
+            <head>
+                <meta property="og:author:username" content="${author}">
+            </head>
             <body>
                 <main>
                     <h1>${title} #42</h1>
@@ -74,6 +77,11 @@ function installUserscriptApis(dom, initialSettings) {
         commands.push({ callback, label });
         return commands.length;
     };
+    Object.defineProperty(dom.window, "onurlchange", {
+        configurable: true,
+        value: null,
+        writable: true,
+    });
     return { commands, values };
 }
 
@@ -155,6 +163,58 @@ async function nonDependabotScenario() {
         await new Promise((resolve) => setTimeout(resolve, 250));
         return {
             hasAssistant: Boolean(dom.window.document.getElementById(ROOT_ID)),
+        };
+    } finally {
+        dom.window.close();
+    }
+}
+
+async function stickyHeaderScenario() {
+    const dom = createPage();
+    try {
+        installUserscriptApis(dom);
+        runScript(dom);
+        await getAssistant(dom);
+        dom.window.document
+            .querySelector('main a[href="/dependabot[bot]"]')
+            .parentElement.replaceChildren(
+                dom.window.document.createTextNode(
+                    "Open pull request from a Dependabot branch"
+                )
+            );
+        await new Promise((resolve) => setTimeout(resolve, 250));
+        return {
+            hasAssistant: Boolean(dom.window.document.getElementById(ROOT_ID)),
+        };
+    } finally {
+        dom.window.close();
+    }
+}
+
+async function softNavigationScenario() {
+    const dom = createPage({ url: "https://github.com/" });
+    try {
+        installUserscriptApis(dom);
+        runScript(dom);
+        await new Promise((resolve) => setTimeout(resolve, 250));
+        const beforeNavigation = Boolean(
+            dom.window.document.getElementById(ROOT_ID)
+        );
+        dom.window.history.pushState({}, "", "/Nick2bad4u/example/pull/42");
+        dom.window.dispatchEvent(new dom.window.Event("urlchange"));
+        await getAssistant(dom);
+        const afterPullNavigation = Boolean(
+            dom.window.document.getElementById(ROOT_ID)
+        );
+        dom.window.history.pushState({}, "", "/");
+        dom.window.dispatchEvent(new dom.window.Event("urlchange"));
+        await waitFor(() => !dom.window.document.getElementById(ROOT_ID));
+        return {
+            afterLeavingPull: Boolean(
+                dom.window.document.getElementById(ROOT_ID)
+            ),
+            afterPullNavigation,
+            beforeNavigation,
         };
     } finally {
         dom.window.close();
@@ -409,6 +469,8 @@ async function main() {
         nonDependabot: await nonDependabotScenario(),
         preferredMethod: await preferredMethodScenario(),
         render: await renderScenario(),
+        softNavigation: await softNavigationScenario(),
+        stickyHeader: await stickyHeaderScenario(),
     };
     process.stdout.write(JSON.stringify(results));
 }
