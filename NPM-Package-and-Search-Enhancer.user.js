@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.13.0
+// @version      0.13.1
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -828,13 +828,14 @@
       padding: 10px 8px 8px;
       color: var(--color-fg-muted, #656d76);
       background: transparent;
-      border: 0;
-      border-bottom: 2px solid transparent;
+      border: 2px solid transparent;
+      border-bottom-width: 4px;
       font: inherit;
       cursor: pointer;
     }
 
     .npm-userscript-dependency-tab {
+      position: relative;
       display: grid;
       gap: 3px;
       place-items: center;
@@ -850,16 +851,73 @@
 
     .npm-userscript-dependency-tab[aria-selected="true"],
     .npm-userscript-dependency-tab.npm-userscript-selected-tab {
-      color: var(--wombat-red, #cb3837);
-      border-bottom-color: var(--wombat-red, #cb3837);
-      background: color-mix(in srgb, var(--wombat-red, #cb3837) 12%, transparent);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wombat-red, #cb3837) 35%, transparent);
+      --npm-userscript-selected-accent: var(--npm-dark-success, #22c55e);
+
+      color: var(--color-fg-default, inherit);
+      border-color: var(--npm-userscript-selected-accent);
+      border-bottom-color: var(--npm-userscript-selected-accent);
+      border-radius: 10px 10px 0 0;
+      background: color-mix(in srgb, var(--npm-userscript-selected-accent) 24%, transparent);
+      box-shadow:
+        inset 0 -3px 0 var(--npm-userscript-selected-accent),
+        0 0 0 2px color-mix(in srgb, var(--npm-userscript-selected-accent) 18%, transparent);
+      font-weight: 800;
+    }
+
+    .npm-userscript-dependency-tab[aria-selected="true"]::before {
+      position: absolute;
+      top: 7px;
+      right: 9px;
+      width: 8px;
+      height: 8px;
+      background: var(--npm-userscript-selected-accent);
+      border-radius: 50%;
+      content: "";
     }
 
     .npm-userscript-dependency-native-button {
       flex: 0 0 auto;
       border: 1px solid var(--color-border-default);
       border-radius: 6px;
+    }
+
+    .npm-userscript-dependency-layout-switcher {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 12px 0 16px;
+      padding: 12px 14px;
+      border: 1px solid color-mix(in srgb, var(--npm-dark-success, #22c55e) 45%, transparent);
+      border-radius: 10px;
+      background: color-mix(in srgb, var(--npm-dark-success, #22c55e) 10%, transparent);
+    }
+
+    .npm-userscript-dependency-layout-switcher-copy {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .npm-userscript-dependency-layout-switcher-copy strong {
+      color: var(--npm-dark-success, #22c55e);
+    }
+
+    .npm-userscript-dependency-layout-switcher-copy span {
+      color: var(--color-fg-muted, #656d76);
+      font-size: 0.82rem;
+    }
+
+    .npm-userscript-dependency-enhancer-button {
+      flex: 0 0 auto;
+      padding: 8px 11px;
+      color: var(--color-fg-default, inherit);
+      border: 1px solid var(--npm-dark-success, #22c55e);
+      border-radius: 7px;
+      background: color-mix(in srgb, var(--npm-dark-success, #22c55e) 20%, transparent);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
     }
 
     .npm-userscript-dependency-tab:focus-visible,
@@ -936,8 +994,65 @@
     }
 
     .npm-userscript-dependent-select {
-      margin-right: 8px;
-      accent-color: var(--wombat-red, #cb3837);
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--npm-dark-success, #22c55e);
+    }
+
+    .npm-userscript-dependents-list-header {
+      display: grid;
+      grid-template-columns: 4rem minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      color: var(--color-fg-muted, #656d76);
+      border-bottom: 2px solid var(--color-border-default);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .npm-userscript-dependents-list {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) !important;
+      gap: 6px !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 8px 0 0 !important;
+    }
+
+    .npm-userscript-dependent-item {
+      display: block !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .npm-userscript-dependent-row {
+      display: grid !important;
+      grid-template-columns: 4rem minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      padding: 10px 12px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 8px;
+      background: color-mix(in srgb, currentColor 3%, transparent);
+    }
+
+    .npm-userscript-dependent-row > .npm-userscript-dependent-select {
+      justify-self: center;
+    }
+
+    .npm-userscript-dependent-row > a {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-weight: 700;
     }
 
     [data-npm-userscript-dependent-filtered="true"] {
@@ -956,6 +1071,11 @@
       .npm-userscript-dependents-toolbar {
         grid-template-columns: 1fr;
       }
+
+      .npm-userscript-dependency-layout-switcher {
+        align-items: stretch;
+        flex-direction: column;
+      }
     }
   `);
     }
@@ -969,14 +1089,18 @@
         }
     }
     async function renderDependencyTables() {
-        if (!dependencyTableLayoutSetting.get()) {
-            teardownDependencyTables();
-            return;
-        }
-        const packageJson = await fetchPackageJson();
-        if (!packageJson) return;
         const section = document.getElementById("tabpanel-dependencies");
         if (!section) return;
+        if (!dependencyTableLayoutSetting.get()) {
+            teardownDependencyTables();
+            renderDependencyLayoutSwitcher(section);
+            return;
+        }
+        section
+            .querySelector(".npm-userscript-dependency-layout-switcher")
+            ?.remove();
+        const packageJson = await fetchPackageJson();
+        if (!packageJson) return;
         section.querySelector(".npm-userscript-dependency-view")?.remove();
         const peerDependencies = {};
         const optionalPeerDependencies = {};
@@ -1097,6 +1221,7 @@
         nativeButton.addEventListener("click", () => {
             dependencyTableLayoutSetting.set(false);
             teardownDependencyTables();
+            renderDependencyLayoutSwitcher(section);
         });
         controls.append(tabs, nativeButton);
         view.append(heading, controls, panels);
@@ -1105,6 +1230,32 @@
         const initialGroup =
             groups.find((group) => group.entries.length > 0) ?? groups[0];
         renderView(initialGroup.id);
+    }
+    function renderDependencyLayoutSwitcher(section) {
+        if (
+            !section ||
+            section.querySelector(".npm-userscript-dependency-layout-switcher")
+        ) {
+            return;
+        }
+        const switcher = document.createElement("section");
+        switcher.className = "npm-userscript-dependency-layout-switcher";
+        switcher.setAttribute("data-npm-userscript-added", "true");
+        const copy = document.createElement("span");
+        copy.className = "npm-userscript-dependency-layout-switcher-copy";
+        copy.innerHTML =
+            "<strong>npm dependency layout</strong> <span>Switch back to the grouped Enhancer tables at any time.</span>";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "npm-userscript-dependency-enhancer-button";
+        button.textContent = "Use Enhancer tables";
+        button.addEventListener("click", () => {
+            dependencyTableLayoutSetting.set(true);
+            switcher.remove();
+            void renderDependencyTables();
+        });
+        switcher.append(copy, button);
+        section.prepend(switcher);
     }
     function createDependencyPanel(group) {
         const panel = document.createElement("section");
@@ -1223,7 +1374,14 @@
         return entries;
     }
     function enhanceDependentEntries(panel) {
-        for (const { item, link, name } of getDependentEntries(panel)) {
+        const entries = getDependentEntries(panel);
+        const listParents = new Set();
+        for (const { item, link, name } of entries) {
+            item.classList.add("npm-userscript-dependent-item");
+            item.parentElement?.classList.add("npm-userscript-dependents-list");
+            if (item.parentElement) listParents.add(item.parentElement);
+            const row = link.parentElement;
+            row?.classList.add("npm-userscript-dependent-row");
             if (item.dataset.npmUserscriptDependentEnhanced === "true")
                 continue;
             item.dataset.npmUserscriptDependentEnhanced = "true";
@@ -1243,6 +1401,21 @@
                 updateDependentsExplorer();
             });
             link.insertAdjacentElement("beforebegin", checkbox);
+        }
+        for (const list of listParents) {
+            if (
+                list.previousElementSibling?.classList.contains(
+                    "npm-userscript-dependents-list-header"
+                )
+            ) {
+                continue;
+            }
+            const header = document.createElement("div");
+            header.className = "npm-userscript-dependents-list-header";
+            header.setAttribute("data-npm-userscript-added", "true");
+            header.innerHTML =
+                "<span>Select</span> <span>Dependent package</span>";
+            list.insertAdjacentElement("beforebegin", header);
         }
     }
     function updateDependentsExplorer() {
@@ -1294,7 +1467,23 @@
         dependentsObserver = void 0;
         dependentsRenderQueued = false;
         const panel = document.getElementById("tabpanel-dependents");
+        document
+            .querySelector(".npm-userscript-dependency-layout-switcher")
+            ?.remove();
         panel?.querySelector(".npm-userscript-dependents-toolbar")?.remove();
+        panel
+            ?.querySelectorAll(".npm-userscript-dependents-list-header")
+            .forEach((header) => header.remove());
+        panel
+            ?.querySelectorAll(".npm-userscript-dependents-list")
+            .forEach((list) =>
+                list.classList.remove("npm-userscript-dependents-list")
+            );
+        panel
+            ?.querySelectorAll(".npm-userscript-dependent-row")
+            .forEach((row) =>
+                row.classList.remove("npm-userscript-dependent-row")
+            );
         panel
             ?.querySelectorAll(".npm-userscript-dependent-select")
             .forEach((checkbox) => checkbox.remove());
@@ -1304,6 +1493,7 @@
                 item.hidden = false;
                 delete item.dataset.npmUserscriptDependentEnhanced;
                 delete item.dataset.npmUserscriptDependentFiltered;
+                item.classList.remove("npm-userscript-dependent-item");
             });
     }
     var dependentsObserver;
@@ -1391,21 +1581,40 @@ selectable Dependents explorer with package comparison links.
     }
 
     .npm-userscript-version-tab {
+      position: relative;
       padding: 12px 8px 10px;
       color: var(--color-fg-muted, #656d76);
       background: transparent;
-      border: 0;
-      border-bottom: 2px solid transparent;
+      border: 2px solid transparent;
+      border-bottom-width: 4px;
       font: inherit;
       cursor: pointer;
     }
 
     .npm-userscript-version-tab[aria-selected="true"],
     .npm-userscript-version-tab.npm-userscript-selected-tab {
-      color: var(--wombat-red, #cb3837);
-      border-bottom-color: var(--wombat-red, #cb3837);
-      background: color-mix(in srgb, var(--wombat-red, #cb3837) 12%, transparent);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wombat-red, #cb3837) 35%, transparent);
+      --npm-userscript-selected-accent: var(--npm-dark-success, #22c55e);
+
+      color: var(--color-fg-default, inherit);
+      border-color: var(--npm-userscript-selected-accent);
+      border-bottom-color: var(--npm-userscript-selected-accent);
+      border-radius: 10px 10px 0 0;
+      background: color-mix(in srgb, var(--npm-userscript-selected-accent) 24%, transparent);
+      box-shadow:
+        inset 0 -3px 0 var(--npm-userscript-selected-accent),
+        0 0 0 2px color-mix(in srgb, var(--npm-userscript-selected-accent) 18%, transparent);
+      font-weight: 800;
+    }
+
+    .npm-userscript-version-tab[aria-selected="true"]::before {
+      position: absolute;
+      top: 7px;
+      right: 9px;
+      width: 8px;
+      height: 8px;
+      background: var(--npm-userscript-selected-accent);
+      border-radius: 50%;
+      content: "";
     }
 
     .npm-userscript-version-tab:disabled {
@@ -1418,10 +1627,31 @@ selectable Dependents explorer with package comparison links.
       outline-offset: -2px;
     }
 
-    .npm-userscript-version-summary table {
+    .npm-userscript-version-summary-panel {
+      display: grid;
+      justify-items: center;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .npm-userscript-version-view-heading {
       width: min(100%, 48rem);
-      margin-top: 12px;
-      margin-inline: auto;
+      margin: 14px auto 0;
+      color: var(--npm-dark-success, #22c55e);
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .npm-userscript-version-summary table {
+      display: table !important;
+      float: none !important;
+      clear: both;
+      width: min(100%, 48rem) !important;
+      max-width: 48rem;
+      margin: 10px auto 0 !important;
       table-layout: fixed;
     }
 
@@ -1489,13 +1719,12 @@ selectable Dependents explorer with package comparison links.
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-rows: auto 1fr;
       width: 100% !important;
-      margin: 16px 0 0 !important;
+      margin: 16px 0 8px !important;
       padding: 0 !important;
       float: none !important;
       border: 1px solid
         var(--npm-dark-border, var(--color-border-default, #d2d2d2)) !important;
-      border-bottom: 0 !important;
-      border-radius: 14px 14px 0 0;
+      border-radius: 14px;
       box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
     }
 
@@ -1522,27 +1751,28 @@ selectable Dependents explorer with package comparison links.
     .npm-userscript-package-meta-publish {
       display: flex !important;
       flex-direction: column;
-      min-height: 92px;
-      width: 50% !important;
-      margin: 0 !important;
+      height: 96px !important;
+      min-height: 96px;
+      width: calc(50% - 4px) !important;
       padding: 14px !important;
       float: left !important;
       border: 1px solid
         var(--npm-dark-border, var(--color-border-default, #d2d2d2)) !important;
-      border-top: 0 !important;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 22px color-mix(in srgb, #000 13%, transparent);
     }
 
     .npm-userscript-package-meta-license {
       --npm-userscript-meta-color: var(--npm-dark-warning, #f59e0b);
 
-      border-right: 0 !important;
-      border-radius: 0 0 0 14px;
+      margin: 0 4px 0 0 !important;
     }
 
     .npm-userscript-package-meta-publish {
       --npm-userscript-meta-color: var(--npm-dark-success, #22c55e);
 
-      border-radius: 0 0 14px;
+      margin: 0 0 0 4px !important;
     }
 
     .npm-userscript-package-meta-heading {
@@ -2046,9 +2276,14 @@ selectable Dependents explorer with package comparison links.
         tabs.setAttribute("aria-label", "Version history level");
         const summaryPanel = document.createElement("div");
         summaryPanel.id = "npm-userscript-version-summary-panel";
+        summaryPanel.className = "npm-userscript-version-summary-panel";
         summaryPanel.setAttribute("role", "tabpanel");
+        const viewHeading = document.createElement("h4");
+        viewHeading.id = "npm-userscript-version-view-heading";
+        viewHeading.className = "npm-userscript-version-view-heading";
+        viewHeading.textContent = "Preparing version groups…";
         const newTable = document.createElement("table");
-        newTable.setAttribute("aria-labelledby", "cumulated-versions");
+        newTable.setAttribute("aria-labelledby", viewHeading.id);
         const head = document.createElement("thead");
         head.innerHTML =
             "<tr><th>Version</th><th>Downloads</th><th>Published</th></tr>";
@@ -2059,7 +2294,7 @@ selectable Dependents explorer with package comparison links.
             loadingBody.append(row);
         }
         newTable.append(head, loadingBody);
-        summaryPanel.append(newTable);
+        summaryPanel.append(viewHeading, newTable);
         const note = document.createElement("p");
         note.className = "npm-userscript-version-summary-note";
         note.textContent = "Preparing version history…";
@@ -2071,6 +2306,7 @@ selectable Dependents explorer with package comparison links.
         let views;
         const renderView = (selected) => {
             if (!views) return;
+            viewHeading.textContent = labels[selected];
             newTable.querySelectorAll("tbody").forEach((body) => body.remove());
             const body = document.createElement("tbody");
             let entries = views[selected];
@@ -4431,12 +4667,13 @@ versions, and fix provenance icon alignment.
           padding: 10px;
         }
         #npm-userscript-settings .setting {
+          position: relative;
           display: grid;
           grid-template-columns: auto 1fr;
           grid-template-rows: auto auto;
           gap: 2px 12px;
           margin: 0;
-          padding: 11px 12px;
+          padding: 11px 58px 11px 12px;
           background: color-mix(in srgb, currentColor 4%, transparent);
           border: 1px solid transparent;
           border-radius: 10px;
@@ -4454,6 +4691,37 @@ versions, and fix provenance icon alignment.
           background: color-mix(in srgb, #cb3837 8%, transparent);
           border-color: color-mix(in srgb, #cb3837 28%, transparent);
         }
+        #npm-userscript-settings .setting:has(> input:not(:checked)) {
+          background: color-mix(in srgb, #dc2626 8%, transparent);
+          border-color: color-mix(in srgb, #dc2626 38%, transparent);
+        }
+        #npm-userscript-settings .setting:has(> input:checked) {
+          background: color-mix(in srgb, #16a34a 9%, transparent);
+          border-color: color-mix(in srgb, #16a34a 42%, transparent);
+        }
+        #npm-userscript-settings .setting::after {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          min-width: 34px;
+          padding: 3px 5px;
+          color: #fecaca;
+          background: #991b1b;
+          border: 1px solid #ef4444;
+          border-radius: 999px;
+          content: 'OFF';
+          font-size: 10px;
+          font-weight: 900;
+          letter-spacing: 0.06em;
+          line-height: 1;
+          text-align: center;
+        }
+        #npm-userscript-settings .setting:has(> input:checked)::after {
+          color: #dcfce7;
+          background: #166534;
+          border-color: #22c55e;
+          content: 'ON';
+        }
         #npm-userscript-settings .setting > input {
           grid-area: 1 / 1 / 3 / 2;
           appearance: none;
@@ -4461,7 +4729,8 @@ versions, and fix provenance icon alignment.
           height: 22px;
           margin: 1px 0 0;
           padding: 2px;
-          background: color-mix(in srgb, currentColor 20%, transparent);
+          background: #dc2626;
+          border: 1px solid #ef4444;
           border-radius: 999px;
           cursor: pointer;
           transition: background 140ms ease;
@@ -4477,13 +4746,14 @@ versions, and fix provenance icon alignment.
           transition: transform 140ms ease;
         }
         #npm-userscript-settings .setting > input:checked {
-          background: #cb3837;
+          background: #16a34a;
+          border-color: #22c55e;
         }
         #npm-userscript-settings .setting > input:checked::before {
           transform: translateX(16px);
         }
         #npm-userscript-settings .setting > input:focus-visible {
-          outline: 3px solid color-mix(in srgb, #cb3837 42%, transparent);
+          outline: 3px solid color-mix(in srgb, #22c55e 52%, transparent);
           outline-offset: 2px;
         }
         #npm-userscript-settings .setting > span {
@@ -7713,6 +7983,13 @@ implementation is broken for large numbers for some reason. This temporarily fix
                 )
             );
         document
+            .querySelectorAll(".npm-userscript-downloads-count")
+            .forEach((count) => {
+                count.classList.remove("npm-userscript-downloads-count");
+                delete count.dataset.downloadTier;
+                count.removeAttribute("title");
+            });
+        document
             .querySelectorAll(".npm-userscript-repository-card-superseded")
             .forEach((column) =>
                 column.classList.remove(
@@ -7839,6 +8116,13 @@ implementation is broken for large numbers for some reason. This temporarily fix
                     "npm-userscript-weekly-downloads-layout"
                 )
             );
+        column
+            .querySelectorAll(".npm-userscript-downloads-count")
+            .forEach((count) => {
+                count.classList.remove("npm-userscript-downloads-count");
+                delete count.dataset.downloadTier;
+                count.removeAttribute("title");
+            });
     }
     function getRepositoryBaseUrl(value) {
         if (!isHttpUrl(value)) return;
@@ -7850,6 +8134,15 @@ implementation is broken for large numbers for some reason. This temporarily fix
             .slice(0, 2);
         if (!owner || !repository) return;
         return `https://github.com/${owner}/${repository.replace(/\.git$/i, "")}`;
+    }
+    function getStarHistoryUrl(value) {
+        const repositoryBaseUrl = getRepositoryBaseUrl(value);
+        if (!repositoryBaseUrl) return;
+        const ownerRepository = new URL(repositoryBaseUrl).pathname.replace(
+            /^\//,
+            ""
+        );
+        return `https://www.star-history.com/#${ownerRepository}&Date`;
     }
     function scheduleRepositorySidebarReconcile() {
         if (repositorySidebarReconcileQueued) return;
@@ -8327,7 +8620,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
 
     .npm-userscript-weekly-downloads-layout {
       display: grid !important;
-      grid-template-columns: minmax(7.5rem, 2fr) minmax(0, 3fr);
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
       align-items: end;
       width: 100%;
       max-width: 100%;
@@ -8342,6 +8635,34 @@ implementation is broken for large numbers for some reason. This temporarily fix
     .npm-userscript-weekly-downloads-layout > p {
       grid-column: 1;
       grid-row: 1;
+    }
+
+    .npm-userscript-downloads-count {
+      width: fit-content !important;
+      max-width: 100%;
+      padding: 4px 8px !important;
+      color: var(--npm-userscript-download-color) !important;
+      border: 1px solid color-mix(in srgb, var(--npm-userscript-download-color) 48%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--npm-userscript-download-color) 13%, transparent);
+      font-variant-numeric: tabular-nums;
+      font-weight: 800 !important;
+    }
+
+    .npm-userscript-downloads-count[data-download-tier="emerging"] {
+      --npm-userscript-download-color: #ef4444;
+    }
+
+    .npm-userscript-downloads-count[data-download-tier="growing"] {
+      --npm-userscript-download-color: #f59e0b;
+    }
+
+    .npm-userscript-downloads-count[data-download-tier="popular"] {
+      --npm-userscript-download-color: #22c55e;
+    }
+
+    .npm-userscript-downloads-count[data-download-tier="exceptional"] {
+      --npm-userscript-download-color: #38bdf8;
     }
 
     .npm-userscript-weekly-downloads-link:focus-visible {
@@ -8478,37 +8799,52 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
 
     .npm-userscript-star-history {
-      margin-top: 10px;
-      border-top: 1px solid var(--color-border-default);
-    }
-
-    .npm-userscript-star-history summary {
-      padding: 10px 0 0;
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .npm-userscript-star-history-chart {
-      display: block;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 9px;
       margin-top: 8px;
-      color: inherit;
+      padding: 9px 10px;
+      color: var(--npm-insights-accent);
+      border: 1px solid color-mix(in srgb, var(--npm-insights-accent) 38%, transparent);
+      border-radius: 9px;
+      background: color-mix(in srgb, var(--npm-insights-accent) 10%, transparent);
       text-decoration: none;
     }
 
-    .npm-userscript-star-history-chart img {
-      display: block;
-      width: 100%;
-      min-height: 84px;
-      object-fit: contain;
-      border-radius: 6px;
-      background: color-mix(in srgb, currentColor 4%, transparent);
+    .npm-userscript-star-history:is(:focus, :hover) {
+      border-color: var(--npm-insights-accent);
+      background: color-mix(in srgb, var(--npm-insights-accent) 17%, transparent);
     }
 
-    .npm-userscript-star-history-status {
-      margin: 8px 0 0;
+    .npm-userscript-star-history > svg {
+      width: 19px;
+      height: 19px;
+      fill: currentColor;
+    }
+
+    .npm-userscript-star-history-copy {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .npm-userscript-star-history-copy strong {
+      color: var(--color-fg-default, inherit);
+      font-size: 0.82rem;
+    }
+
+    .npm-userscript-star-history-copy small {
       color: var(--color-fg-muted, #656d76);
-      font-size: 0.78rem;
+      font-size: 0.7rem;
+    }
+
+    .npm-userscript-star-history-count {
+      color: var(--npm-insights-accent);
+      font-size: 0.76rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      white-space: nowrap;
     }
   `);
         const card = prepareRepositoryCardShell();
@@ -8779,6 +9115,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     function enhanceWeeklyDownloadsColumn(downloadsColumn) {
         const packageName = getPackageNameFromPath();
         if (!packageName || !downloadsColumn) return;
+        updateWeeklyDownloadsTone(downloadsColumn);
         const trendsLink = `https://npm-compare.com/${encodeURIComponent(
             packageName
         )}`;
@@ -8811,6 +9148,43 @@ implementation is broken for large numbers for some reason. This temporarily fix
         graphLink.parentElement?.classList.add(
             "npm-userscript-weekly-downloads-layout"
         );
+    }
+    function updateWeeklyDownloadsTone(downloadsColumn) {
+        const count =
+            downloadsColumn.querySelector(
+                ':is(p, span)[data-testid*="download" i], :is(p, span)[aria-live]'
+            ) ||
+            Array.from(downloadsColumn.querySelectorAll("p, span")).find(
+                (candidate) => /\d/u.test(candidate.textContent || "")
+            );
+        if (!count) return;
+        const match = count.textContent?.trim().match(/([\d,.]+)\s*([kmb])?/i);
+        if (!match) return;
+        const multiplier =
+            {
+                b: 1e9,
+                k: 1e3,
+                m: 1e6,
+            }[match[2]?.toLowerCase()] || 1;
+        const value = Number(match[1].replaceAll(",", "")) * multiplier;
+        if (!Number.isFinite(value)) return;
+        const tier =
+            value >= 1e6
+                ? "exceptional"
+                : value >= 1e4
+                  ? "popular"
+                  : value >= 1e3
+                    ? "growing"
+                    : "emerging";
+        const tierLabel = {
+            emerging: "Emerging",
+            exceptional: "Exceptional reach",
+            growing: "Growing",
+            popular: "Popular",
+        }[tier];
+        count.classList.add("npm-userscript-downloads-count");
+        count.dataset.downloadTier = tier;
+        count.title = `${tierLabel}: ${Math.round(value).toLocaleString()} weekly downloads`;
     }
     function createInsightIcon(kind) {
         const paths = {
@@ -8882,37 +9256,26 @@ implementation is broken for large numbers for some reason. This temporarily fix
                 "Releases",
                 "releases"
             );
-            const details = document.createElement("details");
-            details.className = "npm-userscript-star-history";
-            const summary = document.createElement("summary");
-            summary.textContent = "GitHub star history (—)";
-            const chartLink = document.createElement("a");
-            chartLink.className = "npm-userscript-star-history-chart";
-            chartLink.href = trendsLink;
-            chartLink.rel = "noopener noreferrer nofollow";
-            const chart = document.createElement("img");
-            chart.alt = `${packageName} cumulative GitHub star trend`;
-            chart.loading = "lazy";
-            chart.referrerPolicy = "no-referrer";
-            chart.dataset.src = `https://npm-compare.com/img/github-trend/${encodedPackageName}.png`;
-            const status = document.createElement("p");
-            status.className = "npm-userscript-star-history-status";
-            status.textContent =
-                "Chart loads only when this section is opened.";
-            chart.addEventListener("load", () => status.remove());
-            chart.addEventListener("error", () => {
-                chart.remove();
-                status.textContent =
-                    "The embedded chart could not load. Open Trends to view it.";
-            });
-            details.addEventListener("toggle", () => {
-                if (!details.open || chart.src) return;
-                chart.src = chart.dataset.src;
-                status.textContent = "Loading cumulative GitHub star trend…";
-            });
-            chartLink.append(chart);
-            details.append(summary, chartLink, status);
-            insights.append(heading, links, details);
+            const starHistory = document.createElement("a");
+            starHistory.className = "npm-userscript-star-history";
+            starHistory.dataset.insight = "star-history";
+            const starHistoryUrl = getStarHistoryUrl(repositoryBaseUrl);
+            if (starHistoryUrl) {
+                starHistory.href = starHistoryUrl;
+            } else {
+                starHistory.setAttribute("aria-disabled", "true");
+            }
+            starHistory.rel = "noopener noreferrer nofollow";
+            starHistory.innerHTML = starSvg;
+            const starHistoryCopy = document.createElement("span");
+            starHistoryCopy.className = "npm-userscript-star-history-copy";
+            starHistoryCopy.innerHTML =
+                "<strong>GitHub star history</strong><small>Open interactive chart ↗</small>";
+            const starHistoryCount = document.createElement("span");
+            starHistoryCount.className = "npm-userscript-star-history-count";
+            starHistoryCount.textContent = "— stars";
+            starHistory.append(starHistoryCopy, starHistoryCount);
+            insights.append(heading, links, starHistory);
             sidebar.append(insights);
         }
         if (repositoryBaseUrl) {
@@ -8925,13 +9288,21 @@ implementation is broken for large numbers for some reason. This temporarily fix
                 link.href = `${repositoryBaseUrl}/${path}`;
                 link.removeAttribute("aria-disabled");
             }
+            const starHistory = insights.querySelector(
+                '[data-insight="star-history"]'
+            );
+            const starHistoryUrl = getStarHistoryUrl(repositoryBaseUrl);
+            if (starHistory && starHistoryUrl) {
+                starHistory.href = starHistoryUrl;
+                starHistory.removeAttribute("aria-disabled");
+            }
         }
         if (typeof repoData?.stargazers_count === "number") {
-            const summary = insights.querySelector(
-                ".npm-userscript-star-history summary"
+            const count = insights.querySelector(
+                ".npm-userscript-star-history-count"
             );
-            if (summary) {
-                summary.textContent = `GitHub star history (${repoData.stargazers_count.toLocaleString()})`;
+            if (count) {
+                count.textContent = `${repoData.stargazers_count.toLocaleString()} stars`;
             }
         }
         scheduleRepositorySidebarReconcile();

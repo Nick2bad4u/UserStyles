@@ -33,7 +33,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.13.0");
+        expect(script).toContain("// @version      0.13.1");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
         expect(script).toContain("// @connect      npm-compare.com");
@@ -115,6 +115,12 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.defaultSearch.previewCount).toBeGreaterThanOrEqual(20);
         expect(results.defaultSearch.customIconHelp).toMatch(/PNG, SVG, ICO/u);
         expect(results.defaultSearch.customIconHelp).toMatch(/http\(s\)/u);
+        expect(results.defaultSearch.enabledSettingColor).toBe(
+            "rgb(22, 163, 74)"
+        );
+        expect(results.defaultSearch.disabledSettingColor).toBe(
+            "rgb(220, 38, 38)"
+        );
     });
 
     test("coexists with the install-button heading and restores its sidebar row", () => {
@@ -179,6 +185,11 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.versions.usesSemanticTabs).toBe(true);
         expect(results.versions.summaryTableRole).toBe("tabpanel");
         expect(results.versions.selectedPatch).toBe(true);
+        expect(results.versions.selectedTabWeight).toBe("800");
+        expect(results.versions.selectedViewHeading).toBe("Patch Versions");
+        expect(results.versions.summaryPanelCentered).toBe(true);
+        expect(results.versions.summaryTableMarginLeft).toBe("auto");
+        expect(results.versions.summaryTableMarginRight).toBe("auto");
         expect(results.versions.patchRows).toBe(25);
         expect(results.versions.patchLabels.slice(0, 5)).toEqual([
             "1.0.0",
@@ -194,7 +205,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
             true
         );
         expect(script).toMatch(
-            /\.npm-userscript-version-summary table \{[\s\S]*?width: min\(100%, 48rem\);[\s\S]*?margin-inline: auto;/u
+            /\.npm-userscript-version-summary table \{[\s\S]*?width: min\(100%, 48rem\) !important;[\s\S]*?margin: 10px auto 0 !important;/u
         );
     });
 
@@ -226,8 +237,12 @@ describe("NPM Package and Search Enhancer userscript", () => {
                 "publish",
             ],
             lastPublishValue: "2 months ago",
+            licenseHeight: "96px",
             licenseHref: "https://example.test/license",
+            licenseRadius: "14px",
             provenanceBesideVersion: true,
+            publishHeight: "96px",
+            publishRadius: "14px",
             restoredAfterNavigation: true,
             totalCount: "5",
             totalCountFontSize: "1.25rem",
@@ -261,6 +276,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         ]);
         expect(results.dependencies.semanticTabs).toBe(true);
         expect(results.dependencies.peerIsSelected).toBe(true);
+        expect(results.dependencies.peerSelectedWeight).toBe("800");
         expect(results.dependencies.tableHeaders).toEqual([
             "Package",
             "Required range",
@@ -268,6 +284,13 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.dependencies.peerRows).toBe(1);
         expect(results.dependencies.peerRange).toBe("^2.0.0");
         expect(results.dependencies.nativeLayoutRestored).toBe(true);
+        expect(results.dependencies.layoutSwitcherText).toBe(
+            "npm dependency layout Switch back to the grouped Enhancer tables at any time."
+        );
+        expect(results.dependencies.enhancerButtonLabel).toBe(
+            "Use Enhancer tables"
+        );
+        expect(results.dependencies.enhancerLayoutRestored).toBe(true);
     });
 
     test("adds filtering and package comparison to dependents", () => {
@@ -278,6 +301,10 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.dependents.compareHref).toBe(
             "https://npmtrends.com/alpha-vs-beta"
         );
+        expect(results.dependents.headerText).toBe("Select Dependent package");
+        expect(results.dependents.listDisplay).toBe("grid");
+        expect(results.dependents.listColumns).toBe("minmax(0, 1fr)");
+        expect(results.dependents.rowCount).toBe(3);
     });
 
     test("keeps npm-owned repository metrics connected and only hides them with CSS", () => {
@@ -307,13 +334,13 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.repositoryCard.trendsHref).toBe(
             "https://npm-compare.com/example"
         );
-        expect(results.repositoryCard.chartStartsLazy).toBe(true);
-        expect(results.repositoryCard.chartSrcAfterOpen).toBe(
-            "https://npm-compare.com/img/github-trend/example.png"
-        );
         expect(results.repositoryCard.insightsBeforeCollaborators).toBe(true);
-        expect(results.repositoryCard.starSummary).toBe(
-            "GitHub star history (1,234)"
+        expect(results.repositoryCard.starHistoryHref).toBe(
+            "https://www.star-history.com/#example/example&Date"
+        );
+        expect(results.repositoryCard.starHistoryCount).toBe("1,234 stars");
+        expect(results.repositoryCard.starHistoryHint).toBe(
+            "Open interactive chart ↗"
         );
         expect(
             results.repositoryCard.readyCardRestoredAfterSidebarReplacement
@@ -333,7 +360,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
             repositoryHidden: true,
             repositoryMetricSlots: 3,
             status: "Loading repository details…",
-            insightsSummary: "GitHub star history (—)",
+            insightsSummary: "— stars",
         });
         expect(
             results.deferredRepositoryCard.latestRequestStartedBeforeData
@@ -482,11 +509,13 @@ describe("NPM Package and Search Enhancer userscript", () => {
             graphMaxWidth: "100%",
             graphWidth: "100%",
             innerDisplay: "grid",
-            innerGridTemplateColumns: "minmax(7.5rem, 2fr) minmax(0, 3fr)",
+            innerGridTemplateColumns: "minmax(0, 2fr) minmax(0, 3fr)",
             linkGridColumn: "2",
             linkOverflow: "hidden",
             valueGridColumn: "1",
             valueOverflow: "hidden",
+            valueTier: "exceptional",
+            valueTitle: "Exceptional reach: 123,456,789 weekly downloads",
             valueWhiteSpace: "nowrap",
         });
         expect(results.sidebarIntegration.size).toEqual({

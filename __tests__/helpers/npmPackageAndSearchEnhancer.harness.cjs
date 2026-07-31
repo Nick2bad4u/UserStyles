@@ -217,6 +217,11 @@ async function runDefaultSearchScenario() {
         const dialog = dom.window.document.querySelector(
             "#npm-userscript-settings"
         );
+        const settingInputs = Array.from(
+            dialog.querySelectorAll('.setting input[type="checkbox"]')
+        );
+        const enabledSetting = settingInputs.find((input) => input.checked);
+        const disabledSetting = settingInputs.find((input) => !input.checked);
         return {
             commandLabels: gm.commands.map((command) => command.label),
             dialogTitle: dialog.querySelector("h2").textContent,
@@ -259,6 +264,10 @@ async function runDefaultSearchScenario() {
                     input.nextElementSibling?.textContent.trim() ===
                     "Tabbed dependency tables"
             )?.checked,
+            enabledSettingColor:
+                dom.window.getComputedStyle(enabledSetting).backgroundColor,
+            disabledSettingColor:
+                dom.window.getComputedStyle(disabledSetting).backgroundColor,
             versionLimitValue: dialog.querySelector(".inline-number")?.value,
             nativeDownloadsStayPut: Array.from(
                 dom.window.document.querySelectorAll(
@@ -367,6 +376,15 @@ async function runVersionsScenario() {
             (button) => button.dataset.versionLevel === "patch"
         );
         patchTab.click();
+        const selectedViewHeading = dom.window.document.querySelector(
+            ".npm-userscript-version-view-heading"
+        )?.textContent;
+        const selectedTabWeight =
+            dom.window.getComputedStyle(patchTab).fontWeight;
+        const summaryPanel = summaryTable.closest(
+            ".npm-userscript-version-summary-panel"
+        );
+        const summaryTableStyle = dom.window.getComputedStyle(summaryTable);
         const nativeTable = dom.window.document.querySelector(
             'table[aria-labelledby="version-history"]'
         );
@@ -468,6 +486,13 @@ async function runVersionsScenario() {
             ),
             remainsShownAfterMutation,
             selectedPatch,
+            selectedTabWeight,
+            selectedViewHeading,
+            summaryPanelCentered:
+                dom.window.getComputedStyle(summaryPanel).justifyItems ===
+                "center",
+            summaryTableMarginLeft: summaryTableStyle.marginLeft,
+            summaryTableMarginRight: summaryTableStyle.marginRight,
             summaryTableRole: summaryTable
                 .closest('[role="tabpanel"]')
                 ?.getAttribute("role"),
@@ -650,6 +675,18 @@ async function runVersionSidebarScenario() {
             totalLabelFontSize:
                 dom.window.getComputedStyle(totalLabel).fontSize,
             totalIsOwnCell: totalLink.parentElement.id === "version-section",
+            licenseHeight: dom.window.getComputedStyle(
+                dom.window.document.querySelector("#license-section")
+            ).height,
+            licenseRadius: dom.window.getComputedStyle(
+                dom.window.document.querySelector("#license-section")
+            ).borderRadius,
+            publishHeight: dom.window.getComputedStyle(
+                dom.window.document.querySelector("#publish-section")
+            ).height,
+            publishRadius: dom.window.getComputedStyle(
+                dom.window.document.querySelector("#publish-section")
+            ).borderRadius,
             versionValue: versionValue.textContent,
         };
         dom.window.history.pushState({}, "", "/search?q=example");
@@ -736,6 +773,8 @@ async function runDependenciesScenario() {
                 peerButton.classList.contains("npm-userscript-selected-tab") &&
                 peerButton.tabIndex === 0 &&
                 !peerPanel.hidden,
+            peerSelectedWeight:
+                dom.window.getComputedStyle(peerButton).fontWeight,
             peerRows: peerPanel.querySelectorAll("tbody tr").length,
             peerRange: peerPanel.querySelector(
                 ".npm-userscript-dependency-range"
@@ -775,11 +814,30 @@ async function runDependenciesScenario() {
             ),
         };
         view.querySelector(".npm-userscript-dependency-native-button").click();
+        const layoutSwitcher = await waitFor(() =>
+            nativeSection.querySelector(
+                ".npm-userscript-dependency-layout-switcher"
+            )
+        );
         result.nativeLayoutRestored =
             !nativeSection.hasAttribute(
                 "data-npm-userscript-dependency-table"
             ) &&
             !nativeSection.querySelector(".npm-userscript-dependency-view");
+        result.layoutSwitcherText = layoutSwitcher
+            .querySelector(".npm-userscript-dependency-layout-switcher-copy")
+            .textContent.replace(/\s+/g, " ")
+            .trim();
+        const enhancerButton = layoutSwitcher.querySelector(
+            ".npm-userscript-dependency-enhancer-button"
+        );
+        result.enhancerButtonLabel = enhancerButton.textContent;
+        enhancerButton.click();
+        result.enhancerLayoutRestored = Boolean(
+            await waitFor(() =>
+                nativeSection.querySelector(".npm-userscript-dependency-view")
+            )
+        );
         return result;
     } finally {
         dom.window.close();
@@ -837,12 +895,23 @@ async function runDependentsScenario() {
         const compareLink = toolbar.querySelector(
             ".npm-userscript-dependents-compare"
         );
+        const list = dom.window.document.querySelector(
+            ".npm-userscript-dependents-list"
+        );
+        const header = dom.window.document.querySelector(
+            ".npm-userscript-dependents-list-header"
+        );
         return {
             checkboxCount: checkboxes.length,
             compareHref: compareLink.href,
             compareIsEnabled:
                 compareLink.getAttribute("aria-disabled") === "false",
             filteredCount,
+            headerText: header.textContent.replace(/\s+/g, " ").trim(),
+            listColumns: dom.window.getComputedStyle(list).gridTemplateColumns,
+            listDisplay: dom.window.getComputedStyle(list).display,
+            rowCount: list.querySelectorAll(".npm-userscript-dependent-row")
+                .length,
             totalCount: toolbar.querySelector(
                 ".npm-userscript-dependents-count"
             ).textContent,
@@ -930,15 +999,9 @@ async function runRepositoryCardScenario() {
                 ".npm-userscript-package-insights"
             )
         );
-        const chart = insights.querySelector(
-            ".npm-userscript-star-history-chart img"
-        );
-        const chartStartsLazy = !chart.hasAttribute("src");
-        const chartDetails = insights.querySelector(
+        const starHistory = insights.querySelector(
             ".npm-userscript-star-history"
         );
-        chartDetails.open = true;
-        chartDetails.dispatchEvent(new dom.window.Event("toggle"));
         dom.window.document.querySelector("#weekly-chart").innerHTML =
             '<svg aria-label="Weekly download chart"></svg>';
         const weeklyChartLink = await waitFor(() =>
@@ -967,14 +1030,16 @@ async function runRepositoryCardScenario() {
             trendsHref: insights.querySelector(
                 ".npm-userscript-package-insights-link"
             )?.href,
-            chartStartsLazy,
-            chartSrcAfterOpen: chart.src,
             insightsBeforeCollaborators:
                 insights.nextElementSibling?.querySelector("#collaborators") !==
                 null,
-            starSummary: insights.querySelector(
-                ".npm-userscript-star-history summary"
+            starHistoryCount: starHistory.querySelector(
+                ".npm-userscript-star-history-count"
             )?.textContent,
+            starHistoryHint: starHistory.querySelector(
+                ".npm-userscript-star-history-copy small"
+            )?.textContent,
+            starHistoryHref: starHistory.href,
             weeklyChartHref: weeklyChartLink.href,
             metricKinds: Array.from(card.querySelectorAll("[data-metric]")).map(
                 (metric) => metric.dataset.metric
@@ -1110,7 +1175,7 @@ async function runDeferredRepositoryCardScenario() {
                 ".npm-userscript-repository-card-status"
             )?.textContent,
             insightsSummary: dom.window.document.querySelector(
-                ".npm-userscript-star-history summary"
+                ".npm-userscript-star-history-count"
             )?.textContent,
         };
         releaseData();
@@ -1621,8 +1686,8 @@ async function runSidebarIntegrationScenario() {
                 )
             ),
             insightsPlaceholder:
-                insights.querySelector(".npm-userscript-star-history summary")
-                    ?.textContent === "GitHub star history (—)",
+                insights.querySelector(".npm-userscript-star-history-count")
+                    ?.textContent === "— stars",
             repositoryMetricSlots: repositoryCard.querySelectorAll(
                 '[data-metric="stars"], [data-metric="issues"], [data-metric="pulls"]'
             ).length,
@@ -1682,6 +1747,8 @@ async function runSidebarIntegrationScenario() {
             valueGridColumn:
                 dom.window.getComputedStyle(downloadsValue).gridColumn,
             valueOverflow: dom.window.getComputedStyle(downloadsValue).overflow,
+            valueTier: downloadsValue.dataset.downloadTier,
+            valueTitle: downloadsValue.title,
             valueWhiteSpace:
                 dom.window.getComputedStyle(downloadsValue).whiteSpace,
         };
