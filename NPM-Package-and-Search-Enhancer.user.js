@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.12.0
+// @version      0.13.0
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -232,16 +232,13 @@
     function getVersionsData(packageName) {
         if (!versionsDataPromises.has(packageName)) {
             const encodedPackageName = encodeURIComponent(packageName);
-            const promise = Promise.all([
-                requestJson(`https://registry.npmjs.org/${encodedPackageName}`),
-                requestJson(
-                    `https://api.npmjs.org/versions/${encodedPackageName}/last-week`
-                ).catch(() => ({ downloads: {} })),
-            ])
-                .then(([packument, downloadsResult]) => ({
-                    packument,
-                    versionsDownloads: downloadsResult.downloads || {},
-                }))
+            const promise = requestJson(
+                `https://registry.npmjs.org/${encodedPackageName}`,
+                {
+                    Accept: "application/vnd.npm.install-v1+json",
+                }
+            )
+                .then((packument) => ({ packument }))
                 .catch((error) => {
                     versionsDataPromises.delete(packageName);
                     throw error;
@@ -249,16 +246,6 @@
             versionsDataPromises.set(packageName, promise);
         }
         return versionsDataPromises.get(packageName);
-    }
-    function preloadNpmVersionsData() {
-        const packageName = getPackageNameFromPath();
-        if (!packageName) return;
-        getVersionsData(packageName).catch((error) => {
-            console.warn(
-                "[npm-userscript] Could not preload version history:",
-                error
-            );
-        });
     }
     async function buildNpmContext(key) {
         const packageName = getPackageNameFromPath();
@@ -272,32 +259,8 @@
             typeof manifest.version === "string"
                 ? manifest.version
                 : packageVersion;
-        const isVersionsPage =
-            new URLSearchParams(location.search).get("activeTab") ===
-            "versions";
         let latestVersion = resolvedVersion;
-        let versions = [];
-        let versionsDownloads = {};
-        if (isVersionsPage) {
-            const { packument, versionsDownloads: downloadedVersions } =
-                await getVersionsData(packageName);
-            latestVersion = packument["dist-tags"]?.latest || resolvedVersion;
-            versionsDownloads = downloadedVersions;
-            versions = Object.keys(packument.versions || {}).map((version) => {
-                const published = packument.time?.[version];
-                const timestamp = published ? new Date(published).getTime() : 0;
-                return {
-                    version,
-                    date: {
-                        ts: Number.isFinite(timestamp) ? timestamp : 0,
-                        rel:
-                            Number.isFinite(timestamp) && timestamp > 0
-                                ? formatRelativeTime(timestamp)
-                                : "Unknown",
-                    },
-                };
-            });
-        } else if (location.pathname.includes("/v/")) {
+        if (location.pathname.includes("/v/")) {
             const latestManifest = await requestJson(
                 `https://registry.npmjs.org/${encodedPackageName}/latest`
             ).catch(() => null);
@@ -312,9 +275,9 @@
                     funding: normalizeFunding(manifest.funding),
                     homepage: normalizeHttpUrl(manifest.homepage),
                     repository: normalizeRepository(manifest.repository),
-                    versions,
+                    versions: [],
                 },
-                versionsDownloads,
+                versionsDownloads: {},
             },
         };
     }
@@ -437,11 +400,12 @@
         }
         return formatter.format(deltaSeconds, "second");
     }
-    function requestJson(url) {
+    function requestJson(url, headers) {
         return new Promise((resolve, reject) => {
             GM.xmlHttpRequest({
                 url,
                 method: "GET",
+                headers,
                 responseType: "json",
                 timeout: 2e4,
                 onload(response) {
@@ -870,9 +834,26 @@
       cursor: pointer;
     }
 
-    .npm-userscript-dependency-tab[aria-pressed="true"] {
+    .npm-userscript-dependency-tab {
+      display: grid;
+      gap: 3px;
+      place-items: center;
+      text-align: center;
+    }
+
+    .npm-userscript-dependency-tab-count {
+      font-size: 0.8rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .npm-userscript-dependency-tab[aria-selected="true"],
+    .npm-userscript-dependency-tab.npm-userscript-selected-tab {
       color: var(--wombat-red, #cb3837);
       border-bottom-color: var(--wombat-red, #cb3837);
+      background: color-mix(in srgb, var(--wombat-red, #cb3837) 12%, transparent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wombat-red, #cb3837) 35%, transparent);
     }
 
     .npm-userscript-dependency-native-button {
@@ -1061,17 +1042,21 @@
         controls.className = "npm-userscript-dependency-controls";
         const tabs = document.createElement("div");
         tabs.className = "npm-userscript-dependency-tabs";
-        tabs.setAttribute("role", "group");
+        tabs.setAttribute("role", "tablist");
         tabs.setAttribute("aria-label", "Dependency type");
         const panels = document.createElement("div");
         panels.className = "npm-userscript-dependency-panels";
         const renderView = (selectedId) => {
-            tabs.querySelectorAll("button").forEach((button) =>
-                button.setAttribute(
-                    "aria-pressed",
-                    String(button.dataset.dependencyGroup === selectedId)
-                )
-            );
+            tabs.querySelectorAll("button").forEach((button) => {
+                const isSelected =
+                    button.dataset.dependencyGroup === selectedId;
+                button.setAttribute("aria-selected", String(isSelected));
+                button.classList.toggle(
+                    "npm-userscript-selected-tab",
+                    isSelected
+                );
+                button.tabIndex = isSelected ? 0 : -1;
+            });
             panels
                 .querySelectorAll(".npm-userscript-dependency-panel")
                 .forEach((panel) => {
@@ -1083,8 +1068,23 @@
             button.type = "button";
             button.className = "npm-userscript-dependency-tab";
             button.dataset.dependencyGroup = group.id;
-            button.setAttribute("aria-pressed", "false");
-            button.textContent = `${group.shortTitle} (${group.entries.length})`;
+            button.id = `npm-userscript-dependency-tab-${group.id}`;
+            button.setAttribute("role", "tab");
+            button.setAttribute("aria-selected", "false");
+            button.setAttribute(
+                "aria-controls",
+                `npm-userscript-dependency-panel-${group.id}`
+            );
+            button.append(
+                Object.assign(document.createElement("span"), {
+                    className: "npm-userscript-dependency-tab-label",
+                    textContent: group.shortTitle,
+                }),
+                Object.assign(document.createElement("span"), {
+                    className: "npm-userscript-dependency-tab-count",
+                    textContent: group.entries.length.toLocaleString(),
+                })
+            );
             button.addEventListener("click", () => renderView(group.id));
             tabs.appendChild(button);
             panels.appendChild(createDependencyPanel(group));
@@ -1110,6 +1110,12 @@
         const panel = document.createElement("section");
         panel.className = "npm-userscript-dependency-panel";
         panel.dataset.dependencyGroup = group.id;
+        panel.id = `npm-userscript-dependency-panel-${group.id}`;
+        panel.setAttribute("role", "tabpanel");
+        panel.setAttribute(
+            "aria-labelledby",
+            `npm-userscript-dependency-tab-${group.id}`
+        );
         panel.hidden = true;
         const table = document.createElement("table");
         table.className = "npm-userscript-dependency-table";
@@ -1324,7 +1330,6 @@ selectable Dependents explorer with package comparison links.
     });
     function runPre2() {
         if (!isValidPackagePage()) return;
-        preloadNpmVersionsData();
         addStyle(`
     table[aria-labelledby="current-tags"] tbody tr td,
     table[aria-labelledby="cumulated-versions"] tbody tr td,
@@ -1395,9 +1400,17 @@ selectable Dependents explorer with package comparison links.
       cursor: pointer;
     }
 
-    .npm-userscript-version-tab[aria-pressed="true"] {
+    .npm-userscript-version-tab[aria-selected="true"],
+    .npm-userscript-version-tab.npm-userscript-selected-tab {
       color: var(--wombat-red, #cb3837);
       border-bottom-color: var(--wombat-red, #cb3837);
+      background: color-mix(in srgb, var(--wombat-red, #cb3837) 12%, transparent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wombat-red, #cb3837) 35%, transparent);
+    }
+
+    .npm-userscript-version-tab:disabled {
+      cursor: progress;
+      opacity: 0.72;
     }
 
     .npm-userscript-version-tab:focus-visible {
@@ -1406,7 +1419,30 @@ selectable Dependents explorer with package comparison links.
     }
 
     .npm-userscript-version-summary table {
+      width: min(100%, 48rem);
       margin-top: 12px;
+      margin-inline: auto;
+      table-layout: fixed;
+    }
+
+    .npm-userscript-version-summary[data-state="loading"] tbody td {
+      height: 2.65rem;
+      color: transparent;
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          color-mix(in srgb, currentColor 8%, transparent),
+          transparent
+        );
+      background-size: 200% 100%;
+      animation: npm-userscript-version-loading 1.35s linear infinite;
+    }
+
+    @keyframes npm-userscript-version-loading {
+      to {
+        background-position-x: -200%;
+      }
     }
 
     .npm-userscript-version-summary-note,
@@ -1662,10 +1698,10 @@ selectable Dependents explorer with package comparison links.
     }
     var betterVersionsObserver;
     var betterVersionsRenderQueued = false;
-    var showAllNativeVersions = false;
+    var betterVersionsObserverKey;
+    var showAllNativeVersionsPageKey;
     function run2() {
         if (!isValidPackagePage()) return;
-        showAllNativeVersions = false;
         renderBetterVersions();
         observeBetterVersions();
     }
@@ -1686,32 +1722,81 @@ selectable Dependents explorer with package comparison links.
     }
     function observeBetterVersions() {
         betterVersionsObserver?.disconnect();
-        const root = document.querySelector("main");
-        if (!root) return;
-        betterVersionsObserver = new MutationObserver(() => {
-            if (betterVersionsRenderQueued) return;
-            betterVersionsRenderQueued = true;
-            requestAnimationFrame(() => {
-                betterVersionsRenderQueued = false;
-                if (!betterVersionsObserver) return;
-                betterVersionsObserver.disconnect();
-                renderBetterVersions();
-                betterVersionsObserver.observe(root, {
-                    childList: true,
-                    subtree: true,
+        betterVersionsObserver = void 0;
+        const pageKey = getPageKey();
+        betterVersionsObserverKey = pageKey;
+        const attach = (panel) => {
+            if (
+                !panel ||
+                getPageKey() !== pageKey ||
+                betterVersionsObserverKey !== pageKey
+            ) {
+                return;
+            }
+            betterVersionsObserver = new MutationObserver(() => {
+                if (betterVersionsRenderQueued) return;
+                betterVersionsRenderQueued = true;
+                requestAnimationFrame(() => {
+                    betterVersionsRenderQueued = false;
+                    if (
+                        !betterVersionsObserver ||
+                        betterVersionsObserverKey !== pageKey
+                    ) {
+                        return;
+                    }
+                    betterVersionsObserver.disconnect();
+                    renderBetterVersions();
+                    betterVersionsObserver.observe(panel, {
+                        childList: true,
+                        subtree: true,
+                    });
                 });
             });
-        });
-        betterVersionsObserver.observe(root, {
-            childList: true,
-            subtree: true,
-        });
+            betterVersionsObserver.observe(panel, {
+                childList: true,
+                subtree: true,
+            });
+        };
+        const panel = document.getElementById("tabpanel-versions");
+        if (panel) {
+            attach(panel);
+        }
+        waitForElement(
+            '#tabpanel-versions table[aria-labelledby="version-history"]',
+            1e4
+        )
+            .then((table) => {
+                if (
+                    getPageKey() !== pageKey ||
+                    betterVersionsObserverKey !== pageKey
+                ) {
+                    return;
+                }
+                const currentPanel = table.closest("#tabpanel-versions");
+                if (!currentPanel) return;
+                attach(currentPanel);
+                renderBetterVersions();
+            })
+            .catch(() => {
+                if (
+                    getPageKey() !== pageKey ||
+                    betterVersionsObserverKey !== pageKey
+                ) {
+                    return;
+                }
+                const currentPanel =
+                    document.getElementById("tabpanel-versions");
+                if (!currentPanel) return;
+                attach(currentPanel);
+                renderBetterVersions();
+            });
     }
     function teardownBetterVersions() {
         betterVersionsObserver?.disconnect();
         betterVersionsObserver = void 0;
+        betterVersionsObserverKey = void 0;
         betterVersionsRenderQueued = false;
-        showAllNativeVersions = false;
+        showAllNativeVersionsPageKey = void 0;
         teardownVersionSidebar();
         document.querySelector(".npm-userscript-version-summary")?.remove();
         document.querySelector(".npm-userscript-version-limit-note")?.remove();
@@ -1755,17 +1840,6 @@ selectable Dependents explorer with package comparison links.
             );
             current.append(provenanceControl);
         }
-        let versionsData;
-        try {
-            versionsData = await getVersionsData(packageName);
-        } catch {
-            return;
-        }
-        if (!row.isConnected) return;
-        const totalVersions = Object.keys(
-            versionsData.packument.versions || {}
-        ).length;
-        if (totalVersions === 0) return;
         let totalLink = versionColumn.querySelector(
             ".npm-userscript-version-total"
         );
@@ -1778,6 +1852,7 @@ selectable Dependents explorer with package comparison links.
             label.textContent = "Total versions";
             const count = document.createElement("strong");
             count.className = "npm-userscript-version-total-count";
+            count.textContent = "—";
             totalLink.append(label, count);
         }
         totalLink.classList.add("npm-userscript-package-meta-field");
@@ -1786,7 +1861,8 @@ selectable Dependents explorer with package comparison links.
         decoratePackageMetadataField(versionColumn, "version");
         decoratePackageMetadataField(getColumnByName("License"), "license");
         decoratePackageMetadataField(
-            getColumnByName("Last publish"),
+            getColumnByName("Last publish") ??
+                getColumnByName("Last Published"),
             "publish"
         );
         decoratePackageMetadataHeading(
@@ -1796,8 +1872,21 @@ selectable Dependents explorer with package comparison links.
         const versionsUrl = new URL(location.href);
         versionsUrl.searchParams.set("activeTab", "versions");
         versionsUrl.hash = "";
-        const formattedCount = totalVersions.toLocaleString();
         totalLink.href = versionsUrl.href;
+        totalLink.title = "Loading total versions";
+        totalLink.setAttribute("aria-label", "Loading total versions");
+        let versionsData;
+        try {
+            versionsData = await getVersionsData(packageName);
+        } catch {
+            return;
+        }
+        if (!row.isConnected) return;
+        const totalVersions = Object.keys(
+            versionsData.packument.versions || {}
+        ).length;
+        if (totalVersions === 0) return;
+        const formattedCount = totalVersions.toLocaleString();
         totalLink.title = `Open all ${formattedCount} versions`;
         totalLink.setAttribute(
             "aria-label",
@@ -1944,71 +2033,44 @@ selectable Dependents explorer with package comparison links.
         const versionHistoryH3 = document.querySelector("h3#version-history");
         const versionsPanel = document.getElementById("tabpanel-versions");
         if (!versionHistoryH3 && !versionsPanel) return;
+        const pageKey = getPageKey();
         const section = document.createElement("section");
         section.className = "npm-userscript-version-summary";
+        section.dataset.state = "loading";
         const newH3 = document.createElement("h3");
         newH3.id = "cumulated-versions";
         newH3.textContent = "Version History Overview";
+        const tabs = document.createElement("div");
+        tabs.className = "npm-userscript-version-tabs";
+        tabs.setAttribute("role", "tablist");
+        tabs.setAttribute("aria-label", "Version history level");
+        const summaryPanel = document.createElement("div");
+        summaryPanel.id = "npm-userscript-version-summary-panel";
+        summaryPanel.setAttribute("role", "tabpanel");
         const newTable = document.createElement("table");
         newTable.setAttribute("aria-labelledby", "cumulated-versions");
         const head = document.createElement("thead");
         head.innerHTML =
             "<tr><th>Version</th><th>Downloads</th><th>Published</th></tr>";
-        newTable.appendChild(head);
-        const majorToInfo = {};
-        const minorToInfo = {};
-        const patchToInfo = {};
-        const npmContext2 = getNpmContext();
-        for (const entry of npmContext2.context.packument.versions) {
-            const version = entry.version;
-            const parts = parseVersionParts(version);
-            if (!parts) continue;
-            const major = `${parts.major}`;
-            const minor = `${parts.major}.${parts.minor}`;
-            const downloads =
-                npmContext2.context.versionsDownloads[version] || 0;
-            const lastPublished = entry.date;
-            addVersionSummaryInfo(majorToInfo, major, downloads, lastPublished);
-            addVersionSummaryInfo(minorToInfo, minor, downloads, lastPublished);
-            patchToInfo[version] = {
-                parts,
-                totalDownloads: downloads,
-                lastPublished,
-            };
+        const loadingBody = document.createElement("tbody");
+        for (let index = 0; index < 3; index++) {
+            const row = document.createElement("tr");
+            row.innerHTML = "<td>Loading</td><td>Loading</td><td>Loading</td>";
+            loadingBody.append(row);
         }
-        const views = {
-            major: Object.entries(majorToInfo)
-                .map(([label, info]) => ({ label: `${label}.x`, ...info }))
-                .sort(
-                    (a2, b2) =>
-                        Number(b2.label.split(".")[0]) -
-                        Number(a2.label.split(".")[0])
-                ),
-            minor: Object.entries(minorToInfo)
-                .map(([label, info]) => ({ label: `${label}.x`, ...info }))
-                .sort((a2, b2) =>
-                    compareVersionParts(
-                        parseVersionParts(b2.label),
-                        parseVersionParts(a2.label)
-                    )
-                ),
-            patch: Object.entries(patchToInfo)
-                .map(([label, info]) => ({ label, ...info }))
-                .sort(
-                    (a2, b2) =>
-                        compareSemverVersions(b2.label, a2.label) ||
-                        new Date(b2.lastPublished.ts).getTime() -
-                            new Date(a2.lastPublished.ts).getTime() ||
-                        b2.label.localeCompare(a2.label)
-                ),
-        };
-        const tabs = document.createElement("div");
-        tabs.className = "npm-userscript-version-tabs";
-        tabs.setAttribute("role", "group");
-        tabs.setAttribute("aria-label", "Version history level");
+        newTable.append(head, loadingBody);
+        summaryPanel.append(newTable);
         const note = document.createElement("p");
         note.className = "npm-userscript-version-summary-note";
+        note.textContent = "Preparing version history…";
+        const labels = {
+            major: "Major Versions",
+            minor: "Minor Versions",
+            patch: "Patch Versions",
+        };
+        let views;
         const renderView = (selected) => {
+            if (!views) return;
             newTable.querySelectorAll("tbody").forEach((body) => body.remove());
             const body = document.createElement("tbody");
             let entries = views[selected];
@@ -2021,37 +2083,213 @@ selectable Dependents explorer with package comparison links.
             );
             newTable.appendChild(body);
             tabs.querySelectorAll("button").forEach((button) => {
-                button.setAttribute(
-                    "aria-pressed",
-                    String(button.dataset.versionLevel === selected)
+                const isSelected = button.dataset.versionLevel === selected;
+                button.setAttribute("aria-selected", String(isSelected));
+                button.classList.toggle(
+                    "npm-userscript-selected-tab",
+                    isSelected
                 );
+                button.tabIndex = isSelected ? 0 : -1;
             });
+            const selectedTab = tabs.querySelector(
+                `[data-version-level="${selected}"]`
+            );
+            summaryPanel.setAttribute(
+                "aria-labelledby",
+                selectedTab?.id || "cumulated-versions"
+            );
             note.textContent =
                 selected === "patch" && entries.length < views.patch.length
                     ? `Showing the latest ${entries.length} of ${views.patch.length} patch versions. Change this limit in Enhancer settings.`
                     : `${entries.length.toLocaleString()} ${selected} version groups.`;
         };
-        for (const [level, label] of [
-            ["major", "Major Versions"],
-            ["minor", "Minor Versions"],
-            ["patch", "Patch Versions"],
-        ]) {
+        for (const [level, label] of Object.entries(labels)) {
             const button = document.createElement("button");
             button.type = "button";
             button.className = "npm-userscript-version-tab";
             button.dataset.versionLevel = level;
-            button.setAttribute("aria-pressed", "false");
-            button.textContent = `${label} (${views[level].length})`;
+            button.id = `npm-userscript-version-tab-${level}`;
+            button.setAttribute("role", "tab");
+            button.setAttribute("aria-selected", String(level === "major"));
+            button.classList.toggle(
+                "npm-userscript-selected-tab",
+                level === "major"
+            );
+            button.setAttribute("aria-controls", summaryPanel.id);
+            button.tabIndex = level === "major" ? 0 : -1;
+            button.disabled = true;
+            button.textContent = `${label} (—)`;
             button.addEventListener("click", () => renderView(level));
             tabs.appendChild(button);
         }
-        section.append(newH3, tabs, newTable, note);
-        renderView("major");
+        section.append(newH3, tabs, summaryPanel, note);
         if (versionHistoryH3) {
             versionHistoryH3.insertAdjacentElement("beforebegin", section);
         } else {
             versionsPanel.prepend(section);
         }
+        hydrateVersionSummary(section, pageKey)
+            .then((result) => {
+                if (
+                    !result ||
+                    !section.isConnected ||
+                    getPageKey() !== pageKey
+                ) {
+                    return;
+                }
+                views = result;
+                section.dataset.state = "ready";
+                tabs.querySelectorAll("button").forEach((button) => {
+                    const level = button.dataset.versionLevel;
+                    button.disabled = false;
+                    button.textContent = `${labels[level]} (${views[
+                        level
+                    ].length.toLocaleString()})`;
+                });
+                renderView("major");
+            })
+            .catch((error) => {
+                if (!section.isConnected || getPageKey() !== pageKey) return;
+                section.dataset.state = "error";
+                note.textContent = "Could not prepare the version overview.";
+                console.warn(
+                    "[npm-userscript] Could not prepare version history:",
+                    error
+                );
+            });
+    }
+    async function hydrateVersionSummary(section, pageKey) {
+        let nativeTable = document.querySelector(
+            'table[aria-labelledby="version-history"]'
+        );
+        if (!nativeTable) {
+            nativeTable = await waitForElement(
+                'table[aria-labelledby="version-history"]',
+                2e3
+            ).catch(() => null);
+        }
+        if (!section.isConnected || getPageKey() !== pageKey) {
+            return void 0;
+        }
+        const entries = [];
+        if (nativeTable) {
+            const rows = Array.from(nativeTable.querySelectorAll("tbody tr"));
+            for (let index = 0; index < rows.length; index++) {
+                const entry = readNativeVersionEntry(rows[index]);
+                if (entry) entries.push(entry);
+                if ((index + 1) % 100 === 0) {
+                    await new Promise((resolve) =>
+                        requestAnimationFrame(resolve)
+                    );
+                    if (!section.isConnected || getPageKey() !== pageKey) {
+                        return void 0;
+                    }
+                }
+            }
+            if (entries.length > 0) return createVersionViews(entries);
+        }
+        const packageName = getPackageNameFromPath();
+        if (!packageName) return void 0;
+        const { packument } = await getVersionsData(packageName);
+        if (!section.isConnected || getPageKey() !== pageKey) return void 0;
+        for (const [version, manifest] of Object.entries(
+            packument.versions || {}
+        )) {
+            const publishedValue =
+                packument.time?.[version] || manifest.time || "";
+            const timestamp = publishedValue
+                ? new Date(publishedValue).getTime()
+                : 0;
+            entries.push({
+                date: {
+                    rel: publishedValue
+                        ? formatRelativeTime(timestamp)
+                        : "Unknown",
+                    ts: Number.isFinite(timestamp) ? timestamp : 0,
+                },
+                downloads: 0,
+                version: manifest.version || version,
+            });
+        }
+        return createVersionViews(entries);
+    }
+    function readNativeVersionEntry(row) {
+        const cells = row.querySelectorAll("td");
+        const version = cells[0]
+            ?.querySelector('a[href*="/v/"]')
+            ?.textContent?.trim();
+        if (!version) return void 0;
+        const downloads = Number(
+            (cells[1]?.textContent || "").replace(/[^\d]/gu, "")
+        );
+        const time = cells[2]?.querySelector("time");
+        const publishedValue =
+            time?.dateTime || time?.getAttribute("datetime") || "";
+        const timestamp = publishedValue
+            ? new Date(publishedValue).getTime()
+            : 0;
+        return {
+            date: {
+                rel: time?.textContent?.trim() || "Unknown",
+                ts: Number.isFinite(timestamp) ? timestamp : 0,
+            },
+            downloads: Number.isFinite(downloads) ? downloads : 0,
+            version,
+        };
+    }
+    function createVersionViews(entries) {
+        const majorToInfo = {};
+        const minorToInfo = {};
+        const patchToInfo = {};
+        for (const entry of entries) {
+            const parts = parseVersionParts(entry.version);
+            if (!parts) continue;
+            const major = `${parts.major}`;
+            const minor = `${parts.major}.${parts.minor}`;
+            addVersionSummaryInfo(
+                majorToInfo,
+                major,
+                entry.downloads,
+                entry.date
+            );
+            addVersionSummaryInfo(
+                minorToInfo,
+                minor,
+                entry.downloads,
+                entry.date
+            );
+            patchToInfo[entry.version] = {
+                parts,
+                totalDownloads: entry.downloads,
+                lastPublished: entry.date,
+            };
+        }
+        return {
+            major: Object.entries(majorToInfo)
+                .map(([label, info]) => ({ label: `${label}.x`, ...info }))
+                .sort(
+                    (left, right) =>
+                        Number(right.label.split(".")[0]) -
+                        Number(left.label.split(".")[0])
+                ),
+            minor: Object.entries(minorToInfo)
+                .map(([label, info]) => ({ label: `${label}.x`, ...info }))
+                .sort((left, right) =>
+                    compareVersionParts(
+                        parseVersionParts(right.label),
+                        parseVersionParts(left.label)
+                    )
+                ),
+            patch: Object.entries(patchToInfo)
+                .map(([label, info]) => ({ label, ...info }))
+                .sort(
+                    (left, right) =>
+                        compareSemverVersions(right.label, left.label) ||
+                        new Date(right.lastPublished.ts).getTime() -
+                            new Date(left.lastPublished.ts).getTime() ||
+                        right.label.localeCompare(left.label)
+                ),
+        };
     }
     function parseVersionParts(version) {
         const match = /^v?(\d+)\.(\d+)(?:\.(\d+))?/.exec(version || "");
@@ -2130,7 +2368,9 @@ selectable Dependents explorer with package comparison links.
         if (!table) return;
         const rows = Array.from(table.querySelectorAll("tbody tr"));
         const limit = getVersionHistoryLimit();
-        const shouldLimit = limit !== null && !showAllNativeVersions;
+        const pageKey = getPageKey();
+        const shouldLimit =
+            limit !== null && showAllNativeVersionsPageKey !== pageKey;
         rows.forEach((row, index) =>
             row.classList.toggle(
                 "npm-userscript-version-limit-hidden",
@@ -2146,14 +2386,23 @@ selectable Dependents explorer with package comparison links.
         showAll.type = "button";
         showAll.textContent = "Show all for this page";
         showAll.addEventListener("click", () => {
-            showAllNativeVersions = true;
-            rows.forEach((row) =>
-                row.classList.remove("npm-userscript-version-limit-hidden")
-            );
-            note.remove();
+            showAllNativeVersionsPageKey = pageKey;
+            showAll.disabled = true;
+            showAll.textContent = "Showing all…";
+            void revealNativeVersionRows(rows, note, pageKey);
         });
         note.appendChild(showAll);
         table.insertAdjacentElement("afterend", note);
+    }
+    async function revealNativeVersionRows(rows, note, pageKey) {
+        for (let index = 0; index < rows.length; index += 100) {
+            rows.slice(index, index + 100).forEach((row) =>
+                row.classList.remove("npm-userscript-version-limit-hidden")
+            );
+            await new Promise((resolve) => requestAnimationFrame(resolve));
+            if (getPageKey() !== pageKey) return;
+        }
+        note.remove();
     }
     var description2;
     var init_better_versions = __esm({
@@ -7430,6 +7679,12 @@ implementation is broken for large numbers for some reason. This temporarily fix
         repositoryLoadingObserver = void 0;
         repositorySidebarObserver?.disconnect();
         repositorySidebarObserver = void 0;
+        repositorySidebarObservedElement = void 0;
+        repositorySidebarReconcileQueued = false;
+        repositoryCardRecoveryQueued = false;
+        repositorySidebarRepoData = void 0;
+        repositorySidebarLicenseData = void 0;
+        repositoryReadyCardTemplate = void 0;
         document.querySelector(".npm-userscript-repository-card")?.remove();
         document.querySelector(".npm-userscript-package-insights")?.remove();
         document
@@ -7451,6 +7706,13 @@ implementation is broken for large numbers for some reason. This temporarily fix
                 link.replaceWith(...Array.from(link.childNodes))
             );
         document
+            .querySelectorAll(".npm-userscript-weekly-downloads-layout")
+            .forEach((layout) =>
+                layout.classList.remove(
+                    "npm-userscript-weekly-downloads-layout"
+                )
+            );
+        document
             .querySelectorAll(".npm-userscript-repository-card-superseded")
             .forEach((column) =>
                 column.classList.remove(
@@ -7466,26 +7728,269 @@ implementation is broken for large numbers for some reason. This temporarily fix
             );
         document
             .querySelectorAll(
-                ".npm-userscript-downloads-card, .npm-userscript-collaborators-card"
+                "[data-npm-userscript-sidebar-role], .npm-userscript-downloads-card, .npm-userscript-collaborators-card"
             )
-            .forEach((column) =>
+            .forEach((column) => {
                 column.classList.remove(
                     "npm-userscript-downloads-card",
-                    "npm-userscript-collaborators-card"
+                    "npm-userscript-collaborators-card",
+                    "npm-userscript-repository-card-pending",
+                    "npm-userscript-repository-card-superseded"
+                );
+                delete column.dataset.npmUserscriptSidebarRole;
+            });
+    }
+    function findDirectSidebarColumnByName(sidebar, name) {
+        const expectedRole = {
+            Collaborators: "collaborators",
+            Homepage: "homepage-native",
+            License: "license",
+            "Last publish": "publish",
+            "Last Published": "publish",
+            Repository: "repository-native",
+            Version: "version",
+            "Weekly Downloads": "downloads",
+        }[name];
+        return Array.from(sidebar?.children || []).find((column) =>
+            expectedRole
+                ? getSidebarColumnRole(column) === expectedRole
+                : getSidebarHeadingText(column) === name
+        );
+    }
+    function waitForDirectSidebarColumnByName(sidebar, name, timeout = 1e4) {
+        const existing = findDirectSidebarColumnByName(sidebar, name);
+        if (existing) return Promise.resolve(existing);
+        return new Promise((resolve) => {
+            const observer = new MutationObserver(() => {
+                const column = findDirectSidebarColumnByName(sidebar, name);
+                if (!column) return;
+                clearTimeout(timeoutId);
+                observer.disconnect();
+                resolve(column);
+            });
+            const timeoutId = setTimeout(() => {
+                observer.disconnect();
+                resolve(void 0);
+            }, timeout);
+            observer.observe(sidebar, { childList: true, subtree: true });
+        });
+    }
+    function getSidebarHeadingText(column) {
+        const heading = column?.matches?.("h2, h3")
+            ? column
+            : column?.querySelector?.("h2, h3");
+        return heading?.textContent?.replace(/\s+/g, " ").trim() || "";
+    }
+    function getSidebarColumnRole(column) {
+        if (!(column instanceof Element)) return;
+        if (column.matches(".npm-userscript-repository-card"))
+            return "repository-card";
+        if (column.matches("[data-npm-bundlephobia-size]"))
+            return "bundlephobia";
+        if (column.matches(".npm-userscript-package-insights"))
+            return "insights";
+        const heading = getSidebarHeadingText(column);
+        if (/Weekly Downloads$/i.test(heading)) return "downloads";
+        if (/^Version$/i.test(heading)) return "version";
+        if (/^License$/i.test(heading)) return "license";
+        if (/^(?:Last publish|Last Published)$/i.test(heading))
+            return "publish";
+        if (/^Collaborators$/i.test(heading)) return "collaborators";
+        if (/^Repository$/i.test(heading)) return "repository-native";
+        if (/^Homepage$/i.test(heading)) return "homepage-native";
+        if (/^Issues$/i.test(heading)) return "issues-native";
+        if (/^Pull Requests$/i.test(heading)) return "pulls-native";
+        const actionText = Array.from(
+            column.querySelectorAll?.("a, button") || []
+        )
+            .map((element) => element.textContent?.replace(/\s+/g, " ").trim())
+            .join(" ");
+        if (/Fund this package|Report malware/i.test(actionText))
+            return "action";
+    }
+    function resetSidebarColumnRole(column) {
+        column.classList.remove(
+            "npm-userscript-downloads-card",
+            "npm-userscript-collaborators-card",
+            "npm-userscript-repository-card-pending",
+            "npm-userscript-repository-card-superseded",
+            "npm-userscript-package-meta-field",
+            "npm-userscript-package-meta-version",
+            "npm-userscript-package-meta-license",
+            "npm-userscript-package-meta-publish"
+        );
+        delete column.dataset.npmUserscriptMetaField;
+        const heading = column.matches?.("h2, h3")
+            ? column
+            : column.querySelector("h2, h3");
+        heading?.classList.remove("npm-userscript-package-meta-heading");
+        heading
+            ?.querySelectorAll(":scope > .npm-userscript-package-meta-icon")
+            .forEach((icon) => icon.remove());
+        column
+            .querySelectorAll(".npm-userscript-weekly-downloads-link")
+            .forEach((link) =>
+                link.replaceWith(...Array.from(link.childNodes))
+            );
+        column
+            .querySelectorAll(".npm-userscript-weekly-downloads-layout")
+            .forEach((layout) =>
+                layout.classList.remove(
+                    "npm-userscript-weekly-downloads-layout"
                 )
             );
     }
-    function findDirectSidebarColumn(sidebar, heading) {
-        let column = heading;
-        while (column && column.parentElement !== sidebar) {
-            column = column.parentElement;
-        }
-        return column?.parentElement === sidebar ? column : void 0;
+    function getRepositoryBaseUrl(value) {
+        if (!isHttpUrl(value)) return;
+        const url = new URL(value);
+        if (url.hostname.toLowerCase() !== "github.com") return;
+        const [owner, repository] = url.pathname
+            .split("/")
+            .filter(Boolean)
+            .slice(0, 2);
+        if (!owner || !repository) return;
+        return `https://github.com/${owner}/${repository.replace(/\.git$/i, "")}`;
     }
-    function findDirectSidebarColumnByName(sidebar, name) {
-        return Array.from(sidebar?.children || []).find(
-            (column) =>
-                column.querySelector?.("h2, h3")?.textContent?.trim() === name
+    function scheduleRepositorySidebarReconcile() {
+        if (repositorySidebarReconcileQueued) return;
+        repositorySidebarReconcileQueued = true;
+        requestAnimationFrame(() => {
+            repositorySidebarReconcileQueued = false;
+            reconcilePackageSidebar();
+        });
+    }
+    function reconcilePackageSidebar() {
+        const sidebar = document.querySelector(
+            'aside[aria-label="Package sidebar"]'
+        );
+        if (!sidebar) return;
+        const columns = Array.from(sidebar.children);
+        const roles = new Map();
+        for (const column of columns) {
+            const role = getSidebarColumnRole(column);
+            if (column.dataset.npmUserscriptSidebarRole !== role) {
+                resetSidebarColumnRole(column);
+                if (role) {
+                    column.dataset.npmUserscriptSidebarRole = role;
+                } else {
+                    delete column.dataset.npmUserscriptSidebarRole;
+                }
+            }
+            if (!role) continue;
+            if (!roles.has(role)) roles.set(role, []);
+            roles.get(role).push(column);
+            if (role === "downloads") {
+                column.classList.add("npm-userscript-downloads-card");
+                enhanceWeeklyDownloadsColumn(column);
+            } else if (role === "collaborators") {
+                column.classList.add("npm-userscript-collaborators-card");
+            } else if (
+                [
+                    "version",
+                    "license",
+                    "publish",
+                ].includes(role)
+            ) {
+                decoratePackageMetadataField(column, role);
+            }
+        }
+        const card = roles.get("repository-card")?.[0];
+        const cardReady =
+            card &&
+            !card.classList.contains("npm-userscript-repository-card-loading");
+        const cardHasHomepage = card?.querySelector('[data-metric="homepage"]');
+        for (const role of [
+            "repository-native",
+            "homepage-native",
+            "issues-native",
+            "pulls-native",
+        ]) {
+            const shouldHide =
+                role === "repository-native" ||
+                (role === "homepage-native" && cardHasHomepage) ||
+                (cardReady && ["issues-native", "pulls-native"].includes(role));
+            for (const column of roles.get(role) || []) {
+                if (!shouldHide) continue;
+                column.classList.add(
+                    cardReady
+                        ? "npm-userscript-repository-card-superseded"
+                        : "npm-userscript-repository-card-pending"
+                );
+            }
+        }
+        if (repositorySidebarRepoData) {
+            applyRepositorySidebarLinks(
+                repositorySidebarRepoData,
+                repositorySidebarLicenseData
+            );
+        }
+        const orderedRoles = [
+            "repository-card",
+            "downloads",
+            "version",
+            "license",
+            "publish",
+            "bundlephobia",
+            "insights",
+            "collaborators",
+            "action",
+        ];
+        const orderedColumns = orderedRoles.flatMap(
+            (role) => roles.get(role) || []
+        );
+        for (let index = 1; index < orderedColumns.length; index += 1) {
+            const previous = orderedColumns[index - 1];
+            const current = orderedColumns[index];
+            if (previous.nextElementSibling !== current) {
+                previous.insertAdjacentElement("afterend", current);
+            }
+        }
+    }
+    function startRepositorySidebarObserver(sidebar) {
+        if (!sidebar || repositorySidebarObservedElement === sidebar) return;
+        repositorySidebarObserver?.disconnect();
+        repositorySidebarObservedElement = sidebar;
+        repositorySidebarObserver = new MutationObserver(() => {
+            scheduleRepositoryCardRecovery();
+        });
+        repositorySidebarObserver.observe(sidebar, {
+            childList: true,
+            subtree: true,
+        });
+    }
+    function isRepositoryCardShellValid(card) {
+        return Boolean(
+            card?.querySelector(".npm-userscript-repository-card-title") &&
+            card.querySelector(".npm-userscript-repository-card-description")
+        );
+    }
+    function scheduleRepositoryCardRecovery() {
+        if (repositoryCardRecoveryQueued) return;
+        repositoryCardRecoveryQueued = true;
+        requestAnimationFrame(() => {
+            repositoryCardRecoveryQueued = false;
+            if (!isValidPackagePage()) return;
+            const sidebar = document.querySelector(
+                'aside[aria-label="Package sidebar"]'
+            );
+            if (!sidebar) return;
+            startRepositorySidebarObserver(sidebar);
+            const card = sidebar.querySelector(
+                ".npm-userscript-repository-card"
+            );
+            if (!isRepositoryCardShellValid(card)) {
+                prepareRepositoryCardShell();
+            }
+            scheduleRepositorySidebarReconcile();
+        });
+    }
+    function containsPackageSidebar(node) {
+        if (!(node instanceof Node) || node.nodeType === Node.TEXT_NODE) {
+            return false;
+        }
+        return Boolean(
+            node.matches?.('aside[aria-label="Package sidebar"]') ||
+            node.querySelector?.('aside[aria-label="Package sidebar"]')
         );
     }
     function prepareRepositoryCardShell() {
@@ -7493,19 +7998,25 @@ implementation is broken for large numbers for some reason. This temporarily fix
         const sidebar = document.querySelector(
             'aside[aria-label="Package sidebar"]'
         );
-        const repositoryH3 = document.getElementById("repository");
-        if (!sidebar || !repositoryH3) return;
-        const repositoryColumn = findDirectSidebarColumn(sidebar, repositoryH3);
+        if (!sidebar) return;
+        let existing = sidebar.querySelector(".npm-userscript-repository-card");
+        if (existing && !isRepositoryCardShellValid(existing)) {
+            existing.remove();
+            existing = null;
+        }
+        const repositoryColumn = findDirectSidebarColumnByName(
+            sidebar,
+            "Repository"
+        );
         const repositoryLink = repositoryColumn?.querySelector("a[href]");
         if (!repositoryColumn || !repositoryLink) return;
+        const repositoryBaseUrl =
+            getRepositoryBaseUrl(repositoryLink.href) || repositoryLink.href;
         const homepageColumn = findDirectSidebarColumnByName(
             sidebar,
             "Homepage"
         );
         const homepageLink = homepageColumn?.querySelector("a[href]");
-        const existing = sidebar.querySelector(
-            ".npm-userscript-repository-card"
-        );
         if (existing) {
             if (
                 existing.classList.contains(
@@ -7521,7 +8032,29 @@ implementation is broken for large numbers for some reason. This temporarily fix
                     );
                 }
             }
+            renderPackageInsights(void 0, repositoryBaseUrl);
+            startRepositorySidebarObserver(sidebar);
+            scheduleRepositorySidebarReconcile();
             return existing;
+        }
+        if (
+            repositoryReadyCardTemplate?.dataset.packagePath ===
+            location.pathname
+        ) {
+            const restoredCard = repositoryReadyCardTemplate.cloneNode(true);
+            repositoryColumn.insertAdjacentElement("afterend", restoredCard);
+            repositoryColumn.classList.add(
+                "npm-userscript-repository-card-superseded"
+            );
+            if (restoredCard.querySelector('[data-metric="homepage"]')) {
+                homepageColumn?.classList.add(
+                    "npm-userscript-repository-card-superseded"
+                );
+            }
+            renderPackageInsights(repositorySidebarRepoData, repositoryBaseUrl);
+            startRepositorySidebarObserver(sidebar);
+            scheduleRepositorySidebarReconcile();
+            return restoredCard;
         }
         const card = document.createElement("div");
         card.className =
@@ -7545,6 +8078,27 @@ implementation is broken for large numbers for some reason. This temporarily fix
         const description = document.createElement("div");
         description.className = "npm-userscript-repository-card-description";
         card.append(title, description);
+        addRepositoryMetricPlaceholder(
+            card,
+            "stars",
+            `${repositoryBaseUrl}/stargazers`,
+            "Repository stars",
+            starSvg
+        );
+        addRepositoryMetricPlaceholder(
+            card,
+            "issues",
+            `${repositoryBaseUrl}/issues`,
+            "Open issues",
+            issueSvg
+        );
+        addRepositoryMetricPlaceholder(
+            card,
+            "pulls",
+            `${repositoryBaseUrl}/pulls`,
+            "Open pull requests",
+            pullSvg
+        );
         if (
             isHttpUrl(homepageLink?.href) &&
             homepageLink.href !== repositoryLink.href
@@ -7567,11 +8121,12 @@ implementation is broken for large numbers for some reason. This temporarily fix
         repositoryColumn.classList.add(
             "npm-userscript-repository-card-pending"
         );
+        renderPackageInsights(void 0, repositoryBaseUrl);
+        startRepositorySidebarObserver(sidebar);
+        scheduleRepositorySidebarReconcile();
         return card;
     }
     function settleRepositoryCardShell(message) {
-        repositoryLoadingObserver?.disconnect();
-        repositoryLoadingObserver = void 0;
         const card = document.querySelector(
             ".npm-userscript-repository-card-loading"
         );
@@ -7643,7 +8198,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
 
     .npm-userscript-repository-card-description {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 7px;
       margin: 12px 0 0;
     }
@@ -7658,6 +8213,14 @@ implementation is broken for large numbers for some reason. This temporarily fix
       border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
       border-radius: 7px;
       font-variant-numeric: tabular-nums;
+    }
+
+    .npm-userscript-repository-card-entry:is(
+      [data-metric="stars"],
+      [data-metric="issues"],
+      [data-metric="pulls"]
+    ) {
+      grid-column: span 2;
     }
 
     .npm-userscript-repository-card-entry[data-metric="stars"] {
@@ -7694,12 +8257,20 @@ implementation is broken for large numbers for some reason. This temporarily fix
       [data-metric="changelog"],
       [data-metric="homepage"]
     ) {
-      grid-column: 1 / -1;
-      justify-content: flex-start;
+      grid-column: span 3;
+      justify-content: center;
       padding: 5px 7px;
       color: var(--color-fg-muted, #656d76);
       font-size: 90%;
       background: transparent;
+      text-align: center;
+    }
+
+    .npm-userscript-repository-card-description:not(:has([data-metric="changelog"]))
+      [data-metric="homepage"],
+    .npm-userscript-repository-card-description:not(:has([data-metric="homepage"]))
+      [data-metric="changelog"] {
+      grid-column: 1 / -1;
     }
 
     .npm-userscript-repository-card a {
@@ -7736,8 +8307,41 @@ implementation is broken for large numbers for some reason. This temporarily fix
 
     .npm-userscript-weekly-downloads-link {
       display: block;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      overflow: hidden;
       color: inherit;
       border-radius: 6px;
+    }
+
+    .npm-userscript-weekly-downloads-link > :is(svg, canvas) {
+      display: block;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      height: 3.5rem !important;
+      max-height: 3.5rem !important;
+    }
+
+    .npm-userscript-weekly-downloads-layout {
+      display: grid !important;
+      grid-template-columns: minmax(7.5rem, 2fr) minmax(0, 3fr);
+      align-items: end;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .npm-userscript-weekly-downloads-layout > .npm-userscript-weekly-downloads-link {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .npm-userscript-weekly-downloads-layout > p {
+      grid-column: 1;
+      grid-row: 1;
     }
 
     .npm-userscript-weekly-downloads-link:focus-visible {
@@ -7759,6 +8363,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
         linear-gradient(135deg, color-mix(in srgb, var(--npm-insights-accent) 9%, transparent), transparent 48%),
         var(--npm-dark-surface, var(--color-bg-subtle, #fff));
       box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
+      min-block-size: 11.5rem;
     }
 
     .npm-userscript-package-insights h3 {
@@ -7821,6 +8426,8 @@ implementation is broken for large numbers for some reason. This temporarily fix
     .npm-userscript-downloads-card,
     .npm-userscript-collaborators-card {
       width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
       box-sizing: border-box;
       clear: both;
       float: none !important;
@@ -7830,6 +8437,36 @@ implementation is broken for large numbers for some reason. This temporarily fix
       border-radius: 14px;
       background: var(--npm-dark-surface, var(--color-bg-subtle, #fff));
       box-shadow: 0 10px 28px color-mix(in srgb, #000 16%, transparent);
+    }
+
+    .npm-userscript-downloads-card {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr);
+      margin-bottom: 8px !important;
+      padding-block: 18px !important;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .npm-userscript-downloads-card > *,
+    .npm-userscript-downloads-card :is(button, [role="button"]) {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box;
+    }
+
+    .npm-userscript-downloads-card :is(p, [data-testid*="download" i]) {
+      max-width: 100% !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap !important;
+      overflow-wrap: normal !important;
+      word-break: normal !important;
+    }
+
+    .npm-userscript-downloads-card + .npm-userscript-package-meta-version {
+      margin-top: 0 !important;
     }
 
     .npm-userscript-downloads-card {
@@ -7875,6 +8512,13 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
   `);
         const card = prepareRepositoryCardShell();
+        const sidebar = document.querySelector(
+            'aside[aria-label="Package sidebar"]'
+        );
+        if (sidebar) {
+            startRepositorySidebarObserver(sidebar);
+            scheduleRepositorySidebarReconcile();
+        }
         if (
             card &&
             !card.classList.contains("npm-userscript-repository-card-loading")
@@ -7882,8 +8526,16 @@ implementation is broken for large numbers for some reason. This temporarily fix
             return;
         }
         if (!repositoryLoadingObserver) {
-            repositoryLoadingObserver = new MutationObserver(() => {
-                prepareRepositoryCardShell();
+            repositoryLoadingObserver = new MutationObserver((records) => {
+                if (
+                    records.some((record) =>
+                        [...record.addedNodes, ...record.removedNodes].some(
+                            containsPackageSidebar
+                        )
+                    )
+                ) {
+                    scheduleRepositoryCardRecovery();
+                }
             });
             repositoryLoadingObserver.observe(document.documentElement, {
                 childList: true,
@@ -7893,6 +8545,7 @@ implementation is broken for large numbers for some reason. This temporarily fix
     }
     async function run11() {
         if (!isValidPackagePage()) return;
+        const pageKey = getPageKey();
         const loadingCard = document.querySelector(
             ".npm-userscript-repository-card-loading"
         );
@@ -7902,35 +8555,59 @@ implementation is broken for large numbers for some reason. This temporarily fix
         ) {
             return;
         }
-        let repositoryH3 = document.getElementById("repository");
-        if (!repositoryH3 && getNpmContext().context.packument.repository) {
-            repositoryH3 = await waitForElement("#repository", 2e3).catch(
-                () => null
+        let sidebar = document.querySelector(
+            'aside[aria-label="Package sidebar"]'
+        );
+        if (!sidebar) {
+            sidebar = await waitForElement(
+                'aside[aria-label="Package sidebar"]',
+                2e3
+            ).catch(() => null);
+        }
+        let repositoryColumn = findDirectSidebarColumnByName(
+            sidebar,
+            "Repository"
+        );
+        if (!repositoryColumn && sidebar) {
+            repositoryColumn = await waitForDirectSidebarColumnByName(
+                sidebar,
+                "Repository"
             );
         }
-        if (!repositoryH3) {
+        if (!repositoryColumn) {
             settleRepositoryCardShell(
                 "Repository activity is unavailable; npm links remain ready."
             );
             return;
         }
-        const [
-            repoData,
-            prCount,
-            packageJson,
-            licenseData,
-        ] = await Promise.all([
-            fetchGitHubRepoData().catch(() => void 0),
-            fetchGitHubPullRequestsCount().catch(() => void 0),
-            fetchPackageJson().catch(() => void 0),
-            fetchGitHubLicenseData().catch(() => void 0),
-        ]);
+        const repoDataPromise = fetchGitHubRepoData().catch(() => void 0);
+        const prCountPromise = fetchGitHubPullRequestsCount().catch(
+            () => void 0
+        );
+        const packageJsonPromise = fetchPackageJson().catch(() => void 0);
+        const licenseDataPromise = fetchGitHubLicenseData().catch(() => void 0);
+        const repoData = await repoDataPromise;
+        if (getPageKey() !== pageKey) return;
         if (!repoData) {
             settleRepositoryCardShell(
                 "Repository activity is unavailable; npm links remain ready."
             );
             return;
         }
+        repositorySidebarRepoData = repoData;
+        applyRepositorySidebarLinks(repoData, void 0);
+        renderPackageInsights(repoData, repoData.html_url);
+        scheduleRepositorySidebarReconcile();
+        const [
+            prCount,
+            packageJson,
+            licenseData,
+        ] = await Promise.all([
+            prCountPromise,
+            packageJsonPromise,
+            licenseDataPromise,
+        ]);
+        if (getPageKey() !== pageKey) return;
         const issueCount =
             prCount === void 0
                 ? repoData.open_issues_count
@@ -7953,9 +8630,15 @@ implementation is broken for large numbers for some reason. This temporarily fix
             repoData.full_name,
             directory
         ).catch(() => void 0);
-        const homepage = getNpmContext().context.packument.homepage;
+        const nativeHomepage = findDirectSidebarColumnByName(
+            sidebar,
+            "Homepage"
+        )?.querySelector("a[href]")?.href;
+        const homepage =
+            getNpmContext().context.packument.homepage || nativeHomepage;
         const card = document.createElement("div");
         card.className = "npm-userscript-repository-card";
+        card.dataset.packagePath = location.pathname;
         card.innerHTML = `
     <div class="npm-userscript-repository-card-title">
       <img
@@ -8002,14 +8685,13 @@ implementation is broken for large numbers for some reason. This temporarily fix
               : ""
       }
     </div>
+    <p class="npm-userscript-repository-card-status" aria-hidden="true">&nbsp;</p>
   `;
         if (isHttpUrl(homepage) && homepage !== repoData.html_url) {
             addRepositoryCardLink(card, "homepage", homepage, "Homepage");
         }
-        const sidebar = document.querySelector(
-            '[aria-label="Package sidebar"]'
-        );
-        const repositoryColumn = findDirectSidebarColumn(sidebar, repositoryH3);
+        sidebar = document.querySelector('aside[aria-label="Package sidebar"]');
+        repositoryColumn = findDirectSidebarColumnByName(sidebar, "Repository");
         if (!sidebar || !repositoryColumn) return;
         const currentLoadingCard = document.querySelector(
             ".npm-userscript-repository-card-loading"
@@ -8019,47 +8701,12 @@ implementation is broken for large numbers for some reason. This temporarily fix
         } else {
             repositoryColumn.insertAdjacentElement("afterend", card);
         }
-        repositoryLoadingObserver?.disconnect();
-        repositoryLoadingObserver = void 0;
-        document
-            .querySelectorAll(".npm-userscript-repository-card-pending")
-            .forEach((column) => {
-                column.classList.remove(
-                    "npm-userscript-repository-card-pending"
-                );
-                column.classList.add(
-                    "npm-userscript-repository-card-superseded"
-                );
-            });
-        repositoryColumn.classList.add(
-            "npm-userscript-repository-card-superseded"
-        );
-        const sidebarColumns = document.querySelectorAll(
-            '[aria-label="Package sidebar"] > div:has(> h3)'
-        );
-        for (const col of sidebarColumns) {
-            const h3Text = col.querySelector("h3")?.textContent;
-            if (
-                h3Text === "Issues" ||
-                h3Text === "Pull Requests" ||
-                (h3Text === "Homepage" &&
-                    card.querySelector('[data-metric="homepage"]'))
-            ) {
-                col.classList.add("npm-userscript-repository-card-superseded");
-            }
-        }
+        repositorySidebarRepoData = repoData;
+        repositorySidebarLicenseData = licenseData;
+        repositoryReadyCardTemplate = card.cloneNode(true);
         applyRepositorySidebarLinks(repoData, licenseData);
-        renderPackageInsights(repoData);
-        if (sidebar) {
-            repositorySidebarObserver?.disconnect();
-            repositorySidebarObserver = new MutationObserver(() =>
-                applyRepositorySidebarLinks(repoData, licenseData)
-            );
-            repositorySidebarObserver.observe(sidebar, {
-                childList: true,
-                subtree: true,
-            });
-        }
+        renderPackageInsights(repoData, repoData.html_url);
+        scheduleRepositorySidebarReconcile();
     }
     function isHttpUrl(value) {
         if (typeof value !== "string") return false;
@@ -8080,13 +8727,26 @@ implementation is broken for large numbers for some reason. This temporarily fix
             ".npm-userscript-repository-card-description"
         )?.append(link);
     }
-    function linkSidebarHeading(column, href) {
+    function addRepositoryMetricPlaceholder(card, metric, href, label, icon) {
+        const link = document.createElement("a");
+        link.className = "npm-userscript-repository-card-entry";
+        link.dataset.metric = metric;
+        link.href = href;
+        link.rel = "noopener noreferrer nofollow";
+        link.title = `${label} loading`;
+        link.innerHTML = `${icon}<span aria-hidden="true">—</span>`;
+        link.setAttribute("aria-label", `${label} loading`);
+        card.querySelector(
+            ".npm-userscript-repository-card-description"
+        )?.append(link);
+    }
+    function linkSidebarHeading(column, href, preferredLabel) {
         if (!column || !isHttpUrl(href)) return;
         const heading = column.matches?.("h3")
             ? column
             : column.querySelector("h3");
         if (!heading || heading.querySelector("a")) return;
-        const label = heading.textContent.trim();
+        const label = preferredLabel || heading.textContent.trim();
         if (!label) return;
         heading.dataset.npmUserscriptOriginalHeading = label;
         const link = document.createElement("a");
@@ -8097,25 +8757,46 @@ implementation is broken for large numbers for some reason. This temporarily fix
         heading.replaceChildren(link);
     }
     function applyRepositorySidebarLinks(repoData, licenseData) {
-        const collaboratorsColumn = getColumnByName("Collaborators");
-        collaboratorsColumn?.classList.add("npm-userscript-collaborators-card");
+        const sidebar = document.querySelector(
+            'aside[aria-label="Package sidebar"]'
+        );
+        const collaboratorsColumn = findDirectSidebarColumnByName(
+            sidebar,
+            "Collaborators"
+        );
         linkSidebarHeading(
-            document.getElementById("collaborators") || collaboratorsColumn,
+            collaboratorsColumn,
             `${repoData.html_url}/graphs/contributors`
         );
-        linkSidebarHeading(
-            document.getElementById("license") || getColumnByName("License"),
-            licenseData?.html_url
+        const licenseColumn = findDirectSidebarColumnByName(sidebar, "License");
+        linkSidebarHeading(licenseColumn, licenseData?.html_url);
+        const downloadsColumn = findDirectSidebarColumnByName(
+            sidebar,
+            "Weekly Downloads"
         );
+        enhanceWeeklyDownloadsColumn(downloadsColumn);
+    }
+    function enhanceWeeklyDownloadsColumn(downloadsColumn) {
         const packageName = getPackageNameFromPath();
-        const downloadsColumn = getColumnByName("Weekly Downloads");
         if (!packageName || !downloadsColumn) return;
-        downloadsColumn.classList.add("npm-userscript-downloads-card");
         const trendsLink = `https://npm-compare.com/${encodeURIComponent(
             packageName
         )}`;
-        linkSidebarHeading(downloadsColumn, trendsLink);
-        const graph = downloadsColumn.querySelector("svg, canvas");
+        linkSidebarHeading(downloadsColumn, trendsLink, "Weekly Downloads");
+        const existingGraphLink = downloadsColumn.querySelector(
+            ".npm-userscript-weekly-downloads-link"
+        );
+        if (existingGraphLink) {
+            existingGraphLink.parentElement?.classList.add(
+                "npm-userscript-weekly-downloads-layout"
+            );
+            return;
+        }
+        const graph =
+            downloadsColumn.querySelector("canvas") ||
+            Array.from(downloadsColumn.querySelectorAll("svg")).find(
+                (candidate) => !candidate.closest("h2, h3")
+            );
         if (!graph || graph.closest("a")) return;
         const graphLink = document.createElement("a");
         graphLink.className = "npm-userscript-weekly-downloads-link";
@@ -8127,6 +8808,9 @@ implementation is broken for large numbers for some reason. This temporarily fix
         );
         graph.replaceWith(graphLink);
         graphLink.append(graph);
+        graphLink.parentElement?.classList.add(
+            "npm-userscript-weekly-downloads-layout"
+        );
     }
     function createInsightIcon(kind) {
         const paths = {
@@ -8153,13 +8837,16 @@ implementation is broken for large numbers for some reason. This temporarily fix
         const link = document.createElement("a");
         link.className = "npm-userscript-package-insights-link";
         link.dataset.insight = kind;
-        link.href = href;
+        if (isHttpUrl(href)) {
+            link.href = href;
+        } else {
+            link.setAttribute("aria-disabled", "true");
+        }
         link.rel = "noopener noreferrer nofollow";
         link.append(createInsightIcon(kind), document.createTextNode(label));
         container.append(link);
     }
-    function renderPackageInsights(repoData) {
-        if (document.querySelector(".npm-userscript-package-insights")) return;
+    function renderPackageInsights(repoData, repositoryUrl) {
         const sidebar = document.querySelector(
             '[aria-label="Package sidebar"]'
         );
@@ -8167,56 +8854,88 @@ implementation is broken for large numbers for some reason. This temporarily fix
         if (!sidebar || !packageName) return;
         const encodedPackageName = encodeURIComponent(packageName);
         const trendsLink = `https://npm-compare.com/${encodedPackageName}`;
-        const insights = document.createElement("section");
-        insights.className = "npm-userscript-package-insights";
-        const heading = document.createElement("h3");
-        heading.textContent = "Package Insights";
-        const links = document.createElement("div");
-        links.className = "npm-userscript-package-insights-links";
-        appendInsightLink(links, trendsLink, "Trends", "trends");
-        appendInsightLink(
-            links,
-            `${repoData.html_url}/graphs/contributors`,
-            "Contributors",
-            "contributors"
+        const repositoryBaseUrl = getRepositoryBaseUrl(
+            repoData?.html_url || repositoryUrl
         );
-        appendInsightLink(
-            links,
-            `${repoData.html_url}/releases`,
-            "Releases",
-            "releases"
+        let insights = sidebar.querySelector(
+            ":scope > .npm-userscript-package-insights"
         );
-        const details = document.createElement("details");
-        details.className = "npm-userscript-star-history";
-        const summary = document.createElement("summary");
-        summary.textContent = `GitHub star history (${repoData.stargazers_count.toLocaleString()})`;
-        const chartLink = document.createElement("a");
-        chartLink.className = "npm-userscript-star-history-chart";
-        chartLink.href = trendsLink;
-        chartLink.rel = "noopener noreferrer nofollow";
-        const chart = document.createElement("img");
-        chart.alt = `${packageName} cumulative GitHub star trend`;
-        chart.loading = "lazy";
-        chart.referrerPolicy = "no-referrer";
-        chart.dataset.src = `https://npm-compare.com/img/github-trend/${encodedPackageName}.png`;
-        const status = document.createElement("p");
-        status.className = "npm-userscript-star-history-status";
-        status.textContent = "Chart loads only when this section is opened.";
-        chart.addEventListener("load", () => status.remove());
-        chart.addEventListener("error", () => {
-            chart.remove();
+        if (!insights) {
+            insights = document.createElement("section");
+            insights.className = "npm-userscript-package-insights";
+            const heading = document.createElement("h3");
+            heading.textContent = "Package Insights";
+            const links = document.createElement("div");
+            links.className = "npm-userscript-package-insights-links";
+            appendInsightLink(links, trendsLink, "Trends", "trends");
+            appendInsightLink(
+                links,
+                repositoryBaseUrl
+                    ? `${repositoryBaseUrl}/graphs/contributors`
+                    : void 0,
+                "Contributors",
+                "contributors"
+            );
+            appendInsightLink(
+                links,
+                repositoryBaseUrl ? `${repositoryBaseUrl}/releases` : void 0,
+                "Releases",
+                "releases"
+            );
+            const details = document.createElement("details");
+            details.className = "npm-userscript-star-history";
+            const summary = document.createElement("summary");
+            summary.textContent = "GitHub star history (—)";
+            const chartLink = document.createElement("a");
+            chartLink.className = "npm-userscript-star-history-chart";
+            chartLink.href = trendsLink;
+            chartLink.rel = "noopener noreferrer nofollow";
+            const chart = document.createElement("img");
+            chart.alt = `${packageName} cumulative GitHub star trend`;
+            chart.loading = "lazy";
+            chart.referrerPolicy = "no-referrer";
+            chart.dataset.src = `https://npm-compare.com/img/github-trend/${encodedPackageName}.png`;
+            const status = document.createElement("p");
+            status.className = "npm-userscript-star-history-status";
             status.textContent =
-                "The embedded chart could not load. Open Trends to view it.";
-        });
-        details.addEventListener("toggle", () => {
-            if (!details.open || chart.src) return;
-            chart.src = chart.dataset.src;
-            status.textContent = "Loading cumulative GitHub star trend…";
-        });
-        chartLink.append(chart);
-        details.append(summary, chartLink, status);
-        insights.append(heading, links, details);
-        sidebar.append(insights);
+                "Chart loads only when this section is opened.";
+            chart.addEventListener("load", () => status.remove());
+            chart.addEventListener("error", () => {
+                chart.remove();
+                status.textContent =
+                    "The embedded chart could not load. Open Trends to view it.";
+            });
+            details.addEventListener("toggle", () => {
+                if (!details.open || chart.src) return;
+                chart.src = chart.dataset.src;
+                status.textContent = "Loading cumulative GitHub star trend…";
+            });
+            chartLink.append(chart);
+            details.append(summary, chartLink, status);
+            insights.append(heading, links, details);
+            sidebar.append(insights);
+        }
+        if (repositoryBaseUrl) {
+            for (const [kind, path] of [
+                ["contributors", "graphs/contributors"],
+                ["releases", "releases"],
+            ]) {
+                const link = insights.querySelector(`[data-insight="${kind}"]`);
+                if (!link) continue;
+                link.href = `${repositoryBaseUrl}/${path}`;
+                link.removeAttribute("aria-disabled");
+            }
+        }
+        if (typeof repoData?.stargazers_count === "number") {
+            const summary = insights.querySelector(
+                ".npm-userscript-star-history summary"
+            );
+            if (summary) {
+                summary.textContent = `GitHub star history (${repoData.stargazers_count.toLocaleString()})`;
+            }
+        }
+        scheduleRepositorySidebarReconcile();
+        return insights;
     }
     async function getChangelogLink(ownerRepo, directory) {
         const changelogPath = directory
@@ -8241,7 +8960,13 @@ implementation is broken for large numbers for some reason. This temporarily fix
         pullSvg,
         changelogSvg,
         repositoryLoadingObserver,
-        repositorySidebarObserver;
+        repositorySidebarObserver,
+        repositorySidebarObservedElement,
+        repositorySidebarReconcileQueued,
+        repositoryCardRecoveryQueued,
+        repositorySidebarRepoData,
+        repositorySidebarLicenseData,
+        repositoryReadyCardTemplate;
     var init_repository_card = __esm({
         "src/features/repository-card.ts"() {
             init_utils_cache();
@@ -8252,6 +8977,12 @@ Enabling this removes duplicate "Stars", "Issues", "Pull Requests", and "Homepag
 `;
             repositoryLoadingObserver = void 0;
             repositorySidebarObserver = void 0;
+            repositorySidebarObservedElement = void 0;
+            repositorySidebarReconcileQueued = false;
+            repositoryCardRecoveryQueued = false;
+            repositorySidebarRepoData = void 0;
+            repositorySidebarLicenseData = void 0;
+            repositoryReadyCardTemplate = void 0;
             starSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path></svg>`;
             issueSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path></svg>`;
             pullSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"></path></svg>`;
@@ -20297,11 +21028,22 @@ in the package.json.
         if (document.querySelector(".npm-userscript-vulnerability-tag")) return;
         const featureSettings2 = await getFeatureSettings3();
         if (featureSettings2["better-versions"].get() === true) {
-            await waitForElement('[aria-labelledby="cumulated-versions"]');
+            await waitForElement(
+                ".npm-userscript-version-summary[data-state='ready']",
+                5e3
+            ).catch(() => void 0);
         }
-        const allVersions = Object.keys(
-            getNpmContext().context.versionsDownloads
-        );
+        const allVersions = [
+            ...new Set(
+                Array.from(
+                    document.querySelectorAll(
+                        'table[aria-labelledby="version-history"] a[href*="/v/"]'
+                    )
+                )
+                    .map((link) => link.textContent?.trim())
+                    .filter(Boolean)
+            ),
+        ];
         document.querySelectorAll("table tr").forEach((row) => {
             const versionEl =
                 row.querySelector("td a") ?? row.querySelector("td span");
@@ -22511,13 +23253,6 @@ if (readIntegratedFeatureSetting("package-size")) {
         const ACCENT_COLOR_KEY = "bundlephobiaSizeAccentColor";
         const ACCENT_DIALOG_ID = "npm-bundlephobia-accent-dialog";
         const CARD_ATTRIBUTE = "data-npm-bundlephobia-size";
-        const CARD_PLACEMENT_KEY = "bundlephobiaSizeCardPlacement";
-        const CARD_PLACEMENTS = Object.freeze({
-            bundlephobiaLink: "bundlephobia-link",
-            collaborators: "collaborators",
-            fundingButton: "funding-button",
-            unpackedSize: "unpacked-size",
-        });
         const DEFAULT_ACCENT_COLOR = "#a78bfa";
         const DOWNLOAD_SPEED_KBPS = Object.freeze({
             emerging4G: 7000 / 8,
@@ -22586,23 +23321,6 @@ if (readIntegratedFeatureSetting("package-size")) {
             return child?.parentElement === sidebar ? child : null;
         }
 
-        function findFundingSection(sidebar) {
-            const movedFundingButton = sidebar.querySelector(
-                ".npm-userscript-funding-button"
-            );
-            if (movedFundingButton) {
-                return getDirectSidebarChild(sidebar, movedFundingButton);
-            }
-
-            const fundingLink = [...sidebar.querySelectorAll("a.button")].find(
-                (link) =>
-                    normalizeText(link.textContent).includes(
-                        "Fund this package"
-                    )
-            );
-            return getDirectSidebarChild(sidebar, fundingLink);
-        }
-
         function getSidebarFieldValue(sidebar, label) {
             const heading = findSidebarHeading(sidebar, label);
             if (!heading) return "";
@@ -22617,22 +23335,6 @@ if (readIntegratedFeatureSetting("package-size")) {
             );
             if (siblingValue) return siblingValue;
             return "";
-        }
-
-        function findBundlephobiaLink(sidebar) {
-            return [...sidebar.querySelectorAll("a[href]")].find((link) => {
-                if (link.closest(`[${CARD_ATTRIBUTE}]`)) return false;
-
-                try {
-                    const url = new URL(link.href);
-                    return (
-                        url.hostname === "bundlephobia.com" &&
-                        url.pathname.startsWith("/package/")
-                    );
-                } catch {
-                    return false;
-                }
-            });
         }
 
         function encodePackagePath(packageName) {
@@ -22741,17 +23443,20 @@ if (readIntegratedFeatureSetting("package-size")) {
             }
 
             [${CARD_ATTRIBUTE}] .nbps-content {
+                display: grid;
+                grid-template-rows: auto auto minmax(3.4rem, auto) auto auto auto minmax(3.35rem, auto);
                 min-width: 0;
             }
 
-            [${CARD_ATTRIBUTE}] .nbps-loading,
-            [${CARD_ATTRIBUTE}] .nbps-error {
+            [${CARD_ATTRIBUTE}] .nbps-status {
                 font-size: 0.8rem;
                 line-height: 1.45;
                 margin: 0;
             }
 
-            [${CARD_ATTRIBUTE}] .nbps-loading {
+            [${CARD_ATTRIBUTE}][aria-busy="true"] .nbps-metric-value,
+            [${CARD_ATTRIBUTE}][aria-busy="true"] .nbps-composition-value,
+            [${CARD_ATTRIBUTE}][aria-busy="true"] .nbps-badge {
                 opacity: 0.72;
             }
 
@@ -22781,6 +23486,7 @@ if (readIntegratedFeatureSetting("package-size")) {
                 border-radius: 0.55rem;
                 display: grid;
                 gap: 0.15rem;
+                min-block-size: 3.55rem;
                 min-width: 0;
                 padding: 0.55rem 0.65rem;
             }
@@ -22813,18 +23519,30 @@ if (readIntegratedFeatureSetting("package-size")) {
                 white-space: nowrap;
             }
 
+            [${CARD_ATTRIBUTE}] .nbps-footer {
+                align-content: start;
+                display: grid;
+                gap: 0.35rem;
+                min-block-size: 3.35rem;
+                margin-top: 0.5rem;
+            }
+
             [${CARD_ATTRIBUTE}] .nbps-details {
                 color: var(--nbps-text-muted);
                 font-size: 0.7rem;
                 line-height: 1.4;
-                margin: 0.5rem 0 0;
+                margin: 0;
             }
 
             [${CARD_ATTRIBUTE}] .nbps-badges {
-                display: flex;
-                flex-wrap: wrap;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 0.4rem;
+                align-items: center;
                 margin-top: 0.6rem;
+                block-size: 3.4rem;
+                min-block-size: 3.4rem;
+                text-align: center;
             }
 
             [${CARD_ATTRIBUTE}] .nbps-badge {
@@ -22833,18 +23551,46 @@ if (readIntegratedFeatureSetting("package-size")) {
                 border: 1px solid color-mix(in srgb, var(--nbps-success) 45%, transparent);
                 border-radius: 999px;
                 color: var(--nbps-success);
-                display: inline-flex;
+                display: grid;
                 font-size: 0.68rem;
                 font-weight: 700;
-                gap: 0.3rem;
-                line-height: 1.2;
-                padding: 0.25rem 0.5rem;
+                gap: 0.15rem;
+                grid-template-rows: 1.05rem minmax(0, 1fr);
+                justify-items: center;
+                line-height: 1.1;
+                min-inline-size: 0;
+                block-size: 100%;
+                box-sizing: border-box;
+                overflow: hidden;
+                padding: 0.25rem 0.2rem;
+                text-align: center;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge-label {
+                align-self: center;
+                display: block;
+                max-inline-size: 100%;
+                overflow-wrap: anywhere;
+                text-align: center;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge[data-state="negative"] {
+                color: var(--nbps-warning);
+                background: color-mix(in srgb, var(--nbps-warning) 12%, transparent);
+                border-color: color-mix(in srgb, var(--nbps-warning) 45%, transparent);
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge[data-state="pending"] {
+                color: var(--nbps-text-muted);
+                background: color-mix(in srgb, currentColor 7%, transparent);
+                border-color: var(--nbps-border);
             }
 
             [${CARD_ATTRIBUTE}] .nbps-badge-icon {
                 display: block;
-                flex: 0 0 auto;
                 height: 1.05rem;
+                justify-self: center;
+                max-width: 1.3rem;
                 overflow: visible;
                 width: auto;
             }
@@ -22856,6 +23602,7 @@ if (readIntegratedFeatureSetting("package-size")) {
                 display: grid;
                 gap: 0.4rem;
                 margin-top: 0.6rem;
+                min-block-size: 3.65rem;
                 padding: 0.55rem 0.65rem;
             }
 
@@ -22893,7 +23640,7 @@ if (readIntegratedFeatureSetting("package-size")) {
                 height: 100%;
             }
 
-            [${CARD_ATTRIBUTE}] .nbps-error {
+            [${CARD_ATTRIBUTE}] .nbps-status[data-state="error"] {
                 color: #b42318;
             }
 
@@ -22906,8 +23653,14 @@ if (readIntegratedFeatureSetting("package-size")) {
                 font: inherit;
                 font-size: 0.75rem;
                 font-weight: 700;
-                margin-top: 0.6rem;
+                justify-self: start;
+                margin: 0;
                 padding: 0.35rem 0.55rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-retry[hidden] {
+                display: block;
+                visibility: hidden;
             }
 
             [${CARD_ATTRIBUTE}] .nbps-retry:hover {
@@ -23175,7 +23928,15 @@ if (readIntegratedFeatureSetting("package-size")) {
 
             const content = createElement("div", "nbps-content");
             content.setAttribute("aria-live", "polite");
-            content.setAttribute("aria-atomic", "true");
+            content.setAttribute("aria-atomic", "false");
+            createCardShell(content);
+            content
+                .querySelector(".nbps-retry")
+                ?.addEventListener("click", () => {
+                    bundleStatsCache.delete(details.packageSpec);
+                    packageFootprintCache.delete(details.packageSpec);
+                    loadStats(content, details);
+                });
             card.append(header, content);
 
             return { card, content };
@@ -23261,216 +24022,347 @@ if (readIntegratedFeatureSetting("package-size")) {
             }`;
         }
 
-        function showLoading(content, details) {
-            const loading = createElement(
-                "p",
-                "nbps-loading",
-                `Fetching bundle and package data for ${details.packageSpec}…`
-            );
-            content.replaceChildren(loading);
-        }
-
-        function createMetric(label, value, title, tone = "accent") {
+        function createMetric(key, label, tone = "accent") {
             const metric = createElement("span", "nbps-metric");
-            if (title) metric.title = title;
+            metric.dataset.metric = key;
             metric.dataset.tone = tone;
             metric.append(
                 createElement("span", "nbps-metric-label", label),
-                createElement("strong", "nbps-metric-value", value)
+                createElement("strong", "nbps-metric-value", "—")
             );
             return metric;
         }
 
-        function createBadge(label, title, iconName) {
+        function createBadge(key, label, title, iconName) {
             const badge = createElement("span", "nbps-badge");
+            badge.dataset.badge = key;
+            badge.dataset.state = "pending";
             const icon = createStatusIcon(iconName);
             if (icon) badge.append(icon);
-            badge.append(document.createTextNode(label));
+            badge.append(createElement("span", "nbps-badge-label", label));
             badge.title = title;
             return badge;
         }
 
-        function createBadges(data) {
+        function createCardShell(content) {
+            const browserMetrics = createElement("div", "nbps-metrics");
+            browserMetrics.append(
+                createMetric("minified", "Minified", "accent"),
+                createMetric("gzip", "Gzip", "cool"),
+                createMetric("slow-3g", "Slow 3G", "warning"),
+                createMetric("emerging-4g", "Emerging 4G", "success")
+            );
+
             const badges = createElement("div", "nbps-badges");
-            const isTreeShakeable = Boolean(
-                data.hasJSModule || data.hasJSNext || data.isModuleType
-            );
-
-            if (isTreeShakeable) {
-                badges.append(
-                    createBadge(
-                        "Tree-shakable",
-                        "Bundlephobia detected an ES module entry point.",
-                        "treeShake"
-                    )
-                );
-            }
-
-            if (data.hasSideEffects === false) {
-                badges.append(
-                    createBadge(
-                        "Side-effect free",
-                        "Bundlephobia reports that the package is marked as side-effect free.",
-                        "sideEffect"
-                    )
-                );
-            }
-
-            const dependencyText = dependencyBadgeLabel(data.dependencyCount);
-            if (dependencyText) {
-                badges.append(
-                    createBadge(
-                        dependencyText,
-                        "Bundlephobia's bundled dependency count.",
-                        "dependency"
-                    )
-                );
-            }
-
-            return badges.childElementCount > 0 ? badges : null;
-        }
-
-        function createSelfComposition(data) {
-            const composition = getSelfComposition(data);
-            if (!composition) return null;
-
-            const container = createElement("div", "nbps-composition");
-            container.title =
-                "Estimated from Bundlephobia's dependency contribution data.";
-
-            const summary = createElement("div", "nbps-composition-summary");
-            const label = createElement(
-                "span",
-                "nbps-composition-label",
-                "Self composition"
-            );
-            const value = createElement(
-                "strong",
-                "nbps-composition-value",
-                `${composition.percent.toFixed(1)}% · ~${formatSize(
-                    composition.size
-                )}`
-            );
-            summary.append(label, value);
-
-            const track = createElement("div", "nbps-composition-track");
-            track.setAttribute("role", "progressbar");
-            track.setAttribute("aria-label", "Package self composition");
-            track.setAttribute("aria-valuemin", "0");
-            track.setAttribute("aria-valuemax", "100");
-            track.setAttribute("aria-valuenow", composition.percent.toFixed(1));
-
-            const fill = createElement("div", "nbps-composition-fill");
-            fill.style.width = `${Math.min(100, composition.percent)}%`;
-            track.append(fill);
-            container.append(summary, track);
-            return container;
-        }
-
-        function createPackageMetrics(footprint) {
-            if (!footprint) return null;
-            const metrics = createElement("div", "nbps-metrics");
-            if (Number.isFinite(footprint.tarballSize)) {
-                metrics.append(
-                    createMetric(
-                        "Tarball",
-                        formatSize(footprint.tarballSize),
-                        "Compressed npm registry tarball transfer size.",
-                        "accent"
-                    )
-                );
-            }
-            if (Number.isFinite(footprint.unpackedSize)) {
-                metrics.append(
-                    createMetric(
-                        "Unpacked",
-                        formatSize(footprint.unpackedSize),
-                        "Published package contents after the tarball is unpacked; dependencies are not included.",
-                        "cool"
-                    )
-                );
-            }
-            if (Number.isFinite(footprint.fileCount)) {
-                metrics.append(
-                    createMetric(
-                        "Files",
-                        new Intl.NumberFormat().format(footprint.fileCount),
-                        "Number of files published in this package version.",
-                        "success"
-                    )
-                );
-            }
-            if (
-                Number.isFinite(footprint.tarballSize) &&
-                footprint.tarballSize >= 0 &&
-                Number.isFinite(footprint.unpackedSize) &&
-                footprint.unpackedSize > 0
-            ) {
-                const packedRatio =
-                    (footprint.tarballSize / footprint.unpackedSize) * 100;
-                metrics.append(
-                    createMetric(
-                        "Packed ratio",
-                        `${packedRatio.toFixed(1).replace(/\.0$/u, "")}%`,
-                        "Compressed tarball size as a percentage of the unpacked published package. Lower is smaller.",
-                        "warning"
-                    )
-                );
-            }
-            return metrics.childElementCount > 0 ? metrics : null;
-        }
-
-        function showStats(content, data, footprint) {
-            const downloadTimes = getDownloadTimes(data.gzip);
-            const metrics = createElement("div", "nbps-metrics");
-            metrics.append(
-                createMetric(
-                    "Minified",
-                    formatSize(data.size),
-                    undefined,
-                    "accent"
+            badges.append(
+                createBadge(
+                    "tree-shaking",
+                    "Tree-shaking —",
+                    "Checking for an ES module entry point.",
+                    "treeShake"
                 ),
-                createMetric("Gzip", formatSize(data.gzip), undefined, "cool"),
-                createMetric(
-                    "Slow 3G",
-                    formatDownloadTime(downloadTimes.slow3G),
-                    `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`,
-                    "warning"
+                createBadge(
+                    "side-effects",
+                    "Side effects —",
+                    "Checking the package side-effects flag.",
+                    "sideEffect"
                 ),
-                createMetric(
-                    "Emerging 4G",
-                    formatDownloadTime(downloadTimes.emerging4G),
-                    `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`,
-                    "success"
+                createBadge(
+                    "dependencies",
+                    "Dependencies —",
+                    "Checking Bundlephobia's bundled dependency count.",
+                    "dependency"
                 )
             );
 
-            const badges = createBadges(data);
-            const composition = createSelfComposition(data);
-            const packageMetrics = createPackageMetrics(footprint);
+            const composition = createElement("div", "nbps-composition");
+            composition.title =
+                "Estimated from Bundlephobia's dependency contribution data.";
+            const compositionSummary = createElement(
+                "div",
+                "nbps-composition-summary"
+            );
+            compositionSummary.append(
+                createElement(
+                    "span",
+                    "nbps-composition-label",
+                    "Self composition"
+                ),
+                createElement("strong", "nbps-composition-value", "—")
+            );
+            const compositionTrack = createElement(
+                "div",
+                "nbps-composition-track"
+            );
+            compositionTrack.setAttribute("role", "progressbar");
+            compositionTrack.setAttribute(
+                "aria-label",
+                "Package self composition"
+            );
+            compositionTrack.setAttribute("aria-valuemin", "0");
+            compositionTrack.setAttribute("aria-valuemax", "100");
+            const compositionFill = createElement(
+                "div",
+                "nbps-composition-fill"
+            );
+            compositionFill.style.width = "0%";
+            compositionTrack.append(compositionFill);
+            composition.append(compositionSummary, compositionTrack);
 
-            const details = createElement(
-                "p",
-                "nbps-details",
-                `Bundlephobia analyzed v${data.version}`
+            const packageMetrics = createElement("div", "nbps-metrics");
+            packageMetrics.append(
+                createMetric("tarball", "Tarball", "accent"),
+                createMetric("unpacked", "Unpacked", "cool"),
+                createMetric("files", "Files", "success"),
+                createMetric("packed-ratio", "Packed ratio", "warning")
             );
-            content.replaceChildren(
+
+            const footer = createElement("div", "nbps-footer");
+            footer.append(
+                createElement(
+                    "p",
+                    "nbps-details",
+                    "Bundlephobia analysis time: Measuring…"
+                ),
+                createElement("p", "nbps-status", "\u00a0")
+            );
+            const retry = createElement("button", "nbps-retry", "Retry");
+            retry.type = "button";
+            retry.hidden = true;
+            footer.append(retry);
+
+            content.append(
                 createElement("p", "nbps-section-label", "Browser bundle"),
-                metrics,
-                ...(badges ? [badges] : []),
-                ...(composition ? [composition] : []),
-                ...(packageMetrics
-                    ? [
-                          createElement(
-                              "p",
-                              "nbps-section-label",
-                              "npm package"
-                          ),
-                          packageMetrics,
-                      ]
-                    : []),
-                details
+                browserMetrics,
+                badges,
+                composition,
+                createElement("p", "nbps-section-label", "npm package"),
+                packageMetrics,
+                footer
             );
+        }
+
+        function updateMetric(content, key, value, title) {
+            const metric = content.querySelector(`[data-metric="${key}"]`);
+            if (!metric) return;
+            metric.querySelector(".nbps-metric-value").textContent = value;
+            if (title) {
+                metric.title = title;
+            } else {
+                metric.removeAttribute("title");
+            }
+        }
+
+        function updateBadge(content, key, label, title, state) {
+            const badge = content.querySelector(`[data-badge="${key}"]`);
+            if (!badge) return;
+            badge.querySelector(".nbps-badge-label").textContent = label;
+            badge.title = title;
+            badge.dataset.state = state;
+        }
+
+        function resetCardValues(content) {
+            content.querySelectorAll(".nbps-metric-value").forEach((value) => {
+                value.textContent = "—";
+            });
+            updateBadge(
+                content,
+                "tree-shaking",
+                "Tree-shaking —",
+                "Checking for an ES module entry point.",
+                "pending"
+            );
+            updateBadge(
+                content,
+                "side-effects",
+                "Side effects —",
+                "Checking the package side-effects flag.",
+                "pending"
+            );
+            updateBadge(
+                content,
+                "dependencies",
+                "Dependencies —",
+                "Checking Bundlephobia's bundled dependency count.",
+                "pending"
+            );
+            const compositionValue = content.querySelector(
+                ".nbps-composition-value"
+            );
+            const compositionTrack = content.querySelector(
+                ".nbps-composition-track"
+            );
+            const compositionFill = content.querySelector(
+                ".nbps-composition-fill"
+            );
+            if (compositionValue) compositionValue.textContent = "—";
+            compositionTrack?.removeAttribute("aria-valuenow");
+            if (compositionFill) compositionFill.style.width = "0%";
+        }
+
+        function setStatus(content, message, state) {
+            const status = content.querySelector(".nbps-status");
+            if (!status) return;
+            status.textContent = message || "\u00a0";
+            status.dataset.state = state;
+            status.toggleAttribute("aria-hidden", !message);
+        }
+
+        function showLoading(content, details) {
+            const card = content.closest(`[${CARD_ATTRIBUTE}]`);
+            card?.setAttribute("aria-busy", "true");
+            resetCardValues(content);
+            const detailsLine = content.querySelector(".nbps-details");
+            if (detailsLine) {
+                detailsLine.textContent =
+                    "Bundlephobia analysis time: Measuring…";
+            }
+            setStatus(
+                content,
+                `Fetching bundle and package data for ${details.packageSpec}…`,
+                "loading"
+            );
+            const retry = content.querySelector(".nbps-retry");
+            if (retry) retry.hidden = true;
+        }
+
+        function formatAnalysisTime(durationMs) {
+            if (!Number.isFinite(durationMs) || durationMs < 0)
+                return "Unavailable";
+            if (durationMs < 1000) return `${Math.round(durationMs)} ms`;
+            return `${(durationMs / 1000).toFixed(2)} s`;
+        }
+
+        function showStats(content, data, footprint, analysisTimeMs) {
+            const downloadTimes = getDownloadTimes(data.gzip);
+            updateMetric(content, "minified", formatSize(data.size));
+            updateMetric(content, "gzip", formatSize(data.gzip));
+            updateMetric(
+                content,
+                "slow-3g",
+                formatDownloadTime(downloadTimes.slow3G),
+                `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`
+            );
+            updateMetric(
+                content,
+                "emerging-4g",
+                formatDownloadTime(downloadTimes.emerging4G),
+                `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`
+            );
+
+            const isTreeShakeable = Boolean(
+                data.hasJSModule || data.hasJSNext || data.isModuleType
+            );
+            updateBadge(
+                content,
+                "tree-shaking",
+                isTreeShakeable ? "Tree-shakable" : "Not tree-shakable",
+                isTreeShakeable
+                    ? "Bundlephobia detected an ES module entry point."
+                    : "Bundlephobia did not detect an ES module entry point.",
+                isTreeShakeable ? "positive" : "negative"
+            );
+            const isSideEffectFree = data.hasSideEffects === false;
+            updateBadge(
+                content,
+                "side-effects",
+                isSideEffectFree ? "Side-effect free" : "Has side effects",
+                isSideEffectFree
+                    ? "Bundlephobia reports that the package is marked as side-effect free."
+                    : "Bundlephobia did not report the package as side-effect free.",
+                isSideEffectFree ? "positive" : "negative"
+            );
+            updateBadge(
+                content,
+                "dependencies",
+                dependencyBadgeLabel(data.dependencyCount) ||
+                    "Dependencies unavailable",
+                "Bundlephobia's bundled dependency count.",
+                Number.isFinite(data.dependencyCount) ? "positive" : "pending"
+            );
+
+            const composition = getSelfComposition(data);
+            const compositionValue = content.querySelector(
+                ".nbps-composition-value"
+            );
+            const compositionTrack = content.querySelector(
+                ".nbps-composition-track"
+            );
+            const compositionFill = content.querySelector(
+                ".nbps-composition-fill"
+            );
+            if (composition) {
+                const percent = Math.min(100, composition.percent);
+                if (compositionValue) {
+                    compositionValue.textContent = `${composition.percent.toFixed(
+                        1
+                    )}% · ~${formatSize(composition.size)}`;
+                }
+                compositionTrack?.setAttribute(
+                    "aria-valuenow",
+                    composition.percent.toFixed(1)
+                );
+                if (compositionFill)
+                    compositionFill.style.width = `${percent}%`;
+            } else if (compositionValue) {
+                compositionValue.textContent = "Unavailable";
+            }
+
+            updateMetric(
+                content,
+                "tarball",
+                Number.isFinite(footprint?.tarballSize)
+                    ? formatSize(footprint.tarballSize)
+                    : "Unavailable",
+                "Compressed npm registry tarball transfer size."
+            );
+            updateMetric(
+                content,
+                "unpacked",
+                Number.isFinite(footprint?.unpackedSize)
+                    ? formatSize(footprint.unpackedSize)
+                    : "Unavailable",
+                "Published package contents after the tarball is unpacked; dependencies are not included."
+            );
+            updateMetric(
+                content,
+                "files",
+                Number.isFinite(footprint?.fileCount)
+                    ? new Intl.NumberFormat().format(footprint.fileCount)
+                    : "Unavailable",
+                "Number of files published in this package version."
+            );
+            const hasPackedRatio =
+                Number.isFinite(footprint?.tarballSize) &&
+                footprint.tarballSize >= 0 &&
+                Number.isFinite(footprint?.unpackedSize) &&
+                footprint.unpackedSize > 0;
+            updateMetric(
+                content,
+                "packed-ratio",
+                hasPackedRatio
+                    ? `${(
+                          (footprint.tarballSize / footprint.unpackedSize) *
+                          100
+                      )
+                          .toFixed(1)
+                          .replace(/\.0$/u, "")}%`
+                    : "Unavailable",
+                "Compressed tarball size as a percentage of the unpacked published package. Lower is smaller."
+            );
+
+            const detailsLine = content.querySelector(".nbps-details");
+            if (detailsLine) {
+                detailsLine.textContent = `Bundlephobia analysis time: ${formatAnalysisTime(
+                    analysisTimeMs
+                )}`;
+            }
+            setStatus(content, "", "ready");
+            const retry = content.querySelector(".nbps-retry");
+            if (retry) retry.hidden = true;
+            content
+                .closest(`[${CARD_ATTRIBUTE}]`)
+                ?.removeAttribute("aria-busy");
         }
 
         function getFriendlyError(error) {
@@ -23491,20 +24383,19 @@ if (readIntegratedFeatureSetting("package-size")) {
                 : "Could not load bundle size data.";
         }
 
-        function showError(content, details, error) {
-            const message = createElement(
-                "p",
-                "nbps-error",
-                getFriendlyError(error)
-            );
-            const retry = createElement("button", "nbps-retry", "Retry");
-            retry.type = "button";
-            retry.addEventListener("click", () => {
-                bundleStatsCache.delete(details.packageSpec);
-                packageFootprintCache.delete(details.packageSpec);
-                loadStats(content, details);
-            });
-            content.replaceChildren(message, retry);
+        function showError(content, error) {
+            resetCardValues(content);
+            const detailsLine = content.querySelector(".nbps-details");
+            if (detailsLine) {
+                detailsLine.textContent =
+                    "Bundlephobia analysis time: Unavailable";
+            }
+            setStatus(content, getFriendlyError(error), "error");
+            const retry = content.querySelector(".nbps-retry");
+            if (retry) retry.hidden = false;
+            content
+                .closest(`[${CARD_ATTRIBUTE}]`)
+                ?.removeAttribute("aria-busy");
         }
 
         function createRequestError(message, code) {
@@ -23603,10 +24494,16 @@ if (readIntegratedFeatureSetting("package-size")) {
             const cached = bundleStatsCache.get(packageSpec);
             if (cached) return cached;
 
-            const request = requestBundleStats(packageSpec).catch((error) => {
-                bundleStatsCache.delete(packageSpec);
-                throw error;
-            });
+            const startedAt = Date.now();
+            const request = requestBundleStats(packageSpec)
+                .then((data) => ({
+                    analysisTimeMs: Date.now() - startedAt,
+                    data,
+                }))
+                .catch((error) => {
+                    bundleStatsCache.delete(packageSpec);
+                    throw error;
+                });
             bundleStatsCache.set(packageSpec, request);
             return request;
         }
@@ -23753,7 +24650,7 @@ if (readIntegratedFeatureSetting("package-size")) {
             showLoading(content, details);
 
             try {
-                const [data, footprint] = await Promise.all([
+                const [bundleResult, footprint] = await Promise.all([
                     getBundleStats(details.packageSpec),
                     getPackageFootprint(details).catch(() => null),
                 ]);
@@ -23764,53 +24661,27 @@ if (readIntegratedFeatureSetting("package-size")) {
                 ) {
                     return;
                 }
-                showStats(content, data, footprint);
+                showStats(
+                    content,
+                    bundleResult.data,
+                    footprint,
+                    bundleResult.analysisTimeMs
+                );
             } catch (error) {
                 if (
                     content.isConnected &&
                     content.closest(`[${CARD_ATTRIBUTE}]`)?.dataset.pageKey ===
                         details.pageKey
                 ) {
-                    showError(content, details, error);
+                    showError(content, error);
                 }
             }
-        }
-
-        function getCardPlacement() {
-            const placement = GM_getValue(
-                CARD_PLACEMENT_KEY,
-                CARD_PLACEMENTS.collaborators
-            );
-            return Object.values(CARD_PLACEMENTS).includes(placement)
-                ? placement
-                : CARD_PLACEMENTS.collaborators;
-        }
-
-        function setCardPlacement(placement) {
-            GM_setValue(CARD_PLACEMENT_KEY, placement);
-            scheduleRender();
         }
 
         function registerMenuCommands() {
             GM_registerMenuCommand(
                 "Bundlephobia: change accent color…",
                 openAccentColorDialog
-            );
-            GM_registerMenuCommand(
-                "Bundlephobia: place above Collaborators",
-                () => setCardPlacement(CARD_PLACEMENTS.collaborators)
-            );
-            GM_registerMenuCommand(
-                "Bundlephobia: place below Unpacked Size",
-                () => setCardPlacement(CARD_PLACEMENTS.unpackedSize)
-            );
-            GM_registerMenuCommand(
-                "Bundlephobia: place above Fund this package",
-                () => setCardPlacement(CARD_PLACEMENTS.fundingButton)
-            );
-            GM_registerMenuCommand(
-                "Bundlephobia: place by npm bundle link",
-                () => setCardPlacement(CARD_PLACEMENTS.bundlephobiaLink)
             );
         }
 
@@ -23829,67 +24700,18 @@ if (readIntegratedFeatureSetting("package-size")) {
         }
 
         function insertCard(details, card) {
-            const requestedPlacement = getCardPlacement();
-            card.dataset.requestedPlacement = requestedPlacement;
-
-            if (requestedPlacement === CARD_PLACEMENTS.collaborators) {
-                const collaboratorsSection = getDirectSidebarChild(
+            for (const label of [
+                "Last publish",
+                "Last Published",
+                "License",
+                "Version",
+            ]) {
+                const metadataSection = getDirectSidebarChild(
                     details.sidebar,
-                    findSidebarHeading(details.sidebar, "Collaborators")
+                    findSidebarHeading(details.sidebar, label)
                 );
-                if (collaboratorsSection) {
-                    insertBefore(
-                        collaboratorsSection,
-                        card,
-                        CARD_PLACEMENTS.collaborators
-                    );
-                    return;
-                }
-            }
-
-            if (requestedPlacement === CARD_PLACEMENTS.fundingButton) {
-                const fundingSection = findFundingSection(details.sidebar);
-                if (fundingSection) {
-                    insertBefore(
-                        fundingSection,
-                        card,
-                        CARD_PLACEMENTS.fundingButton
-                    );
-                    return;
-                }
-            }
-
-            if (requestedPlacement === CARD_PLACEMENTS.unpackedSize) {
-                const unpackedSizeHeading = findSidebarHeading(
-                    details.sidebar,
-                    "Unpacked Size"
-                );
-                const unpackedSizeSection = getDirectSidebarChild(
-                    details.sidebar,
-                    unpackedSizeHeading
-                );
-                if (unpackedSizeSection) {
-                    insertAfter(
-                        unpackedSizeSection,
-                        card,
-                        CARD_PLACEMENTS.unpackedSize
-                    );
-                    return;
-                }
-            }
-
-            if (requestedPlacement === CARD_PLACEMENTS.bundlephobiaLink) {
-                const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
-                const bundlephobiaSection = getDirectSidebarChild(
-                    details.sidebar,
-                    bundlephobiaLink
-                );
-                if (bundlephobiaSection) {
-                    insertAfter(
-                        bundlephobiaSection,
-                        card,
-                        CARD_PLACEMENTS.bundlephobiaLink
-                    );
+                if (metadataSection) {
+                    insertAfter(metadataSection, card, "package-metadata");
                     return;
                 }
             }
@@ -23902,21 +24724,8 @@ if (readIntegratedFeatureSetting("package-size")) {
                 insertBefore(
                     collaboratorsSection,
                     card,
-                    "collaborators-fallback"
+                    "package-metadata-fallback"
                 );
-                return;
-            }
-
-            const versionHeading = findSidebarHeading(
-                details.sidebar,
-                "Version"
-            );
-            const versionSection = getDirectSidebarChild(
-                details.sidebar,
-                versionHeading
-            );
-            if (versionSection) {
-                insertAfter(versionSection, card, "version-fallback");
                 return;
             }
 

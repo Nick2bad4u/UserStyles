@@ -73,6 +73,7 @@ function createPage(body, url) {
 function installGm(dom, respond) {
     const commands = [];
     const requests = [];
+    const requestOptions = [];
     const values = new Map();
 
     dom.window.GM = {
@@ -82,6 +83,7 @@ function installGm(dom, respond) {
         },
         xmlHttpRequest(options) {
             requests.push(options.url);
+            requestOptions.push(options);
             dom.window.queueMicrotask(async () => {
                 try {
                     const result = await respond(options.url, options);
@@ -126,7 +128,7 @@ function installGm(dom, respond) {
     dom.window.GM_xmlhttpRequest = (options) =>
         dom.window.GM.xmlHttpRequest(options);
 
-    return { commands, requests, values };
+    return { commands, requestOptions, requests, values };
 }
 
 function runScript(dom) {
@@ -276,7 +278,7 @@ async function runDefaultSearchScenario() {
 }
 
 async function runVersionsScenario() {
-    const versions = [
+    const leadingVersions = [
         "1.0.0",
         "1.0.0+build.2",
         "1.0.0-beta.10",
@@ -285,10 +287,16 @@ async function runVersionsScenario() {
         "0.9.2",
         "0.9.1",
     ];
+    const versions = [
+        ...leadingVersions,
+        ...Array.from({ length: 868 }, (_, index) => `0.8.${867 - index}`),
+    ];
     const rows = versions
         .map(
-            (version) =>
-                `<tr><td><a href="/package/example/v/${version}">${version}</a></td><td>100</td><td>today</td></tr>`
+            (version, index) =>
+                `<tr><td><a href="/package/example/v/${version}">${version}</a></td><td>100</td><td><time datetime="${new Date(
+                    Date.UTC(2026, 0, 31) - index * 86_400_000
+                ).toISOString()}">recently</time></td></tr>`
         )
         .join("");
     const dom = createPage(
@@ -299,10 +307,15 @@ async function runVersionsScenario() {
         "https://www.npmjs.com/package/example?activeTab=versions"
     );
     setOnlyFeature(dom, "better-versions");
-    dom.window.localStorage.setItem("npm-enhancer:settings:version-limit", "5");
+    dom.window.localStorage.setItem(
+        "npm-enhancer:settings:version-limit",
+        "25"
+    );
     const gm = installGm(dom, async (url) => {
-        if (url.endsWith("/example/7.0.0")) return { version: "7.0.0" };
-        if (url.endsWith("/example")) {
+        if (/\/(?:example|other)\/7\.0\.0$/u.test(url)) {
+            return { version: "7.0.0" };
+        }
+        if (/\/(?:example|other)$/u.test(url)) {
             return {
                 "dist-tags": { latest: "7.0.0" },
                 time: Object.fromEntries(
@@ -316,13 +329,6 @@ async function runVersionsScenario() {
                 ),
             };
         }
-        if (url.includes("api.npmjs.org/versions/")) {
-            return {
-                downloads: Object.fromEntries(
-                    versions.map((version) => [version, 100])
-                ),
-            };
-        }
         throw new Error(`Unexpected request: ${url}`);
     });
 
@@ -331,6 +337,7 @@ async function runVersionsScenario() {
         const summaryBeforeNative = await waitFor(() =>
             dom.window.document.querySelector(".npm-userscript-version-summary")
         );
+        const shellStateBeforeNative = summaryBeforeNative.dataset.state;
         const versionsPanel =
             dom.window.document.querySelector("#tabpanel-versions");
         versionsPanel.insertAdjacentHTML(
@@ -339,8 +346,22 @@ async function runVersionsScenario() {
                 <h3 id="version-history">Version History</h3>
                 <table aria-labelledby="version-history"><thead><tr><th>Version</th><th>Downloads</th><th>Published</th></tr></thead><tbody>${rows}</tbody></table>`
         );
-        const tabs = await waitFor(() =>
-            dom.window.document.querySelector(".npm-userscript-version-tabs")
+        const tabs = await waitFor(() => {
+            const candidate = dom.window.document.querySelector(
+                ".npm-userscript-version-tabs"
+            );
+            return candidate &&
+                Array.from(candidate.querySelectorAll("button")).every(
+                    (button) => !button.disabled
+                )
+                ? candidate
+                : null;
+        }, 5_000);
+        const shellWasProgressive =
+            shellStateBeforeNative === "loading" &&
+            summaryBeforeNative.dataset.state === "ready";
+        const summaryTable = dom.window.document.querySelector(
+            ".npm-userscript-version-summary table"
         );
         const patchTab = Array.from(tabs.querySelectorAll("button")).find(
             (button) => button.dataset.versionLevel === "patch"
@@ -349,43 +370,185 @@ async function runVersionsScenario() {
         const nativeTable = dom.window.document.querySelector(
             'table[aria-labelledby="version-history"]'
         );
-        nativeTable.querySelector("tbody").outerHTML = `<tbody>${rows}</tbody>`;
+        await waitFor(() => {
+            const hidden = nativeTable.querySelectorAll(
+                ".npm-userscript-version-limit-hidden"
+            ).length;
+            return hidden === versions.length - 25;
+        }, 5_000);
+        const hiddenBeforeShowAll = nativeTable.querySelectorAll(
+            ".npm-userscript-version-limit-hidden"
+        ).length;
+        const showAll = dom.window.document.querySelector(
+            ".npm-userscript-version-limit-note button"
+        );
+        showAll.click();
+        versionsPanel.append(
+            Object.assign(dom.window.document.createElement("div"), {
+                textContent: "Unrelated React update",
+            })
+        );
         await waitFor(
             () =>
                 nativeTable.querySelectorAll(
                     ".npm-userscript-version-limit-hidden"
-                ).length === 2
+                ).length === 0 &&
+                !dom.window.document.querySelector(
+                    ".npm-userscript-version-limit-note"
+                ),
+            5_000
+        );
+        versionsPanel.append(
+            Object.assign(dom.window.document.createElement("span"), {
+                textContent: "Another unrelated mutation",
+            })
+        );
+        await new Promise((resolve) => setTimeout(resolve, 25));
+        const remainsShownAfterMutation =
+            nativeTable.querySelectorAll(".npm-userscript-version-limit-hidden")
+                .length === 0;
+        dom.window.history.pushState(
+            {},
+            "",
+            "/package/other?activeTab=versions"
+        );
+        dom.window.dispatchEvent(new dom.window.PopStateEvent("popstate"));
+        versionsPanel.replaceChildren();
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        const replacementPanel = dom.window.document.createElement("section");
+        replacementPanel.id = "tabpanel-versions";
+        replacementPanel.innerHTML = `
+            <table aria-labelledby="current-tags"><tbody></tbody></table>
+            <h3 id="version-history">Version History</h3>
+            <table aria-labelledby="version-history"><thead><tr><th>Version</th><th>Downloads</th><th>Published</th></tr></thead><tbody>${rows}</tbody></table>
+        `;
+        versionsPanel.replaceWith(replacementPanel);
+        const replacementNativeTable = replacementPanel.querySelector(
+            'table[aria-labelledby="version-history"]'
+        );
+        await waitFor(
+            () =>
+                replacementNativeTable.querySelectorAll(
+                    ".npm-userscript-version-limit-hidden"
+                ).length ===
+                    versions.length - 25 &&
+                replacementPanel.querySelector(
+                    ".npm-userscript-version-summary[data-state='ready']"
+                ),
+            5_000
+        );
+        const selectedPatch = patchTab.classList.contains(
+            "npm-userscript-selected-tab"
         );
         return {
             renderedBeforeNativeHistory: Boolean(summaryBeforeNative),
+            shellWasProgressive,
             packumentRequests: gm.requests.filter(
-                (url) => url === "https://registry.npmjs.org/example"
+                (url) =>
+                    url === "https://registry.npmjs.org/example" ||
+                    url === "https://registry.npmjs.org/other"
+            ).length,
+            normalPackumentRequests: gm.requestOptions.filter(
+                (options) =>
+                    /registry\.npmjs\.org\/(?:example|other)$/u.test(
+                        options.url
+                    ) && !options.headers?.Accept
             ).length,
             versionDownloadRequests: gm.requests.filter((url) =>
                 url.includes("api.npmjs.org/versions/")
             ).length,
-            hiddenNativeRows: dom.window.document.querySelectorAll(
+            hiddenBeforeShowAll,
+            hiddenAfterNavigation: replacementNativeTable.querySelectorAll(
                 ".npm-userscript-version-limit-hidden"
             ).length,
-            patchRows: dom.window.document.querySelectorAll(
-                ".npm-userscript-version-summary table tbody tr"
-            ).length,
-            patchLabels: Array.from(
-                dom.window.document.querySelectorAll(
-                    ".npm-userscript-version-summary table tbody tr td:first-child"
+            summaryRestoredAfterPanelReplacement: Boolean(
+                replacementPanel.querySelector(
+                    ".npm-userscript-version-summary[data-state='ready']"
                 )
+            ),
+            remainsShownAfterMutation,
+            selectedPatch,
+            summaryTableRole: summaryTable
+                .closest('[role="tabpanel"]')
+                ?.getAttribute("role"),
+            patchRows: summaryTable.querySelectorAll("tbody tr").length,
+            patchLabels: Array.from(
+                summaryTable.querySelectorAll("tbody tr td:first-child")
             ).map((cell) => cell.textContent),
             tabLabels: Array.from(tabs.querySelectorAll("button")).map(
                 (button) => button.textContent
             ),
             selectorRole: tabs.getAttribute("role"),
-            usesPressedButtons: Array.from(
-                tabs.querySelectorAll("button")
-            ).every(
+            usesSemanticTabs: Array.from(tabs.querySelectorAll("button")).every(
                 (button) =>
-                    button.getAttribute("role") === null &&
-                    button.hasAttribute("aria-pressed")
+                    button.getAttribute("role") === "tab" &&
+                    button.hasAttribute("aria-selected") &&
+                    button.getAttribute("aria-controls") ===
+                        "npm-userscript-version-summary-panel"
             ),
+        };
+    } finally {
+        dom.window.close();
+    }
+}
+
+async function runVersionsFallbackScenario() {
+    const versions = [
+        "3.0.0",
+        "2.1.0",
+        "2.0.0",
+    ];
+    const dom = createPage(
+        `<title>fallback - npm</title><main><h1>fallback</h1>
+            <section id="tabpanel-versions"></section>
+            <aside aria-label="Package sidebar"><div><h3>Version</h3><p>3.0.0</p></div></aside>
+        </main>`,
+        "https://www.npmjs.com/package/fallback?activeTab=versions"
+    );
+    setOnlyFeature(dom, "better-versions");
+    const gm = installGm(dom, async (url) => {
+        if (url.endsWith("/fallback/3.0.0")) return { version: "3.0.0" };
+        if (url.endsWith("/fallback")) {
+            return {
+                "dist-tags": { latest: "3.0.0" },
+                time: Object.fromEntries(
+                    versions.map((version, index) => [
+                        version,
+                        new Date(Date.UTC(2026, 1, 3 - index)).toISOString(),
+                    ])
+                ),
+                versions: Object.fromEntries(
+                    versions.map((version) => [version, { version }])
+                ),
+            };
+        }
+        throw new Error(`Unexpected request: ${url}`);
+    });
+
+    try {
+        runScript(dom);
+        const summary = await waitFor(() => {
+            const candidate = dom.window.document.querySelector(
+                ".npm-userscript-version-summary"
+            );
+            return candidate?.dataset.state === "ready" ? candidate : null;
+        }, 4_000);
+        return {
+            abbreviatedRequest: gm.requestOptions.some(
+                (options) =>
+                    options.url === "https://registry.npmjs.org/fallback" &&
+                    options.headers?.Accept ===
+                        "application/vnd.npm.install-v1+json"
+            ),
+            labels: Array.from(
+                summary.querySelectorAll(".npm-userscript-version-tab")
+            ).map((button) => button.textContent),
+            normalPackumentRequests: gm.requestOptions.filter(
+                (options) =>
+                    options.url === "https://registry.npmjs.org/fallback" &&
+                    !options.headers?.Accept
+            ).length,
+            state: summary.dataset.state,
         };
     } finally {
         dom.window.close();
@@ -551,18 +714,65 @@ async function runDependenciesScenario() {
             '.npm-userscript-dependency-panel[data-dependency-group="peer"]'
         );
         const result = {
+            countsAreSeparateSecondLineElements: Array.from(
+                view.querySelectorAll(".npm-userscript-dependency-tab")
+            ).every((button) => {
+                const label = button.querySelector(
+                    ".npm-userscript-dependency-tab-label"
+                );
+                const count = button.querySelector(
+                    ".npm-userscript-dependency-tab-count"
+                );
+                return (
+                    label?.parentElement === button &&
+                    count?.parentElement === button &&
+                    label.nextElementSibling === count
+                );
+            }),
             nativeLayoutHidden:
                 nativeSection.dataset.npmUserscriptDependencyTable === "true",
+            peerIsSelected:
+                peerButton.getAttribute("aria-selected") === "true" &&
+                peerButton.classList.contains("npm-userscript-selected-tab") &&
+                peerButton.tabIndex === 0 &&
+                !peerPanel.hidden,
             peerRows: peerPanel.querySelectorAll("tbody tr").length,
             peerRange: peerPanel.querySelector(
                 ".npm-userscript-dependency-range"
             )?.textContent,
+            semanticTabs:
+                view
+                    .querySelector(".npm-userscript-dependency-tabs")
+                    ?.getAttribute("role") === "tablist" &&
+                Array.from(
+                    view.querySelectorAll(".npm-userscript-dependency-tab")
+                ).every((button) => {
+                    const panel = view.querySelector(
+                        `#${button.getAttribute("aria-controls")}`
+                    );
+                    return (
+                        button.getAttribute("role") === "tab" &&
+                        panel?.getAttribute("role") === "tabpanel" &&
+                        panel.getAttribute("aria-labelledby") === button.id
+                    );
+                }),
             tableHeaders: Array.from(peerPanel.querySelectorAll("th")).map(
                 (heading) => heading.textContent
             ),
             tabLabels: Array.from(
                 view.querySelectorAll(".npm-userscript-dependency-tab")
-            ).map((button) => button.textContent),
+            ).map(
+                (button) =>
+                    button.querySelector(".npm-userscript-dependency-tab-label")
+                        ?.textContent
+            ),
+            tabCounts: Array.from(
+                view.querySelectorAll(".npm-userscript-dependency-tab")
+            ).map(
+                (button) =>
+                    button.querySelector(".npm-userscript-dependency-tab-count")
+                        ?.textContent
+            ),
         };
         view.querySelector(".npm-userscript-dependency-native-button").click();
         result.nativeLayoutRestored =
@@ -664,7 +874,7 @@ async function runRepositoryCardScenario() {
     const issues = dom.window.document.querySelector("#native-issues");
     const pulls = dom.window.document.querySelector("#native-pulls");
     const homepage = dom.window.document.querySelector("#native-homepage");
-    installGm(dom, async (url) => {
+    const gm = installGm(dom, async (url) => {
         if (url.includes("api.github.com/search/issues")) {
             return { total_count: 2 };
         }
@@ -690,7 +900,6 @@ async function runRepositoryCardScenario() {
         }
         if (url.includes("registry.npmjs.org/example/1.0.0")) {
             return {
-                homepage: "https://example.test/docs",
                 repository: {
                     directory: "packages/example",
                     type: "git",
@@ -704,9 +913,18 @@ async function runRepositoryCardScenario() {
 
     try {
         runScript(dom);
-        const card = await waitFor(() =>
-            dom.window.document.querySelector(".npm-userscript-repository-card")
-        );
+        const card = await waitFor(() => {
+            const candidate = dom.window.document.querySelector(
+                ".npm-userscript-repository-card"
+            );
+            return candidate &&
+                !candidate.classList.contains(
+                    "npm-userscript-repository-card-loading"
+                ) &&
+                candidate.querySelector('[data-metric="changelog"]')
+                ? candidate
+                : null;
+        });
         const insights = await waitFor(() =>
             dom.window.document.querySelector(
                 ".npm-userscript-package-insights"
@@ -728,7 +946,7 @@ async function runRepositoryCardScenario() {
                 ".npm-userscript-weekly-downloads-link"
             )
         );
-        return {
+        const initialResult = {
             nativeColumnsStayConnected:
                 issues.parentElement === sidebar &&
                 pulls.parentElement === sidebar,
@@ -751,14 +969,43 @@ async function runRepositoryCardScenario() {
             )?.href,
             chartStartsLazy,
             chartSrcAfterOpen: chart.src,
-            insightsAtContentBottom:
-                insights.nextElementSibling?.classList.contains(
-                    "npm-userscript-settings-trigger"
-                ) === true,
+            insightsBeforeCollaborators:
+                insights.nextElementSibling?.querySelector("#collaborators") !==
+                null,
+            starSummary: insights.querySelector(
+                ".npm-userscript-star-history summary"
+            )?.textContent,
             weeklyChartHref: weeklyChartLink.href,
             metricKinds: Array.from(card.querySelectorAll("[data-metric]")).map(
                 (metric) => metric.dataset.metric
             ),
+        };
+        const requestsBeforeSidebarReplacement = gm.requests.length;
+        const replacementSidebar = sidebar.cloneNode(true);
+        replacementSidebar
+            .querySelector(".npm-userscript-repository-card")
+            ?.remove();
+        replacementSidebar
+            .querySelector(".npm-userscript-package-insights")
+            ?.remove();
+        sidebar.replaceWith(replacementSidebar);
+        const restoredReadyCard = await waitFor(() => {
+            const candidate = replacementSidebar.querySelector(
+                ".npm-userscript-repository-card:not(.npm-userscript-repository-card-loading)"
+            );
+            return candidate?.querySelector('[data-metric="homepage"]')
+                ? candidate
+                : null;
+        });
+        return {
+            ...initialResult,
+            readyCardRestoredAfterSidebarReplacement:
+                restoredReadyCard.parentElement === replacementSidebar,
+            recoveryAddedRequests:
+                gm.requests.length - requestsBeforeSidebarReplacement,
+            restoredHomepageHref: restoredReadyCard.querySelector(
+                '[data-metric="homepage"]'
+            )?.href,
         };
     } finally {
         dom.window.close();
@@ -856,8 +1103,14 @@ async function runDeferredRepositoryCardScenario() {
             repositoryHidden: repository.classList.contains(
                 "npm-userscript-repository-card-pending"
             ),
+            repositoryMetricSlots: restoredShell.querySelectorAll(
+                '[data-metric="stars"], [data-metric="issues"], [data-metric="pulls"]'
+            ).length,
             status: restoredShell.querySelector(
                 ".npm-userscript-repository-card-status"
+            )?.textContent,
+            insightsSummary: dom.window.document.querySelector(
+                ".npm-userscript-star-history summary"
             )?.textContent,
         };
         releaseData();
@@ -994,7 +1247,7 @@ async function runCoexistenceScenario() {
                     "[data-npm-bundlephobia-size]"
                 )
             );
-            await waitFor(() => card.textContent.includes("Unpacked"));
+            await waitFor(() => !card.hasAttribute("aria-busy"));
             if (!standaloneFirst) dom.window.eval(packageSizeScript);
             await new Promise((resolve) => setTimeout(resolve, 20));
             const cards = dom.window.document.querySelectorAll(
@@ -1007,6 +1260,15 @@ async function runCoexistenceScenario() {
                 packageMetricLabels: Array.from(
                     cards[0]?.querySelectorAll(".nbps-metric-label") || []
                 ).map((label) => label.textContent),
+                analysisTime: cards[0]
+                    ?.querySelector(".nbps-details")
+                    ?.textContent.trim(),
+                badgeCount:
+                    cards[0]?.querySelectorAll(".nbps-badge").length || 0,
+                compositionCount:
+                    cards[0]?.querySelectorAll(".nbps-composition").length || 0,
+                metricCount:
+                    cards[0]?.querySelectorAll(".nbps-metric").length || 0,
                 packedRatio: Array.from(
                     cards[0]?.querySelectorAll(".nbps-metric") || []
                 )
@@ -1070,19 +1332,145 @@ async function runCoexistenceScenario() {
                 const candidate = dom.window.document.querySelector(
                     "[data-npm-bundlephobia-size]"
                 );
-                return candidate?.textContent.includes("Bundlephobia analyzed")
+                return candidate && !candidate.hasAttribute("aria-busy")
                     ? candidate
                     : null;
             });
-            return !Array.from(
-                card.querySelectorAll(".nbps-metric-label")
-            ).some((label) => label.textContent === "Tarball");
+            const tarball = Array.from(
+                card.querySelectorAll(".nbps-metric")
+            ).find(
+                (metric) =>
+                    metric.querySelector(".nbps-metric-label")?.textContent ===
+                    "Tarball"
+            );
+            return (
+                tarball?.querySelector(".nbps-metric-value")?.textContent ===
+                "Unavailable"
+            );
         } finally {
             dom.window.close();
         }
     }
 
+    async function runBundleShellStateScenario(shouldFail) {
+        const dom = createPage(
+            `<title>example - npm</title><main><h1>example</h1><aside aria-label="Package sidebar">
+                <div><h3>Version</h3><p>1.0.0</p></div>
+                <div><h3>License</h3><p>MIT</p></div>
+                <div id="publish"><h3>Last publish</h3><p>today</p></div>
+            </aside></main>`,
+            "https://www.npmjs.com/package/example"
+        );
+        setOnlyFeature(dom, "package-size");
+        let releaseBundleRequest;
+        const bundleGate = new Promise((resolve) => {
+            releaseBundleRequest = resolve;
+        });
+        let bundleRequestStarted = false;
+        installGm(dom, async (url) => {
+            if (url.includes("bundlephobia.com/api/size")) {
+                bundleRequestStarted = true;
+                await bundleGate;
+                if (shouldFail) throw new Error("Bundlephobia unavailable");
+                return {
+                    dependencyCount: 2,
+                    dependencySizes: [{ approximateSize: 200 }],
+                    gzip: 800,
+                    hasJSModule: true,
+                    hasSideEffects: false,
+                    name: "example",
+                    size: 1600,
+                    version: "1.0.0",
+                };
+            }
+            if (url.includes("registry.npmjs.org/example/1.0.0")) {
+                return {
+                    dist: {
+                        fileCount: 12,
+                        tarball:
+                            "https://registry.npmjs.org/example/-/example-1.0.0.tgz",
+                        unpackedSize: 6400,
+                    },
+                    version: "1.0.0",
+                };
+            }
+            if (url.endsWith("example-1.0.0.tgz")) return {};
+            throw new Error(`Unexpected request: ${url}`);
+        });
+        const inventory = (card) => ({
+            badges: Array.from(card.querySelectorAll("[data-badge]")).map(
+                (badge) => badge.dataset.badge
+            ),
+            compositions: card.querySelectorAll(".nbps-composition").length,
+            footers: card.querySelectorAll(".nbps-footer").length,
+            metrics: Array.from(card.querySelectorAll("[data-metric]")).map(
+                (metric) => metric.dataset.metric
+            ),
+            sections: Array.from(
+                card.querySelectorAll(".nbps-section-label")
+            ).map((section) => section.textContent),
+        });
+
+        try {
+            runScript(dom);
+            const card = await waitFor(() => {
+                const candidate = dom.window.document.querySelector(
+                    "[data-npm-bundlephobia-size]"
+                );
+                return candidate?.hasAttribute("aria-busy") &&
+                    bundleRequestStarted
+                    ? candidate
+                    : null;
+            });
+            const loadingInventory = inventory(card);
+            const loadingHeight = card.getBoundingClientRect().height;
+            const loadingPlaceholders = Array.from(
+                card.querySelectorAll(".nbps-metric-value")
+            ).every((value) => value.textContent === "—");
+            releaseBundleRequest();
+            await waitFor(() => !card.hasAttribute("aria-busy"));
+            const finalInventory = inventory(card);
+            const finalHeight = card.getBoundingClientRect().height;
+            return {
+                analysisTime: card
+                    .querySelector(".nbps-details")
+                    ?.textContent.trim(),
+                badgesCentered:
+                    dom.window.getComputedStyle(
+                        card.querySelector(".nbps-badges")
+                    ).display === "grid" &&
+                    Array.from(card.querySelectorAll(".nbps-badge")).every(
+                        (badge) => {
+                            const badgeStyle =
+                                dom.window.getComputedStyle(badge);
+                            const iconStyle = dom.window.getComputedStyle(
+                                badge.querySelector(".nbps-badge-icon")
+                            );
+                            return (
+                                badgeStyle.justifyItems === "center" &&
+                                badgeStyle.textAlign === "center" &&
+                                iconStyle.justifySelf === "center"
+                            );
+                        }
+                    ),
+                finalHeight,
+                finalInventory,
+                loadingHeight,
+                loadingInventory,
+                loadingPlaceholders,
+                placement: card.dataset.placement,
+                retryVisible: !card.querySelector(".nbps-retry").hidden,
+                statusState: card.querySelector(".nbps-status")?.dataset.state,
+            };
+        } finally {
+            releaseBundleRequest();
+            dom.window.close();
+        }
+    }
+
     return {
+        bundleError: await runBundleShellStateScenario(true),
+        bundleSuccess: await runBundleShellStateScenario(false),
         installMainFirst: await runInstallOrder(false),
         installStandaloneFirst: await runInstallOrder(true),
         sizeMainFirst: await runSizeOrder(false),
@@ -1109,7 +1497,18 @@ async function runSidebarIntegrationScenario() {
                     <h3 id="homePage">Homepage</h3>
                     <p><a aria-labelledby="homePage-link" href="${homepageUrl}"><span aria-hidden="true"><svg></svg></span><span id="homePage-link">${homepageUrl}</span></a></p>
                 </div>
+                <div id="weekly-section">
+                    <button style="width: 480px">
+                        <h3>Weekly Downloads</h3>
+                        <div id="weekly-chart">
+                            <svg width="480" height="140"></svg>
+                            <p data-testid="weekly-download-count" style="overflow-wrap: anywhere">123,456,789</p>
+                        </div>
+                    </button>
+                </div>
                 <div id="version-section"><h3>Version</h3><p>1.0.0</p></div>
+                <div id="license-section"><h3 id="license">License</h3><p>MIT</p></div>
+                <div id="publish-section"><h3>Last publish</h3><p>today</p></div>
                 <div id="unpacked-section" class="w-50"><h3>Unpacked Size</h3><p>6.4 kB</p></div>
                 <div id="bundle-link-section"><div><a href="https://bundlephobia.com/package/example@1.0.0">Bundlephobia</a></div></div>
                 <div id="funding-original"><a class="button" href="https://example.test/fund">Fund this package</a></div>
@@ -1125,8 +1524,13 @@ async function runSidebarIntegrationScenario() {
         "package-size",
         "repository-card",
     ]);
+    let releaseSidebarData;
+    const sidebarDataGate = new Promise((resolve) => {
+        releaseSidebarData = resolve;
+    });
     const gm = installGm(dom, async (url) => {
         if (url.includes("bundlephobia.com/api/size")) {
+            await sidebarDataGate;
             return {
                 dependencyCount: 0,
                 dependencySizes: [],
@@ -1137,12 +1541,15 @@ async function runSidebarIntegrationScenario() {
             };
         }
         if (url.includes("api.github.com/search/issues")) {
+            await sidebarDataGate;
             return { total_count: 2 };
         }
         if (url.includes("api.github.com/repos/example/example/contents")) {
+            await sidebarDataGate;
             return {};
         }
         if (url.endsWith("api.github.com/repos/example/example")) {
+            await sidebarDataGate;
             return {
                 default_branch: "main",
                 full_name: "example/example",
@@ -1173,6 +1580,7 @@ async function runSidebarIntegrationScenario() {
         if (url.endsWith("example-1.0.0.tgz")) return {};
         throw new Error(`Unexpected request: ${url}`);
     });
+    gm.values.set("bundlephobiaSizeCardPlacement", "funding-button");
 
     try {
         runScript(dom);
@@ -1190,13 +1598,46 @@ async function runSidebarIntegrationScenario() {
             const candidate = sidebar.querySelector(
                 "[data-npm-bundlephobia-size]"
             );
-            return candidate?.nextElementSibling === collaboratorsSection
+            return candidate?.previousElementSibling?.id === "publish-section"
                 ? candidate
                 : null;
         });
-        const defaultPlacement = sizeCard.dataset.placement;
         const repositoryCard = await waitFor(() =>
-            sidebar.querySelector(".npm-userscript-repository-card")
+            sidebar.querySelector(".npm-userscript-repository-card-loading")
+        );
+        const insights = await waitFor(() =>
+            sidebar.querySelector(".npm-userscript-package-insights")
+        );
+        const immediateFormatting = {
+            collaborators: collaboratorsSection.classList.contains(
+                "npm-userscript-collaborators-card"
+            ),
+            downloads: sidebar
+                .querySelector("#weekly-section")
+                .classList.contains("npm-userscript-downloads-card"),
+            downloadsGraphConstrained: Boolean(
+                sidebar.querySelector(
+                    "#weekly-section .npm-userscript-weekly-downloads-link"
+                )
+            ),
+            insightsPlaceholder:
+                insights.querySelector(".npm-userscript-star-history summary")
+                    ?.textContent === "GitHub star history (—)",
+            repositoryMetricSlots: repositoryCard.querySelectorAll(
+                '[data-metric="stars"], [data-metric="issues"], [data-metric="pulls"]'
+            ).length,
+            sizeMetricSlots: sizeCard.querySelectorAll("[data-metric]").length,
+        };
+        releaseSidebarData();
+        await waitFor(
+            () =>
+                !sizeCard.hasAttribute("aria-busy") &&
+                sidebar.querySelector(
+                    ".npm-userscript-repository-card:not(.npm-userscript-repository-card-loading)"
+                )
+        );
+        const readyRepositoryCard = sidebar.querySelector(
+            ".npm-userscript-repository-card"
         );
         const homepageLink = sidebar.querySelector(
             '[aria-labelledby="homePage-link"]'
@@ -1204,6 +1645,46 @@ async function runSidebarIntegrationScenario() {
         const homepageText = sidebar.querySelector("#homePage-link");
         const homepageLinkStyle = dom.window.getComputedStyle(homepageLink);
         const homepageTextStyle = dom.window.getComputedStyle(homepageText);
+        const downloadsCard = sidebar.querySelector("#weekly-section");
+        const downloadsButton = downloadsCard.querySelector("button");
+        const downloadsValue = downloadsCard.querySelector(
+            '[data-testid="weekly-download-count"]'
+        );
+        const downloadsGraphLink = downloadsCard.querySelector(
+            ".npm-userscript-weekly-downloads-link"
+        );
+        const downloadsGraph = downloadsGraphLink.querySelector("svg");
+        const downloadsInnerLayout = downloadsCard.querySelector(
+            ".npm-userscript-weekly-downloads-layout"
+        );
+        const downloadsLayout = {
+            buttonMaxWidth:
+                dom.window.getComputedStyle(downloadsButton).maxWidth,
+            buttonMinWidth:
+                dom.window.getComputedStyle(downloadsButton).minWidth,
+            buttonWidth: dom.window.getComputedStyle(downloadsButton).width,
+            cardDisplay: dom.window.getComputedStyle(downloadsCard).display,
+            cardMaxWidth: dom.window.getComputedStyle(downloadsCard).maxWidth,
+            cardMinWidth: dom.window.getComputedStyle(downloadsCard).minWidth,
+            cardOverflow: dom.window.getComputedStyle(downloadsCard).overflow,
+            graphHeight: dom.window.getComputedStyle(downloadsGraph).height,
+            graphMaxWidth: dom.window.getComputedStyle(downloadsGraph).maxWidth,
+            graphWidth: dom.window.getComputedStyle(downloadsGraph).width,
+            innerDisplay:
+                dom.window.getComputedStyle(downloadsInnerLayout).display,
+            innerGridTemplateColumns:
+                dom.window.getComputedStyle(downloadsInnerLayout)
+                    .gridTemplateColumns,
+            linkGridColumn:
+                dom.window.getComputedStyle(downloadsGraphLink).gridColumn,
+            linkOverflow:
+                dom.window.getComputedStyle(downloadsGraphLink).overflow,
+            valueGridColumn:
+                dom.window.getComputedStyle(downloadsValue).gridColumn,
+            valueOverflow: dom.window.getComputedStyle(downloadsValue).overflow,
+            valueWhiteSpace:
+                dom.window.getComputedStyle(downloadsValue).whiteSpace,
+        };
         const originalCopyButton = sidebar.querySelector(
             'button[aria-label="Copy install command line"]'
         );
@@ -1232,42 +1713,31 @@ async function runSidebarIntegrationScenario() {
             pinnedInstallList.querySelectorAll(".mib-command code")
         ).every((code) => code.textContent.includes("example@1.0.0"));
 
-        const runPlacementCommand = async (label, check) => {
-            gm.commands.find((command) => command.label === label).callback();
-            return waitFor(() => {
-                const candidate = sidebar.querySelector(
-                    "[data-npm-bundlephobia-size]"
-                );
-                return check(candidate) ? candidate.dataset.placement : null;
-            });
+        const describeColumn = (column) => {
+            if (column.matches(".npm-userscript-repository-card"))
+                return "repository";
+            if (column.id === "weekly-section") return "downloads";
+            if (column.id === "version-section") return "version";
+            if (column.id === "license-section") return "license";
+            if (column.id === "publish-section") return "publish";
+            if (column.matches("[data-npm-bundlephobia-size]"))
+                return "bundlephobia";
+            if (column.matches(".npm-userscript-package-insights"))
+                return "insights";
+            if (column.id === "collaborators-section") return "collaborators";
+            if (column === fundingButton || column.contains?.(fundingButton)) {
+                return "funding";
+            }
         };
-        const placements = {
-            bundlephobiaLink: await runPlacementCommand(
-                "Bundlephobia: place by npm bundle link",
-                (candidate) =>
-                    candidate.previousElementSibling?.id ===
-                    "bundle-link-section"
-            ),
-            collaborators: await runPlacementCommand(
-                "Bundlephobia: place above Collaborators",
-                (candidate) =>
-                    candidate.nextElementSibling === collaboratorsSection
-            ),
-            funding: await runPlacementCommand(
-                "Bundlephobia: place above Fund this package",
-                (candidate) => candidate.nextElementSibling === fundingButton
-            ),
-            unpacked: await runPlacementCommand(
-                "Bundlephobia: place below Unpacked Size",
-                (candidate) =>
-                    candidate.previousElementSibling?.id === "unpacked-section"
-            ),
-        };
-        sidebar.querySelector("#unpacked-section").remove();
-        const fallbackPlacement = await runPlacementCommand(
-            "Bundlephobia: place below Unpacked Size",
-            (candidate) => candidate.nextElementSibling === collaboratorsSection
-        );
+        const directOrder = Array.from(sidebar.children)
+            .map(describeColumn)
+            .filter(Boolean);
+        const placementCommands = gm.commands
+            .map((command) => command.label)
+            .filter((label) => label.startsWith("Bundlephobia: place"));
+        const accentCommands = gm.commands
+            .map((command) => command.label)
+            .filter((label) => label === "Bundlephobia: change accent color…");
 
         const repurposedHeading = dom.window.document.createElement("h3");
         repurposedHeading.id = "react-reused-repository";
@@ -1282,6 +1752,38 @@ async function runSidebarIntegrationScenario() {
                 ? candidate
                 : null;
         });
+        const collaboratorHeading = collaboratorsSection.querySelector("h3");
+        collaboratorHeading.textContent = "Weekly Downloads";
+        await waitFor(
+            () =>
+                collaboratorsSection.classList.contains(
+                    "npm-userscript-downloads-card"
+                ) &&
+                !collaboratorsSection.classList.contains(
+                    "npm-userscript-collaborators-card"
+                )
+        );
+        collaboratorHeading.textContent = "Collaborators";
+        const collaboratorsRoleRestored = await waitFor(
+            () =>
+                collaboratorsSection.classList.contains(
+                    "npm-userscript-collaborators-card"
+                ) &&
+                !collaboratorsSection.classList.contains(
+                    "npm-userscript-downloads-card"
+                )
+        );
+        const repositorySection = sidebar.querySelector("#repository-section");
+        repositorySection.innerHTML = "<h3>License</h3><p>MIT reused node</p>";
+        const staleRepositoryRoleRemoved = await waitFor(
+            () =>
+                repositorySection.classList.contains(
+                    "npm-userscript-package-meta-license"
+                ) &&
+                !repositorySection.classList.contains(
+                    "npm-userscript-repository-card-superseded"
+                )
+        );
 
         return {
             homepage: {
@@ -1291,6 +1793,7 @@ async function runSidebarIntegrationScenario() {
                 text: homepageText.textContent,
                 width: homepageLinkStyle.width,
             },
+            downloadsLayout,
             install: {
                 commandCount: defaultInstallCommands.length,
                 defaultsToActiveTag: defaultInstallCommands.every(
@@ -1312,16 +1815,27 @@ async function runSidebarIntegrationScenario() {
                 avoidsNestedBundleLinkSection: !sidebar
                     .querySelector("#bundle-link-section")
                     .contains(sizeCard),
-                defaultPlacement,
-                fallbackPlacement,
+                accentCommandCount: accentCommands.length,
+                directOrder,
+                fixedAfterMetadata:
+                    sizeCard.previousElementSibling?.id === "publish-section",
+                immediateFormatting,
+                legacyPlacementIgnored:
+                    gm.values.get("bundlephobiaSizeCardPlacement") ===
+                        "funding-button" &&
+                    sizeCard.dataset.placement === "package-metadata",
                 parentIsSidebar: sizeCard.parentElement === sidebar,
-                placements,
+                placementCommandCount: placementCommands.length,
+                reactsToReusedCollaboratorNode: Boolean(
+                    collaboratorsRoleRestored
+                ),
                 repositoryCardIsDirectChild:
-                    repositoryCard.parentElement === sidebar,
-                storedPlacement: gm.values.get("bundlephobiaSizeCardPlacement"),
+                    readyRepositoryCard.parentElement === sidebar,
+                staleRepositoryRoleRemoved: Boolean(staleRepositoryRoleRemoved),
             },
         };
     } finally {
+        releaseSidebarData();
         dom.window.close();
     }
 }
@@ -1495,6 +2009,7 @@ async function main() {
         sidebarIntegration: await runSidebarIntegrationScenario(),
         versionSidebar: await runVersionSidebarScenario(),
         versions: await runVersionsScenario(),
+        versionsFallback: await runVersionsFallbackScenario(),
     };
     process.stdout.write(JSON.stringify(results));
 }

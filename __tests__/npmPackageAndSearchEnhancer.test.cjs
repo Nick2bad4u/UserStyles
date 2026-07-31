@@ -24,7 +24,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
             childProcess.execFileSync(process.execPath, [harnessPath], {
                 cwd: path.join(__dirname, ".."),
                 encoding: "utf8",
-                timeout: 15_000,
+                timeout: 30_000,
             })
         );
     });
@@ -33,7 +33,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.12.0");
+        expect(script).toContain("// @version      0.13.0");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
         expect(script).toContain("// @connect      npm-compare.com");
@@ -167,24 +167,48 @@ describe("NPM Package and Search Enhancer userscript", () => {
 
     test("renders delayed version history with semantic selectors and semver ordering", () => {
         expect(results.versions.renderedBeforeNativeHistory).toBe(true);
-        expect(results.versions.packumentRequests).toBe(1);
-        expect(results.versions.versionDownloadRequests).toBe(1);
+        expect(results.versions.shellWasProgressive).toBe(true);
+        expect(results.versions.normalPackumentRequests).toBe(0);
+        expect(results.versions.versionDownloadRequests).toBe(0);
         expect(results.versions.tabLabels).toEqual([
             "Major Versions (2)",
-            "Minor Versions (2)",
-            "Patch Versions (7)",
+            "Minor Versions (3)",
+            "Patch Versions (875)",
         ]);
-        expect(results.versions.selectorRole).toBe("group");
-        expect(results.versions.usesPressedButtons).toBe(true);
-        expect(results.versions.patchRows).toBe(5);
-        expect(results.versions.patchLabels).toEqual([
+        expect(results.versions.selectorRole).toBe("tablist");
+        expect(results.versions.usesSemanticTabs).toBe(true);
+        expect(results.versions.summaryTableRole).toBe("tabpanel");
+        expect(results.versions.selectedPatch).toBe(true);
+        expect(results.versions.patchRows).toBe(25);
+        expect(results.versions.patchLabels.slice(0, 5)).toEqual([
             "1.0.0",
             "1.0.0+build.2",
             "1.0.0-beta.10",
             "1.0.0-beta.2",
             "1.0.0-alpha.1",
         ]);
-        expect(results.versions.hiddenNativeRows).toBe(2);
+        expect(results.versions.hiddenBeforeShowAll).toBe(850);
+        expect(results.versions.remainsShownAfterMutation).toBe(true);
+        expect(results.versions.hiddenAfterNavigation).toBe(850);
+        expect(results.versions.summaryRestoredAfterPanelReplacement).toBe(
+            true
+        );
+        expect(script).toMatch(
+            /\.npm-userscript-version-summary table \{[\s\S]*?width: min\(100%, 48rem\);[\s\S]*?margin-inline: auto;/u
+        );
+    });
+
+    test("uses abbreviated registry metadata only when npm has no native version table", () => {
+        expect(results.versionsFallback).toEqual({
+            abbreviatedRequest: true,
+            labels: [
+                "Major Versions (2)",
+                "Minor Versions (3)",
+                "Patch Versions (3)",
+            ],
+            normalPackumentRequests: 0,
+            state: "ready",
+        });
     });
 
     test("renders version, total, license, and publish data as one metadata card", () => {
@@ -218,13 +242,25 @@ describe("NPM Package and Search Enhancer userscript", () => {
 
     test("renders dependency types as tabbed semantic tables and restores npm's layout", () => {
         expect(results.dependencies.nativeLayoutHidden).toBe(true);
+        expect(results.dependencies.countsAreSeparateSecondLineElements).toBe(
+            true
+        );
         expect(results.dependencies.tabLabels).toEqual([
-            "Dependencies (1)",
-            "Peer (1)",
-            "Optional Peer (1)",
-            "Optional (1)",
-            "Development (1)",
+            "Dependencies",
+            "Peer",
+            "Optional Peer",
+            "Optional",
+            "Development",
         ]);
+        expect(results.dependencies.tabCounts).toEqual([
+            "1",
+            "1",
+            "1",
+            "1",
+            "1",
+        ]);
+        expect(results.dependencies.semanticTabs).toBe(true);
+        expect(results.dependencies.peerIsSelected).toBe(true);
         expect(results.dependencies.tableHeaders).toEqual([
             "Package",
             "Required range",
@@ -275,7 +311,17 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.repositoryCard.chartSrcAfterOpen).toBe(
             "https://npm-compare.com/img/github-trend/example.png"
         );
-        expect(results.repositoryCard.insightsAtContentBottom).toBe(true);
+        expect(results.repositoryCard.insightsBeforeCollaborators).toBe(true);
+        expect(results.repositoryCard.starSummary).toBe(
+            "GitHub star history (1,234)"
+        );
+        expect(
+            results.repositoryCard.readyCardRestoredAfterSidebarReplacement
+        ).toBe(true);
+        expect(results.repositoryCard.recoveryAddedRequests).toBe(0);
+        expect(results.repositoryCard.restoredHomepageHref).toBe(
+            "https://example.test/docs"
+        );
     });
 
     test("renders the repository and homepage shell before package data resolves", () => {
@@ -285,7 +331,9 @@ describe("NPM Package and Search Enhancer userscript", () => {
             homepageHref: "https://example.test/docs",
             minHeight: "112px",
             repositoryHidden: true,
+            repositoryMetricSlots: 3,
             status: "Loading repository details…",
+            insightsSummary: "GitHub star history (—)",
         });
         expect(
             results.deferredRepositoryCard.latestRequestStartedBeforeData
@@ -325,12 +373,15 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(moreInstallButtons).toContain(
             '"data-npm-enhancer-install-commands"'
         );
-        expect(packageSize).toContain("// @version      2.4.0");
+        expect(packageSize).toContain("// @version      3.0.0");
         expect(packageSize).toContain('"data-npm-enhancer-package-size"');
-        expect(packageSize).toMatch(/createMetric\(\s*"Tarball"/u);
-        expect(packageSize).toMatch(/createMetric\(\s*"Unpacked"/u);
-        expect(packageSize).toMatch(/createMetric\(\s*"Files"/u);
-        expect(packageSize).toMatch(/createMetric\(\s*"Packed ratio"/u);
+        expect(packageSize).toMatch(/createMetric\("tarball", "Tarball"/u);
+        expect(packageSize).toMatch(/createMetric\("unpacked", "Unpacked"/u);
+        expect(packageSize).toMatch(/createMetric\("files", "Files"/u);
+        expect(packageSize).toMatch(
+            /createMetric\("packed-ratio", "Packed ratio"/u
+        );
+        expect(packageSize).not.toContain("bundlephobiaSizeCardPlacement");
     });
 
     test("renders one integrated companion UI in either userscript load order", () => {
@@ -367,11 +418,41 @@ describe("NPM Package and Search Enhancer userscript", () => {
             );
             expect(result.packedRatio).toBe("50%");
             expect(result.versionLabel).toBe("v1.0.0");
+            expect(result.metricCount).toBe(8);
+            expect(result.badgeCount).toBe(3);
+            expect(result.compositionCount).toBe(1);
+            expect(result.analysisTime).toMatch(
+                /^Bundlephobia analysis time: (?:\d+ ms|\d+\.\d{2} s)$/u
+            );
         }
         expect(results.coexistence.tarballErrorIgnored).toBe(true);
+        expect(results.coexistence.bundleSuccess.loadingInventory).toEqual(
+            results.coexistence.bundleSuccess.finalInventory
+        );
+        expect(results.coexistence.bundleError.loadingInventory).toEqual(
+            results.coexistence.bundleError.finalInventory
+        );
+        for (const state of [
+            results.coexistence.bundleSuccess,
+            results.coexistence.bundleError,
+        ]) {
+            expect(state.loadingPlaceholders).toBe(true);
+            expect(state.badgesCentered).toBe(true);
+            expect(state.placement).toBe("package-metadata");
+            expect(
+                Math.abs(state.finalHeight - state.loadingHeight)
+            ).toBeLessThanOrEqual(1);
+        }
+        expect(results.coexistence.bundleSuccess.statusState).toBe("ready");
+        expect(results.coexistence.bundleSuccess.retryVisible).toBe(false);
+        expect(results.coexistence.bundleError.statusState).toBe("error");
+        expect(results.coexistence.bundleError.retryVisible).toBe(true);
+        expect(results.coexistence.bundleError.analysisTime).toBe(
+            "Bundlephobia analysis time: Unavailable"
+        );
     });
 
-    test("keeps sidebar cards direct and supports every Bundlephobia placement", () => {
+    test("keeps sidebar cards direct, stable, and in one fixed semantic order", () => {
         expect(results.sidebarIntegration.homepage).toEqual({
             display: "flex",
             minWidth: "0px",
@@ -389,19 +470,54 @@ describe("NPM Package and Search Enhancer userscript", () => {
             releasesReactRepurposedNode: true,
             repairsAfterReactReuse: true,
         });
+        expect(results.sidebarIntegration.downloadsLayout).toEqual({
+            buttonMaxWidth: "100%",
+            buttonMinWidth: "0px",
+            buttonWidth: "100%",
+            cardDisplay: "grid",
+            cardMaxWidth: "100%",
+            cardMinWidth: "0px",
+            cardOverflow: "hidden",
+            graphHeight: "3.5rem",
+            graphMaxWidth: "100%",
+            graphWidth: "100%",
+            innerDisplay: "grid",
+            innerGridTemplateColumns: "minmax(7.5rem, 2fr) minmax(0, 3fr)",
+            linkGridColumn: "2",
+            linkOverflow: "hidden",
+            valueGridColumn: "1",
+            valueOverflow: "hidden",
+            valueWhiteSpace: "nowrap",
+        });
         expect(results.sidebarIntegration.size).toEqual({
+            accentCommandCount: 1,
             avoidsNestedBundleLinkSection: true,
-            defaultPlacement: "collaborators",
-            fallbackPlacement: "collaborators-fallback",
-            parentIsSidebar: true,
-            placements: {
-                bundlephobiaLink: "bundlephobia-link",
-                collaborators: "collaborators",
-                funding: "funding-button",
-                unpacked: "unpacked-size",
+            directOrder: [
+                "repository",
+                "downloads",
+                "version",
+                "license",
+                "publish",
+                "bundlephobia",
+                "insights",
+                "collaborators",
+                "funding",
+            ],
+            fixedAfterMetadata: true,
+            immediateFormatting: {
+                collaborators: true,
+                downloads: true,
+                downloadsGraphConstrained: true,
+                insightsPlaceholder: true,
+                repositoryMetricSlots: 3,
+                sizeMetricSlots: 8,
             },
+            legacyPlacementIgnored: true,
+            parentIsSidebar: true,
+            placementCommandCount: 0,
+            reactsToReusedCollaboratorNode: true,
             repositoryCardIsDirectChild: true,
-            storedPlacement: "unpacked-size",
+            staleRepositoryRoleRemoved: true,
         });
     });
 });

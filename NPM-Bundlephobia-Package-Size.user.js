@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - Bundlephobia Package Size
 // @namespace    nick2bad4u.github.io
-// @version      2.4.0
+// @version      3.0.0
 // @description  Shows exact-version Bundlephobia data plus npm tarball, unpacked, file-count, and packed-ratio metrics.
 // @author       Nick2bad4u (modern fork of dutzi's original script)
 // @license      MIT
@@ -42,13 +42,6 @@
     const ACCENT_COLOR_KEY = "bundlephobiaSizeAccentColor";
     const ACCENT_DIALOG_ID = "npm-bundlephobia-accent-dialog";
     const CARD_ATTRIBUTE = "data-npm-bundlephobia-size";
-    const CARD_PLACEMENT_KEY = "bundlephobiaSizeCardPlacement";
-    const CARD_PLACEMENTS = Object.freeze({
-        bundlephobiaLink: "bundlephobia-link",
-        collaborators: "collaborators",
-        fundingButton: "funding-button",
-        unpackedSize: "unpacked-size",
-    });
     const DEFAULT_ACCENT_COLOR = "#a78bfa";
     const DOWNLOAD_SPEED_KBPS = Object.freeze({
         emerging4G: 7000 / 8,
@@ -117,21 +110,6 @@
         return child?.parentElement === sidebar ? child : null;
     }
 
-    function findFundingSection(sidebar) {
-        const movedFundingButton = sidebar.querySelector(
-            ".npm-userscript-funding-button"
-        );
-        if (movedFundingButton) {
-            return getDirectSidebarChild(sidebar, movedFundingButton);
-        }
-
-        const fundingLink = [...sidebar.querySelectorAll("a.button")].find(
-            (link) =>
-                normalizeText(link.textContent).includes("Fund this package")
-        );
-        return getDirectSidebarChild(sidebar, fundingLink);
-    }
-
     function getSidebarFieldValue(sidebar, label) {
         const heading = findSidebarHeading(sidebar, label);
         if (!heading) return "";
@@ -146,22 +124,6 @@
         );
         if (siblingValue) return siblingValue;
         return "";
-    }
-
-    function findBundlephobiaLink(sidebar) {
-        return [...sidebar.querySelectorAll("a[href]")].find((link) => {
-            if (link.closest(`[${CARD_ATTRIBUTE}]`)) return false;
-
-            try {
-                const url = new URL(link.href);
-                return (
-                    url.hostname === "bundlephobia.com" &&
-                    url.pathname.startsWith("/package/")
-                );
-            } catch {
-                return false;
-            }
-        });
     }
 
     function encodePackagePath(packageName) {
@@ -269,17 +231,20 @@
             }
 
             [${CARD_ATTRIBUTE}] .nbps-content {
+                display: grid;
+                grid-template-rows: auto auto minmax(3.4rem, auto) auto auto auto minmax(3.35rem, auto);
                 min-width: 0;
             }
 
-            [${CARD_ATTRIBUTE}] .nbps-loading,
-            [${CARD_ATTRIBUTE}] .nbps-error {
+            [${CARD_ATTRIBUTE}] .nbps-status {
                 font-size: 0.8rem;
                 line-height: 1.45;
                 margin: 0;
             }
 
-            [${CARD_ATTRIBUTE}] .nbps-loading {
+            [${CARD_ATTRIBUTE}][aria-busy="true"] .nbps-metric-value,
+            [${CARD_ATTRIBUTE}][aria-busy="true"] .nbps-composition-value,
+            [${CARD_ATTRIBUTE}][aria-busy="true"] .nbps-badge {
                 opacity: 0.72;
             }
 
@@ -309,6 +274,7 @@
                 border-radius: 0.55rem;
                 display: grid;
                 gap: 0.15rem;
+                min-block-size: 3.55rem;
                 min-width: 0;
                 padding: 0.55rem 0.65rem;
             }
@@ -341,18 +307,30 @@
                 white-space: nowrap;
             }
 
+            [${CARD_ATTRIBUTE}] .nbps-footer {
+                align-content: start;
+                display: grid;
+                gap: 0.35rem;
+                min-block-size: 3.35rem;
+                margin-top: 0.5rem;
+            }
+
             [${CARD_ATTRIBUTE}] .nbps-details {
                 color: var(--nbps-text-muted);
                 font-size: 0.7rem;
                 line-height: 1.4;
-                margin: 0.5rem 0 0;
+                margin: 0;
             }
 
             [${CARD_ATTRIBUTE}] .nbps-badges {
-                display: flex;
-                flex-wrap: wrap;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 0.4rem;
+                align-items: center;
                 margin-top: 0.6rem;
+                block-size: 3.4rem;
+                min-block-size: 3.4rem;
+                text-align: center;
             }
 
             [${CARD_ATTRIBUTE}] .nbps-badge {
@@ -361,18 +339,46 @@
                 border: 1px solid color-mix(in srgb, var(--nbps-success) 45%, transparent);
                 border-radius: 999px;
                 color: var(--nbps-success);
-                display: inline-flex;
+                display: grid;
                 font-size: 0.68rem;
                 font-weight: 700;
-                gap: 0.3rem;
-                line-height: 1.2;
-                padding: 0.25rem 0.5rem;
+                gap: 0.15rem;
+                grid-template-rows: 1.05rem minmax(0, 1fr);
+                justify-items: center;
+                line-height: 1.1;
+                min-inline-size: 0;
+                block-size: 100%;
+                box-sizing: border-box;
+                overflow: hidden;
+                padding: 0.25rem 0.2rem;
+                text-align: center;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge-label {
+                align-self: center;
+                display: block;
+                max-inline-size: 100%;
+                overflow-wrap: anywhere;
+                text-align: center;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge[data-state="negative"] {
+                color: var(--nbps-warning);
+                background: color-mix(in srgb, var(--nbps-warning) 12%, transparent);
+                border-color: color-mix(in srgb, var(--nbps-warning) 45%, transparent);
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-badge[data-state="pending"] {
+                color: var(--nbps-text-muted);
+                background: color-mix(in srgb, currentColor 7%, transparent);
+                border-color: var(--nbps-border);
             }
 
             [${CARD_ATTRIBUTE}] .nbps-badge-icon {
                 display: block;
-                flex: 0 0 auto;
                 height: 1.05rem;
+                justify-self: center;
+                max-width: 1.3rem;
                 overflow: visible;
                 width: auto;
             }
@@ -384,6 +390,7 @@
                 display: grid;
                 gap: 0.4rem;
                 margin-top: 0.6rem;
+                min-block-size: 3.65rem;
                 padding: 0.55rem 0.65rem;
             }
 
@@ -421,7 +428,7 @@
                 height: 100%;
             }
 
-            [${CARD_ATTRIBUTE}] .nbps-error {
+            [${CARD_ATTRIBUTE}] .nbps-status[data-state="error"] {
                 color: #b42318;
             }
 
@@ -434,8 +441,14 @@
                 font: inherit;
                 font-size: 0.75rem;
                 font-weight: 700;
-                margin-top: 0.6rem;
+                justify-self: start;
+                margin: 0;
                 padding: 0.35rem 0.55rem;
+            }
+
+            [${CARD_ATTRIBUTE}] .nbps-retry[hidden] {
+                display: block;
+                visibility: hidden;
             }
 
             [${CARD_ATTRIBUTE}] .nbps-retry:hover {
@@ -696,7 +709,13 @@
 
         const content = createElement("div", "nbps-content");
         content.setAttribute("aria-live", "polite");
-        content.setAttribute("aria-atomic", "true");
+        content.setAttribute("aria-atomic", "false");
+        createCardShell(content);
+        content.querySelector(".nbps-retry")?.addEventListener("click", () => {
+            bundleStatsCache.delete(details.packageSpec);
+            packageFootprintCache.delete(details.packageSpec);
+            loadStats(content, details);
+        });
         card.append(header, content);
 
         return { card, content };
@@ -781,212 +800,323 @@
         }`;
     }
 
-    function showLoading(content, details) {
-        const loading = createElement(
-            "p",
-            "nbps-loading",
-            `Fetching bundle and package data for ${details.packageSpec}…`
-        );
-        content.replaceChildren(loading);
-    }
-
-    function createMetric(label, value, title, tone = "accent") {
+    function createMetric(key, label, tone = "accent") {
         const metric = createElement("span", "nbps-metric");
-        if (title) metric.title = title;
+        metric.dataset.metric = key;
         metric.dataset.tone = tone;
         metric.append(
             createElement("span", "nbps-metric-label", label),
-            createElement("strong", "nbps-metric-value", value)
+            createElement("strong", "nbps-metric-value", "—")
         );
         return metric;
     }
 
-    function createBadge(label, title, iconName) {
+    function createBadge(key, label, title, iconName) {
         const badge = createElement("span", "nbps-badge");
+        badge.dataset.badge = key;
+        badge.dataset.state = "pending";
         const icon = createStatusIcon(iconName);
         if (icon) badge.append(icon);
-        badge.append(document.createTextNode(label));
+        badge.append(createElement("span", "nbps-badge-label", label));
         badge.title = title;
         return badge;
     }
 
-    function createBadges(data) {
+    function createCardShell(content) {
+        const browserMetrics = createElement("div", "nbps-metrics");
+        browserMetrics.append(
+            createMetric("minified", "Minified", "accent"),
+            createMetric("gzip", "Gzip", "cool"),
+            createMetric("slow-3g", "Slow 3G", "warning"),
+            createMetric("emerging-4g", "Emerging 4G", "success")
+        );
+
         const badges = createElement("div", "nbps-badges");
-        const isTreeShakeable = Boolean(
-            data.hasJSModule || data.hasJSNext || data.isModuleType
-        );
-
-        if (isTreeShakeable) {
-            badges.append(
-                createBadge(
-                    "Tree-shakable",
-                    "Bundlephobia detected an ES module entry point.",
-                    "treeShake"
-                )
-            );
-        }
-
-        if (data.hasSideEffects === false) {
-            badges.append(
-                createBadge(
-                    "Side-effect free",
-                    "Bundlephobia reports that the package is marked as side-effect free.",
-                    "sideEffect"
-                )
-            );
-        }
-
-        const dependencyText = dependencyBadgeLabel(data.dependencyCount);
-        if (dependencyText) {
-            badges.append(
-                createBadge(
-                    dependencyText,
-                    "Bundlephobia's bundled dependency count.",
-                    "dependency"
-                )
-            );
-        }
-
-        return badges.childElementCount > 0 ? badges : null;
-    }
-
-    function createSelfComposition(data) {
-        const composition = getSelfComposition(data);
-        if (!composition) return null;
-
-        const container = createElement("div", "nbps-composition");
-        container.title =
-            "Estimated from Bundlephobia's dependency contribution data.";
-
-        const summary = createElement("div", "nbps-composition-summary");
-        const label = createElement(
-            "span",
-            "nbps-composition-label",
-            "Self composition"
-        );
-        const value = createElement(
-            "strong",
-            "nbps-composition-value",
-            `${composition.percent.toFixed(1)}% · ~${formatSize(
-                composition.size
-            )}`
-        );
-        summary.append(label, value);
-
-        const track = createElement("div", "nbps-composition-track");
-        track.setAttribute("role", "progressbar");
-        track.setAttribute("aria-label", "Package self composition");
-        track.setAttribute("aria-valuemin", "0");
-        track.setAttribute("aria-valuemax", "100");
-        track.setAttribute("aria-valuenow", composition.percent.toFixed(1));
-
-        const fill = createElement("div", "nbps-composition-fill");
-        fill.style.width = `${Math.min(100, composition.percent)}%`;
-        track.append(fill);
-        container.append(summary, track);
-        return container;
-    }
-
-    function createPackageMetrics(footprint) {
-        if (!footprint) return null;
-        const metrics = createElement("div", "nbps-metrics");
-        if (Number.isFinite(footprint.tarballSize)) {
-            metrics.append(
-                createMetric(
-                    "Tarball",
-                    formatSize(footprint.tarballSize),
-                    "Compressed npm registry tarball transfer size.",
-                    "accent"
-                )
-            );
-        }
-        if (Number.isFinite(footprint.unpackedSize)) {
-            metrics.append(
-                createMetric(
-                    "Unpacked",
-                    formatSize(footprint.unpackedSize),
-                    "Published package contents after the tarball is unpacked; dependencies are not included.",
-                    "cool"
-                )
-            );
-        }
-        if (Number.isFinite(footprint.fileCount)) {
-            metrics.append(
-                createMetric(
-                    "Files",
-                    new Intl.NumberFormat().format(footprint.fileCount),
-                    "Number of files published in this package version.",
-                    "success"
-                )
-            );
-        }
-        if (
-            Number.isFinite(footprint.tarballSize) &&
-            footprint.tarballSize >= 0 &&
-            Number.isFinite(footprint.unpackedSize) &&
-            footprint.unpackedSize > 0
-        ) {
-            const packedRatio =
-                (footprint.tarballSize / footprint.unpackedSize) * 100;
-            metrics.append(
-                createMetric(
-                    "Packed ratio",
-                    `${packedRatio.toFixed(1).replace(/\.0$/u, "")}%`,
-                    "Compressed tarball size as a percentage of the unpacked published package. Lower is smaller.",
-                    "warning"
-                )
-            );
-        }
-        return metrics.childElementCount > 0 ? metrics : null;
-    }
-
-    function showStats(content, data, footprint) {
-        const downloadTimes = getDownloadTimes(data.gzip);
-        const metrics = createElement("div", "nbps-metrics");
-        metrics.append(
-            createMetric(
-                "Minified",
-                formatSize(data.size),
-                undefined,
-                "accent"
+        badges.append(
+            createBadge(
+                "tree-shaking",
+                "Tree-shaking —",
+                "Checking for an ES module entry point.",
+                "treeShake"
             ),
-            createMetric("Gzip", formatSize(data.gzip), undefined, "cool"),
-            createMetric(
-                "Slow 3G",
-                formatDownloadTime(downloadTimes.slow3G),
-                `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`,
-                "warning"
+            createBadge(
+                "side-effects",
+                "Side effects —",
+                "Checking the package side-effects flag.",
+                "sideEffect"
             ),
-            createMetric(
-                "Emerging 4G",
-                formatDownloadTime(downloadTimes.emerging4G),
-                `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`,
-                "success"
+            createBadge(
+                "dependencies",
+                "Dependencies —",
+                "Checking Bundlephobia's bundled dependency count.",
+                "dependency"
             )
         );
 
-        const badges = createBadges(data);
-        const composition = createSelfComposition(data);
-        const packageMetrics = createPackageMetrics(footprint);
+        const composition = createElement("div", "nbps-composition");
+        composition.title =
+            "Estimated from Bundlephobia's dependency contribution data.";
+        const compositionSummary = createElement(
+            "div",
+            "nbps-composition-summary"
+        );
+        compositionSummary.append(
+            createElement("span", "nbps-composition-label", "Self composition"),
+            createElement("strong", "nbps-composition-value", "—")
+        );
+        const compositionTrack = createElement("div", "nbps-composition-track");
+        compositionTrack.setAttribute("role", "progressbar");
+        compositionTrack.setAttribute("aria-label", "Package self composition");
+        compositionTrack.setAttribute("aria-valuemin", "0");
+        compositionTrack.setAttribute("aria-valuemax", "100");
+        const compositionFill = createElement("div", "nbps-composition-fill");
+        compositionFill.style.width = "0%";
+        compositionTrack.append(compositionFill);
+        composition.append(compositionSummary, compositionTrack);
 
-        const details = createElement(
-            "p",
-            "nbps-details",
-            `Bundlephobia analyzed v${data.version}`
+        const packageMetrics = createElement("div", "nbps-metrics");
+        packageMetrics.append(
+            createMetric("tarball", "Tarball", "accent"),
+            createMetric("unpacked", "Unpacked", "cool"),
+            createMetric("files", "Files", "success"),
+            createMetric("packed-ratio", "Packed ratio", "warning")
         );
-        content.replaceChildren(
+
+        const footer = createElement("div", "nbps-footer");
+        footer.append(
+            createElement(
+                "p",
+                "nbps-details",
+                "Bundlephobia analysis time: Measuring…"
+            ),
+            createElement("p", "nbps-status", "\u00a0")
+        );
+        const retry = createElement("button", "nbps-retry", "Retry");
+        retry.type = "button";
+        retry.hidden = true;
+        footer.append(retry);
+
+        content.append(
             createElement("p", "nbps-section-label", "Browser bundle"),
-            metrics,
-            ...(badges ? [badges] : []),
-            ...(composition ? [composition] : []),
-            ...(packageMetrics
-                ? [
-                      createElement("p", "nbps-section-label", "npm package"),
-                      packageMetrics,
-                  ]
-                : []),
-            details
+            browserMetrics,
+            badges,
+            composition,
+            createElement("p", "nbps-section-label", "npm package"),
+            packageMetrics,
+            footer
         );
+    }
+
+    function updateMetric(content, key, value, title) {
+        const metric = content.querySelector(`[data-metric="${key}"]`);
+        if (!metric) return;
+        metric.querySelector(".nbps-metric-value").textContent = value;
+        if (title) {
+            metric.title = title;
+        } else {
+            metric.removeAttribute("title");
+        }
+    }
+
+    function updateBadge(content, key, label, title, state) {
+        const badge = content.querySelector(`[data-badge="${key}"]`);
+        if (!badge) return;
+        badge.querySelector(".nbps-badge-label").textContent = label;
+        badge.title = title;
+        badge.dataset.state = state;
+    }
+
+    function resetCardValues(content) {
+        content.querySelectorAll(".nbps-metric-value").forEach((value) => {
+            value.textContent = "—";
+        });
+        updateBadge(
+            content,
+            "tree-shaking",
+            "Tree-shaking —",
+            "Checking for an ES module entry point.",
+            "pending"
+        );
+        updateBadge(
+            content,
+            "side-effects",
+            "Side effects —",
+            "Checking the package side-effects flag.",
+            "pending"
+        );
+        updateBadge(
+            content,
+            "dependencies",
+            "Dependencies —",
+            "Checking Bundlephobia's bundled dependency count.",
+            "pending"
+        );
+        const compositionValue = content.querySelector(
+            ".nbps-composition-value"
+        );
+        const compositionTrack = content.querySelector(
+            ".nbps-composition-track"
+        );
+        const compositionFill = content.querySelector(".nbps-composition-fill");
+        if (compositionValue) compositionValue.textContent = "—";
+        compositionTrack?.removeAttribute("aria-valuenow");
+        if (compositionFill) compositionFill.style.width = "0%";
+    }
+
+    function setStatus(content, message, state) {
+        const status = content.querySelector(".nbps-status");
+        if (!status) return;
+        status.textContent = message || "\u00a0";
+        status.dataset.state = state;
+        status.toggleAttribute("aria-hidden", !message);
+    }
+
+    function showLoading(content, details) {
+        const card = content.closest(`[${CARD_ATTRIBUTE}]`);
+        card?.setAttribute("aria-busy", "true");
+        resetCardValues(content);
+        const detailsLine = content.querySelector(".nbps-details");
+        if (detailsLine) {
+            detailsLine.textContent = "Bundlephobia analysis time: Measuring…";
+        }
+        setStatus(
+            content,
+            `Fetching bundle and package data for ${details.packageSpec}…`,
+            "loading"
+        );
+        const retry = content.querySelector(".nbps-retry");
+        if (retry) retry.hidden = true;
+    }
+
+    function formatAnalysisTime(durationMs) {
+        if (!Number.isFinite(durationMs) || durationMs < 0)
+            return "Unavailable";
+        if (durationMs < 1000) return `${Math.round(durationMs)} ms`;
+        return `${(durationMs / 1000).toFixed(2)} s`;
+    }
+
+    function showStats(content, data, footprint, analysisTimeMs) {
+        const downloadTimes = getDownloadTimes(data.gzip);
+        updateMetric(content, "minified", formatSize(data.size));
+        updateMetric(content, "gzip", formatSize(data.gzip));
+        updateMetric(
+            content,
+            "slow-3g",
+            formatDownloadTime(downloadTimes.slow3G),
+            `Estimated at ${DOWNLOAD_SPEED_KBPS.slow3G} kB/s, excluding request latency.`
+        );
+        updateMetric(
+            content,
+            "emerging-4g",
+            formatDownloadTime(downloadTimes.emerging4G),
+            `Estimated at ${DOWNLOAD_SPEED_KBPS.emerging4G} kB/s, excluding request latency.`
+        );
+
+        const isTreeShakeable = Boolean(
+            data.hasJSModule || data.hasJSNext || data.isModuleType
+        );
+        updateBadge(
+            content,
+            "tree-shaking",
+            isTreeShakeable ? "Tree-shakable" : "Not tree-shakable",
+            isTreeShakeable
+                ? "Bundlephobia detected an ES module entry point."
+                : "Bundlephobia did not detect an ES module entry point.",
+            isTreeShakeable ? "positive" : "negative"
+        );
+        const isSideEffectFree = data.hasSideEffects === false;
+        updateBadge(
+            content,
+            "side-effects",
+            isSideEffectFree ? "Side-effect free" : "Has side effects",
+            isSideEffectFree
+                ? "Bundlephobia reports that the package is marked as side-effect free."
+                : "Bundlephobia did not report the package as side-effect free.",
+            isSideEffectFree ? "positive" : "negative"
+        );
+        updateBadge(
+            content,
+            "dependencies",
+            dependencyBadgeLabel(data.dependencyCount) ||
+                "Dependencies unavailable",
+            "Bundlephobia's bundled dependency count.",
+            Number.isFinite(data.dependencyCount) ? "positive" : "pending"
+        );
+
+        const composition = getSelfComposition(data);
+        const compositionValue = content.querySelector(
+            ".nbps-composition-value"
+        );
+        const compositionTrack = content.querySelector(
+            ".nbps-composition-track"
+        );
+        const compositionFill = content.querySelector(".nbps-composition-fill");
+        if (composition) {
+            const percent = Math.min(100, composition.percent);
+            if (compositionValue) {
+                compositionValue.textContent = `${composition.percent.toFixed(
+                    1
+                )}% · ~${formatSize(composition.size)}`;
+            }
+            compositionTrack?.setAttribute(
+                "aria-valuenow",
+                composition.percent.toFixed(1)
+            );
+            if (compositionFill) compositionFill.style.width = `${percent}%`;
+        } else if (compositionValue) {
+            compositionValue.textContent = "Unavailable";
+        }
+
+        updateMetric(
+            content,
+            "tarball",
+            Number.isFinite(footprint?.tarballSize)
+                ? formatSize(footprint.tarballSize)
+                : "Unavailable",
+            "Compressed npm registry tarball transfer size."
+        );
+        updateMetric(
+            content,
+            "unpacked",
+            Number.isFinite(footprint?.unpackedSize)
+                ? formatSize(footprint.unpackedSize)
+                : "Unavailable",
+            "Published package contents after the tarball is unpacked; dependencies are not included."
+        );
+        updateMetric(
+            content,
+            "files",
+            Number.isFinite(footprint?.fileCount)
+                ? new Intl.NumberFormat().format(footprint.fileCount)
+                : "Unavailable",
+            "Number of files published in this package version."
+        );
+        const hasPackedRatio =
+            Number.isFinite(footprint?.tarballSize) &&
+            footprint.tarballSize >= 0 &&
+            Number.isFinite(footprint?.unpackedSize) &&
+            footprint.unpackedSize > 0;
+        updateMetric(
+            content,
+            "packed-ratio",
+            hasPackedRatio
+                ? `${((footprint.tarballSize / footprint.unpackedSize) * 100)
+                      .toFixed(1)
+                      .replace(/\.0$/u, "")}%`
+                : "Unavailable",
+            "Compressed tarball size as a percentage of the unpacked published package. Lower is smaller."
+        );
+
+        const detailsLine = content.querySelector(".nbps-details");
+        if (detailsLine) {
+            detailsLine.textContent = `Bundlephobia analysis time: ${formatAnalysisTime(
+                analysisTimeMs
+            )}`;
+        }
+        setStatus(content, "", "ready");
+        const retry = content.querySelector(".nbps-retry");
+        if (retry) retry.hidden = true;
+        content.closest(`[${CARD_ATTRIBUTE}]`)?.removeAttribute("aria-busy");
     }
 
     function getFriendlyError(error) {
@@ -1007,20 +1137,16 @@
             : "Could not load bundle size data.";
     }
 
-    function showError(content, details, error) {
-        const message = createElement(
-            "p",
-            "nbps-error",
-            getFriendlyError(error)
-        );
-        const retry = createElement("button", "nbps-retry", "Retry");
-        retry.type = "button";
-        retry.addEventListener("click", () => {
-            bundleStatsCache.delete(details.packageSpec);
-            packageFootprintCache.delete(details.packageSpec);
-            loadStats(content, details);
-        });
-        content.replaceChildren(message, retry);
+    function showError(content, error) {
+        resetCardValues(content);
+        const detailsLine = content.querySelector(".nbps-details");
+        if (detailsLine) {
+            detailsLine.textContent = "Bundlephobia analysis time: Unavailable";
+        }
+        setStatus(content, getFriendlyError(error), "error");
+        const retry = content.querySelector(".nbps-retry");
+        if (retry) retry.hidden = false;
+        content.closest(`[${CARD_ATTRIBUTE}]`)?.removeAttribute("aria-busy");
     }
 
     function createRequestError(message, code) {
@@ -1119,10 +1245,16 @@
         const cached = bundleStatsCache.get(packageSpec);
         if (cached) return cached;
 
-        const request = requestBundleStats(packageSpec).catch((error) => {
-            bundleStatsCache.delete(packageSpec);
-            throw error;
-        });
+        const startedAt = Date.now();
+        const request = requestBundleStats(packageSpec)
+            .then((data) => ({
+                analysisTimeMs: Date.now() - startedAt,
+                data,
+            }))
+            .catch((error) => {
+                bundleStatsCache.delete(packageSpec);
+                throw error;
+            });
         bundleStatsCache.set(packageSpec, request);
         return request;
     }
@@ -1266,7 +1398,7 @@
         showLoading(content, details);
 
         try {
-            const [data, footprint] = await Promise.all([
+            const [bundleResult, footprint] = await Promise.all([
                 getBundleStats(details.packageSpec),
                 getPackageFootprint(details).catch(() => null),
             ]);
@@ -1277,50 +1409,27 @@
             ) {
                 return;
             }
-            showStats(content, data, footprint);
+            showStats(
+                content,
+                bundleResult.data,
+                footprint,
+                bundleResult.analysisTimeMs
+            );
         } catch (error) {
             if (
                 content.isConnected &&
                 content.closest(`[${CARD_ATTRIBUTE}]`)?.dataset.pageKey ===
                     details.pageKey
             ) {
-                showError(content, details, error);
+                showError(content, error);
             }
         }
-    }
-
-    function getCardPlacement() {
-        const placement = GM_getValue(
-            CARD_PLACEMENT_KEY,
-            CARD_PLACEMENTS.collaborators
-        );
-        return Object.values(CARD_PLACEMENTS).includes(placement)
-            ? placement
-            : CARD_PLACEMENTS.collaborators;
-    }
-
-    function setCardPlacement(placement) {
-        GM_setValue(CARD_PLACEMENT_KEY, placement);
-        scheduleRender();
     }
 
     function registerMenuCommands() {
         GM_registerMenuCommand(
             "Bundlephobia: change accent color…",
             openAccentColorDialog
-        );
-        GM_registerMenuCommand("Bundlephobia: place above Collaborators", () =>
-            setCardPlacement(CARD_PLACEMENTS.collaborators)
-        );
-        GM_registerMenuCommand("Bundlephobia: place below Unpacked Size", () =>
-            setCardPlacement(CARD_PLACEMENTS.unpackedSize)
-        );
-        GM_registerMenuCommand(
-            "Bundlephobia: place above Fund this package",
-            () => setCardPlacement(CARD_PLACEMENTS.fundingButton)
-        );
-        GM_registerMenuCommand("Bundlephobia: place by npm bundle link", () =>
-            setCardPlacement(CARD_PLACEMENTS.bundlephobiaLink)
         );
     }
 
@@ -1339,67 +1448,18 @@
     }
 
     function insertCard(details, card) {
-        const requestedPlacement = getCardPlacement();
-        card.dataset.requestedPlacement = requestedPlacement;
-
-        if (requestedPlacement === CARD_PLACEMENTS.collaborators) {
-            const collaboratorsSection = getDirectSidebarChild(
+        for (const label of [
+            "Last publish",
+            "Last Published",
+            "License",
+            "Version",
+        ]) {
+            const metadataSection = getDirectSidebarChild(
                 details.sidebar,
-                findSidebarHeading(details.sidebar, "Collaborators")
+                findSidebarHeading(details.sidebar, label)
             );
-            if (collaboratorsSection) {
-                insertBefore(
-                    collaboratorsSection,
-                    card,
-                    CARD_PLACEMENTS.collaborators
-                );
-                return;
-            }
-        }
-
-        if (requestedPlacement === CARD_PLACEMENTS.fundingButton) {
-            const fundingSection = findFundingSection(details.sidebar);
-            if (fundingSection) {
-                insertBefore(
-                    fundingSection,
-                    card,
-                    CARD_PLACEMENTS.fundingButton
-                );
-                return;
-            }
-        }
-
-        if (requestedPlacement === CARD_PLACEMENTS.unpackedSize) {
-            const unpackedSizeHeading = findSidebarHeading(
-                details.sidebar,
-                "Unpacked Size"
-            );
-            const unpackedSizeSection = getDirectSidebarChild(
-                details.sidebar,
-                unpackedSizeHeading
-            );
-            if (unpackedSizeSection) {
-                insertAfter(
-                    unpackedSizeSection,
-                    card,
-                    CARD_PLACEMENTS.unpackedSize
-                );
-                return;
-            }
-        }
-
-        if (requestedPlacement === CARD_PLACEMENTS.bundlephobiaLink) {
-            const bundlephobiaLink = findBundlephobiaLink(details.sidebar);
-            const bundlephobiaSection = getDirectSidebarChild(
-                details.sidebar,
-                bundlephobiaLink
-            );
-            if (bundlephobiaSection) {
-                insertAfter(
-                    bundlephobiaSection,
-                    card,
-                    CARD_PLACEMENTS.bundlephobiaLink
-                );
+            if (metadataSection) {
+                insertAfter(metadataSection, card, "package-metadata");
                 return;
             }
         }
@@ -1409,17 +1469,11 @@
             findSidebarHeading(details.sidebar, "Collaborators")
         );
         if (collaboratorsSection) {
-            insertBefore(collaboratorsSection, card, "collaborators-fallback");
-            return;
-        }
-
-        const versionHeading = findSidebarHeading(details.sidebar, "Version");
-        const versionSection = getDirectSidebarChild(
-            details.sidebar,
-            versionHeading
-        );
-        if (versionSection) {
-            insertAfter(versionSection, card, "version-fallback");
+            insertBefore(
+                collaboratorsSection,
+                card,
+                "package-metadata-fallback"
+            );
             return;
         }
 
