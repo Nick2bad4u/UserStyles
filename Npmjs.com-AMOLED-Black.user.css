@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           npmjs.com - AMOLED Black Theme
 @namespace      nick2bad4u.github.io
-@version        1.5.0
+@version        1.5.1
 @description    A true-black, accent-customizable AMOLED theme for npmjs.com and its subdomains, including npm Docs, package readmes, code views, forms, menus, and syntax-highlighted examples.
 @author         Nick2bad4u (complete rewrite; original idea by hypnojerk)
 @license        UnLicense
@@ -92,6 +92,33 @@
         --color-accent-emphasis: var(--npm-dark-focus) !important;
         --color-accent-subtle: var(--npm-dark-accent-soft) !important;
         --color-shadow-large: 0 8px 24px rgb(0 0 0 / 80%) !important;
+
+        /* Current Primer token names used by npm Docs. */
+        --fgColor-default: var(--npm-dark-text) !important;
+        --fgColor-muted: var(--npm-dark-text-muted) !important;
+        --fgColor-onEmphasis: #ffffff !important;
+        --fgColor-accent: var(--npm-dark-link) !important;
+        --fgColor-success: var(--npm-dark-success) !important;
+        --fgColor-attention: var(--npm-dark-warning) !important;
+        --fgColor-danger: var(--npm-dark-danger) !important;
+        --bgColor-default: var(--npm-dark-bg) !important;
+        --bgColor-muted: var(--npm-dark-surface) !important;
+        --bgColor-inset: var(--npm-dark-surface-inset) !important;
+        --bgColor-emphasis: var(--npm-dark-border-strong) !important;
+        --bgColor-neutral-muted: var(--npm-dark-surface-raised) !important;
+        --bgColor-accent-muted: #07121a !important;
+        --bgColor-success-muted: var(--color-bg-success) !important;
+        --bgColor-attention-muted: var(--color-bg-attention) !important;
+        --bgColor-danger-muted: var(--color-bg-danger) !important;
+        --borderColor-default: var(--npm-dark-border) !important;
+        --borderColor-muted: #141414 !important;
+        --borderColor-neutral-emphasis: var(
+            --npm-dark-border-strong
+        ) !important;
+        --borderColor-accent-emphasis: var(--npm-dark-accent) !important;
+        --borderColor-success-emphasis: var(--npm-dark-success) !important;
+        --borderColor-attention-emphasis: var(--npm-dark-warning) !important;
+        --borderColor-danger-emphasis: var(--npm-dark-danger) !important;
 
         /* Current and legacy npm component tokens */
         --bg: var(--npm-dark-bg) !important;
@@ -831,8 +858,78 @@
     }
 
     #gatsby-focus-wrapper [class*="code-module--Box"] {
-        border-color: var(--npm-dark-border) !important;
+        overflow: hidden;
+        border: 1px solid var(--npm-dark-border) !important;
+        border-radius: 8px !important;
         background-color: var(--npm-dark-surface-raised) !important;
+        color: var(--npm-dark-text) !important;
+
+        & pre.prism-code {
+            border: 0 !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            background-color: transparent !important;
+        }
+    }
+
+    #gatsby-focus-wrapper
+        [class*="code-module--Box"]
+        :is(button, [role="button"]) {
+        border-color: var(--npm-dark-border) !important;
+        background-color: var(--npm-dark-surface) !important;
+        color: var(--npm-dark-text-muted) !important;
+
+        &:hover,
+        &:focus-visible {
+            background-color: var(--npm-dark-accent-soft) !important;
+            color: var(--npm-dark-accent-strong) !important;
+        }
+    }
+
+    /* Primer Flash/Box callouts otherwise retain a light-blue background. */
+    #gatsby-focus-wrapper
+        :where(
+            [role="alert"],
+            [class*="Flash"],
+            [class*="flash"],
+            [class*="Callout"],
+            [class*="callout"],
+            [class*="admonition"]
+        ),
+    #gatsby-focus-wrapper
+        article
+        :where([class*="Box-sc-"], [class*="prc-Box-"]):has(
+            > :is(p, div):first-child strong:first-child
+        ) {
+        border: 1px solid
+            color-mix(in srgb, var(--npm-dark-link) 46%, var(--npm-dark-border)) !important;
+        border-radius: 8px !important;
+        background: linear-gradient(
+            135deg,
+            color-mix(in srgb, var(--npm-dark-link) 12%, transparent),
+            var(--npm-dark-surface-raised)
+        ) !important;
+        box-shadow: inset 4px 0 0
+            color-mix(in srgb, var(--npm-dark-link) 68%, var(--npm-dark-accent));
+        color: var(--npm-dark-text) !important;
+    }
+
+    #gatsby-focus-wrapper
+        :where(
+            [role="alert"],
+            [class*="Flash"],
+            [class*="flash"],
+            [class*="Callout"],
+            [class*="callout"],
+            [class*="admonition"]
+        )
+        :where(p, strong, span),
+    #gatsby-focus-wrapper
+        article
+        :where([class*="Box-sc-"], [class*="prc-Box-"]):has(
+            > :is(p, div):first-child strong:first-child
+        )
+        :where(p, strong, span) {
         color: var(--npm-dark-text) !important;
     }
 

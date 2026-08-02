@@ -287,6 +287,7 @@ async function runDefaultSearchScenario() {
 }
 
 async function runVersionsScenario() {
+    const referenceTime = Date.UTC(2026, 7, 1);
     const leadingVersions = [
         "1.0.0",
         "1.0.0+build.2",
@@ -300,13 +301,28 @@ async function runVersionsScenario() {
         ...leadingVersions,
         ...Array.from({ length: 868 }, (_, index) => `0.8.${867 - index}`),
     ];
+    const leadingDownloads = [
+        100_000,
+        3_000,
+        300,
+        20,
+        0,
+    ];
+    const leadingAgesInDays = [
+        30,
+        180,
+        550,
+        1_000,
+        1_800,
+    ];
     const rows = versions
-        .map(
-            (version, index) =>
-                `<tr><td><a href="/package/example/v/${version}">${version}</a></td><td>100</td><td><time datetime="${new Date(
-                    Date.UTC(2026, 0, 31) - index * 86_400_000
-                ).toISOString()}">recently</time></td></tr>`
-        )
+        .map((version, index) => {
+            const downloads = leadingDownloads[index] ?? 300;
+            const ageInDays = leadingAgesInDays[index] ?? 1_800 + index;
+            return `<tr><td><a href="/package/example/v/${version}">${version}</a></td><td>${downloads.toLocaleString()}</td><td><time datetime="${new Date(
+                referenceTime - ageInDays * 86_400_000
+            ).toISOString()}">recently</time></td></tr>`;
+        })
         .join("");
     const dom = createPage(
         `<title>example - npm</title><main><h1>example</h1>
@@ -315,6 +331,7 @@ async function runVersionsScenario() {
         </main>`,
         "https://www.npmjs.com/package/example?activeTab=versions"
     );
+    dom.window.Date.now = () => referenceTime;
     setOnlyFeature(dom, "better-versions");
     dom.window.localStorage.setItem(
         "npm-enhancer:settings:version-limit",
@@ -392,8 +409,37 @@ async function runVersionsScenario() {
             const hidden = nativeTable.querySelectorAll(
                 ".npm-userscript-version-limit-hidden"
             ).length;
-            return hidden === versions.length - 25;
+            const toned = nativeTable.querySelectorAll(
+                "[data-npm-userscript-download-tone], [data-npm-userscript-age-tone]"
+            ).length;
+            return (
+                hidden === versions.length - 25 && toned === versions.length * 2
+            );
         }, 5_000);
+        const firstFiveNativeRows = Array.from(
+            nativeTable.querySelectorAll("tbody tr")
+        ).slice(0, 5);
+        const nativeDownloadTiers = firstFiveNativeRows.map(
+            (row) => row.cells[1].dataset.npmUserscriptDownloadTone
+        );
+        const nativeAgeTiers = firstFiveNativeRows.map(
+            (row) => row.cells[2].dataset.npmUserscriptAgeTone
+        );
+        const nativeDownloadTitle = firstFiveNativeRows[0].cells[1].title;
+        const nativeAgeTitle = firstFiveNativeRows[2].cells[2].title;
+        const summaryDownloadTiers = Array.from(
+            summaryTable.querySelectorAll(
+                "tbody [data-npm-userscript-download-tone]"
+            )
+        ).map((cell) => cell.dataset.npmUserscriptDownloadTone);
+        const summaryAgeTiers = Array.from(
+            summaryTable.querySelectorAll(
+                "tbody [data-npm-userscript-age-tone]"
+            )
+        ).map((cell) => cell.dataset.npmUserscriptAgeTone);
+        const legend = dom.window.document.querySelector(
+            ".npm-userscript-version-tone-legend"
+        );
         const hiddenBeforeShowAll = nativeTable.querySelectorAll(
             ".npm-userscript-version-limit-hidden"
         ).length;
@@ -450,6 +496,10 @@ async function runVersionsScenario() {
                     ".npm-userscript-version-limit-hidden"
                 ).length ===
                     versions.length - 25 &&
+                replacementNativeTable.querySelectorAll(
+                    "[data-npm-userscript-download-tone], [data-npm-userscript-age-tone]"
+                ).length ===
+                    versions.length * 2 &&
                 replacementPanel.querySelector(
                     ".npm-userscript-version-summary[data-state='ready']"
                 ),
@@ -479,6 +529,9 @@ async function runVersionsScenario() {
             hiddenAfterNavigation: replacementNativeTable.querySelectorAll(
                 ".npm-userscript-version-limit-hidden"
             ).length,
+            replacementToneCount: replacementNativeTable.querySelectorAll(
+                "[data-npm-userscript-download-tone], [data-npm-userscript-age-tone]"
+            ).length,
             summaryRestoredAfterPanelReplacement: Boolean(
                 replacementPanel.querySelector(
                     ".npm-userscript-version-summary[data-state='ready']"
@@ -496,6 +549,21 @@ async function runVersionsScenario() {
             summaryTableRole: summaryTable
                 .closest('[role="tabpanel"]')
                 ?.getAttribute("role"),
+            nativeDownloadTiers,
+            nativeAgeTiers,
+            nativeDownloadTitle,
+            nativeAgeTitle,
+            summaryDownloadTiers,
+            summaryAgeTiers,
+            legendAriaLabel: legend?.getAttribute("aria-label"),
+            legendDownloadLabels: Array.from(
+                legend?.querySelectorAll(
+                    "[data-npm-userscript-download-tone]"
+                ) || []
+            ).map((key) => key.textContent),
+            legendAgeLabels: Array.from(
+                legend?.querySelectorAll("[data-npm-userscript-age-tone]") || []
+            ).map((key) => key.textContent),
             patchRows: summaryTable.querySelectorAll("tbody tr").length,
             patchLabels: Array.from(
                 summaryTable.querySelectorAll("tbody tr td:first-child")

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.13.1
+// @version      0.13.2
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -1655,6 +1655,97 @@ selectable Dependents explorer with package comparison links.
       table-layout: fixed;
     }
 
+    .npm-userscript-version-tone {
+      --npm-userscript-version-tone: #64748b;
+
+      color: color-mix(
+        in srgb,
+        var(--npm-userscript-version-tone) 72%,
+        var(--color-fg-default, #24292f)
+      ) !important;
+      background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--npm-userscript-version-tone) 14%, transparent),
+        transparent 82%
+      ) !important;
+      box-shadow: inset 3px 0 0 var(--npm-userscript-version-tone);
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+    }
+
+    .npm-userscript-version-tone :is(span, div, time) {
+      color: inherit !important;
+    }
+
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-download-tone="peak"],
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-age-tone="fresh"] {
+      --npm-userscript-version-tone: #16a34a;
+    }
+
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-download-tone="high"],
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-age-tone="current"] {
+      --npm-userscript-version-tone: #0f766e;
+    }
+
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-download-tone="middle"] {
+      --npm-userscript-version-tone: #2563eb;
+    }
+
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-download-tone="low"],
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-age-tone="aging"] {
+      --npm-userscript-version-tone: #ca8a04;
+    }
+
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-age-tone="old"] {
+      --npm-userscript-version-tone: #ea580c;
+    }
+
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-download-tone="floor"],
+    :is(.npm-userscript-version-tone, .npm-userscript-version-tone-key)[data-npm-userscript-age-tone="legacy"] {
+      --npm-userscript-version-tone: #dc2626;
+    }
+
+    .npm-userscript-version-tone-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      align-items: center;
+      margin: 10px 0 0;
+      color: var(--color-fg-muted, #656d76);
+      font-size: 0.75rem;
+    }
+
+    .npm-userscript-version-tone-legend-group {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .npm-userscript-version-tone-key {
+      --npm-userscript-version-tone: #64748b;
+
+      padding: 2px 6px;
+      color: color-mix(
+        in srgb,
+        var(--npm-userscript-version-tone) 76%,
+        var(--color-fg-default, #24292f)
+      );
+      background: color-mix(
+        in srgb,
+        var(--npm-userscript-version-tone) 12%,
+        transparent
+      );
+      border: 1px solid color-mix(
+        in srgb,
+        var(--npm-userscript-version-tone) 55%,
+        transparent
+      );
+      border-radius: 999px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
     .npm-userscript-version-summary[data-state="loading"] tbody td {
       height: 2.65rem;
       color: transparent;
@@ -1930,6 +2021,8 @@ selectable Dependents explorer with package comparison links.
     var betterVersionsRenderQueued = false;
     var betterVersionsObserverKey;
     var showAllNativeVersionsPageKey;
+    var nativeVersionEntriesCache = new WeakMap();
+    var nativeVersionToneJobs = new WeakMap();
     function run2() {
         if (!isValidPackagePage()) return;
         renderBetterVersions();
@@ -1948,6 +2041,7 @@ selectable Dependents explorer with package comparison links.
             return;
         addVersionTag();
         addCumulatedVersionsTable();
+        queueNativeVersionTableTones();
         applyNativeVersionHistoryLimit();
     }
     function observeBetterVersions() {
@@ -2027,6 +2121,8 @@ selectable Dependents explorer with package comparison links.
         betterVersionsObserverKey = void 0;
         betterVersionsRenderQueued = false;
         showAllNativeVersionsPageKey = void 0;
+        nativeVersionEntriesCache = new WeakMap();
+        nativeVersionToneJobs = new WeakMap();
         teardownVersionSidebar();
         document.querySelector(".npm-userscript-version-summary")?.remove();
         document.querySelector(".npm-userscript-version-limit-note")?.remove();
@@ -2038,6 +2134,9 @@ selectable Dependents explorer with package comparison links.
             .forEach((row) =>
                 row.classList.remove("npm-userscript-version-limit-hidden")
             );
+        document
+            .querySelectorAll(".npm-userscript-version-tone")
+            .forEach((cell) => clearVersionCellTone(cell));
     }
     async function enhanceVersionSidebar() {
         const packageName = getPackageNameFromPath();
@@ -2258,6 +2357,57 @@ selectable Dependents explorer with package comparison links.
             );
         }
     }
+    function createVersionToneLegend() {
+        const legend = document.createElement("div");
+        legend.className = "npm-userscript-version-tone-legend";
+        legend.setAttribute("role", "note");
+        legend.setAttribute(
+            "aria-label",
+            "Version table color legend. Download colors are relative to the current table; release age colors use fixed ranges."
+        );
+        const groups = [
+            {
+                items: [
+                    ["floor", "Lower"],
+                    ["middle", "Middle"],
+                    ["peak", "Higher"],
+                ],
+                kind: "download",
+                label: "Downloads",
+            },
+            {
+                items: [
+                    ["fresh", "<3mo"],
+                    ["current", "3–12mo"],
+                    ["aging", "1–2y"],
+                    ["old", "2–4y"],
+                    ["legacy", "4y+"],
+                ],
+                kind: "age",
+                label: "Release age",
+            },
+        ];
+        for (const groupDefinition of groups) {
+            const group = document.createElement("span");
+            group.className = "npm-userscript-version-tone-legend-group";
+            const label = document.createElement("strong");
+            label.textContent = `${groupDefinition.label}:`;
+            group.append(label);
+            for (const [tier, text] of groupDefinition.items) {
+                const key = document.createElement("span");
+                key.className = "npm-userscript-version-tone-key";
+                key.dataset[
+                    groupDefinition.kind === "download"
+                        ? "npmUserscriptDownloadTone"
+                        : "npmUserscriptAgeTone"
+                ] = tier;
+                key.textContent = text;
+                group.append(key);
+            }
+            legend.append(group);
+        }
+        return legend;
+    }
     function addCumulatedVersionsTable() {
         if (document.getElementById("cumulated-versions")) return;
         const versionHistoryH3 = document.querySelector("h3#version-history");
@@ -2314,8 +2464,9 @@ selectable Dependents explorer with package comparison links.
             if (selected === "patch" && limit !== null) {
                 entries = entries.slice(0, limit);
             }
+            const downloadRange = createVersionDownloadRange(entries);
             entries.forEach((entry) =>
-                body.appendChild(createVersionSummaryRow(entry))
+                body.appendChild(createVersionSummaryRow(entry, downloadRange))
             );
             newTable.appendChild(body);
             tabs.querySelectorAll("button").forEach((button) => {
@@ -2358,7 +2509,13 @@ selectable Dependents explorer with package comparison links.
             button.addEventListener("click", () => renderView(level));
             tabs.appendChild(button);
         }
-        section.append(newH3, tabs, summaryPanel, note);
+        section.append(
+            newH3,
+            tabs,
+            summaryPanel,
+            note,
+            createVersionToneLegend()
+        );
         if (versionHistoryH3) {
             versionHistoryH3.insertAdjacentElement("beforebegin", section);
         } else {
@@ -2409,20 +2566,16 @@ selectable Dependents explorer with package comparison links.
         }
         const entries = [];
         if (nativeTable) {
-            const rows = Array.from(nativeTable.querySelectorAll("tbody tr"));
-            for (let index = 0; index < rows.length; index++) {
-                const entry = readNativeVersionEntry(rows[index]);
-                if (entry) entries.push(entry);
-                if ((index + 1) % 100 === 0) {
-                    await new Promise((resolve) =>
-                        requestAnimationFrame(resolve)
-                    );
-                    if (!section.isConnected || getPageKey() !== pageKey) {
-                        return void 0;
-                    }
-                }
+            const nativeResult = await getNativeVersionEntries(
+                nativeTable,
+                pageKey
+            );
+            if (!section.isConnected || getPageKey() !== pageKey) {
+                return void 0;
             }
-            if (entries.length > 0) return createVersionViews(entries);
+            if (nativeResult.entries.length > 0) {
+                return createVersionViews(nativeResult.entries);
+            }
         }
         const packageName = getPackageNameFromPath();
         if (!packageName) return void 0;
@@ -2472,6 +2625,244 @@ selectable Dependents explorer with package comparison links.
             downloads: Number.isFinite(downloads) ? downloads : 0,
             version,
         };
+    }
+    function getNativeVersionTableSignature(rows) {
+        const summarize = (row) =>
+            row
+                ? Array.from(row.cells)
+                      .map((cell) => cell.textContent.trim())
+                      .join("|")
+                : "";
+        return `${rows.length}:${summarize(rows[0])}:${summarize(rows.at(-1))}`;
+    }
+    async function getNativeVersionEntries(table, pageKey) {
+        const rows = Array.from(table.querySelectorAll("tbody tr"));
+        const signature = getNativeVersionTableSignature(rows);
+        const cached = nativeVersionEntriesCache.get(table);
+        if (cached?.signature === signature) return cached.promise;
+        const promise = (async () => {
+            const entries = [];
+            for (let index = 0; index < rows.length; index++) {
+                const entry = readNativeVersionEntry(rows[index]);
+                if (entry) entries.push({ ...entry, row: rows[index] });
+                if ((index + 1) % 100 === 0) {
+                    await new Promise((resolve) =>
+                        requestAnimationFrame(resolve)
+                    );
+                    if (!table.isConnected || getPageKey() !== pageKey) {
+                        return { entries: [], signature };
+                    }
+                }
+            }
+            return { entries, signature };
+        })();
+        nativeVersionEntriesCache.set(table, { promise, signature });
+        return promise;
+    }
+    function queueNativeVersionTableTones() {
+        const table = document.querySelector(
+            'table[aria-labelledby="version-history"]'
+        );
+        if (!table) return;
+        const rows = Array.from(table.querySelectorAll("tbody tr"));
+        const signature = getNativeVersionTableSignature(rows);
+        if (nativeVersionToneJobs.get(table)?.signature === signature) return;
+        const pageKey = getPageKey();
+        const promise = getNativeVersionEntries(table, pageKey)
+            .then((result) =>
+                applyNativeVersionTableTones(
+                    table,
+                    result.entries,
+                    result.signature,
+                    pageKey
+                )
+            )
+            .catch((error) => {
+                console.warn(
+                    "[npm-userscript] Could not color version history:",
+                    error
+                );
+            });
+        nativeVersionToneJobs.set(table, { promise, signature });
+    }
+    async function applyNativeVersionTableTones(
+        table,
+        entries,
+        signature,
+        pageKey
+    ) {
+        if (!table.isConnected || getPageKey() !== pageKey) return;
+        const downloadRange = createVersionDownloadRange(entries);
+        const referenceTime = Date.now();
+        for (let index = 0; index < entries.length; index += 100) {
+            for (const entry of entries.slice(index, index + 100)) {
+                if (!entry.row?.isConnected || !table.contains(entry.row)) {
+                    continue;
+                }
+                const cells = entry.row.querySelectorAll("td");
+                decorateVersionDownloadCell(
+                    cells[1],
+                    entry.downloads,
+                    downloadRange
+                );
+                decorateVersionAgeCell(cells[2], entry.date.ts, referenceTime);
+            }
+            if (index + 100 < entries.length) {
+                await new Promise((resolve) => requestAnimationFrame(resolve));
+                if (!table.isConnected || getPageKey() !== pageKey) return;
+            }
+        }
+        const currentRows = Array.from(table.querySelectorAll("tbody tr"));
+        if (getNativeVersionTableSignature(currentRows) !== signature) {
+            if (nativeVersionToneJobs.get(table)?.signature === signature) {
+                nativeVersionToneJobs.delete(table);
+            }
+            queueNativeVersionTableTones();
+        }
+    }
+    function createVersionDownloadRange(entries) {
+        let minimum = Number.POSITIVE_INFINITY;
+        let maximum = 0;
+        for (const entry of entries) {
+            const value = Math.max(
+                0,
+                Number(
+                    typeof entry === "number"
+                        ? entry
+                        : (entry.downloads ?? entry.totalDownloads)
+                )
+            );
+            if (!Number.isFinite(value)) continue;
+            minimum = Math.min(minimum, value);
+            maximum = Math.max(maximum, value);
+        }
+        if (!Number.isFinite(minimum)) minimum = 0;
+        return { maximum, minimum };
+    }
+    function getVersionDownloadTone(value, range) {
+        const numericValue = Math.max(0, Number(value) || 0);
+        if (range.maximum <= range.minimum) {
+            return { label: "Similar download count", tier: "neutral" };
+        }
+        const score =
+            (Math.log1p(numericValue) - Math.log1p(range.minimum)) /
+            (Math.log1p(range.maximum) - Math.log1p(range.minimum));
+        if (score >= 0.8) {
+            return { label: "Highest download range", tier: "peak" };
+        }
+        if (score >= 0.6) {
+            return { label: "High download range", tier: "high" };
+        }
+        if (score >= 0.4) {
+            return { label: "Middle download range", tier: "middle" };
+        }
+        if (score >= 0.2) {
+            return { label: "Low download range", tier: "low" };
+        }
+        return { label: "Lowest download range", tier: "floor" };
+    }
+    function getVersionAgeTone(timestamp, referenceTime = Date.now()) {
+        if (!Number.isFinite(timestamp) || timestamp <= 0) {
+            return { label: "Unknown release age", tier: "unknown" };
+        }
+        const ageInDays = Math.max(0, (referenceTime - timestamp) / 86_400_000);
+        if (ageInDays < 90) {
+            return { label: "Fresh release (under 3 months)", tier: "fresh" };
+        }
+        if (ageInDays < 365) {
+            return { label: "Current release (3–12 months)", tier: "current" };
+        }
+        if (ageInDays < 730) {
+            return { label: "Aging release (1–2 years)", tier: "aging" };
+        }
+        if (ageInDays < 1_460) {
+            return { label: "Old release (2–4 years)", tier: "old" };
+        }
+        return { label: "Legacy release (4+ years)", tier: "legacy" };
+    }
+    function decorateVersionCellTone(cell, kind, tone, title) {
+        if (!cell) return;
+        if (!("npmUserscriptToneOriginalTitle" in cell.dataset)) {
+            cell.dataset.npmUserscriptToneHadTitle = String(
+                cell.hasAttribute("title")
+            );
+            cell.dataset.npmUserscriptToneOriginalTitle = cell.title;
+            cell.dataset.npmUserscriptToneHadAriaLabel = String(
+                cell.hasAttribute("aria-label")
+            );
+            cell.dataset.npmUserscriptToneOriginalAriaLabel =
+                cell.getAttribute("aria-label") || "";
+        }
+        cell.classList.add(
+            "npm-userscript-version-tone",
+            `npm-userscript-version-${kind}-tone`
+        );
+        cell.dataset[
+            kind === "download"
+                ? "npmUserscriptDownloadTone"
+                : "npmUserscriptAgeTone"
+        ] = tone.tier;
+        cell.title = title;
+        cell.setAttribute("aria-label", title);
+    }
+    function decorateVersionDownloadCell(cell, downloads, range) {
+        const tone = getVersionDownloadTone(downloads, range);
+        const formattedDownloads = Math.max(
+            0,
+            Number(downloads) || 0
+        ).toLocaleString();
+        decorateVersionCellTone(
+            cell,
+            "download",
+            tone,
+            `${tone.label}: ${formattedDownloads} downloads relative to this table.`
+        );
+    }
+    function decorateVersionAgeCell(
+        cell,
+        timestamp,
+        referenceTime = Date.now()
+    ) {
+        const tone = getVersionAgeTone(timestamp, referenceTime);
+        const date = new Date(timestamp);
+        const published =
+            Number.isFinite(timestamp) &&
+            timestamp > 0 &&
+            Number.isFinite(date.getTime())
+                ? date.toLocaleString()
+                : "unknown date";
+        decorateVersionCellTone(
+            cell,
+            "age",
+            tone,
+            `${tone.label}. Published ${published}.`
+        );
+    }
+    function clearVersionCellTone(cell) {
+        if (cell.dataset.npmUserscriptToneHadTitle === "true") {
+            cell.title = cell.dataset.npmUserscriptToneOriginalTitle;
+        } else {
+            cell.removeAttribute("title");
+        }
+        if (cell.dataset.npmUserscriptToneHadAriaLabel === "true") {
+            cell.setAttribute(
+                "aria-label",
+                cell.dataset.npmUserscriptToneOriginalAriaLabel
+            );
+        } else {
+            cell.removeAttribute("aria-label");
+        }
+        cell.classList.remove(
+            "npm-userscript-version-tone",
+            "npm-userscript-version-download-tone",
+            "npm-userscript-version-age-tone"
+        );
+        delete cell.dataset.npmUserscriptDownloadTone;
+        delete cell.dataset.npmUserscriptAgeTone;
+        delete cell.dataset.npmUserscriptToneHadTitle;
+        delete cell.dataset.npmUserscriptToneOriginalTitle;
+        delete cell.dataset.npmUserscriptToneHadAriaLabel;
+        delete cell.dataset.npmUserscriptToneOriginalAriaLabel;
     }
     function createVersionViews(entries) {
         const majorToInfo = {};
@@ -2570,7 +2961,7 @@ selectable Dependents explorer with package comparison links.
             current.lastPublished = lastPublished;
         }
     }
-    function createVersionSummaryRow(entry) {
+    function createVersionSummaryRow(entry, downloadRange) {
         const row = document.createElement("tr");
         const versionCell = document.createElement("td");
         const version = document.createElement("span");
@@ -2587,6 +2978,13 @@ selectable Dependents explorer with package comparison links.
         time.title = date.toLocaleString();
         time.textContent = entry.lastPublished.rel;
         published.appendChild(time);
+        decorateVersionDownloadCell(
+            downloads,
+            entry.totalDownloads,
+            downloadRange
+        );
+        decorateVersionAgeCell(published, entry.lastPublished.ts);
+        time.title = published.title;
         row.append(versionCell, downloads, published);
         return row;
     }
@@ -2645,8 +3043,8 @@ selectable Dependents explorer with package comparison links.
         "src/features/better-versions.ts"() {
             init_utils_npm_context();
             init_utils();
-            description2 = `Improved package versions tab with compact table view, cumulated versions table, show tags next to
-versions, and fix provenance icon alignment.
+            description2 = `Improved package versions tab with compact table view, download and release-age color cues,
+cumulated versions, tags, and fixed provenance icon alignment.
 `;
         },
     });

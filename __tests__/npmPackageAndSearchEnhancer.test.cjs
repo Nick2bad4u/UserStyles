@@ -33,7 +33,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.13.1");
+        expect(script).toContain("// @version      0.13.2");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
         expect(script).toContain("// @connect      npm-compare.com");
@@ -66,7 +66,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
 
     test("keeps both npm dark themes on the shared sidebar design system", () => {
         const themes = [
-            ["Npmjs.com-AMOLED-Black.user.css", "1.5.0"],
+            ["Npmjs.com-AMOLED-Black.user.css", "1.5.1"],
             ["Npmjs.com-Modern-Dark.user.css", "1.5.0"],
         ];
         for (const [file, version] of themes) {
@@ -95,6 +95,10 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(theme).toContain('[data-component="BaseStyles"]');
         expect(theme).toContain('[class*="prc-ActionList-"]');
         expect(theme).toContain("pre.prism-code");
+        expect(theme).toContain("--bgColor-accent-muted: #07121a");
+        expect(theme).toContain("& pre.prism-code");
+        expect(theme).toContain('[class*="Callout"]');
+        expect(theme).toContain('[class*="Box-sc-"]');
     });
 
     test("uses static links without requests and preserves npm-owned download nodes", () => {
@@ -176,6 +180,59 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.versions.shellWasProgressive).toBe(true);
         expect(results.versions.normalPackumentRequests).toBe(0);
         expect(results.versions.versionDownloadRequests).toBe(0);
+        expect(results.versions.nativeDownloadTiers).toEqual([
+            "peak",
+            "high",
+            "middle",
+            "low",
+            "floor",
+        ]);
+        expect(results.versions.nativeAgeTiers).toEqual([
+            "fresh",
+            "current",
+            "aging",
+            "old",
+            "legacy",
+        ]);
+        expect(results.versions.summaryDownloadTiers).toEqual(
+            expect.arrayContaining([
+                "peak",
+                "high",
+                "middle",
+                "low",
+                "floor",
+            ])
+        );
+        expect(results.versions.summaryAgeTiers).toEqual(
+            expect.arrayContaining([
+                "fresh",
+                "current",
+                "aging",
+                "old",
+                "legacy",
+            ])
+        );
+        expect(results.versions.nativeDownloadTitle).toMatch(
+            /^Highest download range:/u
+        );
+        expect(results.versions.nativeAgeTitle).toMatch(
+            /^Aging release \(1–2 years\)\./u
+        );
+        expect(results.versions.legendAriaLabel).toMatch(
+            /relative to the current table/u
+        );
+        expect(results.versions.legendDownloadLabels).toEqual([
+            "Lower",
+            "Middle",
+            "Higher",
+        ]);
+        expect(results.versions.legendAgeLabels).toEqual([
+            "<3mo",
+            "3–12mo",
+            "1–2y",
+            "2–4y",
+            "4y+",
+        ]);
         expect(results.versions.tabLabels).toEqual([
             "Major Versions (2)",
             "Minor Versions (3)",
@@ -201,6 +258,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(results.versions.hiddenBeforeShowAll).toBe(850);
         expect(results.versions.remainsShownAfterMutation).toBe(true);
         expect(results.versions.hiddenAfterNavigation).toBe(850);
+        expect(results.versions.replacementToneCount).toBe(1_750);
         expect(results.versions.summaryRestoredAfterPanelReplacement).toBe(
             true
         );
