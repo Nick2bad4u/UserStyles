@@ -1,0 +1,120 @@
+/* ==UserStyle==
+@name         YouTube Animated Accent Colors
+@namespace    nick2bad4u.github.io
+@version      1.0.0
+@description  Animate current YouTube accent text, icons, badges, toggles, and progress indicators through a configurable color cycle.
+@author       Nick2bad4u
+@license      UnLicense
+@homepageURL  https://github.com/Nick2bad4u/UserStyles
+@supportURL   https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YouTube-Animated-Accent-Colors.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YouTube-Animated-Accent-Colors.user.css
+@preprocessor default
+
+@var color accent-start "Starting accent color" #ff0033
+@var range cycle-duration "Color cycle duration" [10, 3, 30, 1, "s"]
+@var select accent-glow "Accent glow" {
+    "None": "0px",
+    "Soft": "4px",
+    "Strong": "8px"
+}
+==/UserStyle== */
+
+/*
+ * Original clean-room implementation. It does not incorporate source code or
+ * bundled media from the unlicensed third-party style that prompted it.
+ */
+@-moz-document domain("youtube.com") {
+    @property --youtube-animated-accent {
+        inherits: true;
+        initial-value: #ff0033;
+        syntax: "<color>";
+    }
+
+    :root {
+        --youtube-animated-accent: var(--accent-start);
+
+        animation: youtube-accent-color-cycle var(--cycle-duration) linear
+            infinite;
+    }
+
+    /* Text and icons that YouTube currently renders with its accent color. */
+    :is(
+        .yt-spec-button-shape-next--call-to-action,
+        .ytp-swatch-color,
+        ytd-guide-entry-renderer[active] .guide-icon,
+        ytd-mini-guide-entry-renderer[is-active] .guide-icon,
+        yt-formatted-string a.yt-simple-endpoint,
+        .badge-style-type-live-now
+    ) {
+        color: var(--youtube-animated-accent) !important;
+    }
+
+    /* Filled accent surfaces in the site shell and player. */
+    :is(
+        #progress.yt-page-navigation-progress,
+        #progress.ytd-thumbnail-overlay-resume-playback-renderer,
+        .ytp-play-progress,
+        .ytp-scrubber-button,
+        .ytp-menuitem[aria-checked="true"] .ytp-menuitem-toggle-checkbox,
+        .ytp-autonav-toggle-button[aria-checked="true"]::after,
+        ytd-thumbnail-overlay-time-status-renderer[overlay-style="LIVE"]
+    ) {
+        background-color: var(--youtube-animated-accent) !important;
+        box-shadow: 0 0 var(--accent-glow) var(--youtube-animated-accent) !important;
+    }
+
+    /* Restrict SVG changes to elements that explicitly declare YouTube red. */
+    :is(path, circle)[fill="#f00" i],
+    :is(path, circle)[fill="#ff0000" i] {
+        fill: var(--youtube-animated-accent) !important;
+    }
+
+    @keyframes youtube-accent-color-cycle {
+        0%,
+        100% {
+            --youtube-animated-accent: var(--accent-start);
+        }
+
+        16.67% {
+            --youtube-animated-accent: #ff8a00;
+        }
+
+        33.33% {
+            --youtube-animated-accent: #ffe600;
+        }
+
+        50% {
+            --youtube-animated-accent: #00d084;
+        }
+
+        66.67% {
+            --youtube-animated-accent: #1689ff;
+        }
+
+        83.33% {
+            --youtube-animated-accent: #a855f7;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        :root {
+            animation: none;
+        }
+    }
+
+    @media (forced-colors: active) {
+        :root {
+            animation: none;
+        }
+
+        :is(
+            #progress.yt-page-navigation-progress,
+            #progress.ytd-thumbnail-overlay-resume-playback-renderer,
+            .ytp-play-progress,
+            .ytp-scrubber-button
+        ) {
+            box-shadow: none !important;
+        }
+    }
+}

@@ -1,0 +1,123 @@
+/* ==UserStyle==
+@name         YouTube Rainbow Player
+@namespace    nick2bad4u.github.io
+@version      1.0.0
+@description  Add a lightweight animated rainbow treatment to YouTube's current player timeline, scrubber, loading bar, and resume indicators.
+@author       Nick2bad4u
+@license      UnLicense
+@homepageURL  https://github.com/Nick2bad4u/UserStyles
+@supportURL   https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YouTube-Rainbow-Player.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YouTube-Rainbow-Player.user.css
+@preprocessor default
+
+@var range rainbow-speed "Rainbow animation duration" [6, 2, 20, 1, "s"]
+@var range bar-height "Timeline thickness" [6, 3, 12, 1, "px"]
+@var color scrubber-core "Scrubber core color" #ffffff
+@var select rainbow-glow "Rainbow glow" {
+    "None": "0px",
+    "Soft": "5px",
+    "Strong": "10px"
+}
+==/UserStyle== */
+
+/*
+ * Original clean-room implementation. It does not incorporate source code or
+ * embedded media from the NO-REDISTRIBUTION style that prompted it.
+ */
+@-moz-document domain("youtube.com") {
+    .html5-video-player {
+        --youtube-rainbow-gradient: linear-gradient(
+            90deg,
+            #ff1744,
+            #ff9100,
+            #ffea00,
+            #00e676,
+            #00b0ff,
+            #651fff,
+            #d500f9,
+            #ff1744
+        );
+
+        & :is(.ytp-progress-bar, .ytp-progress-bar-container),
+        & :is(.ytp-progress-list, .ytp-play-progress) {
+            height: var(--bar-height) !important;
+        }
+
+        & .ytp-play-progress {
+            background: var(--youtube-rainbow-gradient) !important;
+            background-size: 300% 100% !important;
+            box-shadow: 0 0 var(--rainbow-glow) #8b5cf6 !important;
+        }
+
+        & .ytp-load-progress {
+            background: rgb(255 255 255 / 28%) !important;
+        }
+
+        & .ytp-scrubber-button {
+            border: 2px solid var(--scrubber-core) !important;
+            border-radius: 50% !important;
+            background: conic-gradient(
+                #ff1744,
+                #ff9100,
+                #ffea00,
+                #00e676,
+                #00b0ff,
+                #651fff,
+                #d500f9,
+                #ff1744
+            ) !important;
+            box-shadow:
+                0 0 2px 1px var(--scrubber-core),
+                0 0 var(--rainbow-glow) 2px #8b5cf6 !important;
+        }
+    }
+
+    #progress.ytd-thumbnail-overlay-resume-playback-renderer {
+        background: linear-gradient(
+            90deg,
+            #ff1744,
+            #ff9100,
+            #ffea00,
+            #00e676,
+            #00b0ff,
+            #651fff,
+            #d500f9,
+            #ff1744
+        ) !important;
+        background-size: 300% 100% !important;
+        box-shadow: 0 0 var(--rainbow-glow) #8b5cf6 !important;
+    }
+
+    @keyframes youtube-rainbow-slide {
+        to {
+            background-position: 300% 0;
+        }
+    }
+
+    @keyframes youtube-rainbow-spin {
+        to {
+            rotate: 1turn;
+        }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .html5-video-player .ytp-play-progress,
+        #progress.ytd-thumbnail-overlay-resume-playback-renderer {
+            animation: youtube-rainbow-slide var(--rainbow-speed) linear
+                infinite !important;
+        }
+
+        .html5-video-player .ytp-scrubber-button {
+            animation: youtube-rainbow-spin var(--rainbow-speed) linear infinite !important;
+        }
+    }
+
+    @media (forced-colors: active) {
+        .html5-video-player .ytp-play-progress,
+        .html5-video-player .ytp-scrubber-button,
+        #progress.ytd-thumbnail-overlay-resume-playback-renderer {
+            box-shadow: none !important;
+        }
+    }
+}

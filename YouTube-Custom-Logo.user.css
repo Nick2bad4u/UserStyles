@@ -1,0 +1,54 @@
+/* ==UserStyle==
+@name         YouTube Custom Logo
+@namespace    nick2bad4u.github.io
+@version      1.0.0
+@description  Replace YouTube's current header logo with a custom image while preserving the original home link and accessible label.
+@author       Nick2bad4u
+@license      UnLicense
+@homepageURL  https://github.com/Nick2bad4u/UserStyles
+@supportURL   https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YouTube-Custom-Logo.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YouTube-Custom-Logo.user.css
+@preprocessor uso
+
+@var text logo-url "Custom logo image URL" "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20200%2060'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x2='1'%20y2='1'%3E%3Cstop%20stop-color='%2300b7ff'/%3E%3Cstop%20offset='1'%20stop-color='%23d500f9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='200'%20height='60'%20rx='14'%20fill='%230f0f0f'/%3E%3Cpath%20d='M20%2045V15h9l19%2018V15h9v30h-9L29%2027v18z'%20fill='url(%23g)'/%3E%3Ctext%20x='70'%20y='40'%20font-family='Arial,sans-serif'%20font-size='28'%20font-weight='700'%20fill='white'%3ENick%3C/text%3E%3C/svg%3E"
+@var range logo-width "Logo width" [110, 60, 240, 5, "px"]
+@var range logo-height "Logo height" [34, 24, 80, 2, "px"]
+@var range logo-offset "Horizontal offset" [0, -50, 50, 1, "px"]
+==/UserStyle== */
+
+/*
+ * Original clean-room implementation. It does not incorporate source code,
+ * presets, or bundled media from the third-party style that prompted it.
+ */
+@-moz-document domain("youtube.com") {
+    ytd-topbar-logo-renderer #logo-icon,
+    ytd-topbar-logo-renderer yt-icon.ytd-logo {
+        width: /*[[logo-width]]*/ !important;
+        height: /*[[logo-height]]*/ !important;
+        background-image: url("/*[[logo-url]]*/") !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        background-size: contain !important;
+        transform: translateX(/*[[logo-offset]]*/) !important;
+    }
+
+    ytd-topbar-logo-renderer
+        :is(#logo-icon, yt-icon.ytd-logo)
+        :is(.yt-icon-shape, svg) {
+        opacity: 0 !important;
+    }
+
+    @media (forced-colors: active) {
+        ytd-topbar-logo-renderer #logo-icon,
+        ytd-topbar-logo-renderer yt-icon.ytd-logo {
+            background-image: none !important;
+        }
+
+        ytd-topbar-logo-renderer
+            :is(#logo-icon, yt-icon.ytd-logo)
+            :is(.yt-icon-shape, svg) {
+            opacity: 1 !important;
+        }
+    }
+}
