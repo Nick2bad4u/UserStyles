@@ -1,0 +1,118 @@
+/* ==UserStyle==
+@name         YouTube Lightsaber Progress Bar - Modern Fork
+@namespace    nick2bad4u.github.io
+@version      2.0.0
+@description  Give YouTube's current progress and volume controls a customizable lightsaber core and glow.
+@author       Nick2bad4u (modern fork of Tsyron)
+@license      AGPL-3.0-only
+@homepageURL  https://github.com/Nick2bad4u/UserStyles
+@supportURL   https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YouTube-Lightsaber-Progress-Bar-Modern-Fork.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YouTube-Lightsaber-Progress-Bar-Modern-Fork.user.css
+@preprocessor default
+
+@var color blade-color "Lightsaber glow colour" #3ea6ff
+@var color core-color "Lightsaber core colour" #fffafa
+@var select glow-strength "Glow strength" {
+    "Subtle": "6px",
+    "Balanced": "10px",
+    "Intense": "16px"
+}
+==/UserStyle== */
+
+/*
+ * Modernized from Tsyron's YouTube - Lightsaber Progress Bar:
+ * https://github.com/Tsyron/YouTube-Progress-Bar
+ *
+ * Modified by Nick2bad4u on 2026-08-12.
+ * This derivative remains licensed under AGPL-3.0-only. The rewrite removes
+ * global YouTube brand overrides and scopes the effect to current player UI.
+ */
+@-moz-document domain("youtube.com") {
+    /* The default UserCSS preprocessor exposes each option as a custom property. */
+    .html5-video-player {
+        --lightsaber-blade: var(--core-color);
+        --lightsaber-glow: var(--blade-color);
+        --lightsaber-glow-radius: var(--glow-strength);
+    }
+
+    /* Played timeline and its draggable scrubber. */
+    .html5-video-player .ytp-play-progress,
+    .html5-video-player .ytp-scrubber-button {
+        background-color: var(--lightsaber-blade) !important;
+        box-shadow:
+            0 0 2px 1px var(--lightsaber-blade),
+            0 0 var(--lightsaber-glow-radius) 3px var(--lightsaber-glow) !important;
+    }
+
+    .html5-video-player .ytp-scrubber-button {
+        border-radius: 50% !important;
+        transition:
+            box-shadow 150ms ease,
+            transform 150ms ease !important;
+    }
+
+    .html5-video-player .ytp-scrubber-container:hover .ytp-scrubber-button,
+    .html5-video-player
+        .ytp-scrubber-container:focus-within
+        .ytp-scrubber-button {
+        box-shadow:
+            0 0 3px 2px var(--lightsaber-blade),
+            0 0 calc(var(--lightsaber-glow-radius) * 1.35) 4px
+                var(--lightsaber-glow) !important;
+        transform: scale(1.12) !important;
+    }
+
+    /* Current YouTube volume control uses a handle with a generated fill track. */
+    .html5-video-player .ytp-volume-slider-handle,
+    .html5-video-player .ytp-volume-slider-handle::before {
+        background-color: var(--lightsaber-blade) !important;
+    }
+
+    .html5-video-player .ytp-volume-slider-handle {
+        border-radius: 50% !important;
+        box-shadow:
+            0 0 2px 1px var(--lightsaber-blade),
+            0 0 var(--lightsaber-glow-radius) 2px var(--lightsaber-glow) !important;
+    }
+
+    /* Player state accents that still exist in the current control DOM. */
+    .html5-video-player .ytp-autonav-toggle-button[aria-checked="true"]::after,
+    .html5-video-player .ytp-subtitles-button[aria-pressed="true"]::after,
+    .html5-video-player
+        .ytp-menuitem[aria-checked="true"]
+        .ytp-menuitem-toggle-checkbox,
+    .html5-video-player .ytp-live-badge[disabled]::before {
+        background-color: var(--lightsaber-blade) !important;
+        box-shadow:
+            0 0 2px 1px var(--lightsaber-blade),
+            0 0 var(--lightsaber-glow-radius) 2px var(--lightsaber-glow) !important;
+    }
+
+    .html5-video-player
+        .ytp-settings-button:is(
+            .ytp-hd-quality-badge,
+            .ytp-4k-quality-badge,
+            .ytp-5k-quality-badge,
+            .ytp-8k-quality-badge
+        )::after {
+        background-color: var(--lightsaber-glow) !important;
+        box-shadow: 0 0 calc(var(--lightsaber-glow-radius) * 0.75) 1px
+            var(--lightsaber-glow) !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .html5-video-player .ytp-scrubber-button {
+            transition: none !important;
+        }
+    }
+
+    @media (forced-colors: active) {
+        .html5-video-player .ytp-play-progress,
+        .html5-video-player .ytp-scrubber-button,
+        .html5-video-player .ytp-volume-slider-handle {
+            box-shadow: none !important;
+            outline: 1px solid ButtonText !important;
+        }
+    }
+}
