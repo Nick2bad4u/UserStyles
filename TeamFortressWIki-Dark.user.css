@@ -42,8 +42,8 @@
 
     .tfwiki-backpack-item,
     .att_neutral {
-        background: var(--background-neutral) !important;
         color: var(--text-color) !important;
+        background: var(--background-neutral) !important;
     }
 
     div.vectorTabs ul li,

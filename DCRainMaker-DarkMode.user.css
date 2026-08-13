@@ -31,10 +31,10 @@
     }
 
     #post-sections h4 {
-        background: var(--post-background-color);
-        color: var(--post-text-color);
         font-style: oblique;
+        color: var(--post-text-color);
         text-decoration: underline dotted;
+        background: var(--post-background-color);
     }
 
     .commentlist .children li.comment-author-rainmaker,

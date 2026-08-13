@@ -49,19 +49,19 @@
 
     #zp_submenu > ul,
     #zp_submenu > ul > li:nth-child(n) > a {
-        background: var(--lightColor);
         color: var(--darkColor) !important;
         text-shadow: 1px 1px 1px var(--lightColor) !important;
+        background: var(--lightColor);
     }
 
     #highcharts-ptc6m8e-28 > div > span {
-        border-color: var(--darkColor);
         background: var(--lightColor);
+        border-color: var(--darkColor);
     }
 
     #page-footer {
-        border-radius: 50px;
         background-color: var(--lightColor);
+        border-radius: 50px;
     }
 
     button:nth-child(n):hover,
@@ -72,12 +72,12 @@
     }
 
     .panel.panel-grey > div.panel-heading {
-        border-bottom: 1px solid var(--blueColor);
-        background-color: var(--blueColor);
-        color: var(--darkColor);
-        filter: invert(1) hue-rotate(180deg);
         font-size: 20px;
         font-weight: 500;
+        color: var(--darkColor);
+        background-color: var(--blueColor);
+        border-bottom: 1px solid var(--blueColor);
+        filter: invert(1) hue-rotate(180deg);
     }
 
     .highcharts-color-undefined {

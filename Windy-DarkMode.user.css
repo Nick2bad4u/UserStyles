@@ -88,8 +88,8 @@
 
     .td-wind.height-wind.d-display-table td,
     .td-gust.height-gust.d-display-table td {
-        color: #000000 !important;
         font-weight: 700;
+        color: #000000 !important;
     }
 
     .detail .forecast-table .td-hour td,

@@ -31,20 +31,20 @@ jobs:
           repo: UserStyles
           # The 'repo' input is not supported in this context and causes 'Unsupported context repository' error. Remove or comment out this line.
           base: header, activity, community, repositories, metadata
-          base_indepth: yes
+          base_indepth: true
           commits_authoring: nick2bad4u
           config_display: large
-          config_octicon: yes
+          config_octicon: true
           config_timezone: America/Detroit
-          config_twemoji: yes
-          plugin_followup: yes
-          plugin_lines: yes
-          plugin_languages: yes
+          config_twemoji: true
+          plugin_followup: true
+          plugin_lines: true
+          plugin_languages: true
           plugin_languages_analysis_timeout: 30
           plugin_languages_analysis_timeout_repositories: 40
           plugin_languages_categories: markup, programming
           plugin_languages_colors: github
-          plugin_languages_indepth: yes
+          plugin_languages_indepth: true
           plugin_languages_limit: 30
           plugin_languages_recent_categories: markup, programming
           plugin_languages_recent_days: 30
@@ -54,6 +54,6 @@ jobs:
           plugin_lines_history_limit: 40
           plugin_lines_repositories_limit: 8
           plugin_lines_sections: base
-          plugin_repositories: yes
+          plugin_repositories: true
           plugin_repositories_order: featured, pinned, starred, random
-          repositories_forks: yes
+          repositories_forks: true

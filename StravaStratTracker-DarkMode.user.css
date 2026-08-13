@@ -47,8 +47,8 @@
     #scatterGraphGrid td,
     #progressGraphAxis td,
     #progressGraphAxis td:nth-child(1) {
-        background: var(--background-color);
         color: var(--text-color);
+        background: var(--background-color);
     }
 
     .dashboardTable tr:nth-child(odd) {

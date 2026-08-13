@@ -18,34 +18,34 @@
         align-items: center;
         justify-content: center;
         margin: 10px 0;
-        animation: title-animation 2s ease-in-out infinite alternate;
+        font-size: 2.5em;
+        font-weight: 700;
+        color: #98002e;
+        text-align: center;
+        /* Miami Heat Red */
+        text-shadow: 2px 2px 4px rgb(0 0 0 / 60%);
         background: linear-gradient(135deg, #98002e 30%, #ffffff 70%);
         /* Red to Black gradient */
         background-clip: text;
-        color: #98002e;
-        font-size: 2.5em;
-        font-weight: 700;
-        text-align: center;
+        animation: title-animation 2s ease-in-out infinite alternate;
         -webkit-text-fill-color: transparent;
-        /* Miami Heat Red */
-        text-shadow: 2px 2px 4px rgb(0 0 0 / 60%);
         @media screen and (prefers-reduced-motion: reduce) {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 10px 0;
-            animation: none;
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #98002e;
+            text-align: center;
+            /* Miami Heat Red */
+            text-shadow: 2px 2px 4px rgb(0 0 0 / 60%);
             background: linear-gradient(135deg, #98002e 30%, #ffffff 70%);
             /* Red to Black gradient */
             background-clip: text;
-            color: #98002e;
-            font-size: 2.5em;
-            font-weight: 700;
-            text-align: center;
+            animation: none;
             -webkit-text-fill-color: transparent;
-            /* Miami Heat Red */
-            text-shadow: 2px 2px 4px rgb(0 0 0 / 60%);
         }
     }
 
@@ -66,20 +66,20 @@
         width: 60px;
         height: 60px;
         margin-left: 10px;
+        content: "";
         background: url("https://upload.wikimedia.org/wikipedia/de/thumb/f/fb/Miami_Heat_logo.svg/442px-Miami_Heat_logo.svg.png")
             no-repeat center;
         background-size: contain;
-        content: "";
         transition: transform 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
             display: inline-block;
             width: 60px;
             height: 60px;
             margin-left: 10px;
+            content: "";
             background: url("https://upload.wikimedia.org/wikipedia/de/thumb/f/fb/Miami_Heat_logo.svg/442px-Miami_Heat_logo.svg.png")
                 no-repeat center;
             background-size: contain;
-            content: "";
             transition: none;
         }
     }
@@ -91,8 +91,8 @@
 
     /* Link styling with hover effect */
     a {
-        color: #98002e;
         font-weight: 700;
+        color: #98002e;
         /* Miami Heat Red */
         text-decoration: none;
         text-shadow: 1px 1px 0 rgb(0 0 0 / 40%);
@@ -100,8 +100,8 @@
             color 0.3s ease,
             text-shadow 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
-            color: #98002e;
             font-weight: 700;
+            color: #98002e;
             /* Miami Heat Red */
             text-decoration: none;
             text-shadow: 1px 1px 0 rgb(0 0 0 / 40%);
@@ -132,14 +132,14 @@
     }
 
     .minor {
-        color: #ffffff;
         font-weight: 700;
+        color: #ffffff;
         /* White for minor status */
         text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
         transition: color 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
-            color: #ffffff;
             font-weight: 700;
+            color: #ffffff;
             /* White for minor status */
             text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
             transition: none;
@@ -147,14 +147,14 @@
     }
 
     .major {
-        color: #000000;
         font-weight: 700;
+        color: #000000;
         /* Black for major status */
         text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
         transition: color 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
-            color: #000000;
             font-weight: 700;
+            color: #000000;
             /* Black for major status */
             text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
             transition: none;
@@ -163,16 +163,16 @@
 
     /* Refresh button styling with hover effect */
     #js-refresh {
-        color: #98002e;
         font-weight: bolder;
+        color: #98002e;
         /* Miami Heat Red */
         text-shadow: 0 0 2px rgb(0 0 0);
         transition:
             color 0.3s ease,
             transform 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
-            color: #98002e;
             font-weight: bolder;
+            color: #98002e;
             /* Miami Heat Red */
             text-shadow: 0 0 2px rgb(0 0 0);
             transition: none;
@@ -191,32 +191,32 @@
     #psa,
     noscript {
         position: relative;
+        font-size: 1em;
+        line-height: 1.5;
+        color: #ffffff;
+        text-shadow: 0 0 1px rgb(0 0 1);
+        background: #000000;
         /* Black background */
         border: 1px solid #98002e;
         /* Miami Heat Red border */
         border-radius: 3px;
-        background: #000000;
         box-shadow: 0 4px 8px rgb(0 0 0);
-        color: #ffffff;
-        font-size: 1em;
-        line-height: 1.5;
-        text-shadow: 0 0 1px rgb(0 0 1);
         /* White text */
         transition:
             box-shadow 0.3s ease,
             background 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
             position: relative;
+            font-size: 1em;
+            line-height: 1.5;
+            color: #ffffff;
+            text-shadow: 0 0 1px rgb(0 0 1);
+            background: #000000;
             /* Black background */
             border: 1px solid #98002e;
             /* Miami Heat Red border */
             border-radius: 3px;
-            background: #000000;
             box-shadow: 0 4px 8px rgb(0 0 0);
-            color: #ffffff;
-            font-size: 1em;
-            line-height: 1.5;
-            text-shadow: 0 0 1px rgb(0 0 1);
             /* White text */
             transition: none;
         }
@@ -236,25 +236,25 @@
     /* Body styling with black and red gradient */
     body {
         margin: 0;
-        background: linear-gradient(135deg, #98002e 30%, #000000 70%);
-        color: #98002e;
         /* Miami Heat Red */
         font-family: Roboto, Arial, sans-serif;
         font-size: 16px;
         font-weight: 300;
+        color: #98002e;
         /* Red to Black gradient */
         text-shadow: 1px 1px 3px rgb(0 0 0);
+        background: linear-gradient(135deg, #98002e 30%, #000000 70%);
         transition: background 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
             margin: 0;
-            background: linear-gradient(135deg, #98002e 30%, #000000 70%);
-            color: #98002e;
             /* Miami Heat Red */
             font-family: Roboto, Arial, sans-serif;
             font-size: 16px;
             font-weight: 300;
+            color: #98002e;
             /* Red to Black gradient */
             text-shadow: 1px 1px 3px rgb(0 0 0);
+            background: linear-gradient(135deg, #98002e 30%, #000000 70%);
             transition: none;
         }
 
@@ -268,83 +268,83 @@
     /* Tooltip customization with smooth transition */
     [data-tooltip]::before {
         position: absolute;
-        z-index: 1;
         top: 0;
         left: 2%;
+        z-index: 1;
+        visibility: hidden;
         width: 96%;
         /* Miami Heat Red text */
         padding: 8px;
-        border-radius: 6px;
-        background: #000000;
-        /* Black background */
-        color: #98002e;
-        content: attr(data-tooltip);
         font-size: 0.875em;
         font-style: italic;
         font-weight: 300;
-        opacity: 0%;
+        /* Black background */
+        color: #98002e;
         text-shadow: 1px 1px 3px rgb(0 0 0 / 40%);
+        content: attr(data-tooltip);
+        background: #000000;
+        border-radius: 6px;
+        opacity: 0%;
         transition:
             visibility 0s,
             opacity 0.3s ease-in-out;
-        visibility: hidden;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
-            z-index: 1;
             top: 0;
             left: 2%;
+            z-index: 1;
+            visibility: hidden;
             width: 96%;
             /* Miami Heat Red text */
             padding: 8px;
-            border-radius: 6px;
-            background: #000000;
-            /* Black background */
-            color: #98002e;
-            content: attr(data-tooltip);
             font-size: 0.875em;
             font-style: italic;
             font-weight: 300;
-            opacity: 0%;
+            /* Black background */
+            color: #98002e;
             text-shadow: 1px 1px 3px rgb(0 0 0 / 40%);
+            content: attr(data-tooltip);
+            background: #000000;
+            border-radius: 6px;
+            opacity: 0%;
             transition: none;
-            visibility: hidden;
         }
     }
 
     [data-tooltip]:hover::before,
     [data-tooltip]:focus::before {
-        opacity: 100%;
         visibility: visible;
+        opacity: 100%;
     }
 
     /* Advanced feature: Gradient border with transition */
     .gradient-border {
         position: relative;
         padding: 10px;
-        border-radius: 5px;
-        background-color: #98002e;
-        /* Miami Heat Red */
-        color: #ffffff;
         /* White text */
         font-weight: 700;
+        /* Miami Heat Red */
+        color: #ffffff;
         text-align: center;
+        background-color: #98002e;
+        border-radius: 5px;
     }
 
     .gradient-border::before {
         position: absolute;
+        inset: 0;
         z-index: -1;
-        border-radius: 5px;
-        animation: gradient-border 3s linear infinite;
+        content: "";
         background: linear-gradient(45deg, #98002e, #000000, #98002e, #000000);
         /* Red to Black */
         background-size: 400% 400%;
-        content: "";
-        inset: 0;
+        border-radius: 5px;
+        animation: gradient-border 3s linear infinite;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
+            inset: 0;
             z-index: -1;
-            border-radius: 5px;
-            animation: none;
+            content: "";
             background: linear-gradient(
                 45deg,
                 #98002e,
@@ -354,8 +354,8 @@
             );
             /* Red to Black */
             background-size: 400% 400%;
-            content: "";
-            inset: 0;
+            border-radius: 5px;
+            animation: none;
         }
     }
 

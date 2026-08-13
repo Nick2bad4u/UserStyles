@@ -13,9 +13,9 @@
 @-moz-document domain("copilot.microsoft.com") {
     /* Invert colors except images and videos */
     :is([data-theme="dark"] *) {
+        color: var(--color-white);
         /* Box model stuff */
         background-color: var(--color-black) !important;
-        color: var(--color-white);
     }
     .backdrop-saturate-200 {
         /* Box model stuff */

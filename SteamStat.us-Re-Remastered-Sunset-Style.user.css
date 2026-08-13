@@ -77,6 +77,12 @@
 
     .title {
         margin: 10px 0;
+        font-size: 2.5em;
+        font-weight: 300;
+        color: var(--title-text-color);
+        /* Bright Gradient Title */
+        text-align: center;
+        text-shadow: 2px 2px 8px var(--text-shadow-color);
         background: linear-gradient(
             145deg,
             var(--gradient-color-1),
@@ -84,19 +90,13 @@
             var(--gradient-color-3)
         );
         background-clip: text;
-        color: var(--title-text-color);
-        font-size: 2.5em;
-        font-weight: 300;
-        /* Bright Gradient Title */
-        text-align: center;
         -webkit-text-fill-color: transparent;
-        text-shadow: 2px 2px 8px var(--text-shadow-color);
     }
 
     a {
+        font-weight: 700;
         /* Vibrant Links */
         color: var(--link-color);
-        font-weight: 700;
         text-decoration: none;
         text-shadow: 1px 1px 4px var(--vibrant-link-shadow-color);
 
@@ -120,23 +120,23 @@
     }
 
     .minor {
+        font-weight: 700;
         /* Electric Purple */
         color: var(--minor-status-color);
-        font-weight: 700;
         text-shadow: 1px 1px 5px var(--minor-status-shadow-color);
     }
 
     .major {
+        font-weight: 700;
         /* Bright Gold */
         color: var(--major-status-color);
-        font-weight: 700;
         text-shadow: 1px 1px 5px var(--major-status-shadow-color);
     }
 
     #js-refresh {
+        font-weight: bolder;
         /* Refresh Indicator */
         color: var(--refresh-indicator-color);
-        font-weight: bolder;
         text-shadow: 0 0 8px var(--refresh-indicator-shadow-color);
     }
 
@@ -144,99 +144,99 @@
     #psa,
     noscript {
         position: relative;
-        border: 2px solid var(--gradient-color-3);
-        border-radius: 6px;
+        font-size: 1em;
+        line-height: 1.5;
+        color: #ffffff;
+        text-shadow: 0 0 6px var(--text-shadow-color-2);
         background: linear-gradient(
             145deg,
             var(--services-background-gradient-color-1),
             var(--services-background-gradient-color-2)
         );
+        border: 2px solid var(--gradient-color-3);
+        border-radius: 6px;
         box-shadow: 0 4px 12px var(--box-shadow-color);
-        color: #ffffff;
-        font-size: 1em;
-        line-height: 1.5;
-        text-shadow: 0 0 6px var(--text-shadow-color-2);
     }
 
     body {
         margin: 0;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        color: #ffffff;
+        text-shadow: 1px 1px 4px var(--text-shadow-color-2);
         background: linear-gradient(
             145deg,
             var(--body-background-gradient-color-1),
             var(--body-background-gradient-color-2),
             var(--gradient-color-3)
         );
-        color: #ffffff;
-        font-family: Roboto, Arial, sans-serif;
-        font-size: 16px;
-        font-weight: 300;
-        text-shadow: 1px 1px 4px var(--text-shadow-color-2);
     }
 
     [data-tooltip]::before {
         position: absolute;
-        z-index: 1;
         top: 0;
         left: 2%;
-        overflow: hidden;
+        z-index: 1;
+        /* Tooltip Box */
+        visibility: hidden;
         width: 96%;
         padding: 8px;
-        border-radius: 6px;
+        overflow: hidden;
+        font-size: 0.875em;
+        font-style: italic;
+        font-weight: 300;
+        color: #ffffff;
+        text-align: left;
+        overflow-wrap: break-word;
+        white-space: pre;
+        text-shadow: 1px 1px 5px var(--text-shadow-color-2);
+        content: attr(data-tooltip);
         background: linear-gradient(
             145deg,
             var(--tooltip-background-gradient-color-1),
             var(--tooltip-background-gradient-color-2),
             var(--gradient-color-2)
         );
-        color: #ffffff;
-        content: attr(data-tooltip);
-        font-size: 0.875em;
-        font-style: italic;
-        font-weight: 300;
+        border-radius: 6px;
         opacity: 0%;
-        overflow-wrap: break-word;
-        text-align: left;
-        text-shadow: 1px 1px 5px var(--text-shadow-color-2);
         transition:
             visibility 0s,
             opacity 0.3s ease-in-out;
-        /* Tooltip Box */
-        visibility: hidden;
-        white-space: pre;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
-            z-index: 1;
             top: 0;
             left: 2%;
-            overflow: hidden;
+            z-index: 1;
+            /* Tooltip Box */
+            visibility: hidden;
             width: 96%;
             padding: 8px;
-            border-radius: 6px;
+            overflow: hidden;
+            font-size: 0.875em;
+            font-style: italic;
+            font-weight: 300;
+            color: #ffffff;
+            text-align: left;
+            overflow-wrap: break-word;
+            white-space: pre;
+            text-shadow: 1px 1px 5px var(--text-shadow-color-2);
+            content: attr(data-tooltip);
             background: linear-gradient(
                 145deg,
                 var(--tooltip-background-gradient-color-1),
                 var(--tooltip-background-gradient-color-2),
                 var(--gradient-color-2)
             );
-            color: #ffffff;
-            content: attr(data-tooltip);
-            font-size: 0.875em;
-            font-style: italic;
-            font-weight: 300;
+            border-radius: 6px;
             opacity: 0%;
-            overflow-wrap: break-word;
-            text-align: left;
-            text-shadow: 1px 1px 5px var(--text-shadow-color-2);
             transition: none;
-            /* Tooltip Box */
-            visibility: hidden;
-            white-space: pre;
         }
     }
 
     [data-tooltip]:hover::before,
     [data-tooltip]:focus::before {
-        opacity: 100%;
         visibility: visible;
+        opacity: 100%;
     }
 }

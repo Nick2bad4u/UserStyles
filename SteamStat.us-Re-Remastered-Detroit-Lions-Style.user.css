@@ -70,6 +70,13 @@
         align-items: center;
         justify-content: center;
         margin: 10px 0;
+        font-size: 2.5em;
+        font-weight: 700;
+        color: var(--title-color);
+        /* Detroit Lions Title */
+        text-align: center;
+        /* Honolulu Blue */
+        text-shadow: 1px 1px 1px var(--title-shadow);
         /* Subtle black shadow */
         background: linear-gradient(
             145deg,
@@ -78,14 +85,7 @@
         );
         /* Blue to Silver gradient */
         background-clip: text;
-        color: var(--title-color);
-        font-size: 2.5em;
-        font-weight: 700;
-        /* Detroit Lions Title */
-        text-align: center;
         -webkit-text-fill-color: transparent;
-        /* Honolulu Blue */
-        text-shadow: 1px 1px 1px var(--title-shadow);
     }
 
     .title::after {
@@ -93,17 +93,17 @@
         width: 60px;
         height: 60px;
         margin-left: 10px;
+        /* Add Lions Logo to the Right */
+        content: "";
         background: url("https://upload.wikimedia.org/wikipedia/en/7/71/Detroit_Lions_logo.svg")
             no-repeat center;
         background-size: contain;
-        /* Add Lions Logo to the Right */
-        content: "";
     }
 
     a {
-        color: var(--link-color);
         /* Light shadow */
         font-weight: 700;
+        color: var(--link-color);
         /* Honolulu Blue */
         text-decoration: none;
         text-shadow: 1px 1px 0 var(--link-shadow);
@@ -130,26 +130,26 @@
     }
 
     .minor {
-        /* Silver for minor issues */
-        color: var(--minor-color);
         /* Black shadow */
         font-weight: 700;
+        /* Silver for minor issues */
+        color: var(--minor-color);
         text-shadow: 1px 1px 2px var(--minor-shadow);
     }
 
     .major {
-        /* White for major issues */
-        color: var(--major-color);
         /* Black shadow */
         font-weight: 700;
+        /* White for major issues */
+        color: var(--major-color);
         text-shadow: 1px 1px 2px var(--major-shadow);
     }
 
     #js-refresh {
-        /* Refreshing in seconds */
-        color: var(--refresh-color);
         /* Subtle shadow */
         font-weight: bolder;
+        /* Refreshing in seconds */
+        color: var(--refresh-color);
         text-shadow: 0 0 2px var(--refresh-shadow);
     }
 
@@ -157,101 +157,101 @@
     #psa,
     noscript {
         position: relative;
-        /* Blue to Silver */
-        border: 1px solid var(--border-color);
-        /* White border */
-        border-radius: 3px;
+        font-size: 1em;
+        line-height: 1.5;
+        color: #ffffff;
+        text-shadow: 0 0 1px var(--box-shadow);
         background: linear-gradient(
             145deg,
             var(--background-gradient-start),
             var(--background-gradient-end)
         );
+        /* Blue to Silver */
+        border: 1px solid var(--border-color);
+        /* White border */
+        border-radius: 3px;
         /* Subtle shadow */
         box-shadow: 0 4px 8px var(--box-shadow);
-        color: #ffffff;
-        font-size: 1em;
-        line-height: 1.5;
-        text-shadow: 0 0 1px var(--box-shadow);
         /* White text */
     }
 
     body {
         margin: 0;
-        background: linear-gradient(
-            145deg,
-            var(--background-gradient-start),
-            var(--background-gradient-end)
-        );
-        color: var(--body-color);
         /* Honolulu Blue text */
         font-family: Roboto, Arial, sans-serif;
         font-size: 16px;
         /* Subtle shadow */
         font-weight: 300;
+        color: var(--body-color);
         text-shadow: 1px 1px 3px var(--body-shadow);
+        background: linear-gradient(
+            145deg,
+            var(--background-gradient-start),
+            var(--background-gradient-end)
+        );
         /* Blue to Silver background */
     }
 
     [data-tooltip]::before {
         position: absolute;
-        z-index: 1;
         top: 0;
         left: 2%;
-        overflow: hidden;
+        z-index: 1;
+        /* Time since last status change Box */
+        visibility: hidden;
         width: 96%;
         padding: 8px;
-        border-radius: 6px;
-        background: var(--tooltip-background);
-        /* White box */
-        color: var(--tooltip-color);
-        content: attr(data-tooltip);
+        overflow: hidden;
         font-size: 0.875em;
         /* Subtle shadow */
         font-style: italic;
         font-weight: 300;
-        opacity: 0%;
-        overflow-wrap: break-word;
+        /* White box */
+        color: var(--tooltip-color);
         /* Honolulu Blue text */
         text-align: left;
+        overflow-wrap: break-word;
+        white-space: pre;
         text-shadow: 1px 1px 3px var(--tooltip-shadow);
+        content: attr(data-tooltip);
+        background: var(--tooltip-background);
+        border-radius: 6px;
+        opacity: 0%;
         transition:
             visibility 0s,
             opacity 0.3s ease-in-out;
-        /* Time since last status change Box */
-        visibility: hidden;
-        white-space: pre;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
-            z-index: 1;
             top: 0;
             left: 2%;
-            overflow: hidden;
+            z-index: 1;
+            /* Time since last status change Box */
+            visibility: hidden;
             width: 96%;
             padding: 8px;
-            border-radius: 6px;
-            background: var(--tooltip-background);
-            /* White box */
-            color: var(--tooltip-color);
-            content: attr(data-tooltip);
+            overflow: hidden;
             font-size: 0.875em;
             /* Subtle shadow */
             font-style: italic;
             font-weight: 300;
-            opacity: 0%;
-            overflow-wrap: break-word;
+            /* White box */
+            color: var(--tooltip-color);
             /* Honolulu Blue text */
             text-align: left;
-            text-shadow: 1px 1px 3px var(--tooltip-shadow);
-            transition: none;
-            /* Time since last status change Box */
-            visibility: hidden;
+            overflow-wrap: break-word;
             white-space: pre;
+            text-shadow: 1px 1px 3px var(--tooltip-shadow);
+            content: attr(data-tooltip);
+            background: var(--tooltip-background);
+            border-radius: 6px;
+            opacity: 0%;
+            transition: none;
         }
     }
 
     [data-tooltip]:hover::before,
     [data-tooltip]:focus::before {
-        opacity: 100%;
         visibility: visible;
+        opacity: 100%;
     }
 }

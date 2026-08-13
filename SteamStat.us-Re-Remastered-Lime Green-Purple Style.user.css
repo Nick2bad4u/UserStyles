@@ -70,24 +70,24 @@
 
     .title {
         margin: 10px 0;
+        font-size: 2.5em;
+        font-weight: 300;
+        color: var(--title-color);
+        /* Lime Green/Purple Status Title */
+        text-align: center;
+        text-shadow: 1px 1px 1px var(--title-shadow); /* Black shadow added */
         background: linear-gradient(
             145deg,
             var(--title-gradient-start),
             var(--title-gradient-end)
         );
         background-clip: text;
-        color: var(--title-color);
-        font-size: 2.5em;
-        font-weight: 300;
-        /* Lime Green/Purple Status Title */
-        text-align: center;
         -webkit-text-fill-color: transparent;
-        text-shadow: 1px 1px 1px var(--title-shadow); /* Black shadow added */
     }
 
     a {
-        color: var(--link-color);
         font-weight: 700;
+        color: var(--link-color);
         text-decoration: none;
         text-shadow: 1px 1px 1px var(--link-shadow); /* Black shadow added */
 
@@ -111,23 +111,23 @@
     }
 
     .minor {
+        font-weight: 700;
         /* Light Purple */
         color: var(--minor-color);
-        font-weight: 700;
         text-shadow: 1px 1px 2px var(--minor-shadow); /* Black shadow added */
     }
 
     .major {
+        font-weight: 700;
         /* Bright Lime */
         color: var(--major-color);
-        font-weight: 700;
         text-shadow: 1px 1px 2px var(--major-shadow); /* Black shadow added */
     }
 
     #js-refresh {
+        font-weight: bolder;
         /* Refreshing in idk seconds */
         color: var(--refresh-color);
-        font-weight: bolder;
         text-shadow: 0 0 2px var(--refresh-shadow); /* Black shadow added */
     }
 
@@ -135,88 +135,88 @@
     #psa,
     noscript {
         position: relative;
-        border: 1px solid var(--border-color);
-        border-radius: 3px;
+        font-size: 1em;
+        line-height: 1.5;
+        color: #f8f8f2;
+        text-shadow: 0 0 5px var(--box-shadow); /* Black shadow added */
         background: linear-gradient(
             145deg,
             var(--background-gradient-start),
             var(--background-gradient-end)
         );
+        border: 1px solid var(--border-color);
+        border-radius: 3px;
         box-shadow: 0 4px 8px var(--box-shadow);
-        color: #f8f8f2;
-        font-size: 1em;
-        line-height: 1.5;
-        text-shadow: 0 0 5px var(--box-shadow); /* Black shadow added */
     }
 
     body {
         margin: 0;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--body-color);
+        text-shadow: 1px 1px 3px var(--body-shadow); /* Black shadow added */
         background: linear-gradient(
             145deg,
             var(--body-background-start),
             var(--body-background-end)
         );
-        color: var(--body-color);
-        font-family: Roboto, Arial, sans-serif;
-        font-size: 16px;
-        font-weight: 300;
-        text-shadow: 1px 1px 3px var(--body-shadow); /* Black shadow added */
     }
 
     [data-tooltip]::before {
         position: absolute;
-        z-index: 1;
         top: 0;
         left: 2%;
-        overflow: hidden;
+        z-index: 1;
+        /* Time since last status change Box */
+        visibility: hidden;
         width: 96%;
         padding: 8px;
-        border-radius: 6px;
-        background: var(--tooltip-background);
-        color: var(--tooltip-color);
-        content: attr(data-tooltip);
+        overflow: hidden;
         font-size: 0.875em;
         font-style: italic;
         font-weight: 300;
-        opacity: 0%;
-        overflow-wrap: break-word;
+        color: var(--tooltip-color);
         text-align: left;
+        overflow-wrap: break-word;
+        white-space: pre;
         text-shadow: 1px 1px 3px var(--tooltip-shadow); /* Black shadow added */
+        content: attr(data-tooltip);
+        background: var(--tooltip-background);
+        border-radius: 6px;
+        opacity: 0%;
         transition:
             visibility 0s,
             opacity 0.3s ease-in-out;
-        /* Time since last status change Box */
-        visibility: hidden;
-        white-space: pre;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
-            z-index: 1;
             top: 0;
             left: 2%;
-            overflow: hidden;
+            z-index: 1;
+            /* Time since last status change Box */
+            visibility: hidden;
             width: 96%;
             padding: 8px;
-            border-radius: 6px;
-            background: var(--tooltip-background);
-            color: var(--tooltip-color);
-            content: attr(data-tooltip);
+            overflow: hidden;
             font-size: 0.875em;
             font-style: italic;
             font-weight: 300;
-            opacity: 0%;
-            overflow-wrap: break-word;
+            color: var(--tooltip-color);
             text-align: left;
-            text-shadow: 1px 1px 3px var(--tooltip-shadow); /* Black shadow added */
-            transition: none;
-            /* Time since last status change Box */
-            visibility: hidden;
+            overflow-wrap: break-word;
             white-space: pre;
+            text-shadow: 1px 1px 3px var(--tooltip-shadow); /* Black shadow added */
+            content: attr(data-tooltip);
+            background: var(--tooltip-background);
+            border-radius: 6px;
+            opacity: 0%;
+            transition: none;
         }
     }
 
     [data-tooltip]:hover::before,
     [data-tooltip]:focus::before {
-        opacity: 100%;
         visibility: visible;
+        opacity: 100%;
     }
 }

@@ -18,10 +18,10 @@ body {
     max-width: 800px;
     padding: 20px;
     margin: auto;
-    background-color: #f9f9f9;
-    color: #333333;
     font-family: Arial, sans-serif;
     line-height: 1.75;
+    color: #333333;
+    background-color: #f9f9f9;
 }
 
 /* Headings */
@@ -38,35 +38,35 @@ h6 {
 
 h1 {
     padding-bottom: 5px;
-    border-bottom: 3px solid #2c3e50;
     font-size: 2em;
+    border-bottom: 3px solid #2c3e50;
 }
 
 h2 {
     padding-bottom: 3px;
-    border-bottom: 2px solid #2c3e50;
     font-size: 1.75em;
+    border-bottom: 2px solid #2c3e50;
 }
 
 h3 {
-    color: #34495e;
     font-size: 1.5em;
+    color: #34495e;
 }
 
 h4 {
-    color: #4a4a4a;
     font-size: 1.25em;
+    color: #4a4a4a;
 }
 
 h5 {
-    color: #4a4a4a;
     font-size: 1.125em;
+    color: #4a4a4a;
 }
 
 h6 {
-    color: #4a4a4a;
     font-size: 1em;
     font-weight: 400;
+    color: #4a4a4a;
 }
 
 /* Paragraphs */
@@ -77,74 +77,74 @@ p {
 
 /* Links */
 a {
-    border-bottom: 1px dotted #3498db;
     color: #3498db;
     text-decoration: none;
+    border-bottom: 1px dotted #3498db;
     transition:
         color 0.2s ease,
         border-bottom-color 0.2s ease;
     @media screen and (prefers-reduced-motion: reduce) {
-        border-bottom: 1px dotted #3498db;
         color: #3498db;
         text-decoration: none;
+        border-bottom: 1px dotted #3498db;
         transition: none;
     }
 
     &:hover,
     &:focus {
-        border-bottom: 1px solid #2980b9;
         color: #2980b9;
+        border-bottom: 1px solid #2980b9;
     }
 }
 
 /* Emphasis */
 em,
 i {
-    color: #555555;
     font-style: italic;
+    color: #555555;
 }
 
 strong,
 b {
-    color: #333333;
     font-weight: 700;
+    color: #333333;
 }
 
 /* Code Blocks */
 pre,
 code {
+    font-family: "Courier New", Courier, monospace;
+    color: #2a2a2a;
+    background-color: #f5f5f5;
     border: 1px solid #dddddd;
     border-radius: 4px;
-    background-color: #f5f5f5;
-    color: #2a2a2a;
-    font-family: "Courier New", Courier, monospace;
 }
 
 pre {
-    overflow: auto;
     padding: 12px;
     margin: 15px 0;
-    background-color: #f1f1f1;
+    overflow: auto;
     font-size: 1em;
     line-height: 1.5;
+    background-color: #f1f1f1;
 }
 
 code {
     padding: 3px 5px;
-    border-radius: 4px;
-    background-color: #e8e8e8;
-    color: #3a3a3a;
     font-size: 1em;
+    color: #3a3a3a;
+    background-color: #e8e8e8;
+    border-radius: 4px;
 }
 
 /* Blockquotes */
 blockquote {
     padding: 10px 20px;
-    border-left: 4px solid #2c3e50;
     margin: 15px 0;
-    background-color: #f8f8f8;
-    color: #666666;
     font-style: italic;
+    color: #666666;
+    background-color: #f8f8f8;
+    border-left: 4px solid #2c3e50;
 
     & p {
         margin: 0;
@@ -173,26 +173,26 @@ ol ol {
 /* Horizontal Rule */
 hr {
     height: 1px;
-    border: 0;
     margin: 20px 0;
     background: #dddddd;
+    border: 0;
 }
 
 /* Images */
 img {
     display: block;
     max-width: 100%;
+    margin: 15px auto;
     border: 1px solid #dddddd;
     border-radius: 4px;
-    margin: 15px auto;
 }
 
 /* Tables */
 table {
     width: 100%;
     margin: 15px 0;
-    border-collapse: collapse;
     font-size: 1em;
+    border-collapse: collapse;
 }
 
 th,
@@ -202,9 +202,9 @@ td {
 }
 
 th {
-    background-color: #f2f2f2;
-    color: #333333;
     font-weight: 700;
+    color: #333333;
+    background-color: #f2f2f2;
 }
 
 td {
@@ -224,23 +224,23 @@ sup {
 /* Task Lists (Checkboxes) */
 input[type="checkbox"] {
     margin-right: 5px;
-    transform: scale(1.2);
     vertical-align: middle;
+    transform: scale(1.2);
 }
 
 /* Collapsible Details */
 details {
     padding: 10px;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
     margin: 15px 0;
     background-color: #f8f8f8;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
 }
 
 summary {
+    font-weight: 700;
     color: #2c3e50;
     cursor: pointer;
-    font-weight: 700;
 
     &:hover,
     &:focus {
@@ -251,8 +251,8 @@ summary {
 /* Footnotes */
 footer {
     padding-top: 20px;
-    border-top: 1px solid #dddddd;
     margin-top: 20px;
-    color: #666666;
     font-size: 0.875em;
+    color: #666666;
+    border-top: 1px solid #dddddd;
 }

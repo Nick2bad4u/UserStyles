@@ -108,16 +108,16 @@
     }
 
     body {
-        background-color: var(--background-color) !important;
-        color: var(--text-color) !important;
         font-family: Cousine, monospace !important;
+        color: var(--text-color) !important;
+        background-color: var(--background-color) !important;
     }
 
     .xl\:max-w-\[48rem\],
     .md\:max-w-none,
     .gap-1 {
-        max-width: 100% !important;
         gap: 0 !important;
+        max-width: 100% !important;
     }
     .items-end {
         align-items: stretch !important;
@@ -131,16 +131,16 @@
         width: 715px !important;
     }
     .top-bar {
-        border-bottom: 2px solid var(--scrollbar-color) !important;
         background-color: var(--surface-color) !important;
+        border-bottom: 2px solid var(--scrollbar-color) !important;
     }
     ::-webkit-scrollbar {
         width: 14px;
     }
     ::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-color);
         border: 3px solid var(--surface-color);
         border-radius: 6px;
-        background-color: var(--scrollbar-color);
     }
     ::-webkit-scrollbar-thumb:hover,
     ::-webkit-scrollbar-thumb:focus {
@@ -158,13 +158,13 @@
     }
     .relative.max-w-\[70\%\].rounded-3xl.bg-token-message-surface.px-5.py-2\.5
         .whitespace-pre-wrap {
-        border: 2px solid var(--surface-color) !important;
-        border-radius: 12px !important;
-        color: var(--message-text-color) !important;
         font-family: Arial, sans-serif !important;
         font-size: 14px !important;
+        color: var(--message-text-color) !important;
         letter-spacing: 0.1em;
         text-shadow: var(--message-glow);
+        border: 2px solid var(--surface-color) !important;
+        border-radius: 12px !important;
     }
     .bg-token-message-surface {
         background-color: transparent;
@@ -175,38 +175,38 @@
 
     /* Encabezados y texto general */
     h1 {
-        color: var(--color-secondary) !important;
         font-weight: bold !important;
+        color: var(--color-secondary) !important;
         letter-spacing: 0.6em !important;
         text-shadow: var(--secondary-glow);
     }
     h2 {
-        color: var(--heading-secondary-color) !important;
         font-weight: bold !important;
+        color: var(--heading-secondary-color) !important;
         letter-spacing: 0.6em !important;
         text-shadow: var(--heading-secondary-glow);
     }
     h3 {
-        color: var(--color-accent) !important;
         font-weight: bold !important;
+        color: var(--color-accent) !important;
         letter-spacing: 0.2em;
         text-shadow: var(--accent-glow);
     }
     h4 {
-        color: var(--danger-color) !important;
         font-weight: bold !important;
+        color: var(--danger-color) !important;
         letter-spacing: 0.6em !important;
         text-shadow: var(--danger-glow);
     }
     h5 {
-        color: var(--text-color) !important;
         font-weight: bold !important;
+        color: var(--text-color) !important;
         letter-spacing: 0.6em !important;
         text-shadow: var(--text-glow);
     }
     h6 {
-        color: var(--color-secondary) !important;
         font-weight: bold !important;
+        color: var(--color-secondary) !important;
         letter-spacing: 0.6em !important;
         text-shadow: var(--secondary-glow);
     }
@@ -216,15 +216,15 @@
         text-shadow: var(--text-glow);
     }
     li {
-        color: var(--scrollbar-color) !important;
         font-size: 14px !important;
-        letter-spacing: 0.2em;
         line-height: 1.25 !important;
+        color: var(--scrollbar-color) !important;
+        letter-spacing: 0.2em;
         text-shadow: var(--scrollbar-glow);
     }
     a {
-        color: var(--color-primary) !important;
         font-weight: bold !important;
+        color: var(--color-primary) !important;
         letter-spacing: 0.4em !important;
         text-shadow: var(--primary-glow);
     }
@@ -232,23 +232,23 @@
     /* Código y metadatos */
     pre,
     code {
-        color: var(--color-secondary) !important;
         font-size: 12px !important;
         font-weight: bold !important;
+        color: var(--color-secondary) !important;
         letter-spacing: 0.2em !important;
         text-shadow: var(--secondary-glow);
     }
     strong {
-        color: var(--color-primary) !important;
         font-weight: 600 !important;
+        color: var(--color-primary) !important;
         letter-spacing: 0.2em;
         text-shadow: var(--primary-glow);
     }
 
     /* Sintaxis de código resaltado */
     .hljs-keyword {
-        color: var(--color-accent) !important;
         font-weight: bold !important;
+        color: var(--color-accent) !important;
         text-shadow: var(--accent-glow);
     }
     .hljs-string {
@@ -257,8 +257,8 @@
         text-shadow: var(--secondary-glow);
     }
     .hljs-number {
-        color: var(--scrollbar-color) !important;
         font-weight: bold !important;
+        color: var(--scrollbar-color) !important;
         letter-spacing: 0.1em;
         text-shadow: var(--scrollbar-glow);
     }
@@ -271,13 +271,13 @@
         text-shadow: var(--text-glow);
     }
     .hljs-selector-class {
-        color: var(--heading-secondary-color) !important;
         font-weight: bold !important;
+        color: var(--heading-secondary-color) !important;
         text-shadow: var(--heading-secondary-glow);
     }
     .hljs-template-variable {
-        color: var(--danger-color) !important;
         font-weight: bold !important;
+        color: var(--danger-color) !important;
         text-shadow: var(--danger-glow);
     }
     .hljs-type {
@@ -285,23 +285,23 @@
         text-shadow: var(--accent-glow);
     }
     .hljs-attr {
-        color: var(--color-secondary) !important;
         font-weight: bold !important;
+        color: var(--color-secondary) !important;
         text-shadow: var(--secondary-glow);
     }
     .hljs-selector-attr {
-        color: var(--scrollbar-color) !important;
         font-weight: bold !important;
+        color: var(--scrollbar-color) !important;
         text-shadow: var(--scrollbar-glow);
     }
     .hljs-selector-pseudo {
-        color: var(--heading-secondary-color) !important;
         font-weight: bold !important;
+        color: var(--heading-secondary-color) !important;
         text-shadow: var(--heading-secondary-glow);
     }
     .hljs-variable {
-        color: var(--color-secondary) !important;
         font-weight: bold !important;
+        color: var(--color-secondary) !important;
         text-shadow: var(--secondary-glow);
     }
 }

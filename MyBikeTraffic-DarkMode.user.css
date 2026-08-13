@@ -41,8 +41,8 @@
     .thead-light,
     .footer,
     .terms {
-        background-color: var(--background-color-dark) !important;
         color: var(--text-color) !important;
+        background-color: var(--background-color-dark) !important;
     }
 
     .nav-link,
@@ -60,16 +60,16 @@
     input,
     select,
     textarea {
-        border: 1px solid var(--border-color-light) !important;
-        background-color: var(--border-color-dark) !important;
         color: var(--text-color) !important;
+        background-color: var(--border-color-dark) !important;
+        border: 1px solid var(--border-color-light) !important;
     }
 
     .btn,
     .form-control {
-        border: 1px solid var(--border-color-light) !important;
-        background-color: var(--border-color-dark) !important;
         color: var(--text-color) !important;
+        background-color: var(--border-color-dark) !important;
+        border: 1px solid var(--border-color-light) !important;
     }
 
     .navbar-toggler {
@@ -112,8 +112,8 @@
     }
 
     .form-check-input:checked {
-        border-color: var(--form-checked-color) !important;
         background-color: var(--form-checked-color) !important;
+        border-color: var(--form-checked-color) !important;
     }
 
     .form-check-label {
@@ -122,8 +122,8 @@
 
     .tooltip-inner,
     .popover-body {
-        background-color: var(--border-color-dark) !important;
         color: var(--text-color) !important;
+        background-color: var(--border-color-dark) !important;
     }
 
     .arrow::before {
@@ -131,8 +131,8 @@
     }
 
     .modal-content {
-        background-color: var(--row-background-color) !important;
         color: var(--text-color) !important;
+        background-color: var(--row-background-color) !important;
     }
 
     .modal-header,

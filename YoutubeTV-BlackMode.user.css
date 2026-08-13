@@ -158,9 +158,9 @@
     }
 
     ::-webkit-scrollbar-thumb {
+        background-color: var(--black);
         border: 3px solid var(--primary-color);
         border-radius: 6px;
-        background-color: var(--black);
     }
 
     /* For Edge, IE */

@@ -32,8 +32,8 @@
     svg,
     video,
     iframe {
-        background: var(--backgroundColor);
         color: var(--textColor);
+        background: var(--backgroundColor);
     }
 
     .css-1ew0k1 {

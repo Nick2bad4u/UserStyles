@@ -14,10 +14,10 @@
     /* stylelint-disable no-duplicate-selectors -- Combined vendor CSS from normalize.css, UIkit, and Chartist.js with intentional theme overrides */
     /*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
     html {
-        background: #111b25 !important;
         font-family: sans-serif;
-        letter-spacing: 0.01em;
         line-height: 1.125;
+        letter-spacing: 0.01em;
+        background: #111b25 !important;
         text-size-adjust: 100%;
     }
 
@@ -57,9 +57,9 @@
     }
 
     hr {
-        overflow: visible;
-        height: 0;
         box-sizing: content-box;
+        height: 0;
+        overflow: visible;
     }
 
     pre {
@@ -80,9 +80,9 @@
     }
 
     abbr[title] {
-        border-bottom: none;
         text-decoration: underline;
         text-decoration: underline dotted;
+        border-bottom: none;
     }
 
     code,
@@ -97,8 +97,8 @@
     }
 
     mark {
-        background-color: #ffff00;
         color: #000000;
+        background-color: #ffff00;
     }
 
     small {
@@ -145,10 +145,10 @@
     textarea,
     [role="button"] {
         margin: 0;
-        color: inherit;
         font-family: inherit, system-ui;
         font-size: 100%;
         line-height: 1.125;
+        color: inherit;
         outline: 0 !important;
     }
 
@@ -159,10 +159,10 @@
 
     button {
         padding: 0;
-        border: 0;
-        background: transparent;
-        cursor: pointer;
         text-align: inherit;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
 
         &:focus,
         &:active {
@@ -218,14 +218,14 @@
 
     fieldset {
         padding: 0.35em 0.625em 0.75em;
-        border: 1px solid #c0c0c0;
         margin: 0 2px;
+        border: 1px solid #c0c0c0;
     }
 
     legend {
+        box-sizing: border-box;
         display: table;
         max-width: 100%;
-        box-sizing: border-box;
         padding: 0;
         color: inherit;
         white-space: normal;
@@ -262,8 +262,8 @@
     }
 
     ::-webkit-file-upload-button {
-        appearance: auto;
         font: inherit;
+        appearance: auto;
     }
 
     details,
@@ -301,12 +301,12 @@
     }
 
     html {
-        background: #ffffff;
-        color: #131a26;
         font-family: Roboto, Arial, sans-serif;
         font-size: 18px;
         font-weight: 400;
         line-height: 1.375;
+        color: #131a26;
+        background: #ffffff;
         text-size-adjust: 100%;
     }
 
@@ -324,8 +324,8 @@
     a,
     .uk-link {
         color: #3bd671;
-        cursor: pointer;
         text-decoration: underline;
+        cursor: pointer;
     }
 
     a:hover,
@@ -349,9 +349,9 @@
     :not(pre) > code,
     :not(pre) > kbd,
     :not(pre) > samp {
-        color: #df484a;
         font-family: Consolas, monaco, monospace;
         font-size: 0.875rem;
+        color: #df484a;
         white-space: nowrap;
     }
 
@@ -360,14 +360,14 @@
     }
 
     ins {
-        background: #ffffdd;
         color: #131a26;
         text-decoration: none;
+        background: #ffffdd;
     }
 
     mark {
-        background: #ffffdd;
         color: #131a26;
+        background: #ffffdd;
     }
 
     q {
@@ -406,16 +406,16 @@
     canvas,
     img,
     video {
+        box-sizing: border-box;
         max-width: 100%;
         height: auto;
-        box-sizing: border-box;
     }
 
     @supports (display: block) {
         svg {
+            box-sizing: border-box;
             max-width: 100%;
             height: auto;
-            box-sizing: border-box;
         }
     }
 
@@ -424,8 +424,8 @@
     }
 
     img:not([src]) {
-        min-width: 1px;
         visibility: hidden;
+        min-width: 1px;
     }
 
     iframe {
@@ -472,9 +472,9 @@
     .uk-heading-xlarge,
     .uk-heading-2xlarge {
         margin: 0 0 45px;
-        color: inherit;
         font-family: Roboto, Arial, sans-serif;
         font-weight: 700;
+        color: inherit;
         text-transform: none;
     }
 
@@ -568,11 +568,11 @@
 
     hr,
     .uk-hr {
+        margin: 0 0 45px;
         overflow: visible;
+        text-align: inherit;
         border: 0;
         border-top: 1px solid #e5e5e5;
-        margin: 0 0 45px;
-        text-align: inherit;
     }
 
     * + hr,
@@ -607,11 +607,11 @@
 
     pre {
         overflow: auto;
-        color: #131a26;
         font:
             0.875rem / 1.5 Consolas,
             monaco,
             monospace;
+        color: #131a26;
         tab-size: 4;
 
         & code {
@@ -620,9 +620,9 @@
     }
 
     ::selection {
-        background: #3399ff;
         color: #ffffff;
         text-shadow: none;
+        background: #3399ff;
     }
 
     details,
@@ -792,10 +792,10 @@
         top: calc(-0.1 * 1em);
         display: inline-block;
         height: calc(4px + 0.7em);
-        border-left: calc(5px + 0.1em) solid #e5e5e5;
         margin-right: calc(5px + 0.2em);
-        content: "";
         vertical-align: middle;
+        content: "";
+        border-left: calc(5px + 0.1em) solid #e5e5e5;
     }
 
     .uk-heading-line {
@@ -812,8 +812,8 @@
         position: absolute;
         top: calc(50% - (calc(0.2px + 0.05em) / 2));
         width: 2000px;
-        border-bottom: calc(0.2px + 0.05em) solid #e5e5e5;
         content: "";
+        border-bottom: calc(0.2px + 0.05em) solid #e5e5e5;
     }
 
     .uk-heading-line > ::before {
@@ -827,22 +827,22 @@
     }
 
     .uk-button {
-        display: inline-block;
-        overflow: visible;
         box-sizing: border-box;
+        display: inline-block;
         padding: 0 30px;
-        border: none;
-        border-radius: 0;
         margin: 0;
-        appearance: none;
-        color: inherit;
+        overflow: visible;
         font: inherit;
         font-size: 18px;
         line-height: 46px;
-        text-align: center;
-        text-decoration: none;
-        text-transform: none;
         vertical-align: middle;
+        color: inherit;
+        text-align: center;
+        text-transform: none;
+        text-decoration: none;
+        appearance: none;
+        border: none;
+        border-radius: 0;
 
         &:not(:disabled) {
             cursor: pointer;
@@ -863,70 +863,70 @@
     }
 
     .uk-button-default {
-        background-color: #687790;
         color: #ffffff;
+        background-color: #687790;
 
         &:hover,
         &:focus {
-            background-color: #5d6b81;
             color: #ffffff;
+            background-color: #5d6b81;
         }
 
         &:active,
         &.uk-active {
-            background-color: #535f72;
             color: inherit;
+            background-color: #535f72;
         }
     }
 
     .uk-button-primary {
-        background-color: #3bd671;
         color: #ffffff;
+        background-color: #3bd671;
 
         &:hover,
         &:focus {
-            background-color: #2bcd63;
             color: #ffffff;
+            background-color: #2bcd63;
         }
 
         &:active,
         &.uk-active {
-            background-color: #26b859;
             color: #ffffff;
+            background-color: #26b859;
         }
     }
 
     .uk-button-secondary {
-        background-color: #131a26;
         color: #ffffff;
+        background-color: #131a26;
 
         &:hover,
         &:focus {
-            background-color: #0b0e15;
             color: #ffffff;
+            background-color: #0b0e15;
         }
 
         &:active,
         &.uk-active {
-            background-color: #020304;
             color: #ffffff;
+            background-color: #020304;
         }
     }
 
     .uk-button-danger {
-        background-color: #df484a;
         color: #ffffff;
+        background-color: #df484a;
 
         &:hover,
         &:focus {
-            background-color: #db3235;
             color: #ffffff;
+            background-color: #db3235;
         }
 
         &:active,
         &.uk-active {
-            background-color: #d02427;
             color: #ffffff;
+            background-color: #d02427;
         }
     }
 
@@ -934,8 +934,8 @@
     .uk-button-primary:disabled,
     .uk-button-secondary:disabled,
     .uk-button-danger:disabled {
-        background-color: #687790;
         color: #687790;
+        background-color: #687790;
     }
 
     .uk-button-small {
@@ -952,9 +952,9 @@
 
     .uk-button-text {
         padding: 0;
-        background: none;
-        color: #687790;
         line-height: 1.375;
+        color: #687790;
+        background: none;
 
         &:hover,
         &:focus {
@@ -968,9 +968,9 @@
 
     .uk-button-link {
         padding: 0;
-        background: none;
-        color: #3bd671;
         line-height: 1.375;
+        color: #3bd671;
+        background: none;
 
         &:hover,
         &:focus {
@@ -992,8 +992,8 @@
     }
 
     .uk-section {
-        display: flow-root;
         box-sizing: border-box;
+        display: flow-root;
         padding-top: 45px;
         padding-bottom: 45px;
 
@@ -1054,9 +1054,9 @@
     }
 
     .uk-container {
+        box-sizing: content-box;
         display: flow-root;
         max-width: 1000px;
-        box-sizing: content-box;
         padding-right: 15px;
         padding-left: 15px;
         margin-right: auto;
@@ -1338,16 +1338,16 @@
         position: absolute;
         top: 0;
         bottom: 0;
-        border-left: 1px solid #e5e5e5;
         content: "";
+        border-left: 1px solid #e5e5e5;
     }
 
     .uk-grid-divider.uk-grid-stack > .uk-grid-margin::before {
         position: absolute;
         right: 0;
         left: 0;
-        border-top: 1px solid #e5e5e5;
         content: "";
+        border-top: 1px solid #e5e5e5;
     }
 
     .uk-grid-divider {
@@ -1543,9 +1543,9 @@
 
     .uk-grid-match > * > :not([class*="uk-width"]),
     .uk-grid-item-match > :not([class*="uk-width"]) {
-        width: 100%;
         box-sizing: border-box;
         flex: auto;
+        width: 100%;
     }
 
     .uk-close {
@@ -1562,8 +1562,8 @@
         position: relative;
         padding: 15px 29px 15px 15px;
         margin-bottom: 45px;
-        background: #687790;
         color: #131a26;
+        background: #687790;
 
         * + & {
             margin-top: 45px;
@@ -1585,49 +1585,49 @@
     }
 
     .uk-alert-primary {
-        background: rgb(3 153 215 / 5%);
         color: #131a26;
+        background: rgb(3 153 215 / 5%);
     }
 
     .uk-alert-success {
-        background: rgb(50 210 150 / 7%);
         color: #32d296;
+        background: rgb(50 210 150 / 7%);
     }
 
     .uk-alert-warning {
-        background: rgb(242 144 48 / 5%);
         color: #f29030;
+        background: rgb(242 144 48 / 5%);
     }
 
     .uk-alert-danger {
-        background: rgb(223 72 74 / 5%);
         color: #df484a;
+        background: rgb(223 72 74 / 5%);
     }
 
     .uk-label {
         display: inline-block;
         padding: 3px 10px;
-        background: #e6e7e8;
-        color: #687790;
         font-size: 14px;
         line-height: 1.375;
         vertical-align: middle;
+        color: #687790;
         white-space: nowrap;
+        background: #e6e7e8;
     }
 
     .uk-label-success {
-        background-color: #32d296;
         color: #ffffff;
+        background-color: #32d296;
     }
 
     .uk-label-warning {
-        background-color: #f29030;
         color: #ffffff;
+        background-color: #f29030;
     }
 
     .uk-label-danger {
-        background-color: #df484a;
         color: #ffffff;
+        background-color: #df484a;
     }
 
     .uk-pagination {
@@ -1667,12 +1667,12 @@
     .uk-dropdown {
         position: absolute;
         z-index: 1020;
+        box-sizing: border-box;
         display: none;
         min-width: 200px;
-        box-sizing: border-box;
         padding: 15px;
-        background: #ffffff;
         color: #131a26;
+        background: #ffffff;
 
         &.uk-open {
             display: block;
@@ -1733,26 +1733,26 @@
 
     .uk-modal {
         position: fixed;
+        inset: 0;
         z-index: 1010;
         display: none;
         padding: 15px;
-        background: rgb(0 0 0 / 60%);
-        inset: 0;
-        opacity: 0%;
-        -webkit-overflow-scrolling: touch;
         overflow-y: auto;
+        background: rgb(0 0 0 / 60%);
+        opacity: 0%;
         transition: opacity 0.15s linear;
+        -webkit-overflow-scrolling: touch;
         @media screen and (prefers-reduced-motion: reduce) {
             position: fixed;
+            inset: 0;
             z-index: 1010;
             display: none;
             padding: 15px;
-            background: rgb(0 0 0 / 60%);
-            inset: 0;
-            opacity: 0%;
-            -webkit-overflow-scrolling: touch;
             overflow-y: auto;
+            background: rgb(0 0 0 / 60%);
+            opacity: 0%;
             transition: none;
+            -webkit-overflow-scrolling: touch;
         }
 
         @media (width >=640px) {
@@ -1775,9 +1775,9 @@
 
     .uk-modal-dialog {
         position: relative;
+        box-sizing: border-box;
         width: 600px;
         max-width: calc(100% - 0.01px) !important;
-        box-sizing: border-box;
         margin: 0 auto;
         background: #ffffff;
         opacity: 0%;
@@ -1786,9 +1786,9 @@
         transition-property: opacity, transform;
         @media screen and (prefers-reduced-motion: reduce) {
             position: relative;
+            box-sizing: border-box;
             width: 600px;
             max-width: calc(100% - 0.01px) !important;
-            box-sizing: border-box;
             margin: 0 auto;
             background: #ffffff;
             opacity: 0%;
@@ -1849,9 +1849,9 @@
 
     [class*="uk-modal-close-"] {
         position: absolute;
-        z-index: 1010;
         top: 15px;
         right: 15px;
+        z-index: 1010;
         padding: 5px;
 
         &:first-child + * {
@@ -1892,16 +1892,16 @@
 
     .uk-tooltip {
         position: absolute;
-        z-index: 1030;
         top: 0;
+        z-index: 1030;
+        box-sizing: border-box;
         display: none;
         max-width: 300px;
-        box-sizing: border-box;
         padding: 10px 15px;
-        border-radius: 4px;
-        background: #131a26;
-        color: #ffffff;
         font-size: 16px;
+        color: #ffffff;
+        background: #131a26;
+        border-radius: 4px;
 
         &.uk-active {
             display: block;
@@ -1926,13 +1926,13 @@
 
     [class*="uk-animation-"] {
         animation-duration: 0.5s;
-        animation-fill-mode: both;
         animation-timing-function: ease-out;
+        animation-fill-mode: both;
     }
 
     .uk-animation-fade {
-        animation-duration: 0.8s;
         animation-name: uk-fade;
+        animation-duration: 0.8s;
         animation-timing-function: linear;
         @media screen and (prefers-reduced-motion: reduce) {
             animation: none;
@@ -2040,8 +2040,8 @@
     }
 
     .uk-animation-kenburns {
-        animation-duration: 15s;
         animation-name: uk-scale-kenburns;
+        animation-duration: 15s;
         @media screen and (prefers-reduced-motion: reduce) {
             animation: none;
             animation-duration: 15s;
@@ -2056,19 +2056,19 @@
     }
 
     .uk-animation-stroke {
-        animation-duration: 2s;
-        animation-name: uk-stroke;
         stroke-dasharray: var(--uk-animation-stroke);
+        animation-name: uk-stroke;
+        animation-duration: 2s;
         @media screen and (prefers-reduced-motion: reduce) {
+            stroke-dasharray: var(--uk-animation-stroke);
             animation: none;
             animation-duration: 2s;
-            stroke-dasharray: var(--uk-animation-stroke);
         }
     }
 
     .uk-animation-reverse {
-        animation-direction: reverse;
         animation-timing-function: ease-in;
+        animation-direction: reverse;
     }
 
     .uk-animation-fast {
@@ -2329,8 +2329,8 @@
     }
 
     [class*="uk-child-width"] > * {
-        width: 100%;
         box-sizing: border-box;
+        width: 100%;
     }
 
     .uk-child-width-1-2 > * {
@@ -2358,8 +2358,8 @@
     }
 
     .uk-child-width-expand > :not([class*="uk-width"]) {
-        min-width: 1px;
         flex: 1;
+        min-width: 1px;
     }
 
     @media (width >=640px) {
@@ -2392,8 +2392,8 @@
         }
 
         .uk-child-width-expand\@s > :not([class*="uk-width"]) {
-            min-width: 1px;
             flex: 1;
+            min-width: 1px;
         }
     }
 
@@ -2427,8 +2427,8 @@
         }
 
         .uk-child-width-expand\@m > :not([class*="uk-width"]) {
-            min-width: 1px;
             flex: 1;
+            min-width: 1px;
         }
     }
 
@@ -2462,8 +2462,8 @@
         }
 
         .uk-child-width-expand\@l > :not([class*="uk-width"]) {
-            min-width: 1px;
             flex: 1;
+            min-width: 1px;
         }
     }
 
@@ -2497,15 +2497,15 @@
         }
 
         .uk-child-width-expand\@xl > :not([class*="uk-width"]) {
-            min-width: 1px;
             flex: 1;
+            min-width: 1px;
         }
     }
 
     [class*="uk-width"] {
+        box-sizing: border-box;
         width: 100%;
         max-width: 100%;
-        box-sizing: border-box;
     }
 
     .uk-width-1-2 {
@@ -2577,8 +2577,8 @@
     }
 
     .uk-width-expand {
-        min-width: 1px;
         flex: 1;
+        min-width: 1px;
     }
 
     @media (width >=640px) {
@@ -2655,8 +2655,8 @@
         }
 
         .uk-width-expand\@s {
-            min-width: 1px;
             flex: 1;
+            min-width: 1px;
         }
     }
 
@@ -2734,8 +2734,8 @@
         }
 
         .uk-width-expand\@m {
-            min-width: 1px;
             flex: 1;
+            min-width: 1px;
         }
     }
 
@@ -2813,8 +2813,8 @@
         }
 
         .uk-width-expand\@l {
-            min-width: 1px;
             flex: 1;
+            min-width: 1px;
         }
     }
 
@@ -2892,8 +2892,8 @@
         }
 
         .uk-width-expand\@xl {
-            min-width: 1px;
             flex: 1;
+            min-width: 1px;
         }
     }
 
@@ -2934,15 +2934,15 @@
     }
 
     .uk-text-lead {
-        color: inherit;
         font-size: 1.75rem;
         line-height: 1.5;
+        color: inherit;
     }
 
     .uk-text-meta {
-        color: #687790;
         font-size: 0.875rem;
         line-height: 1.375;
+        color: #687790;
     }
 
     .uk-text-small {
@@ -3026,14 +3026,14 @@
 
     .uk-text-background {
         display: inline-block;
-        background-clip: text;
         color: #3bd671 !important;
+        background-clip: text;
     }
 
     @supports (-webkit-background-clip: text) {
         .uk-text-background {
-            background-color: #3bd671;
             color: transparent !important;
+            background-color: #3bd671;
         }
     }
 
@@ -3130,8 +3130,8 @@
     }
 
     .uk-text-truncate {
-        overflow: hidden;
         max-width: 100%;
+        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
@@ -3168,8 +3168,8 @@
 
     .uk-background-cover,
     .uk-background-contain {
-        background-position: 50% 50%;
         background-repeat: no-repeat;
+        background-position: 50% 50%;
     }
 
     .uk-background-cover {
@@ -3221,8 +3221,8 @@
     }
 
     .uk-background-fixed {
-        backface-visibility: hidden;
         background-attachment: fixed;
+        backface-visibility: hidden;
 
         @media (pointer: coarse) {
             background-attachment: scroll;
@@ -3328,8 +3328,8 @@
 
     .uk-panel {
         position: relative;
-        display: flow-root;
         box-sizing: border-box;
+        display: flow-root;
 
         & > :last-child {
             margin-bottom: 0;
@@ -3337,12 +3337,12 @@
     }
 
     .uk-panel-scrollable {
-        overflow: auto;
         height: 170px;
         padding: 10px;
+        overflow: auto;
+        resize: both;
         border: 1px solid #e5e5e5;
         -webkit-overflow-scrolling: touch;
-        resize: both;
     }
 
     .uk-clearfix::before {
@@ -3351,8 +3351,8 @@
     }
 
     .uk-clearfix::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -3405,8 +3405,8 @@
         position: relative;
         display: inline-block;
         max-width: 100%;
-        backface-visibility: hidden;
         vertical-align: middle;
+        backface-visibility: hidden;
     }
 
     .uk-inline-clip {
@@ -3510,9 +3510,9 @@
             bottom: -30px;
             left: 0;
             height: 30px;
-            border-radius: 100%;
-            background: #444444;
             content: "";
+            background: #444444;
+            border-radius: 100%;
             filter: blur(20px);
         }
 
@@ -3523,9 +3523,9 @@
 
     .uk-dropcap::first-letter,
     .uk-dropcap > p:first-of-type::first-letter {
+        float: left;
         display: block;
         margin-right: 10px;
-        float: left;
         font-size: 4em;
         line-height: 1;
     }
@@ -3544,16 +3544,16 @@
     }
 
     .uk-logo {
-        color: #131a26;
         font-family: Roboto, Arial, sans-serif;
         font-size: 1.75rem;
+        color: #131a26;
         text-decoration: none;
 
         &:hover,
         &:focus {
             color: #131a26;
-            outline: none;
             text-decoration: none;
+            outline: none;
         }
     }
 
@@ -4410,9 +4410,9 @@
     .uk-position-center {
         top: 50%;
         left: 50%;
+        box-sizing: border-box;
         width: max-content;
         max-width: 100%;
-        box-sizing: border-box;
         transform: translate(-50%, -50%);
     }
 
@@ -4443,9 +4443,9 @@
     .uk-position-top-center,
     .uk-position-bottom-center {
         left: 50%;
+        box-sizing: border-box;
         width: max-content;
         max-width: 100%;
-        box-sizing: border-box;
         transform: translateX(-50%);
     }
 
@@ -4738,11 +4738,11 @@
 
         &:not(:hover, :focus) .uk-hidden-hover:not(:focus-within) {
             position: absolute !important;
-            overflow: hidden !important;
             width: 0 !important;
             height: 0 !important;
             padding: 0 !important;
             margin: 0 !important;
+            overflow: hidden !important;
         }
 
         &:focus {
@@ -4765,10 +4765,10 @@
     }
 
     .ct-label {
-        color: #687790;
-        fill: #687790;
         font-size: 12px;
         line-height: 1;
+        color: #687790;
+        fill: #687790;
 
         .ct-chart-line &,
         .ct-chart-bar & {
@@ -4875,8 +4875,8 @@
 
     .ct-grid {
         stroke: rgb(0 0 0 / 10%);
-        stroke-dasharray: 2px;
         stroke-width: 1px;
+        stroke-dasharray: 2px;
     }
 
     .ct-grid-background {
@@ -4884,8 +4884,8 @@
     }
 
     .ct-point {
-        stroke-linecap: round;
         stroke-width: 12px;
+        stroke-linecap: round;
     }
 
     .ct-line {
@@ -5110,17 +5110,17 @@
     }
 
     .ct-square::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 100%;
         content: "";
-        float: left;
     }
 
     .ct-square::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5138,17 +5138,17 @@
     }
 
     .ct-minor-second::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 93.75%;
         content: "";
-        float: left;
     }
 
     .ct-minor-second::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5166,17 +5166,17 @@
     }
 
     .ct-major-second::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 88.8889%;
         content: "";
-        float: left;
     }
 
     .ct-major-second::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5194,17 +5194,17 @@
     }
 
     .ct-minor-third::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 83.3333%;
         content: "";
-        float: left;
     }
 
     .ct-minor-third::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5222,17 +5222,17 @@
     }
 
     .ct-major-third::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 80%;
         content: "";
-        float: left;
     }
 
     .ct-major-third::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5250,17 +5250,17 @@
     }
 
     .ct-perfect-fourth::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 75%;
         content: "";
-        float: left;
     }
 
     .ct-perfect-fourth::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5278,17 +5278,17 @@
     }
 
     .ct-perfect-fifth::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 66.6667%;
         content: "";
-        float: left;
     }
 
     .ct-perfect-fifth::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5306,17 +5306,17 @@
     }
 
     .ct-minor-sixth::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 62.5%;
         content: "";
-        float: left;
     }
 
     .ct-minor-sixth::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5334,17 +5334,17 @@
     }
 
     .ct-golden-section::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 61.8047%;
         content: "";
-        float: left;
     }
 
     .ct-golden-section::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5362,17 +5362,17 @@
     }
 
     .ct-major-sixth::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 60%;
         content: "";
-        float: left;
     }
 
     .ct-major-sixth::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5390,17 +5390,17 @@
     }
 
     .ct-minor-seventh::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 56.25%;
         content: "";
-        float: left;
     }
 
     .ct-minor-seventh::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5418,17 +5418,17 @@
     }
 
     .ct-major-seventh::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 53.3333%;
         content: "";
-        float: left;
     }
 
     .ct-major-seventh::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5446,17 +5446,17 @@
     }
 
     .ct-octave::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 50%;
         content: "";
-        float: left;
     }
 
     .ct-octave::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5474,17 +5474,17 @@
     }
 
     .ct-major-tenth::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 40%;
         content: "";
-        float: left;
     }
 
     .ct-major-tenth::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5502,17 +5502,17 @@
     }
 
     .ct-major-eleventh::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 37.5%;
         content: "";
-        float: left;
     }
 
     .ct-major-eleventh::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5530,17 +5530,17 @@
     }
 
     .ct-major-twelfth::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 33.3333%;
         content: "";
-        float: left;
     }
 
     .ct-major-twelfth::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5558,17 +5558,17 @@
     }
 
     .ct-double-octave::before {
+        float: left;
         display: block;
         width: 0;
         height: 0;
         padding-bottom: 25%;
         content: "";
-        float: left;
     }
 
     .ct-double-octave::after {
-        display: table;
         clear: both;
+        display: table;
         content: "";
     }
 
@@ -5600,18 +5600,18 @@
 
     .ct-labels span {
         display: inline-block;
-        width: inherit !important;
-        height: auto !important;
         align-items: flex-end !important;
         justify-content: flex-start !important;
+        width: inherit !important;
+        height: auto !important;
         padding: 4px 5px;
-        border-radius: 4px;
         margin-left: 5px;
+        text-align: left !important;
         background: rgb(255 255 255 / 70%);
+        border-radius: 4px;
+        text-anchor: start !important;
         -ms-flex-align: end !important;
         -ms-flex-pack: start !important;
-        text-align: left !important;
-        text-anchor: start !important;
     }
 
     .ct-labels span {
@@ -5625,14 +5625,14 @@
         min-width: 140px;
         max-width: 280px;
         padding: 10px 15px;
-        border-radius: 4px;
         margin-top: -5px;
-        background: #131a26;
-        color: #ffffff;
         font-size: 16px;
         line-height: 1.2em;
-        opacity: 0%;
+        color: #ffffff;
         pointer-events: none;
+        background: #131a26;
+        border-radius: 4px;
+        opacity: 0%;
         transform: scale(0.8) translateY(15px);
         transform-origin: 50% 100%;
         transition:
@@ -5645,14 +5645,14 @@
             min-width: 140px;
             max-width: 280px;
             padding: 10px 15px;
-            border-radius: 4px;
             margin-top: -5px;
-            background: #131a26;
-            color: #ffffff;
             font-size: 16px;
             line-height: 1.2em;
-            opacity: 0%;
+            color: #ffffff;
             pointer-events: none;
+            background: #131a26;
+            border-radius: 4px;
+            opacity: 0%;
             transform: scale(0.8) translateY(15px);
             transform-origin: 50% 100%;
             transition: none;
@@ -5665,10 +5665,10 @@
         left: 50%;
         width: 0;
         height: 0;
-        border: 5px solid transparent;
-        border-top-color: #131a26;
         margin-left: -5px;
         content: "";
+        border: 5px solid transparent;
+        border-top-color: #131a26;
     }
 
     .chartist-tooltip.tooltip-show {
@@ -5692,8 +5692,8 @@
     }
 
     html.dark {
-        background: #131a26;
         color: #ffffff;
+        background: #131a26;
     }
 
     * {
@@ -5702,8 +5702,8 @@
 
     #main-header {
         padding: 45px 0 100px;
-        background: #131a26;
         color: #ffffff;
+        background: #131a26;
 
         .compact & {
             padding: 30px 0 60px;
@@ -5764,10 +5764,10 @@
         .logo-wrapper {
             display: flexbox;
             display: flex;
-            width: 100%;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
+            width: 100%;
             -ms-flex-align: center;
             -ms-flex-pack: justify;
         }
@@ -5776,8 +5776,8 @@
     .header-2 .logo-wrapper {
         display: inline-block;
         padding: 0 30px 30px;
-        border-bottom: 1px solid rgb(170 170 170 / 50%);
         margin-bottom: 25px;
+        border-bottom: 1px solid rgb(170 170 170 / 50%);
 
         .compact & {
             padding: 0 15px 15px;
@@ -5897,10 +5897,10 @@
 
     .card {
         padding: 60px;
-        border-radius: 6px;
-        background: #ffffff;
-        box-shadow: 0 20px 60px rgb(0 0 0 / 10%);
         color: #131a26;
+        background: #ffffff;
+        border-radius: 6px;
+        box-shadow: 0 20px 60px rgb(0 0 0 / 10%);
 
         .compact & {
             padding: 35px 40px;
@@ -5908,8 +5908,8 @@
     }
 
     .card {
-        background: #212937;
         color: #ffffff;
+        background: #212937;
 
         & *:last-child {
             margin-bottom: 0;
@@ -5943,9 +5943,9 @@
         display: inline-block;
         width: 12px;
         height: 12px;
-        border-radius: 50%;
-        background: #3bd671;
         color: #3bd671;
+        background: #3bd671;
+        border-radius: 50%;
         transform: none;
     }
 
@@ -5955,11 +5955,11 @@
         left: 0;
         width: 100%;
         height: 100%;
-        border-radius: 50%;
-        animation: pulse 2s infinite;
-        background: currentcolor;
         content: "";
+        background: currentcolor;
+        border-radius: 50%;
         opacity: 100%;
+        animation: pulse 2s infinite;
 
         @media (prefers-reduced-motion) {
             animation: none !important;
@@ -5985,18 +5985,18 @@
     }
 
     .dot.is-error {
-        background: #df484a;
         color: #df484a;
+        background: #df484a;
     }
 
     .dot.is-warning {
-        background: #f29030;
         color: #f29030;
+        background: #f29030;
     }
 
     .dot.is-grey {
-        background: #637189;
         color: #637189;
+        background: #637189;
     }
 
     .dot.is-grey::after {
@@ -6040,8 +6040,8 @@
     }
 
     .uk-button-primary:disabled {
-        background: #3bd671;
         color: #ffffff;
+        background: #3bd671;
         opacity: 70%;
     }
 
@@ -6073,8 +6073,8 @@
 
     .card .uk-input,
     .card .uk-select {
-        background: rgb(0 0 0 / 20%);
         color: #ffffff !important;
+        background: rgb(0 0 0 / 20%);
     }
 
     .card .uk-input:focus,
@@ -6086,8 +6086,8 @@
         padding-right: 20px;
         appearance: none;
         background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2224%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23666%22%20points%3D%2212%201%209%206%2015%206%22%20%2F%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23666%22%20points%3D%2212%2013%209%208%2015%208%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
-        background-position: 100% 50%;
         background-repeat: no-repeat;
+        background-position: 100% 50%;
     }
 
     .uk-tab {
@@ -6104,16 +6104,16 @@
     }
 
     .uk-button {
+        font-weight: 700;
         border-radius: 23px;
         box-shadow: 0 10px 20px 0 rgb(0 0 0 / 15%);
-        font-weight: 700;
         transition:
             box-shadow 0.1s ease-in,
             background-color 0.1s ease-in;
         @media screen and (prefers-reduced-motion: reduce) {
+            font-weight: 700;
             border-radius: 23px;
             box-shadow: 0 10px 20px 0 rgb(0 0 0 / 15%);
-            font-weight: 700;
             transition: none;
         }
 
@@ -6190,8 +6190,8 @@
         right: 0;
         bottom: 0;
         left: 20px;
-        border-bottom: 1px solid #e6e7e8;
         content: "";
+        border-bottom: 1px solid #e6e7e8;
     }
 
     .uk-tab > * {
@@ -6203,31 +6203,31 @@
         & > a {
             display: block;
             padding: 9px 20px;
-            border-bottom: 2px solid transparent;
-            color: #687790;
             font-size: 14px;
             line-height: 20px;
+            color: #687790;
             text-align: center;
-            text-decoration: none;
             text-transform: uppercase;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
             transition: color 0.1s ease-in-out;
             @media screen and (prefers-reduced-motion: reduce) {
                 display: block;
                 padding: 9px 20px;
-                border-bottom: 2px solid transparent;
-                color: #687790;
                 font-size: 14px;
                 line-height: 20px;
+                color: #687790;
                 text-align: center;
-                text-decoration: none;
                 text-transform: uppercase;
+                text-decoration: none;
+                border-bottom: 2px solid transparent;
                 transition: none;
             }
         }
 
         &.uk-active a {
-            border-color: #3bd671;
             color: #131a26;
+            border-color: #3bd671;
         }
     }
 
@@ -6238,8 +6238,8 @@
         width: 10px;
         height: 10px;
         margin-left: 0;
-        background: #131a26;
         content: "";
+        background: #131a26;
         transform: rotate(45deg);
     }
 
@@ -6249,10 +6249,10 @@
         left: 50%;
         width: 0;
         height: 0;
-        border: 5px solid transparent;
-        border-top-color: #131a26;
         margin-left: -5px;
         content: "";
+        border: 5px solid transparent;
+        border-top-color: #131a26;
     }
 
     .uk-tooltip-right-center::before {
@@ -6264,8 +6264,8 @@
         height: 10px;
         margin-top: -5px;
         margin-left: 0;
-        background: #131a26;
         content: "";
+        background: #131a26;
         transform: rotate(45deg);
     }
 
@@ -6370,9 +6370,9 @@
 
     .psp-fake-uptime-bars {
         height: 30px;
-        border-radius: 6px;
         margin-bottom: 45px;
         background: #e6e7e8;
+        border-radius: 6px;
     }
 
     .psp-fake-uptime-bars {
@@ -6382,9 +6382,9 @@
     .psp-fake-monitorname {
         width: 150px;
         height: 15px;
-        border-radius: 6px;
         margin-bottom: 15px;
         background: #e6e7e8;
+        border-radius: 6px;
     }
 
     .psp-fake-monitorname {
@@ -6393,8 +6393,8 @@
 
     .psp-monitor-row {
         padding-bottom: 30px;
-        border-bottom: 1px solid #e6e7e8;
         margin-bottom: 30px;
+        border-bottom: 1px solid #e6e7e8;
 
         .compact & {
             padding-bottom: 15px;
@@ -6412,8 +6412,8 @@
 
         &:last-of-type {
             padding-bottom: 0;
-            border: 0;
             margin-bottom: 0;
+            border: 0;
         }
     }
 
@@ -6426,8 +6426,8 @@
 
     @media (width <=640px) {
         .psp-monitor-row-header {
-            width: 100%;
             justify-content: space-between;
+            width: 100%;
             margin-bottom: 5px;
             -ms-flex-pack: justify;
         }
@@ -6435,13 +6435,13 @@
 
     .psp-monitor-row-header .icon {
         margin-top: -2px;
-        color: #687790;
         font-size: 14px;
+        color: #687790;
         transition: color 0.2s ease-in;
         @media screen and (prefers-reduced-motion: reduce) {
             margin-top: -2px;
-            color: #687790;
             font-size: 14px;
+            color: #687790;
             transition: none;
         }
     }
@@ -6459,8 +6459,8 @@
 
     @media (width <=960px) {
         .psp-main-status-wrap {
-            width: 100%;
             justify-content: center;
+            width: 100%;
             -ms-flex-pack: center;
         }
     }
@@ -6534,8 +6534,8 @@
         }
 
         & > div.chart-hidden {
-            overflow: hidden;
             max-height: 0;
+            overflow: hidden;
             opacity: 0%;
         }
 
@@ -6546,8 +6546,8 @@
 
     .psp-announcement {
         padding-bottom: 30px;
-        border-bottom: 1px solid #e6e7e8;
         margin-bottom: 30px;
+        border-bottom: 1px solid #e6e7e8;
 
         .compact & {
             padding-bottom: 20px;
@@ -6561,8 +6561,8 @@
         &:last-of-type,
         &.is-last {
             padding-bottom: 0;
-            border: 0;
             margin-bottom: 0;
+            border: 0;
         }
     }
 
@@ -6709,23 +6709,23 @@
     }
 
     .psp-calendar-nav.loading {
+        pointer-events: none;
         cursor: wait;
         opacity: 50%;
-        pointer-events: none;
     }
 
     @media (width <=640px) {
         .psp-calendar-nav {
-            width: 100%;
             justify-content: space-between;
+            width: 100%;
             -ms-flex-pack: justify;
         }
     }
 
     .select2-selection--single .select2-selection__rendered {
         padding-left: 15px !important;
-        color: #131a26 !important;
         line-height: 48px !important;
+        color: #131a26 !important;
     }
 
     .select2-selection--single .select2-selection__rendered {
@@ -6749,8 +6749,8 @@
     }
 
     .select2-container--default .select2-selection--single {
-        border-color: #131a26;
         background-color: #212937;
+        border-color: #131a26;
     }
 
     .select2-dropdown {
@@ -6758,13 +6758,13 @@
     }
 
     .select2-dropdown {
-        border-color: #131a26;
         background-color: #212937;
+        border-color: #131a26;
     }
 
     .select2-search__field {
-        border-color: #131a26 !important;
         background-color: rgb(0 0 0 / 10%);
+        border-color: #131a26 !important;
     }
 
     .select2-container--default .select2-results__option[aria-selected="true"] {
@@ -6773,15 +6773,15 @@
 
     #floating-stats {
         position: fixed;
-        z-index: 99;
         right: 0;
         bottom: 0;
         left: 0;
+        z-index: 99;
         padding: 7px 15px;
+        font-size: 14px;
+        color: #ffffff;
         background: #131a26;
         box-shadow: 0 -20px 40px 0 rgb(0 0 0 / 10%);
-        color: #ffffff;
-        font-size: 14px;
 
         & .card {
             padding-top: 0;

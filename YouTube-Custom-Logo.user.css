@@ -27,8 +27,8 @@
         width: /*[[logo-width]]*/ !important;
         height: /*[[logo-height]]*/ !important;
         background-image: url("/*[[logo-url]]*/") !important;
-        background-position: center !important;
         background-repeat: no-repeat !important;
+        background-position: center !important;
         background-size: contain !important;
         transform: translateX(/*[[logo-offset]]*/) !important;
     }

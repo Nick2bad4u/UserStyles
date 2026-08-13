@@ -38,22 +38,22 @@
     }
 
     option {
-        background: var(--option-bg);
         color: var(--option-text);
+        background: var(--option-bg);
     }
 
     .custom-select:focus,
     .form-control:focus {
+        outline: 0;
         border-color: var(--border-focus);
         box-shadow: 0 0 0 0.2rem var(--box-shadow-focus);
-        outline: 0;
     }
 
     .fc .fc-button-primary,
     .fc .fc-button {
-        border-color: var(--button-border) !important;
-        background-color: var(--button-bg) !important;
         color: var(--button-text) !important;
+        background-color: var(--button-bg) !important;
+        border-color: var(--button-border) !important;
         opacity: 100% !important;
     }
 

@@ -52,8 +52,8 @@
         > div.athleteName,
     .value {
         color: #9612b2 !important;
-        text-decoration-color: blue;
         text-decoration-line: underline;
+        text-decoration-color: blue;
     }
 
     .appHeaderLogoLargeScreen,
@@ -69,8 +69,8 @@
     button:hover,
     a:focus,
     button:focus {
-        text-decoration-color: #b41289 !important;
         text-decoration-line: underline !important;
+        text-decoration-color: #b41289 !important;
     }
 
     .tabbedLayoutNav li,
@@ -153,8 +153,8 @@
 
     .workoutBarView > div:nth-child(2) > div > div {
         border: white !important;
-        border-style: dashed !important;
         border-color: #cb0808 !important;
+        border-style: dashed !important;
     }
 
     .css-70qvj9.MuiBox-root.athleteHealthMetricsCalendarCardHeaderRight

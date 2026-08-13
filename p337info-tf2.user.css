@@ -42,8 +42,8 @@
     .link,
     #primary_nav_wrap ul ul a {
         padding: 12px;
-        border: 1px dashed var(--border-color);
         background: var(--link-background-color) !important;
+        border: 1px dashed var(--border-color);
     }
 
     .link:hover,
@@ -51,8 +51,8 @@
     .link:focus,
     #primary_nav_wrap ul ul a:focus {
         padding: 12px;
-        border: 1px dashed var(--border-color);
         background: var(--hover-background-color) !important;
+        border: 1px dashed var(--border-color);
     }
 
     .tf2_image {

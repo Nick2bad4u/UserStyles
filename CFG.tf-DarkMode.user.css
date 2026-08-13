@@ -37,9 +37,9 @@
     }
 
     .panel-primary > .panel-heading {
-        border-color: var(--panel-border);
-        background-color: var(--panel-heading-bg);
         color: var(--panel-heading-text);
+        background-color: var(--panel-heading-bg);
+        border-color: var(--panel-border);
     }
 
     .panel {
@@ -47,10 +47,10 @@
     }
 
     hr {
-        border: 0;
-        border-top: 1px solid var(--panel-border);
         margin-top: 21px;
         margin-bottom: 21px;
+        border: 0;
+        border-top: 1px solid var(--panel-border);
     }
 
     .bootstrap-select > .dropdown-toggle,
@@ -61,7 +61,7 @@
     }
 
     .navbar-default {
-        border-color: transparent;
         background-color: var(--navbar-bg);
+        border-color: transparent;
     }
 }

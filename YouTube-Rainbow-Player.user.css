@@ -55,8 +55,6 @@
         }
 
         & .ytp-scrubber-button {
-            border: 2px solid var(--scrubber-core) !important;
-            border-radius: 50% !important;
             background: conic-gradient(
                 #ff1744,
                 #ff9100,
@@ -67,6 +65,8 @@
                 #d500f9,
                 #ff1744
             ) !important;
+            border: 2px solid var(--scrubber-core) !important;
+            border-radius: 50% !important;
             box-shadow:
                 0 0 2px 1px var(--scrubber-core),
                 0 0 var(--rainbow-glow) 2px #8b5cf6 !important;

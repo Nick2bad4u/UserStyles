@@ -111,8 +111,8 @@
         .html5-video-player .ytp-play-progress,
         .html5-video-player .ytp-scrubber-button,
         .html5-video-player .ytp-volume-slider-handle {
-            box-shadow: none !important;
             outline: 1px solid ButtonText !important;
+            box-shadow: none !important;
         }
     }
 }

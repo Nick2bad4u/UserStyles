@@ -61,8 +61,8 @@ url-prefix("http://kiwifarms")
 
     .XenBase :not(.block-header) .button.button--link,
     .XenBase :not(.block-header) a.button.button--link {
-        background-color: #212428 !important;
         color: #ffffff !important;
+        background-color: #212428 !important;
     }
 
     .node-body {
@@ -238,25 +238,25 @@ url-prefix("http://kiwifarms")
 
     a.callToAction span,
     .PageNav a.currentPage {
-        background-color: var(--primary-color) !important;
         color: var(--secondary-color) !important;
+        background-color: var(--primary-color) !important;
     }
 
     .navTabs,
     .navTabs .navTab.selected .navLink {
-        border-color: var(--border-color);
         background-color: var(--background-color) !important;
+        border-color: var(--border-color);
     }
 
     .footer .choosers a:hover,
     .footer .choosers a:focus {
-        border-color: var(--border-color2) !important;
         color: var(--secondary-color) !important;
+        border-color: var(--border-color2) !important;
     }
 
     .navTabs .navTab.selected.PopupOpen .navLink {
-        background-color: var(--secondary-color) !important;
         color: var(--white) !important;
+        background-color: var(--secondary-color) !important;
     }
 
     #uix_wrapper,
@@ -273,8 +273,8 @@ url-prefix("http://kiwifarms")
     }
 
     .PageNav a:hover {
-        background-color: #292c2e !important;
         color: var(--secondary-color) !important;
+        background-color: #292c2e !important;
     }
 
     .button:hover,

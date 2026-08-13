@@ -246,8 +246,8 @@
 
 @-moz-document domain("classic.runescape.wiki") {
     .mw-body {
-        border-color: transparent;
         margin-top: 0;
+        border-color: transparent;
         box-shadow: 0 0.25em 0.6em -0.15em rgb(0 0 0 / 15%);
     }
 }

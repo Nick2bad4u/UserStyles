@@ -59,8 +59,8 @@
     .main-block-stage,
     .side-block-items,
     .sidebar-block {
-        background-color: var(--background-main) !important;
         color: var(--gray-light) !important;
+        background-color: var(--background-main) !important;
     }
 
     .edit-box-component .image-desc-display {
@@ -68,8 +68,8 @@
     }
 
     .edit-box-component .input-description:focus {
-        box-shadow: 0 0 0 5px var(--primary-color-darker);
         color: var(--color-white) !important;
+        box-shadow: 0 0 0 5px var(--primary-color-darker);
     }
 
     .add-to-collection-popover
@@ -159,10 +159,10 @@
 
     .ocr-desc-buttons > div > button:hover,
     .ocr-desc-buttons > div > button:focus {
+        color: var(--secondary-color) !important;
         border: 1px dashed !important;
         border-color: var(--secondary-color) !important;
         border-radius: 5px;
-        color: var(--secondary-color) !important;
     }
 
     .captured-info > div:nth-child(n) > div.captured-info-value > div:hover,
@@ -184,17 +184,17 @@
         width: 6px;
         height: 18px;
         margin-left: 5px;
-        animation: cursor-blink 1.5s steps(2) infinite;
-        background: var(--primary-color);
         content: "";
+        background: var(--primary-color);
+        animation: cursor-blink 1.5s steps(2) infinite;
         @media screen and (prefers-reduced-motion: reduce) {
             display: inline-block;
             width: 6px;
             height: 18px;
             margin-left: 5px;
-            animation: none;
-            background: var(--primary-color);
             content: "";
+            background: var(--primary-color);
+            animation: none;
         }
     }
 
@@ -214,9 +214,9 @@
     div.image-infos,
     .image-box-component .image-close-btn-bg,
     .image-box-component .navigation {
-        border: 4px solid var(--color-black) !important;
-        background-color: var(--color-black) !important;
         color: var(--primary-color) !important;
+        background-color: var(--color-black) !important;
+        border: 4px solid var(--color-black) !important;
     }
 
     .content {
@@ -235,8 +235,8 @@
     img,
     input,
     span {
-        background-color: var(--background-main) !important;
         color: var(--primary-color) !important;
+        background-color: var(--background-main) !important;
     }
 
     #global-dropdown-menu
@@ -758,8 +758,8 @@
         width: 24px;
         height: 24px;
         margin-right: -8px;
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y2FyZXQtZG93bjwvdGl0bGU+CiAgICA8ZGVmcz4KICAgICAgICA8cGF0aCBkPSJNMTEuNzc3Mzk1MywxNC43MzAzOTUzIEMxMS41MjMzOTUzLDE0LjczMDM5NTMgMTEuMjY5Mzk1MywxNC42MzQzOTUzIDExLjA3NDM5NTMsMTQuNDQxMzk1MyBMNy4yOTczOTUyOSwxMC43MTEzOTUzIEM2LjkwNDM5NTI5LDEwLjMyMzM5NTMgNi45MDAzOTUyOSw5LjY5MDM5NTI5IDcuMjg4Mzk1MjksOS4yOTczOTUyOSBDNy42NzYzOTUyOSw4LjkwNDM5NTI5IDguMzEwMzk1MjksOC45MDAzOTUyOSA4LjcwMjM5NTI5LDkuMjg4Mzk1MjkgTDExLjc3NzM5NTMsMTIuMzI1Mzk1MyBMMTQuODUxMzk1Myw5LjI4ODM5NTI5IEMxNS4yNDUzOTUzLDguOTAwMzk1MjkgMTUuODc4Mzk1Myw4LjkwNDM5NTI5IDE2LjI2NjM5NTMsOS4yOTczOTUyOSBDMTYuNjU0Mzk1Myw5LjY5MDM5NTI5IDE2LjY1MDM5NTMsMTAuMzIzMzk1MyAxNi4yNTczOTUzLDEwLjcxMTM5NTMgTDEyLjQ4MDM5NTMsMTQuNDQxMzk1MyBDMTIuMjg1Mzk1MywxNC42MzQzOTUzIDEyLjAzMTM5NTMsMTQuNzMwMzk1MyAxMS43NzczOTUzLDE0LjczMDM5NTMiIGlkPSJwYXRoLTEiPjwvcGF0aD4KICAgIDwvZGVmcz4KICAgIDxnIGlkPSJjYXJldC1kb3duIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8bWFzayBpZD0ibWFzay0yIiBmaWxsPSIjQkI4NkZDIj4KICAgICAgICAgICAgPHVzZSB4bGluazpocmVmPSIjcGF0aC0xIj48L3VzZT4KICAgICAgICA8L21hc2s+CiAgICAgICAgPHVzZSBpZD0iTWFzayIgZmlsbD0iI0JCOThGQyIgeGxpbms6aHJlZj0iI3BhdGgtMSI+PC91c2U+CiAgICA8L2c+Cjwvc3ZnPg==");
         content: "";
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y2FyZXQtZG93bjwvdGl0bGU+CiAgICA8ZGVmcz4KICAgICAgICA8cGF0aCBkPSJNMTEuNzc3Mzk1MywxNC43MzAzOTUzIEMxMS41MjMzOTUzLDE0LjczMDM5NTMgMTEuMjY5Mzk1MywxNC42MzQzOTUzIDExLjA3NDM5NTMsMTQuNDQxMzk1MyBMNy4yOTczOTUyOSwxMC43MTEzOTUzIEM2LjkwNDM5NTI5LDEwLjMyMzM5NTMgNi45MDAzOTUyOSw5LjY5MDM5NTI5IDcuMjg4Mzk1MjksOS4yOTczOTUyOSBDNy42NzYzOTUyOSw4LjkwNDM5NTI5IDguMzEwMzk1MjksOC45MDAzOTUyOSA4LjcwMjM5NTI5LDkuMjg4Mzk1MjkgTDExLjc3NzM5NTMsMTIuMzI1Mzk1MyBMMTQuODUxMzk1Myw5LjI4ODM5NTI5IEMxNS4yNDUzOTUzLDguOTAwMzk1MjkgMTUuODc4Mzk1Myw4LjkwNDM5NTI5IDE2LjI2NjM5NTMsOS4yOTczOTUyOSBDMTYuNjU0Mzk1Myw5LjY5MDM5NTI5IDE2LjY1MDM5NTMsMTAuMzIzMzk1MyAxNi4yNTczOTUzLDEwLjcxMTM5NTMgTDEyLjQ4MDM5NTMsMTQuNDQxMzk1MyBDMTIuMjg1Mzk1MywxNC42MzQzOTUzIDEyLjAzMTM5NTMsMTQuNzMwMzk1MyAxMS43NzczOTUzLDE0LjczMDM5NTMiIGlkPSJwYXRoLTEiPjwvcGF0aD4KICAgIDwvZGVmcz4KICAgIDxnIGlkPSJjYXJldC1kb3duIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8bWFzayBpZD0ibWFzay0yIiBmaWxsPSIjQkI4NkZDIj4KICAgICAgICAgICAgPHVzZSB4bGluazpocmVmPSIjcGF0aC0xIj48L3VzZT4KICAgICAgICA8L21hc2s+CiAgICAgICAgPHVzZSBpZD0iTWFzayIgZmlsbD0iI0JCOThGQyIgeGxpbms6aHJlZj0iI3BhdGgtMSI+PC91c2U+CiAgICA8L2c+Cjwvc3ZnPg==");
     }
 
     .button,
@@ -771,9 +771,9 @@
     .popup,
     .related-images-grid-view.related-info,
     .tooltip {
-        border: 1px solid var(--gray-dark) !important;
-        background-color: var(--gray-darker) !important;
         color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
     }
 
     .header {
@@ -804,8 +804,8 @@
     }
 
     .card.medium-card {
-        border: 1px solid var(--gray-dark) !important;
         background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
     }
 
     .metadata-description {
@@ -856,8 +856,8 @@
     td,
     th,
     ul {
-        background-color: var(--background-main);
         color: var(--gray-light);
+        background-color: var(--background-main);
     }
 
     #react-root
@@ -882,8 +882,8 @@
 
     option,
     select {
-        background-color: var(--gray-darker) !important;
         color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
     }
 
     #react-root
@@ -962,11 +962,11 @@
 
     body.download .hero .download-btn:hover,
     body.download .hero .download-btn:focus {
+        color: var(--color-black) !important;
         background-color: var(--download-button) !important;
         box-shadow:
             0 0 1px 1px var(--download-button),
             0 0 1px var(--download-button) !important;
-        color: var(--color-black) !important;
         opacity: 100%;
     }
 
@@ -992,19 +992,19 @@
     .grid-view .card.large-card:focus-within .hover-layer,
     .grid-view .card.large-card:hover .hover-layer {
         position: absolute;
+        inset: 0;
+        background: #3a424f66;
         border: 5px solid var(--color-white);
         border-bottom: 32px solid var(--color-white);
-        background: #3a424f66;
-        inset: 0;
         mix-blend-mode: multiply;
         opacity: 0%;
         transition: opacity 0.15s;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
+            inset: 0;
+            background: #3a424f66;
             border: 5px solid var(--color-white);
             border-bottom: 32px solid var(--color-white);
-            background: #3a424f66;
-            inset: 0;
             mix-blend-mode: multiply;
             opacity: 0%;
             transition: none;
@@ -1014,9 +1014,9 @@
     #metadata-is-public-dropdown,
     #metadata-is-public-dropdown > span,
     textarea {
-        border: none;
-        background-color: var(--color-black) !important;
         color: var(--primary-color);
+        background-color: var(--color-black) !important;
+        border: none;
     }
 
     #search-box-input:hover,
@@ -1029,12 +1029,12 @@
     }
 
     .faq-list .faq-list-title {
+        color: var(--primary-color) !important;
         background: linear-gradient(
             to bottom,
             var(--background-main) calc(100% - 3px),
             #ffffff00 100%
         );
-        color: var(--primary-color) !important;
     }
 
     #search-box-input::placeholder,
@@ -1092,22 +1092,22 @@
         > div
         > div,
     .page-content .indent-mark .dot {
-        background-color: var(--primary-color) !important;
         color: var(--primary-color) !important;
+        background-color: var(--primary-color) !important;
     }
 
     a:any-link {
         color: -webkit-link !important;
         color: var(--secondary-color) !important;
-        cursor: pointer !important;
         text-decoration: underline !important;
+        cursor: pointer !important;
     }
 
     a:any-link {
         color: -webkit-link !important;
         color: var(--secondary-color) !important;
-        cursor: pointer !important;
         text-decoration: underline !important;
+        cursor: pointer !important;
     }
 
     #conclusion > div > button,
@@ -1134,8 +1134,8 @@
     }
 
     .saved-search-header {
-        color: var(--primary-color);
         font-size: 16px;
+        color: var(--primary-color);
         text-decoration: underline;
     }
 
@@ -1148,9 +1148,9 @@
     }
 
     ::-webkit-scrollbar-thumb {
+        background-color: var(--background-main);
         border: 3px solid var(--background-main);
         border-radius: 10px;
-        background-color: var(--background-main);
     }
 
     * {
@@ -1193,8 +1193,8 @@
         > div {
         width: 48px;
         height: 48px;
-        background-image: url("https://i.gyazo.com/3b48aa49e16ccde7bf0f4903269a9bc0.png");
         color: var(--color-red) !important;
+        background-image: url("https://i.gyazo.com/3b48aa49e16ccde7bf0f4903269a9bc0.png");
     }
 
     body > div.content > section.faq,
@@ -1213,8 +1213,8 @@
     .dark > nav > div > div,
     .container {
         border-radius: 20px;
-        border-bottom-left-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
     }
 
     #conclusion > div,
@@ -1284,11 +1284,11 @@
         display: inline-block;
         width: 300px;
         height: 60px;
+        margin-top: 38px;
+        text-align: center;
+        cursor: pointer;
         border: 1px solid var(--gray-alternate);
         border-radius: 10px;
-        margin-top: 38px;
-        cursor: pointer;
-        text-align: center;
     }
 
     .search-box .search-box-input-wrap input:focus,
@@ -1298,8 +1298,8 @@
 
     .static-page-faq li:hover,
     .static-page-faq li:focus {
-        background: var(--primary-color-darker);
         cursor: pointer;
+        background: var(--primary-color-darker);
     }
 
     .dropdown-menu,
@@ -1318,9 +1318,9 @@
     .table > thead > tr > td,
     .table > thead > tr > th {
         padding: 8px;
-        border-top: 1px solid var(--primary-color);
         line-height: 1.75;
         vertical-align: top;
+        border-top: 1px solid var(--primary-color);
     }
 
     .table > tbody + tbody {
@@ -1328,13 +1328,13 @@
     }
 
     .table > thead > tr > th {
-        border-bottom: 2px solid var(--primary-color);
         vertical-align: bottom;
+        border-bottom: 2px solid var(--primary-color);
     }
 
     .side-block .side-block-items .toplevel-item-active {
-        background: var(--background-main);
         pointer-events: none;
+        background: var(--background-main);
     }
 
     .side-block-items .collection-item .file-thumb,
@@ -1353,8 +1353,8 @@
     }
 
     #react-root > div.header-block.explorer-header-block > a {
-        border-bottom: 10px;
         background-color: #12121200 !important;
+        border-bottom: 10px;
     }
 
     #popover > div.popover-content > ul > li:nth-child(n):hover,
@@ -1366,15 +1366,15 @@
 
     .form-control:focus,
     .global-header-search.global-header-search input:focus {
+        outline: 0;
         border-color: var(--primary-color) !important;
         box-shadow: 0 0 0 3px var(--primary-color-darker);
-        outline: 0;
     }
 
     [data-hover-visible] .btn-primary:hover,
     [data-hover-visible] .btn-primary:focus {
-        border-color: var(--primary-color);
         color: var(--color-white);
+        border-color: var(--primary-color);
     }
 
     #react-root
@@ -1393,8 +1393,8 @@
     }
 
     .B9QQGIFrwoa05qnyZvI5 {
-        background-color: var(--primary-color) !important;
         gap: 1px 0 !important;
+        background-color: var(--primary-color) !important;
     }
 
     .related-pages .related-pages-body ul > li > a .icon {
@@ -1435,8 +1435,8 @@
     .ocr-desc-buttons > div > div > button,
     .pjZHyYN8MthPpYWZDS0d,
     .vtVH6utAExSlC9aN2qwE {
-        border: 1px dashed var(--primary-color) !important;
         margin-right: 3px;
+        border: 1px dashed var(--primary-color) !important;
     }
 
     #headlessui-dialog-overlay-5,
@@ -1448,8 +1448,8 @@
     .W9K8hRc2gk7SniSQJYi1,
     .kuJ39tkCjATBXUZiuSKB {
         position: fixed;
-        background-color: #ffffff17 !important;
         inset: 0;
+        background-color: #ffffff17 !important;
     }
 
     #react-root
@@ -1461,9 +1461,9 @@
         > div
         > button:nth-child(n)
         > span {
+        line-height: 30px !important;
         border-top: 1px solid var(--primary-color) !important;
         border-bottom: 1px solid var(--primary-color) !important;
-        line-height: 30px !important;
     }
 
     .image-box-component .image-viewer {
@@ -1505,26 +1505,26 @@
         top: 0 !important;
         left: 0 !important;
         display: block !important;
+        visibility: visible !important;
         width: 100% !important;
         height: 100% !important;
-        background-image: url("https://i.gyazo.com/4b32d726c89e4fd17dcf36871cc34b4f.png") !important;
-        background-position: center !important;
-        background-repeat: no-repeat !important;
-        background-size: contain !important;
         content: "" !important;
-        visibility: visible !important;
+        background-image: url("https://i.gyazo.com/4b32d726c89e4fd17dcf36871cc34b4f.png") !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: contain !important;
     }
 
     #feedback-good-button > img {
         padding: 9px;
-        border-radius: 20px;
         background-color: #00800069 !important;
+        border-radius: 20px;
     }
 
     #feedback-bad-button > img {
         padding: 9px;
-        border-radius: 20px;
         background-color: #80000069 !important;
+        border-radius: 20px;
     }
 }
 
@@ -1579,17 +1579,17 @@
     }
 
     .image-page-renewal .draw-toolbar-operation-btn span {
+        line-height: 30px;
         border-top: solid 1px var(--primary-color);
         border-bottom: solid 1px var(--primary-color);
-        line-height: 30px;
     }
 
     .image-page-renewal .draw-toolbar-operation-btn:hover span,
     .image-page-renewal .draw-toolbar-operation-btn:focus span {
+        line-height: 30px;
+        color: var(--color-white) !important;
         border-top: solid 1px var(--gray-light);
         border-bottom: solid 1px var(--gray-light);
-        color: var(--color-white) !important;
-        line-height: 30px;
     }
 
     .explorer-action-btn-default {

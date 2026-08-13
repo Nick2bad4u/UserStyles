@@ -22,7 +22,7 @@
 
     .kt-header,
     .kt-menu-horizontal__node {
-        background-color: white !important;
         color: black !important;
+        background-color: white !important;
     }
 }

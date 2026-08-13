@@ -88,11 +88,11 @@
     }
 
     .tooltip-inner {
-        /* Box model stuff */
-        border: 1px solid var(--dark);
-        background: var(--darker) !important;
         /* Typography stuff */
         color: var(--white);
+        background: var(--darker) !important;
+        /* Box model stuff */
+        border: 1px solid var(--dark);
     }
 
     .tooltip.show {
@@ -137,23 +137,23 @@
     table {
         width: 100%;
         margin: 20px 0;
-        background-color: var(--lighter);
-        border-collapse: collapse;
         font-family: var(--font-family-sans-serif), system-ui;
+        border-collapse: collapse;
+        background-color: var(--lighter);
 
         & th,
         & td {
             padding: 10px 15px;
-            border: 1px solid var(--gray);
             text-align: left;
+            border: 1px solid var(--gray);
         }
 
         & th {
-            /* Box model stuff */
-            background-color: var(--blue);
-            color: var(--white);
             /* Typography stuff */
             font-weight: 700;
+            color: var(--white);
+            /* Box model stuff */
+            background-color: var(--blue);
         }
 
         & tr:nth-child(even) {
@@ -162,8 +162,8 @@
 
         & tr:hover,
         & tr:focus {
-            background-color: var(--blue);
             color: var(--white);
+            background-color: var(--blue);
         }
     }
 
@@ -194,9 +194,9 @@
         }
 
         table th::before {
-            content: attr(data-label);
             float: left;
             font-weight: 700;
+            content: attr(data-label);
         }
 
         table td {
@@ -204,9 +204,9 @@
         }
 
         table td::before {
-            content: attr(data-label);
             float: left;
             font-weight: 700;
+            content: attr(data-label);
         }
     }
 

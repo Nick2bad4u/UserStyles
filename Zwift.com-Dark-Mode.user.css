@@ -75,8 +75,8 @@
     }
 
     .game-web .z_background__wrapper {
-        background: var(--background-color);
         color: var(--text-color) !important;
+        background: var(--background-color);
     }
 
     .wrapper--athlete-profile .text-white,
@@ -90,8 +90,8 @@
     .accessibility-info-container:focus .accessibility-info,
     .accessibility-info-container:active .accessibility-info,
     #navigation-container > div > div > main {
-        background-color: var(--card-background-color) !important;
         color: var(--text-color);
+        background-color: var(--card-background-color) !important;
     }
 
     .footer__nav-item .seperator {
@@ -117,8 +117,8 @@
 
     .game-web .border__color,
     .game-web .button.border__color {
-        border-style: solid;
         border-color: var(--primary-color);
+        border-style: solid;
     }
 
     .onscreen-post .row {
@@ -138,14 +138,14 @@
     }
 
     ::-webkit-scrollbar-track {
-        border-radius: 0 !important;
         background: var(--scrollbar-color) !important;
+        border-radius: 0 !important;
     }
 
     ::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-color) !important;
         border: 3px solid var(--scrollbar-thumb-color) !important;
         border-radius: 6px !important;
-        background-color: var(--scrollbar-color) !important;
     }
 
     /* For Edge, IE */

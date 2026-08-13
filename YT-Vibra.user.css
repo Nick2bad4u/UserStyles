@@ -31,10 +31,10 @@
     /* stylelint-disable no-duplicate-selectors -- USO preprocessor causes rules to repeat for each gradient variant */
     #container.ytd-masthead {
         display: flex;
-        height: 56px;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        height: 56px;
         padding: 0 16px;
         background: linear-gradient(90deg /*[[gradient]]*/);
         -ms-flex-align: center;
@@ -43,13 +43,13 @@
     ytd-searchbox[mode="legacy"] #container.ytd-searchbox,
     ytd-searchbox[mode="legacy-centered"] #container.ytd-searchbox {
         padding: 3px 6px;
-        border: 0;
-        border-radius: 100px 0 0 100px;
-        border-right: none;
+        text-align: center;
         background-color: white !important;
+        border: 0;
+        border-right: none;
+        border-radius: 100px 0 0 100px;
         box-shadow: inset 0 1px 2px
             var(--ytd-searchbox-legacy-border-shadow-color);
-        text-align: center;
     }
     ytd-masthead[mode="legacy"] #container.ytd-masthead {
         justify-content: flex-start;
@@ -63,20 +63,20 @@
     }
     #search-icon-legacy.ytd-searchbox {
         width: 65px;
+        margin: 0;
+        cursor: pointer;
+        background-color: white;
         border: white;
         border-radius: 0 100px 100px 0;
-        margin: 0;
-        background-color: white;
-        cursor: pointer;
     }
     ytd-searchbox[mode="legacy"] #container.ytd-searchbox {
         padding: 2px 6px;
-        border: white;
-        border-radius: 100px 0 0 100px;
-        border-right: none;
-        background-color: white;
-        box-shadow: 0 0 0 0;
         text-align: center;
+        background-color: white;
+        border: white;
+        border-right: none;
+        border-radius: 100px 0 0 100px;
+        box-shadow: 0 0 0 0;
     }
     ytd-searchbox[mode="legacy"][has-focus] #container.ytd-searchbox {
         border: 0 solid #1c62b9;
@@ -110,8 +110,8 @@
         color: white;
     }
     div#ChanOver {
-        background: linear-gradient(50deg /*[[gradient]]*/);
         color: white !important;
+        background: linear-gradient(50deg /*[[gradient]]*/);
         & span {
             color: white !important;
         }
@@ -148,19 +148,19 @@
         box-shadow: inset 0 1px 2px rgb(0 0 0 / 30%);
     }
     div#SBMenu div {
-        border-right: 0 !important;
-        background-color: white !important;
         color: #fa3d69 !important;
+        background-color: white !important;
+        border-right: 0 !important;
         & h3 {
-            border-right: 0 !important;
-            background-color: white !important;
             color: #fa3d69 !important;
+            background-color: white !important;
+            border-right: 0 !important;
         }
     }
     p#vid-tags span {
-        border-radius: 100px !important;
-        background-color: white !important;
         color: var(--yt-primary-color) !important;
+        background-color: white !important;
+        border-radius: 100px !important;
     }
     ytd-searchbox[mode="legacy"] #container.ytd-searchbox input.ytd-searchbox,
     ytd-searchbox[mode="legacy-centered"]
@@ -169,11 +169,11 @@
         color: black !important;
     }
     a#SBL div {
-        background: white !important;
         color: black !important;
+        background: white !important;
         & h3 {
-            background: white !important;
             color: black !important;
+            background: white !important;
         }
     }
     div#socialblade {
@@ -202,13 +202,13 @@
         background: linear-gradient(90deg /*[[gradient]]*/);
     }
     span.count {
-        color: black !important;
         font-weight: lighter !important;
+        color: black !important;
     }
     ytd-button-renderer.style-primary[is-paper-button] {
-        border-radius: 100px;
-        background: linear-gradient(90deg /*[[gradient]]*/);
         color: hsl(0deg 0% 100%);
+        background: linear-gradient(90deg /*[[gradient]]*/);
+        border-radius: 100px;
     }
     a#iridium_settings_button svg {
         color: white;
@@ -219,8 +219,8 @@
     body[invert] yt-icon#logo-icon.ytd-topbar-logo-renderer {
         width: 80px;
         background: url("https://i.imgur.com/oHv7EEw.png");
-        background-position: center;
         background-repeat: no-repeat;
+        background-position: center;
         background-size: contain;
         & svg {
             opacity: 0%;
@@ -242,32 +242,32 @@
         color: var(--yt-primary-color) !important;
     }
     .vc-stat-section .stat-box.alt {
-        border-color: white;
         background: rgb(255 255 255);
+        border-color: white;
     }
     paper-button.ytd-subscribe-button-renderer {
         display: flex;
         flex-direction: row;
         padding: 10px 16px;
-        border-radius: 2px;
         margin: auto 4px;
-        background: linear-gradient(90deg /*[[gradient]]*/);
         font-size: 1.5rem;
         font-weight: 300;
-        letter-spacing: 0.007px;
         text-transform: uppercase;
+        letter-spacing: 0.007px;
         white-space: nowrap;
+        background: linear-gradient(90deg /*[[gradient]]*/);
+        border-radius: 2px;
     }
     .video-companion-container ul.keywords .search-rank {
         display: inline-block;
         height: 15px;
         padding: 0 3px;
         margin-left: 0.5em;
-        background: linear-gradient(90deg /*[[gradient]]*/);
-        color: white;
         font-weight: 700;
         line-height: 15px;
         vertical-align: middle;
+        color: white;
+        background: linear-gradient(90deg /*[[gradient]]*/);
     }
     .vidiq-logo-container {
         filter: brightness(0) !important;
@@ -280,15 +280,15 @@
         display: flex;
         flex-direction: row;
         padding: 10px 16px;
-        border-radius: 2px;
         margin: auto 4px;
-        background-color: #ff6c7b !important;
-        color: #ffffff !important;
         font-size: 1.5rem;
         font-weight: 500;
-        letter-spacing: 0.007px;
+        color: #ffffff !important;
         text-transform: uppercase;
+        letter-spacing: 0.007px;
         white-space: nowrap;
+        background-color: #ff6c7b !important;
+        border-radius: 2px;
     }
     .vidiq-rating-bar-container .vidiq-rating-bar .vidiq-rating-likes {
         height: 5px;
@@ -299,44 +299,44 @@
     }
     .badge-style-type-featured.ytd-badge-supported-renderer {
         padding: 6px 10px 5px;
-        border-radius: 10px;
-        background: linear-gradient(90deg /*[[gradient]]*/);
-        color: hsl(0deg 0% 100%);
         font-weight: 100;
-        letter-spacing: 2px;
+        color: hsl(0deg 0% 100%);
         text-transform: uppercase;
+        letter-spacing: 2px;
+        background: linear-gradient(90deg /*[[gradient]]*/);
+        border-radius: 10px;
     }
     .vidiq-rating-bar-container .vidiq-rating-bar .vidiq-rating-likes {
         height: 5px;
         background: #f98a5f;
     }
     yt-icon.ytd-badge-supported-renderer {
-        background: url("https://i.imgur.com/FhRzUqU.png");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: 116%;
         color: #b3b1b100;
+        background: url("https://i.imgur.com/FhRzUqU.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 116%;
     }
     .vidiq-rating-bar {
         background-color: #faae90 !important;
     }
     #search-icon-legacy.ytd-searchbox {
         width: 65px;
+        margin: 0;
+        cursor: pointer;
         border: white;
         border-radius: 0 100px 100px 0;
-        margin: 0;
         box-shadow: 1px 0 19px 0 #1010102b;
-        cursor: pointer;
     }
     ytd-searchbox[mode="legacy"] #container.ytd-searchbox input.ytd-searchbox {
         color: black;
     }
     button.vidiq-button {
-        border: 0 solid !important;
-        border-radius: 100px;
-        background: linear-gradient(90deg /*[[gradient]]*/);
         font-family: Roboto, sans-serif;
         text-transform: uppercase;
+        background: linear-gradient(90deg /*[[gradient]]*/);
+        border: 0 solid !important;
+        border-radius: 100px;
     }
     .ytp-chrome-controls .ytp-button[aria-pressed]::after {
         background: linear-gradient(90deg /*[[gradient]]*/);
@@ -346,28 +346,28 @@
         color: white !important;
     }
     paper-button[subscribed].ytd-subscribe-button-renderer {
-        background-color: hsl(0deg 0% 93.3%);
         color: hsl(0deg 28% 96% / 96%);
+        background-color: hsl(0deg 0% 93.3%);
     }
     img.vidiq-button-logo.vidiq-button-logo-small {
         background-color: #fe3d91;
     }
     #search-icon-legacy.ytd-searchbox {
         width: 65px;
+        margin: 0;
+        cursor: pointer;
+        background-color: white !important;
         border: white;
         border-radius: 0 100px 100px 0;
-        margin: 0;
-        background-color: white !important;
         box-shadow: 1px 0 19px 0 #1010102b;
-        cursor: pointer;
     }
     #logo-icon-container.ytd-topbar-logo-renderer {
+        flex: none;
         width: 80px;
         height: 24px;
-        flex: none;
         background: url("https://i.imgur.com/oHv7EEw.png");
-        background-position: center;
         background-repeat: no-repeat;
+        background-position: center;
         background-size: contain;
     }
     svg.style-scope.ytd-topbar-logo-renderer {
@@ -390,9 +390,9 @@
         color: black !important;
     }
     div#SBMenu div h3 {
-        border-right: 0 !important;
-        background-color: white !important;
         color: black !important;
+        background-color: white !important;
+        border-right: 0 !important;
     }
     div#ChanOver a div h3 {
         color: black !important;
@@ -411,8 +411,8 @@
             margin-top: -100px;
             margin-left: 12px;
             background: url("https://i.imgur.com/TvIeZZx.png");
-            background-position: center;
             background-repeat: no-repeat;
+            background-position: center;
             background-size: 62%;
             opacity: 100% !important;
         }
@@ -430,8 +430,8 @@
         background: linear-gradient(270deg /*[[gradient]]*/) !important;
     }
     a.yt-simple-endpoint.yt-formatted-string {
-        color: var(--yt-primary-color) !important;
         font-weight: 500;
+        color: var(--yt-primary-color) !important;
     }
     .deemphasize.yt-formatted-string {
         margin-left: var(--yt-formatted-string-deemphasize_-_margin-left);
@@ -454,8 +454,8 @@
     }
     button.tab-tweets span svg {
         color: white !important;
-        fill: white !important;
         filter: brightness(100000%) !important;
+        fill: white !important;
     }
     .vidiq-logo-container {
         /* Reserved for future ViDIQ styling */
@@ -470,32 +470,32 @@
         flex-direction: var(--layout-horizontal_-_flex-direction);
         align-items: center;
         padding: 2px 15px;
-        border: 1px solid hsl(0deg 0% 100%);
-        border-radius: 100px 0 0 100px;
-        border-right: none;
-        background-color: hsl(0deg 0% 100%);
-        box-shadow: inset 0 1px 2px
-            var(--ytd-searchbox-legacy-border-shadow-color);
         color: hsl(0deg 0% 0% / 88%);
         text-align: center;
+        background-color: hsl(0deg 0% 100%);
+        border: 1px solid hsl(0deg 0% 100%);
+        border-right: none;
+        border-radius: 100px 0 0 100px;
+        box-shadow: inset 0 1px 2px
+            var(--ytd-searchbox-legacy-border-shadow-color);
         & input.ytd-searchbox {
             color: hsl(0deg 0% 0% / 88%);
         }
     }
     ytd-subscribe-button-renderer[new-subscribe-color]
         paper-button.ytd-subscribe-button-renderer[subscribed] {
-        background-color: var(--yt-spec-10-percent-layer);
         color: #ffffff;
+        background-color: var(--yt-spec-10-percent-layer);
     }
     ytd-author-comment-badge-renderer {
         --ytd-author-comment-badge-name-color: var(--yt-spec-text-primary);
         display: inline-flex;
-        height: 20px;
         flex-direction: var(--layout-horizontal_-_flex-direction);
         align-items: center;
-        border-radius: 12px;
+        height: 20px;
         margin-bottom: 2px;
         background-color: linear-gradient(270deg /*[[gradient]]*/) !important;
+        border-radius: 12px;
         -ms-flex-align: center;
     }
 }
@@ -508,20 +508,20 @@
     }
     #search-icon-legacy.ytd-searchbox {
         width: 65px;
+        margin: 0;
+        cursor: pointer;
+        background-color: white;
         border: white;
         border-radius: 0 100px 100px 0;
-        margin: 0;
-        background-color: white;
-        cursor: pointer;
     }
     ytd-searchbox[mode="legacy"] #container.ytd-searchbox {
         padding: 2px 6px;
-        border: white;
-        border-radius: 100px 0 0 100px;
-        border-right: none;
-        background-color: white;
-        box-shadow: 0 0 0 0;
         text-align: center;
+        background-color: white;
+        border: white;
+        border-right: none;
+        border-radius: 100px 0 0 100px;
+        box-shadow: 0 0 0 0;
     }
     ytd-searchbox[mode="legacy"][has-focus] #container.ytd-searchbox {
         border: 0 solid #1c62b9;
@@ -555,8 +555,8 @@
         color: white;
     }
     div#ChanOver {
-        background: linear-gradient(50deg);
         color: white !important;
+        background: linear-gradient(50deg);
         & span {
             color: white !important;
         }
@@ -588,26 +588,26 @@
         color: white !important;
     }
     div#SBMenu div {
-        border-right: 0 !important;
-        background-color: white !important;
         color: var(--yt-primary-color) !important;
+        background-color: white !important;
+        border-right: 0 !important;
         & h3 {
-            border-right: 0 !important;
-            background-color: white !important;
             color: var(--yt-primary-color) !important;
+            background-color: white !important;
+            border-right: 0 !important;
         }
     }
     p#vid-tags span {
-        border-radius: 100px !important;
-        background-color: white !important;
         color: var(--yt-primary-color) !important;
+        background-color: white !important;
+        border-radius: 100px !important;
     }
     a#SBL div {
-        background: white !important;
         color: black !important;
+        background: white !important;
         & h3 {
-            background: white !important;
             color: var(--yt-primary-color) !important;
+            background: white !important;
         }
     }
     div#socialblade {
@@ -640,13 +640,13 @@
         fill: white !important;
     }
     span.count {
-        color: var(--yt-primary-color) !important;
         font-weight: lighter !important;
+        color: var(--yt-primary-color) !important;
     }
     ytd-button-renderer.style-primary[is-paper-button] {
-        border-radius: 100px;
-        background: linear-gradient(90deg);
         color: hsl(0deg 0% 100%);
+        background: linear-gradient(90deg);
+        border-radius: 100px;
     }
     a#iridium_settings_button svg {
         color: white;
@@ -660,8 +660,8 @@
     body[invert] yt-icon#logo-icon.ytd-topbar-logo-renderer {
         width: 80px;
         background: url("https://i.imgur.com/oHv7EEw.png");
-        background-position: center;
         background-repeat: no-repeat;
+        background-position: center;
         background-size: contain;
         & svg {
             opacity: 0%;
@@ -683,32 +683,32 @@
         color: var(--yt-primary-color) !important;
     }
     .vc-stat-section .stat-box.alt {
-        border-color: white;
         background: rgb(255 255 255);
+        border-color: white;
     }
     paper-button.ytd-subscribe-button-renderer {
         display: flex;
         flex-direction: row;
         padding: 10px 16px;
-        border-radius: 2px;
         margin: auto 4px;
-        background: linear-gradient(90deg);
         font-size: 1.5rem;
         font-weight: 300;
-        letter-spacing: 0.007px;
         text-transform: uppercase;
+        letter-spacing: 0.007px;
         white-space: nowrap;
+        background: linear-gradient(90deg);
+        border-radius: 2px;
     }
     .video-companion-container ul.keywords .search-rank {
         display: inline-block;
         height: 15px;
         padding: 0 3px;
         margin-left: 0.5em;
-        background: linear-gradient(90deg);
-        color: white;
         font-weight: 700;
         line-height: 15px;
         vertical-align: middle;
+        color: white;
+        background: linear-gradient(90deg);
     }
     .vidiq-logo-container {
         filter: brightness(0) !important;
@@ -721,15 +721,15 @@
         display: flex;
         flex-direction: row;
         padding: 10px 16px;
-        border-radius: 2px;
         margin: auto 4px;
-        background-color: #ff6c7b !important;
-        color: #ffffff !important;
         font-size: 1.5rem;
         font-weight: 500;
-        letter-spacing: 0.007px;
+        color: #ffffff !important;
         text-transform: uppercase;
+        letter-spacing: 0.007px;
         white-space: nowrap;
+        background-color: #ff6c7b !important;
+        border-radius: 2px;
     }
     .vidiq-rating-bar-container .vidiq-rating-bar .vidiq-rating-likes {
         height: 5px;
@@ -740,59 +740,59 @@
     }
     .badge-style-type-featured.ytd-badge-supported-renderer {
         padding: 6px 10px 5px;
-        border-radius: 10px;
-        background: linear-gradient(90deg);
-        color: hsl(0deg 0% 100%);
         font-weight: 100;
-        letter-spacing: 2px;
+        color: hsl(0deg 0% 100%);
         text-transform: uppercase;
+        letter-spacing: 2px;
+        background: linear-gradient(90deg);
+        border-radius: 10px;
     }
     .vidiq-rating-bar-container .vidiq-rating-bar .vidiq-rating-likes {
         height: 5px;
         background: #f98a5f;
     }
     yt-icon.ytd-badge-supported-renderer {
-        background: url("https://i.imgur.com/FhRzUqU.png");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: 116%;
         color: #b3b1b100;
+        background: url("https://i.imgur.com/FhRzUqU.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 116%;
     }
     .vidiq-rating-bar {
         background-color: #faae90 !important;
     }
     #search-icon-legacy.ytd-searchbox {
         width: 65px;
+        margin: 0;
+        cursor: pointer;
+        background-color: #ff516e;
         border: white;
         border-radius: 0 100px 100px 0;
-        margin: 0;
-        background-color: #ff516e;
         box-shadow: 1px 0 19px 0 #1010102b;
-        cursor: pointer;
     }
     ytd-searchbox[mode="legacy"] #container.ytd-searchbox input.ytd-searchbox {
         color: black;
     }
     button.vidiq-button {
-        border: 0 solid !important;
-        border-radius: 100px;
-        background: linear-gradient(90deg);
         font-family: Roboto, sans-serif;
         text-transform: uppercase;
+        background: linear-gradient(90deg);
+        border: 0 solid !important;
+        border-radius: 100px;
     }
     #search-icon-legacy.ytd-searchbox {
         width: 65px;
+        margin: 0;
+        cursor: pointer;
+        background-color: white !important;
         border: white;
         border-radius: 0 100px 100px 0;
-        margin: 0;
-        background-color: white !important;
         box-shadow: 1px 0 19px 0 #1010102b;
-        cursor: pointer;
     }
     div#SBMenu div h3 {
-        border-right: 0 !important;
-        background-color: white !important;
         color: black !important;
+        background-color: white !important;
+        border-right: 0 !important;
     }
     span.value-inner {
         -moz-text-fill-color: black !important;
@@ -806,8 +806,8 @@
             margin-top: -100px;
             margin-left: 12px;
             background: url("https://i.imgur.com/TvIeZZx.png");
-            background-position: center;
             background-repeat: no-repeat;
+            background-position: center;
             background-size: 62%;
             opacity: 100% !important;
         }
@@ -825,8 +825,8 @@
         position: relative;
         width: 100%;
         height: 100%;
-        border-radius: 8px;
         margin: 0 auto;
+        border-radius: 8px;
         ytd-watch:not([transparent-player-background_]) &,
         ytd-watch[flexy-fit-to-video_]:not([is-currently-flexible_]) &,
         ytd-watch[theater] & {
@@ -861,9 +861,9 @@
         background-color: #ff373700;
     }
     p#vid-tags span {
-        border-radius: 100px !important;
-        background-color: white !important;
         color: #000000fa !important;
+        background-color: white !important;
+        border-radius: 100px !important;
     }
     .vidiq-subscriber-count.new-layout span {
         color: black !important;
@@ -877,24 +877,24 @@
     }
     #thumbnail.ytd-thumbnail {
         position: absolute;
-        border-radius: 5px;
         inset: 0;
-    }
-    img.yt-img-shadow {
-        display: block;
-        max-width: var(--yt-img-max-width, 100%);
-        max-height: var(--yt-img-max-height, none);
         border-radius: 5px;
-        margin-right: auto;
-        margin-left: auto;
     }
     img.yt-img-shadow {
         display: block;
         max-width: var(--yt-img-max-width, 100%);
         max-height: var(--yt-img-max-height, none);
-        border-radius: 6px;
         margin-right: auto;
         margin-left: auto;
+        border-radius: 5px;
+    }
+    img.yt-img-shadow {
+        display: block;
+        max-width: var(--yt-img-max-width, 100%);
+        max-height: var(--yt-img-max-height, none);
+        margin-right: auto;
+        margin-left: auto;
+        border-radius: 6px;
     }
     .ytp-settings-button.ytp-hd-quality-badge::after,
     .ytp-settings-button.ytp-4k-quality-badge::after,
@@ -905,16 +905,16 @@
         right: 5px;
         width: 13px;
         height: 9px;
-        border-radius: 100px;
-        background-color: #000000;
+        line-height: normal;
         color: hsl(0deg 0% 0% / 88%) !important;
         content: "";
-        line-height: normal;
+        background-color: #000000;
+        border-radius: 100px;
     }
     div#sb-heading {
-        border-radius: 8px 8px 0 0;
         background: linear-gradient(90deg) !important;
         background-position: center;
+        border-radius: 8px 8px 0 0;
     }
     div#sb-data-pages {
         border-radius: 0 0 8px 8px;

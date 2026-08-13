@@ -104,9 +104,9 @@
 
     .button,
     .btn {
-        border: none !important;
-        background-color: var(--button-background) !important;
         color: var(--text) !important;
+        background-color: var(--button-background) !important;
+        border: none !important;
     }
 
     .button:hover,
@@ -118,9 +118,9 @@
 
     .input,
     .textarea {
-        border: 1px solid var(--border) !important;
-        background-color: var(--input-background) !important;
         color: var(--text) !important;
+        background-color: var(--input-background) !important;
+        border: 1px solid var(--border) !important;
     }
 
     .input:focus,
@@ -130,14 +130,14 @@
 
     .card,
     .panel {
-        border: 1px solid var(--border) !important;
-        background-color: var(--input-background) !important;
         color: var(--text) !important;
+        background-color: var(--input-background) !important;
+        border: 1px solid var(--border) !important;
     }
 
     .table {
-        background-color: var(--input-background) !important;
         color: var(--text) !important;
+        background-color: var(--input-background) !important;
 
         & th,
         & td {
@@ -146,7 +146,7 @@
     }
 
     .modal {
-        background-color: var(--dark-background) !important;
         color: var(--text) !important;
+        background-color: var(--dark-background) !important;
     }
 }

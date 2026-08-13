@@ -127,8 +127,8 @@ url-prefix("http://kiwifarms")
 
     .node-icon i {
         color: var(--primary-color) !important;
-        fill: var(--primary-color) !important;
         filter: invert(1) hue-rotate(270deg);
+        fill: var(--primary-color) !important;
     }
 
     .sidebar .avatarList .userTitle,
@@ -232,8 +232,8 @@ url-prefix("http://kiwifarms")
 
     a.callToAction span,
     .PageNav a.currentPage {
-        background-color: var(--primary-color) !important;
         color: var(--secondary-color) !important;
+        background-color: var(--primary-color) !important;
     }
 
     a:link,
@@ -282,8 +282,8 @@ url-prefix("http://kiwifarms")
 
     .navTabs,
     .navTabs .navTab.selected .navLink {
-        border-color: var(--border-color);
         background-color: var(--background-color) !important;
+        border-color: var(--border-color);
     }
 
     .PageNav a.currentPage,
@@ -332,13 +332,13 @@ url-prefix("http://kiwifarms")
 
     .footer .choosers a:hover,
     .footer .choosers a:focus {
-        border-color: var(--border-color2) !important;
         color: var(--secondary-color) !important;
+        border-color: var(--border-color2) !important;
     }
 
     .navTabs .navTab.selected.PopupOpen .navLink {
-        background-color: var(--secondary-color) !important;
         color: var(--white) !important;
+        background-color: var(--secondary-color) !important;
     }
 
     #uix_wrapper,
@@ -355,8 +355,8 @@ url-prefix("http://kiwifarms")
     }
 
     .PageNav a:hover {
-        background-color: #292c2e !important;
         color: var(--secondary-color) !important;
+        background-color: #292c2e !important;
     }
 
     .button:hover,

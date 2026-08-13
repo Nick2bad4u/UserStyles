@@ -35,13 +35,26 @@
         --violet-rgb: 155, 108, 255;
         --line: rgb(255 255 255 / 0.1);
         --line-strong: rgb(255 255 255 / 0.18);
-        max-width: 1180px;
-        min-height: 100dvh;
 
         box-sizing: border-box;
+        max-width: 1180px;
+        min-height: 100dvh;
         padding: clamp(1rem, 3vw, 2.75rem);
         margin: 0 auto;
-        background-attachment: fixed;
+        overflow-x: auto;
+        font-family:
+            Inter,
+            ui-sans-serif,
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--text-primary);
+        color-scheme: dark;
+        scrollbar-color: var(--violet) var(--amoled-black);
         background-color: var(--amoled-black);
         background-image:
             radial-gradient(
@@ -59,20 +72,7 @@
                 rgba(var(--violet-rgb), 0.1),
                 transparent 32rem
             );
-        color: var(--text-primary);
-        color-scheme: dark;
-        font-family:
-            Inter,
-            ui-sans-serif,
-            system-ui,
-            -apple-system,
-            BlinkMacSystemFont,
-            "Segoe UI",
-            sans-serif;
-        font-size: 14px;
-        line-height: 1.5;
-        overflow-x: auto;
-        scrollbar-color: var(--violet) var(--amoled-black);
+        background-attachment: fixed;
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody),
@@ -89,8 +89,8 @@
         )::selection,
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
         *::selection {
-        background: var(--cyan);
         color: #000000;
+        background: var(--cyan);
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(
@@ -110,14 +110,14 @@
             #tbody
         )::-webkit-scrollbar-thumb {
         min-height: 2rem;
-        border: 3px solid var(--amoled-black);
-        border-radius: 999px;
         background: linear-gradient(
             180deg,
             var(--cyan),
             var(--violet) 55%,
             var(--magenta)
         );
+        border: 3px solid var(--amoled-black);
+        border-radius: 999px;
     }
 
     /* The heading stays crisp while the lower edge supplies the neon shine. */
@@ -125,17 +125,17 @@
         > #header {
         position: relative;
         padding: 0 0 0.8rem;
-        border: 0;
         margin: 0 0 1.25rem;
-        color: var(--text-primary);
         font-size: clamp(1.5rem, 3vw, 2rem);
         font-weight: 750;
-        letter-spacing: -0.035em;
         line-height: 1.125;
+        color: var(--text-primary);
+        letter-spacing: -0.035em;
         overflow-wrap: anywhere;
         text-shadow:
             0 0 18px rgba(var(--cyan-rgb), 0.22),
             0 0 34px rgba(var(--violet-rgb), 0.16);
+        border: 0;
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
@@ -145,6 +145,7 @@
         bottom: 0;
         left: 0;
         height: 1px;
+        content: "";
         background: linear-gradient(
             90deg,
             var(--cyan),
@@ -155,7 +156,6 @@
         box-shadow:
             0 0 10px rgba(var(--cyan-rgb), 0.75),
             0 0 18px rgba(var(--magenta-rgb), 0.45);
-        content: "";
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
@@ -167,20 +167,20 @@
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
         #parentDirLink {
         display: inline-flex;
-        min-height: 2.5rem;
         align-items: center;
+        min-height: 2.5rem;
         padding: 0.55rem 1rem 0.55rem 2.45rem;
-        border: 1px solid rgba(var(--violet-rgb), 0.48);
-        border-radius: 999px;
+        font-weight: 650;
+        color: var(--text-primary);
+        text-decoration: none;
         background-color: rgb(8 8 16 / 0.92);
         background-position: 0.85rem center;
         background-size: 1.05rem 1.05rem;
+        border: 1px solid rgba(var(--violet-rgb), 0.48);
+        border-radius: 999px;
         box-shadow:
             inset 0 1px 0 rgb(255 255 255 / 0.08),
             0 0 16px rgba(var(--violet-rgb), 0.12);
-        color: var(--text-primary);
-        font-weight: 650;
-        text-decoration: none;
         transition:
             color 150ms ease,
             border-color 150ms ease,
@@ -194,12 +194,12 @@
 
         &:hover,
         &:focus {
-            border-color: var(--cyan);
+            color: var(--cyan);
             background-color: rgba(var(--cyan-rgb), 0.08);
+            border-color: var(--cyan);
             box-shadow:
                 inset 0 1px 0 rgb(255 255 255 / 0.12),
                 0 0 22px rgba(var(--cyan-rgb), 0.22);
-            color: var(--cyan);
             transform: translateY(-1px);
         }
 
@@ -212,29 +212,29 @@
         table {
         width: 100%;
         min-width: 42rem;
-        border: 0;
-        border-collapse: separate;
-        border-spacing: 0 0.38rem;
         table-layout: auto;
+        border-spacing: 0 0.38rem;
+        border-collapse: separate;
+        border: 0;
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
         #theader
         th {
         position: sticky;
-        z-index: 2;
         top: 0;
+        z-index: 2;
         padding: 0.8rem 1rem;
+        font-size: 0.75rem;
+        font-weight: 750;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.11em;
         background: rgb(2 2 6 / 0.96);
         border-block: 1px solid var(--line-strong);
         box-shadow:
             inset 0 1px 0 rgb(255 255 255 / 0.04),
             0 10px 22px rgb(0 0 0 / 0.62);
-        color: var(--text-secondary);
-        font-size: 0.75rem;
-        font-weight: 750;
-        letter-spacing: 0.11em;
-        text-transform: uppercase;
         transition:
             color 150ms ease,
             background-color 150ms ease,
@@ -246,33 +246,33 @@
         }
 
         &:first-child {
-            border-end-start-radius: 0.72rem;
+            text-align: start;
             border-inline-start: 1px solid var(--line-strong);
             border-start-start-radius: 0.72rem;
-            text-align: start;
+            border-end-start-radius: 0.72rem;
         }
 
         &:last-child {
-            border-end-end-radius: 0.72rem;
             border-inline-end: 1px solid var(--line-strong);
             border-start-end-radius: 0.72rem;
+            border-end-end-radius: 0.72rem;
         }
 
         &:hover,
         &:focus {
+            color: var(--cyan);
             background-color: rgba(var(--cyan-rgb), 0.075);
             border-block-color: rgba(var(--cyan-rgb), 0.5);
-            color: var(--cyan);
         }
 
         &:focus-visible {
             z-index: 3;
-            box-shadow:
-                inset 0 0 0 1px rgba(var(--magenta-rgb), 0.45),
-                0 0 18px rgba(var(--magenta-rgb), 0.32);
             color: #ffffff;
             outline: 2px solid var(--magenta);
             outline-offset: -3px;
+            box-shadow:
+                inset 0 0 0 1px rgba(var(--magenta-rgb), 0.45),
+                0 0 18px rgba(var(--magenta-rgb), 0.32);
         }
     }
 
@@ -283,9 +283,9 @@
         display: inline-block;
         width: 0;
         height: 0;
-        border: 0.28rem solid transparent;
-        content: "";
         margin-inline-start: 0.55rem;
+        content: "";
+        border: 0.28rem solid transparent;
         opacity: 0;
         transform: translateY(0.15rem);
         transition:
@@ -310,10 +310,10 @@
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
         #theader
         th[data-order="1"] {
+        color: var(--cyan);
         box-shadow:
             inset 0 -2px 0 var(--cyan),
             0 0 18px rgba(var(--cyan-rgb), 0.16);
-        color: var(--cyan);
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
@@ -327,10 +327,10 @@
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
         #theader
         th[data-order="-1"] {
+        color: var(--magenta);
         box-shadow:
             inset 0 -2px 0 var(--magenta),
             0 0 18px rgba(var(--magenta-rgb), 0.16);
-        color: var(--magenta);
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
@@ -347,6 +347,7 @@
         > td {
         height: 3rem;
         padding: 0.62rem 1rem;
+        color: var(--text-secondary);
         background:
             linear-gradient(
                 105deg,
@@ -355,7 +356,6 @@
             ),
             var(--panel-black);
         border-block: 1px solid var(--line);
-        color: var(--text-secondary);
         transition:
             color 150ms ease,
             border-color 150ms ease,
@@ -368,9 +368,9 @@
         }
 
         &:first-child {
-            border-end-start-radius: 0.62rem;
             border-inline-start: 2px solid rgba(var(--cyan-rgb), 0.42);
             border-start-start-radius: 0.62rem;
+            border-end-start-radius: 0.62rem;
         }
     }
 
@@ -392,9 +392,9 @@
         #tbody
         tr
         > td:last-child {
-        border-end-end-radius: 0.62rem;
         border-inline-end: 1px solid var(--line);
         border-start-end-radius: 0.62rem;
+        border-end-end-radius: 0.62rem;
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
@@ -405,6 +405,7 @@
         #tbody
         tr:focus-within
         > td {
+        color: #dbe5f5;
         background:
             linear-gradient(
                 105deg,
@@ -413,12 +414,11 @@
                 rgba(var(--magenta-rgb), 0.07)
             ),
             var(--panel-raised);
-        border-block-color: rgba(var(--cyan-rgb), 0.34);
         box-shadow:
             inset 0 1px 0 rgb(255 255 255 / 0.075),
             0 9px 24px rgb(0 0 0 / 0.58);
-        color: #dbe5f5;
         transform: translateY(-1px);
+        border-block-color: rgba(var(--cyan-rgb), 0.34);
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
@@ -441,9 +441,9 @@
         td.detailsColumn,
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
         th.detailsColumn {
-        color: var(--text-secondary);
-        font-variant-numeric: tabular-nums;
         padding-inline-start: 1.25rem;
+        font-variant-numeric: tabular-nums;
+        color: var(--text-secondary);
         text-align: end;
         white-space: nowrap;
     }
@@ -457,19 +457,19 @@
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
         a.icon {
         display: inline-flex;
+        align-items: center;
         max-width: min(100%, 58rem);
         min-height: 1.65rem;
-        align-items: center;
-        border-radius: 0.3rem;
-        background-position: 0.18rem center;
-        background-repeat: no-repeat;
-        background-size: 1.28rem 1.28rem;
-        color: var(--text-primary);
-        font-weight: 590;
-        overflow-wrap: anywhere;
         padding-inline-start: 2rem;
+        font-weight: 590;
+        color: var(--text-primary);
+        overflow-wrap: anywhere;
         text-decoration: none;
         text-underline-offset: 0.2em;
+        background-repeat: no-repeat;
+        background-position: 0.18rem center;
+        background-size: 1.28rem 1.28rem;
+        border-radius: 0.3rem;
         transition:
             color 150ms ease,
             text-shadow 150ms ease;
@@ -499,20 +499,20 @@
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
         a:focus-visible {
-        box-shadow: 0 0 0 5px rgba(var(--magenta-rgb), 0.13);
         outline: 2px solid var(--magenta);
         outline-offset: 3px;
+        box-shadow: 0 0 0 5px rgba(var(--magenta-rgb), 0.13);
     }
 
     body:has(> #header):has(> #parentDirLinkBox):has(#theader):has(#tbody)
         #listingParsingErrorBox {
         padding: 0.85rem 1rem;
+        margin-bottom: 1rem;
+        color: #ffe8ef;
+        background: #190008;
         border: 1px solid #ff4778;
         border-radius: 0.65rem;
-        margin-bottom: 1rem;
-        background: #190008;
         box-shadow: 0 0 18px rgb(255 71 120 / 0.2);
-        color: #ffe8ef;
     }
 
     @media (width <= 760px) {

@@ -156,8 +156,8 @@ domain("ebaystatic.com") {
     }
 
     .msg-content-view .msg-conversation-head__dropdown .menu-button__button {
-        background-color: #000000;
         color: white;
+        background-color: #000000;
 
         &:hover,
         &:focus {
@@ -170,8 +170,8 @@ domain("ebaystatic.com") {
     }
 
     .main1 {
-        background: #ffffff;
         color: #000000;
+        background: #ffffff;
     }
 
     #PicturePanel > div.vim.x-atf-left-bottom-river > div,

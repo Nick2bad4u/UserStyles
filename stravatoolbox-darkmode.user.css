@@ -25,8 +25,8 @@
 
     #main .menu,
     .button {
-        border: 1px dashed #ff7152;
-        background-color: #ffffff;
         color: #000000;
+        background-color: #ffffff;
+        border: 1px dashed #ff7152;
     }
 }

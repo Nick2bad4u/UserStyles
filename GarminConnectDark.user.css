@@ -62,8 +62,8 @@
     .h5,
     h6,
     .h6 {
-        color: var(--header-text);
         font-weight: 600;
+        color: var(--header-text);
     }
 
     /* prettier-ignore */
@@ -71,8 +71,8 @@
     td.weekly-totals.weekly-totals-data,
     #defaultActivityOptionsGroup > div.row-fluid.page-top > div.span8.page-intro > div > h3 > div > div > button > i,
     .modal-body > select {
-        background-color: var(--inverted-background) !important;
         color: var(--primary-text) !important;
+        background-color: var(--inverted-background) !important;
         filter: invert(1) hue-rotate(180deg);
     }
 
@@ -95,11 +95,11 @@
     /* stylelint-disable selector-not-notation -- Stylus 2.4.2 cannot parse complex :not() selector lists. */
     /* prettier-ignore */
     [class*="modal"]:not(#pageContainer > div > div.modal.hide.fade.modal-wide.metrics-edit-modal.in > div.modal-header > h3):not(#pageContainer > div > div > div.row-fluid.list-items.flexItemAutoHeight > ul > li:nth-child(n) > div > div.pull-left.activity-name-type.title-col > div.activity-name-edit.inline-edit.inline-edit-text-field > button):not(#activityIntroViewPlaceholder > div.page-header-content > h3 > div > div > button):not(.inline-edit-trigger):not(.modal.fade.in):not(.modal-header h3):not(.fade):not(:not(.help-icon)) {
-        /* Box model stuff */
-        border-color: var(--border);
-        background-color: var(--inverted-background2) !important;
         /* Typography stuff */
         color: var(--primary-text2) !important;
+        background-color: var(--inverted-background2) !important;
+        /* Box model stuff */
+        border-color: var(--border);
         /* Manipulations stuff */
         filter: invert(1) hue-rotate(180deg);
     }
@@ -128,8 +128,8 @@
     }
 
     .react-global-modal .Dialog_dialogFooter__W9xGT > a {
-        background-color: var(--inverted-background2) !important;
         color: var(--primary-text2);
+        background-color: var(--inverted-background2) !important;
     }
 
     /* For WebKit browsers (e.g., Chrome, Safari) */
@@ -138,9 +138,9 @@
     }
 
     ::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-thumb-color);
         border: 3px solid var(--scrollbar-background-color);
         border-radius: 6px;
-        background-color: var(--scrollbar-thumb-color);
     }
 
     /* For Edge, IE */
@@ -188,8 +188,8 @@ regexp("^https?:\\/\\/(www\\.)?garmin\\.com(\\/[^\\s]*)?$") {
     .g__email-signup__copy__disclaimer,
     .g__email-signup__copy__disclaimer a,
     .app__sidebar__full {
-        background-color: var(--inverted-background);
         color: var(--primary-text);
+        background-color: var(--inverted-background);
     }
 
     .app__feature__card__image {
@@ -202,9 +202,9 @@ regexp("^https?:\\/\\/(www\\.)?garmin\\.com(\\/[^\\s]*)?$") {
     }
 
     ::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-background-color);
         border: 3px solid var(--scrollbar-thumb);
         border-radius: 6px;
-        background-color: var(--scrollbar-background-color);
     }
 
     /* For Edge, IE */

@@ -74,6 +74,12 @@
 
     .title {
         margin: 10px 0;
+        font-size: 2.5em;
+        font-weight: 300;
+        color: var(--title-color);
+        /* Christmas-Themed Title */
+        text-align: center;
+        text-shadow: 2px 2px 8px var(--title-shadow);
         background: linear-gradient(
             180deg,
             var(--title-gradient-start),
@@ -81,19 +87,13 @@
             var(--title-gradient-end)
         ); /* Red, White, Green */
         background-clip: text;
-        color: var(--title-color);
-        font-size: 2.5em;
-        font-weight: 300;
-        /* Christmas-Themed Title */
-        text-align: center;
         -webkit-text-fill-color: transparent;
-        text-shadow: 2px 2px 8px var(--title-shadow);
     }
 
     a {
+        font-weight: 700;
         /* Christmas Links */
         color: var(--link-color); /* Festive Orange-Red */
-        font-weight: 700;
         text-decoration: none;
         text-shadow: 1px 1px 4px var(--link-shadow);
 
@@ -117,23 +117,23 @@
     }
 
     .minor {
+        font-weight: 700;
         /* Festive Gold */
         color: var(--minor-color);
-        font-weight: 700;
         text-shadow: 1px 1px 1px var(--minor-shadow);
     }
 
     .major {
+        font-weight: 700;
         /* Bright Christmas Red */
         color: var(--major-color);
-        font-weight: 700;
         text-shadow: 1px 1px 1px var(--major-shadow);
     }
 
     #js-refresh {
+        font-weight: bolder;
         /* Refresh Indicator */
         color: var(--refresh-color);
-        font-weight: bolder;
         text-shadow: 0 0 1px var(--refresh-shadow);
     }
 
@@ -141,96 +141,96 @@
     #psa,
     noscript {
         position: relative;
-        border: 2px solid var(--border-color); /* Gold Border */
-        border-radius: 6px;
+        font-size: 1em;
+        line-height: 1.5;
+        color: #ffffff;
+        text-decoration-color: black;
+        text-shadow: 1px 0 3px var(--box-shadow);
+        outline: black;
+        outline-style: auto;
         background: linear-gradient(
             180deg,
             var(--background-gradient-start),
             var(--background-gradient-middle),
             var(--background-gradient-end)
         ); /* Candy Cane Stripe Effect */
+        border: 2px solid var(--border-color); /* Gold Border */
+        border-radius: 6px;
         box-shadow: 0 4px 12px var(--box-shadow);
-        color: #ffffff;
-        font-size: 1em;
-        line-height: 1.5;
-        outline: black;
-        outline-style: auto;
-        text-decoration-color: black;
-        text-shadow: 1px 0 3px var(--box-shadow);
     }
 
     body {
         margin: 0;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--body-color);
+        text-shadow: 1px 1px 4px var(--body-shadow);
         background: linear-gradient(
             0deg,
             var(--body-background-start),
             var(--body-background-end)
         ); /* Christmas Red and Green */
-        color: var(--body-color);
-        font-family: Roboto, Arial, sans-serif;
-        font-size: 16px;
-        font-weight: 300;
-        text-shadow: 1px 1px 4px var(--body-shadow);
     }
 
     [data-tooltip]::before {
         position: absolute;
-        z-index: 1;
         top: 0;
         left: 2%;
-        overflow: hidden;
+        z-index: 1;
+        /* Tooltip Box */
+        visibility: hidden;
         width: 96%;
         padding: 8px;
-        border-radius: 6px;
-        background: var(
-            --tooltip-background
-        ); /* Green Background for Tooltip */
-        color: var(--tooltip-color); /* Gold Text */
-        content: attr(data-tooltip);
+        overflow: hidden;
         font-size: 0.875em;
         font-style: italic;
         font-weight: 300;
-        opacity: 0%;
-        overflow-wrap: break-word;
+        color: var(--tooltip-color); /* Gold Text */
         text-align: left;
+        overflow-wrap: break-word;
+        white-space: pre;
         text-shadow: 1px 1px 5px var(--tooltip-shadow);
+        content: attr(data-tooltip);
+        background: var(
+            --tooltip-background
+        ); /* Green Background for Tooltip */
+        border-radius: 6px;
+        opacity: 0%;
         transition:
             visibility 0s,
             opacity 0.3s ease-in-out;
-        /* Tooltip Box */
-        visibility: hidden;
-        white-space: pre;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
-            z-index: 1;
             top: 0;
             left: 2%;
-            overflow: hidden;
+            z-index: 1;
+            /* Tooltip Box */
+            visibility: hidden;
             width: 96%;
             padding: 8px;
-            border-radius: 6px;
-            background: var(
-                --tooltip-background
-            ); /* Green Background for Tooltip */
-            color: var(--tooltip-color); /* Gold Text */
-            content: attr(data-tooltip);
+            overflow: hidden;
             font-size: 0.875em;
             font-style: italic;
             font-weight: 300;
-            opacity: 0%;
-            overflow-wrap: break-word;
+            color: var(--tooltip-color); /* Gold Text */
             text-align: left;
-            text-shadow: 1px 1px 5px var(--tooltip-shadow);
-            transition: none;
-            /* Tooltip Box */
-            visibility: hidden;
+            overflow-wrap: break-word;
             white-space: pre;
+            text-shadow: 1px 1px 5px var(--tooltip-shadow);
+            content: attr(data-tooltip);
+            background: var(
+                --tooltip-background
+            ); /* Green Background for Tooltip */
+            border-radius: 6px;
+            opacity: 0%;
+            transition: none;
         }
     }
 
     [data-tooltip]:hover::before,
     [data-tooltip]:focus::before {
-        opacity: 100%;
         visibility: visible;
+        opacity: 100%;
     }
 }

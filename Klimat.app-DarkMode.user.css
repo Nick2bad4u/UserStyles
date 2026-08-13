@@ -31,16 +31,16 @@
     }
 
     body {
-        background-color: var(--backgroundColor);
         color: var(--textColor);
+        background-color: var(--backgroundColor);
     }
 
     header,
     footer,
     .sidebar,
     .content {
-        background-color: var(--headerFooterColor);
         color: var(--textColor);
+        background-color: var(--headerFooterColor);
     }
 
     a,
@@ -54,8 +54,8 @@
     }
 
     table {
-        background-color: var(--headerFooterColor);
         color: var(--textColor);
+        background-color: var(--headerFooterColor);
 
         & th,
         & td {
@@ -67,9 +67,9 @@
     input,
     select,
     textarea {
-        border: 1px solid #444444;
-        background-color: var(--buttonColor);
         color: var(--textColor);
+        background-color: var(--buttonColor);
+        border: 1px solid #444444;
     }
 
     button:hover,
@@ -80,13 +80,13 @@
     input:focus,
     select:focus,
     textarea:focus {
-        border-radius: 5px;
         background-color: var(--buttonHoverColor);
+        border-radius: 5px;
     }
 
     ::selection {
-        background-color: var(--buttonHoverColor);
         color: var(--backgroundColor);
+        background-color: var(--buttonHoverColor);
     }
 
     span {

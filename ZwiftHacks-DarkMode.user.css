@@ -48,16 +48,16 @@
     .primary-navigation,
     .main-navigation-menu a:link,
     .main-navigation-menu a:visited {
-        background: var(--background-color);
         color: var(--text-color) !important;
+        background: var(--background-color);
     }
 
     .main-navigation-menu a:link:hover,
     .main-navigation-menu a:visited:hover,
     .main-navigation-menu a:link:focus,
     .main-navigation-menu a:visited:focus {
-        background: var(--hover-background-color);
         color: var(--text-color) !important;
+        background: var(--hover-background-color);
     }
 
     .main-navigation-menu ul {
@@ -75,8 +75,8 @@
     input[type="password"]:focus,
     input[type="search"]:focus,
     textarea:focus {
-        border: 1px solid var(--border-color);
         color: var(--hover-background-color);
+        border: 1px solid var(--border-color);
     }
 
     :focus-visible {

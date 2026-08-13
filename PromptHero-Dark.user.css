@@ -36,16 +36,16 @@
     footer ul a,
     .card,
     .devise-wrapper form:not(.button_to) {
-        background: var(--background-color) !important;
         color: var(--text-color) !important;
+        background: var(--background-color) !important;
     }
 
     #top-prompthero-navbar > a > span > img {
         padding-top: 1px;
         padding-right: 10px;
         padding-left: 10px;
-        border-radius: 20px;
         background: #56074300;
+        border-radius: 20px;
     }
 
     .navbar-shadow {
@@ -75,10 +75,10 @@
     .p-3,
     .card {
         padding: 1.5em 2em;
+        overflow-wrap: break-word;
+        background-color: var(--card-background-color);
         border: 1px solid var(--primary-color);
         border-radius: 12px;
-        background-color: var(--card-background-color);
-        overflow-wrap: break-word;
     }
 
     .prompt-area span {

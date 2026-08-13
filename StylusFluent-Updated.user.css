@@ -35,16 +35,16 @@
     button {
         /* Box model stuff */
         padding: 6px 25px !important;
-        border: 1px solid var(--c70);
-        border-color: rgb(255 255 255 / 9%) rgb(255 255 255 / 7%)
-            rgb(255 255 255 / 7%);
-        border-radius: 4px;
-        background-color: rgb(255 255 255 / 6.05%);
-        color: var(--fg);
         /* Typography stuff */
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
+        color: var(--fg);
+        background-color: rgb(255 255 255 / 6.05%);
+        border: 1px solid var(--c70);
+        border-color: rgb(255 255 255 / 9%) rgb(255 255 255 / 7%)
+            rgb(255 255 255 / 7%);
+        border-radius: 4px;
         /* Manipulations stuff */
         transition:
             background-color 0.25s,
@@ -52,16 +52,16 @@
         @media screen and (prefers-reduced-motion: reduce) {
             /* Box model stuff */
             padding: 6px 25px !important;
-            border: 1px solid var(--c70);
-            border-color: rgb(255 255 255 / 9%) rgb(255 255 255 / 7%)
-                rgb(255 255 255 / 7%);
-            border-radius: 4px;
-            background-color: rgb(255 255 255 / 6.05%);
-            color: var(--fg);
             /* Typography stuff */
             font-size: 14px;
             font-style: normal;
             font-weight: 400;
+            color: var(--fg);
+            background-color: rgb(255 255 255 / 6.05%);
+            border: 1px solid var(--c70);
+            border-color: rgb(255 255 255 / 9%) rgb(255 255 255 / 7%)
+                rgb(255 255 255 / 7%);
+            border-radius: 4px;
             /* Manipulations stuff */
             transition: none;
         }
@@ -69,9 +69,9 @@
     .dirty #save-button,
     .dirty #save-button + button,
     #usw-publish-style {
-        border-color: transparent;
-        background: #3da8ff;
         color: #000000;
+        background: #3da8ff;
+        border-color: transparent;
     }
     input:not([type]),
     input[type="text"],
@@ -82,18 +82,12 @@
     input[type="time"],
     #search,
     #manage\.newUI\.sort {
+        /* Miscellaneous */
+        box-sizing: border-box;
         /* Box model stuff */
         width: 100%;
         height: 32px;
-        /* Miscellaneous */
-        box-sizing: border-box;
         padding-left: 10px;
-        border: 1px solid;
-        border-color: rgb(255 255 255 / 6.98%) !important;
-        border-radius: 4px;
-        border-bottom-width: 2px;
-        background-color: rgb(255 255 255 / 6.05%) !important;
-        color: rgb(255 255 255 / 78.6%);
         /* Typography stuff */
         font-family:
             "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", Helvetica,
@@ -102,7 +96,13 @@
         font-style: normal;
         font-weight: 400;
         line-height: 32px;
+        color: rgb(255 255 255 / 78.6%);
         outline: 0;
+        background-color: rgb(255 255 255 / 6.05%) !important;
+        border: 1px solid;
+        border-color: rgb(255 255 255 / 6.98%) !important;
+        border-bottom-width: 2px;
+        border-radius: 4px;
     }
     input:not([type]):focus,
     input[type="text"]:focus,
@@ -112,29 +112,23 @@
     input[type="time"]:focus,
     #search:focus,
     #manage\.newUI\.sort:focus {
-        /* Box model stuff */
-        border-color: rgb(255 255 255 / 6.98%);
-        border-bottom: 2px solid #0076d6 !important;
-        background-color: rgb(30 30 30 / 70%);
-        /* Miscellaneous */
-        box-shadow: none !important;
         /* Typography stuff */
         color: #ffffff;
         outline: none;
+        background-color: rgb(30 30 30 / 70%);
+        /* Box model stuff */
+        border-color: rgb(255 255 255 / 6.98%);
+        border-bottom: 2px solid #0076d6 !important;
+        /* Miscellaneous */
+        box-shadow: none !important;
     }
     select {
+        /* Miscellaneous */
+        box-sizing: border-box;
         /* Box model stuff */
         width: 100%;
         height: 32px;
-        /* Miscellaneous */
-        box-sizing: border-box;
         padding-left: 10px;
-        border: 1px solid;
-        border-color: rgb(255 255 255 / 6.98%) !important;
-        border-radius: 4px;
-        border-bottom-width: 2px;
-        background-color: #363636 !important;
-        color: rgb(255 255 255 / 78.6%);
         /* Typography stuff */
         font-family:
             "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", Helvetica,
@@ -143,25 +137,31 @@
         font-style: normal;
         font-weight: 400;
         line-height: 32px;
+        color: rgb(255 255 255 / 78.6%);
         outline: 0;
+        background-color: #363636 !important;
+        border: 1px solid;
+        border-color: rgb(255 255 255 / 6.98%) !important;
+        border-bottom-width: 2px;
+        border-radius: 4px;
     }
     input[type="checkbox"]:not(.slider),
     input[type="radio"] {
+        /* Display stuff */
+        flex: 0 0 20px !important;
         /* Box model stuff */
         width: 20px;
         height: 20px;
-        /* Display stuff */
-        flex: 0 0 20px !important;
-        border: 0;
         margin: 0 5px 3px;
+        /* Miscellaneous */
+        vertical-align: middle;
         appearance: none;
+        cursor: pointer;
+        outline: 0;
         background-color: transparent;
         background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='8.5' y='8.5' width='15' height='15' rx='1.5' stroke='%23ADADAD'/%3E%3C/svg%3E%0A");
         background-position: -6px -6px;
-        cursor: pointer;
-        outline: 0;
-        /* Miscellaneous */
-        vertical-align: middle;
+        border: 0;
     }
     input[type="checkbox"]:not(.slider):checked::after {
         /* Display stuff */
@@ -249,13 +249,13 @@
         /* Box model stuff */
         min-height: 0;
         padding: 0.45rem 12px;
-        background-color: transparent;
         /* Typography stuff */
         font-family:
             "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue",
             Helvetica, Verdana, sans-serif !important;
         font-size: 18px;
         font-weight: 600;
+        background-color: transparent;
     }
     #message-box-title::before {
         /* Display stuff */
@@ -307,8 +307,8 @@
         }
     }
     #popup-iframe {
-        border-radius: 8px;
         margin: 10px;
+        border-radius: 8px;
         box-shadow: 0 0 30px #111111;
     }
     #manage\.newUI\.sort:focus {

@@ -42,8 +42,8 @@
 
     #y1 > option,
     #y2 > option {
-        background: var(--option-background-color);
         color: var(--option-text-color);
+        background: var(--option-background-color);
     }
 
     /* Invert colors except images and videos */

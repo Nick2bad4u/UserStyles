@@ -62,21 +62,21 @@ Styles:
     #footer {
         padding-right: 10px;
         padding-left: 10px;
-        border-radius: 20px;
         background: var(--background-dark) !important;
+        border-radius: 20px;
     }
 
     #menu > ul > li:nth-child(n) > ul > li:nth-child(n) > a:hover,
     #menu > ul > li:nth-child(n) > ul > li:nth-child(n) > a:focus {
         padding-left: 20px;
-        border-radius: 20px;
-        background: var(--background-dark) !important;
         color: var(--color-green);
+        background: var(--background-dark) !important;
+        border-radius: 20px;
     }
 
     #global-banner {
-        background: var(--background-banner);
         color: var(--color-white);
+        background: var(--background-banner);
 
         & a {
             color: var(--color-pink);
@@ -87,7 +87,7 @@ Styles:
     input:nth-child(2),
     input[type="text" i],
     #xp-calc-form button {
-        background: var(--background-black) !important;
         color: var(--color-white);
+        background: var(--background-black) !important;
     }
 }

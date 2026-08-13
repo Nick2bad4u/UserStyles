@@ -64,33 +64,33 @@
     html.dark,
     html.dark body,
     .tv_tabs_fill {
-        background: var(--background-dark);
         color: var(--text-normal);
         scrollbar-color: var(--background-green) var(--scrollbar-track);
+        background: var(--background-dark);
     }
 
     .dark .tv_selected {
-        border-bottom-color: #2a2a2a !important;
-        background-color: var(--background-green) !important;
         color: var(--text-highlight) !important;
+        background-color: var(--background-green) !important;
+        border-bottom-color: #2a2a2a !important;
     }
 
     .dark .editormenu {
-        background-color: var(--border-green);
         color: var(--text-light);
+        background-color: var(--border-green);
     }
 
     .editor_border {
         padding: 0;
+        background-color: var(--editor-border);
         border: 1px var(--border-green) solid;
         border-radius: 3px;
-        background-color: var(--editor-border);
     }
 
     .dark .submenu,
     .dark .submenulist {
-        background-color: var(--submenu-dark);
         color: var(--text-light);
+        background-color: var(--submenu-dark);
     }
 
     .submenu tr.entry:hover,
@@ -99,8 +99,8 @@
     }
 
     .dark .tv_tab {
-        border: 1px solid var(--border-green);
         background-color: var(--background-dark);
+        border: 1px solid var(--border-green);
     }
 
     input[type="file"i] {

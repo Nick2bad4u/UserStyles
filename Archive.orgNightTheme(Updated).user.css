@@ -55,8 +55,8 @@
         background: var(--background-black);
 
         &.navia #nav-tophat {
-            background-color: var(--background-dark-2);
             color: var(--text-light-2);
+            background-color: var(--background-dark-2);
         }
 
         &.navia.bgEEE {
@@ -73,27 +73,27 @@
 
     #wrap,
     #wrapper {
-        border-color: var(--border-dark-1);
-        background: var(--background-dark-1);
         color: var(--text-light-1);
         text-shadow: none !important;
+        background: var(--background-dark-1);
+        border-color: var(--border-dark-1);
     }
 
     .col-xs-12,
     .preamble,
     .preamble div {
-        border-color: var(--border-dark-1);
-        background: var(--background-dark-2) !important;
         color: var(--text-light-2) !important;
         text-shadow: none !important;
+        background: var(--background-dark-2) !important;
+        border-color: var(--border-dark-1);
     }
 
     .welcome,
     #wrap .width-max {
-        border: none !important;
-        background: var(--background-dark-3) !important;
         color: var(--text-light-2) !important;
         text-shadow: none !important;
+        background: var(--background-dark-3) !important;
+        border: none !important;
     }
 
     #theatre-controls,
@@ -105,12 +105,12 @@
 
     .boxy,
     .item-ia {
-        border-width: 2px !important;
-        border-style: solid !important;
-        border-color: var(--border-dark-2) !important;
-        background: var(--background-dark-1) !important;
         color: var(--text-light-2) !important;
         text-shadow: none !important;
+        background: var(--background-dark-1) !important;
+        border-color: var(--border-dark-2) !important;
+        border-style: solid !important;
+        border-width: 2px !important;
     }
 
     body.ia-module.tiles .item-ia .item-ttl .ttl {
@@ -121,8 +121,8 @@
     #share-button,
     #flag-button,
     .sortbar {
-        border: var(--background-black) !important;
         background: var(--background-dark-1) !important;
+        border: var(--background-black) !important;
     }
 
     .boxy-ttl {
@@ -136,10 +136,10 @@
     }
 
     p .show-all {
-        border-color: var(--border-dark-1) !important;
-        background: var(--link-orange-1) !important;
         color: var(--text-light-2) !important;
         text-shadow: none !important;
+        background: var(--link-orange-1) !important;
+        border-color: var(--border-dark-1) !important;
     }
 
     a,
@@ -166,17 +166,17 @@
     td,
     .well,
     .white-box {
-        border-color: var(--border-dark-1) !important;
-        background: var(--background-dark-1) !important;
         color: var(--text-light-1) !important;
         text-shadow: none !important;
+        background: var(--background-dark-1) !important;
+        border-color: var(--border-dark-1) !important;
     }
 
     p {
-        border: none !important;
-        background: var(--background-dark-1) !important;
         color: var(--text-light-1) !important;
         text-shadow: none !important;
+        background: var(--background-dark-1) !important;
+        border: none !important;
     }
 }
 
@@ -189,34 +189,34 @@
         background-color: var(--background-dark-2) !important;
 
         & #nav-tophat {
-            background-color: var(--background-dark-2);
             color: var(--text-light-2);
+            background-color: var(--background-dark-2);
         }
     }
 
     #wrap,
     #wrapper {
-        border-color: var(--border-dark-1);
-        background: var(--background-dark-1);
         color: var(--text-light-1);
         text-shadow: none !important;
+        background: var(--background-dark-1);
+        border-color: var(--border-dark-1);
     }
 
     .col-xs-12,
     .preamble,
     .preamble div {
-        border-color: var(--border-dark-1);
-        background: var(--background-dark-2) !important;
         color: var(--text-light-2) !important;
         text-shadow: none !important;
+        background: var(--background-dark-2) !important;
+        border-color: var(--border-dark-1);
     }
 
     .welcome,
     #wrap .width-max {
-        border: none !important;
-        background: var(--background-dark-3) !important;
         color: var(--text-light-2) !important;
         text-shadow: none !important;
+        background: var(--background-dark-3) !important;
+        border: none !important;
     }
 
     #theatre-controls,
@@ -228,12 +228,12 @@
 
     .boxy,
     .item-ia {
-        border-width: 2px !important;
-        border-style: solid !important;
-        border-color: var(--border-dark-2) !important;
-        background: var(--background-dark-1) !important;
         color: var(--text-light-2) !important;
         text-shadow: none !important;
+        background: var(--background-dark-1) !important;
+        border-color: var(--border-dark-2) !important;
+        border-style: solid !important;
+        border-width: 2px !important;
     }
 
     body.ia-module.tiles .item-ia .item-ttl .ttl {
@@ -244,8 +244,8 @@
     #share-button,
     #flag-button,
     .sortbar {
-        border: var(--background-black) !important;
         background: var(--background-dark-1) !important;
+        border: var(--background-black) !important;
     }
 
     .boxy-ttl {
@@ -259,18 +259,18 @@
     }
 
     p .show-all {
-        border-color: var(--border-dark-1) !important;
-        background: var(--link-orange-1) !important;
         color: var(--text-light-2) !important;
         text-shadow: none !important;
+        background: var(--link-orange-1) !important;
+        border-color: var(--border-dark-1) !important;
     }
 
     .about-box,
     .well,
     .white-box {
-        border-color: var(--border-dark-1) !important;
-        background: var(--background-dark-1) !important;
         color: var(--text-light-1) !important;
         text-shadow: none !important;
+        background: var(--background-dark-1) !important;
+        border-color: var(--border-dark-1) !important;
     }
 }

@@ -68,8 +68,8 @@ domain("www.githubstatus.com") {
             .UnderlineNav-item[role="tab"][aria-selected="true"],
             .UnderlineNav-item[aria-current]:not([aria-current="false"])
         )::after {
-        border-color: var(--base-color) !important;
         background-color: var(--base-color) !important;
+        border-color: var(--base-color) !important;
     }
 
     body .selected .security-nav-item {
@@ -142,13 +142,13 @@ domain("www.githubstatus.com") {
 
     /* stylelint-disable csstools/use-nesting -- Native CSS nesting is not Baseline-compatible with this userstyle's browser targets. */
     body .hx_reponav.reponav .reponav-item.selected {
-        border-block-end: 0 !important;
         padding-block-start: 5px !important;
+        border-block-end: 0 !important;
     }
 
     body .hx_reponav.reponav .reponav-item {
-        border-block-end: 0 !important;
         padding-block-start: 7px !important;
+        border-block-end: 0 !important;
     }
 
     body .orgnav .pagehead-tabs-item.selected {

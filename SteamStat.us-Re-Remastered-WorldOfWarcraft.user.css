@@ -18,17 +18,17 @@
         align-items: center;
         justify-content: center;
         margin: 10px 0;
-        animation: title-animation 2s ease-in-out infinite alternate;
-        background: linear-gradient(135deg, #ffd700 30%, #4a3a1c 70%);
-        background-clip: text;
-        color: #ffd700;
         font-family: Merriweather, serif;
         font-size: 2.5em;
         font-weight: 700;
+        color: #ffd700;
         text-align: center;
-        -webkit-text-fill-color: transparent;
         /* WoW Gold */
         text-shadow: 2px 2px 0 rgb(0 0 0 / 40%);
+        background: linear-gradient(135deg, #ffd700 30%, #4a3a1c 70%);
+        background-clip: text;
+        animation: title-animation 2s ease-in-out infinite alternate;
+        -webkit-text-fill-color: transparent;
         -webkit-text-stroke-color: black;
         /* Gold to Brown */
         -webkit-text-stroke-width: 1px;
@@ -38,17 +38,17 @@
             align-items: center;
             justify-content: center;
             margin: 10px 0;
-            animation: none;
-            background: linear-gradient(135deg, #ffd700 30%, #4a3a1c 70%);
-            background-clip: text;
-            color: #ffd700;
             font-family: Merriweather, serif;
             font-size: 2.5em;
             font-weight: 700;
+            color: #ffd700;
             text-align: center;
-            -webkit-text-fill-color: transparent;
             /* WoW Gold */
             text-shadow: 2px 2px 0 rgb(0 0 0 / 40%);
+            background: linear-gradient(135deg, #ffd700 30%, #4a3a1c 70%);
+            background-clip: text;
+            animation: none;
+            -webkit-text-fill-color: transparent;
             -webkit-text-stroke-color: black;
             /* Gold to Brown */
             -webkit-text-stroke-width: 1px;
@@ -72,20 +72,20 @@
         width: 100px;
         height: 60px;
         margin-left: 10px;
+        content: "";
         background: url("https://i.gyazo.com/cc0548ce7f1b051ade8a24d5dc5ad508.png")
             no-repeat center;
         background-size: contain;
-        content: "";
         transition: transform 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
             display: inline-block;
             width: 100px;
             height: 60px;
             margin-left: 10px;
+            content: "";
             background: url("https://i.gyazo.com/cc0548ce7f1b051ade8a24d5dc5ad508.png")
                 no-repeat center;
             background-size: contain;
-            content: "";
             transition: none;
         }
     }
@@ -97,8 +97,8 @@
 
     /* Link styling with hover effect */
     a {
-        color: #ffd700;
         font-weight: 700;
+        color: #ffd700;
         /* WoW Gold */
         text-decoration: none;
         text-shadow: 1px 1px 0 rgb(0 0 0 / 40%);
@@ -106,8 +106,8 @@
             color 0.3s ease,
             text-shadow 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
-            color: #ffd700;
             font-weight: 700;
+            color: #ffd700;
             /* WoW Gold */
             text-decoration: none;
             text-shadow: 1px 1px 0 rgb(0 0 0 / 40%);
@@ -138,14 +138,14 @@
     }
 
     .minor {
-        color: #790303;
         font-weight: 700;
+        color: #790303;
         /* White for minor status */
         text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
         transition: color 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
-            color: #790303;
             font-weight: 700;
+            color: #790303;
             /* White for minor status */
             text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
             transition: none;
@@ -153,14 +153,14 @@
     }
 
     .major {
-        color: #4a3a1c;
         font-weight: 700;
+        color: #4a3a1c;
         /* WoW Dark Brown */
         text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
         transition: color 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
-            color: #4a3a1c;
             font-weight: 700;
+            color: #4a3a1c;
             /* WoW Dark Brown */
             text-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
             transition: none;
@@ -169,16 +169,16 @@
 
     /* Refresh button styling with hover effect */
     #js-refresh {
-        color: #ffd700;
         font-weight: bolder;
+        color: #ffd700;
         /* WoW Gold */
         text-shadow: 0 0 2px rgb(0 0 0);
         transition:
             color 0.3s ease,
             transform 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
-            color: #ffd700;
             font-weight: bolder;
+            color: #ffd700;
             /* WoW Gold */
             text-shadow: 0 0 2px rgb(0 0 0);
             transition: none;
@@ -199,32 +199,32 @@
     footer,
     div.regions-title.sep {
         position: relative;
+        font-size: 1em;
+        line-height: 1.5;
+        color: #ffffff;
+        text-shadow: 0 0 2px rgb(0 0 0);
+        background: linear-gradient(135deg, #4a3a1c 30%, #ffd700 70%);
         /* WoW Dark Brown to Gold */
         border: 1px solid #ffd700;
         /* WoW Gold border */
         border-radius: 5px;
-        background: linear-gradient(135deg, #4a3a1c 30%, #ffd700 70%);
         box-shadow: 0 4px 8px rgb(0 0 0);
-        color: #ffffff;
-        font-size: 1em;
-        line-height: 1.5;
-        text-shadow: 0 0 2px rgb(0 0 0);
         /* White text */
         transition:
             box-shadow 0.3s ease,
             background 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
             position: relative;
+            font-size: 1em;
+            line-height: 1.5;
+            color: #ffffff;
+            text-shadow: 0 0 2px rgb(0 0 0);
+            background: linear-gradient(135deg, #4a3a1c 30%, #ffd700 70%);
             /* WoW Dark Brown to Gold */
             border: 1px solid #ffd700;
             /* WoW Gold border */
             border-radius: 5px;
-            background: linear-gradient(135deg, #4a3a1c 30%, #ffd700 70%);
             box-shadow: 0 4px 8px rgb(0 0 0);
-            color: #ffffff;
-            font-size: 1em;
-            line-height: 1.5;
-            text-shadow: 0 0 2px rgb(0 0 0);
             /* White text */
             transition: none;
         }
@@ -247,27 +247,27 @@
     /* Body styling with a WoW background */
     body {
         margin: 0;
-        background: url("https://i.gyazo.com/32e11566c0e73d25ed470ab687959359.jpg")
-            repeat-y;
-        color: #ffd700;
         /* WoW Gold */
         font-family: Merriweather, serif;
         font-size: 16px;
         font-weight: 300;
+        color: #ffd700;
         /* WoW Background */
         text-shadow: 1px 1px 3px rgb(0 0 0);
+        background: url("https://i.gyazo.com/32e11566c0e73d25ed470ab687959359.jpg")
+            repeat-y;
         transition: background 0.3s ease;
         @media screen and (prefers-reduced-motion: reduce) {
             margin: 0;
-            background: url("https://i.gyazo.com/32e11566c0e73d25ed470ab687959359.jpg")
-                repeat-y;
-            color: #ffd700;
             /* WoW Gold */
             font-family: Merriweather, serif;
             font-size: 16px;
             font-weight: 300;
+            color: #ffd700;
             /* WoW Background */
             text-shadow: 1px 1px 3px rgb(0 0 0);
+            background: url("https://i.gyazo.com/32e11566c0e73d25ed470ab687959359.jpg")
+                repeat-y;
             transition: none;
         }
     }
@@ -275,83 +275,83 @@
     /* Tooltip customization */
     [data-tooltip]::before {
         position: absolute;
-        z-index: 1;
         top: 0;
         left: 2%;
+        z-index: 1;
+        visibility: hidden;
         width: 96%;
         /* WoW Gold */
         padding: 8px;
-        border-radius: 6px;
-        background: #4a3a1c;
-        /* WoW Dark Brown */
-        color: #ffd700;
-        content: attr(data-tooltip);
         font-size: 0.875em;
         font-style: italic;
         font-weight: 300;
-        opacity: 0%;
+        /* WoW Dark Brown */
+        color: #ffd700;
         text-shadow: 1px 1px 3px rgb(0 0 0 / 40%);
+        content: attr(data-tooltip);
+        background: #4a3a1c;
+        border-radius: 6px;
+        opacity: 0%;
         transition:
             visibility 0s,
             opacity 0.3s ease-in-out;
-        visibility: hidden;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
-            z-index: 1;
             top: 0;
             left: 2%;
+            z-index: 1;
+            visibility: hidden;
             width: 96%;
             /* WoW Gold */
             padding: 8px;
-            border-radius: 6px;
-            background: #4a3a1c;
-            /* WoW Dark Brown */
-            color: #ffd700;
-            content: attr(data-tooltip);
             font-size: 0.875em;
             font-style: italic;
             font-weight: 300;
-            opacity: 0%;
+            /* WoW Dark Brown */
+            color: #ffd700;
             text-shadow: 1px 1px 3px rgb(0 0 0 / 40%);
+            content: attr(data-tooltip);
+            background: #4a3a1c;
+            border-radius: 6px;
+            opacity: 0%;
             transition: none;
-            visibility: hidden;
         }
     }
 
     [data-tooltip]:hover::before,
     [data-tooltip]:focus::before {
-        opacity: 100%;
         visibility: visible;
+        opacity: 100%;
     }
 
     /* Gradient border with WoW-themed animation */
     .gradient-border {
         position: relative;
         padding: 10px;
-        border-radius: 5px;
-        background-color: #ffd700;
-        /* WoW Gold */
-        color: #ffffff;
         /* White text */
         font-weight: 700;
+        /* WoW Gold */
+        color: #ffffff;
         text-align: center;
+        background-color: #ffd700;
+        border-radius: 5px;
     }
 
     .gradient-border::before {
         position: absolute;
+        inset: 0;
         z-index: -1;
-        border-radius: 5px;
-        animation: gradient-border 3s linear infinite;
+        content: "";
         background: linear-gradient(45deg, #ffd700, #4a3a1c, #ffd700, #4a3a1c);
         /* Gold to Dark Brown */
         background-size: 400% 400%;
-        content: "";
-        inset: 0;
+        border-radius: 5px;
+        animation: gradient-border 3s linear infinite;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
+            inset: 0;
             z-index: -1;
-            border-radius: 5px;
-            animation: none;
+            content: "";
             background: linear-gradient(
                 45deg,
                 #ffd700,
@@ -361,8 +361,8 @@
             );
             /* Gold to Dark Brown */
             background-size: 400% 400%;
-            content: "";
-            inset: 0;
+            border-radius: 5px;
+            animation: none;
         }
     }
 

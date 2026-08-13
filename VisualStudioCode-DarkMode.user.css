@@ -36,8 +36,8 @@
     .ux-item-name,
     .ux-item-second-row-wrapper,
     .installHelpInfo > a {
-        background-color: #ffffff !important;
         color: #000000 !important;
+        background-color: #ffffff !important;
     }
 
     .uxservices-header > div > a {
@@ -50,9 +50,9 @@
 
     .item-details-control-root .ux-section-details .itemdetails-section-header {
         padding-bottom: 16px;
-        color: #555555;
         font-size: 16px;
         font-weight: 700;
+        color: #555555;
 
         &.right {
             padding: 0 0 5px;
@@ -79,15 +79,15 @@
 
     @media all and (width <= 768px) {
         .item-details-control-root .ux-itemdetails-left {
+            float: left;
             width: 100%;
             padding-right: 0;
-            float: left;
         }
 
         .item-details-control-root .ux-itemdetails-right {
+            float: left;
             width: 100%;
             padding-left: 0 !important;
-            float: left;
         }
     }
 
@@ -97,8 +97,8 @@
 
     .item-details-control-root .ux-section-h2 > h2 {
         padding-bottom: 10px;
-        border-bottom: 1px solid #eeeeee;
         color: #5c2d91;
+        border-bottom: 1px solid #eeeeee;
     }
 
     .download-dropbutton-container {
@@ -109,9 +109,9 @@
     .download-dropbutton-arrow {
         display: inline-block;
         padding: 3px;
+        margin: 0 0 2px 5px;
         border: solid white;
         border-width: 0 2px 2px 0;
-        margin: 0 0 2px 5px;
         transform: rotate(45deg);
     }
 
@@ -122,16 +122,16 @@
         min-width: 202px;
         padding: 0;
         margin: 5px 0 0 16px;
-        box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
         text-align: left;
+        box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
 
         & li {
             display: block;
             padding: 12px 16px;
-            background-color: #fafafa;
             color: black;
-            cursor: pointer;
             text-decoration: none;
+            cursor: pointer;
+            background-color: #fafafa;
         }
 
         & li:hover,
@@ -147,8 +147,8 @@
 
     .itemDetails .markdown {
         position: relative;
-        color: #222222;
         line-height: 1.625;
+        color: #222222;
 
         & blockquote {
             color: #222222 !important;
@@ -161,8 +161,8 @@
 
     .item-details-control-root .markdown {
         position: relative;
-        color: #222222;
         line-height: 1.625;
+        color: #222222;
 
         & > *:first-child {
             margin-top: 0 !important;
@@ -177,13 +177,13 @@
         }
 
         & .ms-Pivot {
+            margin-bottom: 25px;
             border-bottom: 1px solid;
             border-bottom-color: rgb(200 200 200 / 100%);
             border-bottom-color: rgb(
                 var(--palette-neutral-20, 200, 200, 200),
                 1
             );
-            margin-bottom: 25px;
         }
 
         & .ms-Pivot-text {
@@ -203,10 +203,10 @@
 
     .meta-data-list-container a.meta-data-list-link:hover,
     .meta-data-list-container a.meta-data-list-link:focus {
-        border: 1px solid #0078d4;
-        background-color: #0078d4;
         color: white;
         cursor: pointer;
+        background-color: #0078d4;
+        border: 1px solid #0078d4;
     }
 
     .meta-data-list-container
@@ -219,11 +219,11 @@
     .meta-data-list-container .ux-section-meta-data-list span {
         display: inline-block;
         padding: 4px 6px;
+        margin: 0 6px 4px 0;
+        font-size: 12px;
+        color: #333333;
         border: 1px solid #dddddd;
         border-radius: 3px;
-        margin: 0 6px 4px 0;
-        color: #333333;
-        font-size: 12px;
     }
 
     .meta-data-list-container .ux-section-meta-data-list a:hover,
@@ -232,15 +232,15 @@
     }
 
     .meta-data-list-container .ux-section-meta-data-list a.tag {
-        background-color: #eff1f3;
         cursor: default;
+        background-color: #eff1f3;
     }
 
     .meta-data-list-container .ux-section-header {
         padding-bottom: 16px;
-        color: #555555;
         font-size: 16px;
         font-weight: 700;
+        color: #555555;
 
         &.right {
             padding: 0 0 5px;
@@ -251,9 +251,9 @@
     .item-details-control-root .ux-table-metadata {
         padding: 0;
         margin-top: 0;
-        border-collapse: collapse;
-        color: #666666;
         font-size: 12px;
+        color: #666666;
+        border-collapse: collapse;
 
         & td {
             padding: 4px 18px 4px 0;
@@ -310,8 +310,8 @@
 
     .item-details-control-root .ux-section-project-details span {
         margin-left: 5px;
-        text-align: center;
         vertical-align: top;
+        text-align: center;
     }
 
     .item-details-control-root .item-share-container {
@@ -374,9 +374,9 @@
 
     .report-abuse-callout .callout-container {
         padding: 20px;
+        color: white;
         background-color: rgb(43 136 216 / 100%);
         background-color: rgb(var(--palette-primary-tint-10, 43, 136, 216), 1);
-        color: white;
 
         & .report-abuse-callout-header {
             padding-bottom: 15px;
@@ -460,11 +460,11 @@
         ul
         .download-specific-version {
         width: 50%;
-        border: 2px solid rgb(0 0 0 / 90%);
-        border: 2px solid var(--text-primary-color, rgb(0 0 0 / 90%));
-        background-color: transparent;
         color: rgb(0 0 0 / 90%);
         color: var(--text-primary-color, rgb(0 0 0 / 90%));
+        background-color: transparent;
+        border: 2px solid rgb(0 0 0 / 90%);
+        border: 2px solid var(--text-primary-color, rgb(0 0 0 / 90%));
     }
 
     .item-details-control-root .ux-section-resources {
@@ -473,8 +473,8 @@
 
     .copied-display-container {
         position: relative;
-        margin-left: 10px;
         float: right;
+        margin-left: 10px;
     }
 
     .copyID-display-div {
@@ -483,12 +483,12 @@
         display: none;
         width: 120px;
         padding: 2px 4px;
+        font-size: 10px;
+        color: #ffffff;
+        text-align: center;
+        background-color: #000000;
         border: 1px solid #ffffff;
         border-radius: 5px;
-        background-color: #000000;
-        color: #ffffff;
-        font-size: 10px;
-        text-align: center;
     }
 
     .item-details-download-dropbutton-container {
@@ -503,10 +503,10 @@
 
     .item-details-download-dropbutton {
         padding: 0;
-        color: #0078d4;
-        cursor: pointer;
         font-size: 14px;
         font-weight: 400;
+        color: #0078d4;
+        cursor: pointer;
     }
 
     .item-details-download-dropdown-content {
@@ -522,19 +522,19 @@
         & li {
             display: block;
             padding: 12px 16px;
-            background-color: white;
             color: black;
-            cursor: pointer;
             text-decoration: none;
+            cursor: pointer;
+            background-color: white;
         }
     }
 
     .item-details-download-dropbutton-arrow {
         display: inline-block;
         padding: 3px;
+        margin: 0 0 2px 5px;
         border: solid #0078d4;
         border-width: 0 1px 1px 0;
-        margin: 0 0 2px 5px;
         transform: rotate(45deg);
     }
 
@@ -610,6 +610,10 @@
         & .version-history-table {
             width: 60%;
             padding-bottom: 10px;
+            margin-bottom: 22px;
+            font-size: 14px;
+            border-spacing: 0;
+            border-collapse: collapse;
             border-width: 1px 0;
             border-bottom: 1px solid;
             border-bottom-color: rgb(234 234 234 / 100%);
@@ -617,17 +621,13 @@
                 var(--palette-neutral-8, 234, 234, 234),
                 1
             );
-            margin-bottom: 22px;
-            border-collapse: collapse;
-            border-spacing: 0;
-            font-size: 14px;
         }
 
         & .version-history-table-thead {
             display: table-header-group;
             width: 100%;
-            border-color: inherit;
             text-align: left;
+            border-color: inherit;
         }
 
         & .version-history-table-body tr:hover,
@@ -643,9 +643,9 @@
             width: 100%;
             height: 40px;
             padding-bottom: 10px;
+            border-collapse: collapse;
             border-width: 1px 0;
             border-bottom: 1px solid #d3d3d3;
-            border-collapse: collapse;
         }
 
         & .version-history-container-column {
@@ -665,10 +665,10 @@
         padding-top: 15px;
         padding-bottom: 15px;
         margin-bottom: 14px;
-        background-color: rgb(244 244 244 / 100%);
-        background-color: rgb(var(--palette-neutral-4, 244, 244, 244), 1);
         color: rgb(0 0 0 / 90%);
         color: var(--text-primary-color, rgb(0 0 0 / 90%));
+        background-color: rgb(244 244 244 / 100%);
+        background-color: rgb(var(--palette-neutral-4, 244, 244, 244), 1);
 
         & .vh-redirection-message-bar {
             font-size: 14px;
@@ -697,10 +697,10 @@
 
     .version-history-download-dropbutton {
         padding: 16px;
-        color: black;
-        cursor: pointer;
         font-size: 14px;
         font-weight: 600;
+        color: black;
+        cursor: pointer;
     }
 
     .version-history-download-dropdown-content {
@@ -715,19 +715,19 @@
         & li {
             display: block;
             padding: 12px 16px;
-            background-color: #fafafa;
             color: black;
-            cursor: pointer;
             text-decoration: none;
+            cursor: pointer;
+            background-color: #fafafa;
         }
     }
 
     .version-history-download-dropbutton-arrow {
         display: inline-block;
         padding: 3px;
+        margin: 0 0 2px 5px;
         border: solid black;
         border-width: 0 2px 2px 0;
-        margin: 0 0 2px 5px;
         transform: rotate(45deg);
     }
 
@@ -745,8 +745,8 @@
 
     h1.vss-HubTitle {
         display: flex;
-        height: 38px;
         align-items: center;
+        height: 38px;
         margin: 0 12px 0 8px;
         font-size: 18px;
         font-weight: 300;
@@ -786,8 +786,8 @@
 
     .vss-DateTimePicker {
         display: flex;
-        width: 280px;
         flex-direction: row;
+        width: 280px;
 
         & .vss-DateTimePicker--dateField {
             width: 50%;
@@ -804,16 +804,16 @@
 
         & .vss-FilterBar--list {
             display: flex;
-            width: 100%;
             flex-wrap: nowrap;
             align-items: flex-start;
+            width: 100%;
             padding-left: 0;
         }
 
         & .vss-FilterBar--list .vss-FilterBar--item {
+            flex-shrink: 0;
             min-width: 200px;
             max-width: 100%;
-            flex-shrink: 0;
             margin-right: 10px;
             margin-bottom: 10px;
         }
@@ -899,12 +899,12 @@
 
         & .vss-FilterBar--action .vss-FilterBar--filter-count {
             display: flex;
-            width: 25px;
-            height: 20px;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
+            width: 25px;
+            height: 20px;
             background-color: #f4f4f4;
+            border-radius: 50%;
         }
 
         & .vss-FilterBar--action.vss-FilterBar--action-clear .ms-Icon {
@@ -912,8 +912,8 @@
         }
 
         & .vss-FilterBar--action button {
-            overflow: visible;
             height: 32px;
+            overflow: visible;
         }
     }
 
@@ -953,8 +953,8 @@
         }
 
         & .vss-FilterBar-page-button:not([disabled]) {
-            border-color: #c8c8c8;
             background-color: #ffffff;
+            border-color: #c8c8c8;
         }
 
         & .vss-FilterBar-page-button:not([disabled]):hover,
@@ -964,36 +964,36 @@
     }
 
     .vss-DateTimeRangePicker .vss-DateTimeRangePicker--label {
+        float: left;
         width: 80px;
         padding-left: 8px;
-        float: left;
         line-height: 30px;
     }
 
     .vss-FileInput .vss-FileInput-dragDropLabel {
         font-size: 12px;
-        text-align: right;
         vertical-align: middle;
+        text-align: right;
     }
 
     .vss-FileInput .vss-FileInput-filesDropTarget {
         padding-top: 15px;
         padding-bottom: 15px;
-        border: 1px dashed #c8c8c8;
-        background-color: #eaeaea;
         color: #666666;
         text-align: center;
+        background-color: #eaeaea;
+        border: 1px dashed #c8c8c8;
     }
 
     .vss-FileInput .vss-FileInput-browseContainer {
         display: inline-block;
         padding: 5px 15px;
-        border: 1px solid #c8c8c8;
-        border-radius: 0;
         margin-left: 20px;
-        background-color: #ffffff;
         color: #212121;
         cursor: pointer;
+        background-color: #ffffff;
+        border: 1px solid #c8c8c8;
+        border-radius: 0;
 
         &:hover,
         &:focus {
@@ -1019,9 +1019,9 @@
 
     .vss-FileInput .vss-FileInput-dragDropTable {
         display: flex;
-        width: 100%;
         align-items: center;
         justify-content: space-between;
+        width: 100%;
     }
 
     .vss-FileInput .vss-FileInput-browseButton {
@@ -1078,13 +1078,13 @@
 
     .vss-PickList {
         display: flex;
-        overflow: hidden;
         flex-direction: column;
+        overflow: hidden;
 
         & .vss-PickList--focusContainer {
             display: flex;
-            overflow: hidden;
             flex-direction: column;
+            overflow: hidden;
         }
 
         & .ms-ChoiceFieldGroup {
@@ -1137,8 +1137,8 @@
         display: flex;
 
         & input {
-            width: 0;
             flex-grow: 1;
+            width: 0;
         }
     }
 
@@ -1148,8 +1148,8 @@
         & .vss-PickList--groupHeader {
             padding-right: 10px;
             padding-left: 10px;
-            color: #71afe5;
             font-size: 10px;
+            color: #71afe5;
         }
 
         & .vss-PickList--groupSeparator {
@@ -1176,8 +1176,8 @@
 
     .ms-Fabric.is-focusVisible .vss-PickList .vss-PickList--row:focus,
     .ms-Fabric.is-focusVisible .vss-PickList .vss-PickList--action:focus {
-        background-color: #f4f4f4;
         outline: none;
+        background-color: #f4f4f4;
     }
 
     @media screen and (-ms-high-contrast: active) {
@@ -1200,10 +1200,10 @@
         .vss-PickList
         .vss-PickList--action:focus::after {
         position: absolute;
-        border: 1px solid #212121;
-        content: "";
         inset: 0;
         pointer-events: none;
+        content: "";
+        border: 1px solid #212121;
     }
 
     @media screen and (-ms-high-contrast: active) {
@@ -1246,23 +1246,23 @@
 
     .vss-PickList .vss-PickList--element {
         display: flex;
-        overflow: hidden;
         flex-direction: row;
         align-items: center;
+        overflow: hidden;
 
         &:hover,
         &:focus {
-            background-color: #f4f4f4;
             color: #212121;
+            background-color: #f4f4f4;
         }
     }
 
     @media screen and (-ms-high-contrast: active) {
         .vss-PickList .vss-PickList--element:hover,
         .vss-PickList .vss-PickList--element:focus {
-            border-color: #1aebff;
-            background-color: #1aebff;
             color: HighlightText;
+            background-color: #1aebff;
+            border-color: #1aebff;
         }
 
         .vss-PickList .vss-PickList--element:hover:focus {
@@ -1273,9 +1273,9 @@
     @media screen and (-ms-high-contrast: black-on-white) {
         .vss-PickList .vss-PickList--element:hover,
         .vss-PickList .vss-PickList--element:focus {
-            border-color: #37006e;
-            background-color: #37006e;
             color: HighlightText;
+            background-color: #37006e;
+            border-color: #37006e;
         }
     }
 
@@ -1296,9 +1296,9 @@
             .vss-PickList--element:focus
             .vss-PickList--selectableElementButton
             .vss-PickList--selectableElementButton-text {
-            border-color: #1aebff;
-            background-color: #1aebff;
             color: HighlightText;
+            background-color: #1aebff;
+            border-color: #1aebff;
         }
 
         .vss-PickList
@@ -1318,9 +1318,9 @@
             .vss-PickList--element:focus
             .vss-PickList--selectableElementButton
             .vss-PickList--selectableElementButton-text {
-            border-color: #37006e;
-            background-color: #37006e;
             color: HighlightText;
+            background-color: #37006e;
+            border-color: #37006e;
         }
     }
 
@@ -1347,9 +1347,9 @@
             .vss-PickList--element:focus
             .vss-PickList--selectableElementButton
             .vss-PickList--selectableElementButtonIcon {
-            border-color: #1aebff;
-            background-color: #1aebff;
             color: HighlightText;
+            background-color: #1aebff;
+            border-color: #1aebff;
         }
 
         .vss-PickList
@@ -1369,9 +1369,9 @@
             .vss-PickList--element:focus
             .vss-PickList--selectableElementButton
             .vss-PickList--selectableElementButtonIcon {
-            border-color: #37006e;
-            background-color: #37006e;
             color: HighlightText;
+            background-color: #37006e;
+            border-color: #37006e;
         }
     }
 
@@ -1396,9 +1396,9 @@
         .vss-PickList .vss-PickList--element:focus a,
         .vss-PickList .vss-PickList--element:focus a:focus,
         .vss-PickList .vss-PickList--element:focus a:visited {
-            border-color: #1aebff;
-            background-color: #1aebff;
             color: HighlightText;
+            background-color: #1aebff;
+            border-color: #1aebff;
         }
 
         .vss-PickList .vss-PickList--element:hover a:focus,
@@ -1415,9 +1415,9 @@
         .vss-PickList .vss-PickList--element:focus a,
         .vss-PickList .vss-PickList--element:focus a:focus,
         .vss-PickList .vss-PickList--element:focus a:visited {
-            border-color: #37006e;
-            background-color: #37006e;
             color: HighlightText;
+            background-color: #37006e;
+            border-color: #37006e;
         }
     }
 
@@ -1434,14 +1434,14 @@
     }
 
     .vss-PickList .vss-PickList--element:active {
-        background-color: #f4f4f4;
         color: #212121;
+        background-color: #f4f4f4;
     }
 
     .vss-PickList .vss-PickList--element.disabled {
-        background: #ffffff;
         color: #a6a6a6;
         cursor: default;
+        background: #ffffff;
     }
 
     .vss-PickList
@@ -1493,31 +1493,31 @@
         .vss-PickList--element
         .vss-PickList--selectableElementButton {
         display: flex;
-        overflow: hidden;
-        height: 34px;
         flex-grow: 1;
         align-items: center;
+        height: 34px;
         padding: 0 0 0 8px;
-        border: none;
+        overflow: hidden;
         color: #333333;
-        outline: transparent;
         text-decoration: none;
+        outline: transparent;
+        border: none;
 
         &:visited {
             color: #333333;
         }
 
         & .vss-PickList--selectableElementButtonIcon {
-            height: 16px;
             flex-shrink: 0;
+            height: 16px;
             margin-right: 8px;
             margin-left: 0;
             font-size: 16px;
         }
 
         & .vss-PickList--selectableElementButton-textContainer {
-            overflow: hidden;
             flex-grow: 1;
+            overflow: hidden;
             text-overflow: ellipsis;
         }
 
@@ -1554,9 +1554,9 @@
     @media screen and (-ms-high-contrast: active) {
         .vss-PickList .vss-PickList--element.is-selected:hover,
         .vss-PickList .vss-PickList--element.is-selected:focus {
-            border-color: #1aebff;
-            background-color: #1aebff;
             color: HighlightText;
+            background-color: #1aebff;
+            border-color: #1aebff;
         }
 
         .vss-PickList .vss-PickList--element.is-selected:hover:focus {
@@ -1567,9 +1567,9 @@
     @media screen and (-ms-high-contrast: black-on-white) {
         .vss-PickList .vss-PickList--element.is-selected:hover,
         .vss-PickList .vss-PickList--element.is-selected:focus {
-            border-color: #37006e;
-            background-color: #37006e;
             color: HighlightText;
+            background-color: #37006e;
+            border-color: #37006e;
         }
     }
 
@@ -1583,9 +1583,9 @@
 
     @media screen and (-ms-high-contrast: active) {
         .vss-PickList .vss-PickList--element.is-selected {
-            border-color: #1aebff;
-            background-color: #1aebff;
             color: HighlightText;
+            background-color: #1aebff;
+            border-color: #1aebff;
 
             &:focus {
                 border-color: #000000;
@@ -1595,9 +1595,9 @@
 
     @media screen and (-ms-high-contrast: black-on-white) {
         .vss-PickList .vss-PickList--element.is-selected {
-            border-color: #37006e;
-            background-color: #37006e;
             color: HighlightText;
+            background-color: #37006e;
+            border-color: #37006e;
         }
     }
 
@@ -1613,9 +1613,9 @@
             .vss-PickList--element.is-selected
             .vss-PickList--selectableElementButton
             .vss-PickList--selectableElementButton-text {
-            border-color: #1aebff;
-            background-color: #1aebff;
             color: HighlightText;
+            background-color: #1aebff;
+            border-color: #1aebff;
 
             &:focus {
                 border-color: #000000;
@@ -1628,9 +1628,9 @@
             .vss-PickList--element.is-selected
             .vss-PickList--selectableElementButton
             .vss-PickList--selectableElementButton-text {
-            border-color: #37006e;
-            background-color: #37006e;
             color: HighlightText;
+            background-color: #37006e;
+            border-color: #37006e;
         }
     }
 
@@ -1649,9 +1649,9 @@
             .vss-PickList--element.is-selected
             .vss-PickList--selectableElementButton
             .vss-PickList--selectableElementButtonIcon {
-            border-color: #1aebff;
-            background-color: #1aebff;
             color: HighlightText;
+            background-color: #1aebff;
+            border-color: #1aebff;
 
             &:focus {
                 border-color: #000000;
@@ -1664,9 +1664,9 @@
             .vss-PickList--element.is-selected
             .vss-PickList--selectableElementButton
             .vss-PickList--selectableElementButtonIcon {
-            border-color: #37006e;
-            background-color: #37006e;
             color: HighlightText;
+            background-color: #37006e;
+            border-color: #37006e;
         }
     }
 
@@ -1684,9 +1684,9 @@
         .vss-PickList .vss-PickList--element.is-selected a,
         .vss-PickList .vss-PickList--element.is-selected a:hover,
         .vss-PickList .vss-PickList--element.is-selected a:visited {
-            border-color: #1aebff;
-            background-color: #1aebff;
             color: HighlightText;
+            background-color: #1aebff;
+            border-color: #1aebff;
         }
 
         .vss-PickList .vss-PickList--element.is-selected a:focus,
@@ -1703,9 +1703,9 @@
         .vss-PickList .vss-PickList--element.is-selected a,
         .vss-PickList .vss-PickList--element.is-selected a:focus,
         .vss-PickList .vss-PickList--element.is-selected a:visited {
-            border-color: #37006e;
-            background-color: #37006e;
             color: HighlightText;
+            background-color: #37006e;
+            border-color: #37006e;
         }
     }
 
@@ -1729,8 +1729,8 @@
 
             &:focus,
             &:hover {
-                background-color: #f4f4f4;
                 color: #212121;
+                background-color: #f4f4f4;
             }
 
             & .vss-PickList--selectableElementButton {
@@ -1753,8 +1753,8 @@
     .vss-PickList
         .vss-PickList--multiSelectableElement
         .vss-PickList--checkbox {
-        min-height: 34px;
         flex-shrink: 0;
+        min-height: 34px;
         margin: 0 8px 0 5px;
 
         &[disabled] {
@@ -1765,8 +1765,8 @@
     .vss-PickList
         .vss-PickList--multiSelectableElement
         .vss-PickList--multiSelectIcon {
-        overflow: visible;
         margin-right: 5px;
+        overflow: visible;
 
         & .ms-Image .ms-Image-image {
             width: 24px;
@@ -1777,15 +1777,15 @@
     .vss-PickList
         .vss-PickList--multiSelectableElement
         .vss-PickList--multiSelectTextContainer {
-        overflow: hidden;
         flex-grow: 1;
         margin-right: 5px;
+        overflow: hidden;
         text-overflow: ellipsis;
 
         & .vss-PickList--multiSelectText {
-            overflow: hidden;
             height: 34px;
             padding-top: 8px;
+            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
@@ -1799,8 +1799,8 @@
         .vss-PickList--items
         .vss-PickList--groupHeader {
         padding: 30px 0 10px;
-        color: #767676;
         font-size: inherit;
+        color: #767676;
 
         &.first-group {
             padding-top: 0;
@@ -1837,16 +1837,16 @@
     .vss-PickListDropdown--title {
         position: relative;
         display: flex;
-        overflow: hidden;
         height: 32px;
         padding: 0 5px;
-        border: 1px solid #c8c8c8;
-        background: #ffffff;
-        cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-size: 14px;
         line-height: 30px;
-        text-overflow: ellipsis;
         white-space: nowrap;
+        cursor: pointer;
+        background: #ffffff;
+        border: 1px solid #c8c8c8;
 
         &:hover,
         &:focus {
@@ -1866,16 +1866,16 @@
     }
 
     .vss-PickListDropdown--title.disabled {
-        border-color: #f4f4f4;
-        background-color: #f4f4f4;
         color: #a6a6a6;
         cursor: default;
+        background-color: #f4f4f4;
+        border-color: #f4f4f4;
     }
 
     .vss-PickListDropdown--title:focus,
     .vss-PickListDropdown--title.focused {
-        border-color: #0078d4;
         outline: none;
+        border-color: #0078d4;
     }
 
     @media screen and (-ms-high-contrast: active) {
@@ -1897,9 +1897,9 @@
 
     .vss-PickListDropdown--title .vss-PickListDropdown--title-textContainer {
         left: 12px;
-        overflow: hidden;
         flex-grow: 1;
         margin: 0 5px;
+        overflow: hidden;
         text-overflow: ellipsis;
 
         & .vss-PickListDropdown--title-text-withSelections {
@@ -1916,8 +1916,8 @@
     }
 
     .vss-PickList--filterBar {
-        min-height: 36px;
         justify-content: center;
+        min-height: 36px;
     }
 
     .vss-HubBreadcrumb--container {
@@ -1938,8 +1938,8 @@
 
     .vss-HubBreadcrumb .vss-HubBreadcrumb--item {
         display: inline-flex;
-        min-height: 30px;
         align-items: center;
+        min-height: 30px;
 
         &:hover,
         &:focus {
@@ -1996,9 +1996,9 @@
     }
 
     .vss-PickList.picker-dropdown {
+        justify-content: center;
         min-width: 220px;
         min-height: 36px;
-        justify-content: center;
 
         & .vss-PickList--items {
             max-height: 270px;
@@ -2016,14 +2016,14 @@
 
     .vss-HubHeader {
         display: flex;
-        overflow: hidden;
         align-items: center;
+        overflow: hidden;
     }
 
     .vss-HubTileRegion {
         display: flex;
-        height: 38px;
         flex-shrink: 0;
+        height: 38px;
 
         & .vss-HubTile {
             width: 120px;
@@ -2038,8 +2038,8 @@
         }
 
         & .vss-HubTextTile .vss-HubTextTile--primaryText {
-            color: #333333;
             font-size: 14px;
+            color: #333333;
         }
 
         &
@@ -2049,8 +2049,8 @@
         }
 
         & .vss-HubTextTile .vss-HubTextTile--secondaryText {
-            color: #666666;
             font-size: 10px;
+            color: #666666;
         }
     }
 
@@ -2059,16 +2059,16 @@
         flex-grow: 1;
 
         & .vss-Splitter--pane-fixed {
-            max-width: 100%;
             flex-grow: 0;
             flex-shrink: 0;
+            max-width: 100%;
         }
 
         & .vss-Splitter--pane-flexible {
+            flex: 1 1 0%;
             width: 0;
             min-width: 0;
             min-height: 0;
-            flex: 1 1 0%;
         }
 
         & .vss-Splitter--divider {
@@ -2080,10 +2080,10 @@
 
     .vss-Splitter--container .vss-Splitter--divider::after {
         position: absolute;
-        background-color: #a6a6a6;
-        content: "";
         pointer-events: none;
         user-select: none;
+        content: "";
+        background-color: #a6a6a6;
     }
 
     .vss-Splitter--container .vss-Splitter--drag-placeholder {
@@ -2214,11 +2214,11 @@
 
         & .vss-PivotBar--pivotsContainer {
             display: flex;
-            overflow: hidden;
             flex-grow: 1;
             padding-top: 5px;
             margin-right: 20px;
             margin-left: 12px;
+            overflow: hidden;
         }
 
         & .vss-PivotBar--pivotsContainer.vertical {
@@ -2234,18 +2234,18 @@
             .ms-Nav
             .ms-Nav-group.is-expanded
             .ms-Nav-groupContent {
-            overflow: visible;
+            visibility: visible;
             height: auto;
             margin-bottom: 40px;
-            visibility: visible;
+            overflow: visible;
         }
 
         & .vss-PivotBar--pivotsContainer .ms-Nav .ms-Nav-groupContent {
             display: block;
-            overflow: hidden;
+            visibility: hidden;
             height: 0;
             margin-bottom: 0;
-            visibility: hidden;
+            overflow: hidden;
         }
 
         &
@@ -2270,8 +2270,8 @@
 
         & .vss-PivotBar--barAndContentContainer {
             display: flex;
-            flex-direction: column;
             flex-grow: 1;
+            flex-direction: column;
         }
 
         & .vss-PivotBar--pivots {
@@ -2281,8 +2281,8 @@
         }
 
         & .vss-PivotBar--pivots.vertical {
-            border-right: 1px #eaeaea solid;
             overflow-y: auto;
+            border-right: 1px #eaeaea solid;
         }
 
         & .vss-PivotBar--pivots .vss-PivotBar--itemLink {
@@ -2301,11 +2301,11 @@
         & .vss-PivotBar--pivots .vss-PivotBar--button {
             position: relative;
             display: inline-block;
-            overflow: visible;
             padding: 0 8px;
-            border: 0;
-            background-color: transparent;
+            overflow: visible;
             text-align: center;
+            background-color: transparent;
+            border: 0;
         }
 
         & .vss-PivotBar--pivots .vss-PivotBar--button:focus {
@@ -2317,8 +2317,8 @@
         }
 
         & .vss-PivotBar--pivots .vss-PivotBar--button .text {
-            overflow: hidden;
             padding: 0 1px;
+            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
@@ -2335,17 +2335,17 @@
 
         & .vss-PivotBar--pivots .vss-PivotBar--button .badge {
             padding: 0 3px;
-            border-radius: 5px;
             margin-left: 4px;
-            background-color: #dadada;
             font-size: 12px;
             vertical-align: baseline;
+            background-color: #dadada;
+            border-radius: 5px;
         }
 
         & .vss-PivotBar--pivots .vss-PivotBar--button.selected {
             padding-top: 2px;
-            border-bottom: 2px solid #005a9e;
             font-weight: 600;
+            border-bottom: 2px solid #005a9e;
         }
 
         & .ms-Nav .ms-Nav-compositeLink .ms-Nav-linkButton,
@@ -2366,9 +2366,9 @@
         & .vss-PivotBar--bar .vss-PivotBar--dropdown .ms-Dropdown-title {
             padding-top: 4px;
             padding-left: 9px;
-            border: 0;
-            background: transparent;
             font-weight: 600;
+            background: transparent;
+            border: 0;
         }
 
         &
@@ -2376,8 +2376,8 @@
             .vss-PivotBar--dropdown
             .ms-Dropdown-caretDownWrapper {
             padding-top: 4px;
-            background: transparent;
             cursor: pointer;
+            background: transparent;
         }
 
         & .vss-PivotBar--bar .vss-PivotBar--dropdown.is-open,
@@ -2402,8 +2402,8 @@
             .vss-PivotBar--bar
             .vss-PivotBar--dropdown:focus
             .ms-Dropdown-caretDown {
-            background: Highlight;
             color: HighlightText;
+            background: Highlight;
         }
     }
 
@@ -2413,18 +2413,18 @@
     }
 
     .vss-PivotBar .vss-PivotBar--bar .vss-PivotBar--separator {
+        flex: 0 1 auto;
+        align-self: center;
         width: 1px;
         min-width: 1px;
         height: 24px;
-        flex: 0 1 auto;
-        align-self: center;
         margin: 0 8px;
         background-color: #c8c8c8;
     }
 
     .vss-PivotBar .vss-PivotBar--bar .vss-PivotBar--commandBar {
-        width: 100px;
         flex: 1 1 auto;
+        width: 100px;
         background-color: transparent;
 
         & .vss-Icon {
@@ -2452,8 +2452,8 @@
             .ms-CommandBar-sideCommands
             > .ms-CommandBarItem.vss-PivotBar--commandBar-barChoiceGroup
             .ms-Button-icon {
-            color: #666666;
             font-size: 12px;
+            color: #666666;
         }
 
         &
@@ -2566,8 +2566,8 @@
         }
 
         & .vss-PivotBar--commandBar-item .ms-CommandBarItem-link[disabled] {
-            border: 0;
             color: #c8c8c8;
+            border: 0;
         }
 
         &
@@ -2603,8 +2603,8 @@
         position: relative;
         display: flex;
         flex-grow: 1;
-        outline: 0;
         overflow-y: auto;
+        outline: 0;
 
         &.hide-content {
             display: none;
@@ -2658,15 +2658,15 @@
         }
 
         & .ms-ContextualMenu-header .ms-ContextualMenu-itemText {
-            color: #666666;
             font-weight: 400;
+            color: #666666;
         }
     }
 
     .vss-PivotBar--commandBar-item .ms-ContextualMenu-link[disabled],
     .vss-PivotBar--commandBar-item .ms-ContextualMenu-link.is-disabled {
-        border: 0;
         color: #c8c8c8;
+        border: 0;
     }
 
     .vss-PivotBar--commandBar-item .ms-ContextualMenu-link[disabled] .vss-Icon,
@@ -2688,11 +2688,11 @@
         .vss-PivotBar
         .vss-PivotBar--commandBar-toggle:focus::after {
         position: absolute;
-        border: 1px solid #212121;
-        content: "";
         inset: 2px;
-        outline: 0;
         pointer-events: none;
+        outline: 0;
+        content: "";
+        border: 1px solid #212121;
     }
 
     .vss-PivotBar--bar
@@ -2707,10 +2707,10 @@
         flex-direction: column;
 
         &.ms-Fabric {
-            color: inherit;
             font-family: inherit, system-ui;
             font-size: inherit;
             font-weight: inherit;
+            color: inherit;
         }
     }
 
@@ -2783,8 +2783,8 @@
     /* stylelint-disable-next-line no-duplicate-selectors -- Separate box-shadow rule for shadow-style pivot bar */
     .vss-Hub .vss-HubPivotBar.shadowStyle > .vss-PivotBar--bar-one-line,
     .vss-Hub .vss-HubPivotBar.shadowStyle > .vss-PivotBar--bar-two-line {
-        border-bottom: none;
         background-color: #ffffff;
+        border-bottom: none;
         box-shadow:
             0 3px 9px 0 rgb(0 0 0 / 10%),
             0 0 0 1px rgb(0 0 0 / 4%);
@@ -2820,8 +2820,8 @@
         min-width: 30px;
         height: 30px;
         padding: 0;
-        border: none;
         background: none;
+        border: none;
 
         &:hover,
         &:active,
@@ -2847,8 +2847,8 @@
         }
 
         & button:disabled.ms-DetailsHeader-cell {
-            border: unset;
             cursor: default;
+            border: unset;
         }
 
         & .ms-DetailsHeader {
@@ -2861,8 +2861,8 @@
 
         & .ms-List-cell .ms-DetailsRow {
             min-height: 36px;
-            border: none;
             margin: 0;
+            border: none;
         }
     }
 
@@ -2875,9 +2875,9 @@
     }
 
     .vss-DetailsList.ms-DetailsList .ms-List-cell .ms-DetailsRow a {
-        border: 1px solid transparent;
         color: #212121;
         outline: 0;
+        border: 1px solid transparent;
     }
 
     .vss-focus-visible
@@ -2920,8 +2920,8 @@
 
     @media screen and (-ms-high-contrast: active) {
         .vss-DetailsList.ms-DetailsList .ms-List-cell .ms-DetailsRow a {
-            border: 1px solid transparent;
             outline: 0;
+            border: 1px solid transparent;
         }
 
         .vss-focus-visible
@@ -2974,12 +2974,12 @@
         .ms-List-cell
         .ms-DetailsRow
         .ms-DetailsRow-cell {
-        min-height: 34px;
         align-items: center;
+        min-height: 34px;
         padding: 0 8px;
         margin: 0;
-        color: #212121;
         line-height: 34px;
+        color: #212121;
     }
 
     .vss-DetailsList.ms-DetailsList
@@ -2994,13 +2994,13 @@
         .ms-DetailsRow
         .actions-column-wrapper {
         display: flex;
-        overflow: hidden;
         flex-direction: row;
+        overflow: hidden;
 
         & .original-content {
             display: flex;
-            overflow: hidden;
             flex: 1;
+            overflow: hidden;
         }
     }
 
@@ -3025,8 +3025,8 @@
         &:active,
         &:focus,
         &:active {
-            background-color: #eaeaea;
             color: #212121;
+            background-color: #eaeaea;
         }
     }
 
@@ -3063,8 +3063,8 @@
         & .vss-ContextualMenuButton:focus,
         & .vss-ContextualMenuButton:hover,
         & .vss-ContextualMenuButton:active {
-            background-color: #deecf9;
             color: #212121;
+            background-color: #deecf9;
         }
 
         & .vss-DetailsList--contextual-menu-button.space-unallocated {
@@ -3245,8 +3245,8 @@
         .ms-List-cell
         .ms-DetailsRow:hover.is-selected
         .vss-ContextualMenuButton:active {
-        background-color: #deecf9;
         color: #212121;
+        background-color: #deecf9;
     }
 
     .vss-DetailsList.ms-DetailsList
@@ -3395,9 +3395,9 @@
         .ms-DetailsRow
         .vss-DetailsList--titleCellPrimary {
         display: flex;
-        overflow: hidden;
-        flex-direction: row;
         flex-grow: 1;
+        flex-direction: row;
+        overflow: hidden;
     }
 
     .vss-DetailsList.ms-DetailsList
@@ -3435,9 +3435,9 @@
         .ms-DetailsRow
         .vss-DetailsList--titleCellOneLine {
         display: flex;
-        overflow: hidden;
         flex: 1;
         flex-direction: row;
+        overflow: hidden;
     }
 
     .vss-DetailsList.ms-DetailsList.vss-DetailsList--twoLine .ms-GroupedList {
@@ -3489,12 +3489,12 @@
             .ms-DetailsRow-cell
             .vss-DetailsList--titleCellTwoLine {
             display: flex;
-            overflow: hidden;
             flex: 1;
             flex-direction: row;
             align-items: center;
             padding: 6px 0;
             margin-left: 10px;
+            overflow: hidden;
             line-height: 20px;
         }
 
@@ -3549,9 +3549,9 @@
             .vss-DetailsList--titleCellTwoLine
             .vss-DetailsList--titleCellTwoLineText {
             display: flex;
-            overflow: hidden;
-            flex-direction: column;
             flex-grow: 1;
+            flex-direction: column;
+            overflow: hidden;
             font-size: 14px;
         }
 
@@ -3561,11 +3561,11 @@
             .vss-DetailsList--titleCellTwoLine
             .vss-DetailsList--titleCellTwoLineText
             .vss-DetailsList--titleCellSecondary {
-            overflow: hidden;
             flex-grow: 1;
-            color: #666666;
-            font-size: 12px;
+            overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 12px;
+            color: #666666;
         }
     }
 
@@ -3578,9 +3578,9 @@
         }
 
         & .ms-DetailsHeader {
-            border-color: initial;
             font-size: initial;
             line-height: initial;
+            border-color: initial;
         }
 
         & .ms-DetailsHeader-cell {
@@ -3594,8 +3594,8 @@
         & .ms-DetailsHeader-cell > span {
             position: relative;
             display: flex;
-            overflow: hidden;
             flex-grow: 1;
+            overflow: hidden;
         }
 
         & .ms-DetailsHeader-cellTitle {
@@ -3610,8 +3610,8 @@
         & .ms-DetailsRow,
         & .ms-DetailsRow-cell {
             min-height: inherit;
-            border: none;
             margin: 0;
+            border: none;
         }
     }
 
@@ -3638,14 +3638,14 @@
 
     .vss-DetailsList--layout.ms-DetailsList .actions-column-wrapper {
         display: flex;
-        overflow: hidden;
-        flex-direction: row;
         flex-grow: 1;
+        flex-direction: row;
+        overflow: hidden;
     }
 
     .vss-DetailsList--layout.ms-DetailsList .original-content {
-        overflow: hidden;
         flex-grow: 1;
+        overflow: hidden;
         text-overflow: ellipsis;
     }
 
@@ -3762,8 +3762,8 @@
         & .vss-ContextualMenuButton:active,
         & .vss-ContextualMenuButton:focus,
         & .vss-ContextualMenuButton:active {
-            background-color: #eaeaea;
             color: #212121;
+            background-color: #eaeaea;
         }
 
         & .ms-DetailsRow:hover,
@@ -3782,8 +3782,8 @@
         & .ms-DetailsRow.is-selected .vss-ContextualMenuButton:focus,
         & .ms-DetailsRow.is-selected .vss-ContextualMenuButton:hover,
         & .ms-DetailsRow.is-selected .vss-ContextualMenuButton:active {
-            background-color: #deecf9;
             color: #212121;
+            background-color: #deecf9;
         }
     }
 
@@ -3953,8 +3953,8 @@
         }
 
         &.multiple .vss-ZeroDataItem {
-            max-width: 235px;
             flex-grow: 1;
+            max-width: 235px;
             margin: 0 20px;
         }
 
@@ -3987,11 +3987,11 @@
         & .button-class {
             width: 20px;
             height: 26px;
+            background: rgb(234 234 234 / 100%);
+            background: rgb(var(--palette-neutral-8, 234, 234, 234), 1);
             border: 1px solid;
             border-color: rgb(200 200 200 / 100%);
             border-color: rgb(var(--palette-neutral-20, 200, 200, 200), 1);
-            background: rgb(234 234 234 / 100%);
-            background: rgb(var(--palette-neutral-8, 234, 234, 234), 1);
         }
 
         & .button-class span {
@@ -4000,8 +4000,8 @@
 
         & .button-class i {
             margin: 0;
-            color: black;
             font-size: 10px;
+            color: black;
         }
 
         & .button-class:hover,
@@ -4011,10 +4011,10 @@
         }
 
         & .button-class.is-disabled {
-            border-color: rgb(244 244 244 / 100%);
-            border-color: rgb(var(--palette-neutral-4, 244, 244, 244), 1);
             background-color: rgb(244 244 244 / 100%);
             background-color: rgb(var(--palette-neutral-4, 244, 244, 244), 1);
+            border-color: rgb(244 244 244 / 100%);
+            border-color: rgb(var(--palette-neutral-4, 244, 244, 244), 1);
         }
 
         & .button-class.is-disabled i {
@@ -4032,9 +4032,9 @@
     .qna-top-container .qna-user-image-column {
         padding-top: 14px;
         padding-bottom: 14px;
-        border-collapse: collapse;
-        text-align: center;
         vertical-align: top;
+        text-align: center;
+        border-collapse: collapse;
     }
 
     .qna-top-container .qna-user-image {
@@ -4066,9 +4066,9 @@
     }
 
     .ms-Dialog-main.QnAAskQuestionDialog .qna-write-review-privacy {
+        font-size: 12px;
         color: rgb(0 0 0 / 55%);
         color: var(--text-secondary-color, rgb(0 0 0 / 55%));
-        font-size: 12px;
     }
 
     .ms-Dialog-main.QnAAskQuestionDialog .user-img {
@@ -4123,8 +4123,8 @@
         }
 
         & .see-more-qna-section button {
-            margin-top: 20px;
             float: right;
+            margin-top: 20px;
         }
 
         & .see-more-qna-section .qna-loading-more-error-message {
@@ -4138,6 +4138,7 @@
 
         & .qna-container-row {
             padding-bottom: 10px;
+            border-collapse: collapse;
             border-width: 1px 0;
             border-bottom: 1px solid;
             border-bottom-color: rgb(234 234 234 / 100%);
@@ -4145,7 +4146,6 @@
                 var(--palette-neutral-8, 234, 234, 234),
                 1
             );
-            border-collapse: collapse;
         }
 
         & h2 {
@@ -4172,10 +4172,10 @@
             padding-top: 15px;
             padding-bottom: 15px;
             margin-top: 14px;
-            background-color: rgb(244 244 244 / 100%);
-            background-color: rgb(var(--palette-neutral-4, 244, 244, 244), 1);
             color: rgb(0 0 0 / 90%);
             color: var(--text-primary-color, rgb(0 0 0 / 90%));
+            background-color: rgb(244 244 244 / 100%);
+            background-color: rgb(var(--palette-neutral-4, 244, 244, 244), 1);
         }
 
         & .qna-redirection-message-bar-container .qna-redirection-message-bar {
@@ -4193,6 +4193,7 @@
         }
 
         & .qna-question-row {
+            border-collapse: collapse;
             border-width: 1px 0;
             border-bottom: 1px solid;
             border-bottom-color: rgb(234 234 234 / 100%);
@@ -4200,7 +4201,6 @@
                 var(--palette-neutral-8, 234, 234, 234),
                 1
             );
-            border-collapse: collapse;
         }
 
         & .qna-question-bottom-margin {
@@ -4241,9 +4241,9 @@
 
     .user-name-div {
         display: inline-block;
+        font-size: 12px;
         color: rgb(0 0 0 / 55%);
         color: var(--text-secondary-color, rgb(0 0 0 / 55%));
-        font-size: 12px;
     }
 
     @media (width >= 520px) {
@@ -4263,14 +4263,14 @@
     }
 
     .comments-mandatory-message {
-        color: #e50000;
         font-size: 12px;
+        color: #e50000;
     }
 
     .ms-Dialog-main.ReviewDialog .write-review-privacy {
+        font-size: 12px;
         color: rgb(0 0 0 / 55%);
         color: var(--text-secondary-color, rgb(0 0 0 / 55%));
-        font-size: 12px;
     }
 
     .ms-Dialog-main.ReviewDialog .save-progress-spinner {
@@ -4365,8 +4365,8 @@
         }
 
         & .reviews-row .reply-row .ux-updated-date {
-            color: #666666;
             font-size: 12px;
+            color: #666666;
         }
 
         & .reviews-row .reply-row .ux-publisher-name {
@@ -4376,9 +4376,9 @@
 
         & .reviews-row .reply-row .publisher-image-column {
             padding-top: 3px;
-            border-collapse: collapse;
-            text-align: center;
             vertical-align: top;
+            text-align: center;
+            border-collapse: collapse;
 
             & .publisher-image {
                 width: 44px;
@@ -4388,10 +4388,10 @@
 
         & .reviews-row .reply-row {
             padding-top: 5px;
+            margin-top: 10px;
             border-top: 1px solid;
             border-top-color: rgb(234 234 234 / 100%);
             border-top-color: rgb(var(--palette-neutral-8, 234, 234, 234), 1);
-            margin-top: 10px;
         }
 
         & .rnr-loading-container {
@@ -4409,6 +4409,7 @@
 
         & .rnr-container-row {
             padding-bottom: 10px;
+            border-collapse: collapse;
             border-width: 1px 0;
             border-bottom: 1px solid;
             border-bottom-color: rgb(234 234 234 / 100%);
@@ -4416,7 +4417,6 @@
                 var(--palette-neutral-8, 234, 234, 234),
                 1
             );
-            border-collapse: collapse;
         }
 
         & .rnr-container-row .average-rating {
@@ -4429,13 +4429,13 @@
         }
 
         & .rnr-container-row .write-review-button-container {
-            padding-right: 0;
             float: right;
+            padding-right: 0;
         }
 
         & .rnr-container-row .report-review-button-container {
-            padding-right: 0;
             float: right;
+            padding-right: 0;
         }
 
         & .rnr-container-row .organize-buttons {
@@ -4447,8 +4447,8 @@
         }
 
         & .see-more-button button {
-            margin-top: 20px;
             float: right;
+            margin-top: 20px;
         }
 
         & .rating-control .ms-Rating-star button.ms-Rating-button {
@@ -4498,11 +4498,11 @@
     .reviews-row {
         padding-top: 10px;
         padding-bottom: 10px;
+        border-collapse: collapse;
         border-width: 1px 0;
         border-bottom: 1px solid;
         border-bottom-color: rgb(234 234 234 / 100%);
         border-bottom-color: rgb(var(--palette-neutral-8, 234, 234, 234), 1);
-        border-collapse: collapse;
 
         & .review-container {
             padding-right: 0;
@@ -4511,9 +4511,9 @@
 
         & .rnr-user-image-column {
             padding-top: 5px;
-            border-collapse: collapse;
-            text-align: center;
             vertical-align: top;
+            text-align: center;
+            border-collapse: collapse;
         }
 
         & .rnr-user-image-column .rnr-user-image {
@@ -4527,8 +4527,8 @@
         }
 
         & .ux-updated-date {
-            color: #666666;
             font-size: 12px;
+            color: #666666;
         }
 
         & .review-container .rating-control {
@@ -4545,10 +4545,10 @@
         & .review-container .rating-control .ms-Rating-star .ms-Rating-button {
             height: 100%;
             padding: 0;
-            border: 0 !important;
             font-size: 12px;
             line-height: 12px;
             outline: 0 !important;
+            border: 0 !important;
         }
     }
 
@@ -4557,8 +4557,8 @@
         top: 50%;
         right: 0;
         left: 0;
-        border-top: 1px solid;
         content: "";
+        border-top: 1px solid;
     }
 
     .reviews-row .reply-action-link {
@@ -4572,8 +4572,8 @@
     }
 
     .reviews-row .flag-table-container {
-        padding-right: 6px;
         float: right;
+        padding-right: 6px;
     }
 
     .reviews-row .reply-readMore {
@@ -4619,10 +4619,10 @@
         /* Carousel item */
 
         & .carousel-item {
+            float: left;
             margin-top: 16px;
             margin-right: 12.5px;
             margin-left: 1px;
-            float: left;
         }
 
         & .carousel-item:nth-last-child(1) {
@@ -4632,9 +4632,9 @@
     }
 
     .item-carousel.images .carousel .carousel-item {
+        float: left;
         padding: 0;
         margin: 0;
-        float: left;
     }
 
     /*
@@ -4647,21 +4647,21 @@
         width: 36px;
         height: 36px;
         margin: auto;
-        background: url("../../_content/big-progress.gif");
         vertical-align: middle;
+        background: url("../../_content/big-progress.gif");
     }
 
     .carousel-nav a {
         position: absolute;
-        z-index: 10;
         top: 50%;
+        z-index: 10;
         padding: 2px 0 0;
         margin-top: -20px;
-        color: rgb(0 90 158 / 100%);
-        color: var(--communication-foreground, rgb(0 90 158 / 100%));
         font-family: monospace;
         font-size: 40px;
         font-weight: 100;
+        color: rgb(0 90 158 / 100%);
+        color: var(--communication-foreground, rgb(0 90 158 / 100%));
         text-align: center;
         text-decoration: none;
 
@@ -4669,8 +4669,8 @@
         &:focus {
             width: 38px;
             height: auto;
-            background-color: #e2e1e1;
             color: #000000;
+            background-color: #e2e1e1;
             opacity: 100%;
         }
 
@@ -4708,10 +4708,10 @@
             display: inline-block;
             width: 12px;
             height: 12px;
-            border: 1px solid;
-            border-radius: 50%;
             margin-right: 12px;
             background: rgb(0 0 0 / 30%);
+            border: 1px solid;
+            border-radius: 50%;
         }
 
         & .indicator.active,
@@ -4723,9 +4723,9 @@
     }
 
     .flag-control {
+        font-size: 14px;
         color: rgb(0 0 0 / 55%);
         color: var(--text-secondary-color, rgb(0 0 0 / 55%));
-        font-size: 14px;
 
         &:focus {
             color: rgb(0 69 120 / 100%);
@@ -4754,9 +4754,9 @@
         margin-right: 6px;
 
         & .certified-badge-image {
-            color: inherit !important;
             font-size: 16px;
             line-height: 17px;
+            color: inherit !important;
         }
 
         & .certified-badge-image .certified-badge-foreground {
@@ -4767,15 +4767,15 @@
         & .certified-badge-text {
             height: 18px;
             padding: 0 9px 0 16px;
-            border-width: 1px;
-            border-style: solid;
-            border-color: rgb(200 200 200 / 100%);
-            border-color: rgb(var(--palette-neutral-20, 200, 200, 200), 1);
-            border-radius: 13px;
             margin-left: 3px;
-            color: inherit !important;
             font-size: 10px;
             font-weight: 600;
+            color: inherit !important;
+            border-color: rgb(200 200 200 / 100%);
+            border-color: rgb(var(--palette-neutral-20, 200, 200, 200), 1);
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 13px;
         }
     }
 
@@ -4797,14 +4797,14 @@
         flex-direction: row;
         margin-right: 6px;
         margin-right: 10;
-        color: #0078d4;
         font-size: 16px;
         line-height: 17px;
+        color: #0078d4;
 
         & .verified-domain-icon-background {
             position: absolute;
-            color: #ffffff;
             line-height: 15px;
+            color: #ffffff;
         }
 
         & .verified-domain-icon-foreground {

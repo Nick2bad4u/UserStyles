@@ -14,8 +14,8 @@
 ==/UserStyle== */
 @-moz-document domain("npmjs.com") {
     :root {
-        background: var(--npm-dark-bg) !important;
         color-scheme: dark !important;
+        background: var(--npm-dark-bg) !important;
 
         /* Theme palette */
         --npm-dark-bg: #000000;
@@ -160,8 +160,8 @@
     body,
     #app,
     main {
-        background-color: var(--npm-dark-bg) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-bg) !important;
     }
 
     div:has(> main#main) {
@@ -181,16 +181,16 @@
     [role="menu"],
     [role="listbox"],
     [role="tooltip"] {
-        border-color: var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-surface) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     dialog,
     dialog::backdrop {
-        border-color: var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-surface) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     dialog::backdrop {
@@ -199,8 +199,8 @@
 
     /* Replace npm's fixed-red chrome with the selected theme accent. */
     hr {
-        border-color: var(--npm-dark-accent) !important;
         background-color: var(--npm-dark-accent) !important;
+        border-color: var(--npm-dark-accent) !important;
     }
 
     /* Keep npm's profile popover anchored when the enhancer changes header flow. */
@@ -208,11 +208,11 @@
         position: relative !important;
 
         & > div {
+            inset: 0.625rem 0 auto auto !important;
             z-index: 100 !important;
-            overflow: hidden auto !important;
             max-width: calc(100vw - 1rem);
             max-height: calc(100dvh - 5rem);
-            inset: 0.625rem 0 auto auto !important;
+            overflow: hidden auto !important;
             overscroll-behavior: contain;
         }
     }
@@ -233,8 +233,8 @@
 
     .npm-userscript-docs-link:hover,
     .npm-userscript-docs-link:focus-visible {
-        background: var(--npm-dark-accent-soft) !important;
         color: var(--npm-dark-accent-strong) !important;
+        background: var(--npm-dark-accent-soft) !important;
     }
 
     /* npm still uses stable Tachyons utility names around generated classes. */
@@ -326,9 +326,9 @@
     }
 
     a[class~="button"] {
-        border-color: var(--npm-dark-border-strong) !important;
-        background-color: var(--npm-dark-surface-raised) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        border-color: var(--npm-dark-border-strong) !important;
     }
 
     a[aria-label="Npm"] path {
@@ -337,15 +337,15 @@
     }
 
     #pkg-list-exact-match {
-        background-color: var(--color-bg-accent) !important;
         color: var(--npm-dark-link) !important;
+        background-color: var(--color-bg-accent) !important;
     }
 
     form#search :has(> input[type="search"]) {
-        background-color: var(--npm-dark-surface-inset) !important;
         outline: 1px solid
             color-mix(in srgb, var(--npm-dark-accent) 22%, transparent);
         outline-offset: -1px;
+        background-color: var(--npm-dark-surface-inset) !important;
 
         &:focus-within {
             outline-color: color-mix(
@@ -365,8 +365,8 @@
     strong,
     legend,
     summary {
-        border-color: var(--npm-dark-border) !important;
         color: var(--npm-dark-text) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     main a:not([role="tab"], [class~="button"]),
@@ -387,10 +387,10 @@
     select,
     textarea,
     [contenteditable="true"] {
-        border-color: var(--npm-dark-border-strong) !important;
-        background-color: var(--npm-dark-surface-inset) !important;
-        caret-color: var(--npm-dark-text) !important;
         color: var(--npm-dark-text) !important;
+        caret-color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface-inset) !important;
+        border-color: var(--npm-dark-border-strong) !important;
     }
 
     input::placeholder,
@@ -408,14 +408,14 @@
 
     option,
     optgroup {
-        background-color: var(--npm-dark-surface) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface) !important;
     }
 
     button:not([class~="white"]),
     [role="button"]:not([class~="white"]) {
-        border-color: var(--npm-dark-border-strong) !important;
         color: var(--npm-dark-text) !important;
+        border-color: var(--npm-dark-border-strong) !important;
     }
 
     button[name="show-hide-password"] {
@@ -435,12 +435,12 @@
     }
 
     ::selection {
+        color: #ffffff;
         background-color: color-mix(
             in srgb,
             var(--npm-dark-accent) 42%,
             #000000
         );
-        color: #ffffff;
     }
 
     /* Tabs, cards, package lists, and the Code Beta file browser */
@@ -448,8 +448,8 @@
     [role="tabpanel"],
     article,
     aside[aria-label="Package sidebar"] {
-        border-color: var(--npm-dark-border) !important;
         color: var(--npm-dark-text) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     /* Give native and enhanced package-sidebar modules one visual language. */
@@ -464,20 +464,18 @@
         ),
     aside[aria-label="Package sidebar"]
         > div:has(a[href*="socket.dev"]):has(a[href*="bundlephobia.com"]) {
-        width: 100% !important;
         box-sizing: border-box !important;
-        border-color: var(--npm-dark-border) !important;
-        border-radius: var(--npm-sidebar-card-radius) !important;
+        width: 100% !important;
         margin-right: 0 !important;
         margin-left: 0 !important;
+        border-color: var(--npm-dark-border) !important;
+        border-radius: var(--npm-sidebar-card-radius) !important;
         box-shadow: var(--npm-sidebar-card-shadow) !important;
     }
 
     aside[aria-label="Package sidebar"]
         > div:has(a[href*="socket.dev"]):has(a[href*="bundlephobia.com"]) {
         padding: 14px !important;
-        border: 1px solid var(--npm-dark-border) !important;
-        border-top: 3px solid var(--npm-dark-accent-warm) !important;
         margin-top: 14px !important;
         background:
             linear-gradient(
@@ -486,6 +484,8 @@
                 transparent 48%
             ),
             var(--npm-dark-surface) !important;
+        border: 1px solid var(--npm-dark-border) !important;
+        border-top: 3px solid var(--npm-dark-accent-warm) !important;
     }
 
     aside[aria-label="Package sidebar"]
@@ -503,23 +503,23 @@
         color: var(--npm-dark-text-muted) !important;
 
         &[aria-selected="true"] {
-            border-color: var(--npm-dark-accent) !important;
-            background-color: var(--npm-dark-accent-soft) !important;
             color: var(--npm-dark-text) !important;
+            background-color: var(--npm-dark-accent-soft) !important;
+            border-color: var(--npm-dark-accent) !important;
         }
     }
 
     .TabNav-item .CounterLabel,
     [class*="CounterLabel"] {
-        border-color: var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-surface-raised) !important;
         color: var(--npm-dark-text-muted) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     table {
-        border-color: var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-surface) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     thead,
@@ -543,8 +543,8 @@
     }
 
     td button {
-        background-color: transparent !important;
         color: var(--npm-dark-link) !important;
+        background-color: transparent !important;
     }
 
     main
@@ -554,15 +554,15 @@
             a[aria-label="Next page"],
             a[aria-label="Previous page"]
         ) {
-        border-color: var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-surface-raised) !important;
         color: var(--npm-dark-link) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     main a[aria-current="true"] {
-        border-color: var(--npm-dark-accent) !important;
-        background-color: var(--npm-dark-accent-soft) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-accent-soft) !important;
+        border-color: var(--npm-dark-accent) !important;
     }
 
     /* Homepage dashboard columns, including the enhancer's compact layout. */
@@ -647,16 +647,12 @@
         )
         a {
         display: flex !important;
-        min-height: 2.75rem;
+        gap: 0.55rem;
         align-items: center;
+        min-height: 2.75rem;
         padding: 0.625rem 0.75rem !important;
-        border: 1px solid
-            color-mix(
-                in srgb,
-                var(--npm-dark-dashboard-item-accent) 42%,
-                var(--npm-dark-border)
-            ) !important;
-        border-radius: 0.5rem;
+        color: var(--npm-dark-dashboard-item-accent) !important;
+        text-decoration: none !important;
         background: linear-gradient(
             135deg,
             color-mix(
@@ -667,10 +663,14 @@
                 0%,
             var(--npm-dark-surface-inset) 100%
         ) !important;
+        border: 1px solid
+            color-mix(
+                in srgb,
+                var(--npm-dark-dashboard-item-accent) 42%,
+                var(--npm-dark-border)
+            ) !important;
+        border-radius: 0.5rem;
         box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
-        color: var(--npm-dark-dashboard-item-accent) !important;
-        gap: 0.55rem;
-        text-decoration: none !important;
         transition:
             border-color 140ms ease,
             background-color 140ms ease,
@@ -683,16 +683,16 @@
 
         &:hover,
         &:focus-visible {
-            border-color: var(--npm-dark-dashboard-item-accent) !important;
+            color: #ffffff !important;
             background: color-mix(
                 in srgb,
                 var(--npm-dark-dashboard-item-accent) 20%,
                 var(--npm-dark-surface-raised)
             ) !important;
+            border-color: var(--npm-dark-dashboard-item-accent) !important;
             box-shadow:
                 0 0 0 1px var(--npm-dark-accent-soft),
                 0 8px 22px rgb(0 0 0 / 34%);
-            color: #ffffff !important;
             transform: translateY(-1px);
         }
     }
@@ -702,11 +702,6 @@
         --npm-dark-stat-accent: var(--npm-dark-accent-strong);
 
         display: block !important;
-        border-color: color-mix(
-            in srgb,
-            var(--npm-dark-stat-accent) 38%,
-            var(--npm-dark-border)
-        ) !important;
         background: linear-gradient(
             135deg,
             color-mix(
@@ -717,22 +712,27 @@
                 0%,
             var(--npm-dark-surface-inset) 100%
         ) !important;
+        border-color: color-mix(
+            in srgb,
+            var(--npm-dark-stat-accent) 38%,
+            var(--npm-dark-border)
+        ) !important;
     }
 
     h2:has(> svg[data-icon="chart-bar"]) ~ h3 {
         padding: 0.75rem 0.875rem 0.25rem !important;
-        border: 1px solid;
-        border-radius: 0.55rem 0.55rem 0 0;
-        border-bottom: 0;
         margin: 0.625rem 0 0 !important;
+        font-size: 0.75rem !important;
         color: color-mix(
             in srgb,
             var(--npm-dark-stat-accent) 72%,
             var(--npm-dark-text-muted)
         ) !important;
-        font-size: 0.75rem !important;
-        letter-spacing: 0.04em;
         text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border: 1px solid;
+        border-bottom: 0;
+        border-radius: 0.55rem 0.55rem 0 0;
 
         &:nth-of-type(2),
         &:nth-of-type(2) + strong {
@@ -747,15 +747,15 @@
 
     h2:has(> svg[data-icon="chart-bar"]) ~ strong {
         padding: 0.2rem 0.875rem 0.8rem !important;
-        border: 1px solid;
-        border-radius: 0 0 0.55rem 0.55rem;
-        border-top: 0;
         margin: 0 0 0.5rem !important;
-        box-shadow: inset 0 -1px 0 rgb(255 255 255 / 3%);
-        color: var(--npm-dark-text) !important;
         font-variant-numeric: tabular-nums;
+        color: var(--npm-dark-text) !important;
         text-shadow: 0 0 18px
             color-mix(in srgb, var(--npm-dark-stat-accent) 24%, transparent);
+        border: 1px solid;
+        border-top: 0;
+        border-radius: 0 0 0.55rem 0.55rem;
+        box-shadow: inset 0 -1px 0 rgb(255 255 255 / 3%);
     }
 
     /*
@@ -765,20 +765,20 @@
      */
     #gatsby-focus-wrapper,
     #gatsby-focus-wrapper [data-component="BaseStyles"] {
-        border-color: var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-bg) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-bg) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     #gatsby-focus-wrapper
         :where(p, li, dd, dt, nav, section, article, details, summary, label) {
-        border-color: var(--npm-dark-border) !important;
         color: var(--npm-dark-text) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     #gatsby-focus-wrapper :where(h1, h2, h3, h4, h5, h6) {
-        border-color: var(--npm-dark-border) !important;
         color: var(--npm-dark-text) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     #gatsby-focus-wrapper a {
@@ -810,8 +810,8 @@
             [class*="table-of-contents-module--"],
             [class*="variant-select-module--"]
         ) {
-        border-color: var(--npm-dark-border) !important;
         color: var(--npm-dark-text-muted) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     #gatsby-focus-wrapper
@@ -819,9 +819,9 @@
             [class*="prc-ActionList-ActionListContent"],
             [class*="prc-Button-ButtonBase"]
         ) {
-        border-color: var(--npm-dark-border-strong) !important;
-        background-color: transparent !important;
         color: var(--npm-dark-text-muted) !important;
+        background-color: transparent !important;
+        border-color: var(--npm-dark-border-strong) !important;
     }
 
     #gatsby-focus-wrapper
@@ -830,9 +830,9 @@
             [class*="prc-Button-ButtonBase"]
         ):is(:hover, :focus-visible),
     #gatsby-focus-wrapper [aria-current="page"] {
-        border-color: var(--npm-dark-accent) !important;
-        background-color: var(--npm-dark-accent-soft) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-accent-soft) !important;
+        border-color: var(--npm-dark-accent) !important;
     }
 
     #gatsby-focus-wrapper
@@ -841,16 +841,16 @@
             [class*="prc-components-TextInputWrapper"],
             [class*="prc-Select-Select"]
         ) {
-        border-color: var(--npm-dark-border-strong) !important;
-        background-color: var(--npm-dark-surface-raised) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        border-color: var(--npm-dark-border-strong) !important;
     }
 
     #gatsby-focus-wrapper :where(input, select, textarea) {
-        border-color: var(--npm-dark-border-strong) !important;
-        background-color: var(--npm-dark-surface-raised) !important;
-        caret-color: var(--npm-dark-text);
         color: var(--npm-dark-text) !important;
+        caret-color: var(--npm-dark-text);
+        background-color: var(--npm-dark-surface-raised) !important;
+        border-color: var(--npm-dark-border-strong) !important;
     }
 
     #gatsby-focus-wrapper [class*="prc-ActionList-Divider"] {
@@ -859,30 +859,30 @@
 
     #gatsby-focus-wrapper [class*="code-module--Box"] {
         overflow: hidden;
+        color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
         border: 1px solid var(--npm-dark-border) !important;
         border-radius: 8px !important;
-        background-color: var(--npm-dark-surface-raised) !important;
-        color: var(--npm-dark-text) !important;
 
         & pre.prism-code {
-            border: 0 !important;
-            border-radius: 0 !important;
             margin: 0 !important;
             background-color: transparent !important;
+            border: 0 !important;
+            border-radius: 0 !important;
         }
     }
 
     #gatsby-focus-wrapper
         [class*="code-module--Box"]
         :is(button, [role="button"]) {
-        border-color: var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-surface) !important;
         color: var(--npm-dark-text-muted) !important;
+        background-color: var(--npm-dark-surface) !important;
+        border-color: var(--npm-dark-border) !important;
 
         &:hover,
         &:focus-visible {
-            background-color: var(--npm-dark-accent-soft) !important;
             color: var(--npm-dark-accent-strong) !important;
+            background-color: var(--npm-dark-accent-soft) !important;
         }
     }
 
@@ -901,17 +901,17 @@
         :where([class*="Box-sc-"], [class*="prc-Box-"]):has(
             > :is(p, div):first-child strong:first-child
         ) {
-        border: 1px solid
-            color-mix(in srgb, var(--npm-dark-link) 46%, var(--npm-dark-border)) !important;
-        border-radius: 8px !important;
+        color: var(--npm-dark-text) !important;
         background: linear-gradient(
             135deg,
             color-mix(in srgb, var(--npm-dark-link) 12%, transparent),
             var(--npm-dark-surface-raised)
         ) !important;
+        border: 1px solid
+            color-mix(in srgb, var(--npm-dark-link) 46%, var(--npm-dark-border)) !important;
+        border-radius: 8px !important;
         box-shadow: inset 4px 0 0
             color-mix(in srgb, var(--npm-dark-link) 68%, var(--npm-dark-accent));
-        color: var(--npm-dark-text) !important;
     }
 
     #gatsby-focus-wrapper
@@ -934,17 +934,17 @@
     }
 
     #gatsby-focus-wrapper code:not(pre code) {
-        border: 1px solid var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-surface-raised) !important;
         color: #f0b6ff !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        border: 1px solid var(--npm-dark-border) !important;
     }
 
     #gatsby-focus-wrapper pre.prism-code {
         overflow: auto;
+        color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
         border: 1px solid var(--npm-dark-border) !important;
         border-radius: 8px;
-        background-color: var(--npm-dark-surface-raised) !important;
-        color: var(--npm-dark-text) !important;
 
         & [style*="color: rgb(57, 58, 52)"] {
             color: var(--npm-dark-text) !important;
@@ -970,8 +970,8 @@
     }
 
     :where(#readme, .markdown) :where(h1, h2, h3, h4, h5, h6) {
-        border-color: var(--npm-dark-border) !important;
         color: var(--npm-dark-text) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     :where(#readme, .markdown) :where(p, li, dd, dt) {
@@ -979,37 +979,37 @@
     }
 
     :where(#readme, .markdown) :where(pre, .highlight) {
-        border: 1px solid var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-surface-raised) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        border: 1px solid var(--npm-dark-border) !important;
     }
 
     :where(#readme, .markdown) code {
-        background-color: var(--npm-dark-surface-raised) !important;
         color: #f0b6ff !important;
+        background-color: var(--npm-dark-surface-raised) !important;
     }
 
     :where(#readme, .markdown) pre code {
-        background-color: transparent !important;
         color: var(--npm-dark-text) !important;
+        background-color: transparent !important;
     }
 
     :where(#readme, .markdown) blockquote {
-        border-color: var(--npm-dark-border-strong) !important;
-        background-color: rgb(5 5 5 / 88%) !important;
         color: var(--npm-dark-text-muted) !important;
+        background-color: rgb(5 5 5 / 88%) !important;
+        border-color: var(--npm-dark-border-strong) !important;
     }
 
     :where(#readme, .markdown) :where(kbd, samp) {
-        border-color: var(--npm-dark-border-strong) !important;
-        background-color: var(--npm-dark-surface-raised) !important;
-        box-shadow: inset 0 -1px 0 var(--npm-dark-border-strong) !important;
         color: var(--npm-dark-text) !important;
+        background-color: var(--npm-dark-surface-raised) !important;
+        border-color: var(--npm-dark-border-strong) !important;
+        box-shadow: inset 0 -1px 0 var(--npm-dark-border-strong) !important;
     }
 
     :where(#readme, .markdown) hr {
-        border-color: var(--npm-dark-border) !important;
         background-color: var(--npm-dark-border) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     /* Primer-style syntax classes used in npm readmes. */
@@ -1062,18 +1062,18 @@
     }
 
     :where(#readme, .markdown) .pl-md {
-        background-color: #3f171c !important;
         color: #ffa198 !important;
+        background-color: #3f171c !important;
     }
 
     :where(#readme, .markdown) .pl-mi1 {
-        background-color: #12261e !important;
         color: #7ee787 !important;
+        background-color: #12261e !important;
     }
 
     :where(#readme, .markdown) .pl-mc {
-        background-color: #181204 !important;
         color: #e3b341 !important;
+        background-color: #181204 !important;
     }
 
     /* Atom-style tokens used by npm's package file viewer. */
@@ -1116,9 +1116,9 @@
     }
 
     :where([role="tabpanel"], #readme, .markdown) .gutter {
-        border-color: var(--npm-dark-border) !important;
-        background-color: var(--npm-dark-surface-inset) !important;
         color: var(--npm-dark-text-subtle) !important;
+        background-color: var(--npm-dark-surface-inset) !important;
+        border-color: var(--npm-dark-border) !important;
     }
 
     /* The Code Beta viewer emits a light syntax theme as inline RGB values. */
@@ -1168,14 +1168,14 @@
     /* Alerts, progress, and browser-native controls */
     [role="alert"],
     [data-test-id="alert-banner"] {
-        border-color: var(--color-border-attention) !important;
         color: #e3b341 !important;
+        border-color: var(--color-border-attention) !important;
     }
 
     progress {
+        color: var(--npm-dark-accent) !important;
         accent-color: var(--npm-dark-accent);
         background-color: var(--npm-dark-surface-raised) !important;
-        color: var(--npm-dark-accent) !important;
     }
 
     ::-webkit-scrollbar {
@@ -1188,9 +1188,9 @@
     }
 
     ::-webkit-scrollbar-thumb {
+        background: var(--npm-dark-border-strong);
         border: 3px solid var(--npm-dark-bg);
         border-radius: 999px;
-        background: var(--npm-dark-border-strong);
     }
 
     /* stylelint-disable-next-line a11y/selector-pseudo-class-focus -- Native scrollbar thumbs cannot receive focus. */

@@ -40,9 +40,9 @@
 
     /* Base styles */
     *:not(img, svg, iframe, a, i, span.mr2, span.mh2, p) {
-        border-color: var(--base-border) !important;
-        background-color: var(--base-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--base-background) !important;
+        border-color: var(--base-border) !important;
     }
 
     a {
@@ -61,17 +61,17 @@
     select,
     textarea,
     div > div.z-2.relative.mt2.w-60 > div > a {
-        border-color: var(--button-border) !important;
-        background-color: var(--button-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--button-background) !important;
+        border-color: var(--button-border) !important;
     }
 
     button:hover,
     input:focus,
     select:focus,
     textarea:focus {
-        border-color: var(--button-hover-border) !important;
         background-color: var(--button-hover-background) !important;
+        border-color: var(--button-hover-border) !important;
     }
 
     /* Header, Navbar, and Footer */
@@ -80,8 +80,8 @@
     .footer,
     nav,
     .navbar {
-        background-color: var(--base-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--base-background) !important;
     }
 
     header a,
@@ -96,9 +96,9 @@
     .product,
     .product-card,
     .product-list-item {
-        border-color: var(--base-border) !important;
-        background-color: var(--button-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--button-background) !important;
+        border-color: var(--base-border) !important;
     }
 
     .product-card .price,
@@ -110,9 +110,9 @@
     .sidebar,
     .category-menu,
     .filter-menu {
-        border-color: var(--base-border) !important;
-        background-color: var(--base-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--base-background) !important;
+        border-color: var(--base-border) !important;
     }
 
     .sidebar a,
@@ -126,9 +126,9 @@
     .checkout,
     .order-summary,
     .cart-item {
-        border-color: var(--base-border) !important;
-        background-color: var(--button-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--button-background) !important;
+        border-color: var(--base-border) !important;
     }
 
     .cart .price,
@@ -141,25 +141,25 @@
     .modal,
     .popup,
     .form-container {
-        border-color: var(--base-border) !important;
-        background-color: var(--base-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--base-background) !important;
+        border-color: var(--base-border) !important;
     }
 
     .modal button,
     .popup button,
     .form-container button {
-        background-color: var(--button-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--button-background) !important;
     }
 
     /* Specific UI Adjustments */
     .breadcrumb,
     .pagination,
     .page-navigation {
-        border-color: var(--base-border) !important;
-        background-color: var(--button-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--button-background) !important;
+        border-color: var(--base-border) !important;
     }
 
     .breadcrumb a,
@@ -171,15 +171,15 @@
     .notification,
     .alert,
     .badge {
-        background-color: var(--notification-background) !important;
         color: var(--notification-text) !important;
+        background-color: var(--notification-background) !important;
     }
 
     /* Tooltip */
     .tooltip {
-        border-color: var(--button-hover-border) !important;
-        background-color: var(--button-hover-background) !important;
         color: var(--base-text) !important;
+        background-color: var(--button-hover-background) !important;
+        border-color: var(--button-hover-border) !important;
     }
 
     /* Exclude flyer pages (flipp-router) from dark mode */

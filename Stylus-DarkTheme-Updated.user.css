@@ -127,13 +127,13 @@ regexp("chrome-extension://clngdbkpkpeebahjckkjfobafhncgmne/.*")
     }
 
     body {
-        background: var(--bg-dark);
         color: var(--text-primary);
+        background: var(--bg-dark);
     }
 
     #stylish-popup {
-        background: var(--bg-light);
         color: var(--input-bg);
+        background: var(--bg-light);
     }
 
     a,
@@ -151,20 +151,20 @@ regexp("chrome-extension://clngdbkpkpeebahjckkjfobafhncgmne/.*")
     #name,
     .applies-value,
     select {
-        border-color: var(--input-border);
-        background: var(--input-bg);
         color: var(--input-text);
+        background: var(--input-bg);
+        border-color: var(--input-border);
     }
 
     button {
-        border-color: var(--button-border);
-        background: var(--button-bg);
         color: var(--button-text);
+        background: var(--button-bg);
+        border-color: var(--button-border);
 
         &:hover,
         &:focus {
-            background: var(--button-hover-bg);
             color: var(--button-hover-text);
+            background: var(--button-hover-bg);
         }
     }
 
@@ -281,7 +281,7 @@ regexp("chrome-extension://clngdbkpkpeebahjckkjfobafhncgmne/.*")
     }
 
     .cm-searching {
-        border-bottom: 1px solid var(--bottom-border);
         background: var(--green2);
+        border-bottom: 1px solid var(--bottom-border);
     }
 }

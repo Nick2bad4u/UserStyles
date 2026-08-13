@@ -86,8 +86,8 @@
     }
 
     .cdfc1683 {
-        background-color: var(--black);
         color: var(--white);
+        background-color: var(--black);
     }
 
     .b8812f16 {
@@ -113,8 +113,8 @@
     }
 
     [data-ds-dark-theme] .e214291b {
-        background-color: var(--black);
         color: var(--light-white);
+        background-color: var(--black);
     }
 
     .ds-textarea.ds-textarea--focused {
@@ -148,8 +148,8 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        border-radius: 3px;
         background: var(--dark-gray);
+        border-radius: 3px;
     }
 
     ::-webkit-scrollbar-thumb:hover,

@@ -23,9 +23,9 @@
     /* Color of handle ___________________________________________________________________________ */
 
     ::-webkit-scrollbar-thumb {
+        background: #580303 !important;
         border: 1px solid rgb(0 0 0 / 25%) !important;
         border-radius: 22px !important;
-        background: #580303 !important;
         box-shadow:
             inset 0 0 5px rgb(0 0 0 / 40%),
             rgb(55 55 55 / 100%) 0 1px 0 !important;
@@ -33,8 +33,8 @@
 
     ::-webkit-scrollbar-thumb:hover,
     ::-webkit-scrollbar-thumb:focus {
-        border-radius: 22px !important;
         background: #580303 !important;
+        border-radius: 22px !important;
         box-shadow:
             inset 0 0 5px rgb(0 0 0 / 40%),
             rgb(155 155 155 / 100%) 0 1px 0 !important;
@@ -43,8 +43,8 @@
     /* Color of Track ______________________________________________________________________________ */
 
     ::-webkit-scrollbar-track {
-        border: 1px solid rgb(0 0 0 / 25%) !important;
         background: #170000 !important;
+        border: 1px solid rgb(0 0 0 / 25%) !important;
         box-shadow:
             inset 8px 0 13px rgb(0 0 0 / 40%),
             rgb(55 55 55 / 100%) 0 1px 0 !important;
@@ -99,9 +99,9 @@
     .card-body,
     .card-footer,
     :focus {
+        outline: none !important;
         border: none !important;
         box-shadow: none !important;
-        outline: none !important;
     }
 
     /* ___ Fonts ________________________________________________________________________ */
@@ -276,21 +276,21 @@
     input[type="text"],
     select,
     textarea {
-        border-radius: 22px !important;
-        background-color: #1d0909 !important;
         color: #ffffff !important;
+        background-color: #1d0909 !important;
+        border-radius: 22px !important;
     }
 
     /* __________________________________________________________________________________ */
 
     ::selection {
-        background: #ffff99 !important;
         color: #000000 !important;
+        background: #ffff99 !important;
     }
 
     pre ::selection {
-        background: #ffff99 !important;
         color: #ffffff !important;
+        background: #ffff99 !important;
     }
 
     ::placeholder {
@@ -370,27 +370,27 @@
     /* __ Blue __________________________________________________________________________ */
 
     .btn.primary {
-        border: none !important;
-        border-radius: 22px !important;
+        color: #ffffff !important;
         background-image: linear-gradient(
             to bottom right,
             #043dda,
             #000000
         ) !important;
+        border: none !important;
+        border-radius: 22px !important;
         box-shadow:
             1px 1px 1px black,
             inset 2px 3px 5px rgb(0 0 0 / 30%),
             inset -2px -3px 5px rgb(255 255 255 / 50%) !important;
-        color: #ffffff !important;
 
         &:hover,
         &:focus {
+            color: #ffff00 !important;
             background-image: linear-gradient(
                 to bottom right,
                 #154eeb,
                 #000000
             ) !important;
-            color: #ffff00 !important;
         }
 
         &:active {
@@ -404,27 +404,27 @@
     /* __ Red __________________________________________________________________________ */
 
     selector {
-        border: none !important;
-        border-radius: 22px !important;
+        color: #ffffff !important;
         background-image: linear-gradient(
             to bottom right,
             #043dda,
             #000000
         ) !important;
+        border: none !important;
+        border-radius: 22px !important;
         box-shadow:
             1px 1px 1px black,
             inset 2px 3px 5px #0000004d,
             inset -2px -3px 5px #ffffff80 !important;
-        color: #ffffff !important;
 
         &:hover,
         &:focus {
+            color: #ffff00 !important;
             background-image: linear-gradient(
                 to bottom right,
                 #ff1111,
                 #000000
             ) !important;
-            color: #ffff00 !important;
         }
 
         &:active {
@@ -438,27 +438,27 @@
     /* __ Orange ________________________________________________________________________ */
 
     .btn.icon.write-review {
-        border: none !important;
-        border-radius: 22px !important;
+        color: #ffffff !important;
         background-image: linear-gradient(
             to bottom right,
             #da3a04,
             #000000
         ) !important;
+        border: none !important;
+        border-radius: 22px !important;
         box-shadow:
             1px 1px 1px black,
             inset 2px 3px 5px #0000004d,
             inset -2px -3px 5px #ffffff80 !important;
-        color: #ffffff !important;
 
         &:hover,
         &:focus {
+            color: #ffff00 !important;
             background-image: linear-gradient(
                 to bottom right,
                 #eb4b15,
                 #000000
             ) !important;
-            color: #ffff00 !important;
         }
 
         &:active {
@@ -472,27 +472,27 @@
     /* ___ Green ________________________________________________________________________ */
 
     selector {
-        border: none !important;
-        border-radius: 22px !important;
+        color: #ffffff !important;
         background-image: linear-gradient(
             to bottom right,
             #81bc2e,
             #000000
         ) !important;
+        border: none !important;
+        border-radius: 22px !important;
         box-shadow:
             1px 1px 1px black,
             inset 2px 3px 5px #0000004d,
             inset -2px -3px 5px #ffffff80 !important;
-        color: #ffffff !important;
 
         &:hover,
         &:focus {
+            color: #ffff00 !important;
             background-image: linear-gradient(
                 to bottom right,
                 #92cd3f,
                 #000000
             ) !important;
-            color: #ffff00 !important;
         }
 
         &:active {
@@ -507,9 +507,9 @@
 
     .Hero,
     .Hero-half {
+        background-color: #000000 !important;
         border: 1px solid rgb(0 0 0 / 25%) !important;
         border-radius: 22px !important;
-        background-color: #000000 !important;
         box-shadow:
             inset 0 0 5px #00000066,
             #373737 0 1px 0,
@@ -532,9 +532,9 @@
 
     .Box,
     .card {
+        background-color: #1c1c1c !important;
         border: 1px solid rgb(0 0 0 / 25%) !important;
         border-radius: 22px !important;
-        background-color: #1c1c1c !important;
         box-shadow:
             inset 0 0 5px #00000066,
             #373737 0 1px 0,
@@ -556,64 +556,64 @@
     /* ___ Red Gradient _________________________________________________________________ */
 
     selector {
-        border-radius: 22px !important;
-        border-bottom: 1px solid #000000 !important;
         background: linear-gradient(
             to bottom,
             #300202 0%,
             #590505 100%
         ) !important;
+        border-bottom: 1px solid #000000 !important;
+        border-radius: 22px !important;
     }
 
     /* __ Blue Gradient _________________________________________________________________ */
 
     selector {
-        border-radius: 22px !important;
-        border-bottom: 1px solid #000000 !important;
         background: linear-gradient(
             to bottom,
             #03193c,
             #000000 100%
         ) !important;
+        border-bottom: 1px solid #000000 !important;
+        border-radius: 22px !important;
     }
 
     /* __ Green Gradient ________________________________________________________________ */
 
     selector {
-        border-radius: 22px !important;
-        border-bottom: 1px solid #000000 !important;
+        text-shadow: 1px 1px #555555 !important;
         background: linear-gradient(
             to bottom,
             #15534d 0%,
             #000000 100%
         ) !important;
-        text-shadow: 1px 1px #555555 !important;
+        border-bottom: 1px solid #000000 !important;
+        border-radius: 22px !important;
     }
 
     /* __ Yellow Gradient _______________________________________________________________ */
 
     selector {
-        border-radius: 22px !important;
-        border-bottom: 1px solid #000000 !important;
+        text-shadow: 1px 1px #555555 !important;
         background: linear-gradient(
             to bottom,
             #9d9d5d 0%,
             #000000 100%
         ) !important;
-        text-shadow: 1px 1px #555555 !important;
+        border-bottom: 1px solid #000000 !important;
+        border-radius: 22px !important;
     }
 
     /* __ Orange Gradient _______________________________________________________________ */
 
     selector {
-        border-radius: 22px !important;
-        border-bottom: 1px solid #000000 !important;
+        text-shadow: 1px 1px #555555 !important;
         background: linear-gradient(
             to bottom,
             #da3a04 0%,
             #000000 100%
         ) !important;
-        text-shadow: 1px 1px #555555 !important;
+        border-bottom: 1px solid #000000 !important;
+        border-radius: 22px !important;
     }
 
     /* __ Code ___________________________________________________________________________ */
@@ -626,8 +626,8 @@
 
     .TableRow:hover,
     .TableRow:focus {
-        border-left-color: #434343 !important;
         background: linear-gradient(to right, #383838, #00000000) !important;
+        border-left-color: #434343 !important;
     }
 
     /* ___ Radial Background _________________________________________________________ */

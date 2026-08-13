@@ -53,17 +53,17 @@
 
     .title {
         margin: 10px 0;
-        color: var(--title-color);
         font-size: 2.5em;
         font-weight: 300;
+        color: var(--title-color);
         /* Steam Status Title */
         text-align: center;
         text-shadow: 2px 2px 8px var(--title-shadow);
     }
 
     a {
-        color: var(--link-color);
         font-weight: 700;
+        color: var(--link-color);
         text-decoration: none;
         text-shadow: 2px 2px 6px var(--link-shadow);
     }
@@ -81,23 +81,23 @@
     }
 
     .minor {
+        font-weight: 700;
         /* Soft Teal */
         color: var(--minor-color);
-        font-weight: 700;
         text-shadow: 2px 2px 6px var(--minor-shadow);
     }
 
     .major {
+        font-weight: 700;
         /* Soft Yellow */
         color: var(--major-color);
-        font-weight: 700;
         text-shadow: 2px 2px 6px var(--major-shadow);
     }
 
     #js-refresh {
+        font-weight: bolder;
         /* Refreshing in idk seconds */
         color: var(--refresh-color);
-        font-weight: bolder;
         text-shadow: 0 0 8px var(--refresh-shadow);
     }
 
@@ -105,45 +105,45 @@
     #psa,
     noscript {
         position: relative;
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        background-color: var(--background-color);
         font-size: 1em;
         line-height: 1.5;
         text-shadow: 0 0 6px #000000;
+        background-color: var(--background-color);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
     }
 
     body {
         margin: 0;
-        background: #000000;
-        color: var(--body-color);
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
         font-size: 16px;
         font-weight: lighter;
+        color: var(--body-color);
         text-shadow: 2px 2px 6px #000000;
+        background: #000000;
     }
 
     [data-tooltip]::before {
         position: absolute;
-        z-index: 1;
         top: 0;
         left: 2%;
-        overflow: hidden;
+        z-index: 1;
+        /* Time since last status change Box */
+        visibility: hidden;
         width: 97%;
         padding: 8px;
-        border-radius: 6px;
-        background: var(--tooltip-background);
-        color: var(--tooltip-text);
-        content: attr(data-tooltip);
+        overflow: hidden;
         font-size: 0.875em;
         font-style: italic;
         font-weight: lighter;
-        opacity: 0%;
-        overflow-wrap: break-word;
+        color: var(--tooltip-text);
         text-align: left;
-        text-shadow: 1px 1px 10px #000000;
-        /* Time since last status change Box */
-        visibility: hidden;
+        overflow-wrap: break-word;
         white-space: pre;
+        text-shadow: 1px 1px 10px #000000;
+        content: attr(data-tooltip);
+        background: var(--tooltip-background);
+        border-radius: 6px;
+        opacity: 0%;
     }
 }

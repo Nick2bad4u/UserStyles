@@ -138,10 +138,10 @@
         > section
         > div,
     form button {
+        color: var(--bs-header-color) !important;
+        background-color: var(--bs-header-bg) !important;
         border: 1px solid var(--bs-header-border) !important;
         border-color: var(--bs-header-border) !important;
-        background-color: var(--bs-header-bg) !important;
-        color: var(--bs-header-color) !important;
     }
 
     .YayinaGit:nth-child(8) {

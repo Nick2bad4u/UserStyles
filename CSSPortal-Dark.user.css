@@ -179,32 +179,32 @@
         display: flex;
         flex-direction: column;
         padding-left: 0;
-        border-radius: var(--bs-list-group-border-radius);
         margin-bottom: 0;
+        border-radius: var(--bs-list-group-border-radius);
         -webkit-box-orient: vertical;
     }
 
     .rightbar-overlay {
         position: absolute;
+        inset: 0;
         z-index: 9998;
         display: none;
         background-color: #ac9dc778;
-        inset: 0;
         transition: all 0.2s ease-out;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
+            inset: 0;
             z-index: 9998;
             display: none;
             background-color: #ac9dc778;
-            inset: 0;
             transition: all 0.2s ease-out;
             transition: none;
         }
     }
 
     body[data-topbar="dark"] .navbar-brand-box {
-        border-color: var(--bs-list-group-active-border-color);
         background-color: var(--bs-list-group-active-bg);
+        border-color: var(--bs-list-group-active-border-color);
         box-shadow: 0 0 2px var(--bs-header-bg);
     }
 

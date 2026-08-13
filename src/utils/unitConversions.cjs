@@ -16,9 +16,9 @@
  */
 function metersToFeet(meters) {
 	if (
-		isNaN(/** @type {number} */ (meters)) ||
 		meters === null ||
-		meters === ''
+		meters === '' ||
+		isNaN(/** @type {number} */ (meters))
 	) {
 		return 0;
 	}

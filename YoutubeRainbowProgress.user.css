@@ -34,7 +34,6 @@
     .html5-progress-bar,
     .ytp-progress-bar {
         height: 12px !important;
-        border: none !important;
         margin-top: 12px !important;
         background: linear-gradient(
             90deg,
@@ -45,6 +44,7 @@
             var(--color-blue) 80%,
             var(--color-purple) 100%
         ) !important;
+        border: none !important;
     }
 
     .html5-progress-bar-container,
@@ -62,10 +62,10 @@
     .ytp-scrubber-button {
         width: 8px !important;
         height: 32px !important;
-        border: 1px solid var(--scrubber-border) !important;
         margin-top: -6px !important;
         margin-left: 0 !important;
         background-color: var(--scrubber-background) !important;
+        border: 1px solid var(--scrubber-border) !important;
     }
 
     .ytp-heat-map-svg {
@@ -77,11 +77,11 @@
     }
 
     .ytp-heat-map-graph {
-        animation: mymove 5s linear infinite;
         fill-opacity: 50% !important;
+        animation: mymove 5s linear infinite;
         @media screen and (prefers-reduced-motion: reduce) {
-            animation: none;
             fill-opacity: 50% !important;
+            animation: none;
         }
     }
 

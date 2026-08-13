@@ -25,8 +25,8 @@
     }
 
     .ui-button--type-primary.ui-button--color-default {
-        background: var(--background-color);
         color: var(--text-color);
+        background: var(--background-color);
     }
     .ui-menu-option:not(.is-divider),
     .ui-menu-option__icon {

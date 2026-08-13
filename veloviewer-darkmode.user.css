@@ -35,8 +35,8 @@
 
     a:any-link {
         color: var(--primary-color);
-        cursor: pointer;
         text-decoration: underline;
+        cursor: pointer;
     }
 
     /* Invert colors except images and videos */
@@ -204,10 +204,10 @@
     #list > p:nth-child(n),
     .form-horizontal .control-label {
         margin: 10px 0;
-        color: var(--header-color);
         font-family: inherit, system-ui;
         font-weight: 600;
         line-height: 16px;
+        color: var(--header-color);
         text-rendering: optimizelegibility;
     }
 }

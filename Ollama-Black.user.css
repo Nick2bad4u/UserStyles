@@ -51,8 +51,8 @@
     input,
     label,
     textarea {
-        background: #000000 !important;
         color: #ffffff !important;
+        background: #000000 !important;
     }
 
     label img {
@@ -77,30 +77,30 @@
     }
 
     input[type="submit"] {
-        background: #ffffff !important;
         color: #000000 !important;
+        background: #ffffff !important;
     }
 
     a[href="/download"] {
-        background-color: #222222 !important;
         color: #ffffff !important;
+        background-color: #222222 !important;
 
         &:hover,
         &:focus {
-            background-color: #ffffff !important;
             color: #000000 !important;
+            background-color: #ffffff !important;
         }
     }
 
     span[x-test-capability],
     span.bg-indigo-50 {
-        background-color: rgb(79 70 229);
         color: rgb(238 242 255);
+        background-color: rgb(79 70 229);
     }
 
     span[x-test-size] {
-        background-color: rgb(37 99 235);
         color: rgb(221 244 255);
+        background-color: rgb(37 99 235);
     }
 
     .bg-neutral-50 {
@@ -117,9 +117,9 @@
 
     code,
     pre {
-        background-color: #222222 !important;
-        color: #ffffff !important;
         font-family: monospace;
+        color: #ffffff !important;
+        background-color: #222222 !important;
     }
 
     li::marker {
@@ -127,9 +127,9 @@
     }
 
     .mt-2 {
-        background-color: #000000;
-        margin-block-start: 0;
         padding-block-start: 0.5rem;
+        margin-block-start: 0;
+        background-color: #000000;
     }
 
     .text-neutral-900 {

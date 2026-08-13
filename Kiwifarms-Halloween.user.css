@@ -128,8 +128,8 @@ url-prefix("http://kiwifarms")
 
     .node-icon i {
         color: var(--primary-color) !important;
-        fill: var(--primary-color) !important;
         filter: invert(1) hue-rotate(100deg);
+        fill: var(--primary-color) !important;
     }
 
     .sidebar .avatarList .userTitle,
@@ -231,8 +231,8 @@ url-prefix("http://kiwifarms")
 
     a.callToAction span,
     .PageNav a.currentPage {
-        background-color: var(--halloweenOrange) !important;
         color: var(--darkText) !important;
+        background-color: var(--halloweenOrange) !important;
         /* Dark Text for contrast */
     }
 
@@ -286,8 +286,8 @@ url-prefix("http://kiwifarms")
 
     .navTabs,
     .navTabs .navTab.selected .navLink {
-        border-color: var(--halloweenPurple);
         background-color: var(--halloweenBlack) !important;
+        border-color: var(--halloweenPurple);
         /* Halloween Black */
     }
 
@@ -335,14 +335,14 @@ url-prefix("http://kiwifarms")
 
     .footer .choosers a:hover,
     .footer .choosers a:focus {
-        border-color: var(--greyBorder) !important;
         color: var(--halloweenPurple) !important;
+        border-color: var(--greyBorder) !important;
         /* Halloween Purple */
     }
 
     .navTabs .navTab.selected.PopupOpen .navLink {
-        background-color: var(--halloweenPurple) !important;
         color: var(--white) !important;
+        background-color: var(--halloweenPurple) !important;
     }
 
     #uix_wrapper,
@@ -359,8 +359,8 @@ url-prefix("http://kiwifarms")
     }
 
     .PageNav a:hover {
-        background-color: var(--darkGrey) !important;
         color: var(--contrastPink) !important;
+        background-color: var(--darkGrey) !important;
     }
 
     .button:hover,

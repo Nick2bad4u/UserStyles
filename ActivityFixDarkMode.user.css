@@ -71,9 +71,9 @@
     .w3-hover-dark-gray:focus,
     .w3-hover-dark-grey:focus,
     .w3-padding-16 {
-        background-color: var(--background-color-black) !important;
-        color: var(--text-color-white) !important;
         font-weight: 800;
+        color: var(--text-color-white) !important;
+        background-color: var(--background-color-black) !important;
     }
 
     .af-update-header,
@@ -83,9 +83,9 @@
     }
 
     .af-update-header span {
-        cursor: default;
         font-size: 12px;
         text-decoration: underline var(--text-decoration-color);
+        cursor: default;
     }
 
     .w3-padding-16 {
@@ -103,8 +103,8 @@
 
     .w3-container.w3-black.w3-display-container {
         margin: 0 !important;
-        background-color: var(--background-color-white) !important;
         color: var(--text-color-black) !important;
+        background-color: var(--background-color-white) !important;
     }
 
     #save_success > div {

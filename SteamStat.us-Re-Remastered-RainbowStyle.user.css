@@ -41,27 +41,11 @@
 
     .title {
         margin: 10px 0;
-        background: linear-gradient(
-            90deg,
-            var(--title-gradient-1),
-            var(--title-gradient-2),
-            var(--title-gradient-3),
-            var(--title-gradient-4),
-            var(--title-gradient-5),
-            var(--title-gradient-6),
-            var(--title-gradient-7)
-        );
-        background-clip: text;
         font-size: 2.5em;
         font-weight: 300;
         /* Steam Status Title */
         text-align: center;
-        -webkit-text-fill-color: transparent;
         text-shadow: 1px 1px 6px var(--shadow-color);
-        -webkit-text-stroke: 0.4px var(--shadow-color);
-    }
-
-    a {
         background: linear-gradient(
             90deg,
             var(--title-gradient-1),
@@ -73,10 +57,26 @@
             var(--title-gradient-7)
         );
         background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke: 0.4px var(--shadow-color);
+    }
+
+    a {
         font-weight: 700;
         text-decoration: none;
-        -webkit-text-fill-color: transparent;
         text-shadow: 3px 3px 6px var(--shadow-color);
+        background: linear-gradient(
+            90deg,
+            var(--title-gradient-1),
+            var(--title-gradient-2),
+            var(--title-gradient-3),
+            var(--title-gradient-4),
+            var(--title-gradient-5),
+            var(--title-gradient-6),
+            var(--title-gradient-7)
+        );
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
         -webkit-text-stroke: 0.4px var(--shadow-color);
     }
 
@@ -84,6 +84,7 @@
     .minor,
     .major,
     #js-refresh {
+        font-weight: 700;
         /* Status Text */
         background: linear-gradient(
             90deg,
@@ -96,7 +97,6 @@
             var(--title-gradient-7)
         );
         background-clip: text;
-        font-weight: 700;
         -webkit-text-fill-color: transparent;
         -webkit-text-stroke: 0.4px var(--shadow-color);
     }
@@ -105,8 +105,10 @@
     #psa,
     noscript {
         position: relative;
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
+        font-size: 1em;
+        line-height: 1.5;
+        color: var(--text-color);
+        text-shadow: 0 0 6px var(--shadow-color);
         background: linear-gradient(
             180deg,
             var(--title-gradient-1),
@@ -117,14 +119,17 @@
             var(--title-gradient-6),
             var(--title-gradient-7)
         );
-        color: var(--text-color);
-        font-size: 1em;
-        line-height: 1.5;
-        text-shadow: 0 0 6px var(--shadow-color);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
     }
 
     body {
         margin: 0;
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: lighter;
+        color: var(--text-color);
+        text-shadow: 1px 1px 6px var(--shadow-color);
         background: linear-gradient(
             180deg,
             var(--title-gradient-7),
@@ -135,35 +140,30 @@
             var(--title-gradient-2),
             var(--title-gradient-1)
         );
-        color: var(--text-color);
-        font-family: "Open Sans", Helvetica, Arial, sans-serif;
-        font-size: 16px;
-        font-weight: lighter;
-        text-shadow: 1px 1px 6px var(--shadow-color);
     }
 
     [data-tooltip]::before {
         position: absolute;
-        z-index: 1;
         top: 0;
         left: 2%;
-        overflow: hidden;
+        z-index: 1;
+        visibility: hidden;
         width: 97%;
         padding: 8px;
-        border-radius: 6px;
-        background: var(--background-main);
-        color: var(--text-color);
-        content: attr(data-tooltip);
+        overflow: hidden;
         font-size: 0.875em;
         font-style: italic;
         font-weight: lighter;
-        opacity: 0%;
-        overflow-wrap: break-word;
+        color: var(--text-color);
         text-align: left;
+        overflow-wrap: break-word;
+        white-space: pre;
         text-shadow: 1px 1px 10px var(--shadow-color);
+        content: attr(data-tooltip);
+        background: var(--background-main);
+        border-radius: 6px;
+        opacity: 0%;
         /* Time since last status change Box */
         -webkit-text-stroke: 0.4px var(--shadow-color);
-        visibility: hidden;
-        white-space: pre;
     }
 }
