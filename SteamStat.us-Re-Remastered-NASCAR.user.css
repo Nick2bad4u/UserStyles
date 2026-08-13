@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         SteamStat.us - NASCAR Theme
-@version      20241117.22.08
+@version      20260813.00.47
 @namespace    nick2bad4u.github.io
 @supportURL   https://github.com/Nick2bad4u/UserStyles/issues
 @description  SteamStat.us - NASCAR Theme with Advanced CSS
@@ -17,7 +17,7 @@
 @var color color7 "Color 7" yellow
 @var color color8 "Color 8" blue
 @var color color9 "Color 9" white
-@var color color10 "Color 10" black
+@var color color10 "Color 10" #000000
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-NASCAR.user.css
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SteamStat.us-Re-Remastered-NASCAR.user.css
 ==/UserStyle== */

@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           veloviewer.com - Dark Mode
 @namespace      nick2bad4u.github.io
-@version        1.6.1
+@version        1.6.2
 @description    Dark theme for VeloViewer
 @author         Nick2bad4u
 @license        UnLicense
@@ -12,7 +12,7 @@
 @var color      header-color     "Header Color" #ff8bc1
 @var color      secondary-color  "Secondary Color" #0099c6
 @var color      table-alternate-row "Table Alternate Row Background Color" #fff
-@var color      background-color "Background Color" black
+@var color      background-color "Background Color" #000000
 @var text       invert-filter    "Invert Filter" "invert(1) hue-rotate(180deg)"
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/veloviewer-darkmode.user.css
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/veloviewer-darkmode.user.css

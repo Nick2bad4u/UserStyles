@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name           Zwift.com Dark Mode
-@version        8.5
+@version        8.6
 @namespace      nick2bad4u.github.io
 @description    Zwift.com Dark Mode
 @author         Nick2bad4u
@@ -13,7 +13,7 @@
 @var color      primary-color            "Primary Color" #ff7830
 @var color      secondary-color          "Secondary Color" #141518
 @var color      background-color         "Background Color" #f1f1f1
-@var color      text-color               "Text Color" black
+@var color      text-color               "Text Color" #000000
 @var color      card-background-color    "Card Background Color" #fffffffa
 @var color      modal-background-color   "Modal Background Color" #ffffffe6
 @var color      scrollbar-color          "Scrollbar Color" #000000
