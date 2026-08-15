@@ -1,0 +1,1443 @@
+/* ==UserStyle==
+@name           YouTube Color Animation (Fixed)
+@namespace      Color Animation Projects
+@author         HoangNam (Fixed and modernized by Nick2bad4u)
+@description    Restores configurable animated accent colors, shadows, borders, fills, and backgrounds across modern YouTube, YouTube Music, and YouTube Studio.
+@version        0.0.9
+@license        NONE
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YoutubeColorAnimation-Fixed.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/YoutubeColorAnimation-Fixed.user.css
+@preprocessor   uso
+
+@advanced text duration "Color Transition Duration (in seconds)" "10"
+@advanced color taccent "Shadow Color" #ddf504
+@advanced dropdown adjshadow "Adjust Shadow" {
+    0  "1*" <<<EOT 1 EOT;
+    1 "0.5" <<<EOT 0.5 EOT;
+    2 "2" <<<EOT 2 EOT;
+    3 "6" <<<EOT 6 EOT;
+    4 "9" <<<EOT 9 EOT;
+logohoangnam-custom-dropdown "Custom Shadow" <<<EOT /*[[logohoangnam-custom]]*\/ EOT;
+}
+@advanced text logohoangnam-custom "Custom Shadow Number" "0.8"
+
+@advanced dropdown textshadow "Text Shadow" {
+    0  "OFF" <<<EOT  EOT;
+    1 "Shadow Color*" <<<EOT text-shadow: 0px 1px /*[[adjshadow]]*\/px /*[[taccent]]*\/ EOT;
+    2 "Depend on Animate*" <<<EOT text-shadow: 0px 1px /*[[adjshadow]]*\/px  EOT;
+}
+@advanced dropdown boxshadow "Box Shadow" {
+    2 "OFF" <<<EOT  EOT;
+    1 "ON*" <<<EOT  box-shadow: 0 0px /*[[adjshadow]]*\/px 0 /*[[taccent]]*\/, 0 0px /*[[adjshadow]]*\/px 0 ; EOT;
+}
+@advanced dropdown filtersd "Stroke Shadow" {
+     1 "Depend on Animate*" <<<EOT filter: drop-shadow(0 0px /*[[adjshadow]]*\/px  )  EOT;
+   0  "Shadow Color*" <<<EOT filter: drop-shadow(0 0px /*[[adjshadow]]*\/px  /*[[taccent]]*\/  ) EOT;
+    2 "OFF" <<<EOT  EOT;
+}
+@advanced dropdown filtersdb "Stroke Shadow" {
+    1  "Depend on Animate*" <<<EOT filter: drop-shadow(0 0px 0.5px  )  EOT;
+    0  "Shadow Color*" <<<EOT filter: drop-shadow(0 0px 0.5px /*[[taccent]]*\/  ) EOT;
+    2 "OFF" <<<EOT  EOT;
+}
+
+@advanced dropdown bordera "Border Animation" {
+Accent "Accent" <<<EOT border-color: /*[[Accent]]*\/ EOT;
+on "Animate*" <<<EOT animation: border-transition var(--color-transition-duration) linear infinite;
+ EOT;
+off "Off" <<<EOT  EOT;
+}
+
+@advanced dropdown texta "Text/currentcolor Animation" {
+    Accent "Accent" <<<EOT color: /*[[Accent]]*\/ EOT;
+    on "Animate*" <<<EOT animation: color-transition var(--color-transition-duration) linear infinite;
+ EOT;
+off "Off" <<<EOT  EOT;
+}
+
+@advanced dropdown filla "SVG Fill Color Animation" {
+Accent "Accent" <<<EOT fill: /*[[Accent]]*\/ EOT;
+	on "Animate*" <<<EOT animation: fill-transition var(--color-transition-duration) linear infinite;
+ EOT;
+off "Off" <<<EOT  EOT;
+}
+
+@advanced dropdown bgra "Background Animation" {
+Accent "Accent" <<<EOT background-color: /*[[Accent]]*\/ EOT;
+	on "Animate*" <<<EOT animation: background-transition var(--color-transition-duration) linear infinite;
+ EOT;
+off "Off" <<<EOT  EOT;
+}
+
+@advanced dropdown strokea "strokeL Animation" {
+Accent "Accent" <<<EOT stroke: /*[[Accent]]*\/ EOT;
+	on "Animate*" <<<EOT animation: stroke-transition var(--color-transition-duration) linear infinite;
+ EOT;
+off "Off" <<<EOT  EOT;
+}
+@advanced dropdown strokeb "strokeB Animation" {
+Accent "Accent" <<<EOT color: /*[[Accent]]*\/ EOT;
+	on "Animate*" <<<EOT animation: color-transition var(--color-transition-duration) linear infinite;
+ EOT;
+off "Off" <<<EOT  EOT;
+}
+@advanced color Accent 'Accent Color' #ffff00
+
+==/UserStyle== */
+
+@-moz-document domain("youtube.com"), domain("m.youtube.com"), domain("studio.youtube.com"), domain("music.youtube.com"), domain("www.youtubekids.com"), domain("payments.youtube.com") {
+    /* stylelint-disable comment-whitespace-inside -- UserCSS placeholders require exact syntax. */
+    /* Initial setup */
+    :root {
+        --color-transition-duration: /*[[duration]]*/ s;
+        --standard-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* KeyFrames for background color */
+    @keyframes background-transition {
+        0% {
+            background-color: #ff0000;
+        }
+        5% {
+            background-color: #ff4000;
+        }
+        15% {
+            background-color: #ffae00;
+        }
+        25% {
+            background-color: #ffff00;
+        }
+        35% {
+            background-color: #88ff00;
+        }
+        45% {
+            background-color: #00ff88;
+        }
+        55% {
+            background-color: #0088ff;
+        }
+        65% {
+            background-color: #0000ff;
+        }
+        75% {
+            background-color: #8800ff;
+        }
+        85% {
+            background-color: #ff00bf;
+        }
+        95% {
+            background-color: #ff0059;
+        }
+        100% {
+            background-color: #ff0000;
+        }
+    }
+
+    /* KeyFrames for text and currentColor */
+    @keyframes color-transition {
+        0% {
+            color: #ff0000;
+        }
+        5% {
+            color: #ff4000;
+        }
+        15% {
+            color: #ffae00;
+        }
+        25% {
+            color: #ffff00;
+        }
+        35% {
+            color: #88ff00;
+        }
+        45% {
+            color: #00ff88;
+        }
+        55% {
+            color: #0088ff;
+        }
+        65% {
+            color: #0000ff;
+        }
+        75% {
+            color: #8800ff;
+        }
+        85% {
+            color: #ff00c3;
+        }
+        95% {
+            color: #fa0855;
+        }
+        100% {
+            color: #ff0000;
+        }
+    }
+
+    /* KeyFrames for SVG */
+    @keyframes fill-transition {
+        0% {
+            fill: #ff0000;
+        }
+        5% {
+            fill: #ff4000;
+        }
+        15% {
+            fill: #ffae00;
+        }
+        25% {
+            fill: #ffff00;
+        }
+        35% {
+            fill: #88ff00;
+        }
+        45% {
+            fill: #00ff88;
+        }
+        55% {
+            fill: #0088ff;
+        }
+        65% {
+            fill: #0000ff;
+        }
+        75% {
+            fill: #8800ff;
+        }
+        85% {
+            fill: #ff00ae;
+        }
+        95% {
+            fill: #ff0051;
+        }
+        100% {
+            fill: #ff0000;
+        }
+    }
+
+    /* KeyFrames for Border */
+    @keyframes border-transition {
+        0% {
+            border-color: #ff0000;
+        }
+        5% {
+            border-color: #ff4000;
+        }
+        15% {
+            border-color: #ffae00;
+        }
+        25% {
+            border-color: #ffff00;
+        }
+        35% {
+            border-color: #88ff00;
+        }
+        45% {
+            border-color: #00ff88;
+        }
+        55% {
+            border-color: #0088ff;
+        }
+        65% {
+            border-color: #0000ff;
+        }
+        75% {
+            border-color: #8800ff;
+        }
+        85% {
+            border-color: #ff00ae;
+        }
+        95% {
+            border-color: #ff0051;
+        }
+        100% {
+            border-color: #ff0000;
+        }
+    }
+
+    /* KeyFrames for Stroke */
+    @keyframes stroke-transition {
+        0% {
+            stroke: #ff0000;
+        }
+        5% {
+            stroke: #ff4000;
+        }
+        15% {
+            stroke: #ffae00;
+        }
+        25% {
+            stroke: #ffff00;
+        }
+        35% {
+            stroke: #88ff00;
+        }
+        45% {
+            stroke: #00ff88;
+        }
+        55% {
+            stroke: #0088ff;
+        }
+        65% {
+            stroke: #0000ff;
+        }
+        75% {
+            stroke: #8800ff;
+        }
+        85% {
+            stroke: #ff00ae;
+        }
+        95% {
+            stroke: #ff0051;
+        }
+        100% {
+            stroke: #ff0000;
+        }
+    }
+
+    /* YouTube SquaRE+ - Accent */
+
+    ytd-searchbox[mode="legacy"][has-focus] #container.ytd-searchbox,
+    ytd-searchbox[mode="legacy-centered"][has-focus] #container.ytd-searchbox,
+    .badge-style-type-live-now.ytd-badge-supported-renderer,
+    #checkbox.checked.tp-yt-paper-checkbox,
+    ytd-searchbox[has-focus] #container.ytd-searchbox,
+    ytd-account-item-renderer[enable-ring-for-active-account]
+        yt-img-shadow.ytd-account-item-renderer,
+    .ytp-exp-ppp-update .ytp-paid-content-overlay-link,
+    tp-yt-paper-radio-button[checked] #offRadio.tp-yt-paper-radio-button,
+    ytve-endscreen-editor-preview-overlay-item.editing.selected
+        .edit-overlay.ytve-endscreen-editor-preview-overlay-item
+        ytd-backstage-poll-renderer:not([is-image-poll])
+        tp-yt-paper-item.ytd-backstage-poll-renderer[selected]
+        .choice-info.ytd-backstage-poll-renderer,
+    .ytp-autonav-endscreen-upnext-thumbnail:hover,
+    .focused-line.tp-yt-paper-input-container,
+    #dot.yta-pulsating-dot span.yta-pulsating-dot,
+    ytd-macro-markers-list-item-renderer[modern][layout="MACRO_MARKERS_LIST_ITEM_RENDERER_LAYOUT_VERTICAL"]:not(
+            [carousel-type="MACRO_MARKERS_LIST_ITEM_RENDERER_CAROUSEL_TYPE_TEXT_ONLY"]
+        )[active]
+        #thumbnail.ytd-macro-markers-list-item-renderer,
+    ytd-searchbox[mode="legacy"][has-focus] #container.ytd-searchbox,
+    ytd-searchbox[mode="legacy-centered"][has-focus] #container.ytd-searchbox,
+    .badge-style-type-live-now.ytd-badge-supported-renderer,
+    #checkbox.checked.tp-yt-paper-checkbox,
+    ytd-searchbox[has-focus] #container.ytd-searchbox,
+    ytd-account-item-renderer[enable-ring-for-active-account]
+        yt-img-shadow.ytd-account-item-renderer,
+    .ytp-exp-ppp-update .ytp-paid-content-overlay-link,
+    tp-yt-paper-radio-button[checked] #offRadio.tp-yt-paper-radio-button,
+    ytve-endscreen-editor-preview-overlay-item.editing.selected
+        .edit-overlay.ytve-endscreen-editor-preview-overlay-item
+        ytd-backstage-poll-renderer:not([is-image-poll])
+        tp-yt-paper-item.ytd-backstage-poll-renderer[selected]
+        .choice-info.ytd-backstage-poll-renderer,
+    .ytp-autonav-endscreen-upnext-thumbnail:focus,
+    .focused-line.tp-yt-paper-input-container,
+    #dot.yta-pulsating-dot span.yta-pulsating-dot,
+    ytd-macro-markers-list-item-renderer[modern][layout="MACRO_MARKERS_LIST_ITEM_RENDERER_LAYOUT_VERTICAL"]:not(
+            [carousel-type="MACRO_MARKERS_LIST_ITEM_RENDERER_CAROUSEL_TYPE_TEXT_ONLY"]
+        )[active]
+        #thumbnail.ytd-macro-markers-list-item-renderer {
+        /*[[bordera]]*/
+        /*[[filtersd]]*/
+    }
+    /* Text/currentcolor Animation */
+    ytd-conversation-item-heart-details-facepile-renderer[heart-display-style="SHOW"]
+        #heart.ytd-conversation-item-heart-details-facepile-renderer,
+    #playlist-actions
+        ytd-toggle-button-renderer
+        #button.ytd-toggle-button-renderer.style-default-active,
+    ytd-guide-entry-renderer[active] .guide-icon.ytd-guide-entry-renderer,
+    .paper-input-container[v2] .focused-line.paper-input-container,
+    paper-toggle-button[checked] .toggle-ink.paper-toggle-button,
+    ytd-button-renderer #button.ytd-button-renderer.style-brand,
+    .ytd-comment-action-buttons-renderer .style-default-active,
+    .badge-style-type-live-now.ytd-badge-supported-renderer,
+    ytd-button-renderer.style-suggestive[is-paper-button],
+    ytd-button-renderer.style-blue-text[is-paper-button],
+    ytd-button-renderer.style-blue-text[is-icon-button],
+    yt-button-renderer.style-blue-text[is-paper-button],
+    yt-button-renderer.style-brand[is-paper-button],
+    #menu-container.ytd-video-primary-info-renderer,
+    yt-icon.checked.ytd-backstage-poll-renderer,
+    .guide-entry-badge.ytd-guide-entry-renderer,
+    .style-default-active + #vote-count-middle,
+    paper-radio-button[checked],
+    .ytp-volume-slider-handle,
+    paper-checkbox[checked],
+    #main.ytd-commentbox,
+    sup.ytp-swatch-color,
+    .ytp-swatch-color,
+    ytd-guide-entry-renderer[active] .guide-icon.ytd-guide-entry-renderer,
+    ytd-guide-entry-renderer[is-guide-refresh][active]
+        .guide-icon.ytd-guide-entry-renderer,
+    .badge-style-type-live-now.ytd-badge-supported-renderer,
+    .badge-style-type-red.ytd-badge-supported-renderer,
+    ytd-mini-guide-entry-renderer[is-active]
+        .guide-icon.ytd-mini-guide-entry-renderer,
+    #guide-icon.ytd-masthead,
+    .guide-entry-badge.ytd-guide-entry-renderer,
+    yt-formatted-string[has-link-only_]:not([force-default-style])
+        a.yt-simple-endpoint.yt-formatted-string:visited,
+    #author-text.yt-simple-endpoint.ytd-comment-renderer,
+    .yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--text,
+    yt-live-chat-author-chip.yt-live-chat-text-message-renderer,
+    #author-name.yt-live-chat-author-chip,
+    #text > .yt-formatted-string.style-scope.yt-simple-endpoint,
+    .yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--outline,
+    #channel-name.ytd-video-meta-block,
+    .yt-spec-icon-badge-shape--style-overlay .yt-spec-icon-badge-shape__icon,
+    ytd-topbar-menu-button-renderer #button.ytd-topbar-menu-button-renderer,
+    .yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--text,
+    ytd-searchbox[system-icons]
+        #search-icon-legacy.ytd-searchbox
+        yt-icon.ytd-searchbox,
+    a.yt-formatted-string,
+    yt-formatted-string[ellipsis-truncate-styling] a.yt-formatted-string,
+    a.yt-simple-endpoint.yt-formatted-string,
+    .yt-core-attributed-string__link--call-to-action-color,
+    .yt-core-attributed-string--link-inherit-color
+        .yt-core-attributed-string__link--call-to-action-color,
+    .yt-spec-button-shape-next--mono.yt-spec-button-shape-next--text,
+    #link-list-container.ytd-channel-about-metadata-renderer
+        a.yt-simple-endpoint.ytd-channel-about-metadata-renderer,
+    ytd-c4-tabbed-header-renderer[use-modern-style]
+        #channel-name.ytd-c4-tabbed-header-renderer,
+    #author-text.yt-simple-endpoint.ytd-backstage-post-renderer,
+    .ytp-offline-slate-button,
+    #author.ytd-post-renderer,
+    ytd-post-renderer[uses-compact-lockup]
+        #author-text.yt-simple-endpoint.ytd-post-renderer,
+    yt-icon.ytd-compact-link-renderer,
+    yt-icon.ytd-toggle-theme-compact-link-renderer,
+    .guide-icon.ytd-mini-guide-entry-renderer,
+    ytd-menu-service-item-renderer[system-icons]
+        yt-icon.ytd-menu-service-item-renderer
+        .yt-spec-button-shape-next__icon,
+    #label-icon.yt-dropdown-menu,
+    #hearted.ytd-creator-heart-renderer,
+    .yt-spec-icon-badge-shape__icon,
+    .segment-timestamp.ytd-transcript-segment-renderer,
+    .ytd-menu-renderer[button-renderer].ytd-menu-renderer:hover
+        yt-icon.ytd-menu-renderer,
+    #button.ytd-menu-renderer:hover yt-icon.ytd-menu-renderer,
+    #button.ytd-menu-renderer yt-icon.ytd-menu-renderer,
+    button.yt-icon-button > yt-icon,
+    ytcp-button,
+    yt-icon.ytd-menu-service-item-download-renderer,
+    yt-icon.ytd-playlist-add-to-option-renderer,
+    .ytp-swatch-color-white,
+    ytd-backstage-poll-renderer:not([is-image-poll])
+        tp-yt-paper-item.ytd-backstage-poll-renderer[selected]
+        .choice-info.ytd-backstage-poll-renderer,
+    ytd-macro-markers-list-item-renderer:hover
+        #time.ytd-macro-markers-list-item-renderer,
+    ytd-macro-markers-list-item-renderer[active]
+        #time.ytd-macro-markers-list-item-renderer,
+    #time.ytd-macro-markers-list-item-renderer,
+    #search-icon.ytd-searchbox,
+    .badge-style-type-simple.ytd-badge-supported-renderer,
+    #byline,
+    ytd-playlist-panel-video-renderer[watch-color-update]
+        #byline.ytd-playlist-panel-video-renderer,
+    #channel-title > .ytd-channel-name.style-scope,
+    .pc1.pc17.u3bW4e:not(.f1, .f2, .f3) .snByac,
+    #title.ytd-video-description-infocards-section-renderer,
+    #time.ytd-video-renderer,
+    .three-dots-icon.ytcp-promotion-preview-core,
+    .fixed-column.ytmusic-responsive-list-item-renderer svg,
+    .yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--tonal,
+    html[dark] .sbsb_i,
+    ytd-conversation-item-heart-details-facepile-renderer[heart-display-style="SHOW"]
+        #heart.ytd-conversation-item-heart-details-facepile-renderer,
+    #playlist-actions
+        ytd-toggle-button-renderer
+        #button.ytd-toggle-button-renderer.style-default-active,
+    ytd-guide-entry-renderer[active] .guide-icon.ytd-guide-entry-renderer,
+    .paper-input-container[v2] .focused-line.paper-input-container,
+    paper-toggle-button[checked] .toggle-ink.paper-toggle-button,
+    ytd-button-renderer #button.ytd-button-renderer.style-brand,
+    .ytd-comment-action-buttons-renderer .style-default-active,
+    .badge-style-type-live-now.ytd-badge-supported-renderer,
+    ytd-button-renderer.style-suggestive[is-paper-button],
+    ytd-button-renderer.style-blue-text[is-paper-button],
+    ytd-button-renderer.style-blue-text[is-icon-button],
+    yt-button-renderer.style-blue-text[is-paper-button],
+    yt-button-renderer.style-brand[is-paper-button],
+    #menu-container.ytd-video-primary-info-renderer,
+    yt-icon.checked.ytd-backstage-poll-renderer,
+    .guide-entry-badge.ytd-guide-entry-renderer,
+    .style-default-active + #vote-count-middle,
+    paper-radio-button[checked],
+    .ytp-volume-slider-handle,
+    paper-checkbox[checked],
+    #main.ytd-commentbox,
+    sup.ytp-swatch-color,
+    .ytp-swatch-color,
+    ytd-guide-entry-renderer[active] .guide-icon.ytd-guide-entry-renderer,
+    ytd-guide-entry-renderer[is-guide-refresh][active]
+        .guide-icon.ytd-guide-entry-renderer,
+    .badge-style-type-live-now.ytd-badge-supported-renderer,
+    .badge-style-type-red.ytd-badge-supported-renderer,
+    ytd-mini-guide-entry-renderer[is-active]
+        .guide-icon.ytd-mini-guide-entry-renderer,
+    #guide-icon.ytd-masthead,
+    .guide-entry-badge.ytd-guide-entry-renderer,
+    yt-formatted-string[has-link-only_]:not([force-default-style])
+        a.yt-simple-endpoint.yt-formatted-string:visited,
+    #author-text.yt-simple-endpoint.ytd-comment-renderer,
+    .yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--text,
+    yt-live-chat-author-chip.yt-live-chat-text-message-renderer,
+    #author-name.yt-live-chat-author-chip,
+    #text > .yt-formatted-string.style-scope.yt-simple-endpoint,
+    .yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--outline,
+    #channel-name.ytd-video-meta-block,
+    .yt-spec-icon-badge-shape--style-overlay .yt-spec-icon-badge-shape__icon,
+    ytd-topbar-menu-button-renderer #button.ytd-topbar-menu-button-renderer,
+    .yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--text,
+    ytd-searchbox[system-icons]
+        #search-icon-legacy.ytd-searchbox
+        yt-icon.ytd-searchbox,
+    a.yt-formatted-string,
+    yt-formatted-string[ellipsis-truncate-styling] a.yt-formatted-string,
+    a.yt-simple-endpoint.yt-formatted-string,
+    .yt-core-attributed-string__link--call-to-action-color,
+    .yt-core-attributed-string--link-inherit-color
+        .yt-core-attributed-string__link--call-to-action-color,
+    .yt-spec-button-shape-next--mono.yt-spec-button-shape-next--text,
+    #link-list-container.ytd-channel-about-metadata-renderer
+        a.yt-simple-endpoint.ytd-channel-about-metadata-renderer,
+    ytd-c4-tabbed-header-renderer[use-modern-style]
+        #channel-name.ytd-c4-tabbed-header-renderer,
+    #author-text.yt-simple-endpoint.ytd-backstage-post-renderer,
+    .ytp-offline-slate-button,
+    #author.ytd-post-renderer,
+    ytd-post-renderer[uses-compact-lockup]
+        #author-text.yt-simple-endpoint.ytd-post-renderer,
+    yt-icon.ytd-compact-link-renderer,
+    yt-icon.ytd-toggle-theme-compact-link-renderer,
+    .guide-icon.ytd-mini-guide-entry-renderer,
+    ytd-menu-service-item-renderer[system-icons]
+        yt-icon.ytd-menu-service-item-renderer
+        .yt-spec-button-shape-next__icon,
+    #label-icon.yt-dropdown-menu,
+    #hearted.ytd-creator-heart-renderer,
+    .yt-spec-icon-badge-shape__icon,
+    .segment-timestamp.ytd-transcript-segment-renderer,
+    .ytd-menu-renderer[button-renderer].ytd-menu-renderer:focus
+        yt-icon.ytd-menu-renderer,
+    #button.ytd-menu-renderer:focus yt-icon.ytd-menu-renderer,
+    #button.ytd-menu-renderer yt-icon.ytd-menu-renderer,
+    button.yt-icon-button > yt-icon,
+    ytcp-button,
+    yt-icon.ytd-menu-service-item-download-renderer,
+    yt-icon.ytd-playlist-add-to-option-renderer,
+    .ytp-swatch-color-white,
+    ytd-backstage-poll-renderer:not([is-image-poll])
+        tp-yt-paper-item.ytd-backstage-poll-renderer[selected]
+        .choice-info.ytd-backstage-poll-renderer,
+    ytd-macro-markers-list-item-renderer:focus
+        #time.ytd-macro-markers-list-item-renderer,
+    ytd-macro-markers-list-item-renderer[active]
+        #time.ytd-macro-markers-list-item-renderer,
+    #time.ytd-macro-markers-list-item-renderer,
+    #search-icon.ytd-searchbox,
+    .badge-style-type-simple.ytd-badge-supported-renderer,
+    #byline,
+    ytd-playlist-panel-video-renderer[watch-color-update]
+        #byline.ytd-playlist-panel-video-renderer,
+    #channel-title > .ytd-channel-name.style-scope,
+    .pc1.pc17.u3bW4e:not(.f1, .f2, .f3) .snByac,
+    #title.ytd-video-description-infocards-section-renderer,
+    #time.ytd-video-renderer,
+    .three-dots-icon.ytcp-promotion-preview-core,
+    .fixed-column.ytmusic-responsive-list-item-renderer svg,
+    .yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--tonal,
+    html[dark] .sbsb_i {
+        /*[[textshadow]]*/
+        /*[[boxshadow]]*/
+        /*[[filtersd]]*/
+        /*[[texta]]*/
+    }
+    /* SVG Fill Color Animation */
+    .ytp-large-play-button.ytp-touch-device .ytp-large-play-button-bg,
+    .ytp-cued-thumbnail-overlay:hover .ytp-large-play-button-bg,
+    #heart-button button[aria-label="Remove heart"] yt-icon,
+    #hearted.ytd-creator-heart-renderer,
+    path[fill="#FF0000"],
+    path[fill="#ff0000"],
+    path[fill="#f80000"],
+    path[fill="#FF8983"],
+    path[fill="#f00"],
+    path[fill="#F00"],
+    circle[fill="red"],
+    path.style-scope.ytd-topbar-logo-renderer,
+    .external-icon path:nth-child(1),
+    #icon > .yt-icon.style-scope > .yt-spec-icon-shape > div path:nth-child(1),
+    .guide-icon.ytd-guide-entry-renderer > svg > g > circle,
+    .ytp-offline-slate-icon > svg,
+    .ytp-offline-slate-button-icon > svg,
+    #guide-icon.ytd-app,
+    .ytp-menuitem-icon > svg > path,
+    yt-icon.ytd-thumbnail-overlay-side-panel-renderer,
+    yt-icon.ytd-pinned-comment-badge-renderer,
+    #collapse-expand-icon > .ytcp-icon-button.style-scope.remove-defaults,
+    tp-yt-iron-icon.remove-defaults.ytcp-icon-button,
+    ytd-menu-navigation-item-renderer[system-icons]
+        yt-icon.ytd-menu-navigation-item-renderer,
+    .yt-spec-button-shape-next--size-m
+        .yt-spec-button-shape-next__icon
+        > yt-icon
+        > svg
+        > g,
+    .icon.ytmusic-menu-navigation-item-renderer,
+    .icon.ytmusic-menu-service-item-renderer,
+    .icon.ytmusic-toggle-menu-service-item-renderer,
+    ytd-author-comment-badge-renderer:not([creator])
+        #icon.ytd-author-comment-badge-renderer,
+    .ytp-large-play-button-red-bg .ytp-large-play-button-bg,
+    ytd-guide-entry-renderer.ytd-guide-section-renderer.style-scope:nth-of-type(
+            1
+        )
+        path:nth-child(3),
+    .ytp-offline-slate-icon > svg,
+    .yt-spec-button-shape-next__icon
+        > yt-icon
+        > yt-animated-icon
+        > .lottie-component
+        > svg,
+    #right > .tp-yt-paper-icon-button.style-scope,
+    #left > .tp-yt-paper-icon-button.style-scope,
+    .yt-spec-button-shape-next__secondary-icon svg,
+    .ytp-cued-thumbnail-overlay:hover .ytp-large-play-button-bg,
+    ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]
+        yt-icon.ytd-thumbnail-overlay-time-status-renderer,
+    #icon.ytd-rich-shelf-renderer > svg > g > g > path,
+    rect.ytcp-banner-upload.style-scope:nth-of-type(7),
+    rect.ytcp-banner-upload.style-scope:nth-of-type(4),
+    rect.ytcp-banner-upload.style-scope:nth-of-type(1),
+    .ytpp-signup-overview.style-scope.monetization-card-container
+        > .ytpp-signup-overview.style-scope.card-icon,
+    .ytpp-signup-overview.style-scope.support-tool-card-container
+        > .ytpp-signup-overview.style-scope.card-icon,
+    .guide-icon.ytd-guide-entry-renderer svg > g > g > g > path,
+    .guide-icon.ytd-guide-entry-renderer svg > g > path:nth-of-type(3),
+    .guide-icon.ytd-guide-entry-renderer svg > g > path:nth-of-type(1),
+    ytd-toggle-menu-service-item-renderer[system-icons]
+        yt-icon.ytd-toggle-menu-service-item-renderer,
+    #icon.ytd-reel-shelf-renderer svg > g > g > path,
+    .ytd-media-lockup-renderer.style-scope.media-lockup-icon
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        > svg,
+    yt-icon.ytd-thumbnail-overlay-side-panel-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        > svg,
+    .iron-collapse-opened.yt-trust-tiers-home-level.style-scope
+        > .yt-trust-tiers-home-level.style-scope.feature-level-description
+        > .yt-trust-tiers-home-level.style-scope.feature-level-requirements
+        > div.yt-trust-tiers-home-level.style-scope
+        > div.yt-trust-tiers-home.style-scope
+        > div.yt-trust-tiers-home.style-scope.requirement
+        > .yt-trust-tiers-home.style-scope.requirement-name
+        > .yt-trust-tiers-home.style-scope.help-outline-icon.tooltip-icon
+        > svg,
+    .ytd-guide-entry-renderer.style-scope.arrow-icon
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    #icon > .yt-icon.style-scope > .yt-spec-icon-shape > div svg,
+    yt-icon.ytd-menu-navigation-item-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    .ytd-horizontal-card-list-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    yt-icon.yt-live-chat-toggle-renderer svg,
+    #channel-name
+        > ytd-badge-supported-renderer.ytd-channel-name.style-scope
+        > .ytd-badge-supported-renderer.style-scope.badge-style-type-verified-artist.badge
+        > yt-icon.ytd-badge-supported-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div,
+    #more-icon > .yt-icon.style-scope > .yt-spec-icon-shape > div svg,
+    #selected > .yt-icon.style-scope > .yt-spec-icon-shape > div svg,
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        > .yt-animated-icon.style-scope
+        > .lottie-component
+        > svg
+        > g
+        > g
+        > g
+        > path,
+    yt-icon.ytd-toggle-menu-service-item-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    .ytmusic-guide-entry-renderer.style-scope.guide-icon,
+    #clear > .tp-yt-paper-icon-button.style-scope,
+    .ytmusic-search-box.style-scope.search-icon
+        > .tp-yt-paper-icon-button.style-scope,
+    #right-content
+        > .ytmusic-nav-bar.style-scope.cast-button
+        > .ytmusic-cast-button.style-scope.cast-button
+        > .ytmusic-cast-button.style-scope.chromecast-icon
+        > .ytmusic-cast-button.style-scope.chromecast,
+    .ytmusic-multi-select-menu-bar.style-scope.menu-bar-icon
+        > .tp-yt-paper-icon-button.style-scope,
+    .ytmusic-settings-page.style-scope.close-icon
+        > .tp-yt-paper-icon-button.style-scope,
+    .ytd-guide-entry-renderer.style-scope.guide-icon
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    .ytd-guide-entry-renderer.style-scope.guide-icon
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        path:nth-child(1),
+    .guide-icon.ytd-guide-entry-renderer circle,
+    .ytcp-text-menu.style-scope > .ytcp-text-menu.style-scope.menu-icon,
+    .yt-spec-button-shape-next--icon-leading-trailing.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        > .yt-animated-icon.style-scope
+        > .lottie-component
+        > svg
+        > g
+        > g
+        > g
+        > path,
+    #unhearted > .yt-icon.style-scope > .yt-spec-icon-shape > div svg,
+    yt-icon.ytd-pinned-comment-badge-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    .ytp-large-play-button.ytp-touch-device .ytp-large-play-button-bg,
+    .ytp-cued-thumbnail-overlay:focus .ytp-large-play-button-bg,
+    #heart-button button[aria-label="Remove heart"] yt-icon,
+    #hearted.ytd-creator-heart-renderer,
+    path[fill="#FF0000"],
+    path[fill="#ff0000"],
+    path[fill="#f80000"],
+    path[fill="#FF8983"],
+    path[fill="#f00"],
+    path[fill="#F00"],
+    circle[fill="red"],
+    path.style-scope.ytd-topbar-logo-renderer,
+    .external-icon path:nth-child(1),
+    #icon > .yt-icon.style-scope > .yt-spec-icon-shape > div path:nth-child(1),
+    .guide-icon.ytd-guide-entry-renderer > svg > g > circle,
+    .ytp-offline-slate-icon > svg,
+    .ytp-offline-slate-button-icon > svg,
+    #guide-icon.ytd-app,
+    .ytp-menuitem-icon > svg > path,
+    yt-icon.ytd-thumbnail-overlay-side-panel-renderer,
+    yt-icon.ytd-pinned-comment-badge-renderer,
+    #collapse-expand-icon > .ytcp-icon-button.style-scope.remove-defaults,
+    tp-yt-iron-icon.remove-defaults.ytcp-icon-button,
+    ytd-menu-navigation-item-renderer[system-icons]
+        yt-icon.ytd-menu-navigation-item-renderer,
+    .yt-spec-button-shape-next--size-m
+        .yt-spec-button-shape-next__icon
+        > yt-icon
+        > svg
+        > g,
+    .icon.ytmusic-menu-navigation-item-renderer,
+    .icon.ytmusic-menu-service-item-renderer,
+    .icon.ytmusic-toggle-menu-service-item-renderer,
+    ytd-author-comment-badge-renderer:not([creator])
+        #icon.ytd-author-comment-badge-renderer,
+    .ytp-large-play-button-red-bg .ytp-large-play-button-bg,
+    ytd-guide-entry-renderer.ytd-guide-section-renderer.style-scope:nth-of-type(
+            1
+        )
+        path:nth-child(3),
+    .ytp-offline-slate-icon > svg,
+    .yt-spec-button-shape-next__icon
+        > yt-icon
+        > yt-animated-icon
+        > .lottie-component
+        > svg,
+    #right > .tp-yt-paper-icon-button.style-scope,
+    #left > .tp-yt-paper-icon-button.style-scope,
+    .yt-spec-button-shape-next__secondary-icon svg,
+    .ytp-cued-thumbnail-overlay:focus .ytp-large-play-button-bg,
+    ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]
+        yt-icon.ytd-thumbnail-overlay-time-status-renderer,
+    #icon.ytd-rich-shelf-renderer > svg > g > g > path,
+    rect.ytcp-banner-upload.style-scope:nth-of-type(7),
+    rect.ytcp-banner-upload.style-scope:nth-of-type(4),
+    rect.ytcp-banner-upload.style-scope:nth-of-type(1),
+    .ytpp-signup-overview.style-scope.monetization-card-container
+        > .ytpp-signup-overview.style-scope.card-icon,
+    .ytpp-signup-overview.style-scope.support-tool-card-container
+        > .ytpp-signup-overview.style-scope.card-icon,
+    .guide-icon.ytd-guide-entry-renderer svg > g > g > g > path,
+    .guide-icon.ytd-guide-entry-renderer svg > g > path:nth-of-type(3),
+    .guide-icon.ytd-guide-entry-renderer svg > g > path:nth-of-type(1),
+    ytd-toggle-menu-service-item-renderer[system-icons]
+        yt-icon.ytd-toggle-menu-service-item-renderer,
+    #icon.ytd-reel-shelf-renderer svg > g > g > path,
+    .ytd-media-lockup-renderer.style-scope.media-lockup-icon
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        > svg,
+    yt-icon.ytd-thumbnail-overlay-side-panel-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        > svg,
+    .iron-collapse-opened.yt-trust-tiers-home-level.style-scope
+        > .yt-trust-tiers-home-level.style-scope.feature-level-description
+        > .yt-trust-tiers-home-level.style-scope.feature-level-requirements
+        > div.yt-trust-tiers-home-level.style-scope
+        > div.yt-trust-tiers-home.style-scope
+        > div.yt-trust-tiers-home.style-scope.requirement
+        > .yt-trust-tiers-home.style-scope.requirement-name
+        > .yt-trust-tiers-home.style-scope.help-outline-icon.tooltip-icon
+        > svg,
+    .ytd-guide-entry-renderer.style-scope.arrow-icon
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    #icon > .yt-icon.style-scope > .yt-spec-icon-shape > div svg,
+    yt-icon.ytd-menu-navigation-item-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    .ytd-horizontal-card-list-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    yt-icon.yt-live-chat-toggle-renderer svg,
+    #channel-name
+        > ytd-badge-supported-renderer.ytd-channel-name.style-scope
+        > .ytd-badge-supported-renderer.style-scope.badge-style-type-verified-artist.badge
+        > yt-icon.ytd-badge-supported-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div,
+    #more-icon > .yt-icon.style-scope > .yt-spec-icon-shape > div svg,
+    #selected > .yt-icon.style-scope > .yt-spec-icon-shape > div svg,
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        > .yt-animated-icon.style-scope
+        > .lottie-component
+        > svg
+        > g
+        > g
+        > g
+        > path,
+    yt-icon.ytd-toggle-menu-service-item-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    .ytmusic-guide-entry-renderer.style-scope.guide-icon,
+    #clear > .tp-yt-paper-icon-button.style-scope,
+    .ytmusic-search-box.style-scope.search-icon
+        > .tp-yt-paper-icon-button.style-scope,
+    #right-content
+        > .ytmusic-nav-bar.style-scope.cast-button
+        > .ytmusic-cast-button.style-scope.cast-button
+        > .ytmusic-cast-button.style-scope.chromecast-icon
+        > .ytmusic-cast-button.style-scope.chromecast,
+    .ytmusic-multi-select-menu-bar.style-scope.menu-bar-icon
+        > .tp-yt-paper-icon-button.style-scope,
+    .ytmusic-settings-page.style-scope.close-icon
+        > .tp-yt-paper-icon-button.style-scope,
+    .ytd-guide-entry-renderer.style-scope.guide-icon
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg,
+    .ytd-guide-entry-renderer.style-scope.guide-icon
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        path:nth-child(1),
+    .guide-icon.ytd-guide-entry-renderer circle,
+    .ytcp-text-menu.style-scope > .ytcp-text-menu.style-scope.menu-icon,
+    .yt-spec-button-shape-next--icon-leading-trailing.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        > .yt-animated-icon.style-scope
+        > .lottie-component
+        > svg
+        > g
+        > g
+        > g
+        > path,
+    #unhearted > .yt-icon.style-scope > .yt-spec-icon-shape > div svg,
+    yt-icon.ytd-pinned-comment-badge-renderer.style-scope
+        > .yt-icon.style-scope
+        > .yt-spec-icon-shape
+        > div
+        svg {
+        /*[[filtersd]]*/
+        /*[[filla]]*/
+    }
+    /* Background Animation */
+    yt-live-chat-text-input-field-renderer[focused]
+        #focused.yt-live-chat-text-input-field-renderer,
+    .paper-input-container:not([v2]).paper-input-container
+        .focused-line.paper-input-container,
+    #edit-buttons.ytd-c4-tabbed-header-renderer
+        ytd-button-renderer.ytd-c4-tabbed-header-renderer,
+    paper-item.ytd-backstage-poll-renderer[selected]
+        .progress-bar.ytd-backstage-poll-renderer,
+    paper-toggle-button[checked]:not([disabled])
+        .toggle-button.paper-toggle-button,
+    .ytp-menuitem[aria-checked="true"] .ytp-menuitem-toggle-checkbox,
+    ytd-notification-renderer.unread #new.ytd-notification-renderer,
+    paper-button.ytd-subscribe-button-renderer[subscribed]::before,
+    .iv-branding .iv-branding-context-subscribe .ytp-sb-subscribe,
+    paper-button.ytd-subscribe-button-renderer:not([subscribed]),
+    ytd-thumbnail-overlay-resume-playback-renderer #progress,
+    .badge-style-type-featured.ytd-badge-supported-renderer,
+    ytd-conversation-switcher-item-renderer.unread #bullet,
+    ytd-button-renderer.style-destructive[is-paper-button],
+    .ytp-chrome-controls .ytp-button[aria-pressed]::after,
+    ytd-button-renderer.style-primary[is-paper-button],
+    .ytp-settings-button.ytp-hd-quality-badge::after,
+    .ytp-settings-button.ytp-4k-quality-badge::after,
+    .ytp-settings-button.ytp-5k-quality-badge::after,
+    .ytp-settings-button.ytp-8k-quality-badge::after,
+    yt-icon-button.yt-live-chat-item-list-renderer,
+    ytd-notification-renderer.unseen div#new,
+    #progress.yt-page-navigation-progress,
+    #newness-dot.ytd-guide-entry-renderer,
+    .ytp-sb-subscribe,
+    a.ytp-sb-subscribe,
+    yt-icon.yt-live-chat-ticker-renderer,
+    .ytp-live-badge[disabled]::before,
+    .ytp-sb-unsubscribe::before,
+    #notification-count,
+    a.ytp-sb-subscribe,
+    .ytp-swatch-background-color,
+    .ytp-settings-button.ytp-hd-quality-badge::after,
+    .ytp-settings-button.ytp-4k-quality-badge::after,
+    .ytp-settings-button.ytp-5k-quality-badge::after,
+    .ytp-settings-button.ytp-8k-quality-badge::after,
+    .ytp-menuitem[aria-checked="true"] .ytp-menuitem-toggle-checkbox,
+    #progress.ytd-thumbnail-overlay-resume-playback-renderer,
+    #like-bar.ytd-sentiment-bar-renderer,
+    paper-button.ytd-subscribe-button-renderer,
+    paper-toggle-button[checked]:not([disabled])
+        .toggle-button.paper-toggle-button,
+    #notification-count.ytd-notification-topbar-button-renderer,
+    .ytp-sb-subscribe,
+    a.ytp-sb-subscribe,
+    #newness-dot.ytd-guide-entry-renderer,
+    .yt-spec-button-shape-next--mono.yt-spec-button-shape-next--filled,
+    ytd-notification-renderer.unread #new.ytd-notification-renderer,
+    yt-chip-cloud-chip-renderer[chip-style="STYLE_HOME_FILTER"][selected],
+    yt-chip-cloud-chip-renderer[chip-style="STYLE_DEFAULT"][selected],
+    yt-chip-cloud-chip-renderer[chip-style="STYLE_HOME_FILTER"][selected],
+    yt-chip-cloud-chip-renderer[chip-style="STYLE_DEFAULT"][selected]:hover,
+    yt-chip-cloud-chip-renderer[chip-style="STYLE_DEFAULT"][selected]:focus,
+    .yt-spec-touch-feedback-shape--overlay-touch-response.yt-spec-touch-feedback-shape__fill,
+    ytd-author-comment-badge-renderer[creator],
+    #ryd-bar,
+    .yt-spec-touch-feedback-shape--touch-response
+        .yt-spec-touch-feedback-shape__fill,
+    .ytp-fine-scrubbing-cursor,
+    .yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--filled,
+    #checkbox.checked.tp-yt-paper-checkbox,
+    .ytp-live-badge[disabled]::before,
+    .yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--filled:hover,
+    tp-yt-paper-toggle-button[checked]:not([disabled])
+        .toggle-button.tp-yt-paper-toggle-button,
+    tp-yt-paper-radio-button[checked] #onRadio.tp-yt-paper-radio-button,
+    #onRadio.tp-yt-paper-radio-button,
+    .ytp-contextmenu
+        .ytp-menuitem[aria-checked="true"]
+        .ytp-menuitem-toggle-checkbox,
+    .ytp-chrome-controls .ytp-button[aria-pressed]::after,
+    ytcp-video-player-timeline:hover #playhead.ytcp-video-player-timeline,
+    ytcp-video-player-timeline.locked #playhead.ytcp-video-player-timeline,
+    #playhead.yt-clip-creation-scrubber-view,
+    .yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--filled.yt-spec-button-shape-next,
+    .ytd-watch-metadata.style-scope
+        > .ytd-subscribe-button-renderer.style-scope
+        > yt-button-shape.ytd-subscribe-button-renderer.style-scope
+        > .yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--filled.yt-spec-button-shape-next:hover,
+    .yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--filled.yt-spec-button-shape-next:hover,
+    yt-bubble-hint-renderer[style_="BUBBLE_HINT_STYLE_BLUE_TOOLTIP"],
+    #icon-container.ytd-post-filter-zero-state-renderer,
+    #dot.yta-pulsating-dot span.yta-pulsating-dot,
+    .pc1.pc206:not(.f1, .f2, .f3),
+    .OabDMe,
+    ::selection,
+    .ytp-inline-preview-ui .ytp-subtitles-button[aria-pressed="true"]::after,
+    #focused.yt-live-chat-text-input-field-renderer,
+    .yt-tab-group-shape-wiz__slider,
+    #pagination-thumbnails.ytd-carousel-item-renderer
+        button.ytd-carousel-item-renderer
+        .progress-bar.ytd-carousel-item-renderer {
+        /*[[filtersd]]*/
+        /*[[bgra]]*/
+    }
+    rect.ytcp-banner-upload.style-scope:nth-of-type(7),
+    rect.ytcp-banner-upload.style-scope:nth-of-type(4),
+    rect.ytcp-banner-upload.style-scope:nth-of-type(1),
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        > .yt-animated-icon.style-scope
+        > .lottie-component
+        > svg
+        > g
+        > g
+        > g
+        > path,
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        > .yt-animated-icon.style-scope
+        > .lottie-component
+        > svg
+        > g
+        > g,
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        > .yt-animated-icon.style-scope
+        > .lottie-component
+        > svg
+        > g,
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        > .yt-animated-icon.style-scope
+        > .lottie-component
+        > svg,
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        > .yt-animated-icon.style-scope
+        > .lottie-component,
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon
+        > .yt-icon.style-scope
+        svg,
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        > yt-icon,
+    .yt-spec-button-shape-next--segmented-start.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > .yt-spec-button-shape-next__icon
+        path {
+        /*[[filtersdb]]*/
+        /*[[strokea]]*/
+    }
+
+    .yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal,
+    ytd-menu-service-item-renderer[system-icons]
+        yt-icon.ytd-menu-service-item-renderer,
+    yt-formatted-string.ytd-menu-service-item-renderer {
+        /*[[filtersd]]*/
+        /*[[strokeb]]*/
+    }
+
+    #logo-icon svg > g > g > g > path {
+        fill: var(--yt-spec-text-primary) !important;
+    }
+    .badge-style-type-simple.ytd-badge-supported-renderer,
+    .yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--tonal {
+        background-color: color-mix(in srgb, /*[[Accent]]*/ 50%, transparent);
+    }
+    .subscriber-progress.ytpp-eligibility-stats
+        tp-yt-paper-progress.ytpp-eligibility-stats {
+        --paper-progress-active-color: /*[[Accent]]*/;
+    }
+    .external-icon g > g > path:nth-child(1) {
+        fill: var(--yt-spec-text-primary);
+    }
+    .ytd-playlist-header-renderer.style-scope.wide-screen-form.spaced-row.play-menu
+        > .ytd-playlist-header-renderer.style-scope.play-button
+        > yt-button-shape
+        > .yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--filled.yt-spec-button-shape-next,
+    .yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--filled.yt-spec-button-shape-next {
+        background-color: var(--yt-spec-text-primary) !important;
+    }
+    .yt-spec-button-shape-next--icon-leading-trailing.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > yt-touch-feedback-shape
+        > .yt-spec-touch-feedback-shape--touch-response.yt-spec-touch-feedback-shape
+        > .yt-spec-touch-feedback-shape__fill,
+    .yt-spec-button-shape-next--icon-leading-trailing.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > yt-touch-feedback-shape
+        > .yt-spec-touch-feedback-shape--touch-response.yt-spec-touch-feedback-shape,
+    .yt-spec-button-shape-next--icon-leading-trailing.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next
+        > yt-touch-feedback-shape,
+    ytd-guide-entry-renderer [href="/premium"] {
+        display: none !important;
+    }
+
+    /* Page-wide accent variables. */
+    :root,
+    #channel-name.ytd-c4-tabbed-header-renderer,
+    ytd-multi-page-menu-renderer.ytmusic-popup-container {
+        --ytd-badge-icon-color: /*[[Accent]]*/;
+        --yt-spec-text-secondary: /*[[Accent]]*/;
+        --yt-spec-static-brand-red: /*[[Accent]]*/;
+        --yt-brand-youtube-red: /*[[Accent]]*/;
+        --yt-brand-medium-red: /*[[Accent]]*/;
+        --yt-brand-medium-red-alpha-90: /*[[Accent]]*/;
+        --yt-spec-brand-button-background: /*[[Accent]]*/;
+        --yt-spec-call-to-action: /*[[Accent]]*/;
+        --yt-endpoint-hover-color: /*[[Accent]]*/;
+        --yt-spec-themed-blue: /*[[Accent]]*/;
+        --ytd-avatar-outline-color: /*[[Accent]]*/;
+        --paper-toggle-button-checked-button-color: /*[[Accent]]*/;
+        --paper-radio-button-checked-color: /*[[Accent]]*/;
+        --yt-spec-suggested-action: color-mix(
+            in srgb,
+            /*[[Accent]]*/ 50%,
+            transparent
+        );
+        --yt-spec-static-brand-white: /*[[Accent]]*/;
+    }
+    html[dark][dark] {
+        --paper-progress-active-color: /*[[Accent]]*/;
+        --paper-progress-container-color: /*[[Accent]]*/;
+        --ytcp-themed-red: /*[[Accent]]*/;
+        --ytcp-call-to-action: /*[[Accent]]*/;
+        --ytcp-call-to-action-raised-background: /*[[Accent]]*/;
+        --ytcp-themed-blue: /*[[Accent]]*/;
+        --ytcp-focus: /*[[Accent]]*/;
+    }
+    html:not(.style-scope) {
+        --paper-input-container-focus-color: /*[[Accent]]*/;
+        --paper-checkbox-checked-color: /*[[Accent]]*/;
+        --paper-checkbox-checked-ink-color: /*[[Accent]]*/;
+        --paper-radio-button-checked-color: /*[[Accent]]*/;
+        --paper-radio-button-checked-ink-color: /*[[Accent]]*/;
+        --paper-toggle-button-checked-button-color: /*[[Accent]]*/;
+        --paper-toggle-button-checked-ink-color: /*[[Accent]]*/;
+    }
+    html[dark],
+    [dark] {
+        --yt-spec-call-to-action: /*[[Accent]]*/;
+        --yt-spec-call-to-action-inverse: /*[[Accent]]*/;
+        --yt-spec-suggested-action: color-mix(
+            in srgb,
+            /*[[Accent]]*/ 50%,
+            transparent
+        );
+        --yt-spec-brand-button-background: /*[[Accent]]*/;
+        --yt-spec-static-brand-red: /*[[Accent]]*/;
+        --yt-spec-static-overlay-background-brand: color-mix(
+            in srgb,
+            /*[[Accent]]*/ 50%,
+            transparent
+        );
+        --yt-spec-brand-button-background-hover: /*[[Accent]]*/;
+    }
+    ytcp-comments-section {
+        --selected-chip-color: color-mix(
+            in srgb,
+            /*[[Accent]]*/ 50%,
+            transparent
+        );
+    }
+    #progress-bar.ytmusic-player-bar,
+    ytmusic-player-bar:hover #progress-bar.ytmusic-player-bar,
+    #progress-bar.ytmusic-player-bar,
+    ytmusic-player-bar:focus #progress-bar.ytmusic-player-bar {
+        --paper-slider-knob-color: /*[[Accent]]*/;
+        --paper-slider-knob-start-color: /*[[Accent]]*/;
+        --paper-slider-knob-start-border-color: /*[[Accent]]*/;
+        --paper-slider-active-color: /*[[Accent]]*/;
+    }
+    html {
+        --ytmusic-color-youtubered: /*[[Accent]]*/;
+        --ytmusic-setting-item-toggle-active: color-mix(
+            in srgb,
+            /*[[Accent]]*/ 50%,
+            transparent
+        );
+        --yt-spec-dark-blue: /*[[Accent]]*/;
+    }
+    tp-yt-paper-tabs.ytd-c4-tabbed-header-renderer {
+        --paper-tabs-selection-bar-color: /*[[Accent]]*/ !important;
+    }
+    tp-yt-paper-tab.ytd-post-stream-filter-renderer {
+        --paper-tab-ink: /*[[Accent]]*/ !important;
+    }
+    tp-yt-paper-tabs.ytd-post-stream-filter-renderer {
+        --paper-tabs-selection-bar-color: /*[[Accent]]*/ !important;
+    }
+    html:not(.style-scope, .style-scope) {
+        --ytcp-chip-active-focus: /*[[Accent]]*/ !important;
+    }
+
+    #published-time-text > .yt-formatted-string.style-scope.yt-simple-endpoint {
+        color: #999999;
+    }
+    ytd-thumbnail-overlay-time-status-renderer.ytd-thumbnail.style-scope
+        > .ytd-thumbnail-overlay-time-status-renderer.style-scope {
+        color: #ffffff;
+    }
+    /* Forcing a default color on the like bar container */
+    #sentiment.ytd-video-primary-info-renderer
+        #container.ytd-sentiment-bar-renderer {
+        background-color: #aaaaaa !important;
+
+        [dark] & {
+            background-color: #666666 !important;
+        }
+    }
+
+    /* Making sure that the animation isn't applied on non-red elements */
+    #main.ytd-commentbox
+        .underline.is-highlighted.paper-input-container:not(
+            [v2]
+        ).paper-input-container
+        .focused-line.paper-input-container,
+    #channel.ytd-grid-channel-renderer
+        paper-button.ytd-subscribe-button-renderer:not([subscribed]),
+    ytd-mini-channel-renderer
+        paper-button.ytd-subscribe-button-renderer:not([subscribed]),
+    ytd-mini-channel-renderer
+        paper-button.ytd-subscribe-button-renderer::before {
+        animation: none !important;
+    }
+
+    /* Ensuring `background-color` is always the same as the `currentcolor` for synchronization of animation */
+    #main.ytd-commentbox
+        .underline.is-highlighted.paper-input-container:not(
+            [v2]
+        ).paper-input-container
+        .focused-line.paper-input-container,
+    ytd-sentiment-bar-renderer #like-bar.ytd-sentiment-bar-renderer,
+    ytd-button-renderer.style-suggestive[is-paper-button]::before,
+    .ytp-volume-slider-handle::before,
+    #checkbox.checked.paper-checkbox,
+    paper-ripple[animating] #waves,
+    #submit-button.ytd-commentbox,
+    #onRadio.paper-radio-button,
+    .ytp-volume-slider-handle {
+        background-color: currentcolor !important;
+    }
+
+    /* Ensuring `border-color` is always the same as the `currentcolor` for synchronization of animation */
+    ytd-button-renderer.style-suggestive[is-paper-button]
+        paper-button.ytd-button-renderer,
+    .paper-input-container[v2] .focused-line.paper-input-container,
+    .badge-style-type-live-now.ytd-badge-supported-renderer,
+    ytd-button-renderer.style-suggestive[is-paper-button],
+    #checkbox.checked.paper-checkbox,
+    #offRadio.paper-radio-button {
+        border-color: currentcolor !important;
+    }
+
+    /* Ensuring `color` is always inherited for synchronization of animation */
+    #main.ytd-comment-box
+        .underline.is-highlighted.paper-input-container:not(
+            [v2]
+        ).paper-input-container
+        .focused-line.paper-input-container,
+    ytd-toggle-button-renderer.style-default-active[is-icon-button]
+        ytd-formatted-string,
+    ytd-toggle-button-renderer.style-default-active[is-icon-button],
+    #ink.paper-radio-button[checked],
+    #submit-button.ytd-commentbox,
+    #ink.paper-checkbox[checked] {
+        color: inherit !important;
+    }
+
+    /* Ensuring `fill` is always the same as the `currentcolor` for synchronization of animation */
+    ytd-toggle-button-renderer.style-default-active[is-icon-button] yt-icon {
+        fill: currentcolor !important;
+    }
+
+    /* Forcing `color` to be white */
+    [dark]
+        paper-item.ytd-backstage-poll-renderer[selected]
+        .text-area.ytd-backstage-poll-renderer,
+    .badge-style-type-featured.ytd-badge-supported-renderer,
+    ytd-button-renderer.style-primary[is-paper-button],
+    #submit-button.ytd-commentbox yt-formatted-string,
+    button[aria-label="More actions"] + paper-ripple {
+        color: #ffffff !important;
+    }
+
+    /* Forcing translucent white text color */
+    ytd-subscribe-button-renderer[new-subscribe-color]
+        paper-button.ytd-subscribe-button-renderer[subscribed],
+    paper-button.ytd-subscribe-button-renderer[subscribed]
+        .deemphasize.yt-formatted-string,
+    paper-button.ytd-subscribe-button-renderer[subscribed],
+    .ytp-sb-unsubscribe {
+        color: #ffffffcc;
+    }
+
+    [dark] .more-button-exp.ytd-comment-renderer:hover,
+    [dark] .more-button-exp.ytd-comment-renderer:focus,
+    [dark] .less-button-exp.ytd-comment-renderer:hover,
+    [dark] .less-button-exp.ytd-comment-renderer:focus,
+    [dark] .more-button-exp.ytd-comment-renderer,
+    [dark] .less-button-exp.ytd-comment-renderer,
+    [dark] paper-radio-button {
+        color: #ffffff88;
+    }
+
+    .more-button-exp.ytd-comment-renderer:hover,
+    .more-button-exp.ytd-comment-renderer:focus,
+    .less-button-exp.ytd-comment-renderer:hover,
+    .less-button-exp.ytd-comment-renderer:focus,
+    .more-button.ytd-comment-replies-renderer,
+    .less-button.ytd-comment-replies-renderer,
+    .more-button-exp.ytd-comment-renderer,
+    .less-button-exp.ytd-comment-renderer,
+    paper-radio-button {
+        color: #888888;
+    }
+
+    .more-button-exp.ytd-comment-replies-renderer,
+    .less-button-exp.ytd-comment-replies-renderer {
+        color: var(--yt-spec-text-secondary);
+    }
+
+    /* Making the paper ripple properly translucent and unobtrusive */
+    paper-ripple[animating] #waves {
+        opacity: 0.15;
+    }
+
+    /* Fixing the layering of the volume slider */
+    .ytp-volume-slider-handle::before {
+        z-index: -1;
+    }
+
+    /* Added theming to the `COMPACT_GRAY` subscribe buttons */
+    ytd-subscribe-button-renderer[button-style="COMPACT_GRAY"]
+        paper-button.ytd-subscribe-button-renderer,
+    ytd-toggle-button-renderer.style-compact-gray[is-paper-button] {
+        color: #11111199 !important;
+        background-color: #eeeeee !important;
+    }
+
+    [dark]
+        ytd-subscribe-button-renderer[button-style="COMPACT_GRAY"]
+        paper-button.ytd-subscribe-button-renderer,
+    [dark] ytd-toggle-button-renderer.style-compact-gray[is-paper-button] {
+        color: #eeeeee99 !important;
+        background-color: #222222 !important;
+    }
+
+    ytd-subscribe-button-renderer[button-style="COMPACT_GRAY"]
+        paper-button.ytd-subscribe-button-renderer::before {
+        display: none;
+    }
+
+    /* Defaut styling for both "SUBSCIBE" and "VOTE" buttons */
+    paper-button.ytd-subscribe-button-renderer[subscribed],
+    ytd-button-renderer.style-suggestive[is-paper-button],
+    .ytp-sb-unsubscribe {
+        position: relative;
+        overflow: hidden;
+        background: transparent;
+    }
+
+    paper-button.ytd-subscribe-button-renderer[subscribed]::before,
+    ytd-button-renderer.style-suggestive[is-paper-button]::before,
+    .ytp-sb-unsubscribe::before {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        content: "";
+    }
+
+    /* Making the "SUBSCRIBE" button have `BgTransition` at 50% brightness when subscribed */
+    paper-button.ytd-subscribe-button-renderer[subscribed]::before,
+    .ytp-sb-unsubscribe::before {
+        top: 0;
+        left: 0;
+        z-index: -1;
+        filter: brightness(50%);
+    }
+
+    .ytp-sb-unsubscribe {
+        z-index: 1;
+    }
+
+    /* Making the "VOTE NOW" and "VIEW RESULTS" button background translucent */
+    ytd-button-renderer.style-suggestive[is-paper-button]::before {
+        opacity: 0.075;
+    }
+
+    /* Like/dislike bar ratio */
+    #sentiment.ytd-video-primary-info-renderer:not([activated_]) {
+        color: #777777 !important;
+
+        [dark] & {
+            color: #aaaaaa !important;
+        }
+    }
+
+    /* Fixes */
+    .badge-style-type-verified-artist.ytd-badge-supported-renderer yt-icon,
+    .badge-style-type-verified.ytd-badge-supported-renderer yt-icon {
+        width: var(--ytd-badge-icon-size, 13px);
+        height: var(--ytd-badge-icon-size, 13px);
+        color: var(--ytd-badge-icon-color, var(--ytd-owner-badge-color));
+    }
+
+    #metadata-line.ytd-grid-video-renderer :first-child::after {
+        margin: 0 4px;
+        content: "•";
+    }
+
+    ytd-guide-renderer .paper-item.paper-item:focus::before,
+    ytd-guide-renderer paper-item:focus::before {
+        opacity: 0 !important;
+    }
+
+    [dark] .dropdown-content.paper-menu-button {
+        background-color: transparent !important;
+    }
+
+    [dark] #hearted-border.ytd-creator-heart-renderer {
+        fill: var(--app-drawer-content-container_-_background-color);
+    }
+
+    /* Flattube Compatibility */
+    .ytp-volume-slider-handle::after {
+        z-index: -1;
+        background-color: #ffffff44 !important;
+        opacity: 1;
+    }
+    /* stylelint-enable comment-whitespace-inside */
+}
