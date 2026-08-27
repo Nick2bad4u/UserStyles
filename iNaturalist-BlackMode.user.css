@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           iNaturalist - Black Mode
 @namespace      nick2bad4u.github.io
-@version        1.0.0
+@version        1.0.1
 @description    A true-black, accessible dark theme for iNaturalist observations, filters, cards, maps, forms, menus, and dialogs while preserving wildlife photography and site identity.
 @author         Nick2bad4u
 @license        UnLicense
@@ -151,6 +151,29 @@
         & .nav > li > a:focus-visible {
             color: var(--inat-black-accent-bright) !important;
             background-color: var(--inat-black-surface-hover) !important;
+        }
+
+        & .btn-inat,
+        & .btn-primary,
+        & .btn-success {
+            color: #000000 !important;
+            background-color: var(--inat-black-accent) !important;
+            border-color: var(--inat-black-accent) !important;
+        }
+
+        & .btn-inat:hover,
+        & .btn-inat:focus-visible,
+        & .btn-primary:hover,
+        & .btn-primary:focus-visible,
+        & .btn-success:hover,
+        & .btn-success:focus-visible {
+            color: #000000 !important;
+            background-color: var(--inat-black-accent-bright) !important;
+            border-color: var(--inat-black-accent-bright) !important;
+        }
+
+        & .logolink img {
+            filter: brightness(0) invert(1);
         }
     }
 
@@ -339,6 +362,12 @@
         border-color: var(--inat-black-accent) !important;
     }
 
+    #bodywrapper .user-subnav > li.active > a,
+    #bodywrapper .user-subnav > li.active > a:hover,
+    #bodywrapper .user-subnav > li.active > a:focus-visible {
+        color: #000000 !important;
+    }
+
     table,
     .table,
     .table > thead > tr > th,
@@ -384,6 +413,18 @@
         background-color: var(--inat-black-surface-raised) !important;
         border-color: var(--inat-black-accent) !important;
         box-shadow: 0 0 0 1px var(--inat-black-accent-soft);
+    }
+
+    #observe_panel .thumbnail,
+    .announcement .quiet.stacked.box {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+        box-shadow: 0 1px 0 var(--inat-black-border);
+    }
+
+    #observe_panel .thumbnail .scaledimg {
+        background-color: var(--inat-black-surface-raised) !important;
     }
 
     .observation .caption,
