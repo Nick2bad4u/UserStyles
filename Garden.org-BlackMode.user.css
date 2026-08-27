@@ -1,0 +1,416 @@
+/* ==UserStyle==
+@name           Garden.org - Black Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.0
+@description    A true-black, accessible theme for Garden.org forums, plant pages, navigation, cards, forms, menus, and dialogs while preserving garden photography, badges, and branding.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Garden.org-BlackMode.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Garden.org-BlackMode.user.css
+@var color accent-color "Garden accent" #78b84b
+@preprocessor   default
+==/UserStyle== */
+@-moz-document domain("garden.org") {
+    :root {
+        color-scheme: dark !important;
+        background-color: #000000 !important;
+
+        --garden-black-background: #000000;
+        --garden-black-surface: #080808;
+        --garden-black-surface-raised: #111111;
+        --garden-black-surface-hover: #1a1a1a;
+        --garden-black-border: #292929;
+        --garden-black-border-strong: #454545;
+        --garden-black-text: #f5f5f5;
+        --garden-black-text-muted: #c6c6c6;
+        --garden-black-text-subtle: #9a9a9a;
+        --garden-black-accent: var(--accent-color);
+        --garden-black-accent-bright: color-mix(
+            in srgb,
+            var(--garden-black-accent) 72%,
+            #ffffff
+        );
+        --garden-black-accent-soft: color-mix(
+            in srgb,
+            var(--garden-black-accent) 18%,
+            transparent
+        );
+        --garden-black-link: #9bd56c;
+        --garden-black-link-visited: #c9a7ff;
+        --garden-black-danger: #ff7b72;
+        --garden-black-warning: #f2cc60;
+        --garden-black-info: #79c0ff;
+        --garden-black-shadow: 0 12px 32px rgb(0 0 0 / 82%);
+    }
+
+    html,
+    body,
+    #ngabody,
+    .thread_view,
+    main {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-background) !important;
+    }
+
+    body {
+        accent-color: var(--garden-black-accent);
+        scrollbar-color: var(--garden-black-border-strong)
+            var(--garden-black-background);
+    }
+
+    ::selection {
+        color: #ffffff;
+        background-color: var(--garden-black-accent) !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: var(--garden-black-background);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--garden-black-border-strong);
+        border: 3px solid var(--garden-black-background);
+        border-radius: 999px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    label,
+    legend,
+    dt,
+    dd,
+    strong,
+    .page-header,
+    .card-title,
+    .t_name,
+    .t_body {
+        color: var(--garden-black-text) !important;
+    }
+
+    small,
+    .small,
+    .text-muted,
+    .font80,
+    .t_date,
+    .text-secondary {
+        color: var(--garden-black-text-muted) !important;
+    }
+
+    a {
+        color: var(--garden-black-link) !important;
+
+        &:visited {
+            color: var(--garden-black-link-visited) !important;
+        }
+
+        &:hover,
+        &:focus-visible {
+            color: var(--garden-black-accent-bright) !important;
+        }
+    }
+
+    #nganav1,
+    .navbar,
+    .navbar-light,
+    .sticky-top {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-surface) !important;
+        border-color: var(--garden-black-border) !important;
+        box-shadow: 0 1px 0 var(--garden-black-border);
+    }
+
+    #nganav1 .navbar-brand,
+    #nganav1 .nav-link,
+    #nganav1 .navbar-nav .nav-link,
+    #nganav1 .navbar-text {
+        color: var(--garden-black-text) !important;
+    }
+
+    #nganav1 .nav-link:hover,
+    #nganav1 .nav-link:focus-visible,
+    #nganav1 .nav-item.show .nav-link,
+    #nganav1 .nav-link.active {
+        color: var(--garden-black-accent-bright) !important;
+        background-color: var(--garden-black-surface-hover) !important;
+    }
+
+    #nganav1 .navbar-toggler {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-surface-raised) !important;
+        border-color: var(--garden-black-border-strong) !important;
+    }
+
+    #nganav1 .navbar-toggler-icon,
+    #nganav1 .pngblue,
+    #nganav1 .pngwhite {
+        filter: brightness(0) invert(1);
+    }
+
+    .breadcrumb,
+    .breadcrumb-item,
+    .breadcrumb-item.active {
+        color: var(--garden-black-text-muted) !important;
+        background-color: var(--garden-black-background) !important;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: var(--garden-black-text-subtle) !important;
+    }
+
+    .card,
+    .t_card,
+    .t_head,
+    .t_body,
+    .t_foot,
+    .card-body,
+    .card-header,
+    .card-footer {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-surface) !important;
+        border-color: var(--garden-black-border) !important;
+    }
+
+    .t_card {
+        border-top-color: var(--garden-black-accent) !important;
+        box-shadow: 0 8px 24px rgb(0 0 0 / 55%);
+
+        &:hover,
+        &:focus-within {
+            background-color: var(--garden-black-surface-raised) !important;
+            border-color: var(--garden-black-accent) !important;
+        }
+
+        &:hover .t_head,
+        &:hover .t_body,
+        &:hover .t_foot,
+        &:focus-within .t_head,
+        &:focus-within .t_body,
+        &:focus-within .t_foot {
+            background-color: var(--garden-black-surface-raised) !important;
+        }
+    }
+
+    .large_badge,
+    .badge,
+    .badge-secondary,
+    .label {
+        color: var(--garden-black-accent-bright) !important;
+        background-color: var(--garden-black-surface-raised) !important;
+        border: 1px solid var(--garden-black-border-strong) !important;
+    }
+
+    .microbadges,
+    .large_badge,
+    .t_avatar,
+    .lightbox,
+    .lb_thumb,
+    .thread_view img,
+    #ngabody img {
+        isolation: isolate;
+    }
+
+    input,
+    textarea,
+    select,
+    option,
+    .form-control,
+    .input-group-text {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-surface-raised) !important;
+        border-color: var(--garden-black-border-strong) !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder,
+    .form-control::placeholder {
+        color: var(--garden-black-text-subtle) !important;
+        opacity: 1;
+    }
+
+    input:disabled,
+    textarea:disabled,
+    select:disabled,
+    .form-control:disabled,
+    .form-control[readonly] {
+        color: var(--garden-black-text-subtle) !important;
+        background-color: var(--garden-black-surface) !important;
+    }
+
+    .btn,
+    .btn-secondary,
+    .btn-light,
+    .btn-outline-secondary {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-surface-raised) !important;
+        border-color: var(--garden-black-border-strong) !important;
+        box-shadow: none !important;
+    }
+
+    .btn:hover,
+    .btn:focus-visible,
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible,
+    .btn-light:hover,
+    .btn-light:focus-visible {
+        color: #000000 !important;
+        background-color: var(--garden-black-accent-bright) !important;
+        border-color: var(--garden-black-accent-bright) !important;
+    }
+
+    .btn-primary,
+    .btn-success {
+        color: #000000 !important;
+        background-color: var(--garden-black-accent) !important;
+        border-color: var(--garden-black-accent) !important;
+    }
+
+    .dropdown-menu,
+    .modal-content,
+    .list-group,
+    .list-group-item,
+    .popover,
+    .tooltip-inner,
+    .offcanvas,
+    .toast {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-surface-raised) !important;
+        border-color: var(--garden-black-border) !important;
+        box-shadow: var(--garden-black-shadow) !important;
+    }
+
+    .dropdown-item,
+    .dropdown-menu a,
+    .list-group-item a {
+        color: var(--garden-black-text) !important;
+        background-color: transparent !important;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus-visible,
+    .dropdown-item.active,
+    .dropdown-item:active,
+    .list-group-item:hover,
+    .list-group-item:focus-within {
+        color: #ffffff !important;
+        background-color: var(--garden-black-accent-soft) !important;
+    }
+
+    .dropdown-divider,
+    .modal-header,
+    .modal-footer,
+    .list-group-item,
+    .border,
+    .border-top,
+    .border-end,
+    .border-bottom,
+    .border-start {
+        border-color: var(--garden-black-border) !important;
+    }
+
+    .modal-backdrop,
+    [class*="backdrop"] {
+        background-color: rgb(0 0 0 / 84%) !important;
+    }
+
+    .alert {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-surface-raised) !important;
+        border-color: var(--garden-black-border-strong) !important;
+    }
+
+    .alert-info {
+        border-left: 4px solid var(--garden-black-info) !important;
+    }
+
+    .alert-warning {
+        border-left: 4px solid var(--garden-black-warning) !important;
+    }
+
+    .alert-danger {
+        border-left: 4px solid var(--garden-black-danger) !important;
+    }
+
+    table,
+    .table,
+    .table > :not(caption) > * > * {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-background) !important;
+        border-color: var(--garden-black-border) !important;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd) > *,
+    .table-hover > tbody > tr:hover > *,
+    .table-hover > tbody > tr:focus-within > * {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-surface) !important;
+    }
+
+    blockquote,
+    .blockquote,
+    pre,
+    code,
+    kbd,
+    samp {
+        color: var(--garden-black-text) !important;
+        background-color: var(--garden-black-surface-raised) !important;
+        border-color: var(--garden-black-border-strong) !important;
+    }
+
+    blockquote,
+    .blockquote {
+        border-left: 4px solid var(--garden-black-accent) !important;
+    }
+
+    hr,
+    fieldset,
+    .divider {
+        border-color: var(--garden-black-border) !important;
+        opacity: 1;
+    }
+
+    #atpfooter {
+        color: var(--garden-black-text-muted) !important;
+        background-color: var(--garden-black-surface) !important;
+        border-top: 1px solid var(--garden-black-border);
+
+        & .container,
+        & .container-fluid,
+        & p {
+            color: var(--garden-black-text-muted) !important;
+            background-color: transparent !important;
+        }
+
+        & a {
+            color: var(--garden-black-text-muted) !important;
+
+            &:hover,
+            &:focus-visible {
+                color: var(--garden-black-accent-bright) !important;
+            }
+        }
+    }
+
+    :where(
+        a,
+        button,
+        input,
+        select,
+        textarea,
+        [tabindex]:not([tabindex="-1"])
+    ):focus-visible {
+        outline: 3px solid var(--garden-black-accent-bright) !important;
+        outline-offset: 2px !important;
+    }
+}

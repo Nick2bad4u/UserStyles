@@ -1,0 +1,552 @@
+/* ==UserStyle==
+@name           Plants of the World Online - Kew Black Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.0
+@description    A true-black, accessible theme for Kew's Plants of the World Online, including search, plant cards, taxon pages, maps, navigation, menus, and dialogs.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/POWO-Kew-BlackMode.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/POWO-Kew-BlackMode.user.css
+@var color accent-color "Kew teal accent" #18b9ba
+@preprocessor   default
+==/UserStyle== */
+@-moz-document domain("powo.science.kew.org") {
+    :root {
+        color-scheme: dark !important;
+        background-color: #000000 !important;
+
+        --powo-black-background: #000000;
+        --powo-black-surface: #080808;
+        --powo-black-surface-raised: #111111;
+        --powo-black-surface-hover: #1a1a1a;
+        --powo-black-border: #292929;
+        --powo-black-border-strong: #454545;
+        --powo-black-text: #f5f5f5;
+        --powo-black-text-muted: #c8c8c8;
+        --powo-black-text-subtle: #9b9b9b;
+        --powo-black-accent: var(--accent-color);
+        --powo-black-accent-bright: color-mix(
+            in srgb,
+            var(--powo-black-accent) 72%,
+            #ffffff
+        );
+        --powo-black-accent-soft: color-mix(
+            in srgb,
+            var(--powo-black-accent) 18%,
+            transparent
+        );
+        --powo-black-link: #5ed7d7;
+        --powo-black-link-visited: #c9a8ff;
+        --powo-black-success: #7ee787;
+        --powo-black-warning: #f2cc60;
+        --powo-black-danger: #ff7b72;
+        --powo-black-shadow: 0 14px 36px rgb(0 0 0 / 82%);
+    }
+
+    html,
+    body,
+    .s-page,
+    .s-page-wrapper,
+    main,
+    #main,
+    .main-content,
+    .taxon-page__main {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-background) !important;
+    }
+
+    body {
+        accent-color: var(--powo-black-accent);
+        scrollbar-color: var(--powo-black-border-strong)
+            var(--powo-black-background);
+    }
+
+    ::selection {
+        color: #ffffff;
+        background-color: var(--powo-black-accent) !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: var(--powo-black-background);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--powo-black-border-strong);
+        border: 3px solid var(--powo-black-background);
+        border-radius: 999px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    label,
+    legend,
+    dt,
+    dd,
+    strong,
+    .heading-1,
+    .heading-2,
+    .heading-3,
+    .heading-4,
+    .p,
+    .p-regular,
+    .p-strong,
+    .p-xl,
+    .featured-taxon__name,
+    .featured-taxon__summary {
+        color: var(--powo-black-text) !important;
+    }
+
+    small,
+    .small,
+    .p-s,
+    .text-muted,
+    .bibliographic-citation,
+    .featured-caption,
+    .image-caption {
+        color: var(--powo-black-text-muted) !important;
+    }
+
+    a,
+    .teal-link,
+    .navigation-link {
+        color: var(--powo-black-link) !important;
+    }
+
+    a:visited {
+        color: var(--powo-black-link-visited) !important;
+    }
+
+    a:hover,
+    a:focus-visible,
+    .teal-link:hover,
+    .teal-link:focus-visible {
+        color: var(--powo-black-accent-bright) !important;
+    }
+
+    .c-header {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface) !important;
+        border-bottom: 1px solid var(--powo-black-border) !important;
+        box-shadow: 0 1px 0 var(--powo-black-border);
+    }
+
+    #kew-logo svg {
+        filter: brightness(0) invert(1);
+    }
+
+    .c-header .top-link,
+    .c-header .btn-link,
+    .c-header .main-menu a,
+    .c-header .main-menu button {
+        color: var(--powo-black-text) !important;
+    }
+
+    .c-header .top-link.current,
+    .c-header .top-link:hover,
+    .c-header .top-link:focus-visible,
+    .c-header .main-menu a:hover,
+    .c-header .main-menu a:focus-visible {
+        color: var(--powo-black-accent-bright) !important;
+    }
+
+    .app-switcher-button,
+    .mobile-toggle-search,
+    .toggle-nav {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface-raised) !important;
+        border-color: var(--powo-black-border-strong) !important;
+    }
+
+    .c-header svg,
+    .navigation-link__icon,
+    .desktop-menu-icon,
+    .back-link__icon {
+        color: currentcolor !important;
+        fill: currentcolor !important;
+        stroke: currentcolor !important;
+    }
+
+    .home__hero-content {
+        color: #ffffff !important;
+        background-color: rgb(0 0 0 / 62%) !important;
+        background-blend-mode: multiply !important;
+
+        & .c-intro,
+        & .c-intro__title,
+        & .p-xl,
+        & .featured-caption,
+        & a {
+            color: #ffffff !important;
+            text-shadow: 0 2px 8px rgb(0 0 0 / 90%);
+        }
+
+        & a:hover,
+        & a:focus-visible {
+            color: var(--powo-black-accent-bright) !important;
+        }
+    }
+
+    input,
+    textarea,
+    select,
+    option,
+    .form-control,
+    .tokenfield,
+    .token-input,
+    .tt-input,
+    .input-group-text {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface-raised) !important;
+        border-color: var(--powo-black-border-strong) !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder,
+    .form-control::placeholder,
+    .token-input::placeholder {
+        color: var(--powo-black-text-subtle) !important;
+        opacity: 1;
+    }
+
+    input:disabled,
+    textarea:disabled,
+    select:disabled,
+    .form-control:disabled,
+    .form-control[readonly] {
+        color: var(--powo-black-text-subtle) !important;
+        background-color: var(--powo-black-surface) !important;
+    }
+
+    .home__search-container,
+    .form-inline--search,
+    .input-group,
+    .twitter-typeahead {
+        color: var(--powo-black-text) !important;
+        border-color: var(--powo-black-border-strong) !important;
+    }
+
+    .tt-menu,
+    .tt-dataset,
+    .tt-suggestion,
+    .typeahead,
+    .autocomplete,
+    .search-suggestions {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface-raised) !important;
+        border-color: var(--powo-black-border) !important;
+        box-shadow: var(--powo-black-shadow) !important;
+    }
+
+    .tt-suggestion:hover,
+    .tt-suggestion:focus-visible,
+    .tt-suggestion.tt-cursor {
+        color: #ffffff !important;
+        background-color: var(--powo-black-accent-soft) !important;
+    }
+
+    .btn,
+    .btn-default,
+    .btn-link,
+    button:not(.ol-zoom-in, .ol-zoom-out) {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface-raised) !important;
+        border-color: var(--powo-black-border-strong) !important;
+        box-shadow: none !important;
+    }
+
+    .btn:hover,
+    .btn:focus-visible,
+    .btn-default:hover,
+    .btn-default:focus-visible,
+    button:not(.ol-zoom-in, .ol-zoom-out):hover,
+    button:not(.ol-zoom-in, .ol-zoom-out):focus-visible {
+        color: #000000 !important;
+        background-color: var(--powo-black-accent-bright) !important;
+        border-color: var(--powo-black-accent-bright) !important;
+    }
+
+    .featured-taxa-section,
+    .featured-taxa-section__header,
+    .featured-taxa-section__content {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-background) !important;
+    }
+
+    .featured-taxon {
+        overflow: hidden;
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface) !important;
+        border: 1px solid var(--powo-black-border) !important;
+        border-radius: 4px;
+        box-shadow: 0 8px 24px rgb(0 0 0 / 55%);
+
+        &:hover,
+        &:focus-visible {
+            color: var(--powo-black-text) !important;
+            background-color: var(--powo-black-surface-raised) !important;
+            border-color: var(--powo-black-accent) !important;
+            box-shadow: 0 0 0 1px var(--powo-black-accent-soft);
+        }
+    }
+
+    .featured-taxon__rank,
+    .label-caps,
+    .name-status {
+        color: var(--powo-black-accent-bright) !important;
+    }
+
+    .dropdown-menu,
+    .modal-content,
+    .app-switcher,
+    .popover,
+    .tooltip-inner,
+    .panel,
+    .card,
+    .list-group,
+    .list-group-item {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface-raised) !important;
+        border-color: var(--powo-black-border) !important;
+        box-shadow: var(--powo-black-shadow) !important;
+    }
+
+    .dropdown-menu .top-link,
+    .dropdown-menu a,
+    .app-link,
+    .list-group-item a {
+        color: var(--powo-black-text) !important;
+        background-color: transparent !important;
+    }
+
+    .dropdown-menu .top-link:hover,
+    .dropdown-menu .top-link:focus-visible,
+    .dropdown-menu a:hover,
+    .dropdown-menu a:focus-visible,
+    .app-link:hover,
+    .app-link:focus-visible,
+    .list-group-item:hover,
+    .list-group-item:focus-within {
+        color: #ffffff !important;
+        background-color: var(--powo-black-accent-soft) !important;
+    }
+
+    .modal-header,
+    .modal-footer,
+    .panel-heading,
+    .panel-footer,
+    .dropdown-divider {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface) !important;
+        border-color: var(--powo-black-border) !important;
+    }
+
+    .modal-backdrop,
+    .mask,
+    [class*="backdrop"] {
+        background-color: rgb(0 0 0 / 86%) !important;
+    }
+
+    .taxon-header {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface) !important;
+        border-bottom: 1px solid var(--powo-black-border);
+    }
+
+    .taxon-header__summary,
+    .c-summary,
+    .taxon-classification,
+    .taxon-classification__item {
+        color: var(--powo-black-text) !important;
+        background-color: transparent !important;
+    }
+
+    .taxon-tabs,
+    .taxon-tabs-container--sticky,
+    .taxon-tabs--white {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface-raised) !important;
+        border-color: var(--powo-black-border) !important;
+    }
+
+    .taxon-tabs a {
+        color: var(--powo-black-text) !important;
+        background-color: transparent !important;
+    }
+
+    .taxon-tabs a:hover,
+    .taxon-tabs a:focus-visible,
+    .taxon-tabs .active a,
+    .taxon-tabs a.active {
+        color: #ffffff !important;
+        background-color: var(--powo-black-accent-soft) !important;
+        border-color: var(--powo-black-accent) !important;
+    }
+
+    .taxon-section,
+    .taxon-section__left,
+    .taxon-section__right,
+    .taxon-section__content,
+    .c-article-section__aside,
+    .c-synonym-list,
+    .c-classification-list,
+    .c-reference-list {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-background) !important;
+        border-color: var(--powo-black-border) !important;
+    }
+
+    .taxon-section {
+        border-bottom: 1px solid var(--powo-black-border) !important;
+    }
+
+    .taxon-section__left,
+    .c-article-section__aside {
+        color: var(--powo-black-text-muted) !important;
+    }
+
+    .taxon-section__header,
+    .taxon__sources-header,
+    .cl-value,
+    .cl-value-text {
+        color: var(--powo-black-text) !important;
+    }
+
+    .cl-rank,
+    .taxon__sources-header + .text-muted {
+        color: var(--powo-black-text-muted) !important;
+    }
+
+    .bar,
+    .offset,
+    .bibliographic-citation,
+    .c-synonym-list > li,
+    .c-reference-list > li,
+    .taxon__sources-header {
+        border-color: var(--powo-black-border) !important;
+    }
+
+    table,
+    .table,
+    .table > thead > tr > th,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-background) !important;
+        border-color: var(--powo-black-border) !important;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd),
+    .table-hover > tbody > tr:hover,
+    .table-hover > tbody > tr:focus-within {
+        background-color: var(--powo-black-surface) !important;
+    }
+
+    .result,
+    .result-list,
+    .search-result,
+    .search-results,
+    .c-card {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface) !important;
+        border-color: var(--powo-black-border) !important;
+    }
+
+    .result:hover,
+    .result:focus-within,
+    .search-result:hover,
+    .search-result:focus-within,
+    .c-card:hover,
+    .c-card:focus-within {
+        background-color: var(--powo-black-surface-raised) !important;
+        border-color: var(--powo-black-accent) !important;
+    }
+
+    .ol-viewport,
+    .ol-layer,
+    [class*="map-container"] {
+        background-color: var(--powo-black-surface) !important;
+    }
+
+    .ol-control,
+    .ol-control button,
+    .ol-attribution,
+    .ol-popup {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface-raised) !important;
+        border-color: var(--powo-black-border-strong) !important;
+    }
+
+    .ol-control button:hover,
+    .ol-control button:focus-visible {
+        color: #000000 !important;
+        background-color: var(--powo-black-accent-bright) !important;
+    }
+
+    blockquote,
+    pre,
+    code,
+    kbd,
+    samp {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface-raised) !important;
+        border-color: var(--powo-black-border-strong) !important;
+    }
+
+    blockquote {
+        border-left: 4px solid var(--powo-black-accent) !important;
+    }
+
+    hr,
+    fieldset,
+    .divider {
+        border-color: var(--powo-black-border) !important;
+        opacity: 1;
+    }
+
+    .site-footer,
+    .footer-layer-one,
+    .footer-layer-two {
+        color: var(--powo-black-text-muted) !important;
+        background-color: var(--powo-black-surface) !important;
+        border-color: var(--powo-black-border) !important;
+    }
+
+    .footer-link,
+    .site-footer a {
+        color: var(--powo-black-text-muted) !important;
+    }
+
+    .footer-link:hover,
+    .footer-link:focus-visible,
+    .site-footer a:hover,
+    .site-footer a:focus-visible {
+        color: var(--powo-black-accent-bright) !important;
+    }
+
+    :where(
+        a,
+        button,
+        input,
+        select,
+        textarea,
+        [tabindex]:not([tabindex="-1"])
+    ):focus-visible {
+        outline: 3px solid var(--powo-black-accent-bright) !important;
+        outline-offset: 2px !important;
+    }
+}

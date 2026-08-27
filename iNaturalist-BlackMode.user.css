@@ -1,0 +1,512 @@
+/* ==UserStyle==
+@name           iNaturalist - Black Mode
+@namespace      nick2bad4u.github.io
+@version        1.0.0
+@description    A true-black, accessible dark theme for iNaturalist observations, filters, cards, maps, forms, menus, and dialogs while preserving wildlife photography and site identity.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/iNaturalist-BlackMode.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/iNaturalist-BlackMode.user.css
+@var color accent-color "iNaturalist accent" #74ac00
+@preprocessor   default
+==/UserStyle== */
+@-moz-document domain("inaturalist.org") {
+    :root {
+        color-scheme: dark !important;
+        background-color: #000000 !important;
+
+        --inat-black-background: #000000;
+        --inat-black-surface: #080808;
+        --inat-black-surface-raised: #111111;
+        --inat-black-surface-hover: #191919;
+        --inat-black-border: #2b2b2b;
+        --inat-black-border-strong: #444444;
+        --inat-black-text: #f5f5f5;
+        --inat-black-text-muted: #c5c5c5;
+        --inat-black-text-subtle: #9a9a9a;
+        --inat-black-accent: var(--accent-color);
+        --inat-black-accent-bright: color-mix(
+            in srgb,
+            var(--inat-black-accent) 72%,
+            #ffffff
+        );
+        --inat-black-accent-soft: color-mix(
+            in srgb,
+            var(--inat-black-accent) 18%,
+            transparent
+        );
+        --inat-black-link: #a8d85c;
+        --inat-black-link-visited: #c8a8ff;
+        --inat-black-danger: #ff7b72;
+        --inat-black-warning: #f2cc60;
+        --inat-black-info: #79c0ff;
+        --inat-black-success: #7ee787;
+        --inat-black-shadow: 0 12px 32px rgb(0 0 0 / 78%);
+    }
+
+    html,
+    body,
+    #wrapper,
+    #app,
+    main,
+    .bootstrap {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-background) !important;
+    }
+
+    body {
+        accent-color: var(--inat-black-accent);
+        scrollbar-color: var(--inat-black-border-strong)
+            var(--inat-black-background);
+    }
+
+    ::selection {
+        color: #ffffff;
+        background-color: var(--inat-black-accent) !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--inat-black-background);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--inat-black-border-strong);
+        border: 3px solid var(--inat-black-background);
+        border-radius: 999px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    label,
+    legend,
+    dt,
+    dd,
+    strong,
+    .title,
+    .display-name,
+    .sciname,
+    .comname {
+        color: var(--inat-black-text) !important;
+    }
+
+    small,
+    .small,
+    .text-muted,
+    .muted,
+    .help-block,
+    .meta,
+    .meta-text,
+    .date,
+    .time,
+    .place,
+    .secondary-name,
+    .no-com-name {
+        color: var(--inat-black-text-muted) !important;
+    }
+
+    a,
+    .btn-link {
+        color: var(--inat-black-link) !important;
+    }
+
+    a:visited {
+        color: var(--inat-black-link-visited) !important;
+    }
+
+    a:hover,
+    a:focus-visible,
+    .btn-link:hover,
+    .btn-link:focus-visible {
+        color: var(--inat-black-accent-bright) !important;
+    }
+
+    #header {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-bottom-color: var(--inat-black-border) !important;
+        box-shadow: 0 1px 0 var(--inat-black-border);
+
+        & a,
+        & .nav > li > a,
+        & .navbar-nav > li > a,
+        & .btn-link {
+            color: var(--inat-black-text) !important;
+        }
+
+        & a:hover,
+        & a:focus-visible,
+        & .nav > li > a:hover,
+        & .nav > li > a:focus-visible {
+            color: var(--inat-black-accent-bright) !important;
+            background-color: var(--inat-black-surface-hover) !important;
+        }
+    }
+
+    #footer {
+        color: var(--inat-black-text-muted) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-top: 1px solid var(--inat-black-border);
+
+        & a {
+            color: var(--inat-black-text-muted) !important;
+
+            &:hover,
+            &:focus-visible {
+                color: var(--inat-black-accent-bright) !important;
+            }
+        }
+    }
+
+    input,
+    textarea,
+    select,
+    option,
+    .form-control,
+    .input-group-addon,
+    .ui-autocomplete-input,
+    .token-input {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border-strong) !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder,
+    .form-control::placeholder {
+        color: var(--inat-black-text-subtle) !important;
+        opacity: 1;
+    }
+
+    input:disabled,
+    textarea:disabled,
+    select:disabled,
+    .form-control:disabled,
+    .form-control[readonly] {
+        color: var(--inat-black-text-subtle) !important;
+        background-color: var(--inat-black-surface) !important;
+    }
+
+    .btn,
+    .btn-default,
+    .btn-secondary,
+    .btn-group > .btn {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border-strong) !important;
+        box-shadow: none !important;
+    }
+
+    .btn:hover,
+    .btn:focus-visible,
+    .btn-default:hover,
+    .btn-default:focus-visible,
+    .btn-group > .btn:hover,
+    .btn-group > .btn:focus-visible {
+        color: #ffffff !important;
+        background-color: var(--inat-black-surface-hover) !important;
+        border-color: var(--inat-black-accent) !important;
+    }
+
+    .btn-primary,
+    .btn-success,
+    .btn-inat,
+    .statcol.active {
+        color: #000000 !important;
+        background-color: var(--inat-black-accent) !important;
+        border-color: var(--inat-black-accent) !important;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible,
+    .btn-success:hover,
+    .btn-success:focus-visible,
+    .btn-inat:hover,
+    .btn-inat:focus-visible {
+        color: #000000 !important;
+        background-color: var(--inat-black-accent-bright) !important;
+        border-color: var(--inat-black-accent-bright) !important;
+    }
+
+    .btn-danger,
+    .label-danger {
+        color: #000000 !important;
+        background-color: var(--inat-black-danger) !important;
+        border-color: var(--inat-black-danger) !important;
+    }
+
+    .dropdown-menu,
+    .modal-content,
+    .popover,
+    .well,
+    .panel,
+    .panel-body,
+    .list-group-item,
+    .ui-widget-content,
+    .ui-autocomplete,
+    .datepicker,
+    .date-picker,
+    .select2-dropdown,
+    .select2-results,
+    .select2-container .select2-choice {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border) !important;
+        box-shadow: var(--inat-black-shadow) !important;
+    }
+
+    .dropdown-menu > li > a,
+    .ui-menu-item,
+    .ui-menu-item-wrapper,
+    .select2-results li {
+        color: var(--inat-black-text) !important;
+        background-color: transparent !important;
+    }
+
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus-visible,
+    .dropdown-menu > .active > a,
+    .ui-menu-item-wrapper:hover,
+    .ui-state-active,
+    .select2-results li:hover {
+        color: #ffffff !important;
+        background-color: var(--inat-black-accent-soft) !important;
+    }
+
+    .dropdown-menu .divider,
+    .modal-header,
+    .modal-footer,
+    .panel-heading,
+    .panel-footer,
+    .popover-title {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .modal-backdrop,
+    .overlay,
+    [class*="backdrop"] {
+        background-color: rgb(0 0 0 / 82%) !important;
+    }
+
+    .tooltip-inner {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border: 1px solid var(--inat-black-border-strong);
+    }
+
+    .nav-tabs,
+    .nav-pills,
+    .breadcrumb,
+    .pagination,
+    .pager {
+        color: var(--inat-black-text-muted) !important;
+        background-color: var(--inat-black-background) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .nav-tabs > li > a,
+    .nav-pills > li > a,
+    .pagination > li > a,
+    .pagination > li > span,
+    .pager > li > a,
+    .pager > li > span {
+        color: var(--inat-black-text-muted) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:hover,
+    .nav-tabs > li.active > a:focus-visible,
+    .nav-pills > li.active > a,
+    .pagination > .active > a,
+    .pagination > .active > span {
+        color: #ffffff !important;
+        background-color: var(--inat-black-accent) !important;
+        border-color: var(--inat-black-accent) !important;
+    }
+
+    table,
+    .table,
+    .table > thead > tr > th,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-background) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd),
+    .table-hover > tbody > tr:hover,
+    .table-hover > tbody > tr:focus-within {
+        background-color: var(--inat-black-surface) !important;
+    }
+
+    #result-grid,
+    .observation-grid-cell,
+    .observation,
+    .thumbnail,
+    .thumbnail .caption,
+    .media,
+    .taxon,
+    .observation-card {
+        color: var(--inat-black-text) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #result-grid .thumbnail,
+    .observation-grid-cell .thumbnail,
+    .observation-card {
+        background-color: var(--inat-black-surface) !important;
+        box-shadow: 0 1px 0 var(--inat-black-border);
+    }
+
+    #result-grid .thumbnail:hover,
+    #result-grid .thumbnail:focus-within,
+    .observation-card:hover,
+    .observation-card:focus-within {
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-accent) !important;
+        box-shadow: 0 0 0 1px var(--inat-black-accent-soft);
+    }
+
+    .observation .caption,
+    .observation .meta,
+    .observation .meta-item,
+    .observation .meta-text,
+    .observation .quality_grade,
+    .observation .identifications,
+    .observation .comments,
+    .observation .favorites {
+        color: var(--inat-black-text-muted) !important;
+    }
+
+    .quality_grade.research,
+    .research .quality_grade,
+    .label-success {
+        color: #000000 !important;
+        background-color: var(--inat-black-success) !important;
+    }
+
+    .needs_id .quality_grade,
+    .label-warning {
+        color: #000000 !important;
+        background-color: var(--inat-black-warning) !important;
+    }
+
+    .casual .quality_grade,
+    .label-default {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-border-strong) !important;
+    }
+
+    #stats-container {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .statcol {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border-strong) !important;
+
+        &:hover,
+        &:focus-within {
+            background-color: var(--inat-black-surface-hover) !important;
+        }
+    }
+
+    .leaflet-container,
+    .map,
+    #map {
+        background-color: var(--inat-black-surface) !important;
+    }
+
+    .leaflet-control,
+    .leaflet-bar a,
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip,
+    .leaflet-control-layers,
+    .leaflet-control-attribution {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border-strong) !important;
+    }
+
+    .leaflet-bar a:hover,
+    .leaflet-bar a:focus-visible {
+        color: #ffffff !important;
+        background-color: var(--inat-black-surface-hover) !important;
+    }
+
+    .alert,
+    .alert-info,
+    .alert-success,
+    .alert-warning,
+    .alert-danger {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border-strong) !important;
+    }
+
+    .alert-info {
+        border-left-color: var(--inat-black-info) !important;
+    }
+
+    .alert-success {
+        border-left-color: var(--inat-black-success) !important;
+    }
+
+    .alert-warning {
+        border-left-color: var(--inat-black-warning) !important;
+    }
+
+    .alert-danger {
+        border-left-color: var(--inat-black-danger) !important;
+    }
+
+    hr,
+    fieldset,
+    .border,
+    .divider {
+        border-color: var(--inat-black-border) !important;
+    }
+
+    code,
+    pre,
+    kbd,
+    samp {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    :where(
+        a,
+        button,
+        input,
+        select,
+        textarea,
+        [tabindex]:not([tabindex="-1"])
+    ):focus-visible {
+        outline: 3px solid var(--inat-black-accent-bright) !important;
+        outline-offset: 2px !important;
+    }
+}
