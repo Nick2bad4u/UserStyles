@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           LLIFLE - Botanical Black
 @namespace      nick2bad4u.github.io
-@version        1.0.0
+@version        1.0.1
 @description    A polished true-black botanical theme for LLIFLE encyclopedias, plant sheets, navigation, search, galleries, forms, dialogs, and text pages, with responsive layouts and undistorted plant photography.
 @author         Nick2bad4u
 @license        UnLicense
@@ -693,6 +693,7 @@
 
     .blue_background,
     .light_blue_background,
+    .genus_title_background,
     .family_title_background {
         color: var(--llifle-black-text) !important;
         background-color: var(--llifle-black-surface-raised) !important;
