@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           iNaturalist - Black Mode
 @namespace      nick2bad4u.github.io
-@version        1.0.1
+@version        1.0.2
 @description    A true-black, accessible dark theme for iNaturalist observations, filters, cards, maps, forms, menus, and dialogs while preserving wildlife photography and site identity.
 @author         Nick2bad4u
 @license        UnLicense
@@ -424,6 +424,92 @@
     }
 
     #observe_panel .thumbnail .scaledimg {
+        background-color: var(--inat-black-surface-raised) !important;
+    }
+
+    #main-container,
+    #carousel-container,
+    #Identify .mainrow,
+    #Identify .main-col {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-background) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #results,
+    #main-container .thumbnail.borderless,
+    #Identify .ObservationsGridItem,
+    #recently_observed .box {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #results .photo,
+    #Identify .ObservationsGridItem .photo {
+        background-color: var(--inat-black-surface-raised) !important;
+    }
+
+    #Identify .rc-pagination-item,
+    #Identify .rc-pagination-item > a {
+        color: var(--inat-black-link) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #Identify .rc-pagination-item-active,
+    #Identify .rc-pagination-item-active > a {
+        color: #000000 !important;
+        background-color: var(--inat-black-accent) !important;
+        border-color: var(--inat-black-accent) !important;
+    }
+
+    #TaxonDetail #hero {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+
+        & .tab-content,
+        & .chart-controls {
+            color: var(--inat-black-text) !important;
+            background-color: var(--inat-black-surface-raised) !important;
+            border-color: var(--inat-black-border) !important;
+        }
+
+        & .item-label,
+        & .value {
+            color: var(--inat-black-text-muted) !important;
+        }
+
+        & .Charts svg text {
+            fill: var(--inat-black-text-muted) !important;
+        }
+
+        & .Charts svg line,
+        & .Charts svg .domain {
+            stroke: var(--inat-black-border-strong) !important;
+        }
+    }
+
+    #recently_observed .othernames {
+        color: var(--inat-black-text-muted) !important;
+    }
+
+    #taxon_description .navbox,
+    #taxon_description .navbox-inner,
+    #taxon_description .navbox-title,
+    #taxon_description .navbox-group,
+    #taxon_description .navbox-list,
+    #taxon_description .navbox-abovebelow,
+    #taxon_description .side-box {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border-strong) !important;
+    }
+
+    #taxon_description .navbox-title,
+    #taxon_description .navbox-group,
+    #taxon_description .navbox-even {
         background-color: var(--inat-black-surface-raised) !important;
     }
 
