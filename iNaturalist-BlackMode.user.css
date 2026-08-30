@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           iNaturalist - Black Mode
 @namespace      nick2bad4u.github.io
-@version        1.0.5
+@version        1.0.6
 @description    A true-black, accessible iNaturalist theme for observations, filters, maps, forms, menus, and dialogs that preserves wildlife photography and site identity.
 @author         Nick2bad4u
 @license        UnLicense
@@ -462,6 +462,36 @@
         box-shadow: 0 1px 0 var(--inat-black-border);
     }
 
+    /* Project indexes and legacy project pages still ship light placeholders. */
+    .project-icon,
+    #rtstats .counts,
+    #projectnav,
+    #recent_observations .observations > .observation {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+        box-shadow: 0 1px 0 var(--inat-black-border) !important;
+    }
+
+    #projectnav > li > a {
+        color: var(--inat-black-text-muted) !important;
+        background-color: transparent !important;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--inat-black-accent-bright) !important;
+            background-color: var(--inat-black-surface-hover) !important;
+        }
+    }
+
+    .project-icon:hover,
+    .project-icon:focus-visible,
+    #recent_observations .observations > .observation:hover,
+    #recent_observations .observations > .observation:focus-within {
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-accent) !important;
+    }
+
     #ProjectsShow .Content tr.odd {
         background-color: var(--inat-black-surface) !important;
     }
@@ -518,6 +548,27 @@
         border-color: var(--inat-black-border) !important;
     }
 
+    #ObservationShow .image-gallery-thumbnails {
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #ObservationShow .CommunityIdentification .header-actions,
+    #ObservationShow .CommunityIdentification .header-actions a,
+    #ObservationShow .CommunityIdentification .header-actions button {
+        color: var(--inat-black-text) !important;
+    }
+
+    #ObservationShow .CommunityIdentification .header-actions a:hover,
+    #ObservationShow .CommunityIdentification .header-actions a:focus-visible,
+    #ObservationShow .CommunityIdentification .header-actions button:hover,
+    #ObservationShow
+        .CommunityIdentification
+        .header-actions
+        button:focus-visible {
+        color: var(--inat-black-accent-bright) !important;
+    }
+
     #ObservationShow .data_quality_assessment,
     #ObservationShow .more_from {
         color: var(--inat-black-text) !important;
@@ -546,6 +597,12 @@
         color: var(--inat-black-text) !important;
         background-color: var(--inat-black-background) !important;
         border-color: var(--inat-black-border) !important;
+    }
+
+    img.user_image.user_image--large {
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border-strong) !important;
+        box-shadow: 0 1px 0 var(--inat-black-border) !important;
     }
 
     .gm-style .gm-style-iw-c,
@@ -594,13 +651,97 @@
         border-color: var(--inat-black-border) !important;
     }
 
+    /* The Identify observation modal is rendered outside the main app shell. */
+    .ObservationModal .right-col,
+    .ObservationModal .right-col .sidebar,
+    .ObservationModal .right-col .inat-tab,
+    .ObservationModal .right-col .info-tab-content,
+    .ObservationModal .right-col .info-tab-inner,
+    .ObservationModal .right-col .map-and-details,
+    .ObservationModal .right-col .details {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .ObservationModal .right-col {
+        border-left-color: var(--inat-black-border-strong) !important;
+    }
+
+    .ObservationModal .inat-tabs,
+    .ObservationModal .right-col .tools,
+    .ObservationModal .image-gallery-thumbnails,
+    .ObservationModal .TaxonMap.empty,
+    .ObservationModal .place,
+    .ObservationModal .DiscussionListItem {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border-strong) !important;
+    }
+
+    .ObservationModal .inat-tabs a,
+    .ObservationModal .inat-tabs button,
+    .ObservationModal .right-col .tools a,
+    .ObservationModal .right-col .tools button {
+        color: var(--inat-black-text-muted) !important;
+        background-color: transparent !important;
+    }
+
+    .ObservationModal .inat-tabs a:hover,
+    .ObservationModal .inat-tabs a:focus-visible,
+    .ObservationModal .inat-tabs button:hover,
+    .ObservationModal .inat-tabs button:focus-visible,
+    .ObservationModal .right-col .tools a:hover,
+    .ObservationModal .right-col .tools a:focus-visible,
+    .ObservationModal .right-col .tools button:hover,
+    .ObservationModal .right-col .tools button:focus-visible {
+        color: var(--inat-black-accent-bright) !important;
+        background-color: var(--inat-black-surface-hover) !important;
+    }
+
     #results,
+    #obs,
     #main-container .thumbnail.borderless,
     #Identify .ObservationsGridItem,
     #recently_observed .box {
         color: var(--inat-black-text) !important;
         background-color: var(--inat-black-surface) !important;
         border-color: var(--inat-black-border) !important;
+    }
+
+    #places .place,
+    #guides-funding,
+    .vm-block {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+        box-shadow: 0 1px 0 var(--inat-black-border) !important;
+    }
+
+    #places .place {
+        opacity: 0.94 !important;
+
+        &:hover,
+        &:focus-within {
+            background-color: var(--inat-black-surface-raised) !important;
+            border-color: var(--inat-black-accent) !important;
+            box-shadow: 0 0 0 1px var(--inat-black-accent-soft) !important;
+            opacity: 1 !important;
+        }
+    }
+
+    #guide-taxa .thumbnail,
+    #guide-taxa .tile .img {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #guide-taxa .thumbnail:hover,
+    #guide-taxa .thumbnail:focus-within {
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-accent) !important;
+        box-shadow: 0 0 0 1px var(--inat-black-accent-soft) !important;
     }
 
     #results .photo,
