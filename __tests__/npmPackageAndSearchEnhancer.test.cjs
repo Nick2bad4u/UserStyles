@@ -303,11 +303,11 @@ describe("NPM Package and Search Enhancer userscript", () => {
             publishRadius: "14px",
             restoredAfterNavigation: true,
             totalCount: "5",
-            totalCountFontSize: "1.25rem",
+            totalCountFontSize: "20px",
             totalHref:
                 "https://www.npmjs.com/package/example?activeTab=versions",
             totalLabel: "Total versions",
-            totalLabelFontSize: "0.75rem",
+            totalLabelFontSize: "12px",
             totalIsOwnCell: true,
             versionValue: "3.2.1",
         });
@@ -563,7 +563,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
             cardMaxWidth: "100%",
             cardMinWidth: "0px",
             cardOverflow: "hidden",
-            graphHeight: "3.5rem",
+            graphHeight: "56px",
             graphMaxWidth: "100%",
             graphWidth: "100%",
             innerDisplay: "grid",
