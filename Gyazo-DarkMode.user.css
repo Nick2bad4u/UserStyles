@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         Gyazo.com - Dark Mode [Customizable]
-@version      4.4
+@version      4.5
 @namespace    nick2bad4u.github.io
 @description  Gyazo Dark Mode (Customizable Color - Defaults to Purple Accents)
 @author       Nick2bad4u
@@ -39,7 +39,7 @@
         --gray-darker: var(gray-darker);
         --color-white: var(color-white);
         --color-black: var(color-black);
-        --color-red: var(red-color);
+        --color-red: var(color-red);
     }
 
     .related-info-box-component
@@ -993,20 +993,22 @@
     .grid-view .card.large-card:hover .hover-layer {
         position: absolute;
         inset: 0;
-        background: #3a424f66;
-        border: 5px solid var(--color-white);
-        border-bottom: 32px solid var(--color-white);
-        mix-blend-mode: multiply;
-        opacity: 0%;
+        background: color-mix(in srgb, var(--primary-color) 18%, transparent);
+        border: 1px solid var(--primary-color);
+        mix-blend-mode: normal;
+        opacity: 100%;
         transition: opacity 0.15s;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
             inset: 0;
-            background: #3a424f66;
-            border: 5px solid var(--color-white);
-            border-bottom: 32px solid var(--color-white);
-            mix-blend-mode: multiply;
-            opacity: 0%;
+            background: color-mix(
+                in srgb,
+                var(--primary-color) 18%,
+                transparent
+            );
+            border: 1px solid var(--primary-color);
+            mix-blend-mode: normal;
+            opacity: 100%;
             transition: none;
         }
     }
@@ -1440,11 +1442,6 @@
     }
 
     #headlessui-dialog-overlay-5,
-    #react-root
-        > div.header-block.explorer-header-block
-        > div.explorer-action-btn-toolbar
-        > div.explorer-action-btn-group
-        > a,
     .W9K8hRc2gk7SniSQJYi1,
     .kuJ39tkCjATBXUZiuSKB {
         position: fixed;
@@ -1526,6 +1523,298 @@
         background-color: #80000069 !important;
         border-radius: 20px;
     }
+
+    /* Stable controls and surfaces for the current React capture interface. */
+    .explorer-action-btn-default {
+        --bg-color: var(--gray-darker);
+        --font-color: var(--gray-light);
+        --hover-bg-color: var(--primary-color-darker);
+        --active-bg-color: var(--primary-color-darker);
+        --border-color: var(--gray-dark);
+        --hover-border-color: var(--primary-color);
+        --divider-color: var(--gray-dark);
+    }
+
+    :is(a, button).explorer-action-btn {
+        color: var(--gray-light) !important;
+        text-decoration: none !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+        box-shadow: none !important;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--color-white) !important;
+            background-color: var(--primary-color-darker) !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        &:focus-visible {
+            outline: 3px solid var(--primary-color) !important;
+            outline-offset: 2px !important;
+        }
+
+        &:active,
+        &[aria-expanded="true"] {
+            color: var(--color-white) !important;
+            background-color: var(--primary-color-darker) !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        &.explorer-action-btn-primary {
+            color: var(--color-black) !important;
+            background-color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+
+            &:hover,
+            &:focus-visible,
+            &:active {
+                color: var(--color-white) !important;
+                background-color: var(--primary-color-darker) !important;
+            }
+        }
+
+        & svg,
+        & svg path {
+            color: inherit !important;
+            fill: currentcolor !important;
+        }
+
+        & svg [fill="none"],
+        & svg [stroke]:not([stroke="none"]) {
+            fill: none !important;
+            stroke: currentcolor !important;
+        }
+    }
+
+    .grid-view .card,
+    .grid-view-cell,
+    .grid-view-cell-inner-image,
+    .grid-view .card .card-footer,
+    .grid-view .card .metadata {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border-color: var(--gray-dark) !important;
+    }
+
+    .grid-view .card .hover-layer {
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        mix-blend-mode: normal !important;
+        opacity: 0% !important;
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            transition: none !important;
+        }
+    }
+
+    .grid-view .card:hover .hover-layer,
+    .grid-view .card:focus-within .hover-layer {
+        background: color-mix(
+            in srgb,
+            var(--primary-color) 18%,
+            transparent
+        ) !important;
+        border-color: var(--primary-color) !important;
+        opacity: 100% !important;
+    }
+
+    .edit-box-component,
+    .edit-box-component > div,
+    .image-desc-display,
+    .metadata-description,
+    .captured-info,
+    .add-to-collection-popover,
+    .add-to-collection-popover .collection-operation-wrap,
+    .add-to-collection-popover .new-collection-form,
+    .add-to-collection-popover .form-box {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border-color: var(--gray-dark) !important;
+    }
+
+    .image-desc-display,
+    .metadata-description {
+        border: 1px solid var(--gray-dark) !important;
+
+        &:hover,
+        &:focus-within {
+            background-color: var(--background-main) !important;
+            border-color: var(--primary-color) !important;
+        }
+    }
+
+    :is(
+        #search-box-input,
+        input[name="new-tag"],
+        .input-description,
+        .add-to-collection-popover input
+    ) {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+
+        &::placeholder {
+            color: var(--placeholder-color) !important;
+        }
+
+        &:hover,
+        &:focus-visible {
+            border-color: var(--primary-color) !important;
+        }
+
+        &:focus-visible {
+            outline: 3px solid var(--primary-color) !important;
+            outline-offset: 2px !important;
+            box-shadow: 0 0 0 3px var(--primary-color-darker) !important;
+        }
+    }
+
+    :is(
+        .ocr-desc-buttons button,
+        .edit-box-component button,
+        .add-to-collection-popover button,
+        .draw-toolbar-operation-btn
+    ) {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+
+        &:hover,
+        &:focus-visible,
+        &:active {
+            color: var(--color-white) !important;
+            background-color: var(--primary-color-darker) !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        &:focus-visible {
+            outline: 3px solid var(--primary-color) !important;
+            outline-offset: 2px !important;
+        }
+    }
+
+    .ocr-desc-buttons > div > button,
+    .ocr-desc-buttons > div > div > button {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+
+        &:hover,
+        &:focus,
+        &:focus-visible,
+        &:active {
+            color: var(--color-white) !important;
+            background-color: var(--primary-color-darker) !important;
+            border-color: var(--primary-color) !important;
+        }
+    }
+
+    :is(
+        #popover,
+        #popover .popover-content,
+        .interactive-popover,
+        .add-to-collection-popover,
+        .upload-modal,
+        .modal,
+        .modal-content,
+        [role="dialog"],
+        [role="listbox"],
+        [role="menu"]
+    ) {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border-color: var(--gray-dark) !important;
+        box-shadow: 0 12px 32px #000000b8 !important;
+    }
+
+    :is(
+        #popover li > a,
+        #popover li > button,
+        [role="menuitem"],
+        [role="menuitem"] a,
+        [role="menuitem"] button,
+        [role="option"]
+    ) {
+        color: var(--gray-light) !important;
+        text-decoration: none !important;
+        background-color: transparent !important;
+
+        &:hover,
+        &:focus-visible,
+        &[aria-selected="true"] {
+            color: var(--color-white) !important;
+            background-color: var(--primary-color-darker) !important;
+        }
+    }
+
+    [role="menuitem"]:hover,
+    [role="menuitem"]:focus-visible,
+    [role="menuitem"][data-focus] {
+        color: var(--color-white) !important;
+        background-color: var(--primary-color-darker) !important;
+
+        & a,
+        & button {
+            color: inherit !important;
+            background-color: transparent !important;
+        }
+    }
+
+    .tags > a {
+        color: var(--gray-light) !important;
+        text-decoration: none !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--color-white) !important;
+            background-color: var(--primary-color-darker) !important;
+            border-color: var(--primary-color) !important;
+        }
+    }
+
+    .side-block-items .collection-item {
+        color: var(--gray-light) !important;
+        background-color: var(--background-main) !important;
+        border: 1px solid transparent !important;
+
+        & > a {
+            color: inherit !important;
+            text-decoration: none !important;
+            background-color: transparent !important;
+        }
+
+        &:hover,
+        &:focus-within {
+            color: var(--color-white) !important;
+            background-color: var(--primary-color-darker) !important;
+            border-color: var(--primary-color) !important;
+
+            & > a {
+                color: inherit !important;
+                background-color: transparent !important;
+            }
+        }
+    }
+
+    :where(
+        button,
+        a,
+        input,
+        textarea,
+        select,
+        [tabindex]:not([tabindex="-1"])
+    ):focus-visible {
+        outline: 3px solid var(--primary-color) !important;
+        outline-offset: 2px !important;
+    }
+
+    body.card {
+        background: var(--background-main) !important;
+        background-image: none !important;
+    }
 }
 
 @-moz-document regexp("^https://(www\\.)?gyazo\\.com/.*/draw.*")
@@ -1593,13 +1882,13 @@
     }
 
     .explorer-action-btn-default {
-        --bg-color: var(--color-white);
-        --font-color: #4d4d4d;
-        --hover-bg-color: #f2f2f2;
-        --active-bg-color: #e6e6e6;
-        --border-color: var(--primary-color);
-        --hover-border-color: #d9d9d9;
-        --divider-color: var(--primary-color);
+        --bg-color: var(--gray-darker);
+        --font-color: var(--gray-light);
+        --hover-bg-color: var(--primary-color-darker);
+        --active-bg-color: var(--primary-color-darker);
+        --border-color: var(--gray-dark);
+        --hover-border-color: var(--primary-color);
+        --divider-color: var(--gray-dark);
     }
 
     svg:not(:root),
