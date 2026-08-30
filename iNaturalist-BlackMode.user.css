@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           iNaturalist - Black Mode
 @namespace      nick2bad4u.github.io
-@version        1.0.4
+@version        1.0.5
 @description    A true-black, accessible iNaturalist theme for observations, filters, maps, forms, menus, and dialogs that preserves wildlife photography and site identity.
 @author         Nick2bad4u
 @license        UnLicense
@@ -175,6 +175,18 @@
 
         & .logolink img {
             filter: brightness(0) invert(1);
+        }
+
+        & #messagesnav .dropdown-toggle,
+        & #updatesnav .dropdown-toggle,
+        & #header-user-menu-dropdown-toggle > .fa {
+            color: var(--inat-black-text) !important;
+            opacity: 1 !important;
+        }
+
+        & #messagesnav .count,
+        & #updatesnav .count {
+            color: var(--inat-black-text-muted) !important;
         }
     }
 
@@ -428,6 +440,72 @@
     #wrapper > .container:has(.user-subnav) .col-sm-8 {
         color: var(--inat-black-text) !important;
         background-color: var(--inat-black-background) !important;
+    }
+
+    /* React project pages use a separate light content shell and cards. */
+    #ProjectsShow .Content,
+    #app > .About {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-background) !important;
+    }
+
+    #ProjectsShow .Content .LeaderboardPanel,
+    #ProjectsShow .Content .TaxonThumbnail,
+    #ProjectsShow .Content .TaxonThumbnail .caption {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #ProjectsShow .Content .LeaderboardPanel,
+    #ProjectsShow .Content .TaxonThumbnail {
+        box-shadow: 0 1px 0 var(--inat-black-border);
+    }
+
+    #ProjectsShow .Content tr.odd {
+        background-color: var(--inat-black-surface) !important;
+    }
+
+    #ProjectsShow .Content tr.even {
+        background-color: var(--inat-black-background) !important;
+    }
+
+    #ProjectsShow .Content td.sorted {
+        background-color: var(--inat-black-surface-raised) !important;
+    }
+
+    #ProjectsShow .Content svg text {
+        fill: var(--inat-black-text) !important;
+    }
+
+    #ProjectsShow .StatsHeader .btn-green {
+        color: #000000 !important;
+        background: var(--inat-black-accent) !important;
+        border-color: var(--inat-black-accent) !important;
+
+        &:hover,
+        &:focus-visible {
+            background: var(--inat-black-accent-bright) !important;
+            border-color: var(--inat-black-accent-bright) !important;
+        }
+    }
+
+    #sidenav {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+
+        & > li > a {
+            color: var(--inat-black-text) !important;
+            background-color: var(--inat-black-surface) !important;
+            border-color: var(--inat-black-border) !important;
+
+            &:hover,
+            &:focus-visible {
+                color: var(--inat-black-accent-bright) !important;
+                background-color: var(--inat-black-surface-hover) !important;
+            }
+        }
     }
 
     /* Observation detail pages use dedicated surface classes. */
