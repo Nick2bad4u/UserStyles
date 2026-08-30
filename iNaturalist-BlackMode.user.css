@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           iNaturalist - Black Mode
 @namespace      nick2bad4u.github.io
-@version        1.0.3
+@version        1.0.4
 @description    A true-black, accessible iNaturalist theme for observations, filters, maps, forms, menus, and dialogs that preserves wildlife photography and site identity.
 @author         Nick2bad4u
 @license        UnLicense
@@ -49,6 +49,7 @@
     html,
     body,
     #wrapper,
+    #bodywrapper,
     #app,
     main,
     .bootstrap {
@@ -251,6 +252,14 @@
         border-color: var(--inat-black-accent) !important;
     }
 
+    html body #wrapper input[type="submit"].btn.btn-primary,
+    html body #wrapper input[type="submit"].btn.btn-success,
+    html body #wrapper input[type="submit"].btn.btn-inat {
+        color: #000000 !important;
+        background: var(--inat-black-accent) !important;
+        border-color: var(--inat-black-accent) !important;
+    }
+
     .btn-primary:hover,
     .btn-primary:focus-visible,
     .btn-success:hover,
@@ -415,6 +424,77 @@
         box-shadow: 0 0 0 1px var(--inat-black-accent-soft);
     }
 
+    #wrapper > .container:has(.user-subnav),
+    #wrapper > .container:has(.user-subnav) .col-sm-8 {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-background) !important;
+    }
+
+    /* Observation detail pages use dedicated surface classes. */
+    #ObservationShow .top_row,
+    #ObservationShow .image-gallery-slide,
+    #ObservationShow .CommunityIdentification .info,
+    #ObservationShow .comment_id_panel .tab-content {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #ObservationShow .data_quality_assessment,
+    #ObservationShow .more_from {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-background) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #ObservationShow .more_from .obs {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    #ObservationShow .photos_column,
+    #ObservationShow .info_column,
+    #ObservationShow .user_info,
+    #ObservationShow .Map,
+    #ObservationShow .TaxonMap,
+    #ObservationShow .map_details,
+    #ObservationShow .CommunityIdentification .action,
+    #ObservationShow .comment_id_panel,
+    #ObservationShow .collapsible-section,
+    #ObservationShow .collapsible-section tr,
+    #ObservationShow .collapsible-section th,
+    #ObservationShow .collapsible-section td {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-background) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .gm-style .gm-style-iw-c,
+    .gm-style .gm-style-iw-d,
+    .gm-style .gm-control-active,
+    .gm-style .gm-style-mtc button,
+    .gm-style .gm-style-cc button,
+    .gm-style .gm-style-cc div,
+    .gmapv3control,
+    .gmapv3legend {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border-strong) !important;
+    }
+
+    .gm-style .gm-style-iw-tc::after {
+        background-color: var(--inat-black-surface-raised) !important;
+    }
+
+    .ui-multiselect.ui-state-default,
+    #filters-footer,
+    #filters-footer .btn {
+        color: var(--inat-black-text) !important;
+        background: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border-strong) !important;
+    }
+
     #observe_panel .thumbnail,
     .announcement .quiet.stacked.box {
         color: var(--inat-black-text) !important;
@@ -561,9 +641,14 @@
     }
 
     .leaflet-container,
+    .TaxonMap,
     .map,
     #map {
         background-color: var(--inat-black-surface) !important;
+    }
+
+    #map-tab .RecentObservations .Carousel h2 {
+        background: var(--inat-black-background) !important;
     }
 
     .leaflet-control,
