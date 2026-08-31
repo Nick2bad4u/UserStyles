@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         Gyazo.com - Dark Mode [Customizable]
-@version      4.5
+@version      4.6
 @namespace    nick2bad4u.github.io
 @description  Gyazo Dark Mode (Customizable Color - Defaults to Purple Accents)
 @author       Nick2bad4u
@@ -12,6 +12,7 @@
 
 @var color primary-color "Primary Color" #bb86fc
 @var color primary-color-darker "Primary Color (Darker)" #3c2a51
+@var color capture-accent-color "Capture Bar / Selection Color" #bb86fc6e
 @var color secondary-color "Secondary Color / Underline" #5686ffeb
 @var color placeholder-color "Text Placeholder Color" #ffffffd4
 @var color background-main "Main Background" #121212
@@ -29,6 +30,7 @@
     :root {
         --primary-color: var(primary-color);
         --primary-color-darker: var(primary-color-darker);
+        --capture-accent-color: var(capture-accent-color);
         --secondary-color: var(secondary-color);
         --placeholder-color: var(placeholder-color);
         --background-main: var(background-main);
@@ -697,11 +699,13 @@
         fill: var(--color-white) !important;
     }
 
-    .new-collection-field > span > span > svg,
-    .tags > a > span.toplevel-item-kamon > svg,
-    .visits > a > span.toplevel-item-kamon > svg,
-    .captures.toplevel-item-active > a > span.toplevel-item-kamon > svg {
-        fill: var(--color-black);
+    .side-block
+        .side-block-items
+        .toplevel-item-active
+        > a
+        > span.toplevel-item-kamon
+        > svg {
+        fill: currentcolor;
     }
 
     #react-root
@@ -970,21 +974,6 @@
         opacity: 100%;
     }
 
-    #react-root
-        > div:nth-child(n)
-        > div
-        > div
-        > main
-        > div
-        > div:nth-child(n)
-        > div
-        > div
-        > div:nth-child(n)
-        > div
-        > div {
-        box-shadow: 0 1px 0 0 var(--primary-color);
-    }
-
     .grid-view .card.medium-card .hover-layer:hover,
     .grid-view .card.small-card .hover .hover-layer,
     .grid-view .card.small-card:hover .hover-layer,
@@ -993,22 +982,20 @@
     .grid-view .card.large-card:hover .hover-layer {
         position: absolute;
         inset: 0;
-        background: color-mix(in srgb, var(--primary-color) 18%, transparent);
-        border: 1px solid var(--primary-color);
-        mix-blend-mode: normal;
-        opacity: 100%;
+        background: #3a424f66;
+        border: 5px solid var(--color-white);
+        border-bottom: 32px solid var(--color-white);
+        mix-blend-mode: multiply;
+        opacity: 0%;
         transition: opacity 0.15s;
         @media screen and (prefers-reduced-motion: reduce) {
             position: absolute;
             inset: 0;
-            background: color-mix(
-                in srgb,
-                var(--primary-color) 18%,
-                transparent
-            );
-            border: 1px solid var(--primary-color);
-            mix-blend-mode: normal;
-            opacity: 100%;
+            background: #3a424f66;
+            border: 5px solid var(--color-white);
+            border-bottom: 32px solid var(--color-white);
+            mix-blend-mode: multiply;
+            opacity: 0%;
             transition: none;
         }
     }
@@ -1394,11 +1381,6 @@
         padding-bottom: 33px;
     }
 
-    .B9QQGIFrwoa05qnyZvI5 {
-        gap: 1px 0 !important;
-        background-color: var(--primary-color) !important;
-    }
-
     .related-pages .related-pages-body ul > li > a .icon {
         background-image: url("https://i.gyazo.com/03452dc72b4111fa1641b9fe7c53ef39.png") !important;
         /* fill: white !important; */
@@ -1524,291 +1506,207 @@
         border-radius: 20px;
     }
 
-    /* Stable controls and surfaces for the current React capture interface. */
-    .explorer-action-btn-default {
-        --bg-color: var(--gray-darker);
-        --font-color: var(--gray-light);
-        --hover-bg-color: var(--primary-color-darker);
-        --active-bg-color: var(--primary-color-darker);
-        --border-color: var(--gray-dark);
-        --hover-border-color: var(--primary-color);
-        --divider-color: var(--gray-dark);
-    }
+    /* Scoped corrections for Gyazo's current Explorer components. */
+    .explorer-action-btn {
+        box-sizing: border-box;
+        line-height: 30px;
 
-    :is(a, button).explorer-action-btn {
-        color: var(--gray-light) !important;
-        text-decoration: none !important;
-        background-color: var(--gray-darker) !important;
-        border: 1px solid var(--gray-dark) !important;
-        box-shadow: none !important;
-
-        &:hover,
-        &:focus-visible {
-            color: var(--color-white) !important;
-            background-color: var(--primary-color-darker) !important;
-            border-color: var(--primary-color) !important;
-        }
-
-        &:focus-visible {
-            outline: 3px solid var(--primary-color) !important;
-            outline-offset: 2px !important;
-        }
-
-        &:active,
-        &[aria-expanded="true"] {
-            color: var(--color-white) !important;
-            background-color: var(--primary-color-darker) !important;
-            border-color: var(--primary-color) !important;
-        }
-
-        &.explorer-action-btn-primary {
-            color: var(--color-black) !important;
-            background-color: var(--primary-color) !important;
-            border-color: var(--primary-color) !important;
-
-            &:hover,
-            &:focus-visible,
-            &:active {
-                color: var(--color-white) !important;
-                background-color: var(--primary-color-darker) !important;
-            }
-        }
-
-        & svg,
-        & svg path {
-            color: inherit !important;
-            fill: currentcolor !important;
-        }
-
-        & svg [fill="none"],
-        & svg [stroke]:not([stroke="none"]) {
-            fill: none !important;
-            stroke: currentcolor !important;
+        & > span {
+            line-height: 1.25;
         }
     }
 
-    .grid-view .card,
-    .grid-view-cell,
-    .grid-view-cell-inner-image,
-    .grid-view .card .card-footer,
-    .grid-view .card .metadata {
-        color: var(--gray-light) !important;
-        background-color: var(--gray-darker) !important;
-        border-color: var(--gray-dark) !important;
+    .grid-view .card.medium-card {
+        box-shadow: 0 3px 0 var(--capture-accent-color) !important;
     }
 
-    .grid-view .card .hover-layer {
-        background: transparent !important;
-        border: 1px solid transparent !important;
-        mix-blend-mode: normal !important;
-        opacity: 0% !important;
-
-        @media screen and (prefers-reduced-motion: reduce) {
-            transition: none !important;
-        }
+    .grid-view .card.small-card,
+    .grid-view .card.medium-card,
+    .grid-view .card.large-card,
+    .grid-view .card.row-card {
+        transition:
+            box-shadow 0.15s ease,
+            filter 0.15s ease;
     }
 
-    .grid-view .card:hover .hover-layer,
-    .grid-view .card:focus-within .hover-layer {
+    .grid-view .card.small-card:hover,
+    .grid-view .card.small-card:focus-within,
+    .grid-view .card.large-card:hover,
+    .grid-view .card.large-card:focus-within,
+    .grid-view .card.row-card:hover,
+    .grid-view .card.row-card:focus-within {
+        box-shadow:
+            0 0 0 2px var(--capture-accent-color),
+            0 8px 18px #0000008c !important;
+        filter: brightness(1.04);
+    }
+
+    .grid-view .card.medium-card:hover,
+    .grid-view .card.medium-card:focus-within {
+        box-shadow:
+            0 3px 0 var(--capture-accent-color),
+            0 0 0 2px var(--capture-accent-color),
+            0 8px 18px #0000008c !important;
+        filter: brightness(1.04);
+    }
+
+    .grid-view.checking .card.checkable.checked .checking-overlay,
+    .grid-view.checking .card.checkable.checked .checking-overlay:hover,
+    .grid-view.checking .card.checkable.checked .checking-overlay:focus-within {
+        background: var(--primary-color-darker) !important;
         background: color-mix(
             in srgb,
-            var(--primary-color) 18%,
+            var(--capture-accent-color) 35%,
             transparent
         ) !important;
-        border-color: var(--primary-color) !important;
-        opacity: 100% !important;
+        border-color: var(--capture-accent-color) !important;
     }
 
-    .edit-box-component,
-    .edit-box-component > div,
-    .image-desc-display,
-    .metadata-description,
-    .captured-info,
-    .add-to-collection-popover,
-    .add-to-collection-popover .collection-operation-wrap,
-    .add-to-collection-popover .new-collection-form,
-    .add-to-collection-popover .form-box {
-        color: var(--gray-light) !important;
+    .grid-view .card.row-card .card-checkmark {
+        color: var(--capture-accent-color) !important;
         background-color: var(--gray-darker) !important;
-        border-color: var(--gray-dark) !important;
-    }
+        border-color: var(--capture-accent-color) !important;
 
-    .image-desc-display,
-    .metadata-description {
-        border: 1px solid var(--gray-dark) !important;
-
-        &:hover,
-        &:focus-within {
-            background-color: var(--background-main) !important;
-            border-color: var(--primary-color) !important;
+        & .checkmark {
+            color: var(--capture-accent-color) !important;
         }
     }
 
-    :is(
-        #search-box-input,
-        input[name="new-tag"],
-        .input-description,
-        .add-to-collection-popover input
-    ) {
+    .side-block .side-block-items .toplevel-item-selectable,
+    .side-block .side-block-items .collection-item {
         color: var(--gray-light) !important;
-        background-color: var(--gray-darker) !important;
-        border: 1px solid var(--gray-dark) !important;
-
-        &::placeholder {
-            color: var(--placeholder-color) !important;
-        }
-
-        &:hover,
-        &:focus-visible {
-            border-color: var(--primary-color) !important;
-        }
-
-        &:focus-visible {
-            outline: 3px solid var(--primary-color) !important;
-            outline-offset: 2px !important;
-            box-shadow: 0 0 0 3px var(--primary-color-darker) !important;
-        }
+        transition:
+            color 0.15s ease,
+            background-color 0.15s ease;
     }
 
-    :is(
-        .ocr-desc-buttons button,
-        .edit-box-component button,
-        .add-to-collection-popover button,
-        .draw-toolbar-operation-btn
-    ) {
-        color: var(--gray-light) !important;
-        background-color: var(--gray-darker) !important;
-        border: 1px solid var(--gray-dark) !important;
-
-        &:hover,
-        &:focus-visible,
-        &:active {
-            color: var(--color-white) !important;
-            background-color: var(--primary-color-darker) !important;
-            border-color: var(--primary-color) !important;
-        }
-
-        &:focus-visible {
-            outline: 3px solid var(--primary-color) !important;
-            outline-offset: 2px !important;
-        }
-    }
-
-    .ocr-desc-buttons > div > button,
-    .ocr-desc-buttons > div > div > button {
-        color: var(--gray-light) !important;
-        background-color: var(--gray-darker) !important;
-        border: 1px solid var(--gray-dark) !important;
-
-        &:hover,
-        &:focus,
-        &:focus-visible,
-        &:active {
-            color: var(--color-white) !important;
-            background-color: var(--primary-color-darker) !important;
-            border-color: var(--primary-color) !important;
-        }
-    }
-
-    :is(
-        #popover,
-        #popover .popover-content,
-        .interactive-popover,
-        .add-to-collection-popover,
-        .upload-modal,
-        .modal,
-        .modal-content,
-        [role="dialog"],
-        [role="listbox"],
-        [role="menu"]
-    ) {
-        color: var(--gray-light) !important;
-        background-color: var(--gray-darker) !important;
-        border-color: var(--gray-dark) !important;
-        box-shadow: 0 12px 32px #000000b8 !important;
-    }
-
-    :is(
-        #popover li > a,
-        #popover li > button,
-        [role="menuitem"],
-        [role="menuitem"] a,
-        [role="menuitem"] button,
-        [role="option"]
-    ) {
-        color: var(--gray-light) !important;
+    .side-block .side-block-items .toplevel-item-selectable > a,
+    .side-block .side-block-items .collection-item > a {
+        color: inherit !important;
         text-decoration: none !important;
         background-color: transparent !important;
-
-        &:hover,
-        &:focus-visible,
-        &[aria-selected="true"] {
-            color: var(--color-white) !important;
-            background-color: var(--primary-color-darker) !important;
-        }
     }
 
-    [role="menuitem"]:hover,
-    [role="menuitem"]:focus-visible,
-    [role="menuitem"][data-focus] {
+    .side-block .side-block-items .toplevel-item-selectable:hover,
+    .side-block .side-block-items .toplevel-item-selectable:focus-within,
+    .side-block .side-block-items .collection-item:hover,
+    .side-block .side-block-items .collection-item:focus-within {
         color: var(--color-white) !important;
         background-color: var(--primary-color-darker) !important;
-
-        & a,
-        & button {
-            color: inherit !important;
-            background-color: transparent !important;
-        }
     }
 
-    .tags > a {
-        color: var(--gray-light) !important;
-        text-decoration: none !important;
+    .side-block .side-block-items .toplevel-item-active {
+        color: var(--color-black) !important;
+        background-color: var(--primary-color) !important;
+    }
+
+    .side-block .side-block-items .toplevel-item-selectable > a span,
+    .side-block .side-block-items .collection-item > a span {
+        color: inherit !important;
+        background-color: transparent !important;
+    }
+
+    .side-block .side-block-items .toplevel-item-selectable > a svg,
+    .side-block .side-block-items .toplevel-item-selectable > a svg path,
+    .side-block .side-block-items .collection-item > a svg,
+    .side-block .side-block-items .collection-item > a svg path {
+        color: inherit !important;
+        fill: currentcolor !important;
+    }
+
+    .board-index
+        .collection-wrapper
+        .collection-container
+        .collection-grid
+        .tile-placeholder,
+    .board-index
+        .collection-wrapper
+        .collection-container
+        .collection-grid
+        .tile-container
+        .images
+        > span:empty {
         background-color: var(--gray-darker) !important;
+        border-color: var(--gray-dark) !important;
+        box-shadow: none !important;
+    }
+
+    .board-index
+        .collection-wrapper
+        .collection-container
+        .collection-grid
+        .tile-placeholder {
         border: 1px solid var(--gray-dark) !important;
-
-        &:hover,
-        &:focus-visible {
-            color: var(--color-white) !important;
-            background-color: var(--primary-color-darker) !important;
-            border-color: var(--primary-color) !important;
-        }
+        border-radius: 2px;
     }
 
-    .side-block-items .collection-item {
-        color: var(--gray-light) !important;
+    .board-index
+        .collection-wrapper
+        .collection-container
+        .collection-grid
+        .tile-placeholder::before {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    body.edge {
         background-color: var(--background-main) !important;
-        border: 1px solid transparent !important;
 
-        & > a {
-            color: inherit !important;
-            text-decoration: none !important;
-            background-color: transparent !important;
+        & .history-header,
+        & .image-container,
+        & .image-container > .image-box,
+        & .image-detail-container {
+            background-color: var(--background-main) !important;
+            border-bottom-color: var(--gray-dark) !important;
+            box-shadow: none !important;
         }
 
-        &:hover,
-        &:focus-within {
-            color: var(--color-white) !important;
-            background-color: var(--primary-color-darker) !important;
-            border-color: var(--primary-color) !important;
-
-            & > a {
-                color: inherit !important;
-                background-color: transparent !important;
-            }
+        & .image-detail-container {
+            border-left: 1px solid var(--gray-dark) !important;
         }
     }
 
-    :where(
-        button,
-        a,
-        input,
-        textarea,
-        select,
-        [tabindex]:not([tabindex="-1"])
-    ):focus-visible {
-        outline: 3px solid var(--primary-color) !important;
-        outline-offset: 2px !important;
+    .board-show-page,
+    .board-show-page .background-block,
+    .board-show-page .main-block,
+    .board-show-page .main-block-stage,
+    .board-show-page .grid-view {
+        background-color: var(--background-main) !important;
+    }
+
+    .board-show-page .background-block {
+        background-image: none !important;
+    }
+
+    .board-show-page .main-block-stage {
+        border-color: var(--gray-dark) !important;
+        box-shadow: none !important;
+    }
+
+    .transform-page-header .explorer-action-btn-toolbar > label,
+    .transform-page-header .explorer-action-btn-toolbar > label > span {
+        color: var(--gray-light) !important;
+        background-color: transparent !important;
+    }
+
+    .transform-page-header
+        .explorer-action-btn-toolbar
+        > label
+        > input[type="checkbox"] {
+        color: var(--gray-light) !important;
+        accent-color: var(--capture-accent-color);
+        background-color: var(--gray-darker) !important;
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+        .grid-view .card.small-card,
+        .grid-view .card.medium-card,
+        .grid-view .card.large-card,
+        .grid-view .card.row-card,
+        .side-block .side-block-items .toplevel-item-selectable,
+        .side-block .side-block-items .collection-item {
+            transition: none;
+        }
     }
 
     body.card {
@@ -1882,13 +1780,13 @@
     }
 
     .explorer-action-btn-default {
-        --bg-color: var(--gray-darker);
-        --font-color: var(--gray-light);
-        --hover-bg-color: var(--primary-color-darker);
-        --active-bg-color: var(--primary-color-darker);
-        --border-color: var(--gray-dark);
-        --hover-border-color: var(--primary-color);
-        --divider-color: var(--gray-dark);
+        --bg-color: var(--color-white);
+        --font-color: #4d4d4d;
+        --hover-bg-color: #f2f2f2;
+        --active-bg-color: #e6e6e6;
+        --border-color: var(--primary-color);
+        --hover-border-color: #d9d9d9;
+        --divider-color: var(--primary-color);
     }
 
     svg:not(:root),
