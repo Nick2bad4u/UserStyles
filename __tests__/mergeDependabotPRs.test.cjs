@@ -14,7 +14,7 @@ describe("Auto-Merge Dependabot PRs userscript", () => {
     jest.setTimeout(15_000);
 
     test("ships SPA-aware GitHub metadata", () => {
-        expect(script).toContain("// @version      6.8");
+        expect(script).toContain("// @version      6.9");
         expect(script).toContain("// @match        https://github.com/*");
         expect(script).toContain("// @grant        window.onurlchange");
         expect(script).not.toContain(
@@ -42,6 +42,46 @@ describe("Auto-Merge Dependabot PRs userscript", () => {
                 right: "auto",
             },
             removedAfterLeaving: true,
+        });
+    });
+
+    test("skips deleted repositories, bounds merge retries, and retains completed progress", () => {
+        const result = JSON.parse(
+            childProcess.execFileSync(
+                process.execPath,
+                [harnessPath, "batch"],
+                {
+                    cwd: path.join(__dirname, ".."),
+                    encoding: "utf8",
+                    timeout: 10_000,
+                }
+            )
+        );
+
+        expect(result).toEqual({
+            alertCount: 0,
+            closeWasDisabledDuringMerge: true,
+            deletedRepositoryFetches: 1,
+            details: [
+                "Skipped Nick2bad4u/deleted-repo: deleted or no longer accessible.",
+                "Failed Nick2bad4u/retry-repo#5 after 4 attempts: Merging Nick2bad4u/retry-repo#5 failed (HTTP 405): Pull Request is not mergeable",
+                "Merged Acme/success-repo#5.",
+            ],
+            dismissedManually: true,
+            organizationMergeRequests: 1,
+            panelPersistedAfterCompletion: true,
+            panelRecreatedAfterDomRemoval: true,
+            progress: {
+                max: 2,
+                value: 2,
+            },
+            requestCountStable: true,
+            retryMergeRequests: 4,
+            scanDetails: [
+                "Skipped Nick2bad4u/deleted-repo: deleted or no longer accessible.",
+            ],
+            summary:
+                "2 / 2 complete · 1 succeeded · 1 failed · 1 repository skipped",
         });
     });
 });

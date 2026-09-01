@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Merge Dependabot PRs
 // @namespace    nick2bad4u.github.io
-// @version      6.8
+// @version      6.9
 // @description  Merges Dependabot PRs in any of your repositories - pulls the PRs into a table and lets you select which ones to merge.
 // @author       Nick2bad4u
 // @match        https://github.com/*
@@ -80,16 +80,29 @@ void (async function () {
 
 	const BUTTON_CONTAINER_ID = 'merge-dependabot-merge-button-container';
 	const BUTTON_ID = 'merge-dependabot-merge-button';
+	const STATUS_ID = 'merge-status';
+	const API_REQUEST_TIMEOUT_MS = 30000;
+	const MAX_MERGE_ATTEMPTS = 4;
+	const MERGE_RETRY_BASE_DELAY_MS = 2000;
 	let initializationPromise = null;
 	let pageSyncTimer = 0;
+	let batchRunning = false;
+	const progressState = {
+		active: false,
+		completed: 0,
+		details: [],
+		failed: 0,
+		message: '',
+		phase: 'idle',
+		skippedRepositories: 0,
+		succeeded: 0,
+		total: 0,
+		visible: false,
+	};
 
 	// Delay between each merge request in milliseconds, configurable via the 'merge_delay' variable stored in safeGM_getValue (default is 2000ms)
-	let delay = safeGM_getValue('merge_delay', 2000);
-	if (delay <= 0) {
-		delay = 2000; // default value if invalid
-	} else {
-		delay = Number(delay);
-	}
+	const configuredDelay = Number(safeGM_getValue('merge_delay', 2000));
+	let delay = Number.isFinite(configuredDelay) ? Math.max(1000, configuredDelay) : 2000;
 
 	/**
 	 * Shows a modal dialog for secure GitHub token input.
@@ -362,6 +375,98 @@ void (async function () {
 		}
 	}
 
+	class GitHubApiError extends Error {
+		constructor(message, { retryable = false, status = 0, stopBatch = false } = {}) {
+			super(message);
+			this.name = 'GitHubApiError';
+			this.retryable = retryable;
+			this.status = status;
+			this.stopBatch = stopBatch;
+		}
+	}
+
+	function wait(milliseconds) {
+		return new Promise((resolve) => globalThis.setTimeout(resolve, milliseconds));
+	}
+
+	function getResponseHeader(response, headerName) {
+		const normalizedName = headerName.toLowerCase();
+		if (typeof response.headers?.get === 'function') {
+			return response.headers.get(headerName);
+		}
+		if (response.headers && typeof response.headers === 'object') {
+			for (const [name, value] of Object.entries(response.headers)) {
+				if (name.toLowerCase() === normalizedName) return String(value);
+			}
+		}
+		if (typeof response.responseHeaders === 'string') {
+			for (const line of response.responseHeaders.split(/\r?\n/u)) {
+				const separatorIndex = line.indexOf(':');
+				if (separatorIndex === -1) continue;
+				if (line.slice(0, separatorIndex).trim().toLowerCase() === normalizedName) {
+					return line.slice(separatorIndex + 1).trim();
+				}
+			}
+		}
+		return null;
+	}
+
+	function parseResponseBody(response) {
+		const responseText = typeof response.responseText === 'string' ? response.responseText : '';
+		if (!responseText) return {};
+		try {
+			return JSON.parse(responseText);
+		} catch {
+			return { message: responseText };
+		}
+	}
+
+	function createGitHubApiError(response, action) {
+		const status = Number(response.status) || 0;
+		const responseBody = parseResponseBody(response);
+		const apiMessage = typeof responseBody.message === 'string' ? responseBody.message : 'Unknown GitHub API error';
+		const rateLimitRemaining = getResponseHeader(response, 'x-ratelimit-remaining');
+		const retryAfter = getResponseHeader(response, 'retry-after');
+		const isRateLimited = (status === 403 || status === 429) && (rateLimitRemaining === '0' || retryAfter !== null || /rate limit/iu.test(apiMessage));
+
+		let message = `${action} failed${status ? ` (HTTP ${status})` : ''}: ${apiMessage}`;
+		if (isRateLimited) {
+			const resetHeader = getResponseHeader(response, 'x-ratelimit-reset');
+			const resetTime = resetHeader ? new Date(Number(resetHeader) * 1000) : null;
+			if (retryAfter) {
+				message += ` Retry after ${retryAfter} seconds.`;
+			} else if (resetTime && !Number.isNaN(resetTime.getTime())) {
+				message += ` Retry after ${resetTime.toLocaleTimeString()}.`;
+			} else {
+				message += ' Retry later.';
+			}
+		}
+
+		return new GitHubApiError(message, {
+			retryable:
+				!isRateLimited &&
+				[
+					405,
+					408,
+					425,
+					500,
+					502,
+					503,
+					504,
+				].includes(status),
+			status,
+			stopBatch: isRateLimited || status === 401,
+		});
+	}
+
+	function createNetworkError(action, error) {
+		const detail = error instanceof Error ? error.message : String(error || 'Network request failed');
+		return new GitHubApiError(`${action} failed: ${detail}`, {
+			retryable: true,
+			stopBatch: true,
+		});
+	}
+
 	async function fetchAllRepositories(username, token, orgs = []) {
 		async function fetchPaginatedRepos(url, token) {
 			let repos = [];
@@ -371,19 +476,23 @@ void (async function () {
 					GM_xmlhttpRequest({
 						method: 'GET',
 						url: `${url}&page=${page}`,
+						timeout: API_REQUEST_TIMEOUT_MS,
 						headers: {
+							Accept: 'application/vnd.github+json',
 							Authorization: `token ${token}`,
 						},
 						onload: function (response) {
-							handleRateLimit(response);
 							if (response.status === 200) {
 								resolve(response);
 							} else {
-								reject(new Error(`Failed to fetch repositories: ${response.responseText}`));
+								reject(createGitHubApiError(response, 'Fetching repositories'));
 							}
 						},
 						onerror: function (error) {
-							reject(error instanceof Error ? error : new Error(String(error)));
+							reject(createNetworkError('Fetching repositories', error));
+						},
+						ontimeout: function () {
+							reject(new GitHubApiError('Fetching repositories timed out.', { retryable: true }));
 						},
 					});
 				});
@@ -399,7 +508,12 @@ void (async function () {
 			fetchPaginatedRepos(`https://api.github.com/users/${username}/repos?per_page=100`, token),
 			Promise.all(orgs.filter(Boolean).map((org) => fetchPaginatedRepos(`https://api.github.com/orgs/${org}/repos?per_page=100`, token))),
 		]);
-		return [...userRepos, ...orgRepos.flat()];
+		const repositoriesByName = new Map();
+		for (const repository of [...userRepos, ...orgRepos.flat()]) {
+			const owner = repository.owner?.login || username;
+			repositoriesByName.set(`${owner}/${repository.name}`.toLowerCase(), repository);
+		}
+		return [...repositoriesByName.values()];
 	}
 
 	const botUsernames = safeGM_getValue('dependabot_usernames', ['dependabot[bot]', 'dependabot-preview[bot]', 'github-actions[bot]'])
@@ -411,88 +525,75 @@ void (async function () {
 			GM_xmlhttpRequest({
 				method: 'GET',
 				url: `https://api.github.com/repos/${owner}/${repo}/pulls?per_page=100&state=open`,
+				timeout: API_REQUEST_TIMEOUT_MS,
 				headers: {
+					Accept: 'application/vnd.github+json',
 					Authorization: `token ${token}`,
 				},
 				onload: function (response) {
-					handleRateLimit(response);
 					if (response.status === 200) {
-						const pulls = JSON.parse(response.responseText);
+						const pulls = parseResponseBody(response);
+						if (!Array.isArray(pulls)) {
+							reject(new GitHubApiError(`Fetching PRs for ${owner}/${repo} returned an invalid response.`));
+							return;
+						}
 						// Only keep PRs authored by the configured bot usernames
 						const filtered = pulls.filter((pr) => pr.user && botUsernames.includes(pr.user.login));
 						resolve(filtered);
 					} else {
-						console.error(`Failed to fetch PRs for repo ${repo}:`, response.responseText);
-						reject(new Error(`Failed to fetch PRs for repo ${repo}: ${response.responseText}`));
+						reject(createGitHubApiError(response, `Fetching PRs for ${owner}/${repo}`));
 					}
 				},
 				onerror: function (error) {
-					console.error(`Error fetching PRs for repo ${repo}:`, error);
-					reject(error instanceof Error ? error : new Error(String(error)));
+					reject(createNetworkError(`Fetching PRs for ${owner}/${repo}`, error));
+				},
+				ontimeout: function () {
+					reject(new GitHubApiError(`Fetching PRs for ${owner}/${repo} timed out.`, { retryable: true, stopBatch: true }));
 				},
 			});
 		});
 	}
 
-	async function mergeDependabotPRs(prs, username, repo, token) {
-		let statusContainer = document.getElementById('merge-status');
-		if (!statusContainer) {
-			statusContainer = document.createElement('div');
-			statusContainer.id = 'merge-status';
-			statusContainer.classList.add('merge-status');
-			document.body.appendChild(statusContainer);
-		}
-		let index = 0;
-
-		async function processNextPR() {
-			if (index < prs.length) {
-				const pr = prs[index];
-				try {
-					await mergePR(pr, username, repo, token);
-					const messageElement = document.createElement('div');
-					messageElement.innerHTML = `PR #${pr.number} merged successfully!<br>`;
-					messageElement.id = `merge-status-${pr.number}`;
-					statusContainer.appendChild(messageElement);
-					setTimeout(() => messageElement.remove(), 7000);
-				} catch (error) {
-					console.error(`Error merging PR #${pr.number}:`, error);
-					const messageElement = document.createElement('div');
-					messageElement.innerHTML = `Failed to merge PR #${pr.number}: ${error.message || 'Unknown error'}<br>`;
-					messageElement.id = `merge-status-${pr.number}`;
-					statusContainer.appendChild(messageElement);
-					setTimeout(() => messageElement.remove(), 7000);
-				}
-				index++;
-				setTimeout(() => {
-					void processNextPR();
-				}, delay);
-			} else {
-				setTimeout(() => {
-					statusContainer.remove();
-					removeAllPRSelectionContainers();
-				}, 10000);
+	async function mergeDependabotPRs(prs, token, onSettled) {
+		for (const [index, pr] of prs.entries()) {
+			const owner = pr.owner;
+			const repo = pr.repo;
+			let result;
+			try {
+				const attempts = await mergePR(pr, owner, repo, token);
+				result = { attempts, owner, pr, repo, succeeded: true };
+			} catch (error) {
+				console.error(`[Auto-Merge Dependabot PRs] Failed to merge ${owner}/${repo}#${pr.number}:`, error);
+				result = {
+					attempts: error.attempts || 1,
+					error,
+					owner,
+					pr,
+					repo,
+					succeeded: false,
+				};
 			}
+			onSettled(result);
+			if (!result.succeeded && result.error.stopBatch) {
+				return {
+					error: result.error,
+					remaining: prs.length - index - 1,
+					stopped: true,
+				};
+			}
+			if (index < prs.length - 1) await wait(delay);
 		}
-
-		try {
-			void processNextPR();
-		} catch (error) {
-			console.error(`Error processing PRs for repo ${repo}:`, error);
-			const messageElement = document.createElement('div');
-			messageElement.innerHTML = `Failed to process PRs for repo ${repo}: ${error.message || 'Unknown error'}<br>`;
-			statusContainer.appendChild(messageElement);
-			setTimeout(() => messageElement.remove(), 7000);
-			removeAllPRSelectionContainers();
-		}
+		return { remaining: 0, stopped: false };
 	}
 
-	function mergePR(pr, username, repo, token, retries = 3) {
-		if (retries === 0) retries = 1; // Ensure at least one retry attempt
+	function sendMergeRequest(pr, owner, repo, token) {
 		return new Promise((resolve, reject) => {
 			GM_xmlhttpRequest({
 				method: 'PUT',
-				url: `https://api.github.com/repos/${username}/${repo}/pulls/${pr.number}/merge`,
+				url: `https://api.github.com/repos/${owner}/${repo}/pulls/${pr.number}/merge`,
+				timeout: API_REQUEST_TIMEOUT_MS,
 				headers: {
+					Accept: 'application/vnd.github+json',
 					Authorization: `token ${token}`,
 					'Content-Type': 'application/json',
 				},
@@ -502,44 +603,54 @@ void (async function () {
 				}),
 				onload: function (response) {
 					if (response.status === 200) {
+						const responseBody = parseResponseBody(response);
+						if (responseBody.merged === false) {
+							reject(
+								new GitHubApiError(
+									`Merging ${owner}/${repo}#${pr.number} failed: ${responseBody.message || 'GitHub did not merge the pull request.'}`
+								)
+							);
+							return;
+						}
 						resolve();
 					} else {
-						const responseBody = JSON.parse(response.responseText || '{}');
-						if (response.status === 409 || (responseBody.message && responseBody.message.includes('merge conflict'))) {
-							// Permanent error: merge conflict
-							reject(new Error(`Merge conflict for PR #${pr.number}: ${responseBody.message || 'Unknown conflict'}`));
-						} else if (response.status === 403 && response.headers['x-ratelimit-remaining'] === '0') {
-							// Rate limit exceeded
-							const resetTimeHeader = response.headers['x-ratelimit-reset'];
-							const resetTime = resetTimeHeader ? new Date(resetTimeHeader * 1000) : null;
-							reject(new Error(`Rate limit exceeded. Retry after ${resetTime ? resetTime.toLocaleTimeString() : 'some time'}.`));
-						} else if (retries > 0) {
-							// Transient error: retry
-							console.warn(`Retrying merge for PR #${pr.number}. Retries left: ${retries}`);
-							setTimeout(() => {
-								mergePR(pr, username, repo, token, retries - 1)
-									.then(resolve)
-									.catch(reject);
-							}, 2000); // Retry after 2 seconds
-						} else {
-							reject(new Error(`Failed to merge PR #${pr.number}: ${response.responseText}`));
-						}
+						reject(createGitHubApiError(response, `Merging ${owner}/${repo}#${pr.number}`));
 					}
 				},
 				onerror: function (error) {
-					if (retries > 0) {
-						console.warn(`Retrying merge for PR #${pr.number} due to error. Retries left: ${retries}`);
-						setTimeout(() => {
-							mergePR(pr, username, repo, token, retries - 1)
-								.then(resolve)
-								.catch(reject);
-						}, 2000); // Retry after 2 seconds
-					} else {
-						reject(error instanceof Error ? error : new Error(String(error)));
-					}
+					reject(createNetworkError(`Merging ${owner}/${repo}#${pr.number}`, error));
+				},
+				ontimeout: function () {
+					reject(new GitHubApiError(`Merging ${owner}/${repo}#${pr.number} timed out.`, { retryable: true, stopBatch: true }));
 				},
 			});
 		});
+	}
+
+	async function mergePR(pr, owner, repo, token) {
+		let lastError;
+		for (let attempt = 1; attempt <= MAX_MERGE_ATTEMPTS; attempt++) {
+			try {
+				await sendMergeRequest(pr, owner, repo, token);
+				return attempt;
+			} catch (error) {
+				lastError = error instanceof Error ? error : new Error(String(error));
+				lastError.attempts = attempt;
+				if (!error?.retryable || attempt === MAX_MERGE_ATTEMPTS) throw lastError;
+
+				const retryDelay = MERGE_RETRY_BASE_DELAY_MS * 2 ** (attempt - 1);
+				const nextAttempt = attempt + 1;
+				console.warn(
+					`[Auto-Merge Dependabot PRs] ${owner}/${repo}#${pr.number} attempt ${attempt} failed. Retrying in ${retryDelay} ms (attempt ${nextAttempt} of ${MAX_MERGE_ATTEMPTS}).`,
+					lastError
+				);
+				updateProgressState({
+					message: `Retrying ${owner}/${repo}#${pr.number} in ${retryDelay / 1000} seconds (attempt ${nextAttempt} of ${MAX_MERGE_ATTEMPTS})...`,
+				});
+				await wait(retryDelay);
+			}
+		}
+		throw lastError;
 	}
 
 	function getSupportedPageKind() {
@@ -561,10 +672,10 @@ void (async function () {
 
 	function removePageUi() {
 		document.getElementById(BUTTON_CONTAINER_ID)?.remove();
-		document.getElementById('merge-status')?.remove();
 		document.getElementById('merge-dependabot-config-panel')?.remove();
 		document.querySelectorAll('.pr-container').forEach((element) => element.remove());
 		removeAllPRSelectionContainers();
+		if (!progressState.visible) document.getElementById(STATUS_ID)?.remove();
 	}
 
 	async function syncPage() {
@@ -572,6 +683,7 @@ void (async function () {
 		const pageKind = getSupportedPageKind();
 		if (!pageKind) {
 			removePageUi();
+			if (progressState.visible) renderProgressState();
 			return;
 		}
 
@@ -589,6 +701,7 @@ void (async function () {
 			return;
 		}
 		addButton(pageKind);
+		if (progressState.visible) renderProgressState();
 	}
 
 	function schedulePageSync() {
@@ -605,7 +718,7 @@ void (async function () {
 		document.addEventListener('pjax:end', schedulePageSync);
 
 		const pageObserver = new MutationObserver(() => {
-			if (getSupportedPageKind() && !document.getElementById(BUTTON_ID)) {
+			if ((getSupportedPageKind() && !document.getElementById(BUTTON_ID)) || (progressState.visible && !document.getElementById(STATUS_ID))) {
 				schedulePageSync();
 			}
 		});
@@ -634,12 +747,29 @@ void (async function () {
 			mergeButton.textContent = 'Merge Dependabot PRs';
 			mergeButton.classList.add('merge-dependabot-merge-button', 'merge-button');
 			mergeButton.id = BUTTON_ID;
+			mergeButton.disabled = batchRunning;
 			mergeButton.addEventListener('click', () => {
 				void (async () => {
+					if (batchRunning) {
+						renderProgressState();
+						document.getElementById(STATUS_ID)?.focus();
+						return;
+					}
+
+					resetProgressState({
+						message: 'Fetching repositories...',
+						phase: 'discovery',
+					});
+					setBatchRunning(true);
 					try {
-						let token = await retrieveAndDecryptToken();
+						const token = await retrieveAndDecryptToken();
 						if (!token) {
-							alert('Invalid or missing GitHub token. Please check your settings.');
+							updateProgressState({
+								active: false,
+								failed: 1,
+								message: 'Invalid or missing GitHub token. Open settings and save a valid token.',
+								phase: 'failed',
+							});
 							return;
 						}
 						const username = safeGM_getValue('github_username');
@@ -647,48 +777,74 @@ void (async function () {
 							.split(',')
 							.map((s) => s.trim())
 							.filter(Boolean);
-						const statusElement = getStatusElement();
-						updateStatusElement(statusElement, 'Fetching repositories...');
+						const repos = await fetchAllRepositories(username, token, orgs);
+						updateProgressState({
+							message: `Scanning ${repos.length} repositories...`,
+							total: repos.length,
+						});
 
-						let repos;
-						try {
-							repos = await fetchAllRepositories(username, token, orgs);
-						} catch (error) {
-							console.error('Error fetching repositories:', error);
-							updateStatusElement(statusElement, 'Failed to fetch repositories. Please check the console for details.');
-							return; // Stop further execution
-						}
-
-						let allPRs = [];
-						for (const repo of repos) {
+						const allPRs = [];
+						for (const [repoIndex, repo] of repos.entries()) {
+							const owner = repo.owner?.login || username;
+							const fullName = repo.full_name || `${owner}/${repo.name}`;
 							if (repo.archived) {
-								updateStatusElement(statusElement, `Skipping archived repo: ${repo.name}`);
+								updateProgressState({
+									completed: repoIndex + 1,
+									message: `Skipping archived repository ${fullName}...`,
+									skippedRepositories: progressState.skippedRepositories + 1,
+								});
 								continue;
 							}
-							updateStatusElement(statusElement, `Fetching PRs for repo: ${repo.name}`);
+							updateProgressState({
+								message: `Fetching PRs for ${fullName}...`,
+							});
 							try {
-								const prs = await fetchDependabotPRs(username, repo.name, token);
-								allPRs = allPRs.concat(prs.map((pr) => ({ ...pr, repo: repo.name })));
+								const prs = await fetchDependabotPRs(owner, repo.name, token);
+								allPRs.push(
+									...prs.map((pr) => ({
+										...pr,
+										owner,
+										repo: repo.name,
+									}))
+								);
+								updateProgressState({
+									succeeded: progressState.succeeded + 1,
+								});
 							} catch (error) {
-								console.error(`Error fetching PRs for repo ${repo.name}:`, error);
-								updateStatusElement(statusElement, `Failed to fetch PRs for repo: ${repo.name}.`);
+								if (error?.stopBatch) throw error;
+								const reason = error?.status === 404 ? 'deleted or no longer accessible' : error.message || 'Unknown error';
+								console.warn(`[Auto-Merge Dependabot PRs] Skipping ${fullName}: ${reason}`);
+								progressState.skippedRepositories++;
+								addProgressDetail(`Skipped ${fullName}: ${reason}${reason.endsWith('.') ? '' : '.'}`, 'warning');
 							}
+							updateProgressState({ completed: repoIndex + 1 });
 						}
 
 						if (allPRs.length > 0) {
-							updateStatusElement(statusElement, 'Displaying PR selection...');
-							displayPRSelection(allPRs, username, token);
+							updateProgressState({
+								active: false,
+								message: `Scan complete. Found ${allPRs.length} Dependabot PR${allPRs.length === 1 ? '' : 's'}; choose which ones to merge.`,
+								phase: 'selection',
+							});
+							displayPRSelection(allPRs, token);
 						} else {
-							updateStatusElement(statusElement, 'No Dependabot PRs found to merge.');
-							displayNoPRsMessage();
+							updateProgressState({
+								active: false,
+								message: 'Scan complete. No open Dependabot PRs were found.',
+								phase: 'complete',
+							});
 						}
-						setTimeout(() => {
-							statusElement.innerHTML = '';
-							statusElement.remove();
-						}, 10000);
 					} catch (error) {
-						console.error('Error during merge operation:', error);
-						alert('An unexpected error occurred. Please check the console for details.');
+						console.error('[Auto-Merge Dependabot PRs] Discovery failed:', error);
+						addProgressDetail(error.message || 'Unknown discovery error.', 'error');
+						updateProgressState({
+							active: false,
+							failed: progressState.failed + 1,
+							message: 'Repository discovery stopped after an error. No merge requests were sent.',
+							phase: 'failed',
+						});
+					} finally {
+						setBatchRunning(false);
 					}
 				})();
 			});
@@ -715,18 +871,124 @@ void (async function () {
 	}
 
 	function getStatusElement() {
-		let statusElement = document.getElementById('merge-status');
+		let statusElement = document.getElementById(STATUS_ID);
+		if (statusElement && !statusElement.querySelector('#merge-status-message')) {
+			statusElement.remove();
+			statusElement = null;
+		}
 		if (!statusElement) {
 			statusElement = document.createElement('div');
-			statusElement.id = 'merge-status';
+			statusElement.id = STATUS_ID;
 			statusElement.classList.add('merge-status');
+			statusElement.setAttribute('aria-label', 'Dependabot batch progress');
+			statusElement.setAttribute('role', 'region');
+			statusElement.tabIndex = -1;
+
+			const heading = document.createElement('strong');
+			heading.textContent = 'Dependabot merge progress';
+			heading.id = 'merge-status-title';
+			statusElement.setAttribute('aria-labelledby', heading.id);
+
+			const closeButton = document.createElement('button');
+			closeButton.type = 'button';
+			closeButton.id = 'merge-status-close';
+			closeButton.className = 'merge-status-close';
+			closeButton.textContent = '×';
+			closeButton.setAttribute('aria-label', 'Dismiss completed Dependabot progress');
+			closeButton.addEventListener('click', () => {
+				if (progressState.active) return;
+				progressState.visible = false;
+				statusElement.remove();
+			});
+
+			const message = document.createElement('div');
+			message.id = 'merge-status-message';
+			message.setAttribute('aria-live', 'polite');
+			message.setAttribute('role', 'status');
+
+			const progress = document.createElement('progress');
+			progress.id = 'merge-status-progress';
+			progress.setAttribute('aria-label', 'Dependabot batch progress');
+
+			const summary = document.createElement('div');
+			summary.id = 'merge-status-summary';
+
+			const details = document.createElement('ul');
+			details.id = 'merge-status-details';
+
+			statusElement.append(heading, closeButton, message, progress, summary, details);
 			document.body.appendChild(statusElement);
 		}
 		return statusElement;
 	}
 
-	function updateStatusElement(element, message) {
-		element.innerHTML = message;
+	function renderProgressState() {
+		if (!progressState.visible) return;
+		const statusElement = getStatusElement();
+		statusElement.dataset.phase = progressState.phase;
+		const message = statusElement.querySelector('#merge-status-message');
+		const progress = statusElement.querySelector('#merge-status-progress');
+		const summary = statusElement.querySelector('#merge-status-summary');
+		const details = statusElement.querySelector('#merge-status-details');
+		const closeButton = statusElement.querySelector('#merge-status-close');
+
+		message.textContent = progressState.message;
+		progress.hidden = progressState.total === 0;
+		progress.max = Math.max(progressState.total, 1);
+		progress.value = Math.min(progressState.completed, progressState.total);
+		const skippedLabel = `${progressState.skippedRepositories} ${progressState.skippedRepositories === 1 ? 'repository' : 'repositories'} skipped`;
+		summary.textContent = progressState.total
+			? `${progressState.completed} / ${progressState.total} complete · ${progressState.succeeded} succeeded · ${progressState.failed} failed · ${skippedLabel}`
+			: `${progressState.succeeded} succeeded · ${progressState.failed} failed · ${skippedLabel}`;
+		closeButton.disabled = progressState.active;
+		closeButton.title = progressState.active ? 'Progress cannot be dismissed while the batch is running.' : 'Dismiss';
+
+		details.replaceChildren();
+		for (const detail of progressState.details) {
+			const item = document.createElement('li');
+			item.className = `merge-status-detail merge-status-detail-${detail.kind}`;
+			item.textContent = detail.message;
+			details.appendChild(item);
+		}
+		details.hidden = progressState.details.length === 0;
+	}
+
+	function updateProgressState(update) {
+		Object.assign(progressState, update, { visible: true });
+		renderProgressState();
+	}
+
+	function resetProgressState({ message, phase, total = 0 }, { preserveWarnings = false } = {}) {
+		const details = preserveWarnings ? progressState.details.filter((detail) => detail.kind === 'warning') : [];
+		const skippedRepositories = preserveWarnings ? progressState.skippedRepositories : 0;
+		Object.assign(progressState, {
+			active: true,
+			completed: 0,
+			details,
+			failed: 0,
+			message,
+			phase,
+			skippedRepositories,
+			succeeded: 0,
+			total,
+			visible: true,
+		});
+		renderProgressState();
+	}
+
+	function addProgressDetail(message, kind = 'info') {
+		progressState.details.push({ kind, message });
+		renderProgressState();
+	}
+
+	function setBatchRunning(running) {
+		batchRunning = running;
+		progressState.active = running;
+		const mergeButton = document.getElementById(BUTTON_ID);
+		if (mergeButton) mergeButton.disabled = running;
+		const mergeSelectedButton = document.getElementById('merge-dependabot-merge-selected-btn');
+		if (mergeSelectedButton) mergeSelectedButton.disabled = running;
+		if (progressState.visible) renderProgressState();
 	}
 
 	// Utility: Remove all lingering PR selection containers
@@ -735,7 +997,7 @@ void (async function () {
 		containers.forEach((el) => el.remove());
 	}
 
-	function displayPRSelection(prs, username, token) {
+	function displayPRSelection(prs, token) {
 		try {
 			removeAllPRSelectionContainers(); // Clean up any old containers first
 			const container = document.createElement('div');
@@ -768,8 +1030,6 @@ void (async function () {
 			closeBtn.id = 'merge-dependabot-pr-selection-close';
 			closeBtn.onclick = () => {
 				container.remove();
-				const status = document.getElementById('merge-status');
-				if (status) status.remove();
 				removeAllPRSelectionContainers(); // Ensure all are removed
 				if (container.lastFocused) container.lastFocused.focus();
 			};
@@ -802,17 +1062,18 @@ void (async function () {
 			prList.id = 'merge-dependabot-pr-list';
 			let lastChecked = null; // Track the last clicked checkbox
 
-			prs.forEach((pr) => {
+			prs.forEach((pr, prIndex) => {
 				const prItem = document.createElement('div');
 				prItem.className = 'merge-dependabot-pr-item';
 				const checkbox = document.createElement('input');
 				checkbox.type = 'checkbox';
 				checkbox.value = pr.number;
-				checkbox.id = `merge-dependabot-pr-checkbox-${pr.repo}-${pr.number}`;
+				checkbox.dataset.prIndex = String(prIndex);
+				checkbox.id = `merge-dependabot-pr-checkbox-${prIndex}`;
 				checkbox.className = 'merge-dependabot-pr-checkbox';
 
 				const label = document.createElement('label');
-				label.textContent = `Repo: ${pr.repo} - PR #${pr.number}: ${pr.title}`;
+				label.textContent = `Repo: ${pr.owner}/${pr.repo} - PR #${pr.number}: ${pr.title}`;
 				label.style = 'margin-left: 5px;';
 				label.setAttribute('for', checkbox.id);
 				label.className = 'merge-dependabot-pr-label';
@@ -842,58 +1103,76 @@ void (async function () {
 			mergeSelectedButton.id = 'merge-dependabot-merge-selected-btn';
 			mergeSelectedButton.addEventListener('click', () => {
 				void (async () => {
+					if (batchRunning) return;
 					// Get all selected checkboxes
 					const selectedCheckboxes = Array.from(prList.querySelectorAll('input[type="checkbox"]:checked'));
 
 					// Map selected checkboxes to their corresponding PRs
-					const selectedPRs = selectedCheckboxes.map((checkbox) => prs.find((pr) => pr.number == checkbox.value));
+					const selectedPRs = selectedCheckboxes.map((checkbox) => prs[Number(checkbox.dataset.prIndex)]).filter(Boolean);
 
 					if (selectedPRs.length > 0) {
-						// Remove the PR selection container before merging to avoid blue rectangle
 						container.remove();
 						removeAllPRSelectionContainers();
-						// Show status only
-						let status = document.getElementById('merge-status');
-						if (!status) {
-							status = document.createElement('div');
-							status.id = 'merge-status';
-							status.classList.add('merge-status');
-							document.body.appendChild(status);
-						}
-						status.innerHTML = 'Merging PRs...<br>';
-						// Remove the container after merging is done (with a delay to show status)
-						const groupedPRs = selectedPRs.reduce((acc, pr) => {
-							if (!acc[pr.repo]) {
-								acc[pr.repo] = [];
+						resetProgressState(
+							{
+								message: `Merging ${selectedPRs.length} selected PR${selectedPRs.length === 1 ? '' : 's'}...`,
+								phase: 'merge',
+								total: selectedPRs.length,
+							},
+							{ preserveWarnings: true }
+						);
+						setBatchRunning(true);
+						try {
+							const batchResult = await mergeDependabotPRs(selectedPRs, token, (result) => {
+								const reference = `${result.owner}/${result.repo}#${result.pr.number}`;
+								progressState.completed++;
+								if (result.succeeded) {
+									progressState.succeeded++;
+									const retrySummary = result.attempts > 1 ? ` after ${result.attempts} attempts` : '';
+									addProgressDetail(`Merged ${reference}${retrySummary}.`, 'success');
+								} else {
+									progressState.failed++;
+									const attemptSummary = result.attempts > 1 ? ` after ${result.attempts} attempts` : '';
+									addProgressDetail(`Failed ${reference}${attemptSummary}: ${result.error.message || 'Unknown error'}`, 'error');
+								}
+								updateProgressState({
+									message: `Processed ${progressState.completed} of ${progressState.total} selected PRs...`,
+								});
+							});
+							if (batchResult.stopped) {
+								if (batchResult.remaining > 0) {
+									addProgressDetail(
+										`${batchResult.remaining} remaining PR${batchResult.remaining === 1 ? ' was' : 's were'} not attempted.`,
+										'warning'
+									);
+								}
+								updateProgressState({
+									active: false,
+									message: `Stopped safely: ${progressState.succeeded} merged, ${progressState.failed} failed, and ${batchResult.remaining} not attempted.`,
+									phase: 'failed',
+								});
+							} else {
+								updateProgressState({
+									active: false,
+									message: `Finished: ${progressState.succeeded} merged and ${progressState.failed} failed. This result stays visible until you dismiss it.`,
+									phase: progressState.failed > 0 ? 'complete-with-errors' : 'complete',
+								});
 							}
-							acc[pr.repo].push(pr);
-							return acc;
-						}, {});
-
-						// Merge PRs grouped by repository
-						for (const [repo, prs] of Object.entries(groupedPRs)) {
-							try {
-								await mergeDependabotPRs(prs, username, repo, token);
-							} catch (error) {
-								console.error(`Error merging PRs for repo ${repo}:`, error);
-								const status = document.getElementById('merge-status');
-								if (status) status.remove();
-								removeAllPRSelectionContainers();
-								alert(`Failed to merge PRs for repo ${repo}. Please check the console for details.`);
-								return;
-							}
-							setTimeout(() => {
-								const status = document.getElementById('merge-status');
-								if (status) status.remove();
-								removeAllPRSelectionContainers();
-							}, 11000); // Wait for status to finish
+						} catch (error) {
+							console.error('[Auto-Merge Dependabot PRs] Batch merge stopped unexpectedly:', error);
+							addProgressDetail(error.message || 'Unknown batch error.', 'error');
+							updateProgressState({
+								active: false,
+								message: 'The batch stopped unexpectedly. Completed results are retained below.',
+								phase: 'failed',
+							});
+						} finally {
+							setBatchRunning(false);
 						}
 					} else {
-						container.innerHTML = 'No PRs selected for merging.';
-						setTimeout(() => {
-							container.remove();
-							removeAllPRSelectionContainers();
-						}, 2000);
+						updateProgressState({
+							message: 'No PRs are selected. Select at least one PR to start a merge.',
+						});
 					}
 				})();
 			});
@@ -925,28 +1204,13 @@ void (async function () {
 		} catch (error) {
 			console.error('Failed to display PR selection:', error);
 			removeAllPRSelectionContainers(); // Clean up on error
-			const status = document.getElementById('merge-status');
-			if (status) status.remove();
-			alert('An error occurred while displaying the PR selection. Please check the console for details.');
+			addProgressDetail(error.message || 'Unknown PR selection error.', 'error');
+			updateProgressState({
+				active: false,
+				message: 'The PR selection dialog could not be displayed.',
+				phase: 'failed',
+			});
 		}
-	}
-
-	function displayNoPRsMessage() {
-		removeAllPRSelectionContainers(); // Clean up any old containers first
-		const container = document.createElement('div');
-		container.classList.add('pr-container');
-		container.textContent = 'No Dependabot PRs found to merge.';
-		document.body.appendChild(container);
-
-		// Automatically hide the message after 5 seconds (5000 milliseconds)
-		setTimeout(() => {
-			container.remove();
-			// Also remove the merge-status container
-			const statusContainer = document.getElementById('merge-status');
-			if (statusContainer) {
-				statusContainer.remove();
-			}
-		}, 5000);
 	}
 
 	const mainCSS = `
@@ -970,37 +1234,75 @@ void (async function () {
 				border-radius: 5px;
 				cursor: pointer;
 			}
+			.merge-button:disabled {
+				cursor: wait;
+				opacity: 0.7;
+			}
 			#merge-status, .merge-status {
 				position: fixed;
-				bottom: 90px;
+				top: 80px;
 				right: 10px;
 				z-index: 1000;
-				background-color: #79e4f2;
-				padding: 10px;
-				border: 1px solid #ccc;
-				margin-top: 10px;
+				width: min(360px, calc(100vw - 20px));
+				max-height: calc(100vh - 100px);
+				overflow-y: auto;
+				box-sizing: border-box;
+				background-color: #f6f8fa;
+				padding: 12px;
+				border: 1px solid #8c959f;
+				border-radius: 6px;
+				box-shadow: 0 8px 24px rgba(140, 149, 159, 0.35);
 				font-size: 0.9em;
-				color: #333;
-				max-width: 300px;
+				color: #24292f;
 				overflow-wrap: break-word;
 			}
-			#merge-status > div {
-				margin-bottom: 5px;
+			#merge-status-title {
+				display: block;
+				padding-right: 28px;
 			}
-			.pr-container {
-				background-color: #ff0000;
-				color: #ffffff;
-				position: fixed;
-				bottom: 130px;
-				right: 10px;
-				z-index: 1000;
-				padding: 10px;
-				border: 1px solid #cccccc;
-				}
+			#merge-status-message, #merge-status-summary {
+				margin-top: 8px;
+			}
+			#merge-status-progress {
+				display: block;
+				width: 100%;
+				height: 12px;
+				margin-top: 8px;
+			}
+			#merge-status-progress[hidden] {
+				display: none;
+			}
+			#merge-status-details {
+				margin: 8px 0 0;
+				padding-left: 20px;
+			}
+			.merge-status-detail-error {
+				color: #cf222e;
+			}
+			.merge-status-detail-success {
+				color: #1a7f37;
+			}
+			.merge-status-detail-warning {
+				color: #9a6700;
+			}
+			.merge-status-close {
+				position: absolute;
+				top: 5px;
+				right: 7px;
+				border: 0;
+				background: transparent;
+				color: inherit;
+				font-size: 1.4rem;
+				cursor: pointer;
+			}
+			.merge-status-close:disabled {
+				cursor: not-allowed;
+				opacity: 0.35;
+			}
 			.merge-button {
 				transition: background-color 0.3s ease;
 				}
-			.pr-selection-container {
+			.merge-dependabot-pr-selection-container {
 				position: fixed;
 				bottom: 50px;
 				right: 10px;
@@ -1015,7 +1317,7 @@ void (async function () {
 				box-sizing: border-box;
 				box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 			}
-			.pr-selection-close {
+			.merge-dependabot-pr-selection-close {
 				display: inline-block;
 				width: 32px;
 				height: 32px;
@@ -1057,7 +1359,7 @@ void (async function () {
 			<h3 id="merge-dependabot-config-panel-title">Configuration</h3>
 			<label>GitHub Username: <input id="merge-dependabot-config-username" type="text" value="${safeGM_getValue('github_username', '')}" class="merge-dependabot-config-input" /></label><br>
 			<label>Organizations (comma separated): <input id="merge-dependabot-config-orgs" type="text" value="${safeGM_getValue('github_orgs', '')}" class="merge-dependabot-config-input" /></label><br>
-			<label>Merge Delay (ms): <input id="merge-dependabot-config-merge-delay" type="number" value="${safeGM_getValue('merge_delay', 2000)}" class="merge-dependabot-config-input" /></label><br>
+			<label>Merge Delay (ms, minimum 1000): <input id="merge-dependabot-config-merge-delay" type="number" min="1000" step="100" value="${safeGM_getValue('merge_delay', 2000)}" class="merge-dependabot-config-input" /></label><br>
 			<label>Bot Usernames (comma separated): <input id="merge-dependabot-config-bot-usernames" type="text" value="${safeGM_getValue('dependabot_usernames', ['dependabot[bot]', 'dependabot-preview[bot]']).join(', ')}" class="merge-dependabot-config-input" /></label><br>
 			<button id="merge-dependabot-save-config" class="merge-dependabot-btn">Save</button>
 			<button id="merge-dependabot-reset-token" class="merge-dependabot-btn">Reset Token</button>
@@ -1094,7 +1396,8 @@ void (async function () {
 			const mergeDelay = parseInt(document.getElementById('merge-dependabot-config-merge-delay').value, 10);
 			safeGM_setValue('github_username', username);
 			safeGM_setValue('github_orgs', orgs);
-			safeGM_setValue('merge_delay', isNaN(mergeDelay) || mergeDelay <= 0 ? 2000 : mergeDelay);
+			delay = Number.isFinite(mergeDelay) ? Math.max(1000, mergeDelay) : 2000;
+			safeGM_setValue('merge_delay', delay);
 			const botUsernamesInput = document.getElementById('merge-dependabot-config-bot-usernames').value;
 			const botUsernames = botUsernamesInput
 				.split(',')
@@ -1141,22 +1444,6 @@ void (async function () {
 
 			// Append the cog icon to the merge button
 			mergeButton.appendChild(cogIcon);
-		}
-	}
-
-	function handleRateLimit(response) {
-		if (response.status === 403 && response.headers['x-ratelimit-remaining'] === '0') {
-			const resetTimeHeader = response.headers['x-ratelimit-reset'];
-			if (resetTimeHeader) {
-				const resetTime = new Date(resetTimeHeader * 1000);
-				alert(`Rate limit exceeded. Please wait until ${resetTime.toLocaleTimeString()} to retry.`);
-			} else {
-				const fallbackWaitTime = 60; // Default fallback wait time in seconds
-				const currentTime = new Date();
-				const fallbackResetTime = new Date(currentTime.getTime() + fallbackWaitTime * 1000);
-				alert(`Rate limit exceeded. Please wait until approximately ${fallbackResetTime.toLocaleTimeString()} to retry.`);
-			}
-			throw new Error('Rate limit exceeded');
 		}
 	}
 
