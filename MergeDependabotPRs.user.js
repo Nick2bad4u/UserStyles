@@ -389,26 +389,32 @@ void (async function () {
 		return new Promise((resolve) => globalThis.setTimeout(resolve, milliseconds));
 	}
 
+	function getObjectResponseHeader(headers, normalizedName) {
+		if (!headers || typeof headers !== 'object') return null;
+		for (const [name, value] of Object.entries(headers)) {
+			if (name.toLowerCase() === normalizedName) return String(value);
+		}
+		return null;
+	}
+
+	function getRawResponseHeader(responseHeaders, normalizedName) {
+		if (typeof responseHeaders !== 'string') return null;
+		for (const line of responseHeaders.split(/\r?\n/u)) {
+			const separatorIndex = line.indexOf(':');
+			if (separatorIndex === -1) continue;
+			if (line.slice(0, separatorIndex).trim().toLowerCase() === normalizedName) {
+				return line.slice(separatorIndex + 1).trim();
+			}
+		}
+		return null;
+	}
+
 	function getResponseHeader(response, headerName) {
 		const normalizedName = headerName.toLowerCase();
 		if (typeof response.headers?.get === 'function') {
 			return response.headers.get(headerName);
 		}
-		if (response.headers && typeof response.headers === 'object') {
-			for (const [name, value] of Object.entries(response.headers)) {
-				if (name.toLowerCase() === normalizedName) return String(value);
-			}
-		}
-		if (typeof response.responseHeaders === 'string') {
-			for (const line of response.responseHeaders.split(/\r?\n/u)) {
-				const separatorIndex = line.indexOf(':');
-				if (separatorIndex === -1) continue;
-				if (line.slice(0, separatorIndex).trim().toLowerCase() === normalizedName) {
-					return line.slice(separatorIndex + 1).trim();
-				}
-			}
-		}
-		return null;
+		return getObjectResponseHeader(response.headers, normalizedName) ?? getRawResponseHeader(response.responseHeaders, normalizedName);
 	}
 
 	function parseResponseBody(response) {
@@ -429,7 +435,8 @@ void (async function () {
 		const retryAfter = getResponseHeader(response, 'retry-after');
 		const isRateLimited = (status === 403 || status === 429) && (rateLimitRemaining === '0' || retryAfter !== null || /rate limit/iu.test(apiMessage));
 
-		let message = `${action} failed${status ? ` (HTTP ${status})` : ''}: ${apiMessage}`;
+		const statusSuffix = status ? ` (HTTP ${status})` : '';
+		let message = `${action} failed${statusSuffix}: ${apiMessage}`;
 		if (isRateLimited) {
 			const resetHeader = getResponseHeader(response, 'x-ratelimit-reset');
 			const resetTime = resetHeader ? new Date(Number(resetHeader) * 1000) : null;
@@ -734,6 +741,111 @@ void (async function () {
 		}
 	}
 
+	async function fetchDependabotPRsAcrossRepositories(repos, username, token) {
+		const allPRs = [];
+		for (const [repoIndex, repo] of repos.entries()) {
+			const owner = repo.owner?.login || username;
+			const fullName = repo.full_name || `${owner}/${repo.name}`;
+			if (repo.archived) {
+				updateProgressState({
+					completed: repoIndex + 1,
+					message: `Skipping archived repository ${fullName}...`,
+					skippedRepositories: progressState.skippedRepositories + 1,
+				});
+				continue;
+			}
+
+			updateProgressState({ message: `Fetching PRs for ${fullName}...` });
+			try {
+				const prs = await fetchDependabotPRs(owner, repo.name, token);
+				allPRs.push(
+					...prs.map((pr) => ({
+						...pr,
+						owner,
+						repo: repo.name,
+					}))
+				);
+				updateProgressState({ succeeded: progressState.succeeded + 1 });
+			} catch (error) {
+				if (error?.stopBatch) throw error;
+				const reason = error?.status === 404 ? 'deleted or no longer accessible' : error.message || 'Unknown error';
+				console.warn(`[Auto-Merge Dependabot PRs] Skipping ${fullName}: ${reason}`);
+				progressState.skippedRepositories++;
+				addProgressDetail(`Skipped ${fullName}: ${reason}${reason.endsWith('.') ? '' : '.'}`, 'warning');
+			}
+			updateProgressState({ completed: repoIndex + 1 });
+		}
+		return allPRs;
+	}
+
+	function displayRepositoryScanResult(allPRs, token) {
+		if (allPRs.length === 0) {
+			updateProgressState({
+				active: false,
+				message: 'Scan complete. No open Dependabot PRs were found.',
+				phase: 'complete',
+			});
+			return;
+		}
+
+		updateProgressState({
+			active: false,
+			message: `Scan complete. Found ${allPRs.length} Dependabot PR${allPRs.length === 1 ? '' : 's'}; choose which ones to merge.`,
+			phase: 'selection',
+		});
+		displayPRSelection(allPRs, token);
+	}
+
+	async function discoverDependabotPRs() {
+		if (batchRunning) {
+			renderProgressState();
+			document.getElementById(STATUS_ID)?.focus();
+			return;
+		}
+
+		resetProgressState({
+			message: 'Fetching repositories...',
+			phase: 'discovery',
+		});
+		setBatchRunning(true);
+		try {
+			const token = await retrieveAndDecryptToken();
+			if (!token) {
+				updateProgressState({
+					active: false,
+					failed: 1,
+					message: 'Invalid or missing GitHub token. Open settings and save a valid token.',
+					phase: 'failed',
+				});
+				return;
+			}
+
+			const username = safeGM_getValue('github_username');
+			const orgs = (safeGM_getValue('github_orgs', '') || '')
+				.split(',')
+				.map((organization) => organization.trim())
+				.filter(Boolean);
+			const repos = await fetchAllRepositories(username, token, orgs);
+			updateProgressState({
+				message: `Scanning ${repos.length} repositories...`,
+				total: repos.length,
+			});
+			const allPRs = await fetchDependabotPRsAcrossRepositories(repos, username, token);
+			displayRepositoryScanResult(allPRs, token);
+		} catch (error) {
+			console.error('[Auto-Merge Dependabot PRs] Discovery failed:', error);
+			addProgressDetail(error.message || 'Unknown discovery error.', 'error');
+			updateProgressState({
+				active: false,
+				failed: progressState.failed + 1,
+				message: 'Repository discovery stopped after an error. No merge requests were sent.',
+				phase: 'failed',
+			});
+		} finally {
+			setBatchRunning(false);
+		}
+	}
+
 	function addButton(pageKind) {
 		try {
 			const existingButton = document.getElementById(BUTTON_ID);
@@ -748,106 +860,7 @@ void (async function () {
 			mergeButton.classList.add('merge-dependabot-merge-button', 'merge-button');
 			mergeButton.id = BUTTON_ID;
 			mergeButton.disabled = batchRunning;
-			mergeButton.addEventListener('click', () => {
-				void (async () => {
-					if (batchRunning) {
-						renderProgressState();
-						document.getElementById(STATUS_ID)?.focus();
-						return;
-					}
-
-					resetProgressState({
-						message: 'Fetching repositories...',
-						phase: 'discovery',
-					});
-					setBatchRunning(true);
-					try {
-						const token = await retrieveAndDecryptToken();
-						if (!token) {
-							updateProgressState({
-								active: false,
-								failed: 1,
-								message: 'Invalid or missing GitHub token. Open settings and save a valid token.',
-								phase: 'failed',
-							});
-							return;
-						}
-						const username = safeGM_getValue('github_username');
-						const orgs = (safeGM_getValue('github_orgs', '') || '')
-							.split(',')
-							.map((s) => s.trim())
-							.filter(Boolean);
-						const repos = await fetchAllRepositories(username, token, orgs);
-						updateProgressState({
-							message: `Scanning ${repos.length} repositories...`,
-							total: repos.length,
-						});
-
-						const allPRs = [];
-						for (const [repoIndex, repo] of repos.entries()) {
-							const owner = repo.owner?.login || username;
-							const fullName = repo.full_name || `${owner}/${repo.name}`;
-							if (repo.archived) {
-								updateProgressState({
-									completed: repoIndex + 1,
-									message: `Skipping archived repository ${fullName}...`,
-									skippedRepositories: progressState.skippedRepositories + 1,
-								});
-								continue;
-							}
-							updateProgressState({
-								message: `Fetching PRs for ${fullName}...`,
-							});
-							try {
-								const prs = await fetchDependabotPRs(owner, repo.name, token);
-								allPRs.push(
-									...prs.map((pr) => ({
-										...pr,
-										owner,
-										repo: repo.name,
-									}))
-								);
-								updateProgressState({
-									succeeded: progressState.succeeded + 1,
-								});
-							} catch (error) {
-								if (error?.stopBatch) throw error;
-								const reason = error?.status === 404 ? 'deleted or no longer accessible' : error.message || 'Unknown error';
-								console.warn(`[Auto-Merge Dependabot PRs] Skipping ${fullName}: ${reason}`);
-								progressState.skippedRepositories++;
-								addProgressDetail(`Skipped ${fullName}: ${reason}${reason.endsWith('.') ? '' : '.'}`, 'warning');
-							}
-							updateProgressState({ completed: repoIndex + 1 });
-						}
-
-						if (allPRs.length > 0) {
-							updateProgressState({
-								active: false,
-								message: `Scan complete. Found ${allPRs.length} Dependabot PR${allPRs.length === 1 ? '' : 's'}; choose which ones to merge.`,
-								phase: 'selection',
-							});
-							displayPRSelection(allPRs, token);
-						} else {
-							updateProgressState({
-								active: false,
-								message: 'Scan complete. No open Dependabot PRs were found.',
-								phase: 'complete',
-							});
-						}
-					} catch (error) {
-						console.error('[Auto-Merge Dependabot PRs] Discovery failed:', error);
-						addProgressDetail(error.message || 'Unknown discovery error.', 'error');
-						updateProgressState({
-							active: false,
-							failed: progressState.failed + 1,
-							message: 'Repository discovery stopped after an error. No merge requests were sent.',
-							phase: 'failed',
-						});
-					} finally {
-						setBatchRunning(false);
-					}
-				})();
-			});
+			mergeButton.addEventListener('click', () => void discoverDependabotPRs());
 			const container = document.getElementById(BUTTON_CONTAINER_ID) || createMergeButtonContainer();
 			container.appendChild(mergeButton);
 			positionButtonContainer(container, pageKind);
@@ -997,6 +1010,85 @@ void (async function () {
 		containers.forEach((el) => el.remove());
 	}
 
+	function getSelectedPullRequests(prList, prs) {
+		const selectedCheckboxes = Array.from(prList.querySelectorAll('input[type="checkbox"]:checked'));
+		return selectedCheckboxes.map((checkbox) => prs[Number(checkbox.dataset.prIndex)]).filter(Boolean);
+	}
+
+	function recordMergeResult(result) {
+		const reference = `${result.owner}/${result.repo}#${result.pr.number}`;
+		const attemptSummary = result.attempts > 1 ? ` after ${result.attempts} attempts` : '';
+		progressState.completed++;
+		if (result.succeeded) {
+			progressState.succeeded++;
+			addProgressDetail(`Merged ${reference}${attemptSummary}.`, 'success');
+		} else {
+			progressState.failed++;
+			addProgressDetail(`Failed ${reference}${attemptSummary}: ${result.error.message || 'Unknown error'}`, 'error');
+		}
+		updateProgressState({
+			message: `Processed ${progressState.completed} of ${progressState.total} selected PRs...`,
+		});
+	}
+
+	function displayMergeBatchResult(batchResult) {
+		if (!batchResult.stopped) {
+			updateProgressState({
+				active: false,
+				message: `Finished: ${progressState.succeeded} merged and ${progressState.failed} failed. This result stays visible until you dismiss it.`,
+				phase: progressState.failed > 0 ? 'complete-with-errors' : 'complete',
+			});
+			return;
+		}
+
+		if (batchResult.remaining > 0) {
+			addProgressDetail(`${batchResult.remaining} remaining PR${batchResult.remaining === 1 ? ' was' : 's were'} not attempted.`, 'warning');
+		}
+		updateProgressState({
+			active: false,
+			message: `Stopped safely: ${progressState.succeeded} merged, ${progressState.failed} failed, and ${batchResult.remaining} not attempted.`,
+			phase: 'failed',
+		});
+	}
+
+	async function mergeSelectedPullRequests(prs, token, prList, container) {
+		if (batchRunning) return;
+
+		const selectedPRs = getSelectedPullRequests(prList, prs);
+		if (selectedPRs.length === 0) {
+			updateProgressState({
+				message: 'No PRs are selected. Select at least one PR to start a merge.',
+			});
+			return;
+		}
+
+		container.remove();
+		removeAllPRSelectionContainers();
+		resetProgressState(
+			{
+				message: `Merging ${selectedPRs.length} selected PR${selectedPRs.length === 1 ? '' : 's'}...`,
+				phase: 'merge',
+				total: selectedPRs.length,
+			},
+			{ preserveWarnings: true }
+		);
+		setBatchRunning(true);
+		try {
+			const batchResult = await mergeDependabotPRs(selectedPRs, token, recordMergeResult);
+			displayMergeBatchResult(batchResult);
+		} catch (error) {
+			console.error('[Auto-Merge Dependabot PRs] Batch merge stopped unexpectedly:', error);
+			addProgressDetail(error.message || 'Unknown batch error.', 'error');
+			updateProgressState({
+				active: false,
+				message: 'The batch stopped unexpectedly. Completed results are retained below.',
+				phase: 'failed',
+			});
+		} finally {
+			setBatchRunning(false);
+		}
+	}
+
 	function displayPRSelection(prs, token) {
 		try {
 			removeAllPRSelectionContainers(); // Clean up any old containers first
@@ -1101,81 +1193,7 @@ void (async function () {
 			mergeSelectedButton.setAttribute('aria-label', 'Merge selected pull requests');
 			mergeSelectedButton.className = 'merge-dependabot-btn';
 			mergeSelectedButton.id = 'merge-dependabot-merge-selected-btn';
-			mergeSelectedButton.addEventListener('click', () => {
-				void (async () => {
-					if (batchRunning) return;
-					// Get all selected checkboxes
-					const selectedCheckboxes = Array.from(prList.querySelectorAll('input[type="checkbox"]:checked'));
-
-					// Map selected checkboxes to their corresponding PRs
-					const selectedPRs = selectedCheckboxes.map((checkbox) => prs[Number(checkbox.dataset.prIndex)]).filter(Boolean);
-
-					if (selectedPRs.length > 0) {
-						container.remove();
-						removeAllPRSelectionContainers();
-						resetProgressState(
-							{
-								message: `Merging ${selectedPRs.length} selected PR${selectedPRs.length === 1 ? '' : 's'}...`,
-								phase: 'merge',
-								total: selectedPRs.length,
-							},
-							{ preserveWarnings: true }
-						);
-						setBatchRunning(true);
-						try {
-							const batchResult = await mergeDependabotPRs(selectedPRs, token, (result) => {
-								const reference = `${result.owner}/${result.repo}#${result.pr.number}`;
-								progressState.completed++;
-								if (result.succeeded) {
-									progressState.succeeded++;
-									const retrySummary = result.attempts > 1 ? ` after ${result.attempts} attempts` : '';
-									addProgressDetail(`Merged ${reference}${retrySummary}.`, 'success');
-								} else {
-									progressState.failed++;
-									const attemptSummary = result.attempts > 1 ? ` after ${result.attempts} attempts` : '';
-									addProgressDetail(`Failed ${reference}${attemptSummary}: ${result.error.message || 'Unknown error'}`, 'error');
-								}
-								updateProgressState({
-									message: `Processed ${progressState.completed} of ${progressState.total} selected PRs...`,
-								});
-							});
-							if (batchResult.stopped) {
-								if (batchResult.remaining > 0) {
-									addProgressDetail(
-										`${batchResult.remaining} remaining PR${batchResult.remaining === 1 ? ' was' : 's were'} not attempted.`,
-										'warning'
-									);
-								}
-								updateProgressState({
-									active: false,
-									message: `Stopped safely: ${progressState.succeeded} merged, ${progressState.failed} failed, and ${batchResult.remaining} not attempted.`,
-									phase: 'failed',
-								});
-							} else {
-								updateProgressState({
-									active: false,
-									message: `Finished: ${progressState.succeeded} merged and ${progressState.failed} failed. This result stays visible until you dismiss it.`,
-									phase: progressState.failed > 0 ? 'complete-with-errors' : 'complete',
-								});
-							}
-						} catch (error) {
-							console.error('[Auto-Merge Dependabot PRs] Batch merge stopped unexpectedly:', error);
-							addProgressDetail(error.message || 'Unknown batch error.', 'error');
-							updateProgressState({
-								active: false,
-								message: 'The batch stopped unexpectedly. Completed results are retained below.',
-								phase: 'failed',
-							});
-						} finally {
-							setBatchRunning(false);
-						}
-					} else {
-						updateProgressState({
-							message: 'No PRs are selected. Select at least one PR to start a merge.',
-						});
-					}
-				})();
-			});
+			mergeSelectedButton.addEventListener('click', () => void mergeSelectedPullRequests(prs, token, prList, container));
 
 			container.appendChild(prList);
 			container.appendChild(mergeSelectedButton);
