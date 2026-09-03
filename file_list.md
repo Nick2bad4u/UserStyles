@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CODE_OF_CONDUCT.md" style="color: #83b4e2;">CODE_OF_CONDUCT.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CONTRIBUTING.md" style="color: #63e272;">CONTRIBUTING.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile" style="color: #ed7c58;">Gemfile</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile.lock" style="color: #44e8cc;">Gemfile.lock</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.test.cjs" style="color: #3fd1e1;">KudoAll-Strava-Garmin.user.test.cjs</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/LICENSE" style="color: #32c84c;">LICENSE</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.Tests.ps1" style="color: #43994e;">Microsoft.PowerShell_profile.Tests.ps1</a></li>
@@ -452,7 +451,6 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CODE_OF_CONDUCT.md" style="color: #83b4e2;">CODE_OF_CONDUCT.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/CONTRIBUTING.md" style="color: #63e272;">CONTRIBUTING.md</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile" style="color: #ed7c58;">Gemfile</a></li>
-<li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Gemfile.lock" style="color: #44e8cc;">Gemfile.lock</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/KudoAll-Strava-Garmin.user.test.cjs" style="color: #3fd1e1;">KudoAll-Strava-Garmin.user.test.cjs</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/LICENSE" style="color: #32c84c;">LICENSE</a></li>
 <li><a href="https://github.com/Nick2bad4u/UserStyles/blob/main/Microsoft.PowerShell_profile.Tests.ps1" style="color: #43994e;">Microsoft.PowerShell_profile.Tests.ps1</a></li>

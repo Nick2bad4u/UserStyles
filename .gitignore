@@ -724,3 +724,7 @@ coverage/
 .lychee.report.md
 .lycheecache
 .playwright-cli/
+
+# The pinned Pages action supplies the deployment bundle. A locally generated
+# lockfile can select transitive versions that its preinstalled bundle lacks.
+Gemfile.lock

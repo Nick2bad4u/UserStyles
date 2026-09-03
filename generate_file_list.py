@@ -58,7 +58,7 @@ Command-line arguments:
 - --root-margin-mobile: Root margin for the IntersectionObserver for mobile devices. Default is '0px 0px 100px 0px'.
 - --file-categories: List of file categories to include in the file list. Provide pairs of file extensions and category names (e.g., --file-categories .py Python .js JavaScript).
 - --overwrite-file-categories: Overwrite the default file categories with the provided ones.
-- --ignore-list: List of files and folders to ignore during the directory walk. Default is ['.git', 'node_modules', '.DS_Store', '.history', 'styles', 'zwiftbikes'].
+- --ignore-list: List of files and folders to ignore during the directory walk. Default is ['.git', 'node_modules', 'Gemfile.lock', '.DS_Store', '.history', 'styles', 'zwiftbikes'].
 - --ignore-list-overwrite: Overwrite the default ignore list with the provided one.
 
 Functions:
@@ -180,6 +180,7 @@ ROOT_DIRECTORY = "."
 IGNORE_LIST = [
     ".git",
     "node_modules",
+    "Gemfile.lock",
     ".DS_Store",
     ".history",
     "styles",
