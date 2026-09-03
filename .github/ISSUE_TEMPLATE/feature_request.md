@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
+title: ""
 labels: enhancement, feature
 assignees: Nick2bad4u
 ---
@@ -12,7 +12,7 @@ List the name of the UserStyle or UserScript.
 
 ### Provide the Website URL
 
-[https://example.com](https://example.com 'https://example.com')
+[https://example.com](https://example.com "https://example.com")
 
 ### Describe the feature you'd like
 

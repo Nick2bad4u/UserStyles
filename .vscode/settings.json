@@ -1,18 +1,24 @@
 {
-	"vs-code-prettier-eslint.prettierLast": false,
-	"codeQL.createQuery.qlPackLocation": "c:\\Users\\Nick\\Dropbox\\PC (2)\\Documents\\GitHub\\UserStyles\\.github",
-	"cSpell.enabled": false,
-	"stylelint.validate": ["css", "stylus"],
-	"python.testing.unittestArgs": ["-v", "-s", ".", "-p", "test_*.py"],
-	"python.testing.pytestEnabled": false,
-	"python.testing.unittestEnabled": true,
-	"python.analysis.typeCheckingMode": "standard",
-	"black-formatter.args": [
-		"--config",
-		"C:\\Users\\Nick\\Dropbox\\PC (2)\\Documents\\GitHub\\UserStyles\\.black"
-	],
-	"sonarlint.connectedMode.project": {
-		"connectionId": "nick2bad4u",
-		"projectKey": "Nick2bad4u_UserStyles"
-	}
+    "black-formatter.args": [
+        "--config",
+        "C:\\Users\\Nick\\Dropbox\\PC (2)\\Documents\\GitHub\\UserStyles\\.black"
+    ],
+    "cSpell.enabled": false,
+    "codeQL.createQuery.qlPackLocation": "c:\\Users\\Nick\\Dropbox\\PC (2)\\Documents\\GitHub\\UserStyles\\.github",
+    "python.analysis.typeCheckingMode": "standard",
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        ".",
+        "-p",
+        "test_*.py"
+    ],
+    "python.testing.unittestEnabled": true,
+    "sonarlint.connectedMode.project": {
+        "connectionId": "nick2bad4u",
+        "projectKey": "Nick2bad4u_UserStyles"
+    },
+    "stylelint.validate": ["css", "stylus"],
+    "vs-code-prettier-eslint.prettierLast": false
 }

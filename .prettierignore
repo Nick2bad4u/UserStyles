@@ -17,6 +17,21 @@ docs/packages/
 docs/TSDoc/
 docs/Guides/
 
+# Independently installable and compatibility-sensitive browser artifacts.
+# These are linted with their artifact-specific ESLint/Stylelint parsers.
+*.user.js
+*.user.css
+/*.css
+OldRedditNewProfilePictures.html
+
+# Vendored browser bundles and generated repository reports.
+strava-balance/
+file_list.html
+stylelint-output.json
+
+# prettier-plugin-powershell splits this script's native gh arguments.
+Github-BulkCloseCodeScanning.ps1
+
 # MD and MDX files since we use Remark Lint and other tools for those
 
 # Ignore Change Logs

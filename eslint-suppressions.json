@@ -20,9 +20,6 @@
         "github-actions/require-merge-group-trigger": {
             "count": 1
         },
-        "github-actions/require-run-step-shell": {
-            "count": 3
-        },
         "github-actions/require-run-step-timeout": {
             "count": 1
         }
@@ -110,7 +107,7 @@
     },
     "MergeDependabotPRs.user.js": {
         "no-unsanitized/property": {
-            "count": 5
+            "count": 1
         }
     },
     "OSRSWikiAuto-Categorizer-SlowMode.user.js": {

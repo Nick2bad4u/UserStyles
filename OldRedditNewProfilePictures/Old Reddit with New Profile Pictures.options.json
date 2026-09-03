@@ -1,41 +1,44 @@
 {
-	"options": {
-		"check_for_updates": true,
-		"user_modified": null,
-		"comment": null,
-		"compatopts_for_requires": true,
-		"compat_wrappedjsobject": false,
-		"compat_metadata": false,
-		"compat_foreach": false,
-		"compat_powerful_this": null,
-		"sandbox": null,
-		"noframes": null,
-		"unwrap": null,
-		"run_at": null,
-		"tab_types": null,
-		"override": {
-			"use_includes": [],
-			"orig_includes": [],
-			"merge_includes": true,
-			"use_matches": [],
-			"orig_matches": ["https://*.reddit.com/*", "https://www.*.reddit.com/*"],
-			"merge_matches": true,
-			"use_excludes": [],
-			"orig_excludes": [],
-			"merge_excludes": true,
-			"use_connects": [],
-			"orig_connects": [],
-			"merge_connects": true,
-			"use_blockers": [],
-			"orig_run_at": "document-idle",
-			"orig_noframes": null
-		}
-	},
-	"settings": { "enabled": true, "position": 52 },
-	"meta": {
-		"name": "Old Reddit with New Reddit Profile Pictures",
-		"uuid": "2a0f2bae-ecb4-42df-9f7b-94169ddefb71",
-		"modified": 1729376144529,
-		"file_url": "https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.user.js"
-	}
+    "meta": {
+        "name": "Old Reddit with New Reddit Profile Pictures",
+        "uuid": "2a0f2bae-ecb4-42df-9f7b-94169ddefb71",
+        "modified": 1729376144529,
+        "file_url": "https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/OldRedditNewProfilePictures/Old%20Reddit%20with%20New%20Profile%20Pictures.user.js"
+    },
+    "options": {
+        "check_for_updates": true,
+        "user_modified": null,
+        "comment": null,
+        "compatopts_for_requires": true,
+        "compat_wrappedjsobject": false,
+        "compat_metadata": false,
+        "compat_foreach": false,
+        "compat_powerful_this": null,
+        "sandbox": null,
+        "noframes": null,
+        "unwrap": null,
+        "run_at": null,
+        "tab_types": null,
+        "override": {
+            "use_includes": [],
+            "orig_includes": [],
+            "merge_includes": true,
+            "use_matches": [],
+            "orig_matches": [
+                "https://*.reddit.com/*",
+                "https://www.*.reddit.com/*"
+            ],
+            "merge_matches": true,
+            "use_excludes": [],
+            "orig_excludes": [],
+            "merge_excludes": true,
+            "use_connects": [],
+            "orig_connects": [],
+            "merge_connects": true,
+            "use_blockers": [],
+            "orig_run_at": "document-idle",
+            "orig_noframes": null
+        }
+    },
+    "settings": { "enabled": true, "position": 52 }
 }

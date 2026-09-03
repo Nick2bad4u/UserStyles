@@ -1,43 +1,43 @@
 {
-	"manifest_version": 3,
-	"name": "Steam Cookie Extractor",
-	"version": "2.0.15",
-	"description": "Extract steamLoginSecure and sessionid cookies and display them in a UI",
-	"permissions": [
-		"cookies",
-		"activeTab",
-		"storage",
-		"scripting",
-		"notifications"
-	],
-	"host_permissions": [
-		"https://steamcommunity.com/*",
-		"https://store.steampowered.com/*"
-	],
-	"background": {
-		"service_worker": "background.js"
-	},
-	"content_scripts": [
-		{
-			"matches": [
-				"https://steamcommunity.com/*",
-				"https://store.steampowered.com/*"
-			],
-			"js": ["content.js"]
-		}
-	],
-	"action": {
-		"default_popup": "popup.html",
-		"default_icon": {
-			"16": "icons/icon16.png",
-			"48": "icons/icon48.png",
-			"128": "icons/icon128.png"
-		}
-	},
-	"options_page": "options.html",
-	"icons": {
-		"16": "icons/icon16.png",
-		"48": "icons/icon48.png",
-		"128": "icons/icon128.png"
-	}
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://steamcommunity.com/*",
+                "https://store.steampowered.com/*"
+            ],
+            "js": ["content.js"]
+        }
+    ],
+    "description": "Extract steamLoginSecure and sessionid cookies and display them in a UI",
+    "host_permissions": [
+        "https://steamcommunity.com/*",
+        "https://store.steampowered.com/*"
+    ],
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "manifest_version": 3,
+    "name": "Steam Cookie Extractor",
+    "options_page": "options.html",
+    "permissions": [
+        "cookies",
+        "activeTab",
+        "storage",
+        "scripting",
+        "notifications"
+    ],
+    "version": "2.0.15"
 }

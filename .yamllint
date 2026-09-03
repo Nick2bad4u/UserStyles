@@ -1,7 +1,21 @@
-extends: node_modules/yamllint-config-nick2bad4u/.yamllint
+extends: "node_modules/yamllint-config-nick2bad4u/.yamllint"
+
+# Keep the shared exclusions when extending its config and add local generated
+# browser snapshots, which are already excluded from Git.
+ignore: |
+    .cache/
+    node_modules
+    **/node_modules/*
+    **/node_modules/**
+    dist/
+    coverage/
+    build/
+    release/
+    **/.stryker-tmp/**
+    .playwright-cli/
 
 rules:
-  indentation:
-    spaces: consistent
-    indent-sequences: consistent
-  quoted-strings: disable
+    indentation:
+        spaces: "consistent"
+        indent-sequences: "consistent"
+    quoted-strings: "disable"

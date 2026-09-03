@@ -1,59 +1,59 @@
-name: Metrics - Repository Stats
+name: "Metrics - Repository Stats"
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '53 4 1 * *' # Runs monthly at 4:53 AM (UTC)
-  push:
-    branches: [repo-stats]
-  pull_request:
-    branches: [repo-stats]
+    workflow_dispatch:
+    schedule:
+        - cron: "53 4 1 * *" # Runs monthly at 4:53 AM (UTC)
+    push:
+        branches: ["repo-stats"]
+    pull_request:
+        branches: ["repo-stats"]
 
 jobs:
-  metrics:
-    runs-on: ubuntu-latest
-    concurrency:
-      group: repo-stats-${{ github.ref }}
-      cancel-in-progress: false
-    steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
-        with:
-          egress-policy: audit
+    metrics:
+        runs-on: "ubuntu-latest"
+        concurrency:
+            group: "repo-stats-${{ github.ref }}"
+            cancel-in-progress: false
+        steps:
+            - name: "Harden the runner (Audit all outbound calls)"
+              uses: "step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411" # v2.19.4
+              with:
+                  egress-policy: "audit"
 
-      - name: Generate repository metrics
-        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # latest
-        with:
-          template: repository
-          filename: metrics.repository.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # user: nick2bad4u
-          repo: UserStyles
-          # The 'repo' input is not supported in this context and causes 'Unsupported context repository' error. Remove or comment out this line.
-          base: header, activity, community, repositories, metadata
-          base_indepth: true
-          commits_authoring: nick2bad4u
-          config_display: large
-          config_octicon: true
-          config_timezone: America/Detroit
-          config_twemoji: true
-          plugin_followup: true
-          plugin_lines: true
-          plugin_languages: true
-          plugin_languages_analysis_timeout: 30
-          plugin_languages_analysis_timeout_repositories: 40
-          plugin_languages_categories: markup, programming
-          plugin_languages_colors: github
-          plugin_languages_indepth: true
-          plugin_languages_limit: 30
-          plugin_languages_recent_categories: markup, programming
-          plugin_languages_recent_days: 30
-          plugin_languages_recent_load: 600
-          plugin_languages_sections: most-used
-          plugin_languages_threshold: 0%
-          plugin_lines_history_limit: 40
-          plugin_lines_repositories_limit: 8
-          plugin_lines_sections: base
-          plugin_repositories: true
-          plugin_repositories_order: featured, pinned, starred, random
-          repositories_forks: true
+            - name: "Generate repository metrics"
+              uses: "lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6" # latest
+              with:
+                  template: "repository"
+                  filename: "metrics.repository.svg"
+                  token: "${{ secrets.GITHUB_TOKEN }}"
+                  # user: nick2bad4u
+                  repo: "UserStyles"
+                  # The 'repo' input is not supported in this context and causes 'Unsupported context repository' error. Remove or comment out this line.
+                  base: "header, activity, community, repositories, metadata"
+                  base_indepth: true
+                  commits_authoring: "nick2bad4u"
+                  config_display: "large"
+                  config_octicon: true
+                  config_timezone: "America/Detroit"
+                  config_twemoji: true
+                  plugin_followup: true
+                  plugin_lines: true
+                  plugin_languages: true
+                  plugin_languages_analysis_timeout: 30
+                  plugin_languages_analysis_timeout_repositories: 40
+                  plugin_languages_categories: "markup, programming"
+                  plugin_languages_colors: "github"
+                  plugin_languages_indepth: true
+                  plugin_languages_limit: 30
+                  plugin_languages_recent_categories: "markup, programming"
+                  plugin_languages_recent_days: 30
+                  plugin_languages_recent_load: 600
+                  plugin_languages_sections: "most-used"
+                  plugin_languages_threshold: "0%"
+                  plugin_lines_history_limit: 40
+                  plugin_lines_repositories_limit: 8
+                  plugin_lines_sections: "base"
+                  plugin_repositories: true
+                  plugin_repositories_order: "featured, pinned, starred, random"
+                  repositories_forks: true

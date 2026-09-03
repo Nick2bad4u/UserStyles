@@ -1,39 +1,39 @@
 {
-	"blacklist": [],
-	"custom": {
-		"youtube.com, ytimg.com, googlevideo.com, whatismybrowser.com, webbrowsertools.com": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.61 Chrome/126.0.6478.61 Not/A)Brand/8 Safari/537.36"
-	},
-	"json-forced": false,
-	"json-guid": "c6cf9ce2-813a-491f-b39e-01ccbf9c565e",
-	"last-update": 1734319888779,
-	"mode": "custom",
-	"parser": {
-		"redditappuseragent": {
-			"appVersion": "1.0.1",
-			"custom-variable": "redditapp",
-			"oscpu": "RedditApp",
-			"platform": "Userscript",
-			"product": "TamperMonkey",
-			"vendor": "Nick2bad4u"
-		}
-	},
-	"popup-sort": "descending",
-	"protected": [
-		"google.com/recaptcha",
-		"gstatic.com/recaptcha",
-		"accounts.google.com",
-		"accounts.youtube.com",
-		"gitlab.com/users/sign_in",
-		"challenges.cloudflare.com"
-	],
-	"remote-address": "https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/useragent-switcher-preferences.json",
-	"ua": "",
-	"userAgentData": true,
-	"whitelist": [
-		"youtube.com",
-		"ytimg.com",
-		"googlevideo.com",
-		"whatismybrowser.com",
-		"webbrowsertools.com"
-	]
+    "blacklist": [],
+    "custom": {
+        "youtube.com, ytimg.com, googlevideo.com, whatismybrowser.com, webbrowsertools.com": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.61 Chrome/126.0.6478.61 Not/A)Brand/8 Safari/537.36"
+    },
+    "json-forced": false,
+    "json-guid": "c6cf9ce2-813a-491f-b39e-01ccbf9c565e",
+    "last-update": 1734319888779,
+    "mode": "custom",
+    "parser": {
+        "redditappuseragent": {
+            "appVersion": "1.0.1",
+            "custom-variable": "redditapp",
+            "oscpu": "RedditApp",
+            "platform": "Userscript",
+            "product": "TamperMonkey",
+            "vendor": "Nick2bad4u"
+        }
+    },
+    "popup-sort": "descending",
+    "protected": [
+        "google.com/recaptcha",
+        "gstatic.com/recaptcha",
+        "accounts.google.com",
+        "accounts.youtube.com",
+        "gitlab.com/users/sign_in",
+        "challenges.cloudflare.com"
+    ],
+    "remote-address": "https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/useragent-switcher-preferences.json",
+    "ua": "",
+    "userAgentData": true,
+    "whitelist": [
+        "youtube.com",
+        "ytimg.com",
+        "googlevideo.com",
+        "whatismybrowser.com",
+        "webbrowsertools.com"
+    ]
 }
