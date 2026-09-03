@@ -5,6 +5,7 @@ import subprocess
 import logging
 
 from generate_file_list import (
+    IGNORE_LIST,
     get_git_repo_url,
     should_ignore,
     generate_file_list,
@@ -28,6 +29,8 @@ from generate_file_list import (
 class TestGenerateFileList(unittest.TestCase):
 
     def test_should_ignore(self):
+        self.assertTrue(should_ignore("project/Gemfile.lock", IGNORE_LIST))
+
         ignore_list = [".git", "node_modules"]
         self.assertTrue(should_ignore("project/.git/", ignore_list))
         self.assertFalse(should_ignore("project/src/main.py", ignore_list))
@@ -105,11 +108,10 @@ class TestGenerateFileList(unittest.TestCase):
         file_list = ["file1.py", "file2.js"]
         repo_url = "https://github.com/author/repo"
         expected_html = (
-            "<li><h2>Repo Root</h2></li>\n"
+            '<h2 style="color: #000000;">Repo Root</h2>\n'
             '<li><a href="https://github.com/author/repo/blob/main/file1.py" style="color: #000000;">file1.py</a></li>\n'
-            "<li><h2>JavaScript</h2></li>\n"
-            '<li><a href="https://github.com/author/repo/blob/main/file2.js" style="color: #000000;">file2.js</a></li>\n'
-            "</ul>"
+            '<h2 style="color: #000000;">JavaScript</h2>\n'
+            '<li><a href="https://github.com/author/repo/blob/main/file2.js" style="color: #000000;">file2.js</a></li>'
         )
         self.assertEqual(generate_file_list_with_links(file_list, repo_url), expected_html)
 

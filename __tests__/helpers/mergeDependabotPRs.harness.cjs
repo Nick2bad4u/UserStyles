@@ -40,7 +40,7 @@ function installUserscriptApis(
     const values = new Map([
         ["encryption_key", "{}"],
         ["github_orgs", orgs],
-        ["github_token", encryptedToken],
+        ["github_token", encryptedToken], // gitleaks:allow -- Encrypted fixture storage key.
         ["github_username", "Nick2bad4u"],
     ]);
     const alerts = [];

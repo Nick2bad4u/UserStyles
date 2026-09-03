@@ -1,0 +1,29 @@
+#:schema https://www.schemastore.org/tombi.json
+
+toml-version = "v1.1.0"
+
+[files]
+    exclude = [ "**/node_modules/**", "**/.git/**", "**/.cache/**", "**/dist/**", "**/build/**", "**/coverage/**" ]
+
+[format.rules]
+    array-bracket-space-width         = 1
+    array-comma-space-width           = 1
+    date-time-delimiter               = "T"
+    indent-style                      = "space"
+    indent-sub-tables                 = true
+    indent-table-key-value-pairs      = true
+    indent-width                      = 4
+    inline-table-brace-space-width    = 1
+    inline-table-comma-space-width    = 1
+    key-value-equals-sign-alignment   = true
+    key-value-equals-sign-space-width = 1
+    line-ending                       = "lf"
+    line-width                        = 120
+    string-quote-style                = "double"
+    trailing-comment-alignment        = true
+    trailing-comment-space-width      = 1
+
+[lint.rules]
+    dotted-keys-out-of-order = "warn"
+    key-empty                = "warn"
+    tables-out-of-order      = "warn"

@@ -330,7 +330,7 @@ void (async function () {
 			const encryptedToken = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, encodedToken);
 
 			safeGM_setValue(
-				'github_token',
+				'github_token', // gitleaks:allow -- Encrypted storage key name, not a credential.
 				JSON.stringify({
 					iv: Array.from(iv),
 					token: Array.from(new Uint8Array(encryptedToken)),

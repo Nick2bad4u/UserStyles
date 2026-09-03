@@ -404,7 +404,7 @@ async function legacyCookieScenario() {
     const dom = createPage({ author: "octocat" });
     try {
         installUserscriptApis(dom);
-        dom.window.document.cookie = "github_token=legacy-secret; Path=/";
+        dom.window.document.cookie = "github_token=legacy-secret; Path=/"; // gitleaks:allow -- Synthetic legacy-cookie migration fixture.
         runScript(dom);
         const warning = await waitFor(() =>
             dom.window.document.getElementById(WARNING_ID)
