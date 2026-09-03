@@ -29,8 +29,11 @@ strava-balance/
 file_list.html
 stylelint-output.json
 
-# prettier-plugin-powershell splits this script's native gh arguments.
-Github-BulkCloseCodeScanning.ps1
+# PowerShell is parser/analyzer-owned. prettier-plugin-powershell can split
+# native-command arguments and change runtime behavior.
+*.ps1
+*.psd1
+*.psm1
 
 # MD and MDX files since we use Remark Lint and other tools for those
 
