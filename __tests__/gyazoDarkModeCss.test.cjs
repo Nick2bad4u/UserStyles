@@ -85,7 +85,10 @@ describe("Gyazo dark mode regression boundaries", () => {
         const placeholderStart = style.indexOf(
             ".board-index\n        .collection-wrapper"
         );
-        const placeholderEnd = style.indexOf("body.edge {", placeholderStart);
+        const placeholderEnd = style.indexOf(
+            "/* Keep collection previews visible",
+            placeholderStart
+        );
         const placeholderRules = style.slice(placeholderStart, placeholderEnd);
 
         expect(placeholderStart).toBeGreaterThanOrEqual(0);
@@ -94,6 +97,70 @@ describe("Gyazo dark mode regression boundaries", () => {
         expect(placeholderRules).toContain("box-shadow: none !important;");
         expect(placeholderRules).not.toContain("--capture-accent-color");
         expect(style).not.toContain(".B9QQGIFrwoa05qnyZvI5");
+    });
+
+    test("keeps collection images visible during hover", () => {
+        const overlayStart = style.indexOf("& .hover-layer {");
+        const overlayEnd = style.indexOf("body.edge {", overlayStart);
+        const overlayRules = style.slice(overlayStart, overlayEnd);
+
+        expect(overlayStart).toBeGreaterThanOrEqual(0);
+        expect(overlayEnd).toBeGreaterThan(overlayStart);
+        expect(overlayRules).toContain("background: transparent !important;");
+        expect(overlayRules).toContain("opacity: 0% !important;");
+        expect(overlayRules).toContain("pointer-events: none;");
+    });
+
+    test("gives the Tags grid capture-style cards and one aligned tooltip surface", () => {
+        const tagsStart = style.indexOf(
+            '@-moz-document url-prefix("https://gyazo.com/tags")'
+        );
+        const tagsEnd = style.indexOf(
+            '@-moz-document domain("help.gyazo.com")',
+            tagsStart
+        );
+        const tagsRules = style.slice(tagsStart, tagsEnd);
+
+        expect(tagsStart).toBeGreaterThanOrEqual(0);
+        expect(tagsEnd).toBeGreaterThan(tagsStart);
+        expect(tagsRules).toContain(
+            ".main-block-stage section:has(> .testing-swap-image-container)"
+        );
+        expect(tagsRules).toContain(
+            "box-shadow: 0 3px 0 var(--capture-accent-color) !important;"
+        );
+        expect(tagsRules).toContain("& .react-tooltip-content-wrapper {");
+        expect(tagsRules).toContain("padding: 0 !important;");
+        expect(tagsRules).not.toContain(".B9QQGIFrwoa05qnyZvI5");
+        expect(tagsRules).not.toContain(".k3nzGrC3hEubDzXyOg_r");
+        expect(tagsRules).not.toContain(".caBpUIyLTfNBwvxfTyDa");
+    });
+
+    test("restores clean collection headings and dark API documentation surfaces", () => {
+        expect(style).toContain(".board-show-page .title-input,");
+        expect(style).toContain(".board-show-page .description-input {");
+        expect(style).toContain("background-color: transparent !important;");
+        expect(style).toContain("body.api-docs .breadcrumb {");
+        expect(style).toContain("body.api-docs pre {");
+        expect(style).toContain("navbar_logo_white-4f9533c2df.png");
+    });
+
+    test("uses readable, coherent surfaces across Gyazo Help pages", () => {
+        const helpStart = style.indexOf(
+            '@-moz-document domain("help.gyazo.com")'
+        );
+        const helpEnd = style.indexOf(
+            '@-moz-document regexp("^https://(www\\\\.)?gyazo',
+            helpStart
+        );
+        const helpRules = style.slice(helpStart, helpEnd);
+
+        expect(helpStart).toBeGreaterThanOrEqual(0);
+        expect(helpEnd).toBeGreaterThan(helpStart);
+        expect(helpRules).toContain(".header .navbar {");
+        expect(helpRules).toContain("body.contact-page form label {");
+        expect(helpRules).toContain("body.contact-page form .form-control {");
+        expect(helpRules).toContain("body.article-page .page-content,");
     });
 
     test("scopes history and edit-toolbar surface corrections", () => {

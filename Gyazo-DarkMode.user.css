@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         Gyazo.com - Dark Mode [Customizable]
-@version      4.6
+@version      4.7
 @namespace    nick2bad4u.github.io
 @description  Gyazo Dark Mode (Customizable Color - Defaults to Purple Accents)
 @author       Nick2bad4u
@@ -1649,6 +1649,34 @@
         box-shadow: none !important;
     }
 
+    /* Keep collection previews visible while matching capture-card feedback. */
+    .board-index
+        .collection-wrapper
+        .collection-container
+        .collection-grid
+        .tile-container {
+        box-shadow: 0 3px 0 var(--capture-accent-color) !important;
+        transition:
+            box-shadow 0.15s ease,
+            filter 0.15s ease;
+
+        &:hover,
+        &:focus-visible {
+            box-shadow:
+                0 3px 0 var(--capture-accent-color),
+                0 0 0 2px var(--capture-accent-color),
+                0 8px 18px #0000008c !important;
+            filter: brightness(1.04);
+        }
+
+        & .hover-layer {
+            pointer-events: none;
+            background: transparent !important;
+            border: 0 !important;
+            opacity: 0% !important;
+        }
+    }
+
     body.edge {
         background-color: var(--background-main) !important;
 
@@ -1683,6 +1711,78 @@
         box-shadow: none !important;
     }
 
+    .board-show-page .title-input,
+    .board-show-page .description-input {
+        color: var(--gray-light) !important;
+        background-color: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .board-show-page .title-input {
+        padding: 0 !important;
+    }
+
+    .board-show-page .title-input:focus,
+    .board-show-page .description-input:focus {
+        outline: 2px solid var(--capture-accent-color) !important;
+        outline-offset: 2px;
+        background-color: var(--gray-darker) !important;
+    }
+
+    body.api-docs .static-page-nav,
+    body.api-docs .static-page-nav > .container {
+        background-color: var(--gray-darker) !important;
+        border-radius: 0 !important;
+    }
+
+    body.api-docs .static-page-nav {
+        border-bottom: 1px solid var(--gray-dark) !important;
+        box-shadow: 0 4px 12px #00000059 !important;
+
+        & a,
+        & button,
+        & span {
+            background-color: transparent !important;
+        }
+
+        & .navbar-brand-logo {
+            background-color: transparent !important;
+            background-image: url("https://assets2.gyazo.com/assets/images/top/navbar_logo_white-4f9533c2df.png") !important;
+        }
+    }
+
+    body.api-docs .content,
+    body.api-docs .content > .container,
+    body.api-docs .content .row {
+        color: var(--gray-light) !important;
+        background-color: var(--background-main) !important;
+        border-radius: 0 !important;
+    }
+
+    body.api-docs .breadcrumb {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+        border-radius: 4px !important;
+
+        & > li,
+        & > li > a {
+            background-color: transparent !important;
+        }
+    }
+
+    body.api-docs pre {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border-color: var(--gray-dark) !important;
+
+        & code {
+            color: inherit !important;
+            background-color: transparent !important;
+        }
+    }
+
     .transform-page-header .explorer-action-btn-toolbar > label,
     .transform-page-header .explorer-action-btn-toolbar > label > span {
         color: var(--gray-light) !important;
@@ -1704,7 +1804,12 @@
         .grid-view .card.large-card,
         .grid-view .card.row-card,
         .side-block .side-block-items .toplevel-item-selectable,
-        .side-block .side-block-items .collection-item {
+        .side-block .side-block-items .collection-item,
+        .board-index
+            .collection-wrapper
+            .collection-container
+            .collection-grid
+            .tile-container {
             transition: none;
         }
     }
@@ -1712,6 +1817,235 @@
     body.card {
         background: var(--background-main) !important;
         background-image: none !important;
+    }
+}
+
+@-moz-document url-prefix("https://gyazo.com/tags") {
+    .main-block-stage section:has(> .testing-swap-image-container) {
+        grid-template-columns: repeat(
+            auto-fill,
+            [capture-start] 130px [capture-end]
+        ) !important;
+    }
+
+    .testing-swap-image-container {
+        width: 130px !important;
+        height: 130px !important;
+        overflow: hidden !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+        border-radius: 2px !important;
+        box-shadow: 0 3px 0 var(--capture-accent-color) !important;
+        transition:
+            box-shadow 0.15s ease,
+            filter 0.15s ease;
+
+        &:hover,
+        &:focus-within {
+            box-shadow:
+                0 3px 0 var(--capture-accent-color),
+                0 0 0 2px var(--capture-accent-color),
+                0 8px 18px #0000008c !important;
+            filter: brightness(1.04);
+        }
+
+        & > a {
+            inset: 0 !important;
+            display: grid !important;
+            width: 100% !important;
+            height: 100% !important;
+            padding: 5px !important;
+            background-color: transparent !important;
+        }
+
+        & picture,
+        & img.thumb {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            background-color: var(--background-main) !important;
+        }
+
+        & img.thumb {
+            padding: 0 !important;
+            object-fit: contain !important;
+        }
+    }
+
+    .react-tooltip[role="tooltip"] {
+        box-sizing: border-box !important;
+        max-width: min(360px, calc(100vw - 24px)) !important;
+        padding: 10px 12px !important;
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+        border-radius: 6px !important;
+        box-shadow: 0 8px 18px #0000008c !important;
+
+        & .react-tooltip-content-wrapper {
+            width: auto !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+        }
+
+        & .react-tooltip-content-wrapper,
+        & .react-tooltip-content-wrapper * {
+            box-sizing: border-box !important;
+            color: inherit;
+            background-color: transparent !important;
+            border: 0 !important;
+        }
+
+        & svg {
+            color: var(--primary-color) !important;
+
+            & path {
+                fill: currentcolor !important;
+            }
+        }
+
+        & .react-tooltip-arrow {
+            background-color: var(--gray-darker) !important;
+            border: 0 !important;
+        }
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+        .testing-swap-image-container {
+            transition: none;
+        }
+    }
+}
+
+@-moz-document domain("help.gyazo.com") {
+    body,
+    .header,
+    .search-container,
+    article.content {
+        color: var(--gray-light) !important;
+        background-color: var(--background-main) !important;
+    }
+
+    .header .navbar {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border-bottom: 1px solid var(--gray-dark) !important;
+        box-shadow: 0 4px 12px #00000059 !important;
+    }
+
+    .header .brand,
+    .header .brand > a,
+    .header .brand img,
+    .header .header-menu,
+    .header .header-menu__item {
+        background-color: transparent !important;
+    }
+
+    .header .header-menu__item-link {
+        background-color: transparent !important;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--color-white) !important;
+            outline: 2px solid var(--capture-accent-color);
+            outline-offset: 2px;
+            background-color: var(--primary-color-darker) !important;
+        }
+    }
+
+    .search-container > .container,
+    article.content > .container,
+    body.contact-page .hero-header > .container {
+        background-color: transparent !important;
+        border-radius: 0 !important;
+    }
+
+    .query-input {
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+
+        &:focus-within {
+            border-color: var(--capture-accent-color) !important;
+            box-shadow: 0 0 0 3px var(--primary-color-darker) !important;
+        }
+
+        & textarea,
+        & .speech-button,
+        & .speech-button > img {
+            color: var(--gray-light) !important;
+            background-color: transparent !important;
+            border-color: transparent !important;
+        }
+    }
+
+    body.search-page .faq-list,
+    body.search-page .keywords {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border-color: var(--gray-dark) !important;
+    }
+
+    body.search-page .faq-list :is(div, ul, li, a, span),
+    body.search-page .keywords :is(div, a, span) {
+        background-color: transparent !important;
+    }
+
+    body.article-page .page-content,
+    body.article-page .page-content .line,
+    body.article-page .page-content :is(span, strong, a),
+    body.article-page .related-pages,
+    body.article-page .related-pages :is(h4, div, ul, li, a, span) {
+        background-color: transparent !important;
+    }
+
+    body.article-page pre,
+    body.article-page code {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border-color: var(--gray-dark) !important;
+    }
+
+    body.contact-page .hero-header,
+    body.contact-page form,
+    body.contact-page form :is(.description-html, .description, .line, .hints) {
+        color: var(--gray-light) !important;
+        background-color: transparent !important;
+    }
+
+    body.contact-page .hero-header h2,
+    body.contact-page form label {
+        color: var(--gray-light) !important;
+        background-color: transparent !important;
+    }
+
+    body.contact-page form .form-control {
+        color: var(--gray-light) !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+
+        &:focus {
+            border-color: var(--capture-accent-color) !important;
+            box-shadow: 0 0 0 3px var(--primary-color-darker) !important;
+        }
+    }
+
+    body.contact-page form .button-submit {
+        color: var(--color-black) !important;
+        background-color: var(--primary-color) !important;
+        border: 1px solid var(--primary-color) !important;
+        border-radius: 6px;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--color-white) !important;
+            background-color: var(--primary-color-darker) !important;
+        }
+    }
+
+    .footer,
+    .footer :is(div, ul, li, a, span, small) {
+        color: var(--gray-light) !important;
+        background-color: transparent !important;
     }
 }
 
