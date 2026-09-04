@@ -145,6 +145,61 @@ describe("Gyazo dark mode regression boundaries", () => {
         expect(style).toContain("navbar_logo_white-4f9533c2df.png");
     });
 
+    test("keeps the collection description line box fully visible", () => {
+        const descriptionStart = style.indexOf(
+            ".board-show-page .description-input {",
+            style.indexOf(".board-show-page .title-input {")
+        );
+        const descriptionEnd = style.indexOf(
+            ".board-show-page .title-input:focus,",
+            descriptionStart
+        );
+        const descriptionRules = style.slice(descriptionStart, descriptionEnd);
+
+        expect(descriptionStart).toBeGreaterThanOrEqual(0);
+        expect(descriptionEnd).toBeGreaterThan(descriptionStart);
+        expect(descriptionRules).toContain(
+            "box-sizing: border-box !important;"
+        );
+        expect(descriptionRules).toContain("min-height: 40px !important;");
+        expect(descriptionRules).toContain("padding: 8px !important;");
+        expect(descriptionRules).toContain("line-height: 1.5 !important;");
+        expect(descriptionRules).toContain("overflow-y: auto !important;");
+    });
+
+    test("repairs current About and Download marketing page surfaces", () => {
+        expect(style).toContain("body.product,");
+        expect(style).toContain("body.download {");
+        expect(style).toContain("& .hero-item-overlay,");
+        expect(style).toContain("& .security-item {");
+        expect(style).toContain("& .testimonials-card {");
+        expect(style).toContain("& .icon-circle {");
+        expect(style).toContain("& .download-btn {");
+        expect(style).toContain("navbar_logo_white-4f9533c2df.png");
+    });
+
+    test("themes the exact AnnounceKit Product Updates widget", () => {
+        const widgetStart = style.indexOf(
+            '@-moz-document url-prefix("https://announcekit.co/widgets/v2/1pZngY/")'
+        );
+        const widgetEnd = style.indexOf(
+            '@-moz-document domain("help.gyazo.com")',
+            widgetStart
+        );
+        const widgetRules = style.slice(widgetStart, widgetEnd);
+
+        expect(widgetStart).toBeGreaterThanOrEqual(0);
+        expect(widgetEnd).toBeGreaterThan(widgetStart);
+        expect(widgetRules).toContain(".widget > header.main {");
+        expect(widgetRules).toContain(".header-nav .ank-button {");
+        expect(widgetRules).toContain(".post {");
+        expect(widgetRules).toContain(".line-form {");
+        expect(widgetRules).toContain(
+            "background-color: var(--background-main) !important;"
+        );
+        expect(widgetRules).not.toContain("ank_widget_vs80ixh9k");
+    });
+
     test("uses readable, coherent surfaces across Gyazo Help pages", () => {
         const helpStart = style.indexOf(
             '@-moz-document domain("help.gyazo.com")'

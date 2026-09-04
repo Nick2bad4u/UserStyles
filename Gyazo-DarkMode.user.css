@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         Gyazo.com - Dark Mode [Customizable]
-@version      4.7
+@version      4.8
 @namespace    nick2bad4u.github.io
 @description  Gyazo Dark Mode (Customizable Color - Defaults to Purple Accents)
 @author       Nick2bad4u
@@ -1723,6 +1723,14 @@
         padding: 0 !important;
     }
 
+    .board-show-page .description-input {
+        box-sizing: border-box !important;
+        min-height: 40px !important;
+        padding: 8px !important;
+        overflow-y: auto !important;
+        line-height: 1.5 !important;
+    }
+
     .board-show-page .title-input:focus,
     .board-show-page .description-input:focus {
         outline: 2px solid var(--capture-accent-color) !important;
@@ -1780,6 +1788,209 @@
         & code {
             color: inherit !important;
             background-color: transparent !important;
+        }
+    }
+
+    /* Repair current About and Download pages after the legacy global reset. */
+    body.product,
+    body.download {
+        color: var(--gray-light) !important;
+        background-color: var(--background-main) !important;
+
+        & .static-page-nav-container,
+        & .static-page-nav,
+        & .static-page-nav > .container {
+            background-color: var(--gray-darker) !important;
+            border-radius: 0 !important;
+        }
+
+        & .static-page-nav {
+            border-bottom: 1px solid var(--gray-dark) !important;
+            box-shadow: 0 4px 12px #00000059 !important;
+        }
+
+        /* These layers are transparent in Gyazo's light theme. */
+        & :is(
+            .static-page-nav,
+            .hero,
+            .users,
+            .benefit,
+            .security,
+            .testimonials,
+            .upgrade,
+            .cta-bottom,
+            .icons,
+            .platforms,
+            .integrations,
+            .footer
+        ) * {
+            background-color: transparent !important;
+        }
+
+        & :is(
+            .static-page-nav,
+            .hero,
+            .users,
+            .benefit,
+            .security,
+            .testimonials,
+            .upgrade,
+            .cta-bottom,
+            .icons,
+            .platforms,
+            .integrations,
+            .footer
+        ) .container {
+            border-radius: 0 !important;
+        }
+
+        & .static-page-nav .navbar-brand-logo {
+            background-color: transparent !important;
+            background-image: url("https://assets2.gyazo.com/assets/images/top/navbar_logo_white-4f9533c2df.png") !important;
+        }
+
+        & .static-page-nav .dropdown-menu {
+            color: var(--gray-light) !important;
+            background-color: var(--gray-darker) !important;
+            border-color: var(--gray-dark) !important;
+        }
+
+        & .testimonials {
+            color: var(--gray-light) !important;
+            background: linear-gradient(
+                135deg,
+                var(--gray-darker),
+                var(--primary-color-darker) 55%,
+                var(--background-main)
+            ) !important;
+        }
+
+        & .testimonials-card {
+            color: var(--gray-light) !important;
+            background: var(--gray-darker) !important;
+            border: 1px solid var(--gray-dark) !important;
+            box-shadow: 0 8px 18px #00000073 !important;
+        }
+
+        & .testimonials-quote,
+        & .testimonials-profile,
+        & .testimonials-profile-name,
+        & .testimonials-profile-role {
+            background-color: transparent !important;
+        }
+
+        & .testimonials-profile-name {
+            color: var(--gray-light) !important;
+        }
+
+        & .testimonials-profile-role {
+            color: var(--gray-alternate) !important;
+        }
+
+        & .footer {
+            color: var(--gray-light) !important;
+            background-color: var(--background-main) !important;
+            border-top: 1px solid var(--gray-dark) !important;
+        }
+
+        & .footer a {
+            color: var(--secondary-color) !important;
+        }
+    }
+
+    body.product {
+        & .hero,
+        & .users,
+        & .benefit,
+        & .upgrade {
+            background-color: var(--background-main) !important;
+        }
+
+        & .hero-bg-gradient,
+        & .hero-bg-lattice,
+        & .hero-item,
+        & .hero-item-overlay,
+        & .hero-item-overlay-hover,
+        & .users-bg-gradient,
+        & .users-bg-lattice {
+            background-color: transparent !important;
+        }
+
+        & .benefit-feature,
+        & .upgrade-item {
+            color: var(--gray-light) !important;
+            background-color: var(--gray-darker) !important;
+            border: 1px solid var(--gray-dark) !important;
+            box-shadow: 0 8px 18px #00000059 !important;
+        }
+
+        & .security {
+            color: var(--gray-light) !important;
+            background: var(--gray-darker) !important;
+            border-block: 1px solid var(--gray-dark) !important;
+        }
+
+        & .security-item {
+            color: var(--gray-light) !important;
+            background: var(--background-main) !important;
+            border: 1px solid var(--gray-dark) !important;
+            box-shadow: 0 8px 18px #00000059 !important;
+        }
+
+        & .security-item-title {
+            color: var(--gray-light) !important;
+        }
+
+        & .security-item-desc {
+            color: var(--gray-alternate) !important;
+        }
+
+        & :is(.hero, .users, .benefit, .security, .upgrade, .cta-bottom) img {
+            background-color: transparent !important;
+        }
+    }
+
+    body.download {
+        & .hero {
+            color: var(--gray-light) !important;
+            background-color: var(--background-main) !important;
+        }
+
+        & :is(.icons, .platforms, .integrations) {
+            color: var(--gray-light) !important;
+            background-color: var(--gray-darker) !important;
+            border-color: var(--gray-dark) !important;
+        }
+
+        & .icon-circle {
+            background-color: var(--color-white) !important;
+            box-shadow: 0 4px 15px #00000073 !important;
+        }
+
+        & .integration-box {
+            color: var(--gray-light) !important;
+            background-color: var(--background-main) !important;
+            border: 1px solid var(--gray-dark) !important;
+        }
+
+        & :is(.icon-circle, .platform-banner, .integration-box) img {
+            background-color: transparent !important;
+        }
+
+        & .download-btn {
+            color: var(--color-black) !important;
+            text-decoration: none !important;
+            background-color: var(--download-button) !important;
+            border-color: var(--download-button) !important;
+
+            &:hover,
+            &:focus-visible {
+                color: var(--color-white) !important;
+                outline: 2px solid var(--primary-color) !important;
+                outline-offset: 2px;
+                background-color: var(--primary-color-darker) !important;
+                border-color: var(--primary-color) !important;
+            }
         }
     }
 
@@ -1914,6 +2125,202 @@
         .testing-swap-image-container {
             transition: none;
         }
+    }
+}
+
+@-moz-document url-prefix("https://announcekit.co/widgets/v2/1pZngY/") {
+    :root {
+        color-scheme: dark;
+
+        --primary-color: var(primary-color);
+        --primary-color-darker: var(primary-color-darker);
+        --secondary-color: var(secondary-color);
+        --background-main: var(background-main);
+        --gray-dark: var(gray-dark);
+        --gray-light: var(gray-light);
+        --gray-alternate: var(gray-alternate);
+        --gray-darker: var(gray-darker);
+        --color-white: var(color-white);
+        --color-black: var(color-black);
+    }
+
+    html,
+    body,
+    #widget,
+    .widget,
+    section.main,
+    .posts {
+        color: var(--gray-light) !important;
+        background-color: var(--background-main) !important;
+    }
+
+    .widget > header.main {
+        color: var(--gray-light) !important;
+        background: var(--gray-darker) !important;
+        border-bottom: 1px solid var(--primary-color) !important;
+        box-shadow: 0 4px 12px #00000073 !important;
+
+        & :is(.title, .external-link, .close, .header-nav, span) {
+            color: var(--gray-light) !important;
+            background-color: transparent !important;
+        }
+
+        & :is(.external-link, .close, .ank-button) svg {
+            color: inherit !important;
+            fill: currentcolor !important;
+        }
+
+        & .close:hover,
+        & .close:focus-visible {
+            outline: 2px solid var(--primary-color) !important;
+            outline-offset: 2px;
+            background-color: var(--gray-dark) !important;
+        }
+    }
+
+    .header-nav .ank-button {
+        color: var(--gray-light) !important;
+        background-color: var(--primary-color-darker) !important;
+        border: 1px solid var(--primary-color) !important;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--color-black) !important;
+            outline: 2px solid var(--primary-color) !important;
+            outline-offset: 2px;
+            background-color: var(--primary-color) !important;
+        }
+    }
+
+    #widget .widget .post {
+        color: var(--gray-light) !important;
+        background-color: var(--background-main) !important;
+        border-bottom: 1px solid var(--gray-dark) !important;
+        box-shadow: none !important;
+
+        & :is(
+            .post-header,
+            .labels,
+            .time,
+            .post-body,
+            .img-wrapper,
+            .feedback,
+            .fast-reactions,
+            .line-form
+        ) {
+            background-color: transparent !important;
+        }
+
+        & h1.title {
+            color: var(--gray-light) !important;
+            background-color: transparent !important;
+        }
+
+        & .time {
+            color: var(--gray-alternate) !important;
+        }
+
+        & .post-body {
+            color: var(--gray-light) !important;
+
+            & :is(div, p, ul, ol, li, h2, h3, h4, strong, span) {
+                color: inherit !important;
+                background-color: transparent !important;
+            }
+
+            & a {
+                color: var(--secondary-color) !important;
+                background-color: transparent !important;
+
+                &:hover,
+                &:focus-visible {
+                    color: var(--primary-color) !important;
+                    outline: 2px solid var(--primary-color) !important;
+                    outline-offset: 2px;
+                }
+            }
+
+            & blockquote,
+            & pre,
+            & code {
+                color: var(--gray-light) !important;
+                background-color: var(--gray-darker) !important;
+                border-color: var(--gray-dark) !important;
+            }
+
+            & .img-wrapper,
+            & .img-wrapper img,
+            & video {
+                background-color: transparent !important;
+            }
+        }
+    }
+
+    .feedback {
+        color: var(--gray-light) !important;
+        border-top-color: var(--gray-dark) !important;
+    }
+
+    .line-form {
+        & textarea {
+            color: var(--gray-light) !important;
+            caret-color: var(--primary-color);
+            background-color: var(--gray-darker) !important;
+            border-color: var(--gray-dark) !important;
+
+            &:focus {
+                outline: 2px solid var(--primary-color) !important;
+                outline-offset: 1px;
+                border-color: var(--primary-color) !important;
+            }
+        }
+
+        & button[type="submit"] {
+            color: var(--primary-color) !important;
+            background-color: transparent !important;
+
+            & svg {
+                fill: currentcolor !important;
+            }
+        }
+    }
+
+    footer {
+        color: var(--gray-alternate) !important;
+        background-color: var(--gray-darker) !important;
+        border-top: 1px solid var(--gray-dark) !important;
+        box-shadow: 0 -4px 12px #00000073 !important;
+
+        & a {
+            color: var(--gray-alternate) !important;
+            background-color: transparent !important;
+
+            &:hover,
+            &:focus-visible {
+                color: var(--primary-color) !important;
+                outline: 2px solid var(--primary-color) !important;
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    * {
+        scrollbar-color: var(--primary-color) var(--background-main);
+        scrollbar-width: thin;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--background-main);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--primary-color);
+        border: 2px solid var(--background-main);
+        border-radius: 10px;
     }
 }
 
