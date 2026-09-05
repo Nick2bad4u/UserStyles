@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           LLIFLE - Botanical Black
 @namespace      nick2bad4u.github.io
-@version        1.0.2
+@version        1.0.3
 @description    A polished true-black LLIFLE theme for plant encyclopedias, taxon sheets, galleries, forms, and responsive layouts that preserves botanical photography.
 @author         Nick2bad4u
 @license        UnLicense
@@ -12,7 +12,7 @@
 @var color accent-color "Botanical accent" #79c85b
 @preprocessor   default
 ==/UserStyle== */
-@-moz-document domain("llifle.com") {
+@-moz-document domain("llifle.com"), domain("llifle.net"), domain("llifle.info") {
     :root {
         color-scheme: dark !important;
         background-color: #000000 !important;

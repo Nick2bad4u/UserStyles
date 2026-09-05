@@ -54,3 +54,5 @@ sonar-project.properties
 
 # TOML formatting and linting are owned by the repository-pinned Tombi rules.
 *.toml
+
+!LLIFLE-Botanical-Black.user.css
