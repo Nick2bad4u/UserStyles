@@ -1,6 +1,6 @@
 ﻿/* ==UserStyle==
 @name         Black Ollama
-@version      1.0.0
+@version      1.0.1
 @namespace    nick2bad4u.github.io
 @description  Black Ollama Theme
 @author       Nick2bad4u
@@ -10,7 +10,7 @@
 @downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Ollama-Black.user.css
 @updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Ollama-Black.user.css
 ==/UserStyle== */
-@-moz-document url-prefix("https://ollama.com/")
+@-moz-document domain("ollama.com")
 {
     body,
     main,
