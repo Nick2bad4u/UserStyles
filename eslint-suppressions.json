@@ -1,182 +1,182 @@
 {
-    ".github/workflows/Snake.yml": {
-        "github-actions/require-action-run-name": {
-            "count": 1
-        },
-        "github-actions/require-job-name": {
-            "count": 1
-        },
-        "github-actions/require-workflow-concurrency": {
-            "count": 1
-        }
+  ".github/workflows/Snake.yml": {
+    "github-actions/require-action-run-name": {
+      "count": 1
     },
-    ".github/workflows/ci.yml": {
-        "github-actions/require-action-run-name": {
-            "count": 1
-        },
-        "github-actions/require-job-timeout-minutes": {
-            "count": 1
-        },
-        "github-actions/require-merge-group-trigger": {
-            "count": 1
-        },
-        "github-actions/require-run-step-timeout": {
-            "count": 1
-        }
+    "github-actions/require-job-name": {
+      "count": 1
     },
-    ".github/workflows/codeql.yml": {
-        "github-actions/prefer-fail-fast": {
-            "count": 1
-        },
-        "github-actions/require-action-run-name": {
-            "count": 1
-        },
-        "github-actions/require-job-timeout-minutes": {
-            "count": 1
-        },
-        "github-actions/require-merge-group-trigger": {
-            "count": 1
-        },
-        "github-actions/require-workflow-concurrency": {
-            "count": 1
-        }
-    },
-    ".github/workflows/greetings.yml": {
-        "github-actions/require-action-run-name": {
-            "count": 1
-        },
-        "github-actions/require-job-name": {
-            "count": 1
-        },
-        "github-actions/require-job-timeout-minutes": {
-            "count": 1
-        },
-        "github-actions/require-pull-request-target-branches": {
-            "count": 1
-        },
-        "github-actions/require-trigger-types": {
-            "count": 1
-        },
-        "github-actions/require-workflow-concurrency": {
-            "count": 1
-        }
-    },
-    ".github/workflows/main.yml": {
-        "github-actions/require-action-run-name": {
-            "count": 1
-        },
-        "github-actions/require-job-name": {
-            "count": 2
-        },
-        "github-actions/require-job-timeout-minutes": {
-            "count": 2
-        }
-    },
-    ".github/workflows/rebase.yml": {
-        "github-actions/require-action-run-name": {
-            "count": 1
-        },
-        "github-actions/require-job-timeout-minutes": {
-            "count": 1
-        }
-    },
-    ".github/workflows/repo-stats.yml": {
-        "github-actions/require-action-run-name": {
-            "count": 1
-        },
-        "github-actions/require-job-name": {
-            "count": 1
-        },
-        "github-actions/require-job-timeout-minutes": {
-            "count": 1
-        },
-        "github-actions/require-merge-group-trigger": {
-            "count": 1
-        },
-        "github-actions/require-workflow-concurrency": {
-            "count": 1
-        },
-        "github-actions/require-workflow-permissions": {
-            "count": 1
-        }
-    },
-    "AscentDescentMetersToFeet.user.js": {
-        "no-unsanitized/property": {
-            "count": 3
-        }
-    },
-    "MergeDependabotPRs.user.js": {
-        "no-unsanitized/property": {
-            "count": 1
-        }
-    },
-    "OSRSWikiAuto-Categorizer-SlowMode.user.js": {
-        "no-unsanitized/property": {
-            "count": 1
-        }
-    },
-    "OSRSWikiAuto-Categorizer.user.js": {
-        "no-unsanitized/property": {
-            "count": 1
-        }
-    },
-    "OSRSWikiAuto-Navbox-SlowMode.user.js": {
-        "no-unsanitized/property": {
-            "count": 1
-        }
-    },
-    "SuperchargedLocalDirectoryWebUI.user.js": {
-        "no-constant-binary-expression": {
-            "count": 1
-        },
-        "no-unreachable": {
-            "count": 3
-        },
-        "no-unsanitized/method": {
-            "count": 16
-        },
-        "no-unsanitized/property": {
-            "count": 20
-        },
-        "no-useless-assignment": {
-            "count": 25
-        },
-        "userscripts/no-invalid-metadata": {
-            "count": 1
-        }
-    },
-    "reddit-stream-Enhancements.user.js": {
-        "no-unsanitized/property": {
-            "count": 1
-        }
-    },
-    "src/utils/colorUtils.cjs": {
-        "prefer-named-capture-group": {
-            "count": 1
-        },
-        "regexp/no-unused-capturing-group": {
-            "count": 1
-        },
-        "regexp/prefer-named-capture-group": {
-            "count": 1
-        },
-        "unicorn/filename-case": {
-            "count": 1
-        }
-    },
-    "src/utils/cyclingMath.cjs": {
-        "unicorn/filename-case": {
-            "count": 1
-        }
-    },
-    "src/utils/unitConversions.cjs": {
-        "unicorn/filename-case": {
-            "count": 1
-        }
-    },
-    "stylelint.config.mjs": {
-        "@typescript-eslint/prefer-nullish-coalescing": {
-            "count": 1
-        }
+    "github-actions/require-workflow-concurrency": {
+      "count": 1
     }
+  },
+  ".github/workflows/ci.yml": {
+    "github-actions/require-action-run-name": {
+      "count": 1
+    },
+    "github-actions/require-job-timeout-minutes": {
+      "count": 1
+    },
+    "github-actions/require-merge-group-trigger": {
+      "count": 1
+    },
+    "github-actions/require-run-step-timeout": {
+      "count": 1
+    }
+  },
+  ".github/workflows/codeql.yml": {
+    "github-actions/prefer-fail-fast": {
+      "count": 1
+    },
+    "github-actions/require-action-run-name": {
+      "count": 1
+    },
+    "github-actions/require-job-timeout-minutes": {
+      "count": 1
+    },
+    "github-actions/require-merge-group-trigger": {
+      "count": 1
+    },
+    "github-actions/require-workflow-concurrency": {
+      "count": 1
+    }
+  },
+  ".github/workflows/greetings.yml": {
+    "github-actions/require-action-run-name": {
+      "count": 1
+    },
+    "github-actions/require-job-name": {
+      "count": 1
+    },
+    "github-actions/require-job-timeout-minutes": {
+      "count": 1
+    },
+    "github-actions/require-pull-request-target-branches": {
+      "count": 1
+    },
+    "github-actions/require-trigger-types": {
+      "count": 1
+    },
+    "github-actions/require-workflow-concurrency": {
+      "count": 1
+    }
+  },
+  ".github/workflows/main.yml": {
+    "github-actions/require-action-run-name": {
+      "count": 1
+    },
+    "github-actions/require-job-name": {
+      "count": 2
+    },
+    "github-actions/require-job-timeout-minutes": {
+      "count": 1
+    }
+  },
+  ".github/workflows/rebase.yml": {
+    "github-actions/require-action-run-name": {
+      "count": 1
+    },
+    "github-actions/require-job-timeout-minutes": {
+      "count": 1
+    }
+  },
+  ".github/workflows/repo-stats.yml": {
+    "github-actions/require-action-run-name": {
+      "count": 1
+    },
+    "github-actions/require-job-name": {
+      "count": 1
+    },
+    "github-actions/require-job-timeout-minutes": {
+      "count": 1
+    },
+    "github-actions/require-merge-group-trigger": {
+      "count": 1
+    },
+    "github-actions/require-workflow-concurrency": {
+      "count": 1
+    },
+    "github-actions/require-workflow-permissions": {
+      "count": 1
+    }
+  },
+  "AscentDescentMetersToFeet.user.js": {
+    "no-unsanitized/property": {
+      "count": 3
+    }
+  },
+  "MergeDependabotPRs.user.js": {
+    "no-unsanitized/property": {
+      "count": 1
+    }
+  },
+  "OSRSWikiAuto-Categorizer-SlowMode.user.js": {
+    "no-unsanitized/property": {
+      "count": 1
+    }
+  },
+  "OSRSWikiAuto-Categorizer.user.js": {
+    "no-unsanitized/property": {
+      "count": 1
+    }
+  },
+  "OSRSWikiAuto-Navbox-SlowMode.user.js": {
+    "no-unsanitized/property": {
+      "count": 1
+    }
+  },
+  "SuperchargedLocalDirectoryWebUI.user.js": {
+    "no-constant-binary-expression": {
+      "count": 1
+    },
+    "no-unreachable": {
+      "count": 3
+    },
+    "no-unsanitized/method": {
+      "count": 16
+    },
+    "no-unsanitized/property": {
+      "count": 20
+    },
+    "no-useless-assignment": {
+      "count": 25
+    },
+    "userscripts/no-invalid-metadata": {
+      "count": 1
+    }
+  },
+  "reddit-stream-Enhancements.user.js": {
+    "no-unsanitized/property": {
+      "count": 1
+    }
+  },
+  "src/utils/colorUtils.cjs": {
+    "prefer-named-capture-group": {
+      "count": 1
+    },
+    "regexp/no-unused-capturing-group": {
+      "count": 1
+    },
+    "regexp/prefer-named-capture-group": {
+      "count": 1
+    },
+    "unicorn/filename-case": {
+      "count": 1
+    }
+  },
+  "src/utils/cyclingMath.cjs": {
+    "unicorn/filename-case": {
+      "count": 1
+    }
+  },
+  "src/utils/unitConversions.cjs": {
+    "unicorn/filename-case": {
+      "count": 1
+    }
+  },
+  "stylelint.config.mjs": {
+    "@typescript-eslint/prefer-nullish-coalescing": {
+      "count": 1
+    }
+  }
 }
