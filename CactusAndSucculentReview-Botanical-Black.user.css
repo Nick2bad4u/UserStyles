@@ -1,0 +1,317 @@
+/* ==UserStyle==
+@name           Cactus and Succulent Review - Botanical Black
+@namespace      nick2bad4u.github.io
+@version        1.0.0
+@description    A true-black reading theme for Cactus and Succulent Review, with botanical green accents, dark issue archives and forms, accessible menus, and original magazine photography.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/CactusAndSucculentReview-Botanical-Black.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/CactusAndSucculentReview-Botanical-Black.user.css
+@var color accent-color "Botanical accent" #79c85b
+@preprocessor   default
+==/UserStyle== */
+@-moz-document domain("cactusandsucculentreview.org.uk") {
+    :root {
+        color-scheme: dark !important;
+
+        --csr-black-bg: #000000;
+        --csr-black-surface: #080b08;
+        --csr-black-raised: #101710;
+        --csr-black-hover: #192719;
+        --csr-black-border: #293529;
+        --csr-black-text: #f1f6ef;
+        --csr-black-muted: #bdc9b9;
+        --csr-black-accent: var(--accent-color, #79c85b);
+        --csr-black-link: color-mix(in srgb, var(--csr-black-accent) 70%, #ffffff);
+        --csr-black-visited: #c9a9ff;
+    }
+
+    html,
+    body,
+    .main-wrapper {
+        color: var(--csr-black-text) !important;
+        background-color: var(--csr-black-bg) !important;
+    }
+
+    body {
+        font-family: ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+        line-height: 1.75;
+        accent-color: var(--csr-black-accent);
+        scrollbar-color: #405240 var(--csr-black-bg);
+    }
+
+    ::selection {
+        color: #000000;
+        background: var(--csr-black-link);
+    }
+
+    /* These JPEG mastheads have white pixels baked into the artwork. Restrict
+       inversion to the logos and tiny arrow icons, never covers or plant photos. */
+    img[src$="/csr-logo.jpg"],
+    img[src$="/csr-logo-mobile.jpg"],
+    img[src$="/black-arrow.png"],
+    img[src$="/linkarrow.png"],
+    img[src$="/linkarrow-right.gif"] {
+        mix-blend-mode: screen;
+        filter: invert(1) hue-rotate(180deg) brightness(2.5) saturate(0.4);
+    }
+
+    .main-wrapper > img {
+        margin-bottom: 10px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .gabriella-crosshead {
+        font-family: Georgia, "Times New Roman", ui-serif, serif;
+        line-height: 1.375;
+        color: var(--csr-black-link) !important;
+        text-wrap: balance;
+    }
+
+    p,
+    li,
+    td,
+    label {
+        overflow-wrap: anywhere;
+    }
+
+    p {
+        margin-bottom: 0.8em;
+    }
+
+    a:link {
+        color: var(--csr-black-link) !important;
+        text-decoration: underline;
+        text-decoration-color: color-mix(in srgb, currentcolor 50%, transparent);
+        text-underline-offset: 0.18em;
+    }
+
+    a:visited {
+        color: var(--csr-black-visited) !important;
+    }
+
+    a:hover,
+    a:focus-visible {
+        color: var(--csr-black-text) !important;
+        text-decoration-color: currentcolor;
+    }
+
+    .runner {
+        padding-block: 9px;
+        margin-block: 12px 18px;
+        color: var(--csr-black-muted) !important;
+        border-color: var(--csr-black-border) !important;
+
+        & ul {
+            margin: 0;
+        }
+
+        & li {
+            float: none;
+            padding: 0;
+            font-size: 0.875em;
+        }
+    }
+
+    .bannerpic {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .esr-green,
+    .w3-white,
+    .bgwhite,
+    .bgblue,
+    .subscribe,
+    .w3-dropdown-content,
+    .w3-modal-content,
+    .w3-card,
+    .w3-card-4,
+    .rulebox,
+    #mc_embed_signup {
+        color: var(--csr-black-text) !important;
+        background-color: var(--csr-black-surface) !important;
+        border-color: var(--csr-black-border) !important;
+    }
+
+    .w3-bar.esr-green {
+        border: 1px solid var(--csr-black-border);
+        border-radius: 0 0 10px 10px;
+    }
+
+    .w3-bar a,
+    .w3-bar button,
+    .w3-button {
+        color: var(--csr-black-link) !important;
+        text-decoration: none !important;
+        background-color: var(--csr-black-surface) !important;
+    }
+
+    .w3-bar a:hover,
+    .w3-bar a:focus-visible,
+    .w3-button:hover,
+    .w3-button:focus-visible,
+    .w3-dropdown-hover:hover > .w3-button,
+    .w3-dropdown-hover:focus-within > .w3-button {
+        color: var(--csr-black-text) !important;
+        background-color: var(--csr-black-hover) !important;
+    }
+
+    .w3-dropdown-content {
+        max-height: 70vh;
+        overflow-y: auto;
+        border: 1px solid var(--csr-black-border);
+        border-radius: 6px;
+        box-shadow: 0 14px 36px #000000b3;
+
+        /* W3's hover-only archive menu also opens for keyboard users. */
+        .w3-dropdown-hover:focus-within > & {
+            display: block;
+        }
+    }
+
+    .panelheader,
+    .current-issue,
+    .month {
+        height: auto !important;
+        min-height: 32px;
+        padding: 9px 12px;
+        color: var(--csr-black-link) !important;
+        background-color: var(--csr-black-raised) !important;
+        border: 1px solid var(--csr-black-border);
+        border-left: 3px solid var(--csr-black-accent);
+    }
+
+    .panelheader {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .rulebox {
+        padding: 16px;
+        border-radius: 10px;
+
+        .panelheader + & {
+            border-top: 0;
+            border-radius: 0 0 10px 10px;
+        }
+    }
+
+    .description,
+    .caption,
+    .back-issue-month,
+    .copyright,
+    .picrightborder,
+    .picleftborder,
+    .cover-pic,
+    hr {
+        border-color: var(--csr-black-border) !important;
+    }
+
+    .author,
+    .caption,
+    .slide-caption,
+    .copyright {
+        color: var(--csr-black-muted) !important;
+    }
+
+    .green,
+    .blue {
+        color: var(--csr-black-link) !important;
+    }
+
+    /* Replace the fixed-size bitmap button, not the downloadable PDF artwork. */
+    .downloadbutton {
+        width: fit-content;
+        max-width: 100%;
+        height: auto;
+        padding: 0;
+        text-indent: 0;
+        background: none;
+
+        & a {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        padding: 5px 20px;
+        font-weight: 650;
+        color: #000000 !important;
+        text-decoration: none;
+        background-color: var(--csr-black-accent);
+        border: 1px solid var(--csr-black-accent);
+        border-radius: 7px;
+
+        &::before {
+            content: "↓";
+        }
+
+        &:hover,
+        &:focus-visible {
+            background-color: var(--csr-black-link);
+            border-color: var(--csr-black-link);
+        }
+        }
+    }
+
+    input:not([type="submit"], [type="button"], [type="checkbox"], [type="radio"]),
+    textarea,
+    select {
+        box-sizing: border-box;
+        max-width: 100%;
+        padding: 10px 12px;
+        color: var(--csr-black-text) !important;
+        background-color: var(--csr-black-raised) !important;
+        border: 1px solid var(--csr-black-border) !important;
+        border-radius: 6px;
+    }
+
+    input[type="submit"],
+    input[type="button"],
+    #mc_embed_signup .button {
+        color: #000000 !important;
+        background-color: var(--csr-black-accent) !important;
+        border-color: var(--csr-black-accent) !important;
+    }
+
+    ::placeholder {
+        color: var(--csr-black-muted) !important;
+        opacity: 1;
+    }
+
+    .footer {
+        height: auto;
+        padding: 16px;
+        font-size: 1.25em;
+        color: var(--csr-black-link) !important;
+        background-color: var(--csr-black-surface) !important;
+        border-top: 1px solid var(--csr-black-border);
+    }
+
+    :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+        outline: 2px solid var(--csr-black-link) !important;
+        outline-offset: 3px !important;
+    }
+
+    @media (width <= 600px) {
+        .main-wrapper {
+            padding-inline: 8px;
+        }
+
+        h1 {
+            font-size: 1.75em;
+        }
+
+        .runner {
+            margin-inline: 16px;
+        }
+
+        .w3-bar.esr-green {
+            border-radius: 8px;
+        }
+    }
+}

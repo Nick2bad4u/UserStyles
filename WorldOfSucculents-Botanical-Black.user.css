@@ -1,0 +1,379 @@
+/* ==UserStyle==
+@name           World of Succulents - Botanical Black
+@namespace      nick2bad4u.github.io
+@version        1.0.0
+@description    A true-black botanical theme with customizable green accents, readable plant profiles, dark navigation and search, and natural, unfiltered photography.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/WorldOfSucculents-Botanical-Black.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/WorldOfSucculents-Botanical-Black.user.css
+@var color accent-color "Botanical accent" #79c85b
+@preprocessor   default
+==/UserStyle== */
+@-moz-document domain("worldofsucculents.com") {
+    :root {
+        color-scheme: dark !important;
+
+        --wos-black-bg: #000000;
+        --wos-black-surface: #080b08;
+        --wos-black-raised: #101710;
+        --wos-black-hover: #192719;
+        --wos-black-border: #293529;
+        --wos-black-text: #f1f6ef;
+        --wos-black-muted: #bdc9b9;
+        --wos-black-accent: var(--accent-color, #79c85b);
+        --wos-black-link: color-mix(in srgb, var(--wos-black-accent) 70%, #ffffff);
+        --wos-black-visited: #c9a9ff;
+    }
+
+    /* SmartMag resets its palette inside light/dark sections as well as :root.
+       Override those native tokens so either site appearance setting works. */
+    :root,
+    .s-dark,
+    .s-light,
+    .is-light,
+    .smart-head,
+    .navigation {
+        --c-main: var(--wos-black-accent) !important;
+        --c-links: var(--wos-black-link) !important;
+        --c-a-hover: var(--wos-black-text) !important;
+        --c-headings: var(--wos-black-text) !important;
+        --c-excerpts: var(--wos-black-muted) !important;
+        --c-post-meta: var(--wos-black-muted) !important;
+        --c-separator: var(--wos-black-border) !important;
+        --c-separator2: var(--wos-black-border) !important;
+        --c-sidebar-sep: var(--wos-black-border) !important;
+        --c-input-bg: var(--wos-black-raised) !important;
+        --c-nav: var(--wos-black-text) !important;
+        --c-nav-drop-bg: var(--wos-black-raised) !important;
+        --c-nav-drop-sep: var(--wos-black-border) !important;
+        --c-nav-hov-bg: var(--wos-black-hover) !important;
+        --c-nav-blip: var(--wos-black-accent) !important;
+        --c-rgba: 241, 246, 239 !important;
+        --c-contrast-0: var(--wos-black-bg) !important;
+        --c-contrast-10: var(--wos-black-surface) !important;
+        --c-contrast-50: var(--wos-black-surface) !important;
+        --c-contrast-75: var(--wos-black-raised) !important;
+        --c-contrast-100: var(--wos-black-raised) !important;
+        --c-contrast-125: var(--wos-black-border) !important;
+        --c-contrast-150: var(--wos-black-border) !important;
+        --c-contrast-200: #405240 !important;
+        --c-contrast-300: #71806d !important;
+        --c-contrast-400: #99a795 !important;
+        --c-contrast-450: #a8b4a4 !important;
+        --c-contrast-500: var(--wos-black-muted) !important;
+        --c-contrast-600: var(--wos-black-muted) !important;
+        --c-contrast-650: var(--wos-black-muted) !important;
+        --c-contrast-700: var(--wos-black-text) !important;
+        --c-contrast-800: var(--wos-black-text) !important;
+        --c-contrast-850: var(--wos-black-text) !important;
+        --c-contrast-900: var(--wos-black-text) !important;
+        --c-contrast: var(--wos-black-text) !important;
+        --footer-bg: var(--wos-black-bg) !important;
+        --footer-lower-bg: var(--wos-black-surface) !important;
+    }
+
+    html,
+    body,
+    .main-wrap,
+    .main-content,
+    .main-footer {
+        color: var(--wos-black-text) !important;
+        background-color: var(--wos-black-bg) !important;
+    }
+
+    body {
+        accent-color: var(--wos-black-accent);
+        scrollbar-color: #405240 var(--wos-black-bg);
+    }
+
+    ::selection {
+        color: #000000;
+        background: var(--wos-black-link);
+    }
+
+    a {
+        text-decoration-color: color-mix(in srgb, currentcolor 55%, transparent);
+        text-underline-offset: 0.18em;
+
+        .post-content &,
+        .textwidget & {
+            color: var(--wos-black-link) !important;
+            text-decoration: underline;
+
+            &:visited {
+                color: var(--wos-black-visited) !important;
+            }
+
+            &:hover,
+            &:focus-visible {
+                color: var(--wos-black-text) !important;
+            }
+        }
+    }
+
+    /* A white wordmark keeps the original logo legible on a black masthead. */
+    .ts-logo .logo-image {
+        filter: brightness(0) invert(1);
+    }
+
+    .smart-head .smart-head-row,
+    .lower-footer,
+    .breadcrumbs {
+        color: var(--wos-black-muted) !important;
+        background: var(--wos-black-bg) !important;
+        border-color: var(--wos-black-border) !important;
+    }
+
+    .smart-head .smart-head-top,
+    .smart-head .smart-head-bot,
+    .lower-footer {
+        border-block: 1px solid var(--wos-black-border);
+    }
+
+    .navigation .menu,
+    .navigation .sub-menu,
+    .navigation .mega-menu,
+    .off-canvas,
+    .off-canvas-content,
+    .off-canvas-head {
+        color: var(--wos-black-text) !important;
+        background-color: var(--wos-black-surface) !important;
+        border-color: var(--wos-black-border) !important;
+    }
+
+    .navigation a,
+    .mobile-menu a,
+    .smart-head a,
+    .off-canvas .close {
+        color: var(--wos-black-text) !important;
+    }
+
+    .navigation .menu > li > a:hover,
+    .navigation .menu > li > a:focus-visible,
+    .navigation .sub-menu a:hover,
+    .navigation .sub-menu a:focus-visible,
+    .mobile-menu a:hover,
+    .mobile-menu a:focus-visible,
+    .navigation .current-menu-item > a,
+    .mobile-menu .current-menu-item > a {
+        color: var(--wos-black-link) !important;
+        background-color: var(--wos-black-hover) !important;
+    }
+
+    .block-head,
+    .widget-title,
+    .main-sidebar .widget {
+        color: var(--wos-black-text) !important;
+        border-color: var(--wos-black-border) !important;
+    }
+
+    .block-head {
+        --c-block: var(--wos-black-accent) !important;
+
+        background-color: var(--wos-black-surface) !important;
+
+        & .heading,
+        & .heading a {
+            color: var(--wos-black-link) !important;
+        }
+    }
+
+    .main-sidebar .widget {
+        padding: 18px;
+        background-color: var(--wos-black-surface) !important;
+        border: 1px solid var(--wos-black-border);
+        border-radius: 10px;
+
+        & a:hover,
+        & a:focus-visible {
+            color: var(--wos-black-text) !important;
+        }
+    }
+
+    .grid-post > .content {
+        padding: 18px;
+        background-color: var(--wos-black-surface) !important;
+        border: 1px solid var(--wos-black-border);
+        border-top: 0;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .grid-post .media {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .grid-post:hover > .content,
+    .grid-post:focus-within > .content {
+        border-color: var(--wos-black-accent);
+    }
+
+    /* Hero text overlays stay transparent; do not recolor photo/background spans. */
+    .meta-contrast,
+    .meta-contrast .post-title,
+    .meta-contrast .post-title a,
+    .meta-contrast .post-date {
+        color: #ffffff !important;
+        text-shadow: 0 2px 6px #000000;
+    }
+
+    .cat-labels .category,
+    .cat-labels a.category {
+        color: #000000 !important;
+        text-shadow: none;
+        background-color: var(--wos-black-accent) !important;
+    }
+
+    .the-post-header .post-title,
+    .post-header h1,
+    .post-content h1,
+    .post-content h2,
+    .post-content h3 {
+        font-family: Georgia, "Times New Roman", ui-serif, serif;
+        color: var(--wos-black-link) !important;
+        text-wrap: balance;
+    }
+
+    .post-content {
+        font-size: 18px;
+        line-height: 1.75;
+        color: var(--wos-black-text) !important;
+
+        & :where(p, li, td, dd) {
+            overflow-wrap: anywhere;
+        }
+
+        & h2 {
+            padding-bottom: 0.4em;
+            border-bottom: 1px solid var(--wos-black-border);
+        }
+    }
+
+    .post-content figcaption,
+    .wp-caption-text,
+    .post-meta,
+    .breadcrumbs,
+    .excerpt,
+    .world-adlabel {
+        color: var(--wos-black-muted) !important;
+    }
+
+    .post-content figcaption {
+        padding: 10px 12px;
+        background-color: var(--wos-black-surface);
+        border-left: 2px solid var(--wos-black-border);
+    }
+
+    .post-content blockquote,
+    .post-content pre,
+    .post-content code,
+    .post-content table,
+    .post-content th,
+    .post-content td,
+    .tagcloud a,
+    .post-tags a,
+    .pagination a,
+    .pagination span,
+    .post-pagination,
+    .comments,
+    .comment-respond {
+        color: var(--wos-black-text) !important;
+        background-color: var(--wos-black-surface) !important;
+        border-color: var(--wos-black-border) !important;
+    }
+
+    .post-content th,
+    .post-content tr:nth-child(even) td {
+        background-color: var(--wos-black-raised) !important;
+    }
+
+    .pagination .current,
+    .pagination a:hover,
+    .pagination a:focus-visible,
+    .tagcloud a:hover,
+    .tagcloud a:focus-visible {
+        color: #000000 !important;
+        background-color: var(--wos-black-accent) !important;
+    }
+
+    /* The scientific-name directory uses its own legacy alphabet navigator. */
+    #mcTagMap #mcTagMapNav {
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: center;
+        padding: 8px;
+        background: var(--wos-black-surface) !important;
+        border-color: var(--wos-black-border) !important;
+        border-radius: 8px;
+
+        & a {
+            padding: 4px 8px;
+            border: 0;
+            border-radius: 4px;
+
+            &:hover,
+            &:focus-visible {
+                color: #000000 !important;
+                background-color: var(--wos-black-accent);
+            }
+        }
+    }
+
+    #mcTagMap .tagindex h4,
+    #sc_mcTagMap .tagindex h4 {
+        color: var(--wos-black-link) !important;
+        scroll-margin-top: 90px;
+        border-color: var(--wos-black-border) !important;
+    }
+
+    input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"]),
+    select,
+    textarea {
+        color: var(--wos-black-text) !important;
+        background-color: var(--wos-black-raised) !important;
+        border-color: var(--wos-black-border) !important;
+        border-radius: 6px;
+    }
+
+    ::placeholder {
+        color: var(--wos-black-muted) !important;
+        opacity: 1;
+    }
+
+    .search-modal-box,
+    .spc-newsletter,
+    .spc-newsletter .bg-wrap {
+        color: var(--wos-black-text) !important;
+        background: var(--wos-black-surface) !important;
+        border-color: var(--wos-black-border) !important;
+    }
+
+    button[type="submit"],
+    input[type="submit"],
+    .post-content .button,
+    .post-content .wp-block-button__link {
+        color: #000000 !important;
+        background: var(--wos-black-accent) !important;
+        border-color: var(--wos-black-accent) !important;
+        border-radius: 6px;
+    }
+
+    :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+        outline: 2px solid var(--wos-black-link) !important;
+        outline-offset: 3px !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .img,
+        .image-link,
+        .off-canvas,
+        .smart-head-row {
+            transition: none !important;
+            animation: none !important;
+        }
+    }
+}
