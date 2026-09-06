@@ -3,7 +3,7 @@
 
 // ==UserScript==
 // @name			    Supercharged Local Directory File Browser (Nick2bad4u Version)
-// @version			  8.1.7
+// @version			  8.1.8
 // @description		Makes directory index pages (either local or remote open directories) actually useful. Adds sidebar and content preview pane; keyboard navigation; sorting; light/dark UI; preview images/fonts in navigable grids; browse subdirectories w/o page reload (“tree view”); media playback, shuffle/loop options; basic playlist (m3u, extm3u) & cuesheet (.cue) support; create, edit, preview, save markdown/plain text files; open font files, view complete glyph repertoire, save glyphs as .svg; more.
 // @author		  	gaspar_schot
 // @author			  Nick2bad4u
@@ -3772,10 +3772,7 @@
 			new_index,
 			make_new_index,
 			additional_classes;
-		window.onmessage = function (e) {
-			messageReceive(e);
-			return;
-		}; // init receive messages
+		window.onmessage = messageReceive; // init receive messages
 		switch (true) {
 			case window.location.search === '': // nobreak; case is true when opening dirs from sidebar source dir
 			case (query_str.get(
@@ -3938,10 +3935,7 @@
 			true // get source text and append UI elements
 		) {
 			case !isTopWindow(): // iframe text editing UI
-				window.onmessage = function (e) {
-					messageReceive(e);
-					return false;
-				}; // init receive messages is_link
+				window.onmessage = messageReceive; // init receive messages is_link
 				getEl('head').insertAdjacentHTML(
 					'afterbegin',
 					'<meta charset="utf-8" /><meta http-equiv="Content-Type" content="text/plain; charset="utf-8">',
@@ -4414,10 +4408,7 @@
 	}
 	function initBaseEvents() {
 		// ===> INIT BASE EVENT LISTENERS: minimal listeners needed for error pages
-		window.onmessage = function (e) {
-			messageReceive(e);
-			return false;
-		}; // init receive messages
+		window.onmessage = messageReceive; // init receive messages
 		document.body.onclick = function () {
 			menuClose();
 		}; // close menu click
@@ -13719,8 +13710,31 @@
 				break;
 		}
 	}
+	function isManagedMessageSource(source) {
+		if (!source) return false;
+		if (window.parent !== window && source === window.parent) return true;
+		return ['content_iframe', 'content_iframe_utility'].some((id) => {
+			const frame = document.getElementById(id);
+			if (!frame || source !== frame.contentWindow) return false;
+			const frameUrl = new URL(frame.src || 'about:blank', window.location.href);
+			if (window.location.protocol === 'file:') {
+				return frameUrl.protocol === 'file:' || frameUrl.href === 'about:blank';
+			}
+			return frameUrl.origin === window.location.origin;
+		});
+	}
 	function messageReceive(e) {
 		// ===> RECEIVE MESSAGE from iframe or parent, do appropriate action
+		// Local files have opaque origins. Never accept them on an HTTP page,
+		// and always bind messages to our parent or an explicitly managed frame.
+		if (e.origin !== window.location.origin ||
+			(e.origin === 'null' && window.location.protocol !== 'file:')) {
+			return;
+		}
+		if (!isManagedMessageSource(e.source) || !e.data ||
+			typeof e.data !== 'object' || typeof e.data.messageContent !== 'string') {
+			return;
+		}
 		if (
 			e.data.messageContent === 'iframe_loaded'
 		) {
@@ -13730,10 +13744,7 @@
 				true,
 				e.data.arguments,
 			);
-		} else if (
-			e.origin === 'null' ||
-			e.origin === origin
-		) {
+		} else {
 			let message = e.data.messageContent,
 				args = e.data.arguments;
 			switch (message) {

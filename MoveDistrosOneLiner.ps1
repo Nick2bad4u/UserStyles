@@ -5,7 +5,7 @@ foreach ($d in $distros) {
     wsl --import $d "E:\WSL\$d" "E:\WSL\$d-backup.tar"
     Remove-Item "E:\WSL\$d-backup.tar"
     $wslConf = "E:\WSL\$d\etc\wsl.conf"
-    if (! (Test-Path $wslConf)) {
+    if (-not (Test-Path $wslConf)) {
         New-Item -ItemType File -Path $wslConf -Force | Out-Null
     }
     Add-Content -Path $wslConf -Value "`n[user]`ndefault=nick2bad4u"

@@ -17,14 +17,11 @@
  *   `0`.
  */
 function metersToFeet(meters) {
-    if (
-        meters === null ||
-        meters === "" ||
-        isNaN(/** @type {number} */ (meters))
-    ) {
+    const value = Number(meters);
+    if (meters === null || meters === "" || Number.isNaN(value)) {
         return 0;
     }
-    return /** @type {number} */ (meters * 3.28084).toFixed(2);
+    return (value * 3.28084).toFixed(2);
 }
 
 /**

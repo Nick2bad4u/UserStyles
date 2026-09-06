@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     null,
                     2
                 );
-                console.log("Cookies exported:", data.steamCookies);
+                console.log("Cookies exported");
             }
         });
     });
@@ -139,15 +139,35 @@ document.addEventListener("DOMContentLoaded", function () {
                         chrome.runtime.lastError
                     );
                 } else {
-                    console.log("Cookies imported:", cookies);
+                    console.log("Cookies imported");
                     refreshCookies();
                 }
             });
-        } catch (error) {
-            console.error("Error parsing cookies for import:", error);
+        } catch {
+            console.error("Invalid cookie import JSON");
         }
     });
 });
+
+// Render only the requested values; never log authentication cookies.
+function renderCookies(cookies = {}) {
+    for (const group of ["store", "community"]) {
+        const entries = Array.isArray(cookies[group]) ? cookies[group] : [];
+        for (const [name, suffix] of [
+            ["steamLoginSecure", "SteamLoginSecure"],
+            ["sessionid", "Sessionid"],
+        ]) {
+            document.getElementById(`${group}${suffix}`).value =
+                entries.find((cookie) => cookie?.name === name)?.value ??
+                "Not found";
+        }
+    }
+    const fetched = cookies.lastFetched
+        ? new Date(cookies.lastFetched).toLocaleString()
+        : "N/A";
+    document.getElementById("lastFetched").textContent =
+        `Last fetched: ${fetched}`;
+}
 
 // Function to refresh and display cookies
 function refreshCookies() {
@@ -155,45 +175,7 @@ function refreshCookies() {
         if (chrome.runtime.lastError) {
             console.error("Error getting cookies:", chrome.runtime.lastError);
         } else {
-            const { store, community, lastFetched } = data.steamCookies || {};
-
-            const storeSteamLoginSecure = store
-                ? store.find((cookie) => cookie.name === "steamLoginSecure")
-                : null;
-            const storeSessionid = store
-                ? store.find((cookie) => cookie.name === "sessionid")
-                : null;
-            const communitySteamLoginSecure = community
-                ? community.find((cookie) => cookie.name === "steamLoginSecure")
-                : null;
-            const communitySessionid = community
-                ? community.find((cookie) => cookie.name === "sessionid")
-                : null;
-
-            document.getElementById("storeSteamLoginSecure").value =
-                storeSteamLoginSecure
-                    ? storeSteamLoginSecure.value
-                    : "Not found";
-            document.getElementById("storeSessionid").value = storeSessionid
-                ? storeSessionid.value
-                : "Not found";
-            document.getElementById("communitySteamLoginSecure").value =
-                communitySteamLoginSecure
-                    ? communitySteamLoginSecure.value
-                    : "Not found";
-            document.getElementById("communitySessionid").value =
-                communitySessionid ? communitySessionid.value : "Not found";
-            document.getElementById("lastFetched").textContent =
-                `Last fetched: ${lastFetched ? new Date(lastFetched).toLocaleString() : "N/A"}`;
-
-            console.log("Store cookies fetched:", {
-                storeSteamLoginSecure,
-                storeSessionid,
-            });
-            console.log("Community cookies fetched:", {
-                communitySteamLoginSecure,
-                communitySessionid,
-            });
+            renderCookies(data.steamCookies ?? {});
         }
     });
 }
@@ -201,42 +183,7 @@ function refreshCookies() {
 // Update cookies in UI in real-time
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "updateCookies") {
-        const { store, community, lastFetched } = request.cookies;
-
-        const storeSteamLoginSecure = store.find(
-            (cookie) => cookie.name === "steamLoginSecure"
-        );
-        const storeSessionid = store.find(
-            (cookie) => cookie.name === "sessionid"
-        );
-        const communitySteamLoginSecure = community.find(
-            (cookie) => cookie.name === "steamLoginSecure"
-        );
-        const communitySessionid = community.find(
-            (cookie) => cookie.name === "sessionid"
-        );
-
-        document.getElementById("storeSteamLoginSecure").value =
-            storeSteamLoginSecure ? storeSteamLoginSecure.value : "Not found";
-        document.getElementById("storeSessionid").value = storeSessionid
-            ? storeSessionid.value
-            : "Not found";
-        document.getElementById("communitySteamLoginSecure").value =
-            communitySteamLoginSecure
-                ? communitySteamLoginSecure.value
-                : "Not found";
-        document.getElementById("communitySessionid").value = communitySessionid
-            ? communitySessionid.value
-            : "Not found";
-        document.getElementById("lastFetched").textContent =
-            `Last fetched: ${new Date(lastFetched).toLocaleString()}`;
-
-        console.log("Cookies updated in real-time:", {
-            storeSteamLoginSecure,
-            storeSessionid,
-            communitySteamLoginSecure,
-            communitySessionid,
-        });
+        renderCookies(request.cookies ?? {});
         sendResponse({ status: "updated" });
     }
 });

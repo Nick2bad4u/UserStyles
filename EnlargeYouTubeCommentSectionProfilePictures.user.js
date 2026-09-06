@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Enlarge YouTube Comment Profile Pictures
 // @namespace    nick2bad4u.github.io
-// @version      3.0.0
+// @version      3.0.1
 // @description  Shows configurable HD previews for comment and creator-heart avatars; use this comments-only script or the combined script, not both.
 // @author       Nick2bad4u
 // @homepageURL  https://github.com/Nick2bad4u/UserStyles
@@ -1015,8 +1015,7 @@ void (async function () {
             commentRoot
         );
         if (
-            heartRoot &&
-            heartRoot.closest(COMMENT_ROOT_SELECTOR) === commentRoot
+            heartRoot?.closest(COMMENT_ROOT_SELECTOR) === commentRoot
         ) {
             const image = findAvatarImage(heartRoot, target);
             if (!image) return null;
@@ -1055,7 +1054,7 @@ void (async function () {
 
         if (!authorRoot) return null;
         const image = findAvatarImage(authorRoot, target);
-        if (!image || image.closest(COMMENT_ROOT_SELECTOR) !== commentRoot)
+        if (image?.closest(COMMENT_ROOT_SELECTOR) !== commentRoot)
             return null;
         return createAvatarDescriptor(
             authorRoot,
@@ -1101,8 +1100,8 @@ void (async function () {
         const candidates = [
             image.currentSrc,
             image.getAttribute("src"),
-            image.getAttribute("data-src"),
-            image.getAttribute("data-thumb"),
+            image.dataset.src,
+            image.dataset.thumb,
         ];
         return (
             candidates.find(

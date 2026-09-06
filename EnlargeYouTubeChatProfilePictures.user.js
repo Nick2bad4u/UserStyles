@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Enlarge YouTube Chat Profile Pictures
 // @namespace    nick2bad4u.github.io
-// @version      3.0.0
+// @version      3.0.1
 // @description  Shows a configurable HD preview of YouTube live-chat avatars; use this chat-only script or the combined profile-picture script, not both.
 // @author       Nick2bad4u
 // @homepage     https://github.com/Nick2bad4u/UserStyles
@@ -793,7 +793,7 @@ void (async function () {
         const avatar = photo.matches("img")
             ? photo
             : photo.querySelector("img");
-        if (!avatar || !avatar.closest(CHAT_RENDERER_SELECTOR))
+        if (!avatar?.closest(CHAT_RENDERER_SELECTOR))
             return undefined;
         return avatar;
     }
@@ -1085,7 +1085,7 @@ void (async function () {
                 ? focusedAvatar || pointerAvatar
                 : pointerAvatar || focusedAvatar;
 
-        if (!settings.enabled || !avatar || !avatar.isConnected) {
+        if (!settings.enabled || !avatar?.isConnected) {
             hidePreview();
             return;
         }

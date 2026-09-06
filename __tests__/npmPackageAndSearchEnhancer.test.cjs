@@ -33,7 +33,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "// @name         NPM Package and Search Enhancer"
         );
-        expect(script).toContain("// @version      0.13.2");
+        expect(script).toContain("// @version      0.13.3");
         expect(script).toContain("// @grant        GM.registerMenuCommand");
         expect(script).toContain("// @connect      bundlephobia.com");
         expect(script).toContain("// @connect      npm-compare.com");
@@ -454,7 +454,7 @@ describe("NPM Package and Search Enhancer userscript", () => {
         expect(script).toContain(
             "/* BEGIN INTEGRATED NPM BUNDLEPHOBIA PACKAGE SIZE */"
         );
-        expect(moreInstallButtons).toContain("// @version      1.5.0");
+        expect(moreInstallButtons).toContain("// @version      1.5.1");
         expect(moreInstallButtons).toContain(
             '"data-npm-enhancer-install-commands"'
         );

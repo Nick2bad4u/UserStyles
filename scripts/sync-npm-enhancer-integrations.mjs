@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { format, resolveConfig } from "prettier";
 
 const repositoryRoot = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
@@ -38,19 +39,33 @@ function extractRuntime(source) {
     return source.slice(runtimeStart).trim();
 }
 
-function removeStandaloneGuard(runtime) {
-    return runtime.replace(
-        /\n\s*const MAIN_INTEGRATION_ATTRIBUTE =[\s\S]*?\n\s*\}\n(?=\s*(?:\/\/|const))/u,
-        "\n"
-    );
+function removeStandaloneGuard(runtime, capabilityAttribute) {
+    const normalized = runtime.replaceAll("\r\n", "\n");
+    const guard = [
+        "",
+        `    const MAIN_INTEGRATION_ATTRIBUTE = "${capabilityAttribute}";`,
+        "    if (document.documentElement.hasAttribute(MAIN_INTEGRATION_ATTRIBUTE)) {",
+        "        return;",
+        "    }",
+        "",
+    ].join("\n");
+    if (!normalized.includes(guard)) {
+        throw new Error(
+            `Could not find the standalone guard for ${capabilityAttribute}.`
+        );
+    }
+    return normalized.replace(guard, "");
 }
 
-function createIntegrationBlock(definition) {
+async function createIntegrationBlock(definition) {
     const source = fs.readFileSync(
         path.join(repositoryRoot, definition.file),
         "utf8"
     );
-    const runtime = removeStandaloneGuard(extractRuntime(source))
+    const runtime = removeStandaloneGuard(
+        extractRuntime(source),
+        definition.capabilityAttribute
+    )
         .replaceAll(
             'npmEnhancementOwner = "standalone"',
             'npmEnhancementOwner = "main"'
@@ -63,7 +78,7 @@ function createIntegrationBlock(definition) {
             'data-npm-enhancement-owner="standalone"',
             'data-npm-enhancement-owner="main"'
         );
-    return `${definition.begin}
+    const block = `${definition.begin}
 /*
  * Embedded from ${definition.file}. Keep the standalone source authoritative and
  * run scripts/sync-npm-enhancer-integrations.mjs after changing it.
@@ -76,6 +91,12 @@ if (readIntegratedFeatureSetting("${definition.feature}")) {
     ${runtime}
 }
 ${definition.end}`;
+    return (
+        await format(block, {
+            ...(await resolveConfig(enhancerPath)),
+            filepath: enhancerPath,
+        })
+    ).trimEnd();
 }
 
 function replaceOrAppend(content, definition, block) {
@@ -112,7 +133,7 @@ for (const definition of integrations) {
     enhancer = replaceOrAppend(
         enhancer,
         definition,
-        createIntegrationBlock(definition)
+        await createIntegrationBlock(definition)
     );
 }
 fs.writeFileSync(enhancerPath, enhancer, "utf8");

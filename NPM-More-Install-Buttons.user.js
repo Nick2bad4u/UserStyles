@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - More Install Buttons
 // @namespace    nick2bad4u.github.io
-// @version      1.5.0
+// @version      1.5.1
 // @description  Adds customizable copyable install commands to npm package pages.
 // @author       Nick2bad4u (based on the original script by Kıraç Armağan Önal)
 // @license      UnLicense
@@ -1354,6 +1354,22 @@
         return button;
     }
 
+    function findExistingCommandList(sidebar) {
+        const list = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
+        if (!list) return null;
+        if (list.querySelector(".mib-command") && !list.querySelector("#repository")) {
+            return list;
+        }
+        list.classList.remove("mib-list");
+        delete list.dataset.npmEnhancementOwner;
+        delete list.dataset.pageKey;
+        delete list.dataset.showIcons;
+        delete list.dataset.showLabels;
+        list.removeAttribute(LIST_ATTRIBUTE);
+        list.removeAttribute("aria-label");
+        return null;
+    }
+
     function renderButtons() {
         const sidebar = document.querySelector(
             'aside[aria-label="Package sidebar"]'
@@ -1381,22 +1397,8 @@
             details.typesPackageName,
             settingsRevision,
         ].join("|");
-        let existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
+        const existingList = findExistingCommandList(sidebar);
         updateInstallHeading(installHeading);
-        if (
-            existingList &&
-            (!existingList.querySelector(".mib-command") ||
-                existingList.querySelector("#repository"))
-        ) {
-            existingList.classList.remove("mib-list");
-            delete existingList.dataset.npmEnhancementOwner;
-            delete existingList.dataset.pageKey;
-            delete existingList.dataset.showIcons;
-            delete existingList.dataset.showLabels;
-            existingList.removeAttribute(LIST_ATTRIBUTE);
-            existingList.removeAttribute("aria-label");
-            existingList = null;
-        }
         if (existingList?.dataset.pageKey === pageKey) return;
         if (
             existingList &&
@@ -1493,7 +1495,7 @@
             list.append(createCommandButton(command));
         }
 
-        installSection.insertAdjacentElement("afterend", list);
+        installSection.after(list);
     }
 
     function scheduleRender() {

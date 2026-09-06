@@ -29,7 +29,7 @@ describe("Dependabot PR Merge Assistant userscript", () => {
         expect(script).toContain(
             "// @name         Dependabot PR Merge Assistant"
         );
-        expect(script).toContain("// @version      3.0.1");
+        expect(script).toContain("// @version      3.0.2");
         expect(script).toContain("// @match        https://github.com/*");
         expect(script).toContain("// @run-at       document-idle");
         expect(script).toContain("// @noframes");

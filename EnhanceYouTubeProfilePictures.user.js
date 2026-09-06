@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Enhance YouTube Profile Pictures
 // @namespace    nick2bad4u.github.io
-// @version      6.0.0
+// @version      6.0.1
 // @description  Preview chat, comment, and creator-heart avatars in one configurable HD overlay; this combined script replaces the two narrower alternatives.
 // @author       Nick2bad4u
 // @homepage     https://github.com/Nick2bad4u/UserStyles
@@ -190,7 +190,7 @@ void (async function () {
         return (
             image.currentSrc ||
             image.getAttribute("src") ||
-            image.getAttribute("data-src") ||
+            image.dataset.src ||
             ""
         ).trim();
     }

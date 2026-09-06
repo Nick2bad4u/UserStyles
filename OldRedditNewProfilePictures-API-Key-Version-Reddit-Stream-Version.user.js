@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Old Reddit with New Reddit Profile Pictures - API Key Version - Reddit-Stream Version
 // @namespace    nick2bad4u.github.io
-// @version      7.0.7
+// @version      7.0.8
 // @description  Injects new Reddit profile pictures into Old Reddit and Reddit-Stream.com next to the username. Caches in localstorage. This version requires an API key. Enter your API Key under CLIENT_ID and CLIENT_SECRET or it will not work.
 // @author       Nick2bad4u
 // @match        *://reddit-stream.com/*
@@ -284,34 +284,28 @@
 		let batchTimeout; // Timeout variable for batching
 		let isFirstRun = true; // Flag to check if it's the first run
 
+		function flushBatch() {
+			void injectProfilePictures(newCommentsBatch);
+			newCommentsBatch = [];
+			isFirstRun = false;
+		}
+
+		function queueComments(node) {
+			if (node.nodeType !== Node.ELEMENT_NODE) return;
+			const newComments = Array.from(node.querySelectorAll('.author, .c-username')).filter((comment) => !processedComments.has(comment));
+			if (newComments.length === 0) return;
+			for (const comment of newComments) {
+				processedComments.add(comment);
+				newCommentsBatch.push(comment);
+			}
+			clearTimeout(batchTimeout);
+			batchTimeout = setTimeout(flushBatch, isFirstRun ? 150 : 100);
+		}
+
 		const observer = new MutationObserver((mutations) => {
-			mutations.forEach((mutation) => {
-				mutation.addedNodes.forEach((node) => {
-					if (node.nodeType === Node.ELEMENT_NODE) {
-						const newComments = Array.from(node.querySelectorAll('.author, .c-username')).filter((comment) => !processedComments.has(comment));
-
-						if (newComments.length > 0) {
-							newComments.forEach((comment) => {
-								processedComments.add(comment);
-								newCommentsBatch.push(comment); // Add to batch
-							});
-
-							// Clear previous timeout and set a new one for batching
-							clearTimeout(batchTimeout);
-
-							// Set a delay for the first run, then use regular debounce for others
-							batchTimeout = setTimeout(
-								() => {
-									void injectProfilePictures(newCommentsBatch);
-									newCommentsBatch = []; // Reset the batch
-									isFirstRun = false; // Disable first run flag after initial run
-								},
-								isFirstRun ? 150 : 100,
-							); // First run delay: 1000ms, regular: 300ms
-						}
-					}
-				});
-			});
+			for (const mutation of mutations) {
+				for (const node of mutation.addedNodes) queueComments(node);
+			}
 		});
 
 		observer.observe(document.body, {

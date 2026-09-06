@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         NPM Package and Search Enhancer
-// @version      0.13.2
+// @version      0.13.3
 // @description  Configurable package badges, links, search metadata, and modern npmjs.com improvements
 // @license      MIT
 // @author       Bjorn Lu; modernized by Nick2bad4u
@@ -23838,6 +23838,25 @@ if (readIntegratedFeatureSetting("install-commands")) {
             return button;
         }
 
+        function findExistingCommandList(sidebar) {
+            const list = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
+            if (!list) return null;
+            if (
+                list.querySelector(".mib-command") &&
+                !list.querySelector("#repository")
+            ) {
+                return list;
+            }
+            list.classList.remove("mib-list");
+            delete list.dataset.npmEnhancementOwner;
+            delete list.dataset.pageKey;
+            delete list.dataset.showIcons;
+            delete list.dataset.showLabels;
+            list.removeAttribute(LIST_ATTRIBUTE);
+            list.removeAttribute("aria-label");
+            return null;
+        }
+
         function renderButtons() {
             const sidebar = document.querySelector(
                 'aside[aria-label="Package sidebar"]'
@@ -23868,22 +23887,8 @@ if (readIntegratedFeatureSetting("install-commands")) {
                 details.typesPackageName,
                 settingsRevision,
             ].join("|");
-            let existingList = sidebar.querySelector(`[${LIST_ATTRIBUTE}]`);
+            const existingList = findExistingCommandList(sidebar);
             updateInstallHeading(installHeading);
-            if (
-                existingList &&
-                (!existingList.querySelector(".mib-command") ||
-                    existingList.querySelector("#repository"))
-            ) {
-                existingList.classList.remove("mib-list");
-                delete existingList.dataset.npmEnhancementOwner;
-                delete existingList.dataset.pageKey;
-                delete existingList.dataset.showIcons;
-                delete existingList.dataset.showLabels;
-                existingList.removeAttribute(LIST_ATTRIBUTE);
-                existingList.removeAttribute("aria-label");
-                existingList = null;
-            }
             if (existingList?.dataset.pageKey === pageKey) return;
             if (
                 existingList &&
@@ -23982,7 +23987,7 @@ if (readIntegratedFeatureSetting("install-commands")) {
                 list.append(createCommandButton(command));
             }
 
-            installSection.insertAdjacentElement("afterend", list);
+            installSection.after(list);
         }
 
         function scheduleRender() {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UserStyles.world Mirror Sync
 // @namespace    nick2bad4u.github.io
-// @version      3.0.0
+// @version      3.0.1
 // @description  Select and safely refresh GitHub mirrors for styles visible on UserStyles.world.
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -618,7 +618,7 @@
                 const nameLink = card.querySelector('a.name[href*="/style/"]');
                 const ariaName = link
                     .getAttribute("aria-label")
-                    ?.replace(/\s+screenshot$/iu, "")
+                    ?.replace(/\sscreenshot$/iu, "")
                     .trim();
                 const name =
                     nameLink?.textContent?.trim() || ariaName || `Style ${id}`;
@@ -729,7 +729,7 @@
                     .querySelector("main h1, main h2")
                     ?.textContent?.trim() ||
                 errorPage.title
-                    .replace(/\s+[—-]\s+UserStyles\.world$/u, "")
+                    .replace(/\s[—-]\s+UserStyles\.world$/u, "")
                     .trim();
         }
         if (serverMessage) {
@@ -1187,6 +1187,26 @@
             this.controller.abort();
         }
 
+        async syncItem(item, signal) {
+            try {
+                await refreshMirror(item.style.id, signal);
+                item.checkbox.checked = false;
+                this.setItemState(item, "success", "Requested");
+                return "success";
+            } catch (error) {
+                if (signal.aborted) {
+                    this.setItemState(item, "idle", "Ready");
+                    return "canceled";
+                }
+                const message = getErrorMessage(error);
+                this.setItemState(item, "error", "Failed", message);
+                console.error(`[Mirror Sync] Style ${item.style.id}: ${message}`, error);
+                return error instanceof AuthenticationRequiredError
+                    ? "authentication-required"
+                    : "failure";
+            }
+        }
+
         async syncSelected() {
             if (this.running) {
                 return;
@@ -1226,48 +1246,40 @@
                     "active"
                 );
 
-                try {
-                    await refreshMirror(item.style.id, signal);
+                const result = await this.syncItem(item, signal);
+                if (result === "success") {
                     successes += 1;
-                    item.checkbox.checked = false;
-                    this.setItemState(item, "success", "Requested");
-                } catch (error) {
-                    if (signal.aborted) {
-                        this.setItemState(item, "idle", "Ready");
-                        break;
-                    }
-
+                } else if (result !== "canceled") {
                     failures += 1;
-                    const message = getErrorMessage(error);
-                    this.setItemState(item, "error", "Failed", message);
-                    console.error(
-                        `[Mirror Sync] Style ${item.style.id}: ${message}`,
-                        error
-                    );
-                    if (error instanceof AuthenticationRequiredError) {
-                        authenticationRequired = true;
-                    }
-                } finally {
-                    if (!signal.aborted) {
-                        completed += 1;
-                        this.elements.progress.value = completed;
-                        this.elements.progressCount.textContent = `${completed} / ${selectedItems.length}`;
-                    }
                 }
-
-                if (authenticationRequired) {
+                if (!signal.aborted) {
+                    completed += 1;
+                    this.elements.progress.value = completed;
+                    this.elements.progressCount.textContent = `${completed} / ${selectedItems.length}`;
+                }
+                authenticationRequired = result === "authentication-required";
+                if (signal.aborted || authenticationRequired) {
                     break;
                 }
             }
 
-            for (const item of selectedItems) {
+            this.resetQueuedItems(selectedItems);
+            this.finishSync(
+                selectedItems.length, completed, successes, failures,
+                signal.aborted, authenticationRequired
+            );
+        }
+
+        resetQueuedItems(items) {
+            for (const item of items) {
                 if (item.row.dataset.state === "queued") {
                     this.setItemState(item, "idle", "Ready");
                 }
             }
+        }
 
-            const canceled = signal.aborted;
-            const remaining = selectedItems.length - completed;
+        finishSync(total, completed, successes, failures, canceled, authenticationRequired) {
+            const remaining = total - completed;
             this.controller = null;
             this.setRunning(false);
             this.lastChecked = null;

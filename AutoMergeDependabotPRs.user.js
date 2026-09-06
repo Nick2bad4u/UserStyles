@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Dependabot PR Merge Assistant
 // @namespace    nick2bad4u.github.io
-// @version      3.0.1
+// @version      3.0.2
 // @description  Adds a safe, configurable merge assistant to Dependabot pull requests while keeping GitHub's native checks and confirmation flow in control.
 // @author       Nick2bad4u
 // @match        https://github.com/*
@@ -217,8 +217,8 @@
     }
 
     function parsePullRequestLocation() {
-        const match = globalThis.location.pathname.match(
-            /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(?:\/|$)/
+        const match = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(?:\/|$)/.exec(
+            globalThis.location.pathname
         );
         if (!match) return null;
         return {
@@ -348,7 +348,7 @@
         const parts = String(value)
             .split(".")
             .slice(0, 3)
-            .map((part) => Number(part));
+            .map(Number);
         if (
             parts.length === 0 ||
             parts.some((part) => !Number.isSafeInteger(part) || part < 0)
@@ -411,8 +411,10 @@
         if (levels.length === 0) {
             return { count: 0, level: "unknown" };
         }
-        const level = levels.reduce((highest, candidate) =>
-            UPDATE_RANK[candidate] > UPDATE_RANK[highest] ? candidate : highest
+        const level = levels.reduce(
+            (highest, candidate) =>
+                UPDATE_RANK[candidate] > UPDATE_RANK[highest] ? candidate : highest,
+            levels[0]
         );
         return { count: levels.length, level };
     }
@@ -1195,6 +1197,11 @@
         };
     }
 
+    function formatUpdateCount(count) {
+        if (!count) return "";
+        return ` · ${count} change${count === 1 ? "" : "s"}`;
+    }
+
     function updatePanel() {
         if (!state.ui || !state.context) return;
         const context = getPageContext() ?? state.context;
@@ -1205,18 +1212,12 @@
         const githubState = describeGitHubState(context);
         const action = getAvailableAction(context.mergeBox);
         const safety = getAutomaticSafety(context, action);
-        const updateCount = context.update.count
-            ? ` · ${context.update.count} change${context.update.count === 1 ? "" : "s"}`
-            : "";
+        const updateCount = formatUpdateCount(context.update.count);
 
         state.ui.subtitle.textContent = `${context.owner}/${context.repo} #${context.number}`;
         state.ui.update.textContent = `${UPDATE_LABELS[context.update.level]}${updateCount}`;
         state.ui.update.dataset.tone =
-            context.update.level === "patch"
-                ? "success"
-                : context.update.level === "minor"
-                  ? "neutral"
-                  : "warning";
+            ({ patch: "success", minor: "neutral" })[context.update.level] ?? "warning";
         state.ui.github.textContent = githubState.label;
         state.ui.github.dataset.tone = githubState.tone;
         state.ui.method.value = state.settings.mergeMethod;

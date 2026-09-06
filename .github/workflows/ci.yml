@@ -52,7 +52,7 @@ jobs:
 
             # ── Install dependencies ──────────────────────────────────────────────
             - name: "Install dependencies"
-              run: "npm ci --legacy-peer-deps"
+              run: "npm ci --legacy-peer-deps --ignore-scripts"
 
             # ── JavaScript/config lint ───────────────────────────────────────────
             - name: "Lint JavaScript and configuration"

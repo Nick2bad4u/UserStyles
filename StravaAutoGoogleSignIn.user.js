@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto Click Google Sign-In Button
 // @namespace    nick2bad4u.github.io
-// @version      7.0
+// @version      7.1
 // @description  Automatically clicks the Google sign-in button on Strava's login page
 // @author       Nick2bad4u
 // @match        https://www.strava.com/login*
@@ -36,7 +36,7 @@
         const reactKey = keys.find((k) => k.startsWith("__reactProps$"));
 
         // Must have a React props object AND a click handler
-        return reactKey && typeof btn.onclick === "function";
+        return Boolean(reactKey) && typeof btn.onclick === "function";
     }
 
     function tryClick() {

@@ -170,9 +170,6 @@
         }
     },
     "src/utils/unitConversions.cjs": {
-        "math/prefer-number-is-nan": {
-            "count": 1
-        },
         "unicorn/filename-case": {
             "count": 1
         }

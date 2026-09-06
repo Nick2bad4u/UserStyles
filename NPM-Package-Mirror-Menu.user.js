@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NPM - Related Package Links
 // @namespace    nick2bad4u.github.io
-// @version      1.4.2
+// @version      1.4.3
 // @description  Adds a configurable menu of useful package pages, security reports, size tools, trends, and CDNs.
 // @author       Nick2bad4u
 // @license      UnLicense
@@ -525,8 +525,8 @@
         "paralect-npm-compare",
         "runkit",
     ];
-    const REENABLED_IN_SETTINGS_SCHEMA_3 = ["npm-compare", "skypack"];
-    const REENABLED_IN_SETTINGS_SCHEMA_4 = ["npkg"];
+    const REENABLED_IN_SETTINGS_SCHEMA_3 = new Set(["npm-compare", "skypack"]);
+    const REENABLED_IN_SETTINGS_SCHEMA_4 = new Set(["npkg"]);
     const DISABLED_MIRRORS_KEY = "disabledMirrorIds";
     const CUSTOM_LINKS_KEY = "relatedPackageLinksCustomLinks";
     const VISIBLE_LINKS_KEY = "relatedPackageLinksVisibleCount";
@@ -1233,12 +1233,12 @@
             if (savedSchema < SETTINGS_SCHEMA_VERSION) {
                 if (savedSchema < 3) {
                     normalizedIds = normalizedIds.filter(
-                        (id) => !REENABLED_IN_SETTINGS_SCHEMA_3.includes(id)
+                        (id) => !REENABLED_IN_SETTINGS_SCHEMA_3.has(id)
                     );
                 }
                 if (savedSchema < 4) {
                     normalizedIds = normalizedIds.filter(
-                        (id) => !REENABLED_IN_SETTINGS_SCHEMA_4.includes(id)
+                        (id) => !REENABLED_IN_SETTINGS_SCHEMA_4.has(id)
                     );
                 }
                 normalizedIds = Array.from(
@@ -1411,6 +1411,23 @@
         );
     }
 
+    function validateCustomLink(label, template, allowedTokens) {
+        if (!label || label.length > 60) {
+            return "labels must be 1–60 characters.";
+        }
+        if (!template || template.length > 2_000) {
+            return "URL templates must be 1–2000 characters.";
+        }
+        const unknownTokens = Array.from(
+            template.matchAll(/\{\{([^{}]+)\}\}/gu),
+            (match) => match[1]
+        ).filter((token) => !allowedTokens.has(token));
+        if (unknownTokens.length > 0) {
+            return `unknown token {{${unknownTokens[0]}}}.`;
+        }
+        return "";
+    }
+
     function parseCustomLinks(text) {
         const errors = [];
         const mirrors = [];
@@ -1454,27 +1471,9 @@
 
             const label = line.slice(0, separatorIndex).trim();
             const template = line.slice(separatorIndex + 1).trim();
-            if (!label || label.length > 60) {
-                errors.push(
-                    `Line ${lineNumber}: labels must be 1–60 characters.`
-                );
-                continue;
-            }
-            if (!template || template.length > 2_000) {
-                errors.push(
-                    `Line ${lineNumber}: URL templates must be 1–2000 characters.`
-                );
-                continue;
-            }
-
-            const unknownTokens = Array.from(
-                template.matchAll(/\{\{([^{}]+)\}\}/gu),
-                (match) => match[1]
-            ).filter((token) => !allowedTokens.has(token));
-            if (unknownTokens.length > 0) {
-                errors.push(
-                    `Line ${lineNumber}: unknown token {{${unknownTokens[0]}}}.`
-                );
+            const validationError = validateCustomLink(label, template, allowedTokens);
+            if (validationError) {
+                errors.push(`Line ${lineNumber}: ${validationError}`);
                 continue;
             }
 

@@ -49,6 +49,12 @@ describe("metersToFeet", () => {
     it("returns 0 for a non-numeric string", () => {
         expect(metersToFeet("abc")).toBe(0);
     });
+
+    it("preserves numeric-string coercion", () => {
+        expect(metersToFeet("1.5")).toBe("4.92");
+        expect(metersToFeet(" 0 ")).toBe("0.00");
+        expect(metersToFeet("1.5 metres")).toBe(0);
+    });
 });
 
 // ─── kmToMiles ────────────────────────────────────────────────────────────────

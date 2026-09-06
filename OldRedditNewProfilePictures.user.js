@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Old Reddit with New Reddit Profile Pictures
 // @namespace    nick2bad4u.github.io
-// @version      3.1
+// @version      3.2
 // @description  Injects new Reddit profile pictures into Old Reddit and Reddit-Stream.com next to the username
 // @author       Nick2bad4u
 // @match        https://*.reddit.com/*
@@ -58,56 +58,48 @@
 		}
 	}
 
-	async function fetchProfilePictures(usernames) {
-		console.log('Fetching profile pictures');
-		const uncachedUsernames = usernames.filter((username) => !profilePictureCache[username] && username !== '[deleted]' && username !== '[removed]');
-		if (uncachedUsernames.length === 0) {
-			console.log('All usernames are cached');
-			return usernames.map((username) => profilePictureCache[username]);
-		}
-
-		console.log(`Fetching profile pictures for: ${uncachedUsernames.join(', ')}`);
+	function fetchProfilePicture(username) {
 		return new Promise((resolve, reject) => {
-			const requests = uncachedUsernames.map((username) => {
-				return new Promise((resolve, reject) => {
-					GM_xmlhttpRequest({
-						method: 'GET',
-						url: `https://www.reddit.com/user/${username}/about.json`,
-						onload: (response) => {
-							console.log(`Response received for ${username}`);
-							const data = JSON.parse(response.responseText);
-							if (data.data.icon_img) {
-								const profilePictureUrl = data.data.icon_img.split('?')[0];
-								profilePictureCache[username] = profilePictureUrl;
-								cacheTimestamps[username] = Date.now();
-								GM_setValue('profilePictureCache', profilePictureCache);
-								GM_setValue('cacheTimestamps', cacheTimestamps);
-								console.log(`Fetched profile picture: ${username}`);
-								resolve(profilePictureUrl);
-							} else {
-								console.warn(`No profile picture found for: ${username}`);
-								resolve(null);
-							}
-						},
-						onerror: (error) => {
-							console.error(`Error fetching profile picture: ${username}`, error);
-							reject(error instanceof Error ? error : new Error(String(error)));
-						},
-					});
-				});
-			});
-
-			Promise.all(requests)
-				.then((_results) => {
-					console.log('All profile pictures fetched');
-					limitCacheSize();
-					resolve(usernames.map((username) => profilePictureCache[username]));
-				})
-				.catch((error) => {
-					console.error('Error in fetching profile pictures', error);
+			GM_xmlhttpRequest({
+				method: 'GET',
+				url: `https://www.reddit.com/user/${username}/about.json`,
+				onload: (response) => {
+					try {
+						const data = JSON.parse(response.responseText);
+						const icon = data.data?.icon_img;
+						if (!icon) {
+							resolve(null);
+							return;
+						}
+						const profilePictureUrl = icon.split('?')[0];
+						profilePictureCache[username] = profilePictureUrl;
+						cacheTimestamps[username] = Date.now();
+						GM_setValue('profilePictureCache', profilePictureCache);
+						GM_setValue('cacheTimestamps', cacheTimestamps);
+						resolve(profilePictureUrl);
+					} catch (error) {
+						reject(error instanceof Error ? error : new Error(String(error)));
+					}
+				},
+				onerror: (error) => {
 					reject(error instanceof Error ? error : new Error(String(error)));
-				});
+				},
+			});
 		});
+	}
+
+	async function fetchProfilePictures(usernames) {
+		const uncachedUsernames = usernames.filter((username) => !profilePictureCache[username] && username !== '[deleted]' && username !== '[removed]');
+		if (uncachedUsernames.length > 0) {
+			try {
+				await Promise.all(uncachedUsernames.map(fetchProfilePicture));
+				limitCacheSize();
+			} catch (error) {
+				console.error('Error in fetching profile pictures', error);
+				throw error;
+			}
+		}
+		return usernames.map((username) => profilePictureCache[username]);
 	}
 
 	async function injectProfilePictures(comments) {
