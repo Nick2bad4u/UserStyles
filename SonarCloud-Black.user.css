@@ -1,0 +1,107 @@
+/* ==UserStyle==
+@name           SonarCloud - Black
+@namespace      nick2bad4u.github.io
+@version        1.0.0
+@description    True-black surfaces for SonarQube Cloud's native dark mode, preserving quality gates, severity colors, charts, and code highlighting.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SonarCloud-Black.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/SonarCloud-Black.user.css
+@var color black-background "Page background" #000000
+@var color black-surface "Cards and navigation" #080808
+@preprocessor   default
+==/UserStyle== */
+@-moz-document domain("sonarcloud.io") {
+    /* Enable SonarQube Cloud's native dark mode. Keep its semantic color tokens
+       and light-mode toggle intact; replace only the neutral palette. */
+    :root[data-echoes-theme="dark"] {
+        color-scheme: dark !important;
+        background-color: var(--black-background, #000000) !important;
+
+        /* Echoes surfaces also cover portaled menus, dialogs, and tooltips. */
+        --echoes-color-surface-canvas-default: var(
+            --black-background,
+            #000000
+        ) !important;
+        --echoes-color-surface-default: var(
+            --black-surface,
+            #080808
+        ) !important;
+        --echoes-color-surface-hover: #141414 !important;
+        --echoes-color-surface-active: #1c1c1c !important;
+        --echoes-color-surface-disabled: #191919 !important;
+        --echoes-color-background-neutral-subtle-default: #202020 !important;
+        --echoes-color-background-neutral-subtle-hover: #292929 !important;
+        --echoes-color-background-neutral-subtle-active: #333333 !important;
+        --echoes-color-background-neutral-subtle-focus: #292929 !important;
+        --echoes-color-background-neutral-bolder-default: #686868 !important;
+        --echoes-color-background-ghost-neutral-hover: #191919 !important;
+        --echoes-color-background-ghost-neutral-active: #252525 !important;
+        --echoes-color-border-weaker: #282828 !important;
+        --echoes-color-border-weak: #3b3b3b !important;
+        --echoes-color-border-bold: #727272 !important;
+        --echoes-color-border-bolder: #a0a0a0 !important;
+        --echoes-color-border-disabled: #383838 !important;
+        --echoes-color-text-default: #e8e8e8 !important;
+        --echoes-color-text-strong: #fafafa !important;
+        --echoes-color-text-subtle: #bdbdbd !important;
+        --echoes-color-text-placeholder: #aaaaaa !important;
+        --echoes-color-text-disabled: #777777 !important;
+        --echoes-color-icon-default: #e8e8e8 !important;
+        --echoes-color-icon-bold: #fafafa !important;
+        --echoes-color-icon-subtle: #bdbdbd !important;
+        --echoes-color-icon-placeholder: #aaaaaa !important;
+        --echoes-color-icon-disabled: #777777 !important;
+        --echoes-color-overlays-disabled: #202020 !important;
+        --echoes-color-overlays-back-drop-default: #000000b3 !important;
+
+        /* These component aliases are declared separately by Echoes. */
+        --echoes-form-control-colors-background-default: var(
+            --black-surface,
+            #080808
+        ) !important;
+        --echoes-form-control-colors-background-hover: #141414 !important;
+        --echoes-form-control-colors-border-default: #626262 !important;
+        --echoes-form-control-colors-border-focus: #8b8b8b !important;
+        --echoes-form-control-colors-icon-default: #bdbdbd !important;
+        --echoes-sidebar-navigation-colors-background-default: var(
+            --black-background,
+            #000000
+        ) !important;
+        --echoes-sidebar-navigation-item-colors-background-default: var(
+            --black-background,
+            #000000
+        ) !important;
+        --echoes-sidebar-navigation-item-colors-background-hover: #141414 !important;
+        --echoes-sidebar-navigation-item-colors-background-active: #222222 !important;
+        --echoes-table-colors-background-header-default: #141414 !important;
+
+        /* Code viewer backgrounds, without overwriting token or coverage hues. */
+        --echoes-color-code-background-default: #141414 !important;
+        --echoes-color-code-background-highlight: #242424 !important;
+        --echoes-color-code-text-default: #e8e8e8 !important;
+        --echoes-color-code-text-comment: #aaaaaa !important;
+        --code-viewer-line-background: var(--black-surface, #080808) !important;
+        --code-viewer-line-background-hover: #141414 !important;
+        --code-viewer-line-border: #303030 !important;
+        --code-viewer-line-highlighted: #242424 !important;
+        --code-viewer-location-selected-background: #242424 !important;
+        --code-viewer-location-highlighted-background: #ffffff14 !important;
+        --code-viewer-legacy-issue-location-highlighted-background: #29233b !important;
+        --code-viewer-legacy-issue-location-selected-background: #4b252b !important;
+        --code-viewer-ellipsis-background: var(
+            --black-surface,
+            #080808
+        ) !important;
+        --code-viewer-ellipsis-background-hover: #242424 !important;
+        --code-viewer-issue-pointer-border: var(
+            --black-surface,
+            #080808
+        ) !important;
+        --code-viewer-issue-message-tooltip-background: #181818 !important;
+        --code-viewer-issue-message-tooltip-text: #fafafa !important;
+        --code-viewer-tooltip-highlight-text: #bdbdbd !important;
+    }
+}

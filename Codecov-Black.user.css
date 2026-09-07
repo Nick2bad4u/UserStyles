@@ -1,0 +1,55 @@
+/* ==UserStyle==
+@name           Codecov - Black
+@namespace      nick2bad4u.github.io
+@version        1.0.0
+@description    True-black surfaces for Codecov's native dark mode, with readable tables, menus, charts, and coverage code views.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Codecov-Black.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Codecov-Black.user.css
+==/UserStyle== */
+@-moz-document domain("app.codecov.io") {
+    /* Enable Codecov's native dark mode with its theme toggle. Codecov consumes
+       these tokens as rgb(var(...)) / rgba(var(...), opacity), so their values
+       must remain comma-separated RGB channels, not hex colors. */
+    body.dark,
+    .darkMode {
+        color-scheme: dark !important;
+
+        --color-app-background: 0, 0, 0 !important;
+        --color-app-container: 8, 8, 8 !important;
+        --color-app-sub-background: 18, 18, 18 !important;
+        --color-app-sub-hover-background: 38, 38, 38 !important;
+        --color-app-border-line: 55, 55, 55 !important;
+        --color-app-text-primary: 232, 232, 232 !important;
+        --color-app-text-secondary: 189, 189, 189 !important;
+        --color-modal-header: 12, 12, 12 !important;
+        --color-modal-footer: 12, 12, 12 !important;
+        --color-ds-summary-dropdown: 12, 12, 12 !important;
+        --color-codecov-footer: 0, 0, 0 !important;
+
+        /* Gray utilities are shared by tables, borders, controls, and menus. */
+        --color-ds-gray-default: 240, 240, 240 !important;
+        --color-ds-gray-primary: 20, 20, 20 !important;
+        --color-ds-gray-secondary: 32, 32, 32 !important;
+        --color-ds-gray-tertiary: 55, 55, 55 !important;
+        --color-ds-gray-quaternary: 145, 145, 145 !important;
+        --color-ds-gray-quinary: 189, 189, 189 !important;
+        --color-ds-gray-senary: 170, 170, 170 !important;
+        --color-ds-gray-octonary: 240, 240, 240 !important;
+        --color-ds-primary-base: 24, 24, 24 !important;
+        --color-gray-300: 120, 120, 120 !important;
+        --color-github-hover-bg: 38, 38, 38 !important;
+
+        /* Keep covered/uncovered/partial backgrounds and chart colors native.
+           Fix the site's malformed dark-mode operator RGB tuple as well. */
+        --color-code-default: 232, 232, 232 !important;
+        --color-code-comment: 170, 170, 170 !important;
+        --color-code-function: 240, 240, 240 !important;
+        --color-code-line-number: 160, 160, 160 !important;
+        --color-code-key: 121, 192, 255 !important;
+        --color-code-operator: 219, 178, 89 !important;
+    }
+}
