@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Plants of the World Online - Kew Black Mode
 @namespace      nick2bad4u.github.io
-@version        1.0.0
-@description    A true-black, accessible theme for Kew's Plants of the World Online, including search, plant cards, taxon pages, maps, navigation, menus, and dialogs.
+@version        1.0.1
+@description    A true-black, accessible theme for Kew's Plants of the World Online and Checklist Builder, including search, plant cards, taxon pages, maps, navigation, menus, and dialogs.
 @author         Nick2bad4u
 @license        UnLicense
 @homepageURL    https://github.com/Nick2bad4u/UserStyles
@@ -12,7 +12,7 @@
 @var color accent-color "Kew teal accent" #18b9ba
 @preprocessor   default
 ==/UserStyle== */
-@-moz-document domain("powo.science.kew.org") {
+@-moz-document domain("powo.science.kew.org"), domain("checklistbuilder.science.kew.org") {
     :root {
         color-scheme: dark !important;
         background-color: #000000 !important;
@@ -157,8 +157,19 @@
     .c-header .top-link:hover,
     .c-header .top-link:focus-visible,
     .c-header .main-menu a:hover,
-    .c-header .main-menu a:focus-visible {
+    .c-header .main-menu a:focus-visible,
+    .c-header .main-menu button:hover,
+    .c-header .main-menu button:focus-visible {
         color: var(--powo-black-accent-bright) !important;
+    }
+
+    .c-header .top-link:hover,
+    .c-header .top-link:focus-visible,
+    .c-header .main-menu a:hover,
+    .c-header .main-menu a:focus-visible,
+    .c-header .main-menu button:hover,
+    .c-header .main-menu button:focus-visible {
+        background-color: var(--powo-black-surface-hover) !important;
     }
 
     .app-switcher-button,
@@ -474,6 +485,53 @@
     .c-card:focus-within {
         background-color: var(--powo-black-surface-raised) !important;
         border-color: var(--powo-black-accent) !important;
+    }
+
+    /* Static information pages and their in-page navigation. */
+    .static_text,
+    .static_text ul,
+    .static_text ol,
+    .static_text li {
+        color: var(--powo-black-text) !important;
+    }
+
+    .on-this-page.navbar {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface-raised) !important;
+        border: 1px solid var(--powo-black-border) !important;
+        box-shadow: 0 8px 24px rgb(0 0 0 / 55%) !important;
+    }
+
+    .on-this-page .navbar-collapse,
+    .on-this-page .navbar-nav {
+        color: inherit !important;
+        background-color: transparent !important;
+    }
+
+    .on-this-page a {
+        color: var(--powo-black-text-muted) !important;
+        background-color: transparent !important;
+
+        &:hover,
+        &:focus-visible,
+        &.active {
+            color: var(--powo-black-accent-bright) !important;
+            background-color: var(--powo-black-surface-hover) !important;
+        }
+    }
+
+    /* Kew Checklist Builder uses a separate subdomain and legacy shells. */
+    .content:has(.report-builder-form) {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-background) !important;
+    }
+
+    .report-builder-title,
+    .report-builder-form,
+    .report-builder-form .form-section {
+        color: var(--powo-black-text) !important;
+        background-color: var(--powo-black-surface) !important;
+        border-color: var(--powo-black-border) !important;
     }
 
     .ol-viewport,

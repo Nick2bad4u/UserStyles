@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           iNaturalist - Black Mode
 @namespace      nick2bad4u.github.io
-@version        1.0.6
+@version        1.0.7
 @description    A true-black, accessible iNaturalist theme for observations, filters, maps, forms, menus, and dialogs that preserves wildlife photography and site identity.
 @author         Nick2bad4u
 @license        UnLicense
@@ -927,6 +927,52 @@
         color: var(--inat-black-text) !important;
         background-color: var(--inat-black-surface-raised) !important;
         border-color: var(--inat-black-border) !important;
+    }
+
+    /* Freshdesk-powered iNaturalist Help Center pages. */
+    .fw-nav-wrapper,
+    #navbarContent,
+    .fw-nav-dropdown-wrapper {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .fw-searchbar-wrapper,
+    .fw-page-title-wrapper {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-background) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .fw-wrapper-shadow.bg-light,
+    .fw-content-wrapper,
+    .fw-content {
+        color: var(--inat-black-text) !important;
+        background-color: var(--inat-black-surface) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .fw-sidebar-wrapper,
+    .fw-sidebar,
+    .fw-feedback-wrapper,
+    .fw-credit {
+        color: var(--inat-black-text-muted) !important;
+        background-color: var(--inat-black-surface-raised) !important;
+        border-color: var(--inat-black-border) !important;
+    }
+
+    .fw-content :where(ul, ol, li),
+    .fw-sidebar :where(ul, ol, li) {
+        color: inherit !important;
+    }
+
+    .fw-nav-wrapper a:hover,
+    .fw-nav-wrapper a:focus-visible,
+    .fw-sidebar a:hover,
+    .fw-sidebar a:focus-visible {
+        color: var(--inat-black-accent-bright) !important;
+        background-color: var(--inat-black-surface-hover) !important;
     }
 
     :where(
