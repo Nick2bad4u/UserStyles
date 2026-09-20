@@ -1,0 +1,518 @@
+/* ==UserStyle==
+@name         Gyazo - Black
+@namespace    nick2bad4u.github.io
+@version      1.1.0
+@description  Black Gyazo library, image viewer, drawing tools, and settings using Gyazo's own color variables and focused compatibility rules.
+@author       Nick2bad4u
+@license      UnLicense
+@homepageURL  https://github.com/Nick2bad4u/UserStyles
+@supportURL   https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL  https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Gyazo-Black.user.css
+@updateURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Gyazo-Black.user.css
+==/UserStyle== */
+@-moz-document url-prefix("https://gyazo.com/") {
+    /* Use this instead of Gyazo-DarkMode.user.css, not alongside it.
+       Verified against application-8b753e5d9d.css and the live app, 2026-09-16.
+       Gyazo exports Sass colors as variables but still compiles many consumers
+       to literal colors. The rules below connect those consumers to the palette.
+       Every custom property belongs to Gyazo. Preserve media, ink colors, and
+       layout; select arrows use the palette without changing control sizing.
+       Scope the palette to the library, settings, viewer, and drawing app so
+       marketing/login pages keep their original foreground/background pairs. */
+    :root:has(body.explorer, body.images-show) {
+        --body-bg: #000000;
+        --text-color: #e5e5e5;
+        --text-muted: #a6a6a6;
+        --text-color-default: var(--text-color);
+        --text-color-dark: var(--text-color);
+        --text-color-light: var(--text-muted);
+        --link-color: #8ab4ff;
+        --link-hover-color: #b6d0ff;
+        --gray-darker: var(--text-color);
+        --gray-dark: var(--text-color);
+        --gray-light: var(--text-muted);
+        --gray-lighter: #222222;
+        --explorer-view-bg: var(--body-bg);
+        --explorer-view-hover-bg: #202020;
+        --explorer-view-border-color: #303030;
+        --explorer-view-text-color-light: var(--text-muted);
+        --grid-view-card-bg: #111111;
+        --header-block-bg: #080808;
+        --header-block-hover-bg: #181818;
+        --search-background-color: #181818;
+        --search-text-color: var(--text-color);
+        --input-bg: var(--grid-view-card-bg);
+        --input-bg-disabled: var(--gray-lighter);
+        --input-color: var(--text-color);
+        --input-border: var(--explorer-view-border-color);
+        --input-color-placeholder: var(--text-muted);
+        --dropdown-bg: var(--grid-view-card-bg);
+        --dropdown-divider-bg: var(--explorer-view-border-color);
+        --dropdown-link-color: var(--text-color);
+        --dropdown-link-hover-color: var(--text-color);
+        --dropdown-link-hover-bg: var(--explorer-view-hover-bg);
+        --panel-footer-bg: #181818;
+        --panel-bg: var(--grid-view-card-bg);
+        --panel-default-heading-bg: var(--panel-footer-bg);
+        --panel-default-text: var(--text-color);
+        --panel-default-border: var(--explorer-view-border-color);
+        --table-border-color: var(--explorer-view-border-color);
+        --nav-link-hover-bg: var(--explorer-view-hover-bg);
+        --nav-tabs-border-color: var(--explorer-view-border-color);
+        --nav-tabs-active-link-hover-bg: var(--explorer-view-hover-bg);
+        --nav-tabs-active-link-hover-color: var(--text-color);
+        --nav-tabs-active-link-hover-border-color: var(--explorer-view-border-color);
+        --btn-default-bg: var(--grid-view-card-bg);
+        --btn-default-color: var(--text-color);
+        --btn-default-border: var(--explorer-view-border-color);
+        --popover-bg: var(--grid-view-card-bg);
+        --popover-title-bg: var(--panel-footer-bg);
+        --popover-border-color: var(--explorer-view-border-color);
+        --popover-arrow-color: var(--popover-bg);
+        --popover-arrow-outer-color: var(--popover-border-color);
+        --modal-content-bg: var(--grid-view-card-bg);
+        --modal-content-border-color: var(--explorer-view-border-color);
+        --modal-header-border-color: var(--explorer-view-border-color);
+        --modal-footer-border-color: var(--explorer-view-border-color);
+        --border-color-light: var(--explorer-view-border-color);
+        --hover-color-light: var(--explorer-view-hover-bg);
+        --image-infos-bg: var(--body-bg);
+    }
+
+    body.images-show.enable-new-design.enable-new-design,
+    .images-show .image-infos,
+    .images-show .related-images-grid-view,
+    .images-show .lower-ad {
+        background-color: var(--image-infos-bg);
+    }
+
+    /* Page shell. Gyazo's React route wrapper also paints the stage background. */
+    body:is(.explorer, .images-show) {
+        color: var(--text-color);
+        color-scheme: dark;
+        background-color: var(--body-bg);
+    }
+
+    .explorer .background-block,
+    .explorer .side-block,
+    .explorer .side-block .side-block-footer,
+    .explorer .overlay-side-block,
+    .explorer .main-block-stage > div,
+    .explorer .board-index,
+    .explorer .grid-search-bar .form-background,
+    .explorer .search-box-result-panel {
+        background-color: var(--explorer-view-bg);
+    }
+
+    .explorer .header-block,
+    .explorer .mobile-header-block,
+    .images-show .header-block {
+        background-color: var(--header-block-bg);
+    }
+
+    /* Preserve the site's navigation structure, hover behavior, and icons. */
+    .explorer .side-block .side-block-items .toplevel-item > a,
+    .explorer .side-block-items .collection-item > a {
+        color: var(--text-color);
+        fill: var(--text-color);
+    }
+
+    .explorer .side-block .side-block-items .toplevel-item > a:hover,
+    .explorer .side-block .side-block-items .toplevel-item-selectable:hover,
+    .explorer .side-block .side-block-items .toplevel-item-active,
+    .explorer .side-block .side-block-items .btn-load-more:hover,
+    .explorer .side-block-items .collection-item:hover,
+    .explorer .side-block-items .collection-item:focus-within,
+    .explorer .side-block-items .collection-item:active,
+    .explorer .side-block-items .collection-item.active {
+        background-color: var(--explorer-view-hover-bg);
+    }
+
+    .explorer .side-block .side-block-items .sub,
+    .explorer .grid-view .grid-view-header {
+        color: var(--text-muted);
+    }
+
+    /* These aliases are defined on the buttons, so root overrides cannot win.
+       Keep primary, destructive, and disabled state behavior owned by Gyazo. */
+    :is(.explorer, .images-show) .explorer-action-btn-default,
+    :is(.explorer, .images-show) .explorer-action-btn-dark {
+        --bg-color: var(--grid-view-card-bg);
+        --font-color: var(--text-color);
+        --hover-bg-color: var(--explorer-view-hover-bg);
+        --active-bg-color: var(--gray-lighter);
+        --border-color: var(--explorer-view-border-color);
+        --hover-border-color: var(--explorer-view-border-color);
+        --divider-color: var(--explorer-view-border-color);
+    }
+
+    /* Card surfaces only: leave thumbnail sizing, overlays, and opacity alone. */
+    .explorer .grid-view .card,
+    .explorer .grid-view .card .metadata,
+    .explorer .testing-swap-image-container,
+    .explorer .selecting-images-intro {
+        background-color: var(--grid-view-card-bg);
+    }
+
+    .explorer .grid-view .card.row-card:hover,
+    .explorer .grid-view .card.row-card:focus-within {
+        background-color: var(--explorer-view-hover-bg);
+    }
+
+    .explorer .grid-view .card .hover-layer,
+    .explorer .grid-view .card .grid-view-cell-inner-image,
+    .explorer .grid-view .card .hover-layer .view-operation {
+        border-color: var(--grid-view-card-bg);
+    }
+
+    .explorer .grid-view .card.mobile-card .metadata-mobile {
+        background-color: var(--panel-footer-bg);
+    }
+
+    .explorer .grid-view .card.large-card .hover-layer .operations,
+    .explorer .grid-view .card.large-card .hover-layer .operation {
+        background-color: var(--grid-view-card-bg);
+    }
+
+    :where(.explorer) .grid-view .card.large-card .hover-layer .operation svg {
+        fill: var(--text-color);
+    }
+
+    :where(.explorer) .grid-view .card.large-card .hover-layer .operation a {
+        color: var(--text-color);
+    }
+
+    /* Collections reuse the native grid and hover overlay without reshaping it. */
+    .explorer
+        .board-index
+        .collection-wrapper
+        .collection-container
+        .collection-grid
+        .tile-container {
+        background-color: var(--grid-view-card-bg);
+    }
+
+    .explorer
+        .board-index
+        .collection-wrapper
+        .collection-container
+        .collection-grid
+        .tile-footer
+        .tile-footer-title {
+        color: var(--text-color);
+    }
+
+    .explorer
+        .board-index
+        .collection-wrapper
+        .collection-container
+        .collection-grid
+        .tile-footer
+        .tile-footer-number {
+        color: var(--text-muted);
+    }
+
+    /* Focused search has separate literal colors in the site's stylesheet. */
+    :is(.explorer, .images-show) .search-box .search-box-input-wrap input:focus {
+        color: var(--input-color);
+        background-color: var(--input-bg);
+        border-bottom-color: var(--input-border-focus);
+    }
+
+    :is(.explorer, .images-show) .search-box-panel,
+    .explorer .grid-search-bar .search-box-panel {
+        background-color: var(--dropdown-bg);
+    }
+
+    :is(.explorer, .images-show) .search-box-panel .footer,
+    :is(.explorer, .images-show) .search-box-result-panel .footer {
+        background-color: var(--panel-footer-bg);
+    }
+
+    :is(.explorer, .images-show) .search-box-panel .footer a > span {
+        background-color: var(--grid-view-card-bg);
+    }
+
+    :is(.explorer, .images-show)
+        .search-history-list
+        .histories
+        .history-row
+        .jump-history,
+    :where(.explorer, .images-show)
+        .search-history-list
+        .histories
+        .history-row
+        button.switch-save-text {
+        color: var(--text-color);
+    }
+
+    :where(.explorer, .images-show)
+        .search-history-list
+        .histories
+        .history-row
+        .history-icon
+        .kamon,
+    :where(.explorer, .images-show)
+        .search-history-list
+        .histories
+        .history-row
+        button.remove-history
+        .kamon {
+        fill: var(--text-muted);
+    }
+
+    :is(.explorer, .images-show) .search-history-list .histories .history-row:hover,
+    :is(.explorer, .images-show)
+        .search-history-list
+        .histories
+        .history-row:focus-within {
+        background-color: var(--explorer-view-hover-bg);
+    }
+
+    /* Existing form classes cover sorting, collection forms, and legacy dialogs. */
+    :where(.explorer, .images-show) .form-control {
+        color: var(--input-color);
+        background-color: var(--input-bg);
+        border-color: var(--input-border);
+    }
+
+    :where(.explorer, .images-show) .form-control::placeholder {
+        color: var(--input-color-placeholder);
+    }
+
+    :where(.explorer, .images-show) .form-control:focus {
+        border-color: var(--input-border-focus);
+    }
+
+    :is(.explorer, .images-show) .modal-content {
+        background-color: var(--modal-content-bg);
+        border-color: var(--modal-content-border-color);
+    }
+
+    :is(.explorer, .images-show) .modal-header {
+        border-color: var(--modal-header-border-color);
+    }
+
+    :is(.explorer, .images-show) .modal-footer {
+        background-color: var(--panel-footer-bg);
+        border-color: var(--modal-footer-border-color);
+    }
+
+    .explorer .overlay-side-block .captures-opration-new-collection,
+    .explorer .overlay-side-block .captures-opration-edit-hashtag {
+        background-color: var(--grid-view-card-bg);
+    }
+
+    .explorer .overlay-side-block .page .header .number {
+        color: var(--text-color);
+    }
+
+    .explorer .overlay-side-block .page .header .btn {
+        color: var(--link-color);
+        background-color: var(--explorer-view-bg);
+        fill: var(--link-color);
+
+        &:hover,
+        &:focus-visible,
+        &:active {
+            background-color: var(--explorer-view-hover-bg);
+        }
+    }
+
+    /* Recolor the select arrow without changing Gyazo's control sizing. */
+    :where(.explorer, .images-show) select.form-control {
+        background-color: var(--input-bg);
+        background-image:
+            linear-gradient(45deg, transparent 50%, var(--input-color) 50%),
+            linear-gradient(135deg, var(--input-color) 50%, transparent 50%);
+        background-position:
+            right calc(0.75rem + 4px) center,
+            right 0.75rem center;
+        background-size: 4px 4px;
+    }
+
+    :where(.explorer, .images-show) .form-control[disabled],
+    :where(.explorer, .images-show) .form-control[readonly],
+    :where(.explorer, .images-show) fieldset[disabled] .form-control {
+        background-color: var(--input-bg-disabled);
+    }
+
+    /* Neutral Bootstrap buttons also appear in the drawing color picker. */
+    :where(.explorer, .images-show) .btn-default {
+        color: var(--btn-default-color);
+        background-color: var(--btn-default-bg);
+        border-color: var(--btn-default-border);
+    }
+
+    :is(.explorer, .images-show) .btn-default:not(:disabled, .disabled) {
+        &:hover,
+        &:focus-visible,
+        &:active,
+        &.active {
+            color: var(--btn-default-color);
+            background-color: var(--explorer-view-hover-bg);
+            border-color: var(--btn-default-border);
+        }
+    }
+
+    /* Viewer metadata and popovers use separate fixed surfaces. */
+    .images-show .edit-box-component {
+        background-color: var(--image-infos-bg);
+    }
+
+    .images-show .image-page .metadata-toggle .metadata-is-public-dropdown-button {
+        background-color: var(--grid-view-card-bg);
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: var(--explorer-view-hover-bg);
+        }
+    }
+
+    .images-show .interactive-popover,
+    .images-show .interactive-popover.owner-info-popover .owner-info-popover-content {
+        color: var(--text-color);
+        background-color: var(--popover-bg);
+        border-color: var(--popover-border-color);
+    }
+
+    .images-show .interactive-popover .popover-title,
+    .images-show .add-to-collection-popover .popover-title {
+        color: var(--text-color);
+        background-color: var(--popover-title-bg);
+        border-color: var(--popover-border-color);
+    }
+
+    .images-show .interactive-popover .popover-content {
+        color: var(--text-color);
+    }
+
+    .images-show .interactive-popover.top > .arrow::after {
+        border-top-color: var(--popover-arrow-color);
+    }
+
+    .images-show .interactive-popover.bottom > .arrow::after {
+        border-bottom-color: var(--popover-arrow-color);
+    }
+
+    .images-show .interactive-popover.left > .arrow::after {
+        border-left-color: var(--popover-arrow-color);
+    }
+
+    .images-show .interactive-popover.right > .arrow::after {
+        border-right-color: var(--popover-arrow-color);
+    }
+
+    .images-show .share-menu-popover .share-kamon {
+        fill: var(--text-color);
+    }
+
+    .images-show .share-menu-popover .divider {
+        background-color: var(--dropdown-divider-bg);
+    }
+
+    .images-show .share-menu-popover .copy-area input,
+    .images-show .add-to-collection-popover .form-box input {
+        color: var(--input-color);
+        background-color: var(--input-bg);
+        border-color: var(--input-border);
+    }
+
+    /* Draw controls only: never recolor swatches, stroke previews, or canvases. */
+    .image-page-renewal .draw-toolbar {
+        color: var(--text-color);
+        background-color: var(--header-block-bg);
+
+        & .stamp-select,
+        & .change-color .colorset {
+            color: var(--text-color);
+            background-color: var(--popover-bg);
+            border-color: var(--popover-border-color);
+        }
+        & .stamp-select-tab-btn {
+            color: var(--text-color);
+        }
+
+        & .stamp-select .nav-tabs {
+            border-color: var(--nav-tabs-border-color);
+
+            & > li > a:hover,
+            & > li > a:focus-visible {
+                background-color: var(--nav-link-hover-bg);
+            }
+
+            & > li.active > a {
+                color: var(--nav-tabs-active-link-hover-color);
+                background-color: var(--nav-tabs-active-link-hover-bg);
+                border-color: var(--nav-tabs-active-link-hover-border-color);
+                border-bottom-color: var(--nav-tabs-active-link-hover-bg);
+            }
+        }
+
+        & .stamp-select-body .loading-more-container {
+            background-color: var(--popover-bg);
+        }
+
+        & .stamp-select-body .collection-list li:hover,
+        & .stamp-select-body .collection-list li:focus-within,
+        & .stamp-select-body .collection-show .collection-image-list .sticker-list-item:hover,
+        & .stamp-select-body .collection-show .collection-image-list .sticker-list-item:focus-within {
+            background-color: var(--hover-color-light);
+        }
+
+        & .stamp-select-body .collection-list li > svg {
+            fill: var(--text-color);
+        }
+    }
+
+    .image-page-renewal .draw-toolbar-operation-btn.disabled span,
+    .image-page-renewal .draw-toolbar-operation-btn.disabled svg {
+        fill: var(--text-muted);
+    }
+
+    /* Plain library links include the Tags group headings and capture counts. */
+    :where(.explorer) .main-block-stage a:not([class]),
+    :where(.settings-page) a,
+    :where(.settings-page) .btn-link {
+        color: var(--link-color);
+
+        &:hover,
+        &:focus-visible {
+            color: var(--link-hover-color);
+        }
+    }
+
+    /* Keep selected navigation and enabled/disabled account states native. */
+    .settings-page-side-menu .nav > li:not(.active, .disabled) > a {
+        &:hover,
+        &:focus-visible {
+            background-color: var(--nav-link-hover-bg);
+        }
+    }
+
+    .settings-page-body table,
+    .settings-page-body .table > tbody > tr > td,
+    .settings-page-body .table > tbody > tr > th,
+    .settings-page-body .table > thead > tr > th {
+        border-color: var(--table-border-color);
+    }
+
+    .settings-page .panel {
+        background-color: var(--panel-bg);
+    }
+
+    .settings-page .panel-default,
+    .settings-page .panel-default > .panel-heading {
+        border-color: var(--panel-default-border);
+    }
+
+    .settings-page .panel-default > .panel-heading {
+        color: var(--panel-default-text);
+        background-color: var(--panel-default-heading-bg);
+    }
+
+    .settings-page [role="switch"][aria-checked="false"] {
+        background-color: var(--input-bg-disabled);
+    }
+}
