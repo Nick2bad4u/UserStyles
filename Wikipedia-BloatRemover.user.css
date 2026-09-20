@@ -1,0 +1,57 @@
+/* ==UserStyle==
+@name           Wikipedia Bloat Remover (Updated)
+@namespace      nick2bad4u.github.io
+@version        1.0.4
+@description    Remove Wikipedia campaign banners and donation and anonymous account navigation, with quieter dark-mode surfaces and blue links.
+@author         Nick2bad4u
+@license        UnLicense
+@homepageURL    https://github.com/Nick2bad4u/UserStyles
+@supportURL     https://github.com/Nick2bad4u/UserStyles/issues
+@downloadURL    https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Wikipedia-BloatRemover.user.css
+@updateURL      https://github.com/Nick2bad4u/UserStyles/raw/refs/heads/main/Wikipedia-BloatRemover.user.css
+==/UserStyle== */
+
+/* Independently implemented from Wikipedia's current markup and theme tokens.
+   Concept inspired by TheMaker4242: https://userstyles.world/style/25992/ */
+@-moz-document domain("wikipedia.org") {
+    /* CentralNotice contains fundraising and other campaign banners. */
+    #centralNotice,
+    #pt-sitesupport,
+    #pt-sitesupport-2,
+    #n-sitesupport,
+    #p-donation,
+    #pt-createaccount,
+    #pt-createaccount-2,
+    #pt-login,
+    #pt-login-2,
+    #vector-user-links-dropdown.vector-user-menu-logged-out {
+        display: none !important;
+    }
+
+    /* Remove whole anonymous-account rows from the mobile navigation. */
+    .skin-minerva .toggle-list-item:has(> a.menu__item--createaccount),
+    .skin-minerva .toggle-list-item:has(> a.menu__item--login) {
+        display: none !important;
+    }
+
+    /* Use Wikipedia's own page background without forcing a dark theme. */
+    @media screen {
+        html.skin-theme-clientpref-night {
+            --background-color-neutral-subtle: var(
+                --background-color-base
+            ) !important;
+            --color-progressive: #4d98f3 !important;
+            --color-visited: #a3c3e9 !important;
+        }
+    }
+
+    @media screen and (prefers-color-scheme: dark) {
+        html.skin-theme-clientpref-os {
+            --background-color-neutral-subtle: var(
+                --background-color-base
+            ) !important;
+            --color-progressive: #4d98f3 !important;
+            --color-visited: #a3c3e9 !important;
+        }
+    }
+}
