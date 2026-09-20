@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         Gyazo.com - Dark Mode [Customizable]
-@version      4.8
+@version      4.9
 @namespace    nick2bad4u.github.io
 @description  Gyazo Dark Mode (Customizable Color - Defaults to Purple Accents)
 @author       Nick2bad4u
@@ -169,9 +169,8 @@
 
     .captured-info > div:nth-child(n) > div.captured-info-value > div:hover,
     .captured-info > div:nth-child(n) > div.captured-info-value > div:focus {
-        padding-right: 15px;
-        padding-left: 15px;
-        border: 1px var(--primary-color) dashed;
+        outline: 1px dashed var(--primary-color);
+        outline-offset: 2px;
         border-radius: 5px;
     }
 
@@ -209,10 +208,6 @@
     .edit-box-component,
     .image-box-component.zoomable > a,
     .image-box-component.zoomable > div,
-    [class*="t30xm"],
-    [class*="t30xm"] > div:nth-child(n),
-    [class*="t30xm"] > div:nth-child(n) > span,
-    [role*="tooltip"],
     div.image-infos,
     .image-box-component .image-close-btn-bg,
     .image-box-component .navigation {
@@ -223,10 +218,6 @@
 
     .content {
         background: var(--color-black) !important;
-    }
-
-    .image-page.image-page-renewal .metadata .togglable-area.private {
-        display: none;
     }
 
     #popover > h3,
@@ -974,30 +965,26 @@
         opacity: 100%;
     }
 
-    .grid-view .card.medium-card .hover-layer:hover,
-    .grid-view .card.small-card .hover .hover-layer,
-    .grid-view .card.small-card:hover .hover-layer,
-    .grid-view .card.large-card .hover .hover-layer,
-    .grid-view .card.large-card:focus-within .hover-layer,
-    .grid-view .card.large-card:hover .hover-layer {
-        position: absolute;
-        inset: 0;
-        background: #3a424f66;
-        border: 5px solid var(--color-white);
-        border-bottom: 32px solid var(--color-white);
-        mix-blend-mode: multiply;
-        opacity: 0%;
-        transition: opacity 0.15s;
-        @media screen and (prefers-reduced-motion: reduce) {
-            position: absolute;
-            inset: 0;
-            background: #3a424f66;
-            border: 5px solid var(--color-white);
-            border-bottom: 32px solid var(--color-white);
-            mix-blend-mode: multiply;
-            opacity: 0%;
-            transition: none;
+    /* Keep native hit areas and action visibility; draw feedback on the card. */
+    .grid-view .card .hover-layer {
+        background: transparent !important;
+        border: 0 !important;
+        mix-blend-mode: normal !important;
+
+        & .view-operation,
+        & .view-operation-inner {
+            background: transparent !important;
+            border: 0 !important;
         }
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            transition: none !important;
+        }
+    }
+
+    .grid-view .card:hover .hover-layer,
+    .grid-view .card:focus-within .hover-layer {
+        opacity: 100%;
     }
 
     #metadata-is-public-dropdown,
@@ -1507,6 +1494,26 @@
     }
 
     /* Scoped corrections for Gyazo's current Explorer components. */
+    /* Let the document scroll. A second body scrollbar otherwise appears inside
+       Headless UI's reserved gutter when a menu locks the document overflow. */
+    body.explorer {
+        overflow-y: visible;
+    }
+
+    /* Global button/link colors must not erase selected settings states. */
+    .settings-page .nav-pills > li.active > a {
+        color: var(--color-black) !important;
+        background-color: var(--primary-color) !important;
+    }
+
+    .settings-page [role="switch"][aria-checked="false"] {
+        background-color: var(--gray-dark) !important;
+    }
+
+    .settings-page [role="switch"][aria-checked="true"] {
+        background-color: var(--primary-color) !important;
+    }
+
     .explorer-action-btn {
         box-sizing: border-box;
         line-height: 30px;
@@ -1524,9 +1531,7 @@
     .grid-view .card.medium-card,
     .grid-view .card.large-card,
     .grid-view .card.row-card {
-        transition:
-            box-shadow 0.15s ease,
-            filter 0.15s ease;
+        transition: box-shadow 0.15s ease;
     }
 
     .grid-view .card.small-card:hover,
@@ -1538,7 +1543,6 @@
         box-shadow:
             0 0 0 2px var(--capture-accent-color),
             0 8px 18px #0000008c !important;
-        filter: brightness(1.04);
     }
 
     .grid-view .card.medium-card:hover,
@@ -1547,7 +1551,6 @@
             0 3px 0 var(--capture-accent-color),
             0 0 0 2px var(--capture-accent-color),
             0 8px 18px #0000008c !important;
-        filter: brightness(1.04);
     }
 
     .grid-view.checking .card.checkable.checked .checking-overlay,
@@ -1656,9 +1659,7 @@
         .collection-grid
         .tile-container {
         box-shadow: 0 3px 0 var(--capture-accent-color) !important;
-        transition:
-            box-shadow 0.15s ease,
-            filter 0.15s ease;
+        transition: box-shadow 0.15s ease;
 
         &:hover,
         &:focus-visible {
@@ -1666,7 +1667,6 @@
                 0 3px 0 var(--capture-accent-color),
                 0 0 0 2px var(--capture-accent-color),
                 0 8px 18px #0000008c !important;
-            filter: brightness(1.04);
         }
 
         & .hover-layer {
@@ -2029,65 +2029,14 @@
         background: var(--background-main) !important;
         background-image: none !important;
     }
-}
 
-@-moz-document url-prefix("https://gyazo.com/tags") {
-    .main-block-stage section:has(> .testing-swap-image-container) {
-        grid-template-columns: repeat(
-            auto-fill,
-            [capture-start] 130px [capture-end]
-        ) !important;
-    }
-
-    .testing-swap-image-container {
-        width: 130px !important;
-        height: 130px !important;
-        overflow: hidden !important;
-        background-color: var(--gray-darker) !important;
-        border: 1px solid var(--gray-dark) !important;
-        border-radius: 2px !important;
-        box-shadow: 0 3px 0 var(--capture-accent-color) !important;
-        transition:
-            box-shadow 0.15s ease,
-            filter 0.15s ease;
-
-        &:hover,
-        &:focus-within {
-            box-shadow:
-                0 3px 0 var(--capture-accent-color),
-                0 0 0 2px var(--capture-accent-color),
-                0 8px 18px #0000008c !important;
-            filter: brightness(1.04);
-        }
-
-        & > a {
-            inset: 0 !important;
-            display: grid !important;
-            width: 100% !important;
-            height: 100% !important;
-            padding: 5px !important;
-            background-color: transparent !important;
-        }
-
-        & picture,
-        & img.thumb {
-            display: block !important;
-            width: 100% !important;
-            height: 100% !important;
-            background-color: var(--background-main) !important;
-        }
-
-        & img.thumb {
-            padding: 0 !important;
-            object-fit: contain !important;
-        }
-    }
-
+    /* One tooltip surface across Captures, Tags, Collections, and the viewer. */
     .react-tooltip[role="tooltip"] {
         box-sizing: border-box !important;
         max-width: min(360px, calc(100vw - 24px)) !important;
         padding: 10px 12px !important;
         color: var(--gray-light) !important;
+        overflow-wrap: anywhere;
         background-color: var(--gray-darker) !important;
         border: 1px solid var(--gray-dark) !important;
         border-radius: 6px !important;
@@ -2120,9 +2069,57 @@
             border: 0 !important;
         }
     }
+}
 
-    @media screen and (prefers-reduced-motion: reduce) {
-        .testing-swap-image-container {
+@-moz-document url-prefix("https://gyazo.com/tags") {
+    .main-block-stage section:has(> .testing-swap-image-container) {
+        grid-template-columns: repeat(
+            auto-fill,
+            [capture-start] 130px [capture-end]
+        ) !important;
+    }
+
+    .testing-swap-image-container {
+        width: 130px !important;
+        height: 130px !important;
+        overflow: hidden !important;
+        background-color: var(--gray-darker) !important;
+        border: 1px solid var(--gray-dark) !important;
+        border-radius: 2px !important;
+        box-shadow: 0 3px 0 var(--capture-accent-color) !important;
+        transition: box-shadow 0.15s ease;
+
+        &:hover,
+        &:focus-within {
+            box-shadow:
+                0 3px 0 var(--capture-accent-color),
+                0 0 0 2px var(--capture-accent-color),
+                0 8px 18px #0000008c !important;
+        }
+
+        & > a {
+            inset: 0 !important;
+            display: grid !important;
+            width: 100% !important;
+            height: 100% !important;
+            padding: 5px !important;
+            background-color: transparent !important;
+        }
+
+        & picture,
+        & img.thumb {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            background-color: var(--background-main) !important;
+        }
+
+        & img.thumb {
+            padding: 0 !important;
+            object-fit: contain !important;
+        }
+
+        @media screen and (prefers-reduced-motion: reduce) {
             transition: none;
         }
     }
@@ -2482,6 +2479,7 @@
         .btn-group.btn-group-xs > button:nth-child(n) > div,
         .color-display,
         [role*="tooltip"],
+        .react-tooltip-arrow,
         .stamp-select,
         .HTsz6WzMsfIq0uJedGbz
     ),
@@ -2510,6 +2508,10 @@
         line-height: 30px;
         border-top: solid 1px var(--primary-color);
         border-bottom: solid 1px var(--primary-color);
+    }
+
+    .image-page-renewal .draw-toolbar-btn.active {
+        background-color: var(--primary-color-darker) !important;
     }
 
     .image-page-renewal .draw-toolbar-operation-btn:hover span,
@@ -2544,7 +2546,6 @@
         fill: var(--gray-alternate) !important;
     }
 
-    [role*="tooltip"],
     .HTsz6WzMsfIq0uJedGbz {
         border-radius: 8px;
         box-shadow: 0 0 5px 5px var(--primary-color);
