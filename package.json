@@ -88,7 +88,7 @@
         "ansi-styles": "^7.0.0",
         "argparse": "^3.0.1",
         "balanced-match": "^4.0.4",
-        "brace-expansion": "^5.0.9",
+        "brace-expansion": "^5.0.12",
         "braces": "^3.0.3",
         "callsites": "^4.2.0",
         "chalk": "^6.0.0",
