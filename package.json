@@ -214,7 +214,7 @@
         "secretlint": "^13.0.5",
         "secretlint-config-nick2bad4u": "^1.1.2",
         "sinon": "^22.1.0",
-        "storybook": "^10.6.0",
+        "storybook": "^10.6.2",
         "stylelint": "^17.15.0",
         "stylelint-config-nick2bad4u": "^2.2.1",
         "stylelint-plugin-container-query-sanity": "^0.1.4",
